@@ -1,5 +1,5 @@
 {
-  "name": "tmgg-monorepo",
+  "name": "@tmgg/tmgg-monorepo",
   "script": {
     "preinstall": "npx only-allow pnpm",
     "dev": "pnpm -r dev"
