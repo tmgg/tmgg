@@ -10,7 +10,7 @@
         <version>2.7.18</version>
     </parent>
 
-    <groupId>io.tmgg</groupId>
+    <groupId>io.github.tmgg</groupId>
     <artifactId>tmgg-system-parent</artifactId>
     <version>0.1.1</version>
     <packaging>pom</packaging>
@@ -57,7 +57,7 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>io.tmgg</groupId>
+                <groupId>io.github.tmgg</groupId>
                 <artifactId>tmgg-base</artifactId>
                 <version>${project.version}</version>
             </dependency>
