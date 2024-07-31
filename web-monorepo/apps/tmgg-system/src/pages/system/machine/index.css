@@ -1,0 +1,6 @@
+.sysInfo_table{
+  width: 100%; min-height: 45px; line-height: 45px; text-align: center;
+}
+.sysInfo_td {
+  border-bottom:1px solid #e8e8e8;
+}

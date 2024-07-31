@@ -1,0 +1,11 @@
+{
+  "SysApp": [
+    {
+      "id": "system",
+      "name": "系统管理",
+      "code": "system",
+      "seq": "99",
+      "active": "N"
+    }
+  ]
+}

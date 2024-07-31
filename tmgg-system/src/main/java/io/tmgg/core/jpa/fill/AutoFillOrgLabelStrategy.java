@@ -1,0 +1,45 @@
+package io.tmgg.core.jpa.fill;
+
+import io.tmgg.lang.dao.AutoFillStrategy;
+import io.tmgg.sys.org.entity.SysOrg;
+import io.tmgg.sys.org.service.SysOrgService;
+import cn.hutool.cache.Cache;
+import cn.hutool.cache.CacheUtil;
+import org.springframework.stereotype.Component;
+
+import javax.annotation.Resource;
+
+@Component
+public class AutoFillOrgLabelStrategy implements AutoFillStrategy {
+
+
+    @Resource
+    SysOrgService service;
+
+    Cache<String,String> cache = CacheUtil.newLRUCache(100, 1000 * 60 * 5);
+
+
+    @Override
+    public Object getValue(Object bean, Object sourceValue, String param) {
+        String orgId = (String) sourceValue;
+
+
+        if(orgId == null){
+            return null;
+        }
+
+        if(cache.containsKey(orgId)){
+            return cache.get(orgId);
+        }
+
+        SysOrg org = service.findOne(orgId);
+
+        if(org == null){
+            return null;
+        }
+
+        String name = org.getBestName();
+        cache.put(orgId, name);
+        return name;
+    }
+}

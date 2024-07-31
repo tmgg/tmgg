@@ -1,0 +1,12 @@
+{
+  "name": "tmgg-monorepo",
+  "script": {
+    "preinstall": "npx only-allow pnpm",
+    "dev": "pnpm -r dev"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^2.27.7",
+    "lerna": "^8.1.7"
+  },
+  "version": "0.1.1"
+}

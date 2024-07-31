@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<root>
+    <!--预留字段的数据字典-->
+    <SysDictType UPDATE="false" id="sys_org_reserved_field" name="组织机构预留字段显示名称" code="sys_org_reserved_field" embed="true"></SysDictType>
+    <SysDictData UPDATE="false" id="sys_org_reserved_field_1"  code="field_1" embed="true" sort="1" status="ENABLE" typeId="sys_org_reserved_field" value="预留字段1"></SysDictData>
+    <SysDictData UPDATE="false" id="sys_org_reserved_field_2"  code="field_2" embed="true" sort="1" status="ENABLE" typeId="sys_org_reserved_field" value="预留字段2"></SysDictData>
+    <SysDictData UPDATE="false" id="sys_org_reserved_field_3"  code="field_3" embed="true" sort="1" status="ENABLE" typeId="sys_org_reserved_field" value="预留字段3"></SysDictData>
+
+    <SysDictType UPDATE="false" id="yes_or_no" name="是否（YN）" code="yes_or_no" embed="true"></SysDictType>
+    <SysDictData UPDATE="true" id="yes_or_no_Y"  code="Y" embed="true" sort="1" status="ENABLE" typeId="yes_or_no" value="是"></SysDictData>
+    <SysDictData UPDATE="true" id="yes_or_no_N"  code="N" embed="true" sort="2" status="ENABLE" typeId="yes_or_no" value="否"></SysDictData>
+
+    <SysDictType UPDATE="false" id="YN" name="YN" code="YN" embed="true"></SysDictType>
+    <SysDictData UPDATE="true" id="YN_Y"  code="Y" embed="true" sort="1" status="ENABLE" typeId="YN" value="是"></SysDictData>
+    <SysDictData UPDATE="true" id="YN_N"  code="N" embed="true" sort="2" status="ENABLE" typeId="YN" value="否"></SysDictData>
+
+</root>
+
