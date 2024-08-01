@@ -22,6 +22,7 @@
         <module>tmgg-system-weapp</module>
         <module>tmgg-system-code-gen</module>
         <module>tmgg-base</module>
+        <module>tmgg-system-kettle</module>
     </modules>
 
 
@@ -65,6 +66,16 @@
             <dependency>
                 <groupId>io.github.tmgg</groupId>
                 <artifactId>tmgg-system</artifactId>
+                <version>${tmgg.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.tmgg</groupId>
+                <artifactId>tmgg-system-job</artifactId>
+                <version>${tmgg.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.tmgg</groupId>
+                <artifactId>tmgg-system-kettle</artifactId>
                 <version>${tmgg.version}</version>
             </dependency>
         </dependencies>

@@ -9,25 +9,25 @@
         <version>0.1.6</version>
     </parent>
 
-    <artifactId>tmgg-system-job</artifactId>
+    <groupId>io.tmgg</groupId>
+    <artifactId>tmgg-system-kettle</artifactId>
 
-
+    <properties>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
 
     <dependencies>
         <dependency>
             <groupId>io.github.tmgg</groupId>
-            <artifactId>tmgg-system</artifactId>
+            <artifactId>tmgg-system-job</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
+            <groupId>io.github.tmgg</groupId>
+            <artifactId>kettle-sdk-java</artifactId>
+            <version>0.0.2</version>
         </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-quartz</artifactId>
-        </dependency>
-
     </dependencies>
 
 </project>

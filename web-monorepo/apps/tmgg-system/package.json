@@ -2,11 +2,10 @@
   "name": "@tmgg/tmgg-system",
   "version": "0.1.6",
   "scripts": {
-    "npm-mirror": "npm config set registry https://registry.npmmirror.com",
-    "web:start": "SET NODE_OPTIONS=--openssl-legacy-provider && umi dev"
+    "system:start": "SET NODE_OPTIONS=--openssl-legacy-provider && umi dev"
   },
   "main": "src/index.js",
-  "dependencies": {
+  "peerDependencies": {
     "@ant-design/icons": "^4.0.0",
     "@ant-design/pro-components": "^1.0.0",
     "@moon-cn/hutool": "^1.0.0",

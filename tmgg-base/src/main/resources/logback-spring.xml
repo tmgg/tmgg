@@ -91,7 +91,7 @@
         level:设置打印级别（TRACE, DEBUG, INFO, WARN, ERROR, ALL 和 OFF）
         addtivity:描述是否向上级logger传递打印信息。默认是true。
     -->
-    <logger name="cn.crec" level="INFO"  additivity="false" >
+    <logger name="io.tmgg" level="INFO"  additivity="false" >
         <appender-ref ref="STDOUT"/>
     </logger>
 
