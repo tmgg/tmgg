@@ -1,12 +1,9 @@
 {
   "name": "@tmgg/tmgg-monorepo",
+  "private": "true",
   "script": {
-    "preinstall": "npx only-allow pnpm",
-    "dev": "pnpm -r dev"
+    "preinstall": "npx only-allow yarn"
   },
-  "devDependencies": {
-    "@changesets/cli": "^2.27.7",
-    "lerna": "^8.1.7"
-  },
+  "workspaces": ["apps/*", "packages/*"],
   "version": "0.1.6"
 }
