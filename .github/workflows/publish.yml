@@ -25,23 +25,36 @@ jobs:
           gpg-passphrase: MAVEN_GPG_PASSPHRASE
           gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
 
-      - name: project verion
+      - name: get project version
         id: pv
         run: |
           pv=$(mvn -Dexec.executable='echo' -Dexec.args='${project.version}' --non-recursive exec:exec -q)
           echo "::set-output name=pv::$pv"
 
-      - name: git tag version
+      - name: get tmgg version
+        id: tmgg-version
+        run: |
+          tmgg-version=$(mvn help:evaluate -Dexpression=tmgg.version -q -DforceStdout)
+          echo "::set-output name=tmgg-version::$tmgg-version"
+
+      - name: get git tag version
         id: tv
         uses: revam/gh-action-get-tag-and-version@v1
         with:
           tag: ${{ github.ref }}
 
-      - name: Check Tag
+      - name: 检查tmgg.version是否修改
+        if: ${{ steps.pv.outputs.pv != steps.tmgg-version.outputs.tmgg-version}}
+        with:
+          script: core.setFailed('依赖版本不一致  project version:${{steps.pv.outputs.pv}} dependencyManagement version:${{steps.tmgg-version.outputs.tmgg-version}} ')
+
+      - name: Check Tag version
         if: ${{ steps.pv.outputs.pv != steps.tv.outputs.version_short}}
         uses: actions/github-script@v4
         with:
           script: core.setFailed('Invalid Tag:${{github.ref_name}} project version:${{steps.pv.outputs.pv}} tag version:${{steps.tv.outputs.version_short}} ')
+
+
 
       - name: Publish MAVEN
         run: mvn -q deploy

@@ -1,5 +1,3 @@
-// 中铁e通单点登录
-
 import React from "react";
 
 import {sys, SysConfig} from "../../common";
