@@ -1,9 +1,12 @@
 {
   "name": "@tmgg/tmgg-monorepo",
   "private": "true",
-  "script": {
+  "scripts": {
     "preinstall": "npx only-allow yarn"
   },
-  "workspaces": ["apps/*", "packages/*"],
-  "version": "0.1.6"
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "version": "0.1.7"
 }
