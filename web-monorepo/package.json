@@ -8,5 +8,5 @@
     "@changesets/cli": "^2.27.7",
     "lerna": "^8.1.7"
   },
-  "version": "0.1.3"
+  "version": "0.1.4"
 }

@@ -8,7 +8,7 @@ export const serverUrl = process.env.API_BASE_URL
   "error-color": "#ff4d4f"
 }
 */
-const umiDefTheme: any = process.env.theme
+const umiDefTheme = process.env.theme
 // 转换为驼峰
 // @ts-ignore
 export const theme = {
