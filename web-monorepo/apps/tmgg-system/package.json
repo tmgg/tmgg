@@ -1,6 +1,6 @@
 {
   "name": "@tmgg/tmgg-system",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "scripts": {
     "npm-mirror": "npm config set registry https://registry.npmmirror.com",
     "web:start": "SET NODE_OPTIONS=--openssl-legacy-provider && umi dev"
