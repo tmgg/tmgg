@@ -14,17 +14,26 @@ export default defineConfig({
   nodeModulesTransform: {
     type: 'none',
   },
+  extraBabelIncludes: [
+    "@tmgg/tmgg-system"
+  ],
   fastRefresh: {},
   antd: {
     compact: true, // 开启紧凑主题
   },
   locale: {antd: true},
-  extraBabelIncludes: [
-    "@tmgg/tmgg-system"
-  ],
 
   // 使用相对路径加载， 默认是绝对位置
   publicPath: './',
+
+  history: {
+    type: 'hash'
+  },
+  define: {
+    "process.env.API_BASE_URL": "/",
+    "process.env.LOGIN_URL": "/system/login",
+    "process.env.theme": theme
+  },
 
 
   // 升级antd最新包后出现报错
@@ -49,5 +58,13 @@ export default defineConfig({
   theme: theme,
 
 
+  /*--------以下为性能优化 --------*/
 
+
+  // 默认10k图片会打包到js
+  // Default: 10000 (10k)
+  inlineLimit: 10,
+
+
+  // exportStatic: {}
 });
