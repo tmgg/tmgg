@@ -44,10 +44,10 @@ jobs:
           tag: ${{ github.ref }}
 
       - name: check tmgg.version
-        if: ${{ steps.pv.outputs.pv != steps.tmggv.outputs.result}}
+        if: ${{ steps.pv.outputs.result != steps.tmggv.outputs.result}}
         uses: actions/github-script@v4
         with:
-          script: core.setFailed('依赖版本不一致  project version:${{steps.pv.outputs.pv}} dependencyManagement version:${{steps.tmggv.outputs.result}} ')
+          script: core.setFailed('依赖版本不一致  project version:${{steps.pv.outputs.result}} dependencyManagement version:${{steps.tmggv.outputs.result}} ')
 
       - name: Check Tag version
         if: ${{ steps.pv.outputs.result != steps.tv.outputs.version_short}}
