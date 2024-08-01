@@ -10,7 +10,7 @@ import {ProProvider} from "@ant-design/pro-components";
 
 
 
-export default class extends React.Component {
+export class Layouts extends React.Component {
 
   state = {
     siteInfoLoaded: false,
@@ -95,3 +95,4 @@ export default class extends React.Component {
   }
 }
 
+export default Layouts
