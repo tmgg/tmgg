@@ -208,6 +208,7 @@ export default class extends React.Component {
     const {list, currentAppKey} = this.state
 
     return <ProLayout
+      contentStyle={{margin:8}}
       style={{minHeight: '100vh'}}
       headerTheme='light'
       menu={{request: this.loadMenu}}

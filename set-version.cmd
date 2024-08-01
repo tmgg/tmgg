@@ -1,6 +1,6 @@
 @echo off
 
-set new_version=0.1.1
+set new_version=0.1.2
 
 echo current dir is
 cd

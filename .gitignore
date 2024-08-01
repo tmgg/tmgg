@@ -42,3 +42,4 @@ node_modules/
 .umi/
 *.tgz
 /web-monorepo/pnpm-publish-summary.json
+/web-monorepo/apps/tmgg-system/package-lock.json

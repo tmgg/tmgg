@@ -1,15 +1,11 @@
 {
   "name": "@tmgg/tmgg-system",
-  "version": "0.1.1",
-  "description": "",
-  "main": "src/index.js",
+  "version": "0.1.2",
   "scripts": {
-    "dev": "SET NODE_OPTIONS=--openssl-legacy-provider && umi dev"
+    "npm-mirror": "npm config set registry https://registry.npmmirror.com",
+    "web:start": "SET NODE_OPTIONS=--openssl-legacy-provider && umi dev"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "peerDependencies": {
+  "dependencies": {
     "@ant-design/icons": "^4.0.0",
     "@ant-design/pro-components": "^1.0.0",
     "@moon-cn/hutool": "^1.0.0",
