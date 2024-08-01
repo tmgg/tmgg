@@ -29,13 +29,13 @@ jobs:
         id: pv
         run: |
           pv=$(mvn -Dexec.executable='echo' -Dexec.args='${project.version}' --non-recursive exec:exec -q)
-          echo "::set-output name=pv::$pv"
+          echo "::set-output name=result::$pv"
 
       - name: get tmgg version
-        id: tmgg-version
+        id: tmggv
         run: |
-          tmgg-version=$(mvn help:evaluate -Dexpression=tmgg.version -q -DforceStdout)
-          echo "::set-output name=tmgg-version::$tmgg-version"
+          tmggv=$(mvn help:evaluate -Dexpression=tmgg.version -q -DforceStdout)
+          echo "::set-output name=result::$tmggv"
 
       - name: get git tag version
         id: tv
@@ -44,16 +44,16 @@ jobs:
           tag: ${{ github.ref }}
 
       - name: check tmgg.version
-        if: ${{ steps.pv.outputs.pv != steps.tmgg-version.outputs.tmgg-version}}
+        if: ${{ steps.pv.outputs.pv != steps.tmggv.outputs.result}}
         uses: actions/github-script@v4
         with:
-          script: core.setFailed('依赖版本不一致  project version:${{steps.pv.outputs.pv}} dependencyManagement version:${{steps.tmgg-version.outputs.tmgg-version}} ')
+          script: core.setFailed('依赖版本不一致  project version:${{steps.pv.outputs.pv}} dependencyManagement version:${{steps.tmggv.outputs.result}} ')
 
       - name: Check Tag version
-        if: ${{ steps.pv.outputs.pv != steps.tv.outputs.version_short}}
+        if: ${{ steps.pv.outputs.result != steps.tv.outputs.version_short}}
         uses: actions/github-script@v4
         with:
-          script: core.setFailed('Invalid Tag:${{github.ref_name}} project version:${{steps.pv.outputs.pv}} tag version:${{steps.tv.outputs.version_short}} ')
+          script: core.setFailed('Invalid Tag:${{github.ref_name}} project version:${{steps.pv.outputs.result}} tag version:${{steps.tv.outputs.version_short}} ')
 
 
 
