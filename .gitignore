@@ -43,3 +43,4 @@ node_modules/
 *.tgz
 /web-monorepo/pnpm-publish-summary.json
 /web-monorepo/apps/tmgg-system/package-lock.json
+/web-monorepo/apps/tmgg-system-job/package-lock.json
