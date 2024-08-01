@@ -43,8 +43,9 @@ jobs:
         with:
           tag: ${{ github.ref }}
 
-      - name: 检查tmgg.version是否修改
+      - name: check tmgg.version
         if: ${{ steps.pv.outputs.pv != steps.tmgg-version.outputs.tmgg-version}}
+        uses: actions/github-script@v4
         with:
           script: core.setFailed('依赖版本不一致  project version:${{steps.pv.outputs.pv}} dependencyManagement version:${{steps.tmgg-version.outputs.tmgg-version}} ')
 
