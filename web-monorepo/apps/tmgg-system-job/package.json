@@ -1,42 +1,34 @@
 {
   "name": "@tmgg/tmgg-system-job",
   "version": "0.1.6",
-  "description": "",
-  "main": "index.js",
   "scripts": {
-    "job:start": "SET NODE_OPTIONS=--openssl-legacy-provider && umi dev"
+    "start": "umi dev",
+    "start-legacy": "SET NODE_OPTIONS=--openssl-legacy-provider && umi dev",
+    "build": "umi build",
+    "build-legacy": "SET NODE_OPTIONS=--openssl-legacy-provider && umi build"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
-    "@tmgg/tmgg-system": "workspace:*",
     "@ant-design/icons": "^4.0.0",
     "@ant-design/pro-components": "^1.0.0",
-    "@moon-cn/hutool": "^1.0.0",
-    "@tinymce/tinymce-react": "^5.0.0",
+    "@moon-cn/hutool": "^1.0.4",
+    "@tmgg/tmgg-system": "workspace:*",
     "antd": "^4.0.0",
-    "antd-img-crop": "^4.12.2",
-    "lodash": "^4.17.21",
     "moment": "^2.29.4",
-    "rc-slider-captcha": "^1.1.10",
-    "react": "^18.2.0",
-    "react-amap": "^1.2.8",
-    "react-dom": "^18.2.0",
-    "react-markdown": "^8.0.7",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "react-lazylog": "^4.5.3",
     "umi": "^3.0.0",
-    "umi-request": "^1.4.0",
-    "react-lazylog": "^4.5.3"
+    "umi-request": "^1.4.0"
   },
   "devDependencies": {
-    "@types/lodash": "^4.14.200",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
-    "@types/react-lazylog": "^4.5.1",
     "@umijs/preset-react": "1.x",
+    "@umijs/test": "^3.5.19",
     "cross-env": "^7.0.3",
     "lint-staged": "^10.0.7",
     "prettier": "^2.2.0",
-    "typescript": "^4.1.2"
+    "typescript": "^4.1.2",
+    "yorkie": "^2.0.0"
   }
 }

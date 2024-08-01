@@ -19,6 +19,9 @@ export default defineConfig({
     compact: true, // 开启紧凑主题
   },
   locale: {antd: true},
+  extraBabelIncludes: [
+    "@tmgg/tmgg-system"
+  ],
 
   // 使用相对路径加载， 默认是绝对位置
   publicPath: './',
@@ -46,12 +49,5 @@ export default defineConfig({
   theme: theme,
 
 
-  ignoreMomentLocale:true,
 
-  /**
-   * 为每个页面输出 html
-   * 渲染和 url 解绑，html 文件放哪都能使用
-   */
-  mpa:{},
-  outputPath:"../src/main/resources/static/job"
 });
