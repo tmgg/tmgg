@@ -3,7 +3,8 @@
   "private": "true",
   "scripts": {
     "job:start": "pnpm -F @tmgg/tmgg-system-job run start",
-    "job:test": "pnpm -F @tmgg/tmgg-system-job run test"
+    "job:test": "pnpm -F @tmgg/tmgg-system-job run test",
+    "kettle:start": "pnpm -F @tmgg/tmgg-system-kettle run start "
   },
   "workspaces": [
     "apps/*",

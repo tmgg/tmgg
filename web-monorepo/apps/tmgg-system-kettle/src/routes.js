@@ -1,4 +1,4 @@
-export function getSystemJobRoutes() {
+export function getRoutes() {
   const routes = [
     {
       "path": "/",

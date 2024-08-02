@@ -34,3 +34,8 @@ call npm version  %new_version% --allow-same-version
 cd /d %~dp0
 cd web-monorepo/apps/tmgg-system-job
 call npm version  %new_version% --allow-same-version
+
+
+cd /d %~dp0
+cd web-monorepo/apps/tmgg-system-kettle
+call npm version  %new_version% --allow-same-version
