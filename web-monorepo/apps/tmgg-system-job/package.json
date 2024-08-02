@@ -12,7 +12,7 @@
     "@ant-design/icons": "^4.0.0",
     "@ant-design/pro-components": "^1.0.0",
     "@moon-cn/hutool": "^1.0.4",
-    "@tmgg/tmgg-system": "0.1.7",
+    "@tmgg/tmgg-system": "workspace:*",
     "antd": "^4.0.0",
     "moment": "^2.29.4",
     "react": "^18.0.0",

@@ -65,21 +65,4 @@ jobs:
           MAVEN_PASSWORD: ${{ secrets.MAVEN_PASSWORD }}
           MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE_KEY }}
 
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 18
-          registry-url: https://registry.npmjs.org
-
-      - name: install pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 9
-
-      - name: publish to npm
-        run: |
-          cd web-monorepo 
-          pnpm install -r
-          pnpm publish -r --access public
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.NPM_ACCESS_TOKEN}}
 
