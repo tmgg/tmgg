@@ -1,7 +1,7 @@
 import {AutoComplete, Button, Form, Input, message, Modal, Popconfirm, Select, Space, Switch, Tag} from 'antd'
 import React from 'react'
 import {MinusCircleOutlined, PlusOutlined} from "@ant-design/icons";
-import StreamLog from "../components/StreamLog";
+import StreamLog from "../../components/StreamLog";
 import {ProTable} from "@ant-design/pro-components";
 import hutool from "@moon-cn/hutool";
 

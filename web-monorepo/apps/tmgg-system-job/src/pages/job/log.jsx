@@ -1,7 +1,7 @@
 import {Button, InputNumber, Modal} from 'antd'
 import React from 'react'
 import {ProTable} from '@ant-design/pro-components'
-import StreamLog from "../components/StreamLog";
+import StreamLog from "../../components/StreamLog";
 import hutool from "@moon-cn/hutool";
 
 

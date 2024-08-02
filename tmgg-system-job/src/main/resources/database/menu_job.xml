@@ -16,26 +16,24 @@
         <id>job</id>
         <name>任务管理</name>
         <code>job</code>
-        <router>/job/index.html</router>
+        <router>/job</router>
         <pid>job_mgr</pid>
         <type>MENU</type>
         <status>ENABLE</status>
         <visible>Y</visible>
         <seq>2</seq>
-        <iframe>true</iframe>
     </SysMenu>
     <SysMenu>
         <application>system</application>
         <id>jobLog</id>
         <name>调度日志</name>
         <code>jobLog</code>
-        <router>/job/log.html</router>
+        <router>/job/log</router>
         <pid>job_mgr</pid>
         <type>MENU</type>
         <status>ENABLE</status>
         <visible>Y</visible>
         <seq>2</seq>
-        <iframe>true</iframe>
     </SysMenu>
 
 
