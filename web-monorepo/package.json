@@ -2,6 +2,7 @@
   "name": "@tmgg/tmgg-monorepo",
   "private": "true",
   "scripts": {
+    "preinstall": "npx only-allow pnpm",
     "job:start": "pnpm -F @tmgg/tmgg-system-job run start",
     "job:test": "pnpm -F @tmgg/tmgg-system-job run test"
   },
