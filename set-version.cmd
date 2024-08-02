@@ -1,6 +1,6 @@
 @echo off
 
-set new_version=0.1.7
+set new_version=0.1.5
 
 echo current dir is
 cd
@@ -10,8 +10,24 @@ call mvn org.codehaus.mojo:versions-maven-plugin:2.7:set -DgenerateBackupPoms=fa
 
 
 cd web-monorepo
-call lerna version %new_version% --force-publish --no-git-tag-version --no-push --yes
-call npm version %new_version%
+call npm version  %new_version% --allow-same-version
 
 
+cd /d %~dp0
+cd web-monorepo/packages/tmgg-tools
+call npm version  %new_version% --allow-same-version
 
+
+cd /d %~dp0
+cd web-monorepo/packages/tmgg-components
+call npm version  %new_version% --allow-same-version
+
+
+cd /d %~dp0
+cd web-monorepo/apps/tmgg-system
+call npm version  %new_version% --allow-same-version
+
+
+cd /d %~dp0
+cd web-monorepo/apps/tmgg-system-job
+call npm version  %new_version% --allow-same-version
