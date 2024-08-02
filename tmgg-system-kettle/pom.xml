@@ -9,10 +9,7 @@
         <version>0.1.7</version>
     </parent>
 
-    <groupId>io.tmgg</groupId>
     <artifactId>tmgg-system-kettle</artifactId>
-
-
 
     <dependencies>
         <dependency>
