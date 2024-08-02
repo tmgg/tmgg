@@ -2,7 +2,7 @@
   "name": "@tmgg/tmgg-system",
   "version": "0.1.7",
   "scripts": {
-    "start": "umi dev"
+    "start": "max dev"
   },
   "main": "src/index.js",
   "peerDependencies": {
@@ -18,13 +18,11 @@
     "react": "^18.2.0",
     "react-amap": "^1.2.8",
     "react-dom": "^18.2.0",
-    "react-markdown": "^8.0.7",
-    "umi": "^3.0.0",
+    "react-markdown": "^8.0.7"
   },
   "devDependencies": {
     "@umijs/max": "^4.0.0",
-
-  "@types/lodash": "^4.14.200",
+    "@types/lodash": "^4.14.200",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
     "@types/react-lazylog": "^4.5.1",
