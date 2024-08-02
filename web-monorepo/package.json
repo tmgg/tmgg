@@ -2,6 +2,7 @@
   "name": "@tmgg/tmgg-monorepo",
   "private": "true",
   "scripts": {
+    "system:start": "pnpm -F @tmgg/tmgg-system run start",
     "job:start": "pnpm -F @tmgg/tmgg-system-job run start",
     "job:test": "pnpm -F @tmgg/tmgg-system-job run test",
     "kettle:start": "pnpm -F @tmgg/tmgg-system-kettle run start "
