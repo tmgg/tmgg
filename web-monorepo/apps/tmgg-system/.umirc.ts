@@ -13,14 +13,14 @@ export default defineConfig({
   nodeModulesTransform: {
     type: 'none',
   },
-  fastRefresh: true,
+  fastRefresh: {},
   antd: {
     compact: true, // 开启紧凑主题
   },
   locale: {antd: true},
 
   // 使用相对路径加载， 默认是绝对位置
- publicPath: './',
+ // publicPath: './',
 
   history: {
     type: 'hash'

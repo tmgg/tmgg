@@ -10,7 +10,10 @@ export default defineConfig({
     port: 7701,
   },
 
-
+  nodeModulesTransform: {
+    type: 'none',
+  },
+  fastRefresh: {},
   define: {
     "process.env.API_BASE_URL": "/api/"
   },
@@ -30,6 +33,11 @@ export default defineConfig({
       target: target,
       changeOrigin: true,
       pathRewrite: { '^/code': '/code' },
+    },
+    '/job': {
+      target: target,
+      changeOrigin: true,
+      pathRewrite: { '^/job': '/job' },
     },
     '/sso': {
       target: target,
