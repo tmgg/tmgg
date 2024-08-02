@@ -3,8 +3,7 @@
   "private": "true",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
-
-    "job:start": "yarn workspace @tmgg/tmgg-system-job run start"
+    "job:start": "pnpm -F @tmgg/tmgg-system-job run start"
   },
   "workspaces": [
     "apps/*",

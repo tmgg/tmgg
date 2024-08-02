@@ -1,6 +1,6 @@
 @echo off
 
-set new_version=0.1.5
+set new_version=0.1.7
 
 echo current dir is
 cd
@@ -10,6 +10,9 @@ call mvn org.codehaus.mojo:versions-maven-plugin:2.7:set -DgenerateBackupPoms=fa
 
 
 cd web-monorepo
+
+
+
 call npm version  %new_version% --allow-same-version
 
 
