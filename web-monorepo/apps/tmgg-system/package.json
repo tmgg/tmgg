@@ -1,6 +1,6 @@
 {
   "name": "@tmgg/tmgg-system",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "scripts": {
     "system:start": "SET NODE_OPTIONS=--openssl-legacy-provider && umi dev"
   },

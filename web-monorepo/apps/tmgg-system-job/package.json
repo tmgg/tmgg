@@ -1,17 +1,18 @@
 {
   "name": "@tmgg/tmgg-system-job",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "scripts": {
     "start": "umi dev",
     "start-legacy": "SET NODE_OPTIONS=--openssl-legacy-provider && umi dev",
     "build": "umi build",
     "build-legacy": "SET NODE_OPTIONS=--openssl-legacy-provider && umi build"
   },
+  "main": "src/routes.js",
   "dependencies": {
     "@ant-design/icons": "^4.0.0",
     "@ant-design/pro-components": "^1.0.0",
     "@moon-cn/hutool": "^1.0.4",
-    "@tmgg/tmgg-system": "0.1.6",
+    "@tmgg/tmgg-system": "^0.1.7",
     "antd": "^4.0.0",
     "moment": "^2.29.4",
     "react": "^18.0.0",

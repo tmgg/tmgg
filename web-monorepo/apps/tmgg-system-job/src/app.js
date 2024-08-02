@@ -1,10 +1,10 @@
 import hutool from "@moon-cn/hutool";
 import {message} from "antd";
-import {appendDefaultRoutes, cacheRoutes} from "@tmgg/tmgg-system";
+
+import {appendDefaultRoutes, cacheRoutes, getRoutes, patchRoutesDependency} from "@tmgg/tmgg-system";
 
 export function patchRoutes({ routes }) {
-  appendDefaultRoutes(routes)
-  cacheRoutes(routes)
+  patchRoutesDependency(routes, getRoutes())
 }
 
 

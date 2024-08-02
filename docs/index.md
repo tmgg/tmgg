@@ -1,3 +1,26 @@
-# 开发笔记
-## pnpm 工作空间
-https://ksh7.com/posts/pnpm-use-workspace/index.html#%E5%9C%A8%E6%A0%B9%E7%9B%AE%E5%BD%95%E4%B8%AD%E5%AE%89%E8%A3%85%E4%BE%9D%E8%B5%96
+---
+# https://vitepress.dev/reference/default-theme-home-page
+layout: home
+
+hero:
+  name: "TMGG DOCS"
+  text: "TMGG开发文档"
+  tagline: My great project tagline
+  actions:
+    - theme: brand
+      text: 查看文档
+      link: /docs
+    - theme: alt
+      text: API Examples
+      link: /api-examples
+
+
+features:
+  - title: Feature A
+    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
+  - title: Feature B
+    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
+  - title: Feature C
+    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
+---
+

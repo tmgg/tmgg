@@ -10,8 +10,8 @@ call mvn org.codehaus.mojo:versions-maven-plugin:2.7:set -DgenerateBackupPoms=fa
 
 
 cd web-monorepo
-call lerna version %new_version% --force-publish --no-git-tag-version --no-push --yes 
-
+call lerna version %new_version% --force-publish --no-git-tag-version --no-push --yes
+call npm version %new_version%
 
 
 
