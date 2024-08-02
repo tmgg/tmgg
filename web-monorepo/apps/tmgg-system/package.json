@@ -2,7 +2,7 @@
   "name": "@tmgg/tmgg-system",
   "version": "0.1.7",
   "scripts": {
-    "start": "umi dev"
+    "system:start": "SET NODE_OPTIONS=--openssl-legacy-provider && umi dev"
   },
   "main": "src/index.js",
   "peerDependencies": {
@@ -20,14 +20,14 @@
     "react-dom": "^18.2.0",
     "react-markdown": "^8.0.7",
     "umi": "^3.0.0",
+    "umi-request": "^1.4.0"
   },
   "devDependencies": {
-    "@umijs/max": "^4.0.0",
-
-  "@types/lodash": "^4.14.200",
+    "@types/lodash": "^4.14.200",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
     "@types/react-lazylog": "^4.5.1",
+    "@umijs/preset-react": "1.x",
     "cross-env": "^7.0.3",
     "lint-staged": "^10.0.7",
     "prettier": "^2.2.0",
