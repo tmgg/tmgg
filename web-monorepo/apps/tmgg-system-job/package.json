@@ -2,6 +2,7 @@
   "name": "@tmgg/tmgg-system-job",
   "version": "0.1.7",
   "scripts": {
+    "test": "umi -v",
     "start": "SET NODE_OPTIONS=--openssl-legacy-provider && umi dev",
     "build": "umi build",
     "build-legacy": "SET NODE_OPTIONS=--openssl-legacy-provider && umi build"
@@ -11,7 +12,7 @@
     "@ant-design/icons": "^4.0.0",
     "@ant-design/pro-components": "^1.0.0",
     "@moon-cn/hutool": "^1.0.4",
-    "@tmgg/tmgg-system": "workspace:*",
+    "@tmgg/tmgg-system": "0.1.7",
     "antd": "^4.0.0",
     "moment": "^2.29.4",
     "react": "^18.0.0",
