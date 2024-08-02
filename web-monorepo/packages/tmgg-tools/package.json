@@ -9,7 +9,6 @@
   "main": "src/index.js",
   "type": "module",
   "scripts": {
-    "prepare": "npm config set registry https://registry.npmjs.org/",
     "test": "vitest",
     "coverage": "vitest run --coverage",
     "build": "rollup -c",
