@@ -2,7 +2,9 @@
   "name": "@tmgg/tmgg-monorepo",
   "private": "true",
   "scripts": {
-    "preinstall": "npx only-allow yarn"
+    "preinstall": "npx only-allow yarn",
+
+    "job:start": "yarn workspace @tmgg/tmgg-system-job run start"
   },
   "workspaces": [
     "apps/*",
