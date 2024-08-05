@@ -1,25 +1,20 @@
 {
-  "name": "@tmgg/tmgg-system-job",
-  "version": "0.1.7",
+  "private": true,
   "scripts": {
-    "test": "umi -v",
-    "start": "SET NODE_OPTIONS=--openssl-legacy-provider && umi dev",
-    "build": "umi build",
-    "build-legacy": "SET NODE_OPTIONS=--openssl-legacy-provider && umi build"
+    "job-start": "umi dev",
+    "job-build": "umi build",
+    "use-aliyun-mirror-global": "npm config set registry https://registry.npmmirror.com"
   },
-  "main": "src/routes.js",
   "dependencies": {
     "@ant-design/icons": "^4.0.0",
     "@ant-design/pro-components": "^1.0.0",
-    "@moon-cn/hutool": "^1.0.4",
-    "@tmgg/tmgg-system": "workspace:*",
+    "@moon-cn/hutool": "^1.0.0-beta.37",
     "antd": "^4.0.0",
-    "moment": "^2.29.4",
+    "axios": "^1.6.7",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-lazylog": "^4.5.3",
-    "umi": "^3.0.0",
-    "umi-request": "^1.4.0"
+    "umi": "^3.5.42"
   },
   "devDependencies": {
     "@types/react": "^18.0.0",

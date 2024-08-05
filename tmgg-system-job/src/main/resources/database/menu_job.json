@@ -12,7 +12,8 @@
       "application": "system",
       "name": "任务管理",
       "code": "job",
-      "router": "/job"
+      "router": "/job/index.html",
+      "iframe": true
     },
     {
       "id": "jobLog",
@@ -21,7 +22,8 @@
       "application": "system",
       "name": "调度日志",
       "code": "jobLog",
-      "router": "/job/log"
+      "router": "/job/log.html",
+      "iframe": true
     }
   ]
 }

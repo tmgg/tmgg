@@ -4,51 +4,19 @@
 
 import {defineConfig} from 'umi';
 
-let target = 'http://127.0.0.1:88';
+let proxyTarget = 'http://127.0.0.1:88';
 export default defineConfig({
+
   devServer: {
     port: 6002,
   },
 
-  nodeModulesTransform: {
-    type: 'none',
-  },
-  fastRefresh: {},
-  define: {
-    "process.env.API_BASE_URL": "/api/"
-  },
 
   proxy: {
-    '/api': {
-      target: target,
-      changeOrigin: true,
-      pathRewrite: { '^/api': '/' },
-    },
-    '/ureport': {
-      target: target,
-      changeOrigin: true,
-      pathRewrite: { '^/ureport': '/ureport' },
-    },
-    '/code': {
-      target: target,
-      changeOrigin: true,
-      pathRewrite: { '^/code': '/code' },
-    },
     '/job': {
-      target: target,
+      target: proxyTarget,
       changeOrigin: true,
       pathRewrite: { '^/job': '/job' },
     },
-    '/sso': {
-      target: target,
-      changeOrigin: true,
-      pathRewrite: { '^/sso': '/sso' },
-    },
-    '/flowable': {
-      target: target,
-      changeOrigin: true,
-      pathRewrite: { '^/flowable': '/flowable' },
-    },
-
   },
 });
