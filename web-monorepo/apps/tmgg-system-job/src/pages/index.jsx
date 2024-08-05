@@ -1,7 +1,7 @@
 import {AutoComplete, Button, Form, Input, message, Modal, Popconfirm, Select, Space, Switch, Tag} from 'antd'
 import React from 'react'
 import {MinusCircleOutlined, PlusOutlined} from "@ant-design/icons";
-import StreamLog from "../../components/StreamLog";
+import StreamLog from "../components/StreamLog";
 import {ProTable} from "@ant-design/pro-components";
 import hutool from "@moon-cn/hutool";
 
@@ -191,7 +191,7 @@ export default class extends React.Component {
           <Form.Item label='名称' name='name' rules={[{required: true}]}>
             <Input/>
           </Form.Item>
-          <Form.Item label='执行类' name='jobClass' rules={[{required: true}]} >
+          <Form.Item label='执行类' name='jobClass' rules={[{required: true}]} help='如 cn.crec.job.DemoJob'>
             <Select options={this.state.jobClassOptions}/>
           </Form.Item>
           <Form.Item label='cron表达式' name='cron' rules={[{required: true}]} help='秒 分 时 日 月 周'>

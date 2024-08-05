@@ -1,7 +1,7 @@
 {
   "private": true,
   "scripts": {
-    "job-start": "umi dev",
+    "job-start": "SET NODE_OPTIONS=--openssl-legacy-provider && umi dev",
     "job-build": "umi build",
     "use-aliyun-mirror-global": "npm config set registry https://registry.npmmirror.com"
   },
