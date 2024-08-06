@@ -20,16 +20,18 @@ import java.util.*;
 @FieldNameConstants
 public class SysJob extends BaseEntity {
 
-    public SysJob(){
+    public SysJob() {
 
     }
 
-    public SysJob(String id){
+    public SysJob(String id) {
         this.id = id;
     }
+
     public static final String JOB_SUFFIX = "Job";
-    @NotNull
+
     @Column(unique = true)
+    @NotNull
     String name;
 
     @NotNull
@@ -49,6 +51,12 @@ public class SysJob extends BaseEntity {
     @Convert(converter = ToEntryListConverter.class)
     List<Entry> jobData;
 
+    @Column(length = 20)
+    String type;
+
+    String description;
+
+
     @JsonIgnore
     @Transient
     public Map<String, Object> getJobDataMap() {
@@ -66,10 +74,9 @@ public class SysJob extends BaseEntity {
 
     @JsonIgnore
     @Transient
-    public String getTriggerKey(){
+    public String getTriggerKey() {
         return name + "Trigger";
     }
-
 
 
     @Override

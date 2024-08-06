@@ -17,13 +17,9 @@ call npm version  %new_version% --allow-same-version
 
 
 cd /d %~dp0
-cd web-monorepo/packages/tmgg-tools
+cd web-monorepo/packages/tmgg-base
 call npm version  %new_version% --allow-same-version
 
-
-cd /d %~dp0
-cd web-monorepo/packages/tmgg-components
-call npm version  %new_version% --allow-same-version
 
 
 cd /d %~dp0

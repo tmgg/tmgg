@@ -1,16 +1,16 @@
-import {decryptString, encryptString} from "./str";
+import {str} from "./str";
 
 const STORAGE_KEY = "__storage"
 
-export function getAll() {
+ function getAll() {
     let hexString = localStorage.getItem(STORAGE_KEY) || "";
     if (!hexString) {
         return {}
     }
-    return JSON.parse(decryptString(hexString))
+    return JSON.parse(str.decrypt(hexString))
 }
 
-export function get(key, defaultValue = null) {
+ function get(key, defaultValue = null) {
     let v = getAll()[key];
     if(v == null){
         v = defaultValue;
@@ -22,10 +22,13 @@ export function set(key, value) {
     let data = getAll();
     data[key] = value
     const dataStr = JSON.stringify(data)
-    localStorage.setItem(STORAGE_KEY, encryptString(dataStr))
+    localStorage.setItem(STORAGE_KEY, str.encrypt(dataStr))
 }
 
 export function keys() {
     return getAll().keys();
 }
 
+export const storage = {
+    getAll,get,set,keys
+}

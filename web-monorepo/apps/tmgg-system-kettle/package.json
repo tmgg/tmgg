@@ -8,13 +8,13 @@
   "dependencies": {
     "@ant-design/icons": "^4.0.0",
     "@ant-design/pro-components": "^1.0.0",
-    "@moon-cn/hutool": "^1.0.0-beta.37",
     "antd": "^4.0.0",
     "axios": "^1.6.7",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-lazylog": "^4.5.3",
-    "umi": "^3.5.42"
+    "umi": "^3.5.42",
+    "@tmgg/tmgg-base": "workspace:*"
   },
   "devDependencies": {
     "@types/react": "^18.0.0",

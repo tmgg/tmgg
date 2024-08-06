@@ -3,7 +3,7 @@
  * @param subStr
  * @returns {boolean}
  */
-export function contains(str, subStr) {
+function contains(str, subStr) {
     if (!str) {
         return false
     }
@@ -15,7 +15,7 @@ export function contains(str, subStr) {
  * 判断字符串出现的个数
  * @param subStr
  */
-export function count(str, subStr) {
+function count(str, subStr) {
     if (str == null || str.length == 0) {
         return 0;
     }
@@ -38,7 +38,7 @@ export function count(str, subStr) {
 /**
  *  将字符串的首字母转换为大写
  */
-export function capitalize(str) {
+function capitalize(str) {
     if (str == null) {
         return str
     }
@@ -50,7 +50,7 @@ export function capitalize(str) {
  * @param str
  * @returns {*}
  */
-export function reverse(str) {
+function reverse(str) {
     if (str == null) {
         return str;
     }
@@ -63,7 +63,7 @@ export function reverse(str) {
  * @param sub
  * @returns {string|null}
  */
-export function subAfter(s, sub) {
+function subAfter(s, sub) {
     if (s == null) {
         return s;
     }
@@ -71,7 +71,7 @@ export function subAfter(s, sub) {
     return index === -1 ? s : s.substring(index + 1);
 }
 
-export function subBefore(s, sub) {
+function subBefore(s, sub) {
     if (s == null) {
         return s;
     }
@@ -84,7 +84,7 @@ export function subBefore(s, sub) {
  * @param str
  * @returns {*}
  */
-export function obfuscateString(str) {
+function obfuscateString(str) {
     if (str == null) {
         return str
     }
@@ -96,9 +96,10 @@ export function obfuscateString(str) {
  * 补零
  * @param input 输入字符串说数字等
  * @param totalLen 总长度，不狗
+ * @param padChar
  * @returns {string}
  */
-export function pad(input, totalLen, padChar = '0') {
+function pad(input, totalLen, padChar = '0') {
     if (input == null) {
         return padChar.repeat(totalLen)
     }
@@ -116,7 +117,7 @@ export function pad(input, totalLen, padChar = '0') {
  * @param str
  * @returns {string}
  */
-export function encrypt(str) {
+function encrypt(str) {
     if (str == null) {
         return str
     }
@@ -130,18 +131,7 @@ export function encrypt(str) {
 }
 
 
-/**
- * 加密
- * @param str
- * @returns {string}
- * @deprecated  使用 encrypt
- */
-export function encryptString(str) {
-    return encrypt(str)
-}
-
-
-export function decrypt(hexString) {
+function decrypt(hexString) {
     if (hexString == null) {
         return hexString;
     }
@@ -155,9 +145,7 @@ export function decrypt(hexString) {
     return decrypted;
 }
 
-export function decryptString(hexString) {
-    return decrypt(hexString)
-}
+
 
 
 /**
@@ -165,7 +153,7 @@ export function decryptString(hexString) {
  * 获取字符串长度，英文字符 长度1，中文字符长度2
  * @param {*} str
  */
-export function getWidth(str) {
+function getWidth(str) {
     if (str == null || str.length === 0) {
         return 0
     }
@@ -178,7 +166,7 @@ export function getWidth(str) {
     }, 0);
 }
 
-export function cutByWidth(str, maxWidth) {
+function cutByWidth(str, maxWidth) {
     let showLength = 0;
     return str.split('').reduce((pre, cur) => {
         const charCode = cur.charCodeAt(0);
@@ -201,7 +189,7 @@ export function cutByWidth(str, maxWidth) {
  * @param len 字符长度，注：中文字符算2
  * @constructor
  */
-export function ellipsis(str, len, suffix = '...') {
+function ellipsis(str, len, suffix = '...') {
     if (str == null) {
         return str;
     }
@@ -224,13 +212,13 @@ export function ellipsis(str, len, suffix = '...') {
     return cutByWidth(str, len) + suffix;
 }
 
-export function isStr(value) {
+function isStr(value) {
     return typeof value === "string"
 }
 
 
 // 转驼峰
-export function toCamelCase(str, firstLower = true) {
+function toCamelCase(str, firstLower = true) {
     let result = str.replace(/\_(\w)/g, function (all, letter) {
         return letter.toUpperCase();
     });
@@ -242,7 +230,7 @@ export function toCamelCase(str, firstLower = true) {
     return result;
 }
 
-export function toUnderlineCase(name) {
+function toUnderlineCase(name) {
     if (name == null) {
         return null;
     }
@@ -253,3 +241,21 @@ export function toUnderlineCase(name) {
     return result;
 }
 
+export const str = {
+    toUnderlineCase,
+    toCamelCase,
+    isStr,
+    ellipsis,
+    cutByWidth,
+    getWidth,
+    decrypt,
+    encrypt,
+    pad,
+    obfuscateString,
+    subBefore,
+    subAfter,
+    reverse,
+    capitalize,
+    count,
+    contains
+}

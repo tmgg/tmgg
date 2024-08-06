@@ -1,5 +1,5 @@
 {
-  "name": "@tmgg/tmgg-tools",
+  "name": "@tmgg/tmgg-base",
   "version": "0.1.7",
   "description": "函数工具类",
   "repository": {
@@ -7,7 +7,6 @@
     "url": "https://github.com/moon-cn/hutool.git"
   },
   "main": "src/index.js",
-  "type": "module",
   "scripts": {
     "test": "vitest",
     "coverage": "vitest run --coverage",

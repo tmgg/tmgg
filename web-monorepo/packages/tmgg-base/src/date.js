@@ -1,3 +1,4 @@
+import {str} from "./str.js";
 
 
 export function year(date) {
@@ -11,7 +12,7 @@ export function year(date) {
  */
 export function month(date) {
     const n = date.getMonth() + 1; // （注意月份从0开始，所以要加1）
-    return zeroPad(n, 2)
+    return str.pad(n, 2)
 }
 
 /**
@@ -19,7 +20,7 @@ export function month(date) {
  * @param date
  */
 export function date(date) {
-    return zeroPad(date.getDate(), 2)
+    return str.pad(date.getDate(), 2)
 }
 
 /**
@@ -28,15 +29,15 @@ export function date(date) {
  * @returns {string}
  */
 export function hour(date) {
-    return zeroPad(date.getHours(), 2);
+    return str.pad(date.getHours(), 2);
 }
 
 export function minute(date) {
-    return zeroPad(date.getMinutes(), 2);
+    return str.pad(date.getMinutes(), 2);
 }
 
 export function second(date) {
-    return zeroPad(date.getSeconds(), 2);
+    return str.pad(date.getSeconds(), 2);
 }
 
 export function formatDate(d) {

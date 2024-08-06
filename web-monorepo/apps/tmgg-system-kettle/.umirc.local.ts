@@ -13,10 +13,10 @@ export default defineConfig({
 
 
   proxy: {
-    '/job': {
+    '/kettle': {
       target: proxyTarget,
       changeOrigin: true,
-      pathRewrite: { '^/job': '/job' },
+      pathRewrite: { '^/kettle': '/kettle' },
     },
   },
 });

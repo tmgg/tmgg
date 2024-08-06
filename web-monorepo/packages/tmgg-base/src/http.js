@@ -1,8 +1,8 @@
 import axios from "axios";
-import * as storage from "./storage";
+import {storage} from "./storage.js";
 
 
-export const axiosInstance = axios.create({
+const axiosInstance = axios.create({
     withCredentials: true, // 带cookie
     baseURL: '/',
 })
@@ -10,7 +10,7 @@ export const axiosInstance = axios.create({
 const AUTH_STORE_KEYS = ['jwt', 'appToken', 'token', 'Authorization'];
 
 
-export function getToken() {
+function getToken() {
     for (let key of AUTH_STORE_KEYS) {
         let v = localStorage.getItem(key);
         if (v) {
@@ -42,7 +42,7 @@ axiosInstance.interceptors.request.use(
 axiosInstance.interceptors.response.use(res => {
     const {data, headers} = res;
 
-    if(data && (typeof data) === 'object'){
+    if (data && (typeof data) === 'object') {
         data._headers = headers
     }
 
@@ -61,14 +61,6 @@ let globalErrorMessageHandler = (msg, error) => {
     alert(msg)
 }
 
-/**
- * @deprecated 使用init
- *
- * @param fn
- */
-export function setGlobalErrorMessageHandler(fn) {
-    globalErrorMessageHandler = fn;
-}
 
 addErrorInterceptor()
 
@@ -78,7 +70,7 @@ addErrorInterceptor()
  * @param errorMessageHandler
  * @param autoReject 如何响应里面的success 字段为false，则reject
  */
-export function init({errorMessageHandler = null, autoReject = true}) {
+function init({errorMessageHandler = null, autoReject = true}) {
     if (errorMessageHandler) {
         globalErrorMessageHandler = errorMessageHandler
     }
@@ -97,7 +89,7 @@ export function init({errorMessageHandler = null, autoReject = true}) {
 }
 
 
-export function addErrorInterceptor() {
+function addErrorInterceptor() {
     const STATUS_MESSAGE = {
         200: '服务器成功返回请求的数据',
         201: '新增或修改数据成功',
@@ -150,11 +142,11 @@ export function addErrorInterceptor() {
         })
 }
 
-export function setGlobalHeader(key, value) {
+ function setGlobalHeader(key, value) {
     storage.set("HD:" + key, value)
 }
 
-export function getGlobalHeaders() {
+ function getGlobalHeaders() {
     const result = {}
     let all = storage.getAll();
     for (let key in all) {
@@ -171,27 +163,26 @@ export function getGlobalHeaders() {
  *  防止双斜杠出现
  */
 function makeUrl(url) {
-    if(url.startsWith("//")){
+    if (url.startsWith("//")) {
         return url.substring(1)
     }
     return url;
 }
 
-export function get(url, params = null) {
+ function get(url, params = null) {
     url = makeUrl(url)
     return axiosInstance.get(url, {params})
 }
 
-export function post(url, data, params = null) {
+ function post(url, data, params = null) {
     url = makeUrl(url)
-    return axiosInstance.post(url, data, {        params    })
+    return axiosInstance.post(url, data, {params})
 }
 
-export function postForm(url, data) {
+function postForm(url, data) {
     url = makeUrl(url)
     return axiosInstance.postForm(url, data)
 }
-
 
 
 /**
@@ -201,7 +192,7 @@ export function postForm(url, data) {
  * @param sort
  * @returns {Promise<unknown>}
  */
-export function requestAntdSpringPageData(url, params, sort, method = 'GET') {
+function requestAntdSpringPageData(url, params, sort, method = 'GET') {
     params.pageNumber = params.current;
     delete params.current
     if (sort) {
@@ -227,18 +218,18 @@ export function requestAntdSpringPageData(url, params, sort, method = 'GET') {
         return pageable;
     }
 
-    if(method === 'GET'){
+    if (method === 'GET') {
         return get(url, params).then(convert)
-    }else if(method === "POST") {
+    } else if (method === "POST") {
         return post(url, params).then(convert)
-    }else {
+    } else {
         throw new Error('不支持 Method：' + method)
     }
 
 
 }
 
-export function downloadFile(url, params) {
+function downloadFile(url, params) {
     console.log('下载中...')
 
     let config = {
@@ -290,4 +281,18 @@ export function downloadFile(url, params) {
         })
     })
 
-};
+}
+
+export const http = {
+    axiosInstance,
+    getToken,
+    init,
+    setGlobalHeader,
+    addErrorInterceptor,
+    downloadFile,
+    requestAntdSpringPageData,
+    postForm,
+    post,
+    get,
+    getGlobalHeaders
+}
