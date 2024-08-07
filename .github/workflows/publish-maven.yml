@@ -5,10 +5,6 @@ name: Publish MAVEN
 on:
   workflow_dispatch:
 
-  push:
-    tags:
-      - v*
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -25,53 +21,6 @@ jobs:
           gpg-passphrase: MAVEN_GPG_PASSPHRASE
           gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
 
-      - name: get project version
-        id: pv
-        run: |
-          pv=$(mvn -Dexec.executable='echo' -Dexec.args='${project.version}' --non-recursive exec:exec -q)
-          echo "::set-output name=result::$pv"
-
-      - name: get tmgg version
-        id: tmggv
-        run: |
-          tmggv=$(mvn help:evaluate -Dexpression=tmgg.version -q -DforceStdout)
-          echo "::set-output name=result::$tmggv"
-
-      - name: get git tag version
-        id: tv
-        uses: revam/gh-action-get-tag-and-version@v1
-        with:
-          tag: ${{ github.ref }}
-
-      - name: check tmgg.version
-        if: ${{ steps.pv.outputs.result != steps.tmggv.outputs.result}}
-        uses: actions/github-script@v4
-        with:
-          script: core.setFailed('依赖版本不一致  project version:${{steps.pv.outputs.result}} dependencyManagement version:${{steps.tmggv.outputs.result}} ')
-
-      - name: Check Tag version
-        if: ${{ steps.pv.outputs.result != steps.tv.outputs.version_short}}
-        uses: actions/github-script@v4
-        with:
-          script: core.setFailed('Invalid Tag:${{github.ref_name}} project version:${{steps.pv.outputs.result}} tag version:${{steps.tv.outputs.version_short}} ')
-
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 18
-          registry-url: https://registry.npmjs.org
-
-      - name: install pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 9
-
-      - name: publish to npm
-        run: |
-          cd web-monorepo 
-          pnpm install -r
-          pnpm publish -r --access public
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.NPM_ACCESS_TOKEN}}
 
       - name: Publish MAVEN
         run: mvn -q deploy
