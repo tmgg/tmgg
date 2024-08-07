@@ -21,7 +21,8 @@ export default class extends React.Component {
 
   render() {
     const status = this.state.status
-    return <div style={{padding: 12, minHeight:'98vh', background: theme["background-color"]}}>
+    const iframe = window.self != window.top;
+    return <div style={{padding: iframe ? 12: 0, minHeight:'98vh', background: theme["background-color"]}}>
       <div>
         <Card>
           <Descriptions title='Kettle服务状态'>
