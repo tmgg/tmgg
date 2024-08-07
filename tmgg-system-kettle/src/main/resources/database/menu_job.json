@@ -2,8 +2,7 @@
   "SysMenu": [
 
     {
-      "id": "kettle",
-      "pid": "kettle_mgr",
+      "id": "ETL-KETTLE",
       "type": "MENU",
       "application": "system",
       "name": "kettle",
