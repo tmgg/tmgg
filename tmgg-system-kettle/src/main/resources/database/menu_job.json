@@ -1,10 +1,6 @@
 {
   "SysMenu": [
-    {
-      "id": "kettle_mgr",
-      "application": "system",
-      "type": "DIR"
-    },
+
     {
       "id": "kettle",
       "pid": "kettle_mgr",
@@ -14,16 +10,7 @@
       "code": "kettle",
       "router": "/kettle/index.html",
       "iframe": true
-    },
-    {
-      "id": "kettleLog",
-      "pid": "kettle_mgr",
-      "type": "MENU",
-      "application": "system",
-      "name": "调度日志",
-      "code": "kettleLog",
-      "router": "/kettle/log.html",
-      "iframe": true
     }
+
   ]
 }

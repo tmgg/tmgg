@@ -27,7 +27,7 @@
 
 
     <properties>
-        <tmgg.version>0.1.7</tmgg.version>
+        <tmgg.version>0.1.8</tmgg.version>
         <java.version>1.8</java.version>
         <compile.version>8</compile.version>
         <maven.compiler.source>8</maven.compiler.source>
@@ -170,13 +170,13 @@
                         <goals>
                             <goal>sign</goal>
                         </goals>
-                        <configuration>
-                            <!-- 必须配置，用于 gpg 非交互式密码输入 -->
+                     <!--   <configuration>
+                            &lt;!&ndash; 必须配置，用于 gpg 非交互式密码输入 &ndash;&gt;
                             <gpgArguments>
-                                <arg>--pinentry-mode</arg>
+                                <arg>&#45;&#45;pinentry-mode</arg>
                                 <arg>loopback</arg>
                             </gpgArguments>
-                        </configuration>
+                        </configuration>-->
                     </execution>
                 </executions>
             </plugin>
