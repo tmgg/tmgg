@@ -12,7 +12,7 @@
 
     <groupId>io.github.tmgg</groupId>
     <artifactId>tmgg-system-parent</artifactId>
-    <version>0.1.7</version>
+    <version>0.1.8</version>
     <packaging>pom</packaging>
     <modules>
         <module>tmgg-system</module>
@@ -170,13 +170,13 @@
                         <goals>
                             <goal>sign</goal>
                         </goals>
-                     <!--   <configuration>
+                        <configuration>
                             &lt;!&ndash; 必须配置，用于 gpg 非交互式密码输入 &ndash;&gt;
                             <gpgArguments>
                                 <arg>&#45;&#45;pinentry-mode</arg>
                                 <arg>loopback</arg>
                             </gpgArguments>
-                        </configuration>-->
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
