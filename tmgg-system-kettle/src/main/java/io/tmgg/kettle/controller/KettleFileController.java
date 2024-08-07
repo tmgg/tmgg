@@ -1,7 +1,9 @@
 package io.tmgg.kettle.controller;
 
+import cn.hutool.core.io.file.FileNameUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.lang.Dict;
+import cn.hutool.core.util.StrUtil;
 import io.github.tmgg.kettle.sdk.KettleSdk;
 import io.github.tmgg.kettle.sdk.response.SlaveServerJobStatus;
 import io.github.tmgg.kettle.sdk.response.SlaveServerStatus;
@@ -39,17 +41,28 @@ public class KettleFileController {
         byte[] bytes = file.getBytes();
         String xml = new String(bytes, StandardCharsets.UTF_8);
 
+        String suffix = FileNameUtil.getSuffix(file.getOriginalFilename());
+
+
         KettleFile kettleFile = new KettleFile();
         kettleFile.setFileName(file.getOriginalFilename());
         kettleFile.setContent(xml);
+        kettleFile.setFileType(suffix);
 
-        JobXmlInfo info = XmlTool.xmlToBean(xml, JobXmlInfo.class);
-        kettleFile.setJobName(info.getName());
-        kettleFile.setDescription(info.getDescription());
-        List<JobXmlInfo.Parameter> parameters = info.getParameters();
-        String json = JsonTool.toJsonQuietly(parameters);
-        List<KettleFile.Parameter> parameters2 = JsonTool.jsonToBeanListQuietly(json, KettleFile.Parameter.class);
-        kettleFile.setParameterList(parameters2);
+        if (suffix.equals("kjb")) { // 作业
+            JobXmlInfo info = XmlTool.xmlToBean(xml, JobXmlInfo.class);
+            kettleFile.setName(info.getName());
+            kettleFile.setDescription(info.getDescription());
+            List<JobXmlInfo.Parameter> parameters = info.getParameters();
+            String json = JsonTool.toJsonQuietly(parameters);
+            List<KettleFile.Parameter> parameters2 = JsonTool.jsonToBeanListQuietly(json, KettleFile.Parameter.class);
+            kettleFile.setParameterList(parameters2);
+        } else if (suffix.equals("ktr")) { // 转换
+
+        }
+
+
+
 
         kettleFileService.save(kettleFile);
 
@@ -70,13 +83,13 @@ public class KettleFileController {
         try {
             SlaveServerStatus status = sdk.status();
             List<SlaveServerJobStatus> jobStatusList = status.getJobStatusList();
-            if(jobStatusList != null){
+            if (jobStatusList != null) {
                 for (SlaveServerJobStatus jobStatus : jobStatusList) {
                     String jobName = jobStatus.getJobName();
-                    Assert.state(file.getJobName().equals(jobName),"作业在Carte服务中存在，请先删除作业");
+                    Assert.state(file.getName().equals(jobName), "作业在Carte服务中存在，请先删除作业");
                 }
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             // 失败的情况允许删除
         }
@@ -89,22 +102,30 @@ public class KettleFileController {
 
     @GetMapping("options")
     public AjaxResult options() {
-        List<KettleFile> list = kettleFileService.findAll(Sort.by(Sort.Direction.DESC, "updateTime"));
+        List<KettleFile> list = kettleFileService.findJobList();
         List<Option> options = new ArrayList<>();
 
         for (KettleFile f : list) {
-            String jobName = f.getJobName();
-            String desc = jobName + " (" + f.getDescription() + ")";
+            String jobName = f.getName();
+            String label = jobName;
+            if(StrUtil.isNotBlank(f.getDescription())){
+                 label = jobName + " (" + f.getDescription() + ")";
+            }
 
+
+            List<Dict> data = new ArrayList<>();
             List<KettleFile.Parameter> parameterList = f.getParameterList();
-            List<Dict> data = parameterList.stream().map(p -> {
-                Dict d = new Dict();
-                d.put("key", p.getName());
-                d.put("value", p.getDefaultValue());
-                return d;
-            }).collect(Collectors.toList());
+            if(parameterList != null){
+               data = parameterList.stream().map(p -> {
+                    Dict d = new Dict();
+                    d.put("key", p.getName());
+                    d.put("value", p.getDefaultValue());
+                    return d;
+                }).collect(Collectors.toList());
+            }
 
-            options.add(new Option(desc, jobName, data));
+
+            options.add(new Option(label, jobName, data));
         }
 
         return AjaxResult.ok().data(options);

@@ -22,7 +22,7 @@ export default class extends React.Component {
   render() {
     const status = this.state.status
     const iframe = window.self != window.top;
-    return <div style={{padding: iframe ? 12: 0, minHeight:'98vh', background: theme["background-color"]}}>
+    return <div style={{padding: iframe ? 0: 12, minHeight:'98vh', background: theme["background-color"]}}>
       <div>
         <Card>
           <Descriptions title='Kettle服务状态'>

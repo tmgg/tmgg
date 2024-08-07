@@ -225,23 +225,10 @@ export default class extends React.Component {
                     <Input/>
                   </Form.Item>
 
-                  <MinusCircleOutlined onClick={() => remove(name)}/>
-
                 </Space>
               )}
 
-              <Form.Item label=' ' colon={false}>
-                <Button
-                  icon={<PlusOutlined/>}
-                  type="dashed"
-                  onClick={() => add()}
-                  style={{
-                    width: '60%',
-                  }}
-                >
-                  添加参数
-                </Button>
-              </Form.Item>
+
             </>
             }
           </Form.List>

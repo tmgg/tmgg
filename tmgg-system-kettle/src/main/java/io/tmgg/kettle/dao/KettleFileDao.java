@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class KettleFileDao extends BaseDao<KettleFile> {
-    public KettleFile findByJobName(String jobName) {
-        return this.findOneByField("jobName",jobName);
+    public KettleFile findByName(String jobName) {
+        return this.findOneByField(KettleFile.Fields.name,jobName);
     }
 }

@@ -38,7 +38,7 @@ public class KettleJob implements Job {
         JobKey key = jobDetail.getKey();
         String jobName = key.getName();
 
-        KettleFile file = kettleFileDao.findByJobName(jobName);
+        KettleFile file = kettleFileDao.findByName(jobName);
         Assert.notNull(file, String.format("任务名称[%s]未上传", jobName));
 
         String xml = file.getContent();

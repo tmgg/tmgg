@@ -12,12 +12,22 @@ export default class extends React.Component {
       title: '文件名'
     },
     {
-      dataIndex: 'jobName',
-      title: '任务名称'
+      dataIndex: 'fileType',
+      title: '类型',
+      render(v) {
+        return {
+          kjb:'作业',
+          ktr: '转换'
+        }[v] || v;
+      }
+    },
+    {
+      dataIndex: 'name',
+      title: '名称'
     },
     {
       dataIndex: 'description',
-      title: '任务描述'
+      title: '描述'
     },
     {
       dataIndex: 'parameterList',
@@ -91,10 +101,12 @@ export default class extends React.Component {
   render() {
     return <>
       <div style={{display: 'flex', justifyContent: 'end'}}>
-        <Upload accept={".kjb"} onChange={this.handleChange}
+        <Upload accept={".kjb,.ktr"}
+                onChange={this.handleChange}
                 action={'/kettle/file/upload'}
+                multiple={true}
         >
-          <Button type='primary'>上传作业</Button>
+          <Button type='primary'>上传</Button>
         </Upload></div>
       <Table columns={this.columns} dataSource={this.state.list} rowKey='id' pagination={false}></Table>
 
