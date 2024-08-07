@@ -1,6 +1,10 @@
 package io.tmgg.kettle.controller;
 
+import cn.hutool.core.lang.Assert;
 import cn.hutool.core.lang.Dict;
+import io.github.tmgg.kettle.sdk.KettleSdk;
+import io.github.tmgg.kettle.sdk.response.SlaveServerJobStatus;
+import io.github.tmgg.kettle.sdk.response.SlaveServerStatus;
 import io.tmgg.kettle.entity.KettleFile;
 import io.tmgg.kettle.service.KettleFileService;
 import io.tmgg.lang.JsonTool;
@@ -26,6 +30,9 @@ public class KettleFileController {
 
     @Resource
     KettleFileService kettleFileService;
+
+    @Resource
+    KettleSdk sdk;
 
     @RequestMapping("upload")
     public AjaxResult uploadFile(MultipartFile file) throws IOException {
@@ -57,6 +64,23 @@ public class KettleFileController {
 
     @RequestMapping("delete")
     public AjaxResult deleteFile(String id) {
+
+        KettleFile file = kettleFileService.findOne(id);
+
+        try {
+            SlaveServerStatus status = sdk.status();
+            List<SlaveServerJobStatus> jobStatusList = status.getJobStatusList();
+            if(jobStatusList != null){
+                for (SlaveServerJobStatus jobStatus : jobStatusList) {
+                    String jobName = jobStatus.getJobName();
+                    Assert.state(file.getJobName().equals(jobName),"作业在Carte服务中存在，请先删除作业");
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            // 失败的情况允许删除
+        }
+
         kettleFileService.deleteById(id);
 
         return AjaxResult.ok();
