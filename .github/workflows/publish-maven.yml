@@ -1,6 +1,6 @@
 # https://github.com/actions/setup-java/blob/main/docs/advanced-usage.md#apache-maven-with-a-settings-path
 
-name: Publish ALL
+name: Publish MAVEN
 
 on:
   workflow_dispatch:
