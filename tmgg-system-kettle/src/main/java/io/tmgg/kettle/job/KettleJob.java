@@ -7,6 +7,7 @@ import io.tmgg.job.JobRemark;
 import io.tmgg.job.Param;
 import io.tmgg.kettle.dao.KettleFileDao;
 import io.tmgg.lang.ann.Remark;
+import org.apache.commons.io.FilenameUtils;
 import org.quartz.*;
 import org.slf4j.Logger;
 
@@ -38,13 +39,11 @@ public class KettleJob implements Job {
         JobDataMap dataMap = ctx.getMergedJobDataMap();
         Map<String, Object> param = dataMap.getWrappedMap();
 
-        sdk.executeJob("运营"+jobName, LogLevel.BASIC, param);
-
+         jobName = FilenameUtils.removeExtension(jobName);
 
         log.info("开始执行kettle任务 {}", jobName);
+        sdk.executeJob(jobName, LogLevel.BASIC, param);
 
-
-        sdk.executeJob(jobName, LogLevel.DEBUG, param);
 
         log.info("结束执行kettle任务 {}", jobName);
     }

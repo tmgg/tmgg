@@ -118,7 +118,7 @@ public class KettleFileController {
 */
 
             String name = f.getName();
-            options.add(new Option(name, name));
+            options.add(new Option(name, f.getId()));
         }
 
         return AjaxResult.ok().data(options);
