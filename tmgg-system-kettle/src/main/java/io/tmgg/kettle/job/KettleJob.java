@@ -38,7 +38,7 @@ public class KettleJob implements Job {
         JobDataMap dataMap = ctx.getMergedJobDataMap();
         Map<String, Object> param = dataMap.getWrappedMap();
 
-        sdk.executeJob(jobName, LogLevel.BASIC, param);
+        sdk.executeJob("运营"+jobName, LogLevel.BASIC, param);
 
 
         log.info("开始执行kettle任务 {}", jobName);
