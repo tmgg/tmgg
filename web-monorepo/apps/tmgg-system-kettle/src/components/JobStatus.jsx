@@ -2,6 +2,7 @@ import React from "react";
 import {Button, Modal, Table, Tag} from "antd";
 import {http} from "@tmgg/tmgg-base";
 import JobStatusView from "./JobStatusView";
+import {ReloadOutlined} from "@ant-design/icons";
 
 export default class extends React.Component {
 
@@ -17,8 +18,8 @@ export default class extends React.Component {
     {
       dataIndex: 'statusDescription',
       title: '状态描述',
-      render(desc){
-        let descColor = desc == 'Finished' ? 'green':'red';
+      render(desc) {
+        let descColor = desc == 'Finished' ? 'green' : 'red';
         return <Tag color={descColor}>{desc}</Tag>
       }
     },
@@ -45,6 +46,7 @@ export default class extends React.Component {
   ]
 
   state = {
+    loading:false,
     list: [],
     jobId: null,
     jobName: null,
@@ -52,13 +54,24 @@ export default class extends React.Component {
   }
 
   componentDidMount() {
+    this.loadData();
+  }
+
+  loadData = () => {
+    this.setState({    loading:true})
     http.get('/kettle/status').then(rs => {
       this.setState({list: rs.data?.jobStatusList})
+      this.setState({    loading:false})
     })
-  }
+  };
 
   render() {
     return <>
+      <div style={{display: 'flex', justifyContent: 'end'}}>
+        <Button icon={<ReloadOutlined/>}
+                onClick={this.loadData}></Button>
+      </div>
+
       <Table columns={this.columns} dataSource={this.state.list} rowKey={'id'} pagination={false}></Table>
       <Modal width={728} title='作业状态' destroyOnClose open={this.state.viewOpen}
              onCancel={() => this.setState({viewOpen: false})}>

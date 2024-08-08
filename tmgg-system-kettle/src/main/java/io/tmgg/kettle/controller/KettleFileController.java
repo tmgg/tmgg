@@ -3,16 +3,25 @@ package io.tmgg.kettle.controller;
 import cn.hutool.core.io.file.FileNameUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.lang.Dict;
+import cn.hutool.core.lang.tree.Tree;
+import cn.hutool.core.lang.tree.TreeUtil;
 import cn.hutool.core.util.StrUtil;
 import io.github.tmgg.kettle.sdk.KettleSdk;
+import io.github.tmgg.kettle.sdk.Result;
+import io.github.tmgg.kettle.sdk.plugin.RepTreeItem;
 import io.github.tmgg.kettle.sdk.response.SlaveServerJobStatus;
 import io.github.tmgg.kettle.sdk.response.SlaveServerStatus;
 import io.tmgg.kettle.entity.KettleFile;
 import io.tmgg.kettle.service.KettleFileService;
 import io.tmgg.lang.JsonTool;
+import io.tmgg.lang.TreeManager;
+import io.tmgg.lang.TreeTool;
 import io.tmgg.lang.XmlTool;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.obj.Option;
+import io.tmgg.lang.obj.TreeOption;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -62,8 +71,6 @@ public class KettleFileController {
         }
 
 
-
-
         kettleFileService.save(kettleFile);
 
         return AjaxResult.ok();
@@ -71,30 +78,33 @@ public class KettleFileController {
 
     @RequestMapping("list")
     public AjaxResult listFile() {
-        List<KettleFile> list = kettleFileService.findAll(Sort.by(Sort.Direction.DESC, "updateTime"));
-        return AjaxResult.ok().data(list);
+        List<RepTreeItem> list = sdk.getRepObjects();
+
+        List<MyTreeItem> itemList = list.stream().map(i -> {
+            MyTreeItem myTreeItem = new MyTreeItem();
+            myTreeItem.setId(i.getId());
+            myTreeItem.setPid(i.getPid());
+            myTreeItem.setName(i.getName());
+            myTreeItem.setModifiedDate(i.getModifiedDate());
+
+            return myTreeItem;
+        }).collect(Collectors.toList());
+
+        TreeManager<MyTreeItem> tm = new TreeManager<>(itemList,MyTreeItem::getId,MyTreeItem::getPid,MyTreeItem::getChildren, MyTreeItem::setChildren);
+
+        List<MyTreeItem> tree = tm.getTree();
+
+
+        return AjaxResult.ok().data(tree);
     }
 
     @RequestMapping("delete")
     public AjaxResult deleteFile(String id) {
+        Result result = sdk.deleteRepObject(id);
 
-        KettleFile file = kettleFileService.findOne(id);
-
-        try {
-            SlaveServerStatus status = sdk.status();
-            List<SlaveServerJobStatus> jobStatusList = status.getJobStatusList();
-            if (jobStatusList != null) {
-                for (SlaveServerJobStatus jobStatus : jobStatusList) {
-                    String jobName = jobStatus.getJobName();
-                    Assert.state(file.getName().equals(jobName), "作业在Carte服务中存在，请先删除作业");
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            // 失败的情况允许删除
+        if(!result.isSuccess()){
+            return AjaxResult.err().msg(result.getMessage());
         }
-
-        kettleFileService.deleteById(id);
 
         return AjaxResult.ok();
     }
@@ -108,15 +118,15 @@ public class KettleFileController {
         for (KettleFile f : list) {
             String jobName = f.getName();
             String label = jobName;
-            if(StrUtil.isNotBlank(f.getDescription())){
-                 label = jobName + " (" + f.getDescription() + ")";
+            if (StrUtil.isNotBlank(f.getDescription())) {
+                label = jobName + " (" + f.getDescription() + ")";
             }
 
 
             List<Dict> data = new ArrayList<>();
             List<KettleFile.Parameter> parameterList = f.getParameterList();
-            if(parameterList != null){
-               data = parameterList.stream().map(p -> {
+            if (parameterList != null) {
+                data = parameterList.stream().map(p -> {
                     Dict d = new Dict();
                     d.put("key", p.getName());
                     d.put("value", p.getDefaultValue());
@@ -129,5 +139,11 @@ public class KettleFileController {
         }
 
         return AjaxResult.ok().data(options);
+    }
+
+    @Getter
+    @Setter
+    public static class MyTreeItem extends RepTreeItem {
+        List<MyTreeItem> children = new ArrayList<>();
     }
 }

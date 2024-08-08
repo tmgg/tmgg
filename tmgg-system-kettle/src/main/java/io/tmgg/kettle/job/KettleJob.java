@@ -14,6 +14,7 @@ import org.slf4j.Logger;
 import org.springframework.util.Assert;
 
 import javax.annotation.Resource;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -40,6 +41,13 @@ public class KettleJob implements Job {
 
         KettleFile file = kettleFileDao.findByName(jobName);
         Assert.notNull(file, String.format("任务名称[%s]未上传", jobName));
+
+        List<KettleFile> trans = kettleFileDao.findByTrans();
+        for (KettleFile tran : trans) {
+            sdk.registerTrans(tran.getContent(), null);
+        }
+
+
 
         String xml = file.getContent();
 

@@ -8,27 +8,15 @@ export default class extends React.Component {
 
   columns = [
     {
-      dataIndex: 'fileName',
-      title: '文件名'
-    },
-    {
-      dataIndex: 'fileType',
-      title: '类型',
-      render(v) {
-        return {
-          kjb:'作业',
-          ktr: '转换'
-        }[v] || v;
-      }
-    },
-    {
       dataIndex: 'name',
-      title: '名称'
+      title: '文件'
     },
+
     {
-      dataIndex: 'description',
-      title: '描述'
+      dataIndex: 'id',
+      title: '唯一标识'
     },
+
     {
       dataIndex: 'parameterList',
       title: '参数',
@@ -37,8 +25,8 @@ export default class extends React.Component {
       }
     },
     {
-      dataIndex: 'updateTime',
-      title: '上传时间'
+      dataIndex: '更新时间',
+      title: '更新时间'
     },
     {
       dataIndex: 'option',
@@ -108,7 +96,9 @@ export default class extends React.Component {
         >
           <Button type='primary'>上传</Button>
         </Upload></div>
-      <Table columns={this.columns} dataSource={this.state.list} rowKey='id' pagination={false}></Table>
+      <Table columns={this.columns} dataSource={this.state.list} rowKey='id'
+             indentSize={24}
+             pagination={false}></Table>
 
 
 
