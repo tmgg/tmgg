@@ -17,15 +17,9 @@ export default class extends React.Component {
       title: '唯一标识'
     },
 
+
     {
-      dataIndex: 'parameterList',
-      title: '参数',
-      render(v){
-        return JSON.stringify(v,' ',2)
-      }
-    },
-    {
-      dataIndex: '更新时间',
+      dataIndex: 'modifiedDate',
       title: '更新时间'
     },
     {

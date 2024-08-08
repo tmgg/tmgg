@@ -50,28 +50,11 @@ public class KettleFileController {
         byte[] bytes = file.getBytes();
         String xml = new String(bytes, StandardCharsets.UTF_8);
 
-        String suffix = FileNameUtil.getSuffix(file.getOriginalFilename());
+        Result result = sdk.uploadRepObject(xml);
 
-
-        KettleFile kettleFile = new KettleFile();
-        kettleFile.setFileName(file.getOriginalFilename());
-        kettleFile.setContent(xml);
-        kettleFile.setFileType(suffix);
-
-        if (suffix.equals("kjb")) { // 作业
-            JobXmlInfo info = XmlTool.xmlToBean(xml, JobXmlInfo.class);
-            kettleFile.setName(info.getName());
-            kettleFile.setDescription(info.getDescription());
-            List<JobXmlInfo.Parameter> parameters = info.getParameters();
-            String json = JsonTool.toJsonQuietly(parameters);
-            List<KettleFile.Parameter> parameters2 = JsonTool.jsonToBeanListQuietly(json, KettleFile.Parameter.class);
-            kettleFile.setParameterList(parameters2);
-        } else if (suffix.equals("ktr")) { // 转换
-
+        if(!result.isSuccess()){
+            return AjaxResult.err().msg(result.getMessage());
         }
-
-
-        kettleFileService.save(kettleFile);
 
         return AjaxResult.ok();
     }
@@ -112,18 +95,17 @@ public class KettleFileController {
 
     @GetMapping("options")
     public AjaxResult options() {
-        List<KettleFile> list = kettleFileService.findJobList();
+        List<RepTreeItem> list = sdk.getRepObjects();
+
         List<Option> options = new ArrayList<>();
 
-        for (KettleFile f : list) {
-            String jobName = f.getName();
-            String label = jobName;
-            if (StrUtil.isNotBlank(f.getDescription())) {
-                label = jobName + " (" + f.getDescription() + ")";
+        for (RepTreeItem f : list) {
+            if(!f.getId().endsWith(".kjb")){
+                continue;
             }
 
 
-            List<Dict> data = new ArrayList<>();
+       /*     List<Dict> data = new ArrayList<>();
             List<KettleFile.Parameter> parameterList = f.getParameterList();
             if (parameterList != null) {
                 data = parameterList.stream().map(p -> {
@@ -133,9 +115,10 @@ public class KettleFileController {
                     return d;
                 }).collect(Collectors.toList());
             }
+*/
 
-
-            options.add(new Option(label, jobName, data));
+            String name = f.getName();
+            options.add(new Option(name, name));
         }
 
         return AjaxResult.ok().data(options);

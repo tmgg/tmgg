@@ -45,17 +45,17 @@ export default class extends React.Component {
 
           <Tabs items={[
             {
-              label: '文件上传',
+              label: '文件',
               key: 'file',
               children: <KettleFile/>,
             },
             {
-              label: '调度执行',
+              label: '调度',
               key: 'job_scheduling',
               children: <SysJob />,
             },
             {
-              label: '作业监控',
+              label: '监控',
               key: 'job_monitor',
               children: <JobList/>,
             }
