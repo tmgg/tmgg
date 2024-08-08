@@ -5,7 +5,6 @@ import io.github.tmgg.kettle.sdk.LogLevel;
 import io.tmgg.job.JobLoggerFactory;
 import io.tmgg.job.JobRemark;
 import io.tmgg.job.Param;
-import io.tmgg.kettle.dao.KettleFileDao;
 import io.tmgg.lang.ann.Remark;
 import org.apache.commons.io.FilenameUtils;
 import org.quartz.*;
@@ -25,9 +24,6 @@ public class KettleJob implements Job {
 
     @Resource
     KettleSdk sdk;
-
-    @Resource
-    KettleFileDao kettleFileDao;
 
     @Override
     public void execute(JobExecutionContext ctx) throws JobExecutionException {

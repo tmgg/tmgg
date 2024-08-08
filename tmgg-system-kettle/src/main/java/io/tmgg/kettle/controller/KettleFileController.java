@@ -1,28 +1,13 @@
 package io.tmgg.kettle.controller;
 
-import cn.hutool.core.io.file.FileNameUtil;
-import cn.hutool.core.lang.Assert;
-import cn.hutool.core.lang.Dict;
-import cn.hutool.core.lang.tree.Tree;
-import cn.hutool.core.lang.tree.TreeUtil;
-import cn.hutool.core.util.StrUtil;
 import io.github.tmgg.kettle.sdk.KettleSdk;
 import io.github.tmgg.kettle.sdk.Result;
 import io.github.tmgg.kettle.sdk.plugin.RepTreeItem;
-import io.github.tmgg.kettle.sdk.response.SlaveServerJobStatus;
-import io.github.tmgg.kettle.sdk.response.SlaveServerStatus;
-import io.tmgg.kettle.entity.KettleFile;
-import io.tmgg.kettle.service.KettleFileService;
-import io.tmgg.lang.JsonTool;
 import io.tmgg.lang.TreeManager;
-import io.tmgg.lang.TreeTool;
-import io.tmgg.lang.XmlTool;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.obj.Option;
-import io.tmgg.lang.obj.TreeOption;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -39,8 +24,6 @@ import java.util.stream.Collectors;
 @RequestMapping("kettle/file")
 public class KettleFileController {
 
-    @Resource
-    KettleFileService kettleFileService;
 
     @Resource
     KettleSdk sdk;
