@@ -71,7 +71,7 @@ public class KettleSysJobController {
     @PostMapping("save")
     public AjaxResult save(@RequestBody SysJob param) throws Exception {
         param.setJobClass(KettleJob.class.getName());
-        param.setType("kettle");
+        param.setGroup("kettle");
 
         SysJob result = service.saveOrUpdate(param);
         return AjaxResult.success("操作成功", result.getId());

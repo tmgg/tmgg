@@ -35,9 +35,6 @@ export default class extends React.Component {
 
     jobClassOptions: []
   }
-
-
-  tableRef = React.createRef()
   formRef = React.createRef()
 
   columns = [
@@ -46,7 +43,10 @@ export default class extends React.Component {
       dataIndex: 'name'
     },
 
-
+    {
+      title: '任务ID',
+      dataIndex: 'description'
+    },
     {
       title: 'cron',
       dataIndex: 'cron',
@@ -154,8 +154,9 @@ export default class extends React.Component {
 
   onValuesChange = (changed, values) => {
     console.log('修改数据', changed)
-    if (changed.name) {
-      const option = this.state.fileOptions.find(o => o.value === changed.name)
+    let jobId = changed.description;
+    if (jobId) {
+      const option = this.state.fileOptions.find(o => o.value === jobId)
       if (option) {
         const fields = option.data;
         if(fields){
@@ -197,8 +198,13 @@ export default class extends React.Component {
 
           </Form.Item>
           <Form.Item label='名称' name='name' rules={[{required: true}]}>
+            <Input />
+          </Form.Item>
+
+          <Form.Item label='任务' name='description' rules={[{required: true}]}>
             <Select options={this.state.fileOptions}></Select>
           </Form.Item>
+
 
           <Form.Item label='cron表达式' name='cron' rules={[{required: true}]} help='秒 分 时 日 月 周'>
             <AutoComplete placeholder='如 0 */1 * * * ?' options={cronOptions}/>

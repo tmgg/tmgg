@@ -5,6 +5,7 @@ import io.tmgg.lang.Entry;
 import io.tmgg.lang.dao.BaseEntity;
 import io.tmgg.lang.dao.converter.ToEntryListConverter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.tmgg.lang.dao.converter.ToMapStringObjectConverter;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldNameConstants;
@@ -51,8 +52,9 @@ public class SysJob extends BaseEntity {
     @Convert(converter = ToEntryListConverter.class)
     List<Entry> jobData;
 
-    @Column(length = 20)
-    String type;
+
+    @Column(length = 20,name = "_group") // db关键字
+    String group;
 
     String description;
 

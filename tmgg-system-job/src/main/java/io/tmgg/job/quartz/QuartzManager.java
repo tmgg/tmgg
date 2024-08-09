@@ -6,6 +6,7 @@ import org.quartz.*;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.Map;
 
 @Slf4j
 @Component
@@ -17,7 +18,7 @@ public class QuartzManager {
 
 
     public void deleteJob(SysJob job) throws SchedulerException {
-        JobKey jobKey = JobKey.jobKey(job.getName());
+        JobKey jobKey = JobKey.jobKey(job.getName(),job.getGroup());
         if (scheduler.checkExists(jobKey)) {
             scheduler.pauseTrigger(TriggerKey.triggerKey(job.getTriggerKey()));
             scheduler.deleteJob(jobKey);
@@ -28,7 +29,7 @@ public class QuartzManager {
         JobDetail jobDetail = getJobDetail(job);
 
         Trigger trigger = TriggerBuilder.newTrigger()
-                .withIdentity(job.getTriggerKey())
+                .withIdentity(job.getTriggerKey(), job.getGroup())
                 .withSchedule(CronScheduleBuilder.cronSchedule(job.getCron()))
                 .build();
 
@@ -39,7 +40,7 @@ public class QuartzManager {
 
     public void triggerJob(SysJob job) throws SchedulerException, ClassNotFoundException {
         if (job.getEnabled()) {
-            JobKey jobKey = JobKey.jobKey(job.getName());
+            JobKey jobKey = JobKey.jobKey(job.getName(),job.getGroup());
             scheduler.triggerJob(jobKey);
         } else {
             deleteJob(job);
@@ -47,7 +48,7 @@ public class QuartzManager {
             JobDetail jobDetail = getJobDetail(job);
 
             Trigger trigger = TriggerBuilder.newTrigger()
-                    .withIdentity(job.getTriggerKey())
+                    .withIdentity(job.getTriggerKey(), job.getGroup())
                     .startNow()
                     .withSchedule(SimpleScheduleBuilder.simpleSchedule()
                             .withRepeatCount(0)) // 不重复
@@ -61,9 +62,13 @@ public class QuartzManager {
         String jobClass = job.getJobClass();
         Class<? extends Job> cls = (Class<? extends Job>) Class.forName(jobClass);
 
+        Map<String, Object> jobDataMap = job.getJobDataMap();
+
+        jobDataMap.put("sysJob.description",job.getDescription());
+
         JobDetail jobDetail = JobBuilder.newJob(cls)
-                .withIdentity(job.getName())
-                .usingJobData(new JobDataMap(job.getJobDataMap()))
+                .withIdentity(job.getName(),job.getGroup())
+                .usingJobData(new JobDataMap(jobDataMap))
                 .build();
         return jobDetail;
     }
