@@ -1,6 +1,6 @@
 import React from "react";
 import {Button, Modal, Table, Tag} from "antd";
-import {http} from "@tmgg/tmgg-base";
+import {http, theme} from "@tmgg/tmgg-base";
 import JobStatusView from "./JobStatusView";
 import {ReloadOutlined} from "@ant-design/icons";
 
@@ -46,7 +46,7 @@ export default class extends React.Component {
   ]
 
   state = {
-    loading:false,
+    loading: false,
     list: [],
     jobId: null,
     jobName: null,
@@ -58,10 +58,10 @@ export default class extends React.Component {
   }
 
   loadData = () => {
-    this.setState({    loading:true})
+    this.setState({loading: true})
     http.get('/kettle/status').then(rs => {
       this.setState({list: rs.data?.jobStatusList})
-      this.setState({    loading:false})
+      this.setState({loading: false})
     })
   };
 
@@ -73,9 +73,11 @@ export default class extends React.Component {
       </div>
 
       <Table columns={this.columns} dataSource={this.state.list} rowKey={'id'} pagination={false}></Table>
-      <Modal width={728} title='作业状态' destroyOnClose open={this.state.viewOpen}
+      <Modal width={'80vw'} title='作业状态' destroyOnClose open={this.state.viewOpen}
              onCancel={() => this.setState({viewOpen: false})}>
-        <JobStatusView jobId={this.state.jobId} jobName={this.state.jobName}/>
+        <div style={{height:'60vh', overflow:'auto',background:theme["background-color"], padding:12}}>
+          <JobStatusView jobId={this.state.jobId} jobName={this.state.jobName}/>
+        </div>
       </Modal>
     </>
   }
