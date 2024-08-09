@@ -73,7 +73,9 @@ export default class extends React.Component {
       </div>
 
       <Table columns={this.columns} dataSource={this.state.list} rowKey={'id'} pagination={false}></Table>
-      <Modal width={'80vw'} title='作业状态' destroyOnClose open={this.state.viewOpen}
+      <Modal width={'80vw'} title='作业状态' destroyOnClose
+             open={this.state.viewOpen}
+             onOk={()=>this.setState({viewOpen:false})}
              onCancel={() => this.setState({viewOpen: false})}>
         <div style={{height:'60vh', overflow:'auto',background:theme["background-color"], padding:12}}>
           <JobStatusView jobId={this.state.jobId} jobName={this.state.jobName}/>

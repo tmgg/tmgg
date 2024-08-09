@@ -1,6 +1,6 @@
 @echo off
 
-set new_version=0.1.10
+set new_version=0.1.11
 
 echo current dir is
 cd
@@ -27,11 +27,4 @@ cd web-monorepo/apps/tmgg-system
 call npm version  %new_version% --allow-same-version
 
 
-cd /d %~dp0
-cd web-monorepo/apps/tmgg-system-job
-call npm version  %new_version% --allow-same-version
 
-
-cd /d %~dp0
-cd web-monorepo/apps/tmgg-system-kettle
-call npm version  %new_version% --allow-same-version

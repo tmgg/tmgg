@@ -38,7 +38,7 @@ public class KettleJob implements Job {
          jobName = FilenameUtils.removeExtension(jobName);
 
         log.info("开始执行kettle任务 {}", jobName);
-        sdk.executeJob(jobName, LogLevel.BASIC, param);
+        sdk.executeJob(jobName, LogLevel.DEBUG, param);
 
 
         log.info("结束执行kettle任务 {}", jobName);

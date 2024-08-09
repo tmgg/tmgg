@@ -50,15 +50,13 @@ export default class extends React.Component {
       </Card>
 
 
-      <Card title='状态图' style={{marginTop: 12}}>
-        {this.state.jobImageErrorMessage && <Alert message={this.state.jobImageErrorMessage}></Alert>}
-
-        <img src={this.state.jobImageUrl} width='100%'/>
-      </Card>
-
-
       <Card title='日志' style={{marginTop: 12}}>
         <pre>{jobStatus.loggingString}</pre>
+      </Card>
+
+      <Card title='作业图（设计图）' style={{marginTop: 12}}>
+        {this.state.jobImageErrorMessage && <Alert message={this.state.jobImageErrorMessage}></Alert>}
+        <img src={this.state.jobImageUrl} width='100%'/>
       </Card>
 
     </div>

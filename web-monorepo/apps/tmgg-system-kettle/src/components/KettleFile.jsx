@@ -28,10 +28,9 @@ export default class extends React.Component {
       render: (_, record) => {
         return <div>
           <Space>
-            <Popconfirm title='确定删除文件?' onConfirm={()=>this.deleteFile(record.id)}>
-              <Button size='small' >删除</Button>
+            <Popconfirm title='确定删除文件?' onConfirm={() => this.deleteFile(record.id)}>
+              <Button size='small'>删除</Button>
             </Popconfirm>
-
 
 
           </Space>
@@ -49,17 +48,28 @@ export default class extends React.Component {
 
   loadData() {
     http.get('/kettle/file/list').then(rs => {
-      this.setState({list: rs.data})
+      if (rs.success) {
+        this.setState({list: rs.data})
+      } else {
+        Modal.error({
+          title: '获取存储库失败',
+          content: rs.message
+        })
+      }
+
     })
   }
 
   deleteFile = id => {
     http.get('/kettle/file/delete', {id}).then(rs => {
-      message.success(rs.message)
-      this.loadData()
+      if (rs.success) {
+        message.success(rs.message)
+        this.loadData()
+      } else {
+        message.error(rs.message)
+      }
     })
   }
-
 
 
   handleChange = ({fileList, event, file}) => {
@@ -93,11 +103,6 @@ export default class extends React.Component {
       <Table columns={this.columns} dataSource={this.state.list} rowKey='id'
              indentSize={24}
              pagination={false}></Table>
-
-
-
-
-
     </>
   }
 }

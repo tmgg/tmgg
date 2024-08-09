@@ -1,9 +1,12 @@
 package io.tmgg.kettle.controller;
 
+import cn.hutool.core.lang.Dict;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import io.github.tmgg.kettle.sdk.KettleSdk;
 import io.github.tmgg.kettle.sdk.Result;
 import io.github.tmgg.kettle.sdk.plugin.RepTreeItem;
 import io.tmgg.lang.TreeManager;
+import io.tmgg.lang.XmlTool;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.obj.Option;
 import lombok.Getter;
@@ -33,9 +36,9 @@ public class KettleFileController {
         byte[] bytes = file.getBytes();
         String xml = new String(bytes, StandardCharsets.UTF_8);
 
-        Result result = sdk.uploadRepObject(xml);
+        Result result = sdk.uploadRepositoryObject(xml);
 
-        if(!result.isSuccess()){
+        if (!result.isSuccess()) {
             return AjaxResult.err().msg(result.getMessage());
         }
 
@@ -44,31 +47,34 @@ public class KettleFileController {
 
     @RequestMapping("list")
     public AjaxResult listFile() {
-        List<RepTreeItem> list = sdk.getRepObjects();
+        try {
+            List<RepTreeItem> list = sdk.getRepositoryObjectTree();
 
-        List<MyTreeItem> itemList = list.stream().map(i -> {
-            MyTreeItem myTreeItem = new MyTreeItem();
-            myTreeItem.setId(i.getId());
-            myTreeItem.setPid(i.getPid());
-            myTreeItem.setName(i.getName());
-            myTreeItem.setModifiedDate(i.getModifiedDate());
+            List<MyTreeItem> itemList = list.stream().map(i -> {
+                MyTreeItem myTreeItem = new MyTreeItem();
+                myTreeItem.setId(i.getId());
+                myTreeItem.setPid(i.getPid());
+                myTreeItem.setName(i.getName());
+                myTreeItem.setModifiedDate(i.getModifiedDate());
 
-            return myTreeItem;
-        }).collect(Collectors.toList());
+                return myTreeItem;
+            }).collect(Collectors.toList());
 
-        TreeManager<MyTreeItem> tm = new TreeManager<>(itemList,MyTreeItem::getId,MyTreeItem::getPid,MyTreeItem::getChildren, MyTreeItem::setChildren);
+            TreeManager<MyTreeItem> tm = new TreeManager<>(itemList, MyTreeItem::getId, MyTreeItem::getPid, MyTreeItem::getChildren, MyTreeItem::setChildren);
 
-        List<MyTreeItem> tree = tm.getTree();
+            List<MyTreeItem> tree = tm.getTree();
 
-
-        return AjaxResult.ok().data(tree);
+            return AjaxResult.ok().data(tree);
+        } catch (Exception e) {
+            return AjaxResult.err().msg(e.getMessage());
+        }
     }
 
     @RequestMapping("delete")
     public AjaxResult deleteFile(String id) {
-        Result result = sdk.deleteRepObject(id);
+        Result result = sdk.deleteRepositoryObject(id);
 
-        if(!result.isSuccess()){
+        if (!result.isSuccess()) {
             return AjaxResult.err().msg(result.getMessage());
         }
 
@@ -77,31 +83,34 @@ public class KettleFileController {
 
 
     @GetMapping("options")
-    public AjaxResult options() {
-        List<RepTreeItem> list = sdk.getRepObjects();
+    public AjaxResult options() throws JsonProcessingException {
+        List<RepTreeItem> list = sdk.getRepositoryObjectTree();
 
         List<Option> options = new ArrayList<>();
 
         for (RepTreeItem f : list) {
-            if(!f.getId().endsWith(".kjb")){
+            if (!f.getId().endsWith(".kjb")) {
                 continue;
             }
 
+            List<Dict> data = new ArrayList<>();
 
-       /*     List<Dict> data = new ArrayList<>();
-            List<KettleFile.Parameter> parameterList = f.getParameterList();
-            if (parameterList != null) {
-                data = parameterList.stream().map(p -> {
+            String xml = sdk.getRepositoryObjectContent(f.getId());
+
+            List<JobXmlInfo.Parameter> jobParameters = getJobParameters(xml);
+
+
+            if (jobParameters != null) {
+                data = jobParameters.stream().map(p -> {
                     Dict d = new Dict();
                     d.put("key", p.getName());
                     d.put("value", p.getDefaultValue());
                     return d;
                 }).collect(Collectors.toList());
             }
-*/
 
             String name = f.getName();
-            options.add(new Option(name, f.getId()));
+            options.add(new Option(name, f.getId(), data));
         }
 
         return AjaxResult.ok().data(options);
@@ -111,5 +120,13 @@ public class KettleFileController {
     @Setter
     public static class MyTreeItem extends RepTreeItem {
         List<MyTreeItem> children = new ArrayList<>();
+    }
+
+    private List<JobXmlInfo.Parameter> getJobParameters(String xml) throws JsonProcessingException {
+        JobXmlInfo info = XmlTool.xmlToBean(xml, JobXmlInfo.class);
+
+        List<JobXmlInfo.Parameter> parameters = info.getParameters();
+
+        return parameters;
     }
 }
