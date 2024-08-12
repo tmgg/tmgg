@@ -23,6 +23,7 @@
         <module>tmgg-system-code-gen</module>
         <module>tmgg-base</module>
         <module>tmgg-system-kettle</module>
+        <module>tmgg-dev-utils</module>
     </modules>
 
 

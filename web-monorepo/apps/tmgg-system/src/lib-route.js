@@ -40,12 +40,14 @@ function getRootRoutes(routes) {
 }
 
 
-export function patchRoutesPlugin(routes) {
-  const appends = getRoutes();
-  routes = getRootRoutes(routes);
-  appends.forEach(r => {
-    routes.push(r)
-  })
+export function patchRoutesPlugin(routes, appendSystem=true) {
+  if(appendSystem){
+    const appends = getRoutes();
+    routes = getRootRoutes(routes);
+    appends.forEach(r => {
+      routes.push(r)
+    })
+  }
 
   cacheRoutes(routes)
 }

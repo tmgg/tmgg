@@ -8,7 +8,7 @@
 import { patchRoutesPlugin} from "./lib-route";
 
 export function patchRoutes({routes}) {
-  patchRoutesPlugin(routes)
+  patchRoutesPlugin(routes,false)
 }
 
 

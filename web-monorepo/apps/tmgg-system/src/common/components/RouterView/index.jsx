@@ -1,28 +1,22 @@
 import React from 'react';
 import {Empty, Skeleton} from 'antd';
 
-import {getRouteByPath, SysConfig, tools} from '../../system';
+import {SysConfig, tools} from '../../system';
+import {getRouteByPath} from "../../../lib-route";
 
 /**
  * 像使用组件一样引入一个页面
  *
- * @param routePath
- */
-interface RouterViewProps {
   path: string;
-
-  // 弃用
-  routePath?: string;
-
   iframe?: boolean;
-
   ref?: any;
   loading?: boolean;
-}
 
-export class RouterView extends React.Component<RouterViewProps, any> {
+ */
 
-  constructor(props: RouterViewProps) {
+export class RouterView extends React.Component {
+
+  constructor(props) {
     super(props);
     const {ref} = props;
     if (ref) {
@@ -31,9 +25,9 @@ export class RouterView extends React.Component<RouterViewProps, any> {
   }
 
 
-  elementRef: any = React.createRef();
+  elementRef = React.createRef();
 
-  public getElement = () => {
+  getElement = () => {
     return this.elementRef.current;
   }
 
@@ -68,7 +62,7 @@ export class RouterView extends React.Component<RouterViewProps, any> {
 
     let queryIndex = path.indexOf('?');
     let query = {};
-    if (queryIndex != -1) {
+    if (queryIndex !== -1) {
       query = tools.getQueryParams(path);
       path = path.substring(0, queryIndex);
     }
