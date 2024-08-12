@@ -1,7 +1,6 @@
 import React from "react";
-import {Button, message, Modal, Popconfirm, Space, Table, Upload} from "antd";
+import {Button, message, Modal, Popconfirm, Space, Table, Tabs, Upload} from "antd";
 import {http} from "@tmgg/tmgg-base";
-import {QuestionOutlined} from "@ant-design/icons";
 
 export default class extends React.Component {
 
@@ -26,20 +25,28 @@ export default class extends React.Component {
       dataIndex: 'option',
       title: '-',
       render: (_, record) => {
+        const isFile = record.id.endsWith(".kjb") || record.id.endsWith(".ktr")
         return <div>
           <Space>
+
+            <Button disabled={!isFile} size='small' onClick={() => {
+              this.setState({file: record, detailOpen: true});
+              this.loadXml(record.id)
+            }}>查看</Button>
+
             <Popconfirm title='确定删除文件?' onConfirm={() => this.deleteFile(record.id)}>
               <Button size='small'>删除</Button>
             </Popconfirm>
-
-
           </Space>
         </div>
       }
     }
   ]
   state = {
-    list: []
+    list: [],
+    detailOpen: false,
+    file: null,
+    xml: null
   }
 
   componentDidMount() {
@@ -90,6 +97,12 @@ export default class extends React.Component {
 
   };
 
+  loadXml = ( id) => {
+    http.get('/kettle/xml', {id}).then(rs => {
+      this.setState({xml:rs.data})
+    })
+  }
+
   render() {
     return <>
       <div style={{display: 'flex', justifyContent: 'end'}}>
@@ -102,7 +115,24 @@ export default class extends React.Component {
         </Upload></div>
       <Table columns={this.columns} dataSource={this.state.list} rowKey='id'
              indentSize={24}
-             pagination={false}></Table>
+             pagination={false}
+
+      ></Table>
+
+
+      <Modal title='详情'
+             open={this.state.detailOpen}
+             footer={null} width='80vw'
+             destroyOnClose={true}
+             onCancel={() => this.setState({detailOpen: false})}>
+
+        <div style={{overflow:"auto",maxHeight: 500}}>
+          <pre contentEditable={true}>{this.state.xml}</pre>
+        </div>
+
+
+
+      </Modal>
     </>
   }
 }

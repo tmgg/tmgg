@@ -1,6 +1,6 @@
 import React from "react";
 import {http} from "@tmgg/tmgg-base";
-import {Alert, Card, Descriptions, Tag} from "antd";
+import {Alert, Card, Descriptions, Tabs, Tag} from "antd";
 
 const Item = Descriptions.Item
 
@@ -44,20 +44,25 @@ export default class extends React.Component {
       <Card>
         <Descriptions column={2}>
           <Item label='id'>{jobStatus.id}</Item>
+          <Item label='作业名称'>{jobStatus.jobName}</Item>
           <Item label='状态'><Tag color={descColor}>{desc}</Tag></Item>
           <Item label='日志时间'>{jobStatus.logDate}</Item>
         </Descriptions>
       </Card>
 
 
-      <Card title='日志' style={{marginTop: 12}}>
-        <pre>{jobStatus.loggingString}</pre>
+
+      <Card style={{marginTop:12}}>
+
+        <Tabs items={[
+          {label:"日志",key:'log', children:<pre>{jobStatus.loggingString}</pre>},
+          {label:"设计图",key:'img', children:<div>{this.state.jobImageErrorMessage && <Alert message={this.state.jobImageErrorMessage}></Alert>}
+              <img src={this.state.jobImageUrl} width='100%'/></div>},
+        ]}></Tabs>
+
       </Card>
 
-      <Card title='作业图（设计图）' style={{marginTop: 12}}>
-        {this.state.jobImageErrorMessage && <Alert message={this.state.jobImageErrorMessage}></Alert>}
-        <img src={this.state.jobImageUrl} width='100%'/>
-      </Card>
+
 
     </div>
   }
