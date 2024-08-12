@@ -241,7 +241,21 @@ function toUnderlineCase(name) {
     return result;
 }
 
+function equalsIgnoreCase(a, b) {
+    if (a != null && b != null) {
+        if (a === b) {
+            return true;
+        }
+
+        if (a.toLowerCase() === b.toLowerCase()) {
+            return true;
+        }
+    }
+
+    return false;
+}
 export const str = {
+    equalsIgnoreCase,
     toUnderlineCase,
     toCamelCase,
     isStr,

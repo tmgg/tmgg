@@ -3,10 +3,12 @@
 
 
 
-import {cacheRoutes} from "./common/system/lib-route";
+
+
+import { patchRoutesPlugin} from "./lib-route";
 
 export function patchRoutes({routes}) {
-    cacheRoutes(routes)
+  patchRoutesPlugin(routes)
 }
 
 

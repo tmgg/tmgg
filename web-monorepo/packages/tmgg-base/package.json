@@ -1,6 +1,5 @@
 {
   "name": "@tmgg/tmgg-base",
-  "version": "0.1.12",
   "description": "函数工具类",
   "repository": {
     "type": "git",

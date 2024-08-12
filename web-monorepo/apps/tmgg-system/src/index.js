@@ -5,7 +5,6 @@
 export * from './common'
 
 
-// @ts-ignore
 export * from "./routes"
-// @ts-ignore
 export * from "./layouts"
+export * from "./lib-route"
