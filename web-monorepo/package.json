@@ -1,14 +1,11 @@
 {
-  "name": "@tmgg/tmgg-monorepo",
-  "private": "true",
-  "scripts": {
-    "job:start": "pnpm -F @tmgg/tmgg-system-job run start",
-    "job:test": "pnpm -F @tmgg/tmgg-system-job run test",
-    "kettle:start": "pnpm -F @tmgg/tmgg-system-kettle run start "
+  "private" : "true",
+  "name" : "@tmgg/tmgg-monorepo",
+  "workspaces" : [ "apps/*", "packages/*" ],
+  "scripts" : {
+    "job:start" : "pnpm -F @tmgg/tmgg-system-job run start",
+    "job:test" : "pnpm -F @tmgg/tmgg-system-job run test",
+    "kettle:start" : "pnpm -F @tmgg/tmgg-system-kettle run start "
   },
-  "workspaces": [
-    "apps/*",
-    "packages/*"
-  ],
-  "version": "0.1.13"
+  "version" : "0.1.14"
 }

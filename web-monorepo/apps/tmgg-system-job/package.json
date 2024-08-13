@@ -1,30 +1,31 @@
 {
-  "private": true,
-  "scripts": {
-    "job-start": "SET NODE_OPTIONS=--openssl-legacy-provider && umi dev",
-    "job-build": "SET NODE_OPTIONS=--openssl-legacy-provider && umi build",
-    "use-aliyun-mirror-global": "npm config set registry https://registry.npmmirror.com"
+  "private" : true,
+  "devDependencies" : {
+    "@types/react" : "^18.0.0",
+    "@types/react-dom" : "^18.0.0",
+    "@umijs/preset-react" : "1.x",
+    "@umijs/test" : "^3.5.19",
+    "cross-env" : "^7.0.3",
+    "lint-staged" : "^10.0.7",
+    "prettier" : "^2.2.0",
+    "typescript" : "^4.1.2",
+    "yorkie" : "^2.0.0"
   },
-  "dependencies": {
-    "@ant-design/icons": "^4.0.0",
-    "@ant-design/pro-components": "^1.0.0",
-    "@moon-cn/hutool": "^1.0.0-beta.37",
-    "antd": "^4.0.0",
-    "axios": "^1.6.7",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0",
-    "react-lazylog": "^4.5.3",
-    "umi": "^3.5.42"
+  "scripts" : {
+    "job-start" : "SET NODE_OPTIONS=--openssl-legacy-provider && umi dev",
+    "job-build" : "SET NODE_OPTIONS=--openssl-legacy-provider && umi build",
+    "use-aliyun-mirror-global" : "npm config set registry https://registry.npmmirror.com"
   },
-  "devDependencies": {
-    "@types/react": "^18.0.0",
-    "@types/react-dom": "^18.0.0",
-    "@umijs/preset-react": "1.x",
-    "@umijs/test": "^3.5.19",
-    "cross-env": "^7.0.3",
-    "lint-staged": "^10.0.7",
-    "prettier": "^2.2.0",
-    "typescript": "^4.1.2",
-    "yorkie": "^2.0.0"
+  "version" : "0.1.14",
+  "dependencies" : {
+    "@ant-design/icons" : "^4.0.0",
+    "@ant-design/pro-components" : "^1.0.0",
+    "@moon-cn/hutool" : "^1.0.0-beta.37",
+    "antd" : "^4.0.0",
+    "axios" : "^1.6.7",
+    "react" : "^18.0.0",
+    "react-dom" : "^18.0.0",
+    "react-lazylog" : "^4.5.3",
+    "umi" : "^3.5.42"
   }
 }

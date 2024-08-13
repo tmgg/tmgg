@@ -1,29 +1,29 @@
 {
-  "name": "@tmgg/tmgg-base",
-  "version": "0.1.13",
-  "description": "函数工具类",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/moon-cn/hutool.git"
+  "license" : "ISC",
+  "devDependencies" : {
+    "@vitest/coverage-v8" : "^1.6.0",
+    "rollup" : "^4.18.1",
+    "typescript" : "^5.4.5",
+    "vitest" : "^1.6.0",
+    "webpack" : "^5.91.0",
+    "webpack-cli" : "^5.1.4"
   },
-  "main": "src/index.js",
-  "scripts": {
-    "test": "vitest",
-    "coverage": "vitest run --coverage",
-    "build": "rollup -c",
-    "build-publish": "npm run build &&  npm publish --registry https://registry.npmjs.org"
+  "author" : "moon-cn",
+  "peerDependencies" : {
+    "axios" : "^1.6.8"
   },
-  "author": "moon-cn",
-  "license": "ISC",
-  "peerDependencies": {
-    "axios": "^1.6.8"
+  "name" : "@tmgg/tmgg-base",
+  "description" : "函数工具类",
+  "main" : "src/index.js",
+  "repository" : {
+    "type" : "git",
+    "url" : "https://github.com/moon-cn/hutool.git"
   },
-  "devDependencies": {
-    "@vitest/coverage-v8": "^1.6.0",
-    "rollup": "^4.18.1",
-    "typescript": "^5.4.5",
-    "vitest": "^1.6.0",
-    "webpack": "^5.91.0",
-    "webpack-cli": "^5.1.4"
-  }
+  "scripts" : {
+    "test" : "vitest",
+    "coverage" : "vitest run --coverage",
+    "build" : "rollup -c",
+    "build-publish" : "npm run build &&  npm publish --registry https://registry.npmjs.org"
+  },
+  "version" : "0.1.14"
 }
