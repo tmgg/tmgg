@@ -20,14 +20,9 @@ jobs:
 
       - name: publish to npm
         run: |
-          pwd
- 
           cd web-monorepo
-          pwd
           dir=$(pwd)
-          cd ~
-          pwd
-          cd $dir
+          cd $dir/packages/tmgg-base
           pwd
         #  npm publish -r --access public
         env:
