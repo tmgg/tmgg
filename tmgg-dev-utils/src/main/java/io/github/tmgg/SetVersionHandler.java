@@ -21,7 +21,7 @@ public class SetVersionHandler {
 
     public static void main(String[] args) throws IOException {
         SetVersionHandler sv = new SetVersionHandler(NEW_VERSION);
-        // sv.changeMaven();
+        sv.changeMaven();
         sv.changeNpm();
     }
 
