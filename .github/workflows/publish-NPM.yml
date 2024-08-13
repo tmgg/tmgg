@@ -21,10 +21,13 @@ jobs:
       - name: publish to npm
         run: |
           pwd
+ 
           cd web-monorepo
           pwd
+          dir=$(PWD)
           cd ~
           pwd
+          cd $dir
         #  npm publish -r --access public
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_ACCESS_TOKEN}}
