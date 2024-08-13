@@ -10,10 +10,9 @@
     </parent>
 
     <artifactId>tmgg-dev-utils</artifactId>
+    <description>框架开发相关的工具，非模块，请不要依赖该模块</description>
 
     <properties>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <!-- 不发布-->
@@ -25,7 +24,11 @@
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
             <version>2.16.1</version>
-            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+            <version>1.18.1</version>
         </dependency>
     </dependencies>
 
