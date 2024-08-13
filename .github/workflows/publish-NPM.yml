@@ -22,8 +22,14 @@ jobs:
         run: |
           cd web-monorepo
           dir=$(pwd)
+          
           cd $dir/packages/tmgg-base
-          pwd
+          npm publish
+          
+          cd $dir/apps/tmgg-system
+          npm publish
+          
+
         #  npm publish -r --access public
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_ACCESS_TOKEN}}
