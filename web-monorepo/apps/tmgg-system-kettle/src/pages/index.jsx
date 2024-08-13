@@ -7,6 +7,8 @@ import SysJob from "../components/SysJob";
 
 const Item = Descriptions.Item
 
+import '../init'
+
 export default class extends React.Component {
 
   state = {
