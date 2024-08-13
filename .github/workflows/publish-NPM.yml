@@ -22,6 +22,9 @@ jobs:
         run: |
           pwd
           cd web-monorepo
+          pwd
+          cd ~
+          pwd
         #  npm publish -r --access public
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_ACCESS_TOKEN}}
