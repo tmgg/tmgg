@@ -5,7 +5,7 @@
       "id": "ETL-KETTLE",
       "type": "MENU",
       "application": "system",
-      "name": "kettle",
+      "name": "ETL-KETTLE",
       "code": "kettle",
       "router": "/kettle/index.html",
       "iframe": true

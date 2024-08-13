@@ -24,9 +24,7 @@ public class SysMsgUser extends BaseEntity {
     @Column(nullable = false)
     private String userId;
 
-    /**
-     * 状态（字典 0未读 1已读）
-     */
+
     @Column
     private Boolean isRead;
 
@@ -34,4 +32,6 @@ public class SysMsgUser extends BaseEntity {
      * 阅读时间
      */
     private LocalDateTime readTime;
+
+
 }

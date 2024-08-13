@@ -1,8 +1,8 @@
-export function contains(arr, item) {
+function contains(arr, item) {
     return arr.indexOf(item) !== -1;
 }
 
-export function containsAny(arr, ...items) {
+function containsAny(arr, ...items) {
     for (let item of items) {
         if (arr.contains(item)) {
             return true
@@ -11,11 +11,11 @@ export function containsAny(arr, ...items) {
     return false;
 }
 
-export function add(arr, item) {
+function add(arr, item) {
     arr.push(item)
 }
 
-export function addAt(arr, index, item) {
+function addAt(arr, index, item) {
     arr.splice(index, 0, item);
 }
 
@@ -24,17 +24,17 @@ export function addAt(arr, index, item) {
  * @param index
  * @param item
  */
-export function addAll(arr, items) {
+ function addAll(arr, items) {
     for (let i = 0; i < items.length; i++) {
         arr.push(items[i])
     }
 }
 
-export function removeAt(arr, index) {
+ function removeAt(arr, index) {
     arr.splice(index, 1)
 }
 
-export function remove(arr, item) {
+ function remove(arr, item) {
     const index = arr.indexOf(item);
     if (index !== -1) {
         removeAt(arr, index)
@@ -44,7 +44,7 @@ export function remove(arr, item) {
 /**
  * 清空
  */
-export function clear(arr) {
+ function clear(arr) {
     arr.length = 0
 }
 
@@ -53,28 +53,30 @@ export function clear(arr) {
  * @param fromIndex  low endpoint (inclusive) of the subList toIndex
  * @param toIndex  high endpoint (exclusive) of the subList
  */
-export function sub(arr, fromIndex, toIndex) {
+ function sub(arr, fromIndex, toIndex) {
     return arr.slice(fromIndex, toIndex);
 }
 
-export function swap(arr, item1, item2) {
+ function swap(arr, item1, item2) {
     const index1 = arr.indexOf(item1);
     const index2 = arr.indexOf(item2);
 
     arr[index1] = item2;
     arr[index2] = item1;
 }
-export function insert(arr, index, item) {
+
+ function insert(arr, index, item) {
     arr.splice(index, 0, item);
 }
-export function pushIfNotExist(arr, item) {
+
+ function pushIfNotExist(arr, item) {
     const index = arr.indexOf(item);
     if (index == -1) {
         arr.push(item);
     }
 }
 
-export function pushAll(arr, newArr) {
+function pushAll(arr, newArr) {
     for (let i = 0; i < newArr.length; i++) {
         arr.push(newArr[i]);
     }
@@ -84,7 +86,7 @@ export function pushAll(arr, newArr) {
  * 获取对象数组中某一属性值最大的对象
  * @param arr
  */
-export function maxBy(arr, key){
+function maxBy(arr, key) {
     if (arr == null || arr.length === 0) {
         return undefined;
     }
@@ -108,6 +110,25 @@ export function maxBy(arr, key){
  * @param arr
  * @returns {any[]}
  */
-export function unique(arr) {
+function unique(arr) {
     return [...new Set(arr)]
+}
+
+export const arr = {
+    add,
+    addAt,
+    addAll,
+    remove,
+    removeAt,
+    clear,
+    contains,
+    unique,
+    maxBy,
+    pushAll,
+    containsAny,
+    sub,
+    swap,
+    insert,
+    pushIfNotExist,
+
 }

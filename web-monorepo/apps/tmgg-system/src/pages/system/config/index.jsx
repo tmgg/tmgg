@@ -42,14 +42,7 @@ export default class extends React.Component {
         return <FieldText/>
       }
     },
-    {
-      title: '备注',
-      dataIndex: 'remark',
-      valueType: 'textarea',
-      renderFormItem: () => {
-        return <FieldText/>
-      }
-    },
+
     {
       title: '参数值',
       dataIndex: 'value',
@@ -59,8 +52,19 @@ export default class extends React.Component {
       }
     },
 
-
-
+    {
+      title: '默认值',
+      dataIndex: 'defaultValue',
+      hideInForm:true
+    },
+    {
+      title: '备注',
+      dataIndex: 'remark',
+      valueType: 'textarea',
+      renderFormItem: () => {
+        return <FieldText/>
+      }
+    },
     {
       title: '操作',
       dataIndex: 'option',
@@ -107,7 +111,7 @@ export default class extends React.Component {
   render() {
     return <>
 
-      <Table dataSource={this.state.list} columns={this.columns} pagination={false} rowKey='id' />
+      <Table dataSource={this.state.list} columns={this.columns} pagination={false} rowKey='id' bordered />
 
       <Modal
         maskClosable={false}

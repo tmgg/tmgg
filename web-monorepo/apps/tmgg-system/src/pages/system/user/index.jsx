@@ -92,6 +92,10 @@ export default class extends React.Component {
       dataIndex: 'phone'
     },
     {
+      title: '邮箱',
+      dataIndex: 'email'
+    },
+    {
       title: '角色',
       dataIndex: 'roleIds',
       render: (roleNames, row) => {

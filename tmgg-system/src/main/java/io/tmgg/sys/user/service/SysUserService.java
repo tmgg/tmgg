@@ -204,6 +204,11 @@ public class SysUserService extends BaseService<SysUser> implements UserLabelQue
     }
 
 
+    /**
+     * 用户修改
+     * 该表比较敏感，所以采用手动设置字段的方式，防止前端恶意设置字段
+     * @param param
+     */
     @Transactional(rollbackFor = Exception.class)
     public void edit(SysUserParam param) {
         checkParam(param, true);
@@ -216,6 +221,7 @@ public class SysUserService extends BaseService<SysUser> implements UserLabelQue
         user.setPhone(param.getPhone());
         user.setOrgId(param.getOrgId());
         user.setDeptId(param.getDeptId());
+        user.setEmail(param.getEmail());
         this.save(user);
 
         // 角色

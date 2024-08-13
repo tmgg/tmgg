@@ -1,10 +1,12 @@
 package io.tmgg.job.quartz;
 
+import io.tmgg.sys.msg.IMessagePublishService;
 import io.tmgg.job.JobLoggerFactory;
 import io.tmgg.job.dao.SysJobDao;
 import io.tmgg.job.dao.SysJobLogDao;
 import io.tmgg.job.entity.SysJob;
 import io.tmgg.job.entity.SysJobLog;
+import org.apache.commons.io.IOUtils;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.quartz.JobListener;
@@ -13,6 +15,8 @@ import org.slf4j.MDC;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.Date;
 
 @Component
@@ -27,6 +31,8 @@ public class QuartzListener implements JobListener {
     @Resource
     private SysJobDao sysJobDao;
 
+    @Resource
+    private IMessagePublishService messagePublishService;
 
     @Override
     public String getName() {
@@ -68,8 +74,15 @@ public class QuartzListener implements JobListener {
         if (jobException != null) {
             result = jobException.getMessage();
             log.error("任务执行异常", jobException);
-        }
 
+            if(messagePublishService != null){
+                StringWriter out = new StringWriter();
+                PrintWriter pw = new PrintWriter(out);
+                jobException.printStackTrace(pw);
+                messagePublishService.publish("JOB-EXCEPTION", "定时任务执行异常", out.toString());
+                IOUtils.closeQuietly(out, pw);
+            }
+        }
 
 
         Date now = new Date();

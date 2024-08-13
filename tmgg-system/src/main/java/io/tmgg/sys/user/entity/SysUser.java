@@ -93,6 +93,9 @@ public class SysUser extends BaseEntity {
     private String phone;
 
 
+    @Column(length = 30)
+    private String email;
+
     /**
      * 最后登陆IP
      */

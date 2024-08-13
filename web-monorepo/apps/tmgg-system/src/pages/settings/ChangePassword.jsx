@@ -1,10 +1,10 @@
 import React from "react";
-import {Button, Card, Form, Input, message, Modal} from "antd";
+import {Button, Form, Input, Modal} from "antd";
 
 
 import {history} from 'umi'
-import {HttpClient, sys} from "../../../common";
 import hutool from "@moon-cn/hutool";
+import {sys} from "../../common";
 
 export default class extends React.Component {
 
@@ -31,9 +31,9 @@ export default class extends React.Component {
   }
 
   render() {
-    return <div style={{display:'flex', justifyContent:'center', marginTop: 100}}>
-    <Card title='修改密码' style={{width: 500}}>
-      <Form onFinish={this.onFinish} labelCol={{span: 5}}>
+    return <div>
+
+      <Form onFinish={this.onFinish} style={{maxWidth:400}}>
         <Form.Item name='password' label='原密码'
                    rules={[{required: true, message: '请输入原密码'}]}>
           <Input.Password type='password'></Input.Password>
@@ -45,7 +45,7 @@ export default class extends React.Component {
                      {
                        validator: (rule, value) => {
                          return new Promise((resolve, reject) => {
-                           hutool.http.get(sys.getServerUrl() + "/sysUser/pwdStrength", {password: value}).then(rs=>{
+                           hutool.http.get(sys.getServerUrl() + "/sysUser/pwdStrength", {password: value}).then(rs => {
                              if (!rs.success) {
                                reject(rs.message)
                              }
@@ -57,16 +57,15 @@ export default class extends React.Component {
                      }
                    ]}
         >
-          <Input.Password ></Input.Password>
+          <Input.Password></Input.Password>
         </Form.Item>
 
         <Form.Item wrapperCol={{offset: 5}} style={{marginTop: 40}}>
-          <Button type="primary" htmlType="submit" >
+          <Button type="primary" htmlType="submit">
             确定
           </Button>
         </Form.Item>
       </Form>
-    </Card>
 
     </div>
   }

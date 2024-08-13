@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Lob;
 
 /**
  * @author 姜涛
@@ -19,7 +20,8 @@ public class SysMsg extends BaseEntity {
     @Column(length = 50)
     private String title;
 
-    @Column(length = 500)
+
+    @Lob
     private String content;
 
 
@@ -29,6 +31,8 @@ public class SysMsg extends BaseEntity {
     @Column
     private String link;
 
+
+    private String topic;
 
 
 

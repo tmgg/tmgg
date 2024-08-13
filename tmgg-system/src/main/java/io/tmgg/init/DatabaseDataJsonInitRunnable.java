@@ -120,7 +120,7 @@ public class DatabaseDataJsonInitRunnable implements Runnable {
 
         Assert.state(!bean.isNew(), "实体数据必须包含ID：" + bean.getClass().getSimpleName());
 
-        String updatable = (String) beanMap.get(ATTR_UPDATE);
+        Boolean updatable = (Boolean) beanMap.get(ATTR_UPDATE);
 
 
         String findField = StringUtils.trimToNull((String) beanMap.get(ATTR_PK));
@@ -134,7 +134,7 @@ public class DatabaseDataJsonInitRunnable implements Runnable {
             old = dao.findOneByField(findField, findValue);
         }
 
-        if (old == null || StrUtil.isEmpty(updatable) || "true".equals(updatable)) {
+        if (old == null || updatable == null || updatable) {
             dao.save(bean);
         }
 

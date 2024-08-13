@@ -87,4 +87,6 @@ public class SysUserParam  {
 
 
     private List<String> roleIds;
+
+    private String email;
 }

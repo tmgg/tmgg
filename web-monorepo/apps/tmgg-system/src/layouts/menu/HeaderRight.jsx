@@ -4,7 +4,7 @@ import HeaderRightMsgCard from "./HeaderRightMsgCard";
 import React from "react";
 import {theme} from "../../config";
 import {history} from "umi";
-import {HttpClient, sys, SysConfig} from "../../common";
+import {HttpClient, PageTool, sys, SysConfig} from "../../common";
 import ReactMarkdown from "react-markdown";
 
 
@@ -43,7 +43,7 @@ export default class HeaderRight extends React.Component {
   }
 
   account = () => {
-    history.push("/system/userCenter/changePassword")
+    PageTool.open('个人设置','/settings')
   }
 
   render() {
@@ -85,7 +85,7 @@ export default class HeaderRight extends React.Component {
         <li>
           <Dropdown overlay={<Menu>
             <Menu.Item>
-              <a onClick={this.account}>修改密码</a>
+              <a onClick={this.account}>个人设置</a>
             </Menu.Item>
             <Menu.Item>
               <a onClick={this.logout}>退出登录</a>

@@ -73,9 +73,7 @@
     color: @menu-text-color !important;
   }
 
-  ant-menu-title-content {
 
-  }
   .ant-menu-submenu-title:hover {
     background: @primary-color-hover !important;
     color: @menu-text-color !important;
@@ -83,10 +81,21 @@
 }
 
 
-.menu-layout-tab > .ant-tabs-nav {
 
-
-
+// 内容
+.ant-layout-content {
+  padding: 0 !important;
 }
 
+.menu-layout-tab > .ant-tabs-nav {
+
+  // 标签页按钮太大
+  .ant-tabs-tab {
+    padding: 2px 8px !important;
+  }
+}
+.menu-layout-tab > .ant-tabs-content-holder {
+    background: #F5F5F5 !important;
+    min-height: calc(100vh - 100px);
+}
 

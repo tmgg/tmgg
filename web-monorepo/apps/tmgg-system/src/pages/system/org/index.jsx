@@ -112,7 +112,7 @@ export default class extends React.Component {
   }
   render() {
     let disabled = this.state.formValues == null;
-    return <>
+    return <div>
       <Row gutter={16} wrap={false}>
         <Col flex='400px'>
           <Card title='组织机构' loading={this.state.treeLoading}
@@ -247,7 +247,7 @@ export default class extends React.Component {
       </Row>
 
 
-    </>
+    </div>
   }
 
 

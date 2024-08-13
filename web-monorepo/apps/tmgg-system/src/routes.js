@@ -107,9 +107,9 @@ export function getRoutes() {
       "component": require('./pages/system/user/UserOrgForm.jsx').default
     },
     {
-      "path": "/system/userCenter/changePassword",
+      "path": "/settings",
       "exact": true,
-      "component": require('./pages/system/userCenter/changePassword.jsx').default
+      "component": require('./pages/settings/index.jsx').default
     },
     {
       "path": "/system/watermark",

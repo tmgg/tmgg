@@ -17,6 +17,12 @@
             <artifactId>tmgg-base</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-extra</artifactId>
+            <version>5.8.28</version>
+        </dependency>
+
 
 
         <!--验证码-->
