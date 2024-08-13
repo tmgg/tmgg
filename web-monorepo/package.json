@@ -7,5 +7,5 @@
     "job:test" : "pnpm -F @tmgg/tmgg-system-job run test",
     "kettle:start" : "pnpm -F @tmgg/tmgg-system-kettle run start "
   },
-  "version" : "0.1.14"
+  "version" : "0.1.15"
 }

@@ -16,7 +16,7 @@
     "kettle-build" : "SET NODE_OPTIONS=--openssl-legacy-provider && umi build",
     "use-aliyun-mirror-global" : "npm config set registry https://registry.npmmirror.com"
   },
-  "version" : "0.1.14",
+  "version" : "0.1.15",
   "dependencies" : {
     "@ant-design/icons" : "^4.0.0",
     "@ant-design/pro-components" : "^1.0.0",
@@ -26,6 +26,6 @@
     "react-dom" : "^18.0.0",
     "react-lazylog" : "^4.5.3",
     "umi" : "^3.5.42",
-    "@tmgg/tmgg-base" : "0.1.14"
+    "@tmgg/tmgg-base" : "0.1.15"
   }
 }
