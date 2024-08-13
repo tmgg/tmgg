@@ -1,0 +1,9 @@
+{
+  "SysMsgTopic": [
+    {
+      "id": "KETTLE-EXCEPTION",
+      "code": "KETTLE-EXCEPTION",
+      "description": "KETTLE异常"
+    }
+  ]
+}

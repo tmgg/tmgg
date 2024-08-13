@@ -45,6 +45,11 @@ export default class extends React.Component {
 
           <Tabs items={[
             {
+              label: '监控',
+              key: 'job_monitor',
+              children: <JobList/>,
+            },
+            {
               label: '文件',
               key: 'file',
               children: <KettleFile/>,
@@ -54,11 +59,7 @@ export default class extends React.Component {
               key: 'job_scheduling',
               children: <SysJob />,
             },
-            {
-              label: '监控',
-              key: 'job_monitor',
-              children: <JobList/>,
-            }
+
           ]}
                 destroyInactiveTabPane
           >
