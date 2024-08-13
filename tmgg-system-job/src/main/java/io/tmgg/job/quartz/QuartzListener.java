@@ -1,11 +1,11 @@
 package io.tmgg.job.quartz;
 
-import io.tmgg.sys.msg.IMessagePublishService;
 import io.tmgg.job.JobLoggerFactory;
 import io.tmgg.job.dao.SysJobDao;
 import io.tmgg.job.dao.SysJobLogDao;
 import io.tmgg.job.entity.SysJob;
 import io.tmgg.job.entity.SysJobLog;
+import io.tmgg.sys.msg.IMessagePublishService;
 import org.apache.commons.io.IOUtils;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
@@ -75,11 +75,25 @@ public class QuartzListener implements JobListener {
             result = jobException.getMessage();
             log.error("任务执行异常", jobException);
 
-            if(messagePublishService != null){
+            if (messagePublishService != null) {
                 StringWriter out = new StringWriter();
+                out.write("任务key：" + context.getJobDetail().getKey());
+                out.write("\r\n");
+                out.write("任务名称:" + jobName);
+                out.write("\r\n");
+                out.write("任务类名:" + context.getJobDetail().getJobClass().getName());
+                out.write("\r\n");
+
+                out.write("任务触发时间：" + context.getFireTime());
+                out.write("\r\n");
+
+                out.write("异常：" + jobException.getMessage());
+                out.write("\r\n");
+                out.write("\r\n");
+
                 PrintWriter pw = new PrintWriter(out);
                 jobException.printStackTrace(pw);
-                messagePublishService.publish("JOB-EXCEPTION", "定时任务执行异常", out.toString());
+                messagePublishService.publish("JOB-EXCEPTION", "定时任务执行异常:" + jobName, out.toString());
                 IOUtils.closeQuietly(out, pw);
             }
         }
