@@ -77,6 +77,11 @@
                 <artifactId>tmgg-system-kettle</artifactId>
                 <version>${tmgg.version}</version>
             </dependency>
+            <dependency>
+                <groupId>io.github.tmgg</groupId>
+                <artifactId>tmgg-system-ureport</artifactId>
+                <version>${tmgg.version}</version>
+            </dependency>
         </dependencies>
 
     </dependencyManagement>
