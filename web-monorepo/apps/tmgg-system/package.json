@@ -14,7 +14,7 @@
     "@ant-design/icons" : "^4.0.0",
     "@ant-design/pro-components" : "^1.0.0",
     "@moon-cn/hutool" : "^1.0.0",
-    "@tmgg/tmgg-base" : "0.1.15",
+    "@tmgg/tmgg-base" : "0.1.16",
     "@tinymce/tinymce-react" : "^5.0.0",
     "antd" : "^4.0.0",
     "antd-img-crop" : "^4.12.2",
@@ -33,5 +33,5 @@
   "scripts" : {
     "system:start" : "SET NODE_OPTIONS=--openssl-legacy-provider && umi dev"
   },
-  "version" : "0.1.15"
+  "version" : "0.1.16"
 }

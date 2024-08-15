@@ -16,7 +16,7 @@
     "job-build" : "SET NODE_OPTIONS=--openssl-legacy-provider && umi build",
     "use-aliyun-mirror-global" : "npm config set registry https://registry.npmmirror.com"
   },
-  "version" : "0.1.15",
+  "version" : "0.1.16",
   "dependencies" : {
     "@ant-design/icons" : "^4.0.0",
     "@ant-design/pro-components" : "^1.0.0",
