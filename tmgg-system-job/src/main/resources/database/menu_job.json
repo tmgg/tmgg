@@ -1,29 +1,16 @@
 {
   "SysMenu": [
-    {
-      "id": "job_mgr",
-      "application": "system",
-      "type": "DIR"
-    },
+
     {
       "id": "job",
-      "pid": "job_mgr",
       "type": "MENU",
       "application": "system",
       "name": "任务管理",
       "code": "job",
       "router": "/job/index.html",
-      "iframe": true
+      "iframe": true,
+      "seq": 101
     },
-    {
-      "id": "jobLog",
-      "pid": "job_mgr",
-      "type": "MENU",
-      "application": "system",
-      "name": "调度日志",
-      "code": "jobLog",
-      "router": "/job/log.html",
-      "iframe": true
-    }
+
   ]
 }

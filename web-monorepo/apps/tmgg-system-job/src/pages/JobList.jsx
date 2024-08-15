@@ -2,8 +2,8 @@ import {AutoComplete, Button, Form, Input, message, Modal, Popconfirm, Select, S
 import React from 'react'
 import {MinusCircleOutlined, PlusOutlined} from "@ant-design/icons";
 import StreamLog from "../components/StreamLog";
-import {ProTable} from "@ant-design/pro-components";
-import hutool from "@moon-cn/hutool";
+import {ProTable} from "@ant-design/pro-table";
+import {http} from "@tmgg/tmgg-base";
 
 
 const cronOptions = [
@@ -34,7 +34,7 @@ export default class extends React.Component {
   }
 
   componentDidMount() {
-    hutool.http.get('job/jobClassOptions').then(rs => {
+    http.get('job/jobClassOptions').then(rs => {
       this.setState({jobClassOptions: rs.data})
     })
   }
@@ -130,7 +130,7 @@ export default class extends React.Component {
 
 
   onFinish = (values) => {
-    hutool.http.post('job/save', values).then(rs => {
+    http.post('job/save', values).then(rs => {
       this.setState({formOpen: false})
       this.tableRef.current.reload();
       message.success(rs.message)
@@ -141,13 +141,13 @@ export default class extends React.Component {
 
   handleDelete = row => {
     const hide = message.loading("删除任务中...")
-    hutool.http.get('job/delete', {id: row.id}).then(rs => {
+    http.get('job/delete', {id: row.id}).then(rs => {
       message.success(rs.message)
       this.tableRef.current.reload();
     }).catch(hide)
   }
   handleTriggerJob = row => {
-    hutool.http.get('job/triggerJob', {id: row.id}).then(rs => {
+     http.get('job/triggerJob', {id: row.id}).then(rs => {
       message.success(rs.message)
       this.tableRef.current.reload();
     })
@@ -164,7 +164,7 @@ export default class extends React.Component {
           </Button>
         }}
         request={(params, sort) => {
-          return hutool.http.requestAntdSpringPageData('job/page', params, sort).then(rs => {
+          return http.requestPageData('job/page', params, sort).then(rs => {
             return rs;
           });
         }}

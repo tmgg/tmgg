@@ -1,8 +1,8 @@
 import {Button, InputNumber, Modal} from 'antd'
 import React from 'react'
-import {ProTable} from '@ant-design/pro-components'
+import {ProTable} from '@ant-design/pro-table'
 import StreamLog from "../components/StreamLog";
-import hutool from "@moon-cn/hutool";
+import {http} from "@tmgg/tmgg-base";
 
 
 
@@ -92,7 +92,7 @@ export default class extends React.Component {
         </>}
         actionRef={this.tableRef}
         request={(params, sort) => {
-          return hutool.http.requestAntdSpringPageData('job/jobLog', params, sort, 'POST');
+          return http.requestPageData('job/jobLog', params, sort, 'POST');
         }}
         columns={this.columns}
         rowSelection={false}
