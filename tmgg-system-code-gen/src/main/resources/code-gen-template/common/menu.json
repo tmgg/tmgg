@@ -1,0 +1,14 @@
+{
+  "SysMenu": [
+    {
+      "id": "${firstLowerName}",
+      "name": "${label}",
+      "code": "${firstLowerName}",
+      "router": "/${module}/${firstLowerName}",
+      "type": "MENU",
+      "application": "biz",
+      "status": "ENABLE",
+      "visible": "Y"
+    }
+  ]
+}

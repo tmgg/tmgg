@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<root>
+    <SysMenu>
+        <application>system</application>
+        <id>code_mgr</id>
+        <name>开发管理</name>
+        <type>DIR</type>
+        <status>ENABLE</status>
+        <seq>900</seq>
+    </SysMenu>
+
+
+
+    <SysMenu>
+        <application>system</application>
+        <id>sys_code_gen</id>
+        <name>代码生成</name>
+        <code>sys_code_gen</code>
+        <router>/code/index.html</router>
+        <pid>code_mgr</pid>
+        <type>MENU</type>
+        <status>ENABLE</status>
+        <visible>Y</visible>
+        <seq>2</seq>
+        <iframe>true</iframe>
+    </SysMenu>
+
+
+
+</root>

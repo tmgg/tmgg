@@ -1,0 +1,149 @@
+import {PlusOutlined} from '@ant-design/icons'
+import {Button, Card,InputNumber, Popconfirm,Modal,Form,Input,message} from 'antd'
+import React from 'react'
+import {ProTable} from '@ant-design/pro-components'
+
+import {ButtonList,FieldDictSelect,FieldRadioBoolean,HttpClient, PageContent} from "crec-web";
+
+
+
+export default class extends React.Component {
+
+  state = {
+    formValues: {},
+    formOpen: false
+  }
+
+  formRef = React.createRef()
+  tableRef = React.createRef()
+
+  columns = [
+    <#list fieldInfoList as f>
+
+    {
+      title: '${f.title}',
+      dataIndex: '${f.name}',
+    <#if (f.hideInSearch)>
+      hideInSearch: true,
+    </#if>
+    <#if (f.hideInForm)>
+        hideInForm: true,
+    </#if>
+    <#if (f.hideInTable)>
+        hideInTable: true,
+    </#if>
+    <#if (f.dict)>
+      valueType: 'dictSelect',
+      params: '${f.dictTypeCode}'
+    </#if>
+
+    <#if (f.type == 'java.lang.Boolean')>
+       valueType: 'boolean',
+    </#if>
+    <#if (f.type == 'java.lang.Float')>
+       valueType: 'digit',
+    </#if>
+    <#if (f.type == 'java.lang.Integer')>
+       valueType: 'digit',
+    </#if>
+
+    },
+    </#list>
+
+    {
+      title: '操作',
+      dataIndex: 'option',
+      valueType: 'option',
+      render: (_, record) => (
+          <ButtonList>
+            <a perm='${firstLowerName}:save' onClick={() => this.handleEdit(record)}> 修改 </a>
+            <Popconfirm perm='${firstLowerName}:delete' title='是否确定删除${label}'  onConfirm={() => this.handleDelete(record)}>
+              <a>删除</a>
+            </Popconfirm>
+          </ButtonList>
+      ),
+    },
+  ]
+
+  handleAdd = ()=>{
+    this.setState({formOpen: true, formValues: {}})
+  }
+
+  handleEdit = record=>{
+      this.setState({formOpen: true, formValues: record})
+  }
+
+
+  onFinish = values => {
+    HttpClient.post( '${firstLowerName}/save', values).then(rs => {
+      message.success(rs.message)
+      this.setState({formOpen: false})
+      this.tableRef.current.reload()
+    })
+  }
+
+
+
+  handleDelete = row => {
+    HttpClient.post( '${firstLowerName}/delete', row).then(rs => {
+      this.tableRef.current.reload()
+    })
+  }
+
+  render() {
+    return <PageContent bgGray>
+      <ProTable
+          actionRef={this.tableRef}
+          toolBarRender={() => {
+            return <ButtonList>
+              <Button perm='${firstLowerName}:save' type='primary' onClick={this.handleAdd}>
+                <PlusOutlined/> 新增
+              </Button>
+            </ButtonList>
+          }}
+          request={(params, sort) => HttpClient.getPageableData('${firstLowerName}/page', params, sort)}
+          columns={this.columns}
+          rowSelection={false}
+          rowKey='id'
+          columnEmptyText={false}
+          bordered
+      />
+
+  <Modal title='${label}'
+    open={this.state.formOpen}
+    onOk={() => this.formRef.current.submit()}
+    onCancel={() => this.setState({formOpen: false})}
+    destroyOnClose
+    >
+
+    <Form ref={this.formRef} labelCol={{flex: '100px'}}
+        initialValues={this.state.formValues}
+        onFinish={this.onFinish} >
+        <Form.Item  name='id' noStyle></Form.Item>
+
+        <#list fieldInfoList as f>
+         <#if (!f.hideInForm)>
+              <Form.Item label='${f.title}' name='${f.name}' rules={[{required: true}]}>
+               <#if (f.dict)>
+                 <FieldDictSelect typeCode="${f.dictTypeCode}" />
+                <#elseif (f.type == 'java.lang.Boolean')>
+                   <FieldRadioBoolean />
+                <#elseif (f.type == 'java.lang.Float' || f.type == 'java.lang.Integer')>
+                    <InputNumber />
+                <#else>
+                    <Input/>
+                </#if>
+              </Form.Item>
+         </#if>
+         </#list>
+
+    </Form>
+  </Modal>
+</PageContent>
+
+
+  }
+}
+
+
+
