@@ -69,7 +69,9 @@ export default class extends React.Component {
             return http.requestPageData('code/entity/page', params, sort).catch(err => alert("错误" + err));
           }}
           columns={this.columns}
-          rowSelection={{}}
+          rowSelection={{
+            alwaysShowAlert:true
+          }}
           rowKey='id'
           search={false}
 
