@@ -1,0 +1,14 @@
+{
+  "SysMenu": [
+    {
+      "application": "system",
+      "id": "weapp",
+      "name": "微信小程序",
+      "type": "MENU",
+      "code": "weapp",
+      "iframe": true,
+      "router": "/weapp/index.html",
+      "seq": 100
+    }
+  ]
+}
