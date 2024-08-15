@@ -64,11 +64,16 @@ export default class extends React.Component {
 
   onFinish = (values) => {
     http.post('weapp/save', values).then(rs => {
-      this.setState({formOpen: false})
-      this.tableRef.current.reload();
-      message.success(rs.message)
+      if(rs.success){
+        this.setState({formOpen: false})
+        this.tableRef.current.reload();
+        message.success(rs.message)
+      }else {
+        Modal.error({title:'操作异常',content:rs.message})
+      }
+
     }).catch(err => {
-      alert(err)
+      Modal.error({title:'操作异常',content:err})
     })
   }
 
@@ -106,10 +111,11 @@ export default class extends React.Component {
              onCancel={() => this.setState({formOpen: false})}
       >
 
-        <Form ref={this.formRef} labelCol={{flex: '150px'}}
+        <Form ref={this.formRef}
+              layout='vertical'
               initialValues={this.state.formValues}
-
               onFinish={this.onFinish}>
+
           <Form.Item name='id' noStyle>
           </Form.Item>
           <Form.Item label='应用Id' name='appId' rules={[{required: true}]}>
