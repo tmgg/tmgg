@@ -1,10 +1,10 @@
 package io.tmgg.report.controller;
 
-import cn.crec.lang.SpringTool;
-import cn.crec.lang.obj.AjaxResult;
-import cn.crec.web.token.TokenManger;
 import com.bstek.ureport.provider.report.ReportFile;
 import com.bstek.ureport.provider.report.ReportProvider;
+import io.tmgg.lang.SpringTool;
+import io.tmgg.lang.obj.AjaxResult;
+import io.tmgg.web.token.TokenManger;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.web.bind.annotation.GetMapping;
