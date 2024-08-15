@@ -15,4 +15,16 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
+    <dependencies>
+        <dependency>
+            <groupId>io.github.tmgg</groupId>
+            <artifactId>tmgg-system</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.github.tmgg</groupId>
+            <artifactId>ureport-console</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+    </dependencies>
 </project>
