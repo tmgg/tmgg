@@ -192,7 +192,7 @@ function postForm(url, data) {
  * @param sort
  * @returns {Promise<unknown>}
  */
-function requestAntdSpringPageData(url, params, sort, method = 'GET') {
+function requestPageData(url, params, sort, method = 'GET') {
     params.pageNumber = params.current;
     delete params.current
     if (sort) {
@@ -290,7 +290,7 @@ export const http = {
     setGlobalHeader,
     addErrorInterceptor,
     downloadFile,
-    requestAntdSpringPageData,
+    requestPageData,
     postForm,
     post,
     get,

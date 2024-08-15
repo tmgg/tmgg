@@ -1,7 +1,7 @@
 import {Button, Form, message, Modal, Radio} from 'antd'
 import React from 'react'
-import {ProTable} from '@ant-design/pro-components'
-import HttpClient from "../HttpClient";
+import {http} from "@tmgg/tmgg-base";
+import {ProTable} from "@ant-design/pro-table";
 
 
 export default class extends React.Component {
@@ -45,7 +45,7 @@ export default class extends React.Component {
 
   onFinish = (values) => {
     values.ids = this.state.selectedRowKeys
-    HttpClient.post('code/gen', values).then(rs => {
+    http.post('code/gen', values).then(rs => {
       this.setState({formOpen: false})
       message.success(rs.message)
     }).catch(err => {
@@ -57,28 +57,28 @@ export default class extends React.Component {
   render() {
     return <>
       <ProTable
-        actionRef={this.tableRef}
-        toolBarRender={(action, {selectedRowKeys}) => {
-          return <>
-            <Button type='primary' onClick={() => this.handleGen(selectedRowKeys)}>
-              生成代码
-            </Button>
-          </>
-        }}
-        request={(params, sort) => {
-          return HttpClient.getPageableData('code/entity/page', params, sort).catch(err => alert("错误" + err));
-        }}
-        columns={this.columns}
-        rowSelection={{}}
-        rowKey='id'
-        search={false}
+          actionRef={this.tableRef}
+          toolBarRender={(action, {selectedRowKeys}) => {
+            return <>
+              <Button type='primary' onClick={() => this.handleGen(selectedRowKeys)}>
+                生成代码
+              </Button>
+            </>
+          }}
+          request={(params, sort) => {
+            return http.requestPageData('code/entity/page', params, sort).catch(err => alert("错误" + err));
+          }}
+          columns={this.columns}
+          rowSelection={{}}
+          rowKey='id'
+          search={false}
 
       />
 
 
       <Modal title='代码生成' open={this.state.formOpen} onOk={() => this.formRef.current.submit()}
              onCancel={() => this.setState({formOpen: false})}
-              destroyOnClose={true}
+             destroyOnClose={true}
       >
 
         <Form ref={this.formRef} labelCol={{flex: '100px'}} onFinish={this.onFinish}>
