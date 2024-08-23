@@ -64,7 +64,7 @@ public class DatabaseDataJsonInitRunnable implements Runnable {
                 log.info("解析文件 {}", resource.getFilename());
                 try (InputStream is = resource.getInputStream()) {
                     String json = IoUtil.readUtf8(is);
-                    Map<String, Object> map = JsonTool.jsonToMapQuietly(json);
+                    Map<String, Object> map = JsonTool.jsonToMap(json);
 
                     for (Map.Entry<String, Object> e : map.entrySet()) {
                         String className = e.getKey();
