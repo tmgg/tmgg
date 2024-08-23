@@ -5,9 +5,8 @@ import io.tmgg.flowable.entity.ConditionVariable;
 import io.tmgg.flowable.entity.FlowModel;
 import io.tmgg.flowable.service.MyFlowModelService;
 import io.tmgg.flowable.service.MyTaskService;
-import cn.moon.lang.DateFormatTool;
-import cn.moon.lang.web.Page;
-import cn.moon.lang.web.Pageable;
+
+import io.tmgg.lang.DateFormatTool;
 import lombok.Getter;
 import org.flowable.engine.HistoryService;
 import org.flowable.engine.ProcessEngine;
@@ -21,6 +20,9 @@ import org.flowable.task.api.TaskInfo;
 import org.flowable.task.api.TaskQuery;
 import org.flowable.task.api.history.HistoricTaskInstance;
 import org.flowable.task.api.history.HistoricTaskInstanceQuery;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
@@ -149,7 +151,7 @@ public class FlowableManager {
             return taskVo;
         }).collect(Collectors.toList());
 
-        return new Page<>(infoList, pageable, count);
+        return new PageImpl<>(infoList, pageable, count);
     }
 
     public long taskTodoCount() {
@@ -190,7 +192,7 @@ public class FlowableManager {
             return taskVo;
         }).collect(Collectors.toList());
 
-        return new Page<>(infoList, pageable, count);
+        return new PageImpl<>(infoList, pageable, count);
     }
 
 

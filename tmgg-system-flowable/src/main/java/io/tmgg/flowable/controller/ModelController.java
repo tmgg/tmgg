@@ -6,13 +6,14 @@ import io.tmgg.flowable.assignment.Identity;
 import io.tmgg.flowable.entity.ConditionVariable;
 import io.tmgg.flowable.entity.FlowModel;
 import io.tmgg.flowable.service.MyFlowModelService;
-import cn.moon.lang.web.Option;
-import cn.moon.lang.web.Pageable;
-import cn.moon.lang.web.Result;
-import cn.moon.lang.web.SpringTool;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
+import io.tmgg.lang.SpringTool;
+import io.tmgg.lang.obj.AjaxResult;
+import io.tmgg.lang.obj.Option;
 import org.apache.commons.lang3.StringUtils;
 import org.flowable.engine.delegate.JavaDelegate;
+import org.springframework.data.domain.Pageable;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,42 +36,42 @@ public class ModelController {
 
 
     @GetMapping("page")
-    public Result page(String keyword, Pageable pageable) {
-        return Result.ok().data(service.findAll(keyword, pageable));
+    public AjaxResult page(String keyword, Pageable pageable) {
+        return AjaxResult.ok().data(service.findAll(keyword, pageable));
     }
 
 
     @GetMapping("delete")
-    public Result delete(@RequestParam String id) throws SQLException {
+    public AjaxResult delete(@RequestParam String id) throws SQLException {
         service.deleteById(id);
-        return Result.ok();
+        return AjaxResult.ok();
     }
 
     @PostMapping("save")
-    public Result save(@RequestBody FlowModel param) throws InvocationTargetException, IllegalAccessException, JsonProcessingException {
+    public AjaxResult save(@RequestBody FlowModel param) throws InvocationTargetException, IllegalAccessException, JsonProcessingException {
         service.save(param);
-        return Result.ok();
+        return AjaxResult.ok();
     }
 
     @PostMapping("saveContent")
-    public Result saveContent(@RequestBody FlowModel param) throws InvocationTargetException, IllegalAccessException, JsonProcessingException {
+    public AjaxResult saveContent(@RequestBody FlowModel param) throws InvocationTargetException, IllegalAccessException, JsonProcessingException {
         FlowModel save = service.saveContent(param);
-        return Result.ok().data(save);
+        return AjaxResult.ok().data(save);
     }
 
 
     @PostMapping("deploy")
-    public Result deploy(@RequestBody FlowModel param) throws InvocationTargetException, IllegalAccessException, JsonProcessingException {
+    public AjaxResult deploy(@RequestBody FlowModel param) throws InvocationTargetException, IllegalAccessException, JsonProcessingException {
         FlowModel flowModel = service.saveContent(param);
 
         service.deploy(flowModel.getCode(), flowModel.getName(), flowModel.getContent());
 
-        return Result.ok().msg("部署成功");
+        return AjaxResult.ok().msg("部署成功");
     }
 
 
     @GetMapping("detail")
-    public Result detail(String id) {
+    public AjaxResult detail(String id) {
         FlowModel model = service.findOne(id);
         if (StringUtils.isBlank(model.getContent())) {
             String xml = service.createDefaultModel(model.getCode(), model.getName());
@@ -85,7 +86,7 @@ public class ModelController {
         data.put("conditionVariable", conditionVariable);
 
 
-        Result result = Result.ok().data(data);
+        AjaxResult result = AjaxResult.ok().data(data);
 
 
         return result;
@@ -93,18 +94,18 @@ public class ModelController {
 
 
     @GetMapping("assignmentTypeList")
-    public Result assignmentTypeList() {
+    public AjaxResult assignmentTypeList() {
         Map<String, AssignmentTypeProvider> beans = SpringTool.getBeansOfType(AssignmentTypeProvider.class);
 
         Collection<AssignmentTypeProvider> values = beans.values().stream().sorted(Comparator.comparing(AssignmentTypeProvider::getOrder)).collect(Collectors.toList());
 
-        return Result.ok().data(values);
+        return AjaxResult.ok().data(values);
     }
 
     @GetMapping("assignmentObjectTree")
-    public Result assignmentObjectTree(String code) {
+    public AjaxResult assignmentObjectTree(String code) {
         if (StringUtils.isEmpty(code) || code.equals("undefined")) {
-            return Result.err().msg("请输入code");
+            return AjaxResult.err().msg("请输入code");
         }
         Map<String, AssignmentTypeProvider> providerMap = SpringTool.getBeansOfType(AssignmentTypeProvider.class);
 
@@ -120,16 +121,16 @@ public class ModelController {
         Collection<Identity> identityList = handler.findAll();
 
 
-        return Result.ok().data(identityList);
+        return AjaxResult.ok().data(identityList);
     }
 
     @GetMapping("javaDelegateOptions")
-    public Result javaDelegateOptions() {
+    public AjaxResult javaDelegateOptions() {
         Collection<JavaDelegate> beans = SpringTool.getBeans(JavaDelegate.class);
 
         List<Option> options = Option.convertList(beans, b -> b.getClass().getName(), b -> b.getClass().getSimpleName() + " (" + b.getClass().getName() + ")");
 
-        return Result.ok().data(options);
+        return AjaxResult.ok().data(options);
     }
 
 

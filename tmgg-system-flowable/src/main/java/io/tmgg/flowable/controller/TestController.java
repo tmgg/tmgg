@@ -3,7 +3,8 @@ package io.tmgg.flowable.controller;
 import io.tmgg.flowable.FlowableManager;
 import io.tmgg.flowable.entity.FlowModel;
 import io.tmgg.flowable.service.MyFlowModelService;
-import cn.moon.lang.web.Result;
+
+import io.tmgg.lang.obj.AjaxResult;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,20 +23,20 @@ public class TestController {
 
 
     @GetMapping("get")
-    public Result get(String id) {
+    public AjaxResult get(String id) {
         Assert.hasText(id, "id不能为空");
         FlowModel model = myFlowModelService.findOne(id);
-        return Result.ok().data(model);
+        return AjaxResult.ok().data(model);
     }
 
     @PostMapping("submit")
-    public Result submit(@RequestBody Map<String,Object> params) {
+    public AjaxResult submit(@RequestBody Map<String,Object> params) {
         String bizKey = (String) params.get("id");
         String modelCode = (String) params.get("modelCode");
 
         fm.start(modelCode,bizKey, params);
 
-        return Result.ok();
+        return AjaxResult.ok();
     }
 
 }

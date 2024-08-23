@@ -12,12 +12,11 @@ import io.tmgg.flowable.FlowableLoginUserProvider;
 import io.tmgg.flowable.FlowableMasterDataProvider;
 import io.tmgg.flowable.service.MyFlowModelService;
 import io.tmgg.flowable.service.MyTaskService;
-import cn.moon.lang.BeanTool;
-import cn.moon.lang.DateFormatTool;
-import cn.moon.lang.ImgTool;
-import cn.moon.lang.web.Page;
-import cn.moon.lang.web.Pageable;
-import cn.moon.lang.web.Result;
+
+import io.tmgg.lang.BeanTool;
+import io.tmgg.lang.DateFormatTool;
+import io.tmgg.lang.ImgTool;
+import io.tmgg.lang.obj.AjaxResult;
 import org.apache.commons.lang3.StringUtils;
 import org.flowable.engine.HistoryService;
 import org.flowable.engine.RuntimeService;
@@ -25,6 +24,9 @@ import org.flowable.engine.TaskService;
 import org.flowable.engine.history.HistoricProcessInstance;
 import org.flowable.engine.history.HistoricProcessInstanceQuery;
 import org.flowable.engine.task.Comment;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
@@ -68,21 +70,21 @@ public class UserSideController {
     FlowableManager fm;
 
     @GetMapping("todoTaskPage")
-    public Result todo(Pageable pageable) {
+    public AjaxResult todo(Pageable pageable) {
         Page<TaskVo> page = fm.taskTodoList(pageable);
-        return Result.ok().data(page);
+        return AjaxResult.ok().data(page);
     }
 
     @GetMapping("doneTaskPage")
-    public Result doneTaskPage(Pageable pageable) {
+    public AjaxResult doneTaskPage(Pageable pageable) {
         Page<TaskVo> page = fm.taskDoneList(pageable);
-        return Result.ok().data(page);
+        return AjaxResult.ok().data(page);
     }
 
 
     // 我发起的
     @GetMapping("myInstance")
-    public Result myInstance(Pageable pageable) {
+    public AjaxResult myInstance(Pageable pageable) {
         FlowableLoginUser loginUser = flowableLoginUserProvider.currentLoginUser();
 
 
@@ -110,15 +112,15 @@ public class UserSideController {
         }
 
 
-        return Result.ok().data(new Page<>(mapList, pageable, count));
+        return AjaxResult.ok().data(new PageImpl<>(mapList, pageable, count));
     }
 
 
     @PostMapping("handleTask")
-    public Result handle(@RequestBody HandleTaskParam param) {
+    public AjaxResult handle(@RequestBody HandleTaskParam param) {
         FlowableLoginUser subject = flowableLoginUserProvider.currentLoginUser();
         myTaskService.handle(subject.getId(), param.getResult(), param.getTaskId(), param.getComment());
-        return Result.ok();
+        return AjaxResult.ok();
     }
 
 
@@ -128,7 +130,7 @@ public class UserSideController {
      * @return 处理流程及流程图
      */
     @GetMapping("getInstanceInfo")
-    public Result instanceByBusinessKey(String businessKey, String id) throws IOException {
+    public AjaxResult instanceByBusinessKey(String businessKey, String id) throws IOException {
         Assert.state(businessKey != null || id != null, "id或businessKey不能同时为空");
         HistoricProcessInstanceQuery query = historyService.createHistoricProcessInstanceQuery();
         if (businessKey != null) {
@@ -214,7 +216,7 @@ public class UserSideController {
         }
 
 
-        return Result.ok().data(data);
+        return AjaxResult.ok().data(data);
     }
 
 

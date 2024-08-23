@@ -4,7 +4,7 @@ package io.tmgg.flowable.controller;
 
 import io.tmgg.flowable.bean.TaskVo;
 import io.tmgg.flowable.service.MyTaskService;
-import cn.moon.lang.web.Result;
+import io.tmgg.lang.obj.AjaxResult;
 import org.apache.commons.lang3.StringUtils;
 import org.flowable.engine.HistoryService;
 import org.flowable.engine.RuntimeService;
@@ -63,7 +63,7 @@ public class InstanceController {
     }
 
     @GetMapping("todoList")
-    public Result taskList(String businessKey, String id) {
+    public AjaxResult taskList(String businessKey, String id) {
         if (StringUtils.isNotEmpty(businessKey)) {
             HistoricProcessInstanceQuery query = historyService.createHistoricProcessInstanceQuery();
             query.processInstanceBusinessKey(businessKey);
@@ -89,7 +89,7 @@ public class InstanceController {
             return taskVo;
         }).collect(Collectors.toList());
 
-        return Result.ok().data(infoList);
+        return AjaxResult.ok().data(infoList);
     }
 
 

@@ -1,7 +1,8 @@
 package io.tmgg.init;
 
-import io.tmgg.lang.jdbc.Jdbc;
+
 import io.tmgg.SystemProperties;
+import io.tmgg.dbtool.DbTool;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -16,7 +17,7 @@ public class CleanDataRunnable implements Runnable {
 
 
     @Resource
-    Jdbc ndb;
+    DbTool dbTool;
 
     @Resource
     SystemProperties systemProperties;
@@ -25,10 +26,10 @@ public class CleanDataRunnable implements Runnable {
     public void run()  {
         if(systemProperties.isMenuAutoUpdate()){
             log.info("开始清空 sys_app，sys_menu");
-            ndb.update("SET FOREIGN_KEY_CHECKS = 0");
-            ndb.update("delete from sys_app");
-            ndb.update("delete from sys_menu");
-            ndb.update("SET FOREIGN_KEY_CHECKS = 1");
+            dbTool.update("SET FOREIGN_KEY_CHECKS = 0");
+            dbTool.update("delete from sys_app");
+            dbTool.update("delete from sys_menu");
+            dbTool.update("SET FOREIGN_KEY_CHECKS = 1");
         }
     }
 

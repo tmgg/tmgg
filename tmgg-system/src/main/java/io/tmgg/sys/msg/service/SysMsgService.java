@@ -1,7 +1,7 @@
 package io.tmgg.sys.msg.service;
 
+import io.tmgg.dbtool.DbTool;
 import io.tmgg.lang.PastTimeFormatTool;
-import io.tmgg.lang.jdbc.Jdbc;
 import io.tmgg.sys.msg.dao.SysMsgUserDao;
 import io.tmgg.sys.msg.entity.SysMsgUser;
 import io.tmgg.sys.msg.result.MsgVo;
@@ -21,7 +21,7 @@ public class SysMsgService {
     SysMsgUserDao msgUserDao;
 
     @Resource
-    Jdbc jdbc;
+    DbTool dbTool;
 
 
     public Page<MsgVo> page(Pageable pageable, String userId, Boolean read)  {
@@ -32,10 +32,10 @@ public class SysMsgService {
 
         Page<MsgVo> page = null;
         if (read == null) {
-            page = jdbc.findAll(MsgVo.class, pageable, sql, userId);
+            page = dbTool.findAll(MsgVo.class, pageable, sql, userId);
         } else {
             sql += "and um.is_read = ?";
-            page = jdbc.findAll(MsgVo.class, pageable, sql, userId, read);
+            page = dbTool.findAll(MsgVo.class, pageable, sql, userId, read);
         }
 
         for (MsgVo vo : page.getContent()) {
@@ -54,7 +54,7 @@ public class SysMsgService {
                 "where  um.user_id = ? ";
 
         sql += "and um.is_read = ?";
-        Long scalar = (Long) jdbc.findScalar(sql, userId, false);
+        Long scalar = (Long) dbTool.findScalar(sql, userId, false);
 
 
         return scalar == null ? 0 : scalar;

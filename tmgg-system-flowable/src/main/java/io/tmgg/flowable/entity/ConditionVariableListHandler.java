@@ -1,8 +1,9 @@
 package io.tmgg.flowable.entity;
 
-import cn.tmgg.dbtool.Converter;
-import cn.moon.lang.json.JsonTool;
+
 import com.fasterxml.jackson.core.type.TypeReference;
+import io.tmgg.dbtool.Converter;
+import io.tmgg.lang.JsonTool;
 
 import java.beans.PropertyDescriptor;
 import java.io.IOException;
