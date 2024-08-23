@@ -59,15 +59,15 @@ public class SysRole extends BaseEntity {
     @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
     @JoinTable(name = "sys_role_menu",
-            joinColumns = @JoinColumn(name = "role_id", nullable = false, updatable = false),
-            inverseJoinColumns = @JoinColumn(name = "menu_id", nullable = false, updatable = false))
+            joinColumns = @JoinColumn(name = "role_id", nullable = false),
+            inverseJoinColumns = @JoinColumn(name = "menu_id", nullable = false))
     Set<SysMenu> menus;
 
     @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
     @JoinTable(name = "sys_user_role",
-            joinColumns = @JoinColumn(name = "role_id", nullable = false, updatable = false),
-            inverseJoinColumns = @JoinColumn(name = "user_id", nullable = false, updatable = false))
+            joinColumns = @JoinColumn(name = "role_id", nullable = false),
+            inverseJoinColumns = @JoinColumn(name = "user_id", nullable = false))
     Set<SysUser> users;
 
     public SysRole(String id) {

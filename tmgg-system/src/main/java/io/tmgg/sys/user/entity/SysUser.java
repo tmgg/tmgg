@@ -124,8 +124,8 @@ public class SysUser extends BaseEntity {
     @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "sys_user_role",
-            joinColumns = @JoinColumn(name = "user_id", nullable = false, updatable = false),
-            inverseJoinColumns = @JoinColumn(name = "role_id", nullable = false, updatable = false))
+            joinColumns = @JoinColumn(name = "user_id", nullable = false),
+            inverseJoinColumns = @JoinColumn(name = "role_id", nullable = false))
     Set<SysRole> roles = new HashSet<>();
 
 
