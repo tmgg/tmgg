@@ -4,10 +4,10 @@ import cn.binarywang.wx.miniapp.api.WxMaService;
 import cn.binarywang.wx.miniapp.config.impl.WxMaDefaultConfigImpl;
 import io.tmgg.lang.dao.BaseService;
 import io.tmgg.weapp.entity.Weapp;
+import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.List;
 
 @Service

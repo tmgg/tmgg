@@ -8,7 +8,7 @@ import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.Query;
+import jakarta.persistence.Query;
 import java.util.Date;
 import java.util.List;
 

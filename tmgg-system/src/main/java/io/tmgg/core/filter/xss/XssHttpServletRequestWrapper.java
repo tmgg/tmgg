@@ -1,8 +1,8 @@
 
 package io.tmgg.core.filter.xss;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletRequestWrapper;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequestWrapper;
 
 /**
  * xss针对http请求的包装

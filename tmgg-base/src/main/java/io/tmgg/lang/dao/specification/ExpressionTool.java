@@ -1,7 +1,7 @@
 package io.tmgg.lang.dao.specification;
 
-import javax.persistence.criteria.*;
-import javax.persistence.metamodel.Attribute;
+import jakarta.persistence.criteria.*;
+import jakarta.persistence.metamodel.Attribute;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;

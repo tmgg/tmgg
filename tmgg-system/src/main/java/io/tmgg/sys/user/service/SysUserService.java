@@ -41,7 +41,7 @@ import org.springframework.util.Assert;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.sql.SQLException;
 import java.util.Collection;
 import java.util.Collections;

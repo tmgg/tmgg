@@ -2,7 +2,7 @@ package io.tmgg.sys.auth.captcha.core;
 
 import lombok.Data;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 
 @Data
 public class VerifyParam {

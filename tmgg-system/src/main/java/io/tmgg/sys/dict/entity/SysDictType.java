@@ -6,8 +6,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldNameConstants;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
 
 /**
  * 系统字典类型表

@@ -10,7 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 @RestController
 public class SysOnlineUserController {

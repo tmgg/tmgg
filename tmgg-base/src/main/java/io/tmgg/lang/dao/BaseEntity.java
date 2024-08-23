@@ -1,13 +1,13 @@
 package io.tmgg.lang.dao;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.tmgg.lang.SpringTool;
 import io.tmgg.lang.ann.Remark;
 import io.tmgg.lang.dao.exports.UserLabelQuery;
 import io.tmgg.web.perm.SecurityUtils;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.Builder;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldNameConstants;
@@ -15,7 +15,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Properties;

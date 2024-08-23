@@ -1,8 +1,8 @@
 package io.tmgg.lang.dao;
 
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 
 public class IpValidator implements ConstraintValidator<IpValid,String> {
 

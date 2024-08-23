@@ -1,8 +1,10 @@
 package io.tmgg.lang.dao.specification;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.Root;
-import javax.persistence.criteria.Selection;
+
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.Root;
+import jakarta.persistence.criteria.Selection;
+
 import java.util.List;
 
 public interface Selector {

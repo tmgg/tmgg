@@ -1,6 +1,7 @@
 
 package io.tmgg.core.error;
 
+import cn.hutool.extra.servlet.JakartaServletUtil;
 import io.tmgg.SystemProperties;
 import io.tmgg.lang.*;
 import io.tmgg.lang.obj.AjaxResult;
@@ -30,12 +31,12 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
-import javax.annotation.Resource;
-import javax.persistence.RollbackException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.ConstraintViolation;
-import javax.validation.ConstraintViolationException;
+import jakarta.annotation.Resource;
+import jakarta.persistence.RollbackException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
@@ -98,11 +99,11 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public AjaxResult methodNotSupport(HttpServletRequest request) {
-        if (ServletUtil.isPostMethod(request)) {
+        if (JakartaServletUtil.isPostMethod(request)) {
             log.error(">>> 请求方法异常，请求号为：{}，具体信息为：{}", RequestNoContext.get(), RequestMethodExceptionEnum.REQUEST_METHOD_IS_GET.getMessage());
             return renderJson(RequestMethodExceptionEnum.REQUEST_METHOD_IS_GET);
         }
-        if (ServletUtil.isGetMethod(request)) {
+        if (JakartaServletUtil.isGetMethod(request)) {
             log.error(">>> 请求方法异常，请求号为：{}，具体信息为：{}", RequestNoContext.get(), RequestMethodExceptionEnum.REQUEST_METHOD_IS_POST.getMessage());
             return renderJson(RequestMethodExceptionEnum.REQUEST_METHOD_IS_POST);
         }

@@ -3,8 +3,8 @@ package io.tmgg.lang.dao.converter;
 
 import io.tmgg.lang.Entry;
 import io.tmgg.lang.JsonTool;
+import jakarta.persistence.AttributeConverter;
 
-import javax.persistence.AttributeConverter;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;

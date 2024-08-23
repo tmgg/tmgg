@@ -16,8 +16,8 @@ import lombok.Setter;
 import lombok.experimental.FieldNameConstants;
 import org.springframework.context.annotation.Lazy;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import java.util.*;
 
 /**

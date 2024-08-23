@@ -6,7 +6,7 @@ import io.tmgg.weapp.entity.WeappUser;
 import io.tmgg.weapp.service.WeappUserService;
 import io.tmgg.web.token.TokenManger;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 public class WeappTool {
 

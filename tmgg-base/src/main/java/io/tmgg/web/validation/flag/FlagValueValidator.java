@@ -4,8 +4,8 @@ package io.tmgg.web.validation.flag;
 import io.tmgg.web.enums.YesOrNotEnum;
 import cn.hutool.core.util.StrUtil;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 
 /**
  * 校验标识，只有Y和N两种状态的标识

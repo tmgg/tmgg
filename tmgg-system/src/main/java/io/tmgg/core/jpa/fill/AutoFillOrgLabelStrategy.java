@@ -7,7 +7,7 @@ import cn.hutool.cache.Cache;
 import cn.hutool.cache.CacheUtil;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 @Component
 public class AutoFillOrgLabelStrategy implements AutoFillStrategy {

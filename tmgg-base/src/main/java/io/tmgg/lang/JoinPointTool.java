@@ -2,11 +2,11 @@
 package io.tmgg.lang;
 
 import cn.hutool.core.util.ObjectUtil;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.aspectj.lang.JoinPoint;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * Spring切面工具类

@@ -9,7 +9,7 @@ import org.springframework.core.type.classreading.MetadataReader;
 import org.springframework.core.type.classreading.MetadataReaderFactory;
 import org.springframework.util.ClassUtils;
 
-import javax.persistence.Entity;
+import jakarta.persistence.Entity;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;

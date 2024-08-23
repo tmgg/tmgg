@@ -5,7 +5,7 @@ import io.tmgg.sys.dict.service.SysDictDataService;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 @Component
 public class AutoFillDictLabelStrategy implements AutoFillStrategy {

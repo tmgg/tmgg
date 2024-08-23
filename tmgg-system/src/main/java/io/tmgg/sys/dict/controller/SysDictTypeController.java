@@ -15,7 +15,7 @@ import io.tmgg.web.annotion.HasPermission;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.List;
 
 /**

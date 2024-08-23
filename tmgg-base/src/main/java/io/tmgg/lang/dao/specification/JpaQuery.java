@@ -4,15 +4,14 @@ import io.tmgg.lang.dao.specification.expression.ExampleExpression;
 import io.tmgg.lang.dao.specification.expression.LogicalExpression;
 import io.tmgg.lang.dao.specification.expression.Operator;
 import io.tmgg.lang.dao.specification.expression.SimpleExpression;
+import jakarta.persistence.criteria.*;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.util.Assert;
 
-import javax.persistence.criteria.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.function.BiPredicate;
 import java.util.function.Consumer;
 
 /**

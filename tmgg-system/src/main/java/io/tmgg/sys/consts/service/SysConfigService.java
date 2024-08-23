@@ -6,12 +6,12 @@ import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.ObjectUtil;
 import io.tmgg.sys.consts.dao.SysConfigDao;
 import io.tmgg.sys.consts.entity.SysConfig;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import javax.annotation.Resource;
 import java.util.List;
 
 

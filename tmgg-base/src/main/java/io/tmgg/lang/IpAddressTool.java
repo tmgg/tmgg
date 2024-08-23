@@ -4,12 +4,13 @@ package io.tmgg.lang;
 import cn.hutool.core.net.NetUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.extra.servlet.JakartaServletUtil;
 import cn.hutool.extra.servlet.ServletUtil;
 import cn.hutool.http.HttpRequest;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
+import jakarta.servlet.http.HttpServletRequest;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -26,7 +27,7 @@ public class IpAddressTool {
         if (ObjectUtil.isEmpty(request)) {
             return LOCAL_IP;
         } else {
-            String remoteHost = ServletUtil.getClientIP(request);
+            String remoteHost = JakartaServletUtil.getClientIP(request);
             return LOCAL_REMOTE_HOST.equals(remoteHost) ? LOCAL_IP : remoteHost;
         }
     }

@@ -12,7 +12,7 @@ import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 import org.springframework.web.util.pattern.PathPattern;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;

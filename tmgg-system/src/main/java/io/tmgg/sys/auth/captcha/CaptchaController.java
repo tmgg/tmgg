@@ -29,7 +29,7 @@ public class CaptchaController {
     @Autowired
     private CaptchaService captchaService;
 
-    @javax.annotation.Resource
+    @jakarta.annotation.Resource
     SystemProperties systemProperties;
 
 

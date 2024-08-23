@@ -8,9 +8,15 @@
     </parent>
 
     <artifactId>tmgg-base</artifactId>
+    <description>一些基础工具类,和业务逻辑无关</description>
 
 
     <dependencies>
+
+        <dependency>
+            <groupId>io.github.tmgg</groupId>
+            <artifactId>tmgg-base-db-tool</artifactId>
+        </dependency>
 
         <!-- web -->
         <dependency>
@@ -48,17 +54,7 @@
         </dependency>
 
 
-        <dependency>
-            <groupId>io.github.moon-cn</groupId>
-            <artifactId>commons-dbtool</artifactId>
-            <version>1.0.6</version>
-        </dependency>
 
-        <dependency>
-            <groupId>io.github.moon-cn</groupId>
-            <artifactId>commons-lang-web</artifactId>
-            <version>1.0.12</version>
-        </dependency>
         <dependency>
             <groupId>io.github.moon-cn</groupId>
             <artifactId>commons-validators</artifactId>

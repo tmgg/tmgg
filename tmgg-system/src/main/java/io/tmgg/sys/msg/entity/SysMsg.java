@@ -4,9 +4,9 @@ import io.tmgg.lang.dao.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Lob;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Lob;
 
 /**
  * @author 姜涛

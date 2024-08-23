@@ -1,6 +1,7 @@
 
 package io.tmgg.lang;
 
+import cn.hutool.extra.servlet.JakartaServletUtil;
 import io.tmgg.web.consts.CommonConstant;
 import io.tmgg.web.consts.SymbolConstant;
 import cn.hutool.core.util.ObjectUtil;
@@ -9,7 +10,7 @@ import cn.hutool.http.useragent.Browser;
 import cn.hutool.http.useragent.UserAgent;
 import cn.hutool.http.useragent.UserAgentUtil;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * 用户代理工具类
@@ -38,7 +39,7 @@ public class UserAgentTool {
     }
 
     private static UserAgent getUserAgent(HttpServletRequest request) {
-        String userAgentStr = ServletUtil.getHeaderIgnoreCase(request, CommonConstant.USER_AGENT);
+        String userAgentStr = JakartaServletUtil.getHeaderIgnoreCase(request, CommonConstant.USER_AGENT);
         UserAgent userAgent = UserAgentUtil.parse(userAgentStr);
         //判空
         if (ObjectUtil.isNotEmpty(userAgentStr)) {

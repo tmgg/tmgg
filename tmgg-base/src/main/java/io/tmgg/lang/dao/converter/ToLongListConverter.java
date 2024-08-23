@@ -3,7 +3,7 @@ package io.tmgg.lang.dao.converter;
 
 import cn.hutool.core.util.StrUtil;
 
-import javax.persistence.AttributeConverter;
+import jakarta.persistence.AttributeConverter;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;

@@ -3,8 +3,8 @@ package io.tmgg.lang.dao.specification.expression;
 
 import org.springframework.data.jpa.domain.Specification;
 
-import javax.persistence.criteria.*;
-import javax.persistence.metamodel.Attribute.PersistentAttributeType;
+import jakarta.persistence.criteria.*;
+import jakarta.persistence.metamodel.Attribute.PersistentAttributeType;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;

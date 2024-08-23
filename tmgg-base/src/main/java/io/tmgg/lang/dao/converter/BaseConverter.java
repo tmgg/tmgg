@@ -3,8 +3,8 @@ package io.tmgg.lang.dao.converter;
 
 import io.tmgg.lang.JsonTool;
 import com.fasterxml.jackson.core.type.TypeReference;
+import jakarta.persistence.AttributeConverter;
 
-import javax.persistence.AttributeConverter;
 import java.io.IOException;
 import java.io.Serializable;
 

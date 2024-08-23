@@ -1,10 +1,14 @@
 package io.tmgg.lang.dao;
 
+import io.tmgg.dbtool.DbTool;
 import io.tmgg.lang.dao.specification.JpaQuery;
 import io.tmgg.lang.dao.specification.Selector;
-import io.tmgg.lang.jdbc.Jdbc;
+import jakarta.annotation.PostConstruct;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
+import jakarta.persistence.criteria.*;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.data.jpa.domain.Specification;
@@ -12,16 +16,11 @@ import org.springframework.data.jpa.provider.PersistenceProvider;
 import org.springframework.data.jpa.repository.query.QueryUtils;
 import org.springframework.data.jpa.repository.support.JpaEntityInformation;
 import org.springframework.data.jpa.repository.support.JpaEntityInformationSupport;
-import org.springframework.data.repository.support.PageableExecutionUtils;
+import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.lang.Nullable;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import javax.annotation.PostConstruct;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.*;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.*;
@@ -46,7 +45,7 @@ public abstract class BaseDao<T extends Persistable<String>> {
      * 方便直接调用sql， 当然也可自行注入
      */
     @Autowired(required = false)
-    protected Jdbc jdbc;
+    protected DbTool jdbc;
 
 
     @PostConstruct

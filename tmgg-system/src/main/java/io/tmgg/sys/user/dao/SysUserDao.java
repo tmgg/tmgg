@@ -1,15 +1,15 @@
 
 package io.tmgg.sys.user.dao;
 
+import io.tmgg.dbtool.DbTool;
 import io.tmgg.sys.role.entity.SysRole;
 import io.tmgg.web.enums.CommonStatus;
 import io.tmgg.lang.dao.BaseDao;
 import io.tmgg.lang.dao.specification.JpaQuery;
 import io.tmgg.sys.user.entity.SysUser;
-import cn.moon.dbtool.DbTool;
 import org.springframework.stereotype.Repository;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

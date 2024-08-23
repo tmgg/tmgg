@@ -2,6 +2,7 @@ package io.tmgg.lang.dao;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldNameConstants;
@@ -9,7 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.domain.Persistable;
 
-import javax.persistence.*;
+
 import java.io.Serializable;
 
 @Getter

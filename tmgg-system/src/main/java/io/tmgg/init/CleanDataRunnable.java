@@ -5,7 +5,7 @@ import io.tmgg.SystemProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 /**
  * 升级时需要的一些处理，如表字段处理

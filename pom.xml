@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.7.18</version>
+        <version>3.3.3</version>
     </parent>
 
     <groupId>io.github.tmgg</groupId>
@@ -22,17 +22,18 @@
         <module>tmgg-base</module>
         <module>tmgg-system-kettle</module>
         <module>tmgg-dev-utils</module>
+        <module>tmgg-base/tmgg-base-db-tool</module>
     </modules>
 
 
     <properties>
         <tmgg.version>0.1.16</tmgg.version>
-        <java.version>1.8</java.version>
-        <compile.version>8</compile.version>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
+        <java.version>17</java.version>
+        <compile.version>17</compile.version>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>utf-8</project.reporting.outputEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
     <description>kettle sdk, such as run job, run trans</description>
     <url>https://github.com/tmgg/tmgg-system</url>
@@ -80,6 +81,11 @@
             <dependency>
                 <groupId>io.github.tmgg</groupId>
                 <artifactId>tmgg-system-ureport</artifactId>
+                <version>${tmgg.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.tmgg</groupId>
+                <artifactId>tmgg-base-db-tool</artifactId>
                 <version>${tmgg.version}</version>
             </dependency>
         </dependencies>

@@ -10,6 +10,7 @@ import org.hibernate.service.spi.SessionFactoryServiceRegistry;
 
 import java.lang.reflect.Field;
 import java.util.Iterator;
+import java.util.List;
 
 public class RemarkIntegrator implements Integrator {
     public static final RemarkIntegrator INSTANCE = new RemarkIntegrator();
@@ -70,9 +71,9 @@ public class RemarkIntegrator implements Integrator {
             }
             // Process fields with Comment annotation.
             //noinspection unchecked
-            Iterator<Property> iterator = persistentClass.getPropertyIterator();
-            while (iterator.hasNext()) {
-                fieldComment(persistentClass, iterator.next().getName());
+            List<Property> properties = persistentClass.getProperties();
+            for (Property property : properties) {
+                fieldComment(persistentClass, property.getName());
             }
         }
     }
@@ -88,8 +89,8 @@ public class RemarkIntegrator implements Integrator {
             Field field = persistentClass.getMappedClass().getDeclaredField(columnName);
             if (field.isAnnotationPresent(Remark.class)) {
                 String comment = field.getAnnotation(Remark.class).value();
-                String sqlColumnName= persistentClass.getProperty(columnName).getValue().getColumnIterator().next().getText();
-                Iterator<org.hibernate.mapping.Column> columnIterator = persistentClass.getTable().getColumnIterator();
+                String sqlColumnName= persistentClass.getProperty(columnName).getValue().getColumns().iterator().next().getText();
+                Iterator<org.hibernate.mapping.Column> columnIterator = persistentClass.getTable().getColumns().iterator();
                 while (columnIterator.hasNext()) {
                     org.hibernate.mapping.Column column = columnIterator.next();
                     if (sqlColumnName.equalsIgnoreCase(column.getName())) {

@@ -8,9 +8,9 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.FieldNameConstants;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.validation.constraints.NotNull;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.validation.constraints.NotNull;
 
 /**
  * 系统应用表

@@ -4,7 +4,6 @@ package io.tmgg.sys.user.controller;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.text.PasswdStrength;
 import cn.hutool.core.util.StrUtil;
-import cn.moon.lang.web.ServletTool;
 import io.tmgg.lang.dao.BaseEntity;
 import io.tmgg.lang.dao.specification.JpaQuery;
 import io.tmgg.lang.excel.Col;
@@ -29,9 +28,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
+import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Collection;
@@ -191,7 +190,8 @@ public class SysUserController {
 
         excel.addBeanList(list, cols);
 
-        ServletTool.setDownloadFileHeader("用户列表.xlsx", response);
+        // TODO
+      //  ServletTool.setDownloadFileHeader("用户列表.xlsx", response);
         excel.writeTo(response.getOutputStream());
     }
 

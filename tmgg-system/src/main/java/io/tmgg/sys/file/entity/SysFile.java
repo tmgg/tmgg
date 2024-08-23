@@ -7,9 +7,9 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldNameConstants;
 
-import javax.persistence.Entity;
-import javax.persistence.Transient;
-import javax.servlet.http.HttpServletRequest;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Transient;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * 文件信息

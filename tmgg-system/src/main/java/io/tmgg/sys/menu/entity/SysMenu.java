@@ -14,10 +14,10 @@ import lombok.experimental.FieldNameConstants;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Transient;
-import javax.validation.constraints.NotNull;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Transient;
+import jakarta.validation.constraints.NotNull;
 import java.util.List;
 
 /**

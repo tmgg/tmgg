@@ -8,9 +8,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 
-import javax.annotation.Resource;
-import javax.servlet.*;
-import javax.servlet.http.HttpServletRequest;
+import jakarta.annotation.Resource;
+import jakarta.servlet.*;
+import jakarta.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;

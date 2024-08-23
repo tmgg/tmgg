@@ -14,7 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.MDC;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Date;

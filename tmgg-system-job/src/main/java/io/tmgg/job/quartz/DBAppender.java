@@ -7,7 +7,7 @@ import io.tmgg.job.dao.SysJobLoggingDao;
 import io.tmgg.job.entity.SysJobLogging;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.Map;
 
 @Component

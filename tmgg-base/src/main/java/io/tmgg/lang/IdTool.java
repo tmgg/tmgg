@@ -1,8 +1,8 @@
 package io.tmgg.lang;
 
-import io.tmgg.lang.jdbc.Jdbc;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.extra.spring.SpringUtil;
+import io.tmgg.dbtool.DbTool;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.Serializable;
@@ -37,7 +37,7 @@ public class IdTool implements Serializable {
     private static synchronized int getIdByDb(String tableName, String prefix) {
         int codeIndex = prefix.length() + 2; // mysql substr，
         String sql = "select max(CAST(SUBSTR(id,?) as signed)) as seq  from " + tableName + " where id like ?";
-        Map<String, Object> map = SpringUtil.getBean(Jdbc.class).findOne(sql, codeIndex, prefix + "%");
+        Map<String, Object> map = SpringUtil.getBean(DbTool.class).findOne(sql, codeIndex, prefix + "%");
         Object seq = map.get("seq");
         if (seq == null) {
             return 0;

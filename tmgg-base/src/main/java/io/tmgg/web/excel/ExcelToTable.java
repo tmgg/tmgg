@@ -38,25 +38,7 @@ public class ExcelToTable {
         this.maxRowIndex = ExcelTool.getMaxRow(sheet);
     }
 
-    public static void main(String[] args) throws Exception {
-        String filePath = "D:\\test.xlsx";
-        File file = new File(filePath);
 
-        Assert.state(file.exists());
-
-        FileInputStream is = new FileInputStream(file);
-
-        XSSFWorkbook wb = new XSSFWorkbook(is);
-
-        XSSFSheet sheet = wb.getSheetAt(0);
-
-        ExcelToTable util = new ExcelToTable(sheet);
-        util.parse();
-        is.close();
-
-        System.out.println(util.toHTML());
-
-    }
 
     org.jsoup.nodes.Document doc;
 

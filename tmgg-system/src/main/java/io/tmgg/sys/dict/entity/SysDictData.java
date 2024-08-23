@@ -7,7 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldNameConstants;
 
-import javax.persistence.Entity;
+import jakarta.persistence.Entity;
 
 /**
  * 系统字典值表

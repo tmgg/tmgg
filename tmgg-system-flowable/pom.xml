@@ -9,10 +9,36 @@
 
     <artifactId>tmgg-system-flowable</artifactId>
 
-    <properties>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
 
+    <dependencies>
+
+        <dependency>
+            <groupId>org.flowable</groupId>
+            <artifactId>flowable-spring-boot-starter-process</artifactId>
+            <version>7.0.1</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>io.github.tmgg</groupId>
+            <artifactId>tmgg-system</artifactId>
+        </dependency>
+
+
+
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+
+    </dependencies>
 </project>

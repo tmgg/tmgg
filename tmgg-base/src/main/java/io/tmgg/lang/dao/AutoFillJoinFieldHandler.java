@@ -5,10 +5,10 @@ import cn.hutool.cache.CacheUtil;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
 
-import javax.persistence.Entity;
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
 
 public class AutoFillJoinFieldHandler {
 

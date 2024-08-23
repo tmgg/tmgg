@@ -10,9 +10,9 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.RegExUtils;
 import org.springframework.core.io.ClassPathResource;
 
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.ServletOutputStream;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;

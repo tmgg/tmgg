@@ -11,7 +11,7 @@ import org.quartz.*;
 import org.slf4j.Logger;
 import org.springframework.util.Assert;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.Map;
 
 /**

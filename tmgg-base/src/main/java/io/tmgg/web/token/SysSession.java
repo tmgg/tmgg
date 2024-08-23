@@ -6,8 +6,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldNameConstants;
 
-import javax.persistence.Entity;
-import javax.validation.constraints.NotNull;
+import jakarta.persistence.Entity;
+import jakarta.validation.constraints.NotNull;
 
 @Remark("会话")
 @Getter

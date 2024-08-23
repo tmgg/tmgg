@@ -13,7 +13,7 @@ import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.time.Duration;

@@ -4,7 +4,7 @@ import io.tmgg.lang.dao.AutoFillStrategy;
 import io.tmgg.sys.user.dao.SysUserDao;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 @Component
 public class AutoFillUserLabelStrategy implements AutoFillStrategy {
