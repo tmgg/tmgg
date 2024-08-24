@@ -25,7 +25,6 @@ import jakarta.annotation.Resource;
  */
 @Slf4j
 @Configuration
-@Import({cn.hutool.extra.spring.SpringUtil.class})
 @EnableScheduling
 public class WebMvcConfig implements WebMvcConfigurer {
 

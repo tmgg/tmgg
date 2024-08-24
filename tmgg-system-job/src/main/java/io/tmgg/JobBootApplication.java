@@ -6,11 +6,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 
 @SpringBootApplication
-public class BootApplication {
+public class JobBootApplication {
 
 
     public static void main(String[] args) {
-        SpringApplication.run(BootApplication.class, args);
+        SpringApplication.run(JobBootApplication.class, args);
     }
 
 }

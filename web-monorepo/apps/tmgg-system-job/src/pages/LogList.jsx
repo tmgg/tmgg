@@ -1,6 +1,6 @@
 import {Button, InputNumber, Modal} from 'antd'
 import React from 'react'
-import {ProTable} from '@ant-design/pro-table'
+import ProTable from '@ant-design/pro-table'
 import StreamLog from "../components/StreamLog";
 import {http} from "@tmgg/tmgg-base";
 
@@ -86,10 +86,10 @@ export default class extends React.Component {
   render() {
     return <>
       <ProTable
-        toolBarRender={()=><>
+        toolBarRender={()=>[<>
           清理 <InputNumber style={{width:50}} value={this.state.cleanDate} onChange={v=>this.setState({cleanDate:v})}  /> 天前的日志
           <Button onClick={this.clean}>清理</Button>
-        </>}
+        </>]}
         actionRef={this.tableRef}
         request={(params, sort) => {
           return http.requestPageData('job/jobLog', params, sort, 'POST');
@@ -98,9 +98,6 @@ export default class extends React.Component {
         rowSelection={false}
         rowKey='id'
       />
-
-
-
 
     </>
   }

@@ -1,4 +1,4 @@
-package io.tmgg.config;
+package io.tmgg.config.security;
 
 import cn.hutool.extra.spring.SpringUtil;
 import lombok.extern.slf4j.Slf4j;

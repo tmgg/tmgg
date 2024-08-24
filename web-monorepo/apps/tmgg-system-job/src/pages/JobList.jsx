@@ -2,7 +2,7 @@ import {AutoComplete, Button, Form, Input, message, Modal, Popconfirm, Select, S
 import React from 'react'
 import {MinusCircleOutlined, PlusOutlined} from "@ant-design/icons";
 import StreamLog from "../components/StreamLog";
-import {ProTable} from "@ant-design/pro-table";
+import ProTable from "@ant-design/pro-table";
 import {http} from "@tmgg/tmgg-base";
 
 
@@ -159,9 +159,9 @@ export default class extends React.Component {
       <ProTable
         actionRef={this.tableRef}
         toolBarRender={(action, {selectedRowKeys}) => {
-          return <Button type='primary' onClick={() => this.handleAdd()} icon={<PlusOutlined/>}>
+          return [<Button type='primary' onClick={() => this.handleAdd()} icon={<PlusOutlined/>}>
             新建
-          </Button>
+          </Button>]
         }}
         request={(params, sort) => {
           return http.requestPageData('job/page', params, sort).then(rs => {

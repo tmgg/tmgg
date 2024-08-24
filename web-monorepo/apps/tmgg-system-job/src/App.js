@@ -1,4 +1,4 @@
-import {Card, Descriptions, Tabs} from 'antd'
+import {Card, Tabs} from 'antd'
 import React from 'react'
 import JobList from "./pages/JobList";
 import LogList from "./pages/LogList";
