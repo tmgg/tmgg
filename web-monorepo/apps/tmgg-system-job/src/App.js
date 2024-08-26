@@ -22,7 +22,8 @@ export default class extends React.Component {
                     {label: '执行记录', key: 'user', children: <LogList />},
                 ]}
                       destroyInactiveTabPane
-                ></Tabs></Card>
+                ></Tabs>
+            </Card>
         </>
     }
 }

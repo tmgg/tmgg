@@ -30,8 +30,8 @@
   },
   "version": "0.1.16",
   "dependencies": {
-    "@ant-design/icons": "^5.4.0",
-    "@ant-design/pro-table": "^1.0.0",
+    "@ant-design/icons": "^4.0.0",
+    "@tmgg/pro-table": "^0.1.0",
     "@tmgg/tmgg-base": "0.1.16",
     "antd": "^4.0.0",
     "axios": "^1.6.7",

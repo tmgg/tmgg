@@ -2,8 +2,8 @@ import {AutoComplete, Button, Form, Input, message, Modal, Popconfirm, Select, S
 import React from 'react'
 import {MinusCircleOutlined, PlusOutlined} from "@ant-design/icons";
 import StreamLog from "../components/StreamLog";
-import ProTable from "@ant-design/pro-table";
 import {http} from "@tmgg/tmgg-base";
+import ProTable from "@tmgg/pro-table";
 
 
 const cronOptions = [
