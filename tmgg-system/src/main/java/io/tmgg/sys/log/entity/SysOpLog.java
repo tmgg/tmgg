@@ -3,6 +3,7 @@ package io.tmgg.sys.log.entity;
 
 import io.tmgg.lang.dao.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.persistence.Column;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldNameConstants;
@@ -41,6 +42,7 @@ public class SysOpLog extends BaseEntity {
      * 具体消息
      */
     @Lob
+    @Column(length = 10000)
     private String message;
 
     /**
@@ -87,12 +89,13 @@ public class SysOpLog extends BaseEntity {
      * 请求参数
      */
     @Lob
+    @Column(length =10000)
     private String param;
 
     /**
      * 返回结果
      */
-    @Lob
+    @Column(length = 10000)
     private String result;
 
     /**

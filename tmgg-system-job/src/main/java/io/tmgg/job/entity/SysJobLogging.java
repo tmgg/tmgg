@@ -25,7 +25,7 @@ public class SysJobLogging extends BaseEntity {
     String jogLogId;
 
 
-    @Lob
+    @Column(length = 1000)
     String message;
 
     @Column(length = 5)

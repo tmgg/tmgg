@@ -40,7 +40,7 @@ public class WeappUser extends BaseEntity {
 
     String nickName; //		是	用户昵称
 
-    @Lob
+    @Column(length = 1000)
     String avatarUrl;
 
     String phone;

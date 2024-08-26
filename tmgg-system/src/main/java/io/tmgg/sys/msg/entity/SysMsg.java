@@ -21,7 +21,7 @@ public class SysMsg extends BaseEntity {
     private String title;
 
 
-    @Lob
+    @Column(length = 10000)
     private String content;
 
 
@@ -33,6 +33,7 @@ public class SysMsg extends BaseEntity {
 
 
     private String topic;
+
 
 
 

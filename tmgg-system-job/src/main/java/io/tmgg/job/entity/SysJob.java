@@ -48,7 +48,7 @@ public class SysJob extends BaseEntity {
 
 
     // 参数
-    @Lob
+    @Column(length = 20000)
     @Convert(converter = ToEntryListConverter.class)
     List<Entry> jobData;
 
