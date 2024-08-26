@@ -24,10 +24,10 @@ jobs:
           dir=$(pwd)
           
           cd $dir/packages/tmgg-base
-          npm publish -r --access public
+          npm publish --access public
           
           cd $dir/apps/tmgg-system
-          npm publish -r --access public
+          npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_ACCESS_TOKEN}}
 
