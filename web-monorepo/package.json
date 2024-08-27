@@ -2,8 +2,6 @@
   "private" : "true",
   "name" : "@tmgg/tmgg-monorepo",
   "workspaces" : [ "apps/*", "packages/*" ],
-  "scripts" : {
-
-  },
-  "version" : "0.1.16"
+  "scripts" : { },
+  "version" : "0.1.17"
 }

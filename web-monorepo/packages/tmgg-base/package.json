@@ -23,5 +23,5 @@
     "build" : "rollup -c",
     "build-publish" : "npm run build &&  npm publish --registry https://registry.npmjs.org"
   },
-  "version" : "0.1.17"
+  "version": "0.1.17"
 }
