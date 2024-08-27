@@ -1,4 +1,5 @@
 import {str} from "../str";
+import {history} from "umi";
 
 export  class PageTool {
 
@@ -27,16 +28,12 @@ export  class PageTool {
 
     //"http://localhost:8000/#/login?id=1"
     static currentPathname(){
-        let url = window.location.href;
-
-        if(str.contains(url,'#')){
-          url =  str.subAfter(url,'#')
-        }
-        if(str.contains(url, '?')){
-            url = str.subBefore('?')
-        }
-        return url;
+        return window.location.pathname
     }
 
+
+    static open(path){
+        history.push(path)
+    }
 
 }

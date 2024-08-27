@@ -2,10 +2,11 @@
 
 
 import React from "react";
+import {PageLoading} from "@tmgg/tmgg-base";
 
 export default class extends React.Component{
 
     render() {
-        return <div>加载页面中....</div>
+        return <PageLoading message='页面切换中...' ></PageLoading>
     }
 }

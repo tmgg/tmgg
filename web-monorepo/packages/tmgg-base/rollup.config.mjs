@@ -1,5 +1,5 @@
 /** @type {import('rollup').RollupOptions} */
-import jsx from 'rollup-plugin-jsx'
+
 import babel from 'rollup-plugin-babel'
 
 export default {

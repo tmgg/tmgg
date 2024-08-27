@@ -18,8 +18,8 @@
     "dist/*"
   ],
   "main": "dist/index.es.js",
-  "type": "module",
   "scripts": {
+    "start": "rollup -c -w",
     "build": "rollup -c"
   },
   "version": "0.1.17"

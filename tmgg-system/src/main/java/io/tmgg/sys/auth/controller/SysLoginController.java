@@ -14,9 +14,7 @@ import io.tmgg.sys.auth.service.SysUserAuthService;
 import io.tmgg.web.perm.SecurityUtils;
 import io.tmgg.web.perm.Subject;
 import io.tmgg.web.token.TokenManger;
-import cn.hutool.core.text.PasswdStrength;
 import cn.hutool.extra.spring.SpringUtil;
-import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -49,12 +47,12 @@ public class SysLoginController {
 
 
 
-    @GetMapping("/login-check")
+    @GetMapping("/check-token")
     @PublicApi
-    public AjaxResult loginCheck() {
-        boolean auth = SecurityUtils.getSubject().isAuthenticated();
-
-        return AjaxResult.ok().data(auth);
+    public AjaxResult loginCheck(HttpServletRequest req) {
+        String token = tokenManger.getTokenFromRequest(req);
+        boolean valid = tokenManger.isValid(token);
+        return AjaxResult.ok().data(valid);
     }
 
     /**

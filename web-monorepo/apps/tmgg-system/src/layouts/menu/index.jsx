@@ -1,8 +1,8 @@
 // 全局路由
 
 import React from 'react';
-import {Badge, Card, Menu, Tabs} from 'antd';
-import {history, Link} from 'umi';
+import {Badge, Card, Menu, Segmented, Tabs} from 'antd';
+import {history, Link, Outlet} from 'umi';
 import "./antd_ext.less"
 import "./index.less"
 import '../../css/style.less'
@@ -10,13 +10,12 @@ import '../../css/table.less'
 import * as Icons from '@ant-design/icons';
 import logo from '../../asserts/logo.png'
 
-
 import {PageLoading, ProLayout} from "@ant-design/pro-components";
 
 import HeaderRight from "./HeaderRight";
-import {HttpClient, PageTool, RouterView, showContextMenu, sys, SysConfig, TreeUtil, uid} from "../../common";
-import {toggleWatermark} from "../watermark";
+import {HttpClient, showContextMenu, sys, SysConfig, TreeUtil, uid} from "../../common";
 import hutool from "@moon-cn/hutool";
+import {PageTool} from "@tmgg/tmgg-base";
 
 
 /**
@@ -35,22 +34,17 @@ export default class extends React.Component {
     selectedTabKey: null,
 
     dataLoaded: false,
+  }
 
 
-  };
-
-  routerViewMap = {}
 
   componentDidMount() {
     this.initMenu()
 
     SysConfig.loadLoginData().then(() => {
       this.setState({dataLoaded: true})
-
     })
 
-
-    PageTool.setTabRef(this)
   }
 
 
@@ -110,13 +104,13 @@ export default class extends React.Component {
     }
 
     // 判断页签是否打开
-    const exist = tabs.some(t => t.id == id)
+    const exist = tabs.some(t => t.id === id)
     if (!exist) {
       tabs.push(item)
     }
     this.setState({tabs, selectedTabKey: id})
 
-    toggleWatermark(item.path)
+    PageTool.open(path)
   }
 
 
@@ -181,7 +175,7 @@ export default class extends React.Component {
             return
           }
           const loc = window.location;
-          let path = loc.href.repeat(loc.hash) + '/#' + curTab.path
+          let path = loc.href.repeat(loc.hash) + '/' + curTab.path
           console.log('当前path', path)
           window.open(path)
           break
@@ -200,11 +194,7 @@ export default class extends React.Component {
     const title = sys.getSiteInfo().siteTitle || process.env.TITLE
 
 
-    let info = sys.getLoginInfo();
 
-    if (!info) {
-      return <Card title={'未登录，请先登录'}> <Link to={'/system/login'}>登录</Link></Card>
-    }
     const {list, currentAppKey} = this.state
 
     return <ProLayout
@@ -240,6 +230,8 @@ export default class extends React.Component {
 
       {this.renderTabs()}
 
+      <Outlet />
+
     </ProLayout>;
   }
 
@@ -263,11 +255,7 @@ export default class extends React.Component {
 
   renderTabs = () => {
     let {tabs} = this.state;
-    if (tabs.length === 0) {
-      return this.props.children;
-    }
 
-    this.routerViewMap = {}
     const items = [];
     for (const tab of tabs) {
       let {path, iframe} = tab;
@@ -275,7 +263,6 @@ export default class extends React.Component {
         path = tab.iframePath || tab.path
       }
 
-      let ref = this.routerViewMap[tab.id] = React.createRef();
 
 
       let content = null
@@ -288,84 +275,41 @@ export default class extends React.Component {
             sandbox="allow-scripts allow-same-origin allow-forms"
           ></iframe>
       } else {
-        content = <RouterView ref={ref} path={path} iframe={iframe} loading={tab.loading}></RouterView>;
       }
 
 
       let item = {
         forceRender: true,
         key: tab.id,
-        label: <label
-          title={path}
-          className='cursor-pointer'
-          onContextMenu={e => this.onContextMenu(e, tab.id)}
-          onDoubleClick={() => this.refresh(tab.id)}>
-          {tab.name}
-        </label>,
-        children: content
+        label: tab.name,
+        value:tab.path,
       };
       items.push(item);
-
     }
 
 
-    return <Tabs
-      className='menu-layout-tab'
-      size='small'
-      type='editable-card'
-      hideAdd
-      activeKey={this.state.selectedTabKey}
-      onChange={this.onTabChange}
-
-      onEdit={(key, action) => {
-        if (action === 'remove') {
-          this.closeTab(key)
-        }
-      }}
-      animated={false}
-      items={items}
-    />
-
+    return <Card >
+      <Segmented
+          options={items}
+          onChange={(value) => {
+            PageTool.open(value)
+            console.log(value); // string
+          }}
+      />
+    </Card>
   }
 
-  onTabChange = key => {
-    let tab = this.state.tabs.find(tab => tab.id === key);
+  onTabChange = (key,item) => {
+    console.log("onTabChange", key,item)
 
-
-    toggleWatermark(tab?.path)
-
-
-    console.log("onTabChange", key)
     this.setState({selectedTabKey: key}, this.triggerOnShow)
+
+    const {tabs} = this.state;
+    const tab = tabs.find(t=>t.id=== key)
+    PageTool.open(tab.path)
+
   }
-  // 调用页面onShow方法
-  triggerOnShow = () => {
-    const key = this.state.selectedTabKey
-    if (!key) {
-      return
-    }
 
-    let tab = this.state.tabs.find(tab => tab.id === key);
-
-    const routerViewRef = this.routerViewMap[tab.id]
-    if (routerViewRef == null) {
-      return;
-    }
-    let routerView = routerViewRef.current;
-    if (routerView == null) {
-      return;
-    }
-
-    const el = routerView.getElement();
-    console.log('准备调用页面的onShow 函数', el)
-
-    if (el.onshow === undefined) {
-      console.log('onShow 函数未定义，可以在页面jsx文件中定义onShow函数，在切换当前tab会自动调用')
-      return;
-    }
-
-    el.onShow(false);
-  }
 }
 
 

@@ -9,12 +9,5 @@ export const theme = {
 
 
 
-export const themeVar = {
-    "@primary-color": theme["primary-color"],
-    "@success-color": theme["success-color"],
-    "@warning-color": theme["warning-color"],
-    "@error-color": theme["error-color"],
-    "@background-color": theme["background-color"]
-}
 
 
