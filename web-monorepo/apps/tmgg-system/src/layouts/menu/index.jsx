@@ -16,6 +16,7 @@ import HeaderRight from "./HeaderRight";
 import {HttpClient, showContextMenu, sys, SysConfig, TreeUtil, uid} from "../../common";
 import hutool from "@moon-cn/hutool";
 import {PageTool} from "@tmgg/tmgg-base";
+import {CloseOutlined} from "@ant-design/icons";
 
 
 /**
@@ -279,24 +280,25 @@ export default class extends React.Component {
 
 
       let item = {
-        forceRender: true,
+        icon:tab.icon,
         key: tab.id,
-        label: tab.name,
+        label: <span> {tab.name}  </span>,
         value:tab.path,
       };
       items.push(item);
     }
 
 
-    return <Card >
-      <Segmented
-          options={items}
+    return < >
+      <Menu
+          items={items}
+          mode="horizontal"
           onChange={(value) => {
             PageTool.open(value)
             console.log(value); // string
           }}
       />
-    </Card>
+    </>
   }
 
   onTabChange = (key,item) => {
