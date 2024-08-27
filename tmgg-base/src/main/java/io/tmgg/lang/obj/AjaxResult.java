@@ -16,28 +16,30 @@ import java.util.Map;
 public class AjaxResult  {
 
 
-    public static final String ERROR_MESSAGE = "网络异常";
+
 
     public static final Integer DEFAULT_SUCCESS_CODE = 200;
 
     public static final Integer DEFAULT_ERROR_CODE = 500;
 
     public static final String SUCCESS_MESSAGE = "操作成功";
+    public static final String ERROR_MESSAGE = "操作失败";
 
     boolean success;
 
-    int code;
+    Integer code;
 
     Object data;
 
     String message;
 
-    private AjaxResult() {
-        this.setSuccess(true);
-        this.setCode(DEFAULT_SUCCESS_CODE);
+    public AjaxResult() {
+       this(true);
     }
 
-
+    public AjaxResult(boolean success) {
+        this.setSuccess(success);
+    }
 
     @Deprecated
     public static AjaxResult success() {

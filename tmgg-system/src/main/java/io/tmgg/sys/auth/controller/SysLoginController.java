@@ -6,6 +6,7 @@ import io.tmgg.core.event.LogoutEvent;
 import io.tmgg.core.log.LogManager;
 import io.tmgg.lang.InnerTokenTool;
 import io.tmgg.lang.PasswordTool;
+import io.tmgg.lang.ann.PublicApi;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.sys.auth.AccountCheckResult;
 import io.tmgg.sys.auth.captcha.CaptchaService;
@@ -45,6 +46,16 @@ public class SysLoginController {
 
     @Resource
     private TokenManger tokenManger;
+
+
+
+    @GetMapping("/login-check")
+    @PublicApi
+    public AjaxResult loginCheck() {
+        boolean auth = SecurityUtils.getSubject().isAuthenticated();
+
+        return AjaxResult.ok().data(auth);
+    }
 
     /**
      * 账号密码登录
@@ -122,14 +133,3 @@ public class SysLoginController {
 
 }
 
-@Data
-class LoginParam {
-    String account;
-    String password;
-    String code;
-
-    // 外部系统登录的token
-    String token;
-
-    String clientId; // 客户端标识，主要用于验证码二次验证
-}

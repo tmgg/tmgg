@@ -1,8 +1,10 @@
+import {str} from "../str";
+
 export  class PageTool {
 
     static currentLocationQuery(){
         let url = window.location.href
-        //"http://localhost:8000/#/login?id=1"
+
 
         let hasQuery = url.indexOf('?') > 0
         if(!hasQuery){
@@ -21,6 +23,19 @@ export  class PageTool {
         }
 
         return kvs
+    }
+
+    //"http://localhost:8000/#/login?id=1"
+    static currentPathname(){
+        let url = window.location.href;
+
+        if(str.contains(url,'#')){
+          url =  str.subAfter(url,'#')
+        }
+        if(str.contains(url, '?')){
+            url = str.subBefore('?')
+        }
+        return url;
     }
 
 
