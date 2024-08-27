@@ -1,4 +1,5 @@
 {
+  "name": "@tmgg/tmgg-system-code-gen",
   "proxy" : "http://127.0.0.1:88",
   "private" : true,
   "devDependencies" : {

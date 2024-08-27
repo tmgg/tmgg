@@ -1,4 +1,5 @@
 {
+  "name": "@tmgg/tmgg-system-kettle",
   "private" : true,
   "devDependencies" : {
     "@types/react" : "^18.0.0",
