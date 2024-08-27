@@ -15,6 +15,8 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
@@ -28,6 +30,7 @@ import java.lang.reflect.Method;
 @Slf4j
 @Order(AopSortConstant.PERMISSION_AOP)
 @Component
+@ConditionalOnProperty(name = "tmgg.system.enable-permission-aop", havingValue = "true", matchIfMissing = true)
 public class HasPermissionAop {
 
     /**
