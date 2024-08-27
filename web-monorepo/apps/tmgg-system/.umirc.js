@@ -1,11 +1,7 @@
 import {defineConfig} from 'umi';
+import {theme} from "@tmgg/tmgg-base";
 
-const theme ={
-  "primary-color": "#1961AC",
-  "success-color": "#52c41a",
-  "warning-color": "#faad14",
-  "error-color": "#ff4d4f"
-}
+
 
 // @ts-ignore
 export default defineConfig({
