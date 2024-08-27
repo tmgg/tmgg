@@ -1,12 +1,10 @@
 import MenuLayout from "./menu"
 import React from "react";
 
-import {ConfigProvider, Spin} from "antd";
+import {ConfigProvider} from "antd";
 import SimpleIFrameLayout from "./iframe/IFrameLayout";
-import {LibValueType, SysConfig} from "../common";
+import {sys, SysConfig} from "../common";
 import LoginDataLoading from "./LoginDataLoading";
-import {toggleWatermark} from "./watermark";
-import {ProProvider} from "@ant-design/pro-components";
 
 
 
@@ -17,29 +15,11 @@ export class Layouts extends React.Component {
     loginDataLoaded: false,
   }
 
-  componentDidMount() {
-    console.log('layouts/index.jsx componentDidMount')
-
-    this.loadSiteInfo().then((msg) => {
-      this.setState({siteInfoLoaded: true, msg})
-    }).catch(msg => {
-      this.setState({msg})
-    })
-
-  }
-
-
-  loadSiteInfo = () => {
-    if (SysConfig.getSiteInfo() != null) {
-      return Promise.resolve()
-    }
-    return SysConfig.loadSiteInfo()
-  }
-
   render() {
-    if (!this.state.siteInfoLoaded) {
-      return <div><Spin/> 站点信息加载中...</div>
+    if(sys.isPageNeedLogin(window.location.pathname)){
+
     }
+
 
     if(this.isMenuLayout() && !this.state.loginDataLoaded && SysConfig.isPageNeedLogin(window.location.pathname) ){
       return  <LoginDataLoading onAfterLogin={()=>{
@@ -56,13 +36,7 @@ export class Layouts extends React.Component {
         }
       }}
     >
-      <ProProvider.Provider
-        value={{
-          valueTypeMap: LibValueType,
-        }}
-      >
         {this.renderChildren()}
-      </ProProvider.Provider>
     </ConfigProvider>
   }
 
@@ -86,10 +60,7 @@ export class Layouts extends React.Component {
     return children;
   }
 
-  isMenuLayout() {
-    const {pathname} = window.location;
-    return pathname === "" || pathname === "/";
-  }
+
 }
 
 export default Layouts

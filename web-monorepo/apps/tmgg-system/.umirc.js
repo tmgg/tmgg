@@ -1,5 +1,5 @@
 import {defineConfig} from 'umi';
-import {themeVar} from "./theme";
+import {themeVar} from "@tmgg/tmgg-base";
 
 
 
@@ -9,9 +9,6 @@ import {themeVar} from "./theme";
 export default defineConfig({
   npmClient: 'yarn',
 
-  history: {
-    type: 'hash'
-  },
   define: {
     "process.env.API_BASE_URL": "/",
     "process.env.LOGIN_URL": "/login",
@@ -25,19 +22,6 @@ export default defineConfig({
    */
   hash: true,
 
-  routes: [
-    { path: "/login", component: "login" ,layout:false},
-    {
-      path: '/',
-      component: '@/layouts/index',
-      routes: [
-        { path: "/", component: "index" },
-      ],
-    },
-
-
-
-  ],
 
 
 });
