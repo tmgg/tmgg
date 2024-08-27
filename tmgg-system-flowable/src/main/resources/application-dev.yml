@@ -1,4 +1,2 @@
 tmgg:
   system:
-    login-exclude-path-patterns: /job/**
-    enable-permission-aop: false

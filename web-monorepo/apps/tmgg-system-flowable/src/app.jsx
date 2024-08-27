@@ -1,16 +1,10 @@
-/**
- * 系统初始化会调用这里
- */
+// 调整umi 默认配置
+import {patchRoutesDependency} from "@tmgg/tmgg-system/src/common/system/lib-route";
+import {getRoutes} from "@tmgg/tmgg-system";
 
-import {HttpClient} from "@crec/lang";
-import {message} from "antd";
-
-
-
-HttpClient.setShowError(msg => {
-  message.error(msg)
-})
-
+export function patchRoutes({ routes }) {
+  patchRoutesDependency(routes, getRoutes())
+}
 
 
 

@@ -1,0 +1,16 @@
+{
+  "SysMenu": [
+
+    {
+      "id": "flowable",
+      "type": "MENU",
+      "application": "system",
+      "name": "流程管理",
+      "code": "flowable",
+      "router": "/flowable/index.html",
+      "iframe": true,
+      "seq": 102
+    }
+
+  ]
+}

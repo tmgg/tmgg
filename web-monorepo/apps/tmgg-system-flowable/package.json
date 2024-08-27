@@ -13,6 +13,7 @@
     "@ant-design/pro-components": "^2.0.0",
     "@crec/lang": "^1.0.0-beta.3",
     "@moon-cn/hutool": "^1.0.0",
+    "@tmgg/tmgg-system": "^0.1.16",
     "@tmgg/tmgg-base": "^0.1.16",
     "@tmgg/pro-table": "^0.1.2",
     "antd": "^4.0.0",
@@ -28,7 +29,6 @@
     "umi": "^3.0.0"
   },
   "devDependencies": {
-    "@types/lodash": "^4.14.200",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
     "@umijs/preset-react": "1.x",

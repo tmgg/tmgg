@@ -14,6 +14,9 @@ export default defineConfig({
   nodeModulesTransform: {
     type: 'none',
   },
+  extraBabelIncludes: [
+    "@tmgg/tmgg-system"
+  ],
   fastRefresh: {},
   antd: {
     compact: true, // 开启紧凑主题
