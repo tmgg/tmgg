@@ -7,9 +7,6 @@ import {defineConfig} from 'umi';
 let proxyTarget = 'http://127.0.0.1:88';
 export default defineConfig({
 
-  devServer: {
-    port: 8002,
-  },
 
 
   proxy: {

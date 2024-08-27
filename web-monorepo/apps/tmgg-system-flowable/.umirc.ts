@@ -10,21 +10,14 @@ const theme = {
 
 // @ts-ignore
 export default defineConfig({
-  webpack5: {},
-  nodeModulesTransform: {
-    type: 'none',
-  },
+
   extraBabelIncludes: [
     "@tmgg/tmgg-system"
   ],
-  fastRefresh: {},
-  antd: {
-    compact: true, // 开启紧凑主题
-  },
-  locale: {antd: true},
+
 
   // 使用相对路径加载， 默认是绝对位置
-  publicPath: './',
+  publicPath: process.env.NODE_ENV === 'production' ? './' : '/',
 
 
   // 升级antd最新包后出现报错

@@ -6,7 +6,6 @@ import {defineConfig} from 'umi';
 
 let target = 'http://127.0.0.1:88';
 
-let proxyList = ['ureport', 'code', 'job', 'sso', 'flowable','weapp']
 
 let proxy = {
   '/api': {
@@ -16,26 +15,8 @@ let proxy = {
   },
 };
 
-for (let p of proxyList) {
-  const cfg = {
-    target: target,
-    changeOrigin: true,
-  }
-  cfg.pathRewrite = {}
-  cfg.pathRewrite['^/' + p] = '/' + p
-  proxy['/' + p] = cfg
-}
-
-
 export default defineConfig({
-  devServer: {
-    port: 7701,
-  },
 
-  nodeModulesTransform: {
-    type: 'none',
-  },
-  fastRefresh: {},
   define: {
     "process.env.API_BASE_URL": "/api/"
   },

@@ -1,4 +1,8 @@
 {
+  "description" : "函数工具类",
+  "version" : "0.1.16",
+  "main" : "src/index.js",
+
   "license" : "ISC",
   "devDependencies" : {
     "@vitest/coverage-v8" : "^1.6.0",
@@ -14,13 +18,13 @@
     "antd": "^4.0.0 || ^5.0.0"
   },
   "name" : "@tmgg/tmgg-base",
-  "description" : "函数工具类",
-  "main" : "src/index.js",
+
+
   "scripts" : {
     "test" : "vitest",
     "coverage" : "vitest run --coverage",
     "build" : "rollup -c",
     "build-publish" : "npm run build &&  npm publish --registry https://registry.npmjs.org"
-  },
-  "version" : "0.1.16"
+  }
+
 }

@@ -2,11 +2,10 @@ import {Avatar, Badge, Card, Dropdown, Menu, Modal, Spin} from "antd";
 import {NotificationOutlined, SettingOutlined, UserOutlined} from "@ant-design/icons";
 import HeaderRightMsgCard from "./HeaderRightMsgCard";
 import React from "react";
-import {theme} from "../../config";
 import {history} from "umi";
 import {HttpClient, PageTool, sys, SysConfig} from "../../common";
 import ReactMarkdown from "react-markdown";
-
+import {theme} from "../../common";
 
 const ID = 'header-right';
 export default class HeaderRight extends React.Component {
