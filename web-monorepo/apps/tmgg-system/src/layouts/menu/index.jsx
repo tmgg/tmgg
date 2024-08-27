@@ -1,7 +1,7 @@
 // 全局路由
 
 import React from 'react';
-import {Badge, Card, Menu, Segmented, Tabs} from 'antd';
+import {Badge, Card, Dropdown, Menu, Segmented, Tabs} from 'antd';
 import {history, Link, Outlet} from 'umi';
 import "./antd_ext.less"
 import "./index.less"
@@ -279,17 +279,48 @@ export default class extends React.Component {
       }
 
 
+
+
       let item = {
-        icon:tab.icon,
+        icon: tab.icon,
         key: tab.id,
-        label: <span> {tab.name}  </span>,
-        value:tab.path,
+        label: tab.label,
+        value: tab.path,
       };
       items.push(item);
     }
 
-
+    const items2 = [
+      {
+        label: '1st menu item',
+        key: '1',
+      },
+      {
+        label: '2nd menu item',
+        key: '2',
+      },
+      {
+        label: '3rd menu item',
+        key: '3',
+      },
+    ];
     return < >
+      <Dropdown
+          menu={{
+            items:items2
+          }}
+          trigger={['contextMenu']}
+      >
+        <div
+            style={{
+              height: 200,
+              textAlign: 'center',
+              lineHeight: '200px',
+            }}
+        >
+          Right Click on here
+        </div>
+      </Dropdown>
       <Menu
           items={items}
           mode="horizontal"
