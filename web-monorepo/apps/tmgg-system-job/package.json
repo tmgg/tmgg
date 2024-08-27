@@ -31,7 +31,7 @@
   "version": "0.1.16",
   "dependencies": {
     "@ant-design/icons": "^4.0.0",
-    "@tmgg/pro-table": "^0.1.0",
+    "@tmgg/pro-table": "^0.1.2",
     "@tmgg/tmgg-base": "0.1.16",
     "antd": "^4.0.0",
     "axios": "^1.6.7",

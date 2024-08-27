@@ -3,6 +3,7 @@ import {Button, Card, Form, Input, message} from "antd";
 import {HttpClient} from "@crec/lang";
 import {PageLoading} from "@ant-design/pro-components";
 import hutool from "@moon-cn/hutool";
+import {http} from "@tmgg/tmgg-base";
 
 export default class extends React.Component {
 
@@ -15,7 +16,7 @@ export default class extends React.Component {
     let params = hutool.url.params()
     const id = this.id = params.id
 
-    HttpClient.get('flowable/test/get', {id}).then(rs=>{
+    http.get('flowable/test/get', {id}).then(rs=>{
         this.setState({model: rs.data})
 
     })
