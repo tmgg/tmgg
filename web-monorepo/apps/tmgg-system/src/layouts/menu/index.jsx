@@ -255,7 +255,16 @@ export default class extends React.Component {
 
 
   renderTabs = () => {
+
     let {tabs} = this.state;
+
+    const dropdownItems = [
+      {
+        label: '关闭',
+        key: '1',
+      },
+
+    ];
 
     const items = [];
     for (const tab of tabs) {
@@ -264,6 +273,7 @@ export default class extends React.Component {
         path = tab.iframePath || tab.path
       }
 
+      console.log(tab)
 
 
       let content = null
@@ -284,49 +294,28 @@ export default class extends React.Component {
       let item = {
         icon: tab.icon,
         key: tab.id,
-        label: tab.label,
-        value: tab.path,
+        label:  <Dropdown
+            menu={{
+              items: dropdownItems
+            }}
+            trigger={['contextMenu']}
+        ><span>
+          {tab.name}
+        </span>
+        </Dropdown>,
+        path: tab.path,
       };
       items.push(item);
     }
 
-    const items2 = [
-      {
-        label: '1st menu item',
-        key: '1',
-      },
-      {
-        label: '2nd menu item',
-        key: '2',
-      },
-      {
-        label: '3rd menu item',
-        key: '3',
-      },
-    ];
+
     return < >
-      <Dropdown
-          menu={{
-            items:items2
-          }}
-          trigger={['contextMenu']}
-      >
-        <div
-            style={{
-              height: 200,
-              textAlign: 'center',
-              lineHeight: '200px',
-            }}
-        >
-          Right Click on here
-        </div>
-      </Dropdown>
+
       <Menu
           items={items}
           mode="horizontal"
-          onChange={(value) => {
-            PageTool.open(value)
-            console.log(value); // string
+          onClick={({item}) => {
+            PageTool.open(item.props.path)
           }}
       />
     </>
