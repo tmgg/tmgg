@@ -1,34 +1,20 @@
 import {defineConfig} from 'umi';
-import {theme} from "@tmgg/tmgg-base";
 
 
 
 // @ts-ignore
 export default defineConfig({
-
+  npmClient: 'yarn',
 
   history: {
     type: 'hash'
   },
   define: {
     "process.env.API_BASE_URL": "/",
-    "process.env.LOGIN_URL": "/system/login",
+    "process.env.LOGIN_URL": "/login",
     "process.env.TITLE": "管理后台",
-
-    "process.env.theme": theme
   },
 
-
-  // 升级antd最新包后出现报错
-  // https://github.com/ant-design/ant-design-pro/issues/9082#issuecomment-925609753
-  lessLoader: {
-    // golbalVars: {
-    //   'root-entry-name': 'default'
-    // }
-    modifyVars: {
-      'root-entry-name': 'default'
-    }
-  },
 
 
   /**
@@ -36,19 +22,19 @@ export default defineConfig({
    */
   hash: true,
 
-
-  /** 修改主题颜色 **/
-  theme: theme,
-
-
-  /*--------以下为性能优化 --------*/
-
-
-  // 默认10k图片会打包到js
-  // Default: 10000 (10k)
-  inlineLimit: 10,
+  routes: [
+    { path: "/login", component: "login" ,layout:false},
+    {
+      path: '/',
+      component: '@/layouts/index',
+      routes: [
+        { path: "/", component: "index" },
+      ],
+    },
 
 
+
+  ],
 
 
 });

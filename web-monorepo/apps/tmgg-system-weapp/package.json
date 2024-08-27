@@ -1,12 +1,9 @@
 {
-  "name": "@tmgg/tmgg-system-weapp",
   "proxy" : "http://127.0.0.1:88",
   "private" : true,
   "devDependencies" : {
     "@types/react" : "^18.0.0",
     "@types/react-dom" : "^18.0.0",
-    "@umijs/preset-react" : "1.x",
-    "@umijs/test" : "^3.5.19",
     "cross-env" : "^7.0.3",
     "lint-staged" : "^10.0.7",
     "prettier" : "^2.2.0",
@@ -17,14 +14,15 @@
     "production" : [ ">0.2%", "not dead", "not op_mini all" ],
     "development" : [ "last 1 chrome version", "last 1 firefox version", "last 1 safari version" ]
   },
+  "name" : "@tmgg/tmgg-system-weapp",
   "scripts" : {
     "start" : "react-scripts start",
     "build" : "react-scripts build"
   },
-  "version" : "0.1.16",
+  "version" : "0.1.17",
   "dependencies" : {
     "@ant-design/pro-table" : "^3.16.6",
-    "@tmgg/tmgg-base" : "workspace:*",
+    "@tmgg/tmgg-base" : "0.1.17",
     "antd" : "^5.0.0",
     "axios" : "^1.6.7",
     "react" : "^18.0.0",

@@ -15,3 +15,4 @@ export *  from './validate'
 
 
 export * from './system/theme'
+export * from './framework/PageTool'

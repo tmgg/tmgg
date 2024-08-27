@@ -18,7 +18,7 @@ export class Layouts extends React.Component {
   }
 
   componentDidMount() {
-    console.log('顶层布局页面加载，初始化一些站点数据...')
+    console.log('layouts/index.jsx componentDidMount')
 
     this.loadSiteInfo().then((msg) => {
       this.setState({siteInfoLoaded: true, msg})
@@ -26,7 +26,6 @@ export class Layouts extends React.Component {
       this.setState({msg})
     })
 
-    toggleWatermark(this.props.location.pathname)
   }
 
 
@@ -42,7 +41,7 @@ export class Layouts extends React.Component {
       return <div><Spin/> 站点信息加载中...</div>
     }
 
-    if(this.isMenuLayout() && !this.state.loginDataLoaded && SysConfig.isPageNeedLogin(this.props.location.pathname) ){
+    if(this.isMenuLayout() && !this.state.loginDataLoaded && SysConfig.isPageNeedLogin(window.location.pathname) ){
       return  <LoginDataLoading onAfterLogin={()=>{
         console.log("layout index:", "afterLogin")
         this.setState({loginDataLoaded:true})
@@ -69,9 +68,9 @@ export class Layouts extends React.Component {
 
 
   renderChildren() {
-    const {children, location} = this.props;
+    const {children} = this.props;
 
-    const {query} = location;
+    const {search} = window.location;
 
     // 菜单布局
     if (this.isMenuLayout()) {
@@ -80,7 +79,7 @@ export class Layouts extends React.Component {
 
     // iframe 不带
     // 如果参数中 类似  /user?layout=iframe
-    if (query.layout === 'iframe') {
+    if (search.layout === 'iframe') {
       return <SimpleIFrameLayout location={location}>{children}</SimpleIFrameLayout>
     }
 
@@ -88,9 +87,7 @@ export class Layouts extends React.Component {
   }
 
   isMenuLayout() {
-    const {children, location} = this.props;
-
-    const {pathname, query} = location;
+    const {pathname} = window.location;
     return pathname === "" || pathname === "/";
   }
 }

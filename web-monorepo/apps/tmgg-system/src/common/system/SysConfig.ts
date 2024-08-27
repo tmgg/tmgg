@@ -138,7 +138,7 @@ class Config {
   }
 
   getLoginUrl() {
-    return process.env.LOGIN_URL || "/system/login";
+    return process.env.LOGIN_URL || "/login";
   }
 
   isPageNeedLogin(url: string) {
@@ -199,7 +199,7 @@ class Config {
   }
 
   public getSiteInfo = () => {
-    return this.siteInfo;
+    return this.siteInfo || {};
   }
 
   public appendTokenToUrl(url: string): string {
