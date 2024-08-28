@@ -47,8 +47,8 @@ export class Layouts extends React.Component {
           Menu:{
             darkItemBg: theme["primary-color"],
             darkPopupBg: theme["primary-color"],
-            darkItemSelectedBg: theme["primary-color-click"],
-            darkItemHoverBg: theme["primary-color-hover"],
+            darkItemSelectedBg: theme["primary-color-hover"],
+            darkItemHoverBg: theme["primary-color-click"],
             darkSubMenuItemBg: theme["primary-color"]
           },
           Layout: {

@@ -1,5 +1,5 @@
 import React from "react";
-import {Button, Menu, Skeleton, Space} from "antd";
+import {Badge, Button, Menu, Skeleton, Space} from "antd";
 import {TreeUtil} from "../../common";
 import * as Icons from "@ant-design/icons";
 import {http} from "@tmgg/tmgg-base";
@@ -12,7 +12,7 @@ export default class extends React.Component {
         defaultOpenKeys: undefined,
         menuLoading: true,
 
-        menuMap: {} // 缓存 path和key，方便快速查询
+        pathMap: {} // 缓存 path和key，方便快速查询
     }
 
 
@@ -37,11 +37,11 @@ export default class extends React.Component {
                     }
                 }
 
-                map[item.path] = item.id
+                map[item.path] = item
             })
 
             this.setState({menuLoading:false})
-            this.setState({menuList: list, menuMap:map})
+            this.setState({menuList: list, pathMap:map})
 
             if(list.length >0){
                 this.setState({defaultOpenKeys:[list[0].id]})
@@ -53,24 +53,33 @@ export default class extends React.Component {
 
 
     render() {
-        let {menuLoading, menuMap} = this.state;
+        let {menuLoading, pathMap} = this.state;
 
         if(menuLoading){
             return <Skeleton></Skeleton>
         }
         const {pathname} = this.props
 
-        const key = menuMap[pathname]
+        const curMenu = pathMap[pathname]
 
         return    <Menu items={this.state.menuList}
                   theme='dark'
                   mode="inline"
                   defaultOpenKeys={this.state.defaultOpenKeys}
-                        onClick={({item})=>{
-                            history.push(item.props.path)
+                        onClick={({key,item})=>{
+                            let {path} = item.props;
+                            let clickMenu = pathMap[path]
+                            history.push(path)
+                            this.props.onSelect( key, path,clickMenu.label, clickMenu.icon)
                   }}
-                        selectedKeys={[key]}
+                        selectedKeys={[curMenu?.id]}
             >
             </Menu>
+    }
+
+    renderBadge(item){
+      return   <Badge count={item.badge} size="small">
+            <span style={{display: 'inline-block', width: 10}}></span>
+        </Badge>
     }
 }

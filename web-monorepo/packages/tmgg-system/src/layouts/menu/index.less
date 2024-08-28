@@ -1,101 +1,17 @@
-@import "../../css/variables.less";
-
-@menu-text-color: rgba(255, 255, 255, 0.65) ; // 全局主色
-/** BEGIN 根据股份公司调整 **/
-.ant-pro-global-header-logo a img {
-  height: 36px !important;
-}
-
-.ant-pro-global-header-logo h1 {
-  height: 100% !important;
-  padding: 8px 20px;
-  color: @primary-color;
-}
-
-
-.ant-pro-global-header-logo h1:hover {
-  background: @primary-color-hover;
-  color: white;
-}
-
-
-.ant-pro-global-header {
-  padding-left: 20px !important;
-  font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
-}
-
-/** END */
-
-.header-right {
+.logo {
+  height: 3rem;
+  margin: 20px;
+  border-radius: 6px;
+  padding: 12px;
+  background: rgba(255,255,255, .3);
   display: flex;
   align-items: center;
-  margin: 0;
-  padding: 0;
-  list-style: none;
+  gap: 0.5rem
 }
-
-.header-right > li {
-  padding: 0 12px;
-  cursor: pointer;
-}
-
-.header-right > li:hover {
-  background: @primary-color-hover;
-}
-
-
-.header-right .user {
-  display: inline-flex;
+.header {
+  padding: 0 20px;
+  display: flex;
+  justify-content: space-between;
   align-items: center;
+
 }
-
-.ant-pro-sider.ant-layout-sider {
-
-  background: @primary-color !important;
-  padding: 6px;
-
-  .ant-menu {
-    background: @primary-color !important;
-    color: @menu-text-color !important;
-    .ant-menu-submenu-arrow {
-      color: @menu-text-color !important;
-    }
-  }
-
-  .ant-menu-item {
-    border-radius: 15px;
-  }
-
-
-
-  .ant-menu-item-selected, .ant-menu-item-active {
-    background: @primary-color-hover !important;
-    color: @menu-text-color !important;
-  }
-
-
-  .ant-menu-submenu-title:hover {
-    background: @primary-color-hover !important;
-    color: @menu-text-color !important;
-  }
-}
-
-
-
-// 内容
-.ant-layout-content {
-  padding: 0 !important;
-}
-
-.menu-layout-tab > .ant-tabs-nav {
-
-  // 标签页按钮太大
-  .ant-tabs-tab {
-    padding: 2px 8px !important;
-  }
-}
-.menu-layout-tab > .ant-tabs-content-holder {
-    background: #F5F5F5 !important;
-    min-height: calc(100vh - 100px);
-}
-

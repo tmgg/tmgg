@@ -19,296 +19,214 @@ import {PageTool, theme} from "@tmgg/tmgg-base";
 import TabMenu from "./TabMenu";
 import LeftMenu from "./LeftMenu";
 
-const { Header, Footer, Sider, Content } = Layout;
+const {Header, Footer, Sider, Content} = Layout;
 /**
  * 带菜单的布局，主要处理布局宇框架结构
  */
 export default class extends React.Component {
 
-  state = {
-    list: [],
-    menus: [],
+    state = {
+        list: [],
+        menus: [],
 
-    currentAppKey: null,
+        currentAppKey: null,
 
-    tabs: [],
+        tabs: [],
 
-    selectedTabKey: null,
+        selectedTabKey: null,
 
-    dataLoaded: false,
+        dataLoaded: false,
 
-    collapsed: false
-  }
-
-
-
-  toggleCollapsed = (v)=>{
-    this.setState({collapsed:v})
-  }
-
-  componentDidMount() {
-
-    this.initMenu()
-
-    SysConfig.loadLoginData().then(() => {
-      this.setState({dataLoaded: true})
-    })
-
-  }
+        collapsed: false
+    }
 
 
-  initMenu = () => {
+    toggleCollapsed = (v) => {
+        this.setState({collapsed: v})
+    }
 
-    HttpClient.get('appMenuTree').then(rs => {
-      const list = rs.data;
-      // 设置icon
-      TreeUtil.every(list, (item) => {
-        let IconType = Icons[ item.icon || 'SmileOutlined'];
-        item.icon = <IconType style={{fontSize: 12}}/>
+    componentDidMount() {
 
-        if (item.path) {
-          if (item.iframe) {
-            item.iframePath = item.path;
+        this.initMenu()
 
-            // pro layout的bug， 如果http开头的，会直接打开新窗口
-            if (item.path.startsWith('http')) {
-              item.path = '/' + item.path;
-            }
-          }
+        SysConfig.loadLoginData().then(() => {
+            this.setState({dataLoaded: true})
+        })
+
+    }
+
+
+    initMenu = () => {
+
+        HttpClient.get('appMenuTree').then(rs => {
+            const list = rs.data;
+            // 设置icon
+            TreeUtil.every(list, (item) => {
+                let IconType = Icons[item.icon || 'SmileOutlined'];
+                item.icon = <IconType style={{fontSize: 12}}/>
+
+                if (item.path) {
+                    if (item.iframe) {
+                        item.iframePath = item.path;
+
+                        // pro layout的bug， 如果http开头的，会直接打开新窗口
+                        if (item.path.startsWith('http')) {
+                            item.path = '/' + item.path;
+                        }
+                    }
+                }
+
+            })
+            this.setState({list}, () => this.changeApp(list[0]))
+
+        })
+    }
+    actionRef = React.createRef()
+
+    /**
+     *
+     * @param item
+     * @param forceNewTab
+     */
+    openTab = (item) => {
+        let {id, path} = item;
+        const {tabs} = this.state;
+
+        if (!path) {
+            return;
         }
 
-      })
-      this.setState({list}, () => this.changeApp(list[0]))
+        // 没有id，说明是页面内打开的， 而非通过点击菜单打开
+        if (id == null) {
+            item.id = id = uid()
+        }
 
-    })
-  }
-  actionRef = React.createRef()
+        // 判断页签是否打开
+        const exist = tabs.some(t => t.id === id)
+        if (!exist) {
+            tabs.push(item)
+        }
+        this.setState({tabs, selectedTabKey: id})
 
-  /**
-   *
-   * @param item
-   * @param forceNewTab
-   */
-  openTab = (item) => {
-    let {id, path} = item;
-    const {tabs} = this.state;
-
-    if (!path) {
-      return;
+        PageTool.open(path)
     }
 
-    // 没有id，说明是页面内打开的， 而非通过点击菜单打开
-    if (id == null) {
-      item.id = id = uid()
+
+    changeApp = app => {
+        if (app) {
+            this.setState({menus: app.children, currentAppKey: app.key}, this.actionRef.current?.reload)
+        }
     }
 
-    // 判断页签是否打开
-    const exist = tabs.some(t => t.id === id)
-    if (!exist) {
-      tabs.push(item)
-    }
-    this.setState({tabs, selectedTabKey: id})
-
-    PageTool.open(path)
-  }
-
-
-  changeApp = app => {
-    if (app) {
-      this.setState({menus: app.children, currentAppKey: app.key}, this.actionRef.current?.reload)
-    }
-  }
-
-  /**
-   *  关闭tab
-   * @param key
-   * @param refreshParentTab， 是否刷新父窗口
-   */
-  closeTab = (key) => {
-    let {tabs} = this.state
-    tabs = tabs.filter(t => t.id != key)
-    let selectedTabKey = tabs[tabs.length - 1]?.id
-    this.setState({tabs})
-    this.onTabChange(selectedTabKey)
-  }
-  render() {
-    console.log('开始渲染 menu index.jsx')
-    if (!this.state.dataLoaded) {
-      return <PageLoading/>
+    /**
+     *  关闭tab
+     * @param key
+     * @param refreshParentTab， 是否刷新父窗口
+     */
+    closeTab = (key) => {
+        let {tabs} = this.state
+        tabs = tabs.filter(t => t.id != key)
+        let selectedTabKey = tabs[tabs.length - 1]?.id
+        this.setState({tabs})
+        this.onTabChange(selectedTabKey)
     }
 
-    const title = sys.getSiteInfo().siteTitle || process.env.TITLE
+    onMenuSelect = (key, path, label,icon) => {
+        console.log(key, path, label)
+        const {tabs} = this.state
+
+        if(!tabs.some(t=>t.key === key)){
+            tabs.push({key, path, label,icon})
+        }
+    }
+
+    render() {
+        console.log('开始渲染 menu index.jsx')
+        if (!this.state.dataLoaded) {
+            return <PageLoading/>
+        }
+
+        const title = sys.getSiteInfo().siteTitle || '未定义标题'
 
 
+        return <Layout
+            style={{
+                minHeight: '100vh',
+            }}
+        >
+            <Sider collapsible collapsed={this.state.collapsed}
+                   onCollapse={(value) => this.toggleCollapsed(value)}>
+                <div className='logo' onClick={() => history.push('/')}>
+                    <img src={logo} height='100%'/>
+                </div>
+                <LeftMenu pathname={this.props.pathname} onSelect={this.onMenuSelect}/>
+            </Sider>
+            <Layout>
+                <Header className='header' >
+                        <h3 style={{color:theme["primary-color"]}}>{title}</h3>
+                        <HeaderRight></HeaderRight>
+                </Header>
 
-    const {list, currentAppKey} = this.state
+                <Content >
 
-    return       <Layout
-          style={{
-            minHeight: '100vh',
-          }}
-      > <Sider collapsible collapsed={this.state.collapsed}
-               onCollapse={(value) => this.toggleCollapsed(value)}>
-        <div onClick={() => {
-          history.push('/')
-        }} style={{
-          height: '4rem',
-          margin:20,
-          borderRadius:6,
-          padding:12,
-          background:'rgba(255,255,255, .3)',
-          display: 'flex', alignItems: "center", gap: '0.5rem'}}>
+                    <TabMenu items={this.state.tabs}
+                             pathname={this.props.pathname}
+                    >
+                    </TabMenu>
 
-          <img src={logo} height='100%' />
-          <div style={{     color:theme["primary-color-click"], fontSize:'large', fontWeight:'bold'}}>
-            {title}
-          </div>
-        </div>
-        <LeftMenu pathname={this.props.pathname}/>
-      </Sider>
-        <Layout>
-          <Header
-              style={{
-                padding: '0 20px',
-              }}
-          >
+                    <div style={{margin: 4}}></div>
 
+                    <Outlet/>
 
-            <div style={{display: 'flex', justifyContent: 'space-between'}}>
-              <div>{title}</div>
-              <HeaderRight></HeaderRight>
-            </div>
-
-          </Header>
-
-          <Content
-              style={{
-                margin: '0',
-              }}
-          >
-            {this.renderTabs()}
-
-            <div style={{margin: 4}}></div>
-
-            <Outlet/>
-
-          </Content>
-          <Footer
-              style={{
-                textAlign: 'center',
-              }}
-          >
-            Tmgg Design ©{new Date().getFullYear()} Created by Mxvc
-          </Footer>
+                </Content>
+                <Footer
+                    style={{
+                        textAlign: 'center',
+                    }}
+                >
+                    Tmgg Design ©{new Date().getFullYear()} Created by Mxvc
+                </Footer>
+            </Layout>
         </Layout>
-      </Layout>
 
 
+    }
+
+    // 左侧菜单项
+    menuItemRender = (item, dom) => {
+        return <div style={{display: 'flex', justifyContent: "start", gap: 4}}
+                    onClick={(event) => {
+                        event.preventDefault();
+                        this.openTab(item);
+                        return false
+                    }}>
+
+            <span>{dom}</span>
+
+        </div>;
+
+    }
 
 
+    onTabChange = (key, item) => {
+        console.log("onTabChange", key, item)
 
-  }
+        this.setState({selectedTabKey: key}, this.triggerOnShow)
 
-  // 左侧菜单项
-  menuItemRender = (item, dom) => {
-    return <div style={{display: 'flex', justifyContent: "start", gap: 4}}
-                onClick={(event) => {
-                  event.preventDefault();
-                  this.openTab(item);
-                  return false
-                }}>
+        const {tabs} = this.state;
+        const tab = tabs.find(t => t.id === key)
+        PageTool.open(tab.path)
 
-      <span>{dom}</span>
-      <Badge count={item.badge} size="small">
-        <span style={{display: 'inline-block', width: 10}}></span>
-      </Badge>
-    </div>;
+    }
 
-  }
-
-
-  renderTabs = () => {
-
-    let {tabs} = this.state;
-
-    const dropdownItems = [
-      {
-        label: '关闭',
-        key: '1',
-      },
-
-    ];
-
-    const items = [];
-    for (const tab of tabs) {
-      let {path, iframe} = tab;
-      if (iframe) {
-        path = tab.iframePath || tab.path
-      }
-
-      console.log(tab)
-
-
-      let content = null
-      if (iframe) {
-        content =
-          <iframe
+    renderIframe() {
+        return <iframe
             {...hutool.html.getIframeCommonProps()}
             src={sys.appendTokenToUrl(path)}
             style={{height: 'calc(100vh - 100px)'}}
             sandbox="allow-scripts allow-same-origin allow-forms"
-          ></iframe>
-      }
-
-
-
-
-      let item = {
-        icon: tab.icon,
-        key: tab.id,
-        label:  <Dropdown
-            menu={{
-
-              items: dropdownItems
-            }}
-            trigger={['contextMenu']}
-        ><span>
-          {tab.name}
-        </span>
-        </Dropdown>,
-        path: tab.path,
-      };
-      items.push(item);
+        ></iframe>
     }
-
-
-    return < >
-
-      <TabMenu items={items}
-               onClick={item => {
-        PageTool.open(item.path)
-      }}
-               pathname={this.props.pathname}
-      >
-
-      </TabMenu>
-
-
-
-    </>
-  }
-
-  onTabChange = (key,item) => {
-    console.log("onTabChange", key,item)
-
-    this.setState({selectedTabKey: key}, this.triggerOnShow)
-
-    const {tabs} = this.state;
-    const tab = tabs.find(t=>t.id=== key)
-    PageTool.open(tab.path)
-
-  }
-
 }
 
 
