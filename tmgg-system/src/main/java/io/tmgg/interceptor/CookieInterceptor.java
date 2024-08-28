@@ -57,7 +57,7 @@ public class CookieInterceptor implements HandlerInterceptor {
             }
         }
 
-        String token = tokenManger.getTokenFromRequest(request);
+        String token = tokenManger.getTokenFromRequest(request,true);
 
 
         //校验token，错误则抛异常

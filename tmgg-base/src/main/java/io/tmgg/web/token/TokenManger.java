@@ -134,7 +134,7 @@ public class TokenManger {
         return MD5.create().digestHex(token);
     }
 
-    public String getTokenFromRequest(HttpServletRequest request) {
+    public String getTokenFromRequest(HttpServletRequest request, boolean checkSession) {
         String token = request.getHeader(HEADER_PARAM);
 
         if (StringUtils.isEmpty(token)) {
@@ -152,9 +152,11 @@ public class TokenManger {
             }
         }
 
-        HttpSession session = request.getSession();
-        if (StringUtils.isEmpty(token)) {
-            token = (String) session.getAttribute(SESSION_PARAM);
+        if(checkSession){
+            HttpSession session = request.getSession();
+            if (StringUtils.isEmpty(token)) {
+                token = (String) session.getAttribute(SESSION_PARAM);
+            }
         }
 
         return token;

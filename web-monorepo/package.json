@@ -1,11 +1,16 @@
 {
-  "private" : "true",
-  "name" : "@tmgg/tmgg-monorepo",
-  "workspaces" : [ "apps/*", "packages/*" ],
-  "scripts" : { },
-  "version" : "0.1.17",
-
+  "private": "true",
+  "name": "@tmgg/tmgg-monorepo",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {},
+  "version": "0.1.17",
   "peerDependencies": {
+    "@ant-design/icons": "^5.4.0",
+    "@tmgg/pro-table": "^5.0.0",
     "antd": "^5.20.3"
   }
+
 }

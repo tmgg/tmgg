@@ -50,7 +50,7 @@ public class SetUserInfoInterceptor implements HandlerInterceptor {
             }
         }
 
-        String token = tokenManger.getTokenFromRequest(request);
+        String token = tokenManger.getTokenFromRequest(request,true);
         synchronized (token) {
             Subject cachedSubject = SecurityUtils.getCachedSubjectByToken(token);
             if (cachedSubject != null) {

@@ -3,7 +3,10 @@ export const theme = {
     "success-color": "#52c41a",
     "warning-color": "#faad14",
     "error-color": "#ff4d4f",
-    "background-color":"#f5f5f5"
+    "background-color":"#f5f5f5",
+
+
+    "primary-color-hover":"#4990CD"
 }
 
 

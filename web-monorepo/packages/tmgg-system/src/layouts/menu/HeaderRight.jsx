@@ -37,7 +37,8 @@ export default class HeaderRight extends React.Component {
 
   logout = () => {
     HttpClient.get('/logout').finally(() => {
-      history.push(SysConfig.getLoginUrl())
+      localStorage.clear()
+      history.replace(SysConfig.getLoginUrl())
     })
   }
 

@@ -50,7 +50,7 @@ public class SysLoginController {
     @GetMapping("/check-token")
     @PublicApi
     public AjaxResult loginCheck(HttpServletRequest req) {
-        String token = tokenManger.getTokenFromRequest(req);
+        String token = tokenManger.getTokenFromRequest(req,false);
         boolean valid = tokenManger.isValid(token);
         return AjaxResult.ok().data(valid);
     }
@@ -100,7 +100,7 @@ public class SysLoginController {
      */
     @GetMapping("/logout")
     public AjaxResult logout(HttpServletRequest request) {
-        String token = tokenManger.getTokenFromRequest(request);
+        String token = tokenManger.getTokenFromRequest(request,true);
         Subject subject = SecurityUtils.getCachedSubjectByToken(token);
         if (subject != null && subject.isAuthenticated() && subject.getId() != null) {
             log.info("用户退出 {} {}", subject.getName(), subject.getAccount());

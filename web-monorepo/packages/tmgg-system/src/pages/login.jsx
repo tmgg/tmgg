@@ -57,7 +57,7 @@ export default class login extends React.Component {
       SysConfig.loadLoginData().then(() => {
         console.log("跳转到首页....")
         hide();
-        history.push('/')
+        history.replace('/')
       })
     }).finally(() => {
       this.setState({logining: false})

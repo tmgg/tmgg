@@ -1,7 +1,6 @@
 import React from "react";
-import {Outlet} from "umi";
 import {http, PageLoading, PageTool} from "@tmgg/tmgg-base";
-import {Button, message} from "antd";
+import {Navigate} from "umi";
 
 export default class extends React.Component {
 
@@ -11,29 +10,28 @@ export default class extends React.Component {
 
     componentDidMount() {
         http.get('/check-token').then(rs => {
-            console.log('登录检查结果', rs.data)
-            if (rs.data === false) {
-                message.error('未登录')
-                PageTool.open('/login')
-            } else {
-                message.success('已登录')
-                this.setState({tokenValid:true})
-            }
+            let tokenValid = rs.data;
+            this.setState({tokenValid})
         })
     }
 
     render() {
         const pathname = PageTool.currentPathname();
 
+        console.log('auth.jsx', 'pathname', pathname, 'tokenValid',this.state.tokenValid)
+
         if(pathname === '/login'){
-            return  <Outlet />
+            return this.props.children
         }
 
-        if (this.state.tokenValid === undefined) {
-            return <Button>1</Button>
-            //return <PageLoading message='登录检查...'/>
+        switch (this.state.tokenValid) {
+            case true:
+                return  this.props.children
+            case false:
+                return <Navigate to="/login"></Navigate>
+            default:
+                return <PageLoading message='登录检查...'/>
         }
 
-        return  this.props.children
     }
 }

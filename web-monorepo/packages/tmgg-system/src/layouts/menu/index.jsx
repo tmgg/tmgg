@@ -16,7 +16,7 @@ import HeaderRight from "./HeaderRight";
 import {HttpClient, showContextMenu, sys, SysConfig, TreeUtil, uid} from "../../common";
 import hutool from "@moon-cn/hutool";
 import {PageTool} from "@tmgg/tmgg-base";
-import {CloseOutlined} from "@ant-design/icons";
+import TabMenu from "@tmgg/tmgg-base/src/framework/TabMenu";
 
 
 /**
@@ -40,6 +40,7 @@ export default class extends React.Component {
 
 
   componentDidMount() {
+
     this.initMenu()
 
     SysConfig.loadLoginData().then(() => {
@@ -231,6 +232,8 @@ export default class extends React.Component {
 
       {this.renderTabs()}
 
+      <div style={{margin:4}}></div>
+
       <Outlet />
 
     </ProLayout>;
@@ -311,13 +314,15 @@ export default class extends React.Component {
 
     return < >
 
-      <Menu
-          items={items}
-          mode="horizontal"
-          onClick={({item}) => {
-            PageTool.open(item.props.path)
-          }}
-      />
+
+      <TabMenu   items={items}   onClick={item => {
+        PageTool.open(item.path)
+      }}>
+
+      </TabMenu>
+
+
+
     </>
   }
 

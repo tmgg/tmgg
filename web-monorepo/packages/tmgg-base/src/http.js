@@ -59,8 +59,8 @@ axiosInstance.interceptors.response.use(res => {
 let globalErrorMessageHandler = (msg, error) => {
     console.log('请求异常', msg, error)
     Modal.error({
-        title:'操作异常',
-        content: msg
+        title:'网络请求异常',
+        content: error.status + ":" + msg
     })
 }
 
@@ -119,7 +119,7 @@ function addErrorInterceptor() {
      * 来源 AxiosError.ERR_NETWORK
      * 直接使用的chatgpt 转换为js对象并翻译
      */
-    const axiosInstance_CODE_MESSAGE = {
+    const AXIOS_CODE_MESSAGE = {
         ERR_FR_TOO_MANY_REDIRECTS: "错误：重定向过多",
         ERR_BAD_OPTION_VALUE: "错误：选项值无效",
         ERR_BAD_OPTION: "错误：无效选项",
@@ -139,7 +139,7 @@ function addErrorInterceptor() {
         error => {
             // 对响应错误做点什么
             let {message, code, response} = error;
-            let msg = response ? STATUS_MESSAGE[response.status] : axiosInstance_CODE_MESSAGE[code];
+            let msg = response ? STATUS_MESSAGE[response.status] : AXIOS_CODE_MESSAGE[code];
 
             globalErrorMessageHandler(msg || message, error)
 
