@@ -1,7 +1,7 @@
 // 全局路由
 
 import React from 'react';
-import {Badge, Card, Dropdown, Menu, Segmented, Tabs} from 'antd';
+import {Badge, Breadcrumb, Card, Dropdown, Layout, Menu, Segmented, Slider, Tabs} from 'antd';
 import {history, Link, Outlet} from 'umi';
 import "./antd_ext.less"
 import "./index.less"
@@ -13,12 +13,13 @@ import logo from '../../asserts/logo.png'
 import {PageLoading, ProLayout} from "@ant-design/pro-components";
 
 import HeaderRight from "./HeaderRight";
-import {HttpClient, showContextMenu, sys, SysConfig, TreeUtil, uid} from "../../common";
+import {HttpClient, sys, SysConfig, TreeUtil, uid} from "../../common";
 import hutool from "@moon-cn/hutool";
-import {PageTool} from "@tmgg/tmgg-base";
-import TabMenu from "@tmgg/tmgg-base/src/framework/TabMenu";
+import {PageTool, theme} from "@tmgg/tmgg-base";
+import TabMenu from "./TabMenu";
+import LeftMenu from "./LeftMenu";
 
-
+const { Header, Footer, Sider, Content } = Layout;
 /**
  * 带菜单的布局，主要处理布局宇框架结构
  */
@@ -35,9 +36,15 @@ export default class extends React.Component {
     selectedTabKey: null,
 
     dataLoaded: false,
+
+    collapsed: false
   }
 
 
+
+  toggleCollapsed = (v)=>{
+    this.setState({collapsed:v})
+  }
 
   componentDidMount() {
 
@@ -75,16 +82,6 @@ export default class extends React.Component {
 
     })
   }
-
-
-  loadMenu = () => {
-    return new Promise(resolve => {
-      let menus = this.state.menus;
-      resolve(menus)
-    })
-  }
-
-
   actionRef = React.createRef()
 
   /**
@@ -122,11 +119,6 @@ export default class extends React.Component {
     }
   }
 
-  // 供 PageTool调用
-  closeCurrentTab = (refreshParentTab) => {
-    const {selectedTabKey} = this.state
-    this.closeTab(selectedTabKey, refreshParentTab)
-  }
   /**
    *  关闭tab
    * @param key
@@ -139,54 +131,6 @@ export default class extends React.Component {
     this.setState({tabs})
     this.onTabChange(selectedTabKey)
   }
-
-
-  refresh = key => {
-    let {tabs} = this.state
-    let tab = tabs.find(t => t.id == key)
-    if (!tab) {
-      return;
-    }
-
-    tab.loading = true
-    this.setState({tabs}, () => {
-      tab.loading = false
-      this.setState({tabs})
-    })
-  }
-
-  onContextMenu = (e, key) => {
-    e.preventDefault()
-    showContextMenu(e, ['刷新', '关闭', '关闭所有', '新窗口打开'], (name) => {
-      switch (name) {
-        case '刷新':
-          this.refresh(key)
-          break;
-        case '关闭':
-          this.closeTab(key)
-          break
-        case '关闭所有':
-          this.setState({tabs: [], selectedTabKey: null})
-          break
-        case '新窗口打开':
-          let curTab = this.state.tabs.find(t => t.id === key)
-          if (curTab.iframe) {
-            let path = curTab.iframePath;
-            path = sys.appendTokenToUrl(path)
-            window.open(path)
-            return
-          }
-          const loc = window.location;
-          let path = loc.href.repeat(loc.hash) + '/' + curTab.path
-          console.log('当前path', path)
-          window.open(path)
-          break
-
-      }
-    })
-  }
-
-
   render() {
     console.log('开始渲染 menu index.jsx')
     if (!this.state.dataLoaded) {
@@ -199,44 +143,70 @@ export default class extends React.Component {
 
     const {list, currentAppKey} = this.state
 
-    return <ProLayout
-      contentStyle={{margin:8}}
-      style={{minHeight: '100vh'}}
-      headerTheme='light'
-      menu={{request: this.loadMenu}}
-      menuItemRender={this.menuItemRender}
-      subMenuItemRender={this.menuItemRender}
-      onMenuHeaderClick={() => {
-        history.push("/")
-      }}
-      actionRef={this.actionRef}
-      fixSiderbar={true}
-      layout={'mix'}
-      siderWidth={200}
-      title={title}
-      logo={logo}
+    return       <Layout
+          style={{
+            minHeight: '100vh',
+          }}
+      > <Sider collapsible collapsed={this.state.collapsed}
+               onCollapse={(value) => this.toggleCollapsed(value)}>
+        <div onClick={() => {
+          history.push('/')
+        }} style={{
+          height: '4rem',
+          margin:20,
+          borderRadius:6,
+          padding:12,
+          background:'rgba(255,255,255, .3)',
+          display: 'flex', alignItems: "center", gap: '0.5rem'}}>
 
-      headerContentRender={() => {
-        return <div style={{marginLeft: 80}}>
-          <Menu mode="horizontal" selectedKeys={[currentAppKey]}>
-            {
-              list.map(app => <Menu.Item
-                key={app.key}
-                onClick={() => this.changeApp(app)}>{app.name}</Menu.Item>)
-            }
-          </Menu>
+          <img src={logo} height='100%' />
+          <div style={{     color:theme["primary-color-click"], fontSize:'large', fontWeight:'bold'}}>
+            {title}
+          </div>
         </div>
-      }}
-      rightContentRender={() => <HeaderRight></HeaderRight>}
-    >
+        <LeftMenu pathname={this.props.pathname}/>
+      </Sider>
+        <Layout>
+          <Header
+              style={{
+                padding: '0 20px',
+              }}
+          >
 
-      {this.renderTabs()}
 
-      <div style={{margin:4}}></div>
+            <div style={{display: 'flex', justifyContent: 'space-between'}}>
+              <div>{title}</div>
+              <HeaderRight></HeaderRight>
+            </div>
 
-      <Outlet />
+          </Header>
 
-    </ProLayout>;
+          <Content
+              style={{
+                margin: '0',
+              }}
+          >
+            {this.renderTabs()}
+
+            <div style={{margin: 4}}></div>
+
+            <Outlet/>
+
+          </Content>
+          <Footer
+              style={{
+                textAlign: 'center',
+              }}
+          >
+            Tmgg Design ©{new Date().getFullYear()} Created by Mxvc
+          </Footer>
+        </Layout>
+      </Layout>
+
+
+
+
+
   }
 
   // 左侧菜单项

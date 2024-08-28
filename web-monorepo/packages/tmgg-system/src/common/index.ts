@@ -4,7 +4,6 @@
 
 
 export * from './ProValueType';
-export * from './context-menu';
 
 export * from './utils'
 export * from './system'

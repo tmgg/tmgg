@@ -2,7 +2,7 @@ import MenuLayout from "./menu"
 import React from "react";
 
 import {ConfigProvider} from "antd";
-import {theme} from "@tmgg/tmgg-base";
+import {PageTool, theme} from "@tmgg/tmgg-base";
 import Auth from "./Auth";
 import {Outlet,history} from "umi";
 
@@ -24,6 +24,7 @@ export class Layouts extends React.Component {
       console.log(location.pathname);
       this.setState({pathname: location.pathname})
     });
+    this.setState({pathname: PageTool.currentPathname()})
   }
 
   render() {
@@ -41,8 +42,24 @@ export class Layouts extends React.Component {
           colorSuccess: theme["success-color"],
           colorWarning:theme["warning-color"],
           colorError: theme["error-color"],
+        },
+        components:{
+          Menu:{
+            darkItemBg: theme["primary-color"],
+            darkPopupBg: theme["primary-color"],
+            darkItemSelectedBg: theme["primary-color-click"],
+            darkItemHoverBg: theme["primary-color-hover"],
+            darkSubMenuItemBg: theme["primary-color"]
+          },
+          Layout: {
+            siderBg: theme["primary-color"],
+            triggerBg: theme["primary-color-click"],
+            headerBg: 'white'
+          }
         }
       }}
+
+
     >
 
         {this.renderContent()}

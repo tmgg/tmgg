@@ -6,7 +6,8 @@ export const theme = {
     "background-color":"#f5f5f5",
 
 
-    "primary-color-hover":"#4990CD"
+    "primary-color-hover":"#4990CD",
+    "primary-color-click":"#124B93"
 }
 
 
