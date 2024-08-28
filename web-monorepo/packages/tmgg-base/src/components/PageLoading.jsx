@@ -11,8 +11,7 @@ export  class PageLoading extends React.Component {
     render() {
         return <div style={{height: '100vh', width: '100%',
             display:'flex', alignItems:'center', justifyContent:"center",
-            background:theme["primary-color"],
-            color:"white"
+            color:theme["primary-color"]
         }}>
             <div style={{textAlign:"center", marginTop:'-10rem'}}>
                 <div>
