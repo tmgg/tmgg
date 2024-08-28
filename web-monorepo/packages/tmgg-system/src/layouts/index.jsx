@@ -59,7 +59,7 @@ export class Layouts extends React.Component {
     }
 
     return  <Auth>
-      <MenuLayout />
+      <MenuLayout pathname={this.state.pathname} />
     </Auth>
   }
 

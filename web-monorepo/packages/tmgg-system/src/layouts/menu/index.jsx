@@ -288,7 +288,6 @@ export default class extends React.Component {
             style={{height: 'calc(100vh - 100px)'}}
             sandbox="allow-scripts allow-same-origin allow-forms"
           ></iframe>
-      } else {
       }
 
 
@@ -299,6 +298,7 @@ export default class extends React.Component {
         key: tab.id,
         label:  <Dropdown
             menu={{
+
               items: dropdownItems
             }}
             trigger={['contextMenu']}
@@ -314,10 +314,12 @@ export default class extends React.Component {
 
     return < >
 
-
-      <TabMenu   items={items}   onClick={item => {
+      <TabMenu items={items}
+               onClick={item => {
         PageTool.open(item.path)
-      }}>
+      }}
+               pathname={this.props.pathname}
+      >
 
       </TabMenu>
 

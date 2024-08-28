@@ -9,6 +9,9 @@
   },
   "author": "jiangtao",
   "peerDependencies": {
+    "@ant-design/icons": "^5.4.0",
+    "@tmgg/pro-table": "^5.0.0",
+    "antd": "^5.20.3",
     "axios": "^1.6.8"
   },
   "name": "@tmgg/tmgg-base",
