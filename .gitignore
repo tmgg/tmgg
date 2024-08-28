@@ -44,9 +44,9 @@ node_modules/
 /web-monorepo/pnpm-publish-summary.json
 /web-monorepo/apps/tmgg-system/package-lock.json
 /web-monorepo/apps/tmgg-system-job/package-lock.json
-/web-monorepo/yarn.lock
 /docs/package-lock.json
 /docs/.vitepress/cache/
 /web-monorepo/apps/tmgg-system-kettle/src/.umi-production/
 /web-monorepo/apps/tmgg-system-job/src/.umi-production/
 /web-monorepo/apps/tmgg-system-flowable/package-lock.json
+dist/

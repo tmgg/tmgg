@@ -19,7 +19,9 @@ public class Route implements TreeDefinition<Route> {
 
   String pid;
 
-  String name;
+  String label;
+
+
   String path;
 
   String icon;
@@ -48,10 +50,10 @@ public class Route implements TreeDefinition<Route> {
   }
 
 
-  public Route(String id, String pid, String name, String path, String icon, String application) {
+  public Route(String id, String pid, String label, String path, String icon, String application) {
     this.id = id;
     this.pid = pid;
-    this.name = name;
+    this.label = label;
     this.path = path;
     this.icon = icon;
 
@@ -65,6 +67,9 @@ public class Route implements TreeDefinition<Route> {
 
 
   }
+
+
+
 
   @Override
   public boolean equals(Object o) {
@@ -87,7 +92,7 @@ public class Route implements TreeDefinition<Route> {
   public String toString() {
     return "Route{" +
            "id='" + id + '\'' +
-           ", name='" + name + '\'' +
+           ", name='" + label + '\'' +
            ", perm='" + perm + '\'' +
            '}';
   }

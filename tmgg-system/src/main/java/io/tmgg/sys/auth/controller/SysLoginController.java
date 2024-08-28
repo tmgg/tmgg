@@ -6,6 +6,7 @@ import io.tmgg.core.event.LogoutEvent;
 import io.tmgg.core.log.LogManager;
 import io.tmgg.lang.InnerTokenTool;
 import io.tmgg.lang.PasswordTool;
+import io.tmgg.lang.ann.PublicApi;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.sys.auth.AccountCheckResult;
 import io.tmgg.sys.auth.captcha.CaptchaService;
@@ -13,9 +14,7 @@ import io.tmgg.sys.auth.service.SysUserAuthService;
 import io.tmgg.web.perm.SecurityUtils;
 import io.tmgg.web.perm.Subject;
 import io.tmgg.web.token.TokenManger;
-import cn.hutool.core.text.PasswdStrength;
 import cn.hutool.extra.spring.SpringUtil;
-import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -45,6 +44,16 @@ public class SysLoginController {
 
     @Resource
     private TokenManger tokenManger;
+
+
+
+    @GetMapping("/check-token")
+    @PublicApi
+    public AjaxResult loginCheck(HttpServletRequest req) {
+        String token = tokenManger.getTokenFromRequest(req,false);
+        boolean valid = tokenManger.isValid(token);
+        return AjaxResult.ok().data(valid);
+    }
 
     /**
      * 账号密码登录
@@ -91,7 +100,7 @@ public class SysLoginController {
      */
     @GetMapping("/logout")
     public AjaxResult logout(HttpServletRequest request) {
-        String token = tokenManger.getTokenFromRequest(request);
+        String token = tokenManger.getTokenFromRequest(request,true);
         Subject subject = SecurityUtils.getCachedSubjectByToken(token);
         if (subject != null && subject.isAuthenticated() && subject.getId() != null) {
             log.info("用户退出 {} {}", subject.getName(), subject.getAccount());
@@ -122,14 +131,3 @@ public class SysLoginController {
 
 }
 
-@Data
-class LoginParam {
-    String account;
-    String password;
-    String code;
-
-    // 外部系统登录的token
-    String token;
-
-    String clientId; // 客户端标识，主要用于验证码二次验证
-}
