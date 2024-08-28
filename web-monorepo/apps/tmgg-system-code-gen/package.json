@@ -23,7 +23,6 @@
   "dependencies" : {
     "@ant-design/pro-table" : "^3.16.6",
     "@tmgg/tmgg-base" : "0.1.17",
-    "antd" : "^5.0.0",
     "axios" : "^1.6.7",
     "react" : "^18.0.0",
     "react-dom" : "^18.0.0",

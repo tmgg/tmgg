@@ -58,7 +58,6 @@ axiosInstance.interceptors.response.use(res => {
 
 let globalErrorMessageHandler = (msg, error) => {
     console.log('请求异常', msg, error)
-    console.log('您可以使用 http.globalErrorMessageHandler 设置提示方式')
     Modal.error({
         title:'操作异常',
         content: msg

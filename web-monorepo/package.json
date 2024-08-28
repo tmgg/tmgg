@@ -3,5 +3,9 @@
   "name" : "@tmgg/tmgg-monorepo",
   "workspaces" : [ "apps/*", "packages/*" ],
   "scripts" : { },
-  "version" : "0.1.17"
+  "version" : "0.1.17",
+
+  "peerDependencies": {
+    "antd": "^5.20.3"
+  }
 }

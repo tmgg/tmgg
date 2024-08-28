@@ -1,7 +1,7 @@
 import React from "react";
 import {Outlet} from "umi";
 import {http, PageLoading, PageTool} from "@tmgg/tmgg-base";
-import {message} from "antd";
+import {Button, message} from "antd";
 
 export default class extends React.Component {
 
@@ -30,7 +30,8 @@ export default class extends React.Component {
         }
 
         if (this.state.tokenValid === undefined) {
-            return <PageLoading message='登录检查...'/>
+            return <Button>1</Button>
+            //return <PageLoading message='登录检查...'/>
         }
 
         return  this.props.children

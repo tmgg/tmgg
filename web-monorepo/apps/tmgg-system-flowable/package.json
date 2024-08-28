@@ -21,7 +21,6 @@
     "@tmgg/tmgg-system" : "workspace:*",
     "@tmgg/tmgg-base" : "0.1.17",
     "@tmgg/pro-table" : "^0.1.2",
-    "antd" : "^4.0.0",
     "axios" : "^1.6.7",
     "bpmn-js" : "^9.0.0",
     "dagre-d3" : "^0.6.0",
