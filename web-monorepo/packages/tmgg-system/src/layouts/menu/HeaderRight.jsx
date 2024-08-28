@@ -1,6 +1,5 @@
-import {Avatar, Badge, Card, Dropdown, Menu, Modal, Spin} from "antd";
+import {Avatar, Badge, Dropdown, Menu, Modal, Popover, Spin} from "antd";
 import {NotificationOutlined, SettingOutlined, UserOutlined} from "@ant-design/icons";
-import HeaderRightMsgCard from "./HeaderRightMsgCard";
 import React from "react";
 import {history} from "umi";
 import {HttpClient, PageTool, sys, SysConfig} from "../../common";
@@ -53,61 +52,50 @@ export default class HeaderRight extends React.Component {
         <Spin/>
       </div>
     }
-    return <>
-      {sys.getSlot('TopRightButton')}
-      <ul id={ID} className='header-right'>
-        <li className='user'>
-          <Dropdown overlay={<Card style={{padding: '16px'}}>
-            <p>所属单位：{info.orgName}</p>
-            <p>所属部门：{info.deptName}</p>
-            <p>角色：{info.roleNames}</p>
-          </Card>}>
-          <span>
-            <Avatar icon={<UserOutlined/>} style={{backgroundColor: theme.primaryColor}}
-            ></Avatar>
-            <span>&nbsp;&nbsp;{info.name}</span>
-          </span>
+    return <div className='header-right'>
+
+      <Popover className='item' title={info.name || '姓名未定义'} content={<div style={{width:200}}>
+        <p>{info.roleNames}</p>
+        <p>{info.orgName}</p>
+        <p>{info.deptName}</p>
+      </div>}>
+        <UserOutlined/>
+      </Popover>
+
+
+        <div className='item'>
+          <Badge count={this.state.messageCount || 1} size="small">
+            <NotificationOutlined/>
+          </Badge>
+        </div>
+
+      <div className='item'>
+
+          <Dropdown menu={{
+            onClick:(key)=>{
+              switch (key) {
+                case 'settings':
+                  this.account()
+                  break;
+                case 'logout':
+                  this.logout();
+                  break;
+                case 'about':
+                  this.about()
+                      break
+              }
+            },
+            items:[{
+            key:'settings',label:'个人设置'
+                }, {key:'logout',label:'退出登录'},
+                  {key:'about',label:'关于'}
+                ]}}><SettingOutlined/>
+
           </Dropdown>
 
-        </li>
+      </div>
 
-
-        <li>
-          <Dropdown overlay={<HeaderRightMsgCard/>}>
-            <Badge count={this.state.messageCount}>
-              <Avatar icon={<NotificationOutlined/>} style={{backgroundColor: theme.primaryColor}}/>
-            </Badge>
-          </Dropdown>
-
-        </li>
-
-
-        <li>
-          <Dropdown overlay={<Menu>
-            <Menu.Item>
-              <a onClick={this.account}>个人设置</a>
-            </Menu.Item>
-            <Menu.Item>
-              <a onClick={this.logout}>退出登录</a>
-            </Menu.Item>
-
-
-            {this.renderSettingMenuItemSlots()}
-
-            <Menu.Item>
-              <a onClick={this.about}>关于</a>
-            </Menu.Item>
-          </Menu>}>
-                <span>
-                    <Avatar icon={<SettingOutlined/>} style={{backgroundColor: theme.primaryColor}}></Avatar>
-                </span>
-          </Dropdown>
-
-        </li>
-
-
-      </ul>
-    </>
+    </div>
   }
 
 

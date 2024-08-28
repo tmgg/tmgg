@@ -15,7 +15,7 @@ import {PageLoading, ProLayout} from "@ant-design/pro-components";
 import HeaderRight from "./HeaderRight";
 import {HttpClient, sys, SysConfig, TreeUtil, uid} from "../../common";
 import hutool from "@moon-cn/hutool";
-import {PageTool, theme} from "@tmgg/tmgg-base";
+import {arr, PageTool, theme} from "@tmgg/tmgg-base";
 import TabMenu from "./TabMenu";
 import LeftMenu from "./LeftMenu";
 
@@ -118,25 +118,12 @@ export default class extends React.Component {
         }
     }
 
-    /**
-     *  关闭tab
-     * @param key
-     * @param refreshParentTab， 是否刷新父窗口
-     */
-    closeTab = (key) => {
-        let {tabs} = this.state
-        tabs = tabs.filter(t => t.id != key)
-        let selectedTabKey = tabs[tabs.length - 1]?.id
-        this.setState({tabs})
-        this.onTabChange(selectedTabKey)
-    }
-
-    onMenuSelect = (key, path, label,icon) => {
+    onMenuSelect = (key, path, label, icon) => {
         console.log(key, path, label)
         const {tabs} = this.state
 
-        if(!tabs.some(t=>t.key === key)){
-            tabs.push({key, path, label,icon})
+        if (!tabs.some(t => t.key === key)) {
+            tabs.push({key, path, label, icon})
         }
     }
 
@@ -149,34 +136,30 @@ export default class extends React.Component {
         const title = sys.getSiteInfo().siteTitle || '未定义标题'
 
 
-        return <Layout
-            style={{
-                minHeight: '100vh',
-            }}
-        >
+        return <Layout className='main-layout'>
             <Sider collapsible collapsed={this.state.collapsed}
                    onCollapse={(value) => this.toggleCollapsed(value)}>
                 <div className='logo' onClick={() => history.push('/')}>
-                    <img src={logo} height='100%'/>
+                    <img src={logo}/>
                 </div>
                 <LeftMenu pathname={this.props.pathname} onSelect={this.onMenuSelect}/>
             </Sider>
             <Layout>
-                <Header className='header' >
-                        <h3 style={{color:theme["primary-color"]}}>{title}</h3>
-                        <HeaderRight></HeaderRight>
+                <Header className='header'>
+                    <h3 style={{color: theme["primary-color"]}}>{title}</h3>
+                    <HeaderRight></HeaderRight>
                 </Header>
 
-                <Content >
-
+                <Content className='content'>
                     <TabMenu items={this.state.tabs}
                              pathname={this.props.pathname}
+                             onTabRemove={this.onTabRemove}
                     >
                     </TabMenu>
 
-                    <div style={{margin: 4}}></div>
-
-                    <Outlet/>
+                    <div className='tab-content'>
+                        <Outlet/>
+                    </div>
 
                 </Content>
                 <Footer
@@ -188,35 +171,15 @@ export default class extends React.Component {
                 </Footer>
             </Layout>
         </Layout>
-
-
-    }
-
-    // 左侧菜单项
-    menuItemRender = (item, dom) => {
-        return <div style={{display: 'flex', justifyContent: "start", gap: 4}}
-                    onClick={(event) => {
-                        event.preventDefault();
-                        this.openTab(item);
-                        return false
-                    }}>
-
-            <span>{dom}</span>
-
-        </div>;
-
     }
 
 
-    onTabChange = (key, item) => {
-        console.log("onTabChange", key, item)
+    onTabRemove = (item) => {
+        const tabs = this.state.tabs
 
-        this.setState({selectedTabKey: key}, this.triggerOnShow)
-
-        const {tabs} = this.state;
-        const tab = tabs.find(t => t.id === key)
-        PageTool.open(tab.path)
-
+        arr.remove(tabs, item)
+        this.setState({tabs})
+        history.push(tabs[0]?.path || '/')
     }
 
     renderIframe() {
