@@ -17,7 +17,7 @@ public class WeappTool {
     }
     public static String curUserId(){
         TokenManger tm = SpringTool.getBean(TokenManger.class);
-        String token = tm.getTokenFromRequest(RequestTool.currentRequest());
+        String token = tm.getTokenFromRequest(RequestTool.currentRequest(),true);
         String userId = tm.validate(token);
 
         return userId;
