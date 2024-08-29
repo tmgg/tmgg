@@ -1,5 +1,5 @@
 import {PlusOutlined} from '@ant-design/icons';
-import {Button, Card, Empty, Form, Input, InputNumber, message, Modal, Popconfirm, Tree} from 'antd';
+import {Button, Card, Empty, Form, Input, InputNumber, message, Modal, Popconfirm, Tree, Typography} from 'antd';
 import React from 'react';
 import {ProTable} from "@ant-design/pro-components";
 import UserOrgForm from "./UserOrgForm";
@@ -258,8 +258,13 @@ export default class extends React.Component {
     let {treeData} = this.state
 
     return <>
-      <LeftRightLayout leftSize={250}>
+      <LeftRightLayout >
         <Card>
+          <div  style={{marginBottom:'1rem'}}
+          >
+            <Typography.Text >组织机构</Typography.Text>
+
+          </div>
           <OrgTree onChange={this.onSelectOrg}/>
         </Card>
 
