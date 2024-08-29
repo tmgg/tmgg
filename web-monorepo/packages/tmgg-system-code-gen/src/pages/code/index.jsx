@@ -81,6 +81,7 @@ export default class extends React.Component {
       <Modal title='代码生成' open={this.state.formOpen} onOk={() => this.formRef.current.submit()}
              onCancel={() => this.setState({formOpen: false})}
              destroyOnClose={true}
+             width={700}
       >
 
         <Form ref={this.formRef} labelCol={{flex: '100px'}} onFinish={this.onFinish}>
