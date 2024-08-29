@@ -163,11 +163,9 @@ public class MenuInCodeRunnable implements Runnable {
         btn.setType(MenuType.BTN);
 
         btn.setPid(parentMenu.getId());
-        btn.setVisible("N");
+        btn.setVisible(false);
 
-        btn.setApplication(parentMenu.getApplication());
         btn.setSeq(0);
-        btn.setRemark("通过代码中注解生成" + HasPermission.class.getSimpleName());
 
         if (btn.getId() == null) {
             btn.setId(convertPermToId(perm));

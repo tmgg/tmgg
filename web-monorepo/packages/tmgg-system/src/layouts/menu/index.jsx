@@ -3,7 +3,6 @@
 import React from 'react';
 import {Badge, Breadcrumb, Card, Dropdown, Layout, Menu, Segmented, Slider, Tabs} from 'antd';
 import {history, Link, Outlet} from 'umi';
-import "./antd_ext.less"
 import "./index.less"
 import '../../css/style.less'
 import '../../css/table.less'
@@ -58,7 +57,7 @@ export default class extends React.Component {
 
     initMenu = () => {
 
-        HttpClient.get('appMenuTree').then(rs => {
+        HttpClient.get('menuTree').then(rs => {
             const list = rs.data;
             // 设置icon
             TreeUtil.every(list, (item) => {

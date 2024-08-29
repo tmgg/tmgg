@@ -63,10 +63,7 @@ public interface CommonConstant {
      */
     String UNKNOWN = "Unknown";
 
-    /**
-     * 默认密码
-     */
-    String DEFAULT_PASSWORD = "123456";
+
 
 
 }

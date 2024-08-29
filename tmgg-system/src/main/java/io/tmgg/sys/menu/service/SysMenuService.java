@@ -5,8 +5,6 @@ import io.tmgg.core.event.LogoutEvent;
 import io.tmgg.lang.TreeTool;
 import io.tmgg.lang.dao.BaseService;
 import io.tmgg.lang.obj.Route;
-import io.tmgg.sys.app.dao.SysAppDao;
-import io.tmgg.sys.app.entity.SysApp;
 import io.tmgg.sys.menu.dao.SysMenuDao;
 import io.tmgg.sys.menu.entity.SysMenu;
 import io.tmgg.sys.menu.node.MenuTreeNode;
@@ -35,8 +33,6 @@ public class SysMenuService extends BaseService<SysMenu> {
     private SysMenuDao sysMenuDao;
 
     @Resource
-    private SysAppDao sysAppDao;
-    @Resource
     private SysUserDao sysUserDao;
 
 
@@ -52,15 +48,11 @@ public class SysMenuService extends BaseService<SysMenu> {
 
         for (SysMenu m : sysMenuList) {
             String pid = m.getPid();
-            // 根节点挂载到对于的app
-            if (pid == null || pid.equals("") || pid.equals("0")) {
-                pid = m.getApplication();
-            }
 
             // iframe设置完整url
             String url = m.getRouter();
 
-            Route route = new Route(String.valueOf(m.getId()), pid, m.getName(), url, null, m.getApplication());
+            Route route = new Route(String.valueOf(m.getId()), pid, m.getName(), url, null);
             route.setIcon(m.getIcon());
             route.setPerm(StrUtil.emptyToNull(m.getPermission()));
             route.setIframe(m.getIframe());
@@ -70,39 +62,21 @@ public class SysMenuService extends BaseService<SysMenu> {
         return routes;
     }
 
-    public List<Route> getAppRoute() {
-        List<Route> routes = new ArrayList<>();
-        List<SysApp> apps = sysAppDao.findValid();
-        for (SysApp app : apps) {
-            String code = app.getCode();
-            routes.add(new Route(code, null, app.getName(), null, null, code));
 
-
-        }
-        return routes;
-    }
 
 
     public List<MenuTreeNode> treeForGrant() {
         List<SysMenu> all = sysMenuDao.findAllValid();
-        List<SysApp> apps = sysAppDao.findValid();
 
         Collection<MenuTreeNode> nodes = new ArrayList<>();
 
-        for (SysApp app : apps) {
-            MenuTreeNode menuTreeNode = new MenuTreeNode();
-            menuTreeNode.setId(app.getCode());
-            menuTreeNode.setValue(app.getCode());
-            menuTreeNode.setTitle(app.getName());
-            menuTreeNode.setWeight(app.getSeq());
-            nodes.add(menuTreeNode);
-        }
+
 
 
         for (SysMenu sysMenu : all) {
             MenuTreeNode menuTreeNode = new MenuTreeNode();
             menuTreeNode.setId(sysMenu.getId());
-            menuTreeNode.setPid(StrUtil.emptyToDefault(sysMenu.getPid(), sysMenu.getApplication()));
+            menuTreeNode.setPid(sysMenu.getPid());
             menuTreeNode.setValue(sysMenu.getId());
             String titleAddon = StrUtil.isEmpty(sysMenu.getPermission()) ? "" : " [" + sysMenu.getPermission() + "]";
             menuTreeNode.setTitle(sysMenu.getName() + titleAddon);

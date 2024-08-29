@@ -41,6 +41,7 @@ public class SystemInitial implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
+        sysConfigService.initDefault();
         autoAddDictDataRunnable.run();
 
 

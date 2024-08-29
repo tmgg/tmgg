@@ -1,7 +1,8 @@
 
 package io.tmgg.sys.consts.service;
 
-import io.tmgg.web.consts.CommonConstant;
+import cn.hutool.core.util.RandomUtil;
+import io.tmgg.sys.consts.SysConfigConstants;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.ObjectUtil;
 import io.tmgg.sys.consts.dao.SysConfigDao;
@@ -53,7 +54,7 @@ public class SysConfigService {
      * 获取默认密码
      */
     public String getDefaultPassWord() {
-        return getSysConfigWithDefault("DEFAULT_PASSWORD", String.class, CommonConstant.DEFAULT_PASSWORD);
+        return get("DEFAULT_PASSWORD");
     }
 
     /**
@@ -93,5 +94,14 @@ public class SysConfigService {
 
     public List<SysConfig> findAll() {
         return dao.findAll();
+    }
+
+    public void initDefault(){
+            log.info("初始化系统配置数据...");
+            dao.initDefault(SysConfigConstants.SESSION_EXPIRE, "会话过期时间", "7200", "session会话过期时间（单位：秒）");
+            dao.initDefault("DEFAULT_PASSWORD", "默认密码", RandomUtil.randomString(12), "用户的默认密码");
+            dao.initDefault(SysConfigConstants.FILE_UPLOAD_PATH_FOR_WINDOWS, "win本地上传文件路径", "d:/tmp", null);
+            dao.initDefault(SysConfigConstants.FILE_UPLOAD_PATH_FOR_LINUX, "linux/mac本地上传文件路径", "/home/files", null);
+            dao.initDefault(SysConfigConstants.ENABLE_SINGLE_LOGIN, "单用户登陆的开关", "false", "填写true | false");
     }
 }

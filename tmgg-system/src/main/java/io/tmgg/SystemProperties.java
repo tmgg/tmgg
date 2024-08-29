@@ -95,10 +95,7 @@ public class SystemProperties {
         BOOLEAN,
     }
 
-    /**
-     * 模块调试模式，会忽略登录和权限校验
-     */
-    private boolean enablePermissionAop = true;
+
 
 
 }

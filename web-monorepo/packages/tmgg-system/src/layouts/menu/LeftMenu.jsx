@@ -18,7 +18,7 @@ export default class extends React.Component {
 
     componentDidMount() {
 
-        http.get('appMenuTree').then(rs => {
+        http.get('menuTree').then(rs => {
             const list = rs.data;
             const map = {}
             // 设置icon

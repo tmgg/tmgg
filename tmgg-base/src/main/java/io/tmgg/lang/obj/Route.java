@@ -26,7 +26,6 @@ public class Route implements TreeDefinition<Route> {
 
   String icon;
 
-  String application;
 
   String key;
 
@@ -48,7 +47,7 @@ public class Route implements TreeDefinition<Route> {
   }
 
 
-  public Route(String id, String pid, String label, String path, String icon, String application) {
+  public Route(String id, String pid, String label, String path, String icon) {
     this.id = id;
     this.pid = pid;
     this.label = label;
@@ -58,7 +57,6 @@ public class Route implements TreeDefinition<Route> {
     if (path == null) {
       this.path = "";
     }
-    this.application = application;
 
 
     this.key = id;

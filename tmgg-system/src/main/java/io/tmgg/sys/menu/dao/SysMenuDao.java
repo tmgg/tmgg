@@ -38,7 +38,7 @@ public class SysMenuDao extends BaseDao<SysMenu> {
         JpaQuery<SysMenu> query = new JpaQuery<>();
         query.ne(SysMenu.Fields.type, MenuType.BTN);
         query.eq(SysMenu.Fields.status, CommonStatus.ENABLE);
-        query.ne(SysMenu.Fields.visible, YesOrNotEnum.N.getCode());
+        query.ne(SysMenu.Fields.visible, true);
 
         List<SysMenu> list = this.findAll(query, Sort.by(SysMenu.Fields.seq));
         return list;
@@ -62,8 +62,7 @@ public class SysMenuDao extends BaseDao<SysMenu> {
         JpaQuery<SysMenu> query = new JpaQuery<>();
         query.eq(SysMenu.Fields.status, CommonStatus.ENABLE);
         query.eq(SysMenu.Fields.code, null);
-        query.ne(SysMenu.Fields.application, "system"); // 排除系统应用
-        query.eq(SysMenu.Fields.visible, "Y");
+        query.eq(SysMenu.Fields.visible, true);
         query.eq(SysMenu.Fields.type, MenuType.MENU);
 
         List<SysMenu> list = this.findAll(query, Sort.by(SysMenu.Fields.seq));

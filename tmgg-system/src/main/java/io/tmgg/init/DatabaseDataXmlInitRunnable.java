@@ -4,7 +4,6 @@ import io.tmgg.lang.SpringTool;
 import io.tmgg.lang.dao.BaseDao;
 import io.tmgg.lang.dao.JpaTool;
 import io.tmgg.SystemProperties;
-import io.tmgg.sys.app.entity.SysApp;
 import io.tmgg.sys.menu.entity.SysMenu;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.io.IoUtil;
@@ -96,7 +95,7 @@ public class DatabaseDataXmlInitRunnable implements Runnable {
             return;
         }
 
-        if(!systemProperties.isMenuAutoUpdate() && (entityCls.equals(SysMenu.class) || entityCls.equals(SysApp.class) )){
+        if(!systemProperties.isMenuAutoUpdate() && (entityCls.equals(SysMenu.class)  )){
             log.warn("已关闭菜单更新，不再更新{}", entityCls);
             return;
         }

@@ -1,19 +1,15 @@
 {
   "SysMenu": [
     {
-      "application": "system",
       "id": "sysOrg",
       "name": "机构管理",
       "code": "sysOrg",
       "router": "/system/org",
       "type": "MENU",
-      "status": "ENABLE",
-      "visible": "Y",
       "icon": "ApartmentOutlined",
       "seq": "1"
     },
     {
-      "application": "system",
       "id": "sysUser",
       "name": "用户管理",
       "code": "sysUser",
@@ -25,7 +21,6 @@
       "seq": "2"
     },
     {
-      "application": "system",
       "id": "sysRole",
       "name": "角色管理",
       "code": "sysRole",
@@ -37,114 +32,85 @@
       "seq": "4"
     },
     {
-      "application": "system",
       "id": "sysConfig",
       "name": "系统配置",
       "code": "sysConfig",
       "router": "/system/config",
       "type": "MENU",
-      "status": "ENABLE",
-      "visible": "Y",
       "icon": "SettingOutlined",
       "seq": "5"
     },
     {
-      "application": "system",
       "id": "sysDictType",
       "name": "数据字典",
       "code": "sysDictType",
       "router": "/system/dict",
       "type": "MENU",
-      "status": "ENABLE",
-      "visible": "Y",
       "seq": "6"
     },
     {
-      "application": "system",
       "id": "sysDictData",
       "name": "数据字典-数据",
       "code": "sysDictData",
       "type": "MENU",
-      "status": "ENABLE",
-      "visible": "N",
       "seq": "7"
     },
     {
-      "application": "system",
       "id": "sysFile",
       "name": "文件管理",
       "code": "sysFile",
       "router": "/system/file/main",
       "type": "MENU",
-      "status": "ENABLE",
-      "visible": "Y",
       "seq": "13"
     },
     {
-      "application": "system",
       "id": "sys_monitor",
       "name": "系统监控",
       "type": "DIR",
-      "status": "ENABLE",
       "seq": "900"
     },
     {
-      "application": "system",
       "id": "machine",
       "name": "环境监控",
       "code": "machine",
       "router": "/system/machine",
       "pid": "sys_monitor",
       "type": "MENU",
-      "status": "ENABLE",
-      "visible": "Y",
       "seq": "8"
     },
     {
-      "application": "system",
       "id": "sysOnlineUser",
       "name": "在线用户",
       "code": "sysOnlineUser",
       "router": "/system/onlineUser",
       "pid": "sys_monitor",
       "type": "MENU",
-      "status": "ENABLE",
-      "visible": "Y",
       "seq": "9"
     },
     {
-      "application": "system",
       "id": "sysOpLog",
       "name": "访问日志",
       "code": "sysOpLog",
       "router": "/system/log/vislog",
       "pid": "sys_monitor",
       "type": "MENU",
-      "status": "ENABLE",
-      "visible": "Y",
       "seq": "11"
     },
     {
-      "application": "system",
       "id": "sysVisLog",
       "name": "操作日志",
       "code": "sysVisLog",
       "router": "/system/log/oplog",
       "pid": "sys_monitor",
       "type": "MENU",
-      "status": "ENABLE",
-      "visible": "Y",
       "seq": "12"
     },
     {
-      "application": "system",
       "id": "watermark",
       "name": "水印管理",
       "code": "watermark",
       "router": "/system/watermark",
       "type": "MENU",
-      "status": "ENABLE",
-      "visible": "Y",
       "seq": "13"
     }
   ]

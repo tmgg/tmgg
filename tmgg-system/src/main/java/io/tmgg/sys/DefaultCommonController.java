@@ -181,8 +181,8 @@ public class DefaultCommonController {
     /**
      * 前端左侧菜单调用， 以展示顶部及左侧菜单
      */
-    @GetMapping("appMenuTree")
-    public AjaxResult appMenuTree() {
+    @GetMapping("menuTree")
+    public AjaxResult menuTree() {
         Subject subject = SecurityUtils.getSubject();
         List<Route> list = sysMenuService.findAllAppMenuList();
 
@@ -238,11 +238,6 @@ public class DefaultCommonController {
                 parent.setBadge(r.getBadge() + parent.getBadge());
             }
         }
-
-
-        // 添加应用
-        List<Route> appRoute = sysMenuService.getAppRoute();
-        list.addAll(0, appRoute);
 
 
         List<Route> tree = TreeTool.buildTree(list);

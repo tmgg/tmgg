@@ -77,17 +77,13 @@ public class SysMenu extends BaseEntity implements TreeDefinition<SysMenu> {
     private String permission;
 
 
-    /**
-     * 应用分类（应用编码）
-     */
-    @NotNull
-    private String application;
 
 
     /**
      * 是否可见（Y-是，N-否）
      */
-    private String visible;
+    @NotNull
+    private Boolean visible;
 
 
     /**
@@ -108,14 +104,12 @@ public class SysMenu extends BaseEntity implements TreeDefinition<SysMenu> {
     private List<SysMenu> children;
 
 
-    private String remark;
-
 
     @Override
     public void beforeSaveOrUpdate() {
         permission = StringUtils.defaultIfEmpty(permission, null);
         code = StringUtils.defaultIfEmpty(code, null);
-        visible = StringUtils.defaultIfEmpty(visible, YesOrNotEnum.Y.getCode());
+        visible = ObjectUtils.defaultIfNull(visible, true);
         status = ObjectUtils.defaultIfNull(status, CommonStatus.ENABLE);
         type = ObjectUtils.defaultIfNull(type, MenuType.MENU);
     }
