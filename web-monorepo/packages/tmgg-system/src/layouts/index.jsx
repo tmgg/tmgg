@@ -35,7 +35,14 @@ export class Layouts extends React.Component {
           required: '必填项'
         }
       }}
+      locale={{
+        locale:'zh-cn',
+        Modal:{
+          okText:'确定',
+          cancelText:'取消'
+        }
 
+      }}
       theme={{
         token:{
           colorPrimary: theme["primary-color"],
