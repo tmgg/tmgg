@@ -57,8 +57,6 @@ export default class extends React.Component {
   render() {
     return <>
 
-
-
       <ProTable
           actionRef={this.tableRef}
           toolBarRender={(action, {selectedRowKeys}) => {
@@ -101,10 +99,10 @@ export default class extends React.Component {
           </Form.Item>
 
 
-          <Form.Item label='生成方式' name='genType' rules={[{required: true}]} initialValue='project'>
+          <Form.Item label='生成目录' name='genType' rules={[{required: true}]} initialValue='project'>
             <Radio.Group>
-              <Radio value='project'>生成到项目中</Radio>
-              <Radio value='zip' disabled>下载压缩包</Radio>
+              <Radio value='project'>项目源码</Radio>
+              <Radio value='disk' >D盘（D:/代码生成结果）</Radio>
             </Radio.Group>
           </Form.Item>
 

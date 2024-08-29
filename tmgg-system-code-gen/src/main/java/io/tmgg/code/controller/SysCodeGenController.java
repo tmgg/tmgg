@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import jakarta.annotation.Resource;
 
+import java.io.File;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
@@ -38,11 +39,24 @@ public class SysCodeGenController {
 
 
         if (param.getGenType() == GenType.project) {
-            writeToProject(map);
+            for (Map.Entry<String, String> e : map.entrySet()) {
+                String file = e.getKey();
+                String content = e.getValue();
+                FileUtil.writeUtf8String(content, file);
+            }
             return AjaxResult.ok().msg("生成成功");
         }
-        if (param.getGenType() == GenType.zip) {
+        if (param.getGenType() == GenType.disk) {
+            for (Map.Entry<String, String> e : map.entrySet()) {
+                String file = e.getKey();
+                String content = e.getValue();
 
+                File projectRoot = codeGenService.getProjectRoot();
+
+                String absolutePath = projectRoot.getAbsolutePath();
+                file = "D:/代码生成结果" + file.replace(absolutePath, "");
+                FileUtil.writeUtf8String(content, file);
+            }
 
             return AjaxResult.ok().msg("生成成功");
         }
@@ -50,15 +64,6 @@ public class SysCodeGenController {
 
         return AjaxResult.err();
     }
-
-    private void writeToProject(Map<String,String> map) throws Exception {
-        for (Map.Entry<String, String> e : map.entrySet()) {
-            String file = e.getKey();
-            String content = e.getValue();
-            FileUtil.writeUtf8String(content, file);
-        }
-    }
-
 
 
 
@@ -79,7 +84,6 @@ public class SysCodeGenController {
         for (String cls : ids) {
             BeanInfo bean = codeGenService.getBeanInfo(Class.forName(cls));
             Map<String, Object> model = BeanUtil.beanToMap(bean);
-
 
             for (Map.Entry<Object, Object> e : prop.entrySet()) {
                 String templateFile = (String) e.getKey();
@@ -110,6 +114,6 @@ public class SysCodeGenController {
 
     public enum GenType {
         project,
-        zip
+        disk
     }
 }

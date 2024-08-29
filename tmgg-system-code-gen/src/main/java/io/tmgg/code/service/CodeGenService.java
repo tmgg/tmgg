@@ -35,8 +35,7 @@ public class CodeGenService {
         bean.setPackageName(cls.getPackage().getName());
         bean.setCls(cls);
 
-        File root = new File("./").getAbsoluteFile();
-        root = root.getParentFile();
+        File root = getProjectRoot();
         bean.setProjectRoot(root);
 
         String modulePackage = bean.getPackageName().substring(0, bean.getPackageName().lastIndexOf("."));
@@ -160,6 +159,12 @@ public class CodeGenService {
         bean.setUnderlineName(StrUtil.toUnderlineCase(name));
 
         return bean;
+    }
+
+    public  File getProjectRoot() {
+        File root = new File("./").getAbsoluteFile();
+        root = root.getParentFile();
+        return root;
     }
 
 
