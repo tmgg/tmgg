@@ -132,14 +132,6 @@ public class SysRoleController {
         String roleId = param.getId();
         sysRoleService.grantMenu(roleId, total);
 
-        // 立即刷新登录用户
-        SysRole role = sysRoleService.findOne(roleId);
-        for (SysUser user : role.getUsers()) {
-           SecurityUtils.refresh(user.getId());
-        }
-
-
-
         return AjaxResult.success("授权成功");
     }
 
@@ -154,7 +146,7 @@ public class SysRoleController {
     @GetMapping("ownMenu")
     @BusinessLog("拥有菜单")
     public AjaxResult ownMenu(String id) {
-        Set<String> menuIdList = sysRoleService.ownMenu(id);
+        List<String> menuIdList = sysRoleService.ownMenu(id);
 
 
         // 为了防止父子联动， 比如选择了某菜单，但并没有全选所有子节点，前段会默认勾选所有
@@ -177,35 +169,6 @@ public class SysRoleController {
         return AjaxResult.success(users.stream().map(BaseEntity::getId).collect(Collectors.toList()));
     }
 
-
-    @HasPermission("sysRole:updateValue")
-    @PostMapping("grantToUser")
-    @BusinessLog("授权菜单")
-    public AjaxResult grantToUser(@RequestBody GrantToUserParam param) {
-        Assert.hasText(param.getRoleId(), "请选择角色");
-        List<String> userIds = param.getCheckedUserIds();
-
-        List<SysUser> oldUsers = sysUserService.findByRoleId(param.getRoleId());
-        List<SysUser> newUsers = sysUserService.findAllById(userIds);
-
-
-        List<SysUser> add = newUsers.stream().filter(u -> !oldUsers.contains(u)).collect(Collectors.toList());
-        List<SysUser> remove = oldUsers.stream().filter(u -> !newUsers.contains(u)).collect(Collectors.toList());
-
-        sysRoleService.changeRoleUser(param.getRoleId(), add, remove);
-
-
-        // 立即刷新登录用户
-        for (SysUser oldUser : oldUsers) {
-            SecurityUtils.refresh(oldUser.getId());
-        }
-
-        for (SysUser newUser : newUsers) {
-            SecurityUtils.refresh(newUser.getId());
-        }
-
-        return AjaxResult.success("授权成功");
-    }
 
 
 }

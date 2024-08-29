@@ -140,13 +140,7 @@ public class SysMenuService extends BaseService<SysMenu> {
             if (role.getStatus() != CommonStatus.ENABLE) {
                 continue;
             }
-            Set<SysMenu> roleMenus = role.getMenus();
-            for (SysMenu menu : roleMenus) {
-                if (menu.getStatus() != CommonStatus.ENABLE) {
-                    continue;
-                }
-                list.add(menu.getPermission());
-            }
+            list.addAll(role.getPerms());
         }
 
         return list.stream().filter(Objects::nonNull).sorted().collect(Collectors.toList());

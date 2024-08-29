@@ -1,9 +1,7 @@
 
 package io.tmgg.sys.role.service;
 
-import cn.hutool.core.util.ArrayUtil;
 import io.tmgg.lang.CodeException;
-import io.tmgg.lang.dao.BaseEntity;
 import io.tmgg.lang.dao.BaseService;
 import io.tmgg.lang.dao.specification.JpaQuery;
 import io.tmgg.sys.menu.dao.SysMenuDao;
@@ -22,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import jakarta.annotation.Resource;
+
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -130,8 +129,6 @@ public class SysRoleService extends BaseService<SysRole> {
 
     /**
      * 校验参数，检查是否存在相同的名称和编码
-     *
- *
      */
     private void checkParam(SysRoleParam sysRoleParam, boolean isExcludeSelf) {
         String id = sysRoleParam.getId();
@@ -140,11 +137,11 @@ public class SysRoleService extends BaseService<SysRole> {
 
         JpaQuery<SysRole> queryWrapperByName = new JpaQuery<>();
         queryWrapperByName.eq(SysRole.Fields.name, name)
-                ;
+        ;
 
         JpaQuery<SysRole> queryWrapperByCode = new JpaQuery<>();
         queryWrapperByCode.eq(SysRole.Fields.code, code)
-               ;
+        ;
 
         //是否排除自己，如果排除自己则不查询自己的id
         if (isExcludeSelf) {
@@ -169,19 +166,12 @@ public class SysRoleService extends BaseService<SysRole> {
         return this.findAll(q);
     }
 
-    public Set<String> ownMenu(String roleId) {
+    // TODO
+    public List<String> ownMenu(String roleId) {
         SysRole role = this.findOne(roleId);
-
-        return role.getMenus().stream().map(BaseEntity::getId).collect(Collectors.toSet());
+        return role.getPerms();
     }
 
-    @Transactional
-    public void changeRoleUser(String roleId, List<SysUser> add, List<SysUser> remove) {
-        SysRole one = roleDao.findOne(roleId);
-
-        one.getUsers().addAll(add);
-        one.getUsers().removeAll(remove);
-    }
 
     public List<SysRole> findAllByCode(Set<String> roles) {
         JpaQuery<SysRole> q = new JpaQuery<>();
