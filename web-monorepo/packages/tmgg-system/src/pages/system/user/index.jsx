@@ -299,24 +299,6 @@ export default class extends React.Component {
         />
       </Modal>
 
-      <Modal
-        maskClosable={false}
-        destroyOnClose
-        title={editTitle}
-        visible={showEditForm}
-        onCancel={() => {
-          this.setState({showEditForm: false})
-        }}
-        footer={null}
-        width={800}
-      >
-        {this.state.formValues && <ProTable
-          onSubmit={this.handleUpdate}
-          form={{initialValues: this.state.formValues, layout: 'horizontal', labelCol: {span: 3}}}
-          type="form"
-          columns={this.columns}
-        />}
-      </Modal>
 
       <UserOrgForm ref={this.orgFormRef}/>
 

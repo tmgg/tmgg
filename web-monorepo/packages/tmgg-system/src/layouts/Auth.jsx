@@ -1,17 +1,21 @@
 import React from "react";
 import {http, PageLoading, PageTool} from "@tmgg/tmgg-base";
 import {Navigate} from "umi";
+import {Button, Result} from "antd";
 
 export default class extends React.Component {
 
     state = {
-        tokenValid: undefined
+        tokenValid: undefined,
+        errResult: undefined,
     }
 
     componentDidMount() {
-        http.get('/check-token').then(rs => {
+        http.get('/check-token', null, {autoShowError:false}).then(rs => {
             let tokenValid = rs.data;
             this.setState({tokenValid})
+        }).catch((err)=>{
+            this.setState({errResult: err})
         })
     }
 
@@ -22,6 +26,14 @@ export default class extends React.Component {
 
         if(pathname === '/login'){
             return this.props.children
+        }
+
+        if(this.state.errResult){
+            return  <Result
+                status="500"
+                title={this.state.errResult.status}
+                subTitle={this.state.errResult.message}
+            />
         }
 
         switch (this.state.tokenValid) {

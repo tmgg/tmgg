@@ -17,9 +17,11 @@
   "name": "@tmgg/tmgg-base",
   "description": "函数工具类",
   "files": [
-    "dist/*"
+    "dist/*",
+    "types/*"
   ],
   "main": "dist/index.es.js",
+  "types": "types/index.es.d.ts",
   "scripts": {
     "start": "rollup -c -w",
     "build": "rollup -c"

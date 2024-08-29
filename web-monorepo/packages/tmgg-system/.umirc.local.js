@@ -17,6 +17,7 @@ let proxy = {
 
 export default defineConfig({
 
+
   define: {
     "process.env.API_BASE_URL": "/api/"
   },
