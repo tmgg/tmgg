@@ -137,27 +137,25 @@ export default class extends React.Component {
 
 
         return <Layout className='main-layout'>
-            <Sider collapsible collapsed={this.state.collapsed}
+            <Sider id='left-sider' collapsible collapsed={this.state.collapsed}
                    onCollapse={(value) => this.toggleCollapsed(value)}>
                 <div className='logo' onClick={() => history.push('/')}>
                     <img src={logo}/>
                 </div>
                 <LeftMenu pathname={this.props.pathname} onSelect={this.onMenuSelect}/>
             </Sider>
-            <Layout>
+            <Layout style={{height:'100%'}}>
                 <Header className='header'>
                     <h3 style={{color: theme["primary-color"]}}>{title}</h3>
                     <HeaderRight></HeaderRight>
                 </Header>
 
-                <Content className='content'>
-                    <div style={{overflow:'auto'}}>
+                <Content id='content'>
                     <TabMenu items={this.state.tabs}
                              pathname={this.props.pathname}
                              onTabRemove={this.onTabRemove}
                     >
                     </TabMenu>
-                    </div>
 
                     <div className='tab-content'>
                         <Outlet/>
@@ -167,6 +165,8 @@ export default class extends React.Component {
                 <Footer
                     style={{
                         textAlign: 'center',
+                        margin:0,
+                        padding:12
                     }}
                 >
                     Tmgg Design ©{new Date().getFullYear()} Created by Mxvc
