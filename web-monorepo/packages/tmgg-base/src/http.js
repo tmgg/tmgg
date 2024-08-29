@@ -138,12 +138,24 @@ function addErrorInterceptor() {
         null,
         error => {
             // 对响应错误做点什么
-            let {message, code, response} = error;
+            let {message, code, response, config = {}} = error;
             let msg = response ? STATUS_MESSAGE[response.status] : AXIOS_CODE_MESSAGE[code];
 
-            globalErrorMessageHandler(msg || message, error)
+            const {autoShowError=true} = config;
 
-            return Promise.reject(error)
+            if(autoShowError){
+                globalErrorMessageHandler(msg || message, error)
+            }
+
+
+            const result = {
+                code: code,
+                message: msg|| message,
+                success: false,
+                status: response.status
+            }
+
+            return Promise.reject(result)
         })
 }
 
@@ -174,9 +186,10 @@ function makeUrl(url) {
     return url;
 }
 
- function get(url, params = null) {
+
+function get(url, params = null, config= {autoShowError:true}) {
     url = makeUrl(url)
-    return axiosInstance.get(url, {params})
+    return axiosInstance.get(url, {params,...config })
 }
 
  function post(url, data, params = null) {
@@ -293,7 +306,6 @@ export const http = {
     getToken,
     init,
     setGlobalHeader,
-    addErrorInterceptor,
     downloadFile,
     requestPageData,
     postForm,
