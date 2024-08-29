@@ -20,6 +20,7 @@
     "@moon-cn/hutool": "^1.0.0",
     "@tinymce/tinymce-react": "^5.0.0",
     "@tmgg/tmgg-base": "0.1.17",
+    "@tmgg/tmgg-system": "0.1.17",
     "antd-img-crop": "^4.12.2",
     "lodash": "^4.17.21",
     "moment": "^2.29.4",

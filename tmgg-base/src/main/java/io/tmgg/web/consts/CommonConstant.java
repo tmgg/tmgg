@@ -64,30 +64,9 @@ public interface CommonConstant {
     String UNKNOWN = "Unknown";
 
     /**
-     * 默认包名
-     */
-    String DEFAULT_PACKAGE_NAME = "vip.xiaonuo";
-
-    /**
      * 默认密码
      */
     String DEFAULT_PASSWORD = "123456";
 
-    /**
-     * 请求号在header中的唯一标识
-     */
-    String REQUEST_NO_HEADER_NAME = "Request-No";
-
-
-
-    /**
-     * 点选验证码
-     */
-    String IMAGE_CODE_TYPE = "clickWord";
-
-    /**
-     * undefined未知
-     */
-    String UNDEFINED = "undefined";
 
 }

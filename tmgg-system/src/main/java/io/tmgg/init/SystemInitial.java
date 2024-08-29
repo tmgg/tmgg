@@ -1,6 +1,9 @@
 package io.tmgg.init;
 
+import cn.hutool.core.date.DateUtil;
 import io.tmgg.lang.PasswordTool;
+import io.tmgg.sys.consts.dao.SysConfigDao;
+import io.tmgg.sys.consts.service.SysConfigService;
 import io.tmgg.sys.role.service.SysRoleService;
 import io.tmgg.sys.user.dao.SysUserDao;
 import io.tmgg.sys.user.entity.SysUser;
@@ -15,6 +18,8 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import jakarta.annotation.Resource;
+
+import java.util.Date;
 
 import static io.tmgg.init.SystemInitial.ORDER;
 
@@ -34,6 +39,9 @@ public class SystemInitial implements ApplicationRunner {
 
     @Resource
     SysUserDao sysUserDao;
+
+    @Resource
+    SysConfigService sysConfigService;
 
 
     @Override
@@ -56,7 +64,7 @@ public class SystemInitial implements ApplicationRunner {
 
     private void initUser() {
         SysUser admin = sysUserDao.findByAccount("superAdmin");
-        String randomPwd = RandomUtil.randomString(12);
+
         if (admin == null) {
             log.info("创建默认管理员");
             admin = new SysUser();
@@ -65,15 +73,14 @@ public class SystemInitial implements ApplicationRunner {
             admin.setName("管理员");
             admin.setStatus(CommonStatus.ENABLE);
             admin.setAdminType(AdminType.SUPER_ADMIN);
-            admin.setPassword(PasswordTool.encode(randomPwd));
+
+            admin=  sysUserDao.save(admin);
+        }
+        if (StrUtil.isBlankIfStr(admin.getPassword())) {
+            String defaultPassWord = sysConfigService.getDefaultPassWord();
+            admin.setPassword(PasswordTool.encode(defaultPassWord));
             log.info("-------------------------------------------");
-            log.info("默认管理员密码为 {}", randomPwd);
-            log.info("-------------------------------------------");
-            sysUserDao.save(admin);
-        } else if (StrUtil.isBlankIfStr(admin.getPassword())) {
-            admin.setPassword(PasswordTool.encode(randomPwd));
-            log.info("-------------------------------------------");
-            log.info("管理员密码为空，重置为 {}",randomPwd);
+            log.info("管理员密码为 {}", defaultPassWord);
             log.info("-------------------------------------------");
             sysUserDao.save(admin);
         }

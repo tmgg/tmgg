@@ -6,12 +6,11 @@
         <id>sys_code_gen</id>
         <name>代码生成</name>
         <code>sys_code_gen</code>
-        <router>/code/index.html</router>
+        <router>/code</router>
         <type>MENU</type>
         <status>ENABLE</status>
         <visible>Y</visible>
         <seq>2</seq>
-        <iframe>true</iframe>
     </SysMenu>
 
 

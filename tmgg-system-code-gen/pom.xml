@@ -16,10 +16,7 @@
             <groupId>io.github.tmgg</groupId>
             <artifactId>tmgg-system</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-        </dependency>
+
     </dependencies>
 
 </project>

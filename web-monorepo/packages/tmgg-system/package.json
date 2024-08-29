@@ -10,8 +10,7 @@
   "name": "@tmgg/tmgg-system",
   "main": "src/index.js",
   "scripts": {
-    "dev": "umi dev",
-    "mfsu-clean": "umi mfsu b"
+    "dev": "umi dev"
   },
   "version": "0.1.17",
   "dependencies": {

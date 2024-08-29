@@ -1,7 +1,7 @@
 import {Button, Form, message, Modal, Radio} from 'antd'
 import React from 'react'
 import {http} from "@tmgg/tmgg-base";
-import {ProTable} from "@ant-design/pro-table";
+import {ProTable} from "@tmgg/pro-table";
 
 
 export default class extends React.Component {
@@ -60,7 +60,7 @@ export default class extends React.Component {
           actionRef={this.tableRef}
           toolBarRender={(action, {selectedRowKeys}) => {
             return <>
-              <Button type='primary' onClick={() => this.handleGen(selectedRowKeys)}>
+              <Button type='primary' onClick={() => this.handleGen(selectedRowKeys)} disabled={selectedRowKeys.length === 0}>
                 生成代码
               </Button>
             </>

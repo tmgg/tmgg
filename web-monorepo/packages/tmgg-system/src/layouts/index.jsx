@@ -6,7 +6,7 @@ import {PageTool, theme} from "@tmgg/tmgg-base";
 import Auth from "./Auth";
 import {Outlet,history} from "umi";
 
-
+import './index.less'
 
 export class Layouts extends React.Component {
 

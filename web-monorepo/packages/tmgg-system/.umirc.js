@@ -11,7 +11,6 @@ export default defineConfig({
   define: {
     "process.env.API_BASE_URL": "/",
     "process.env.LOGIN_URL": "/login",
-    "process.env.TITLE": "管理后台",
   },
 
 
