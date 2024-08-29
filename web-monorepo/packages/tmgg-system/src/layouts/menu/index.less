@@ -41,24 +41,20 @@
     padding: 4px ;
     display: flex;
     background: white;
+    flex-wrap: wrap;
+    gap: 4px;
 
     .tab {
-      margin-left: 2px;
       border-radius: 8px ;
-      padding: 8px 16px;
+      padding: 4px 16px;
       background: rgba(0, 0, 0, 0.04);
       border: 1px solid #f0f0f0;
-      position: relative;
-      display: inline-flex;
+      display: flex;
       align-items: center;
-      outline: none;
       cursor: pointer;
-      color: var(--ant-tabs-item-color);
-      box-sizing: border-box;
 
       &:hover {
         color: #4990CD;
-
       }
 
       &.active {
@@ -70,9 +66,9 @@
       }
 
       .btn {
-        outline: none;
-        transition: all var(--ant-motion-duration-slow);
-        box-sizing: border-box;
+      }
+      .icon {
+        margin-right: 4px;
       }
 
       .remove {

@@ -2,7 +2,6 @@
   "private": "true",
   "name": "@tmgg/tmgg-monorepo",
   "workspaces": [
-    "apps/*",
     "packages/*"
   ],
   "scripts": {},

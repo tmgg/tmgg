@@ -30,7 +30,6 @@ public class Route implements TreeDefinition<Route> {
 
   String key;
 
-  boolean exact;
 
   // 权限 ,临时字段
   @JsonIgnore
@@ -42,7 +41,6 @@ public class Route implements TreeDefinition<Route> {
 
   int badge = 0;
 
-  Boolean isLeaf;
 
 
 

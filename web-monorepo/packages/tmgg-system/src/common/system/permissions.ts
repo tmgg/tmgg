@@ -16,5 +16,5 @@ export function hasPermission(permission:any) {
     return true;
   }
 
-  return permissions.indexOf(permission) > -1;
+  return permissions?.indexOf(permission) > -1;
 }

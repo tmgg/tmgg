@@ -151,11 +151,13 @@ export default class extends React.Component {
                 </Header>
 
                 <Content className='content'>
+                    <div style={{overflow:'auto'}}>
                     <TabMenu items={this.state.tabs}
                              pathname={this.props.pathname}
                              onTabRemove={this.onTabRemove}
                     >
                     </TabMenu>
+                    </div>
 
                     <div className='tab-content'>
                         <Outlet/>

@@ -17,3 +17,5 @@ export *  from './validate'
 export * from './system/theme'
 export * from './framework/PageTool'
 export * from './components/PageLoading.jsx'
+
+export * from './system/routes'

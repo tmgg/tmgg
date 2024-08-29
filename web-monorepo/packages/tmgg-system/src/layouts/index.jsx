@@ -2,11 +2,14 @@ import MenuLayout from "./menu"
 import React from "react";
 
 import {ConfigProvider} from "antd";
-import {PageTool, theme} from "@tmgg/tmgg-base";
+import {http, PageTool, theme} from "@tmgg/tmgg-base";
 import Auth from "./Auth";
 import {Outlet,history} from "umi";
 
 import './index.less'
+import {sys} from "../common";
+
+http.axiosInstance.defaults.baseURL = sys.getServerUrl()
 
 export class Layouts extends React.Component {
 
@@ -61,7 +64,8 @@ export class Layouts extends React.Component {
           Layout: {
             siderBg: theme["primary-color"],
             triggerBg: theme["primary-color-click"],
-            headerBg: 'white'
+            headerBg: 'white',
+            triggerHeight:32
           }
         }
       }}

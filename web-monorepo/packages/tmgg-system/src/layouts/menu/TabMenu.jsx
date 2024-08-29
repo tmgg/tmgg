@@ -8,6 +8,9 @@ export default class extends React.Component {
 
     render() {
         const {items, pathname} = this.props
+        if(items.length === 0){
+            return
+        }
         return <div className='tabs-nav'>
             {items.map(item=>{
                 let active = pathname === item.path;
@@ -18,8 +21,10 @@ export default class extends React.Component {
 
                 let className = 'tab ' + (active ? 'active':'');
                 return <div className={className} >
+                    <div className='icon'  >     {icon}
+                    </div>
                     <div className='btn'  onClick={() => history.push(path)}>
-                        {icon}&nbsp;
+
                         {label}
                     </div>
                     <div className='remove' onClick={()=>this.props.onTabRemove(item)}>

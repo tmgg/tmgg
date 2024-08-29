@@ -1,13 +1,11 @@
 // 调整umi 默认配置
 
-
-import {http} from "@tmgg/tmgg-base";
-import {sys} from "@tmgg/tmgg-system";
-
-http.axiosInstance.defaults.baseURL = sys.getServerUrl()
+import {patchClientRoutesRegistered} from "@tmgg/tmgg-base";
+import  "@tmgg/tmgg-system/src/include_init";
 
 
-
-
+export function patchClientRoutes({ routes }) {
+    patchClientRoutesRegistered(routes)
+}
 
 
