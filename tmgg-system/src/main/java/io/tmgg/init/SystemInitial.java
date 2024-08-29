@@ -2,6 +2,7 @@ package io.tmgg.init;
 
 import io.tmgg.lang.PasswordTool;
 import io.tmgg.sys.consts.service.SysConfigService;
+import io.tmgg.sys.role.entity.SysRole;
 import io.tmgg.sys.role.service.SysRoleService;
 import io.tmgg.sys.user.dao.SysUserDao;
 import io.tmgg.sys.user.entity.SysUser;
@@ -53,13 +54,13 @@ public class SystemInitial implements ApplicationRunner {
         menuInCodeRunnable.run();
 
         sysRoleService.initDefaultUserRole();
-        sysRoleService.initDefaultAdmin();
-        initUser();
+        SysRole adminRole = sysRoleService.initDefaultAdmin();
+        initUser(adminRole);
 
     }
 
 
-    private void initUser() {
+    private void initUser(SysRole adminRole) {
         SysUser admin = sysUserDao.findByAccount("superAdmin");
 
         if (admin == null) {
@@ -69,6 +70,8 @@ public class SystemInitial implements ApplicationRunner {
             admin.setAccount("superAdmin");
             admin.setName("管理员");
             admin.setStatus(CommonStatus.ENABLE);
+            admin.getRoles().add(adminRole);
+
             admin=  sysUserDao.save(admin);
         }
 

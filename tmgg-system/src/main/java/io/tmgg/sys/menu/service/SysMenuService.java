@@ -40,7 +40,6 @@ public class SysMenuService extends BaseService<SysMenu> {
      * 不含按钮 及 不显示的东西
      */
     public List<Route> findAllAppMenuList() {
-
         List<SysMenu> sysMenuList = sysMenuDao.findMenuVisible();
 
         List<Route> routes = new LinkedList<>();
@@ -104,19 +103,5 @@ public class SysMenuService extends BaseService<SysMenu> {
         return map;
     }
 
-    public Collection<String> getLoginPermissions(String userId) {
-        SysUser user = sysUserDao.findOne(userId);
 
-        Set<String> list = new HashSet<>();
-
-        Set<SysRole> roles = user.getRoles();
-        for (SysRole role : roles) {
-            if (role.getStatus() != CommonStatus.ENABLE) {
-                continue;
-            }
-            list.addAll(role.getPerms());
-        }
-
-        return list.stream().filter(Objects::nonNull).sorted().collect(Collectors.toList());
-    }
 }

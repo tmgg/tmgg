@@ -7,6 +7,7 @@ import io.tmgg.lang.dao.DBConstants;
 import io.tmgg.web.enums.CommonStatus;
 import io.tmgg.web.enums.MenuType;
 import io.tmgg.web.enums.YesOrNotEnum;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -14,9 +15,6 @@ import lombok.experimental.FieldNameConstants;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Transient;
 import jakarta.validation.constraints.NotNull;
 import java.util.List;
 
@@ -95,6 +93,7 @@ public class SysMenu extends BaseEntity implements TreeDefinition<SysMenu> {
     /**
      * 状态（字典 0正常 1停用 2删除）
      */
+    @Enumerated(EnumType.STRING)
     private CommonStatus status;
 
     /**

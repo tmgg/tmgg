@@ -174,14 +174,11 @@ public class SysUserAuthService implements AuthorizingRealm {
         Set<SysRole> roles = sysRoleService.getLoginRoles(subject.getId());
         for (SysRole role : roles) {
             subject.addRole(role.getCode());
+            List<String> perms = role.getPerms();
+            subject.getPermissions().addAll(perms);
         }
 
 
-        // 功能权限信息
-        Collection<String> permissions = sysMenuService.getLoginPermissions(subject.getId());
-        for (String permission : permissions) {
-            subject.getPermissions().add(permission);
-        }
 
         // 数据权限
         Collection<String> loginDataScope = sysUserService.getLoginDataScope(subject.getId());

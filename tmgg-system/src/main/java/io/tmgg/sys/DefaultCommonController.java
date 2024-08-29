@@ -33,6 +33,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
+
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -57,8 +58,6 @@ public class DefaultCommonController {
 
     /**
      * 站点信息， 非登录情况下使用
-     *
-     *
      */
     @PublicApi
     @GetMapping("site-info")
@@ -188,24 +187,27 @@ public class DefaultCommonController {
 
         Map<String, SysMenu> map = sysMenuService.findMap();
 
-            Collection<String> userMenuIds = new HashSet<>();
+        Collection<String> userMenuIds = new HashSet<>();
 
-            // 过滤id
-            for (SysMenu m : map.values()) {
-                String perm = m.getPermission();
-                if (subject.hasPermission(perm)) {
-                    userMenuIds.add(m.getId());
+        // 过滤id
+        for (SysMenu m : map.values()) {
+            String perm = m.getPermission();
+            if (StrUtil.isEmpty(perm)) {
+                continue;
+            }
+            if (subject.hasPermission(perm)) {
+                userMenuIds.add(m.getId());
 
-                    // 父节点加入
-                    SysMenu parent = map.get(m.getPid());
-                    while (parent != null) {
-                        userMenuIds.add(parent.getId());
-                        parent = map.get(parent.getPid());
-                    }
+                // 父节点加入
+                SysMenu parent = map.get(m.getPid());
+                while (parent != null) {
+                    userMenuIds.add(parent.getId());
+                    parent = map.get(parent.getPid());
                 }
             }
+        }
 
-            list = list.stream().filter(r -> userMenuIds.contains(r.getId())).collect(Collectors.toList());
+        list = list.stream().filter(r -> userMenuIds.contains(r.getId())).collect(Collectors.toList());
 
 
         {

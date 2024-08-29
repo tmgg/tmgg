@@ -195,10 +195,11 @@ public class SysRoleService extends BaseService<SysRole> {
     }
 
     @Transactional
-    public void initDefaultAdmin() {
+    public SysRole initDefaultAdmin() {
         String roleCode = "admin";
-        if (roleDao.countByCode(roleCode) > 0) {
-            return;
+        SysRole role = roleDao.findByCode(roleCode);
+        if (role != null ) {
+            return role;
         }
         SysRole sysRole = new SysRole();
         sysRole.setId(roleCode);
@@ -207,6 +208,6 @@ public class SysRoleService extends BaseService<SysRole> {
         sysRole.setStatus(CommonStatus.ENABLE);
         sysRole.setPerms(List.of("*"));
 
-        roleDao.save(sysRole);
+        return roleDao.save(sysRole);
     }
 }

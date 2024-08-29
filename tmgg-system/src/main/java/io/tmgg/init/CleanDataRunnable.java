@@ -27,7 +27,6 @@ public class CleanDataRunnable implements Runnable {
         if(systemProperties.isMenuAutoUpdate()){
             log.info("开始清空 sys_app，sys_menu");
             dbTool.update("SET FOREIGN_KEY_CHECKS = 0");
-            dbTool.update("delete from sys_app");
             dbTool.update("delete from sys_menu");
             dbTool.update("SET FOREIGN_KEY_CHECKS = 1");
         }

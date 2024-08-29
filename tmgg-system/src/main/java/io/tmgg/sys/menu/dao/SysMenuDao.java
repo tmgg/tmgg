@@ -38,7 +38,7 @@ public class SysMenuDao extends BaseDao<SysMenu> {
         JpaQuery<SysMenu> query = new JpaQuery<>();
         query.ne(SysMenu.Fields.type, MenuType.BTN);
         query.eq(SysMenu.Fields.status, CommonStatus.ENABLE);
-        query.ne(SysMenu.Fields.visible, true);
+        query.eq(SysMenu.Fields.visible, true);
 
         List<SysMenu> list = this.findAll(query, Sort.by(SysMenu.Fields.seq));
         return list;
