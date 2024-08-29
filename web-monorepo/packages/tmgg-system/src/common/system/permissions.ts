@@ -1,20 +1,23 @@
 /**
  * 控制按钮是否显示
  */
-import { StorageUtil } from '../utils';
 import {SysConfig} from "./SysConfig";
+import {arr} from "@tmgg/tmgg-base"
 
-export function hasPermission(permission:any) {
-  if (permission === null || permission === '') {
-    return true;
+export function hasPermission(perm:any) {
+  if (perm === null || perm === '') {
+    return false;
   }
 
   const info = SysConfig.getLoginInfo();
-  const { adminType, permissions } = info;
+  const { permissions } = info;
+  if(permissions == null || permissions.length == 0){
+    return false
+  }
 
-  if (adminType == 1) {
+  if (arr.contains(permissions,"*")) {
     return true;
   }
 
-  return permissions?.indexOf(permission) > -1;
+  return permissions.indexOf(perm) > -1;
 }
