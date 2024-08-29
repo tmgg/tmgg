@@ -1,18 +1,17 @@
 
 package io.tmgg.sys.role.entity;
 
-import io.tmgg.sys.menu.entity.SysMenu;
-import io.tmgg.sys.user.entity.SysUser;
-import io.tmgg.web.enums.CommonStatus;
 import io.tmgg.lang.dao.BaseEntity;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.tmgg.lang.dao.converter.ToListConverter;
+import io.tmgg.lang.dao.converter.ToMapStringObjectConverter;
+import io.tmgg.web.enums.CommonStatus;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldNameConstants;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
-import java.util.Set;
+import java.util.List;
 
 
 /**
@@ -53,22 +52,18 @@ public class SysRole extends BaseEntity {
      * 状态（字典 0正常 1停用 2删除）
      */
     @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(length = 10)
     private CommonStatus status;
 
 
-    @JsonIgnore
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
-    @JoinTable(name = "sys_role_menu",
-            joinColumns = @JoinColumn(name = "role_id", nullable = false),
-            inverseJoinColumns = @JoinColumn(name = "menu_id", nullable = false))
-    Set<SysMenu> menus;
+    /**
+     * 权限码列表
+     */
+    @Convert(converter = ToListConverter.class)
+    @Column(length = 10000)
+    private List<String> perms;
 
-    @JsonIgnore
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
-    @JoinTable(name = "sys_user_role",
-            joinColumns = @JoinColumn(name = "role_id", nullable = false),
-            inverseJoinColumns = @JoinColumn(name = "user_id", nullable = false))
-    Set<SysUser> users;
 
     public SysRole(String id) {
         this.id = id;

@@ -171,14 +171,14 @@ public class SysOrgDao extends BaseDao<SysOrg> {
         List<String> childIdListById = this.findChildIdListById(id);
         List<String> resultList = CollectionUtil.newArrayList(childIdListById);
         resultList.add(id);
-        return ImmutableList.copyOf(resultList);
+        return resultList;
     }
 
     public List<String> findChildIdListWithSelfById(String id, boolean containsDept) {
         List<String> childIdListById = this.findChildIdListById(id, containsDept);
         List<String> resultList = CollectionUtil.newArrayList(childIdListById);
         resultList.add(id);
-        return ImmutableList.copyOf(resultList);
+        return resultList;
     }
 
 

@@ -1,6 +1,7 @@
 
 package io.tmgg.sys.role.service;
 
+import cn.hutool.core.util.ArrayUtil;
 import io.tmgg.lang.CodeException;
 import io.tmgg.lang.dao.BaseEntity;
 import io.tmgg.lang.dao.BaseService;
@@ -23,6 +24,7 @@ import org.springframework.util.Assert;
 import jakarta.annotation.Resource;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -55,9 +57,9 @@ public class SysRoleService extends BaseService<SysRole> {
         List<SysMenu> newMenus = menuDao.findAllById(grantMenuIdList);
 
 
-        Set<SysMenu> menus = role.getMenus();
-        menus.clear();
-        menus.addAll(newMenus);
+        List<String> perms = newMenus.stream().map(SysMenu::getPermission).filter(Objects::nonNull).toList();
+        role.setPerms(perms);
+        roleDao.save(role);
     }
 
 
@@ -188,7 +190,7 @@ public class SysRoleService extends BaseService<SysRole> {
     }
 
     @Transactional
-    public void createDefault() {
+    public void initDefaultUserRole() {
         long count = roleDao.countByCode(SysRole.DEFAULT_ROLE);
         if (count > 0) {
             return;
@@ -198,6 +200,22 @@ public class SysRoleService extends BaseService<SysRole> {
         sysRole.setCode(SysRole.DEFAULT_ROLE);
         sysRole.setName("系统默认角色");
         sysRole.setStatus(CommonStatus.ENABLE);
+
+        roleDao.save(sysRole);
+    }
+
+    @Transactional
+    public void initDefaultAdmin() {
+        String roleCode = "admin";
+        if (roleDao.countByCode(roleCode) > 0) {
+            return;
+        }
+        SysRole sysRole = new SysRole();
+        sysRole.setId(roleCode);
+        sysRole.setCode(roleCode);
+        sysRole.setName("管理员");
+        sysRole.setStatus(CommonStatus.ENABLE);
+        sysRole.setPerms(List.of("*"));
 
         roleDao.save(sysRole);
     }

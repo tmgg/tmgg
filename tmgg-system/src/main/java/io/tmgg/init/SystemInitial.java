@@ -34,6 +34,7 @@ public class SystemInitial implements ApplicationRunner {
     @Resource
     SysUserDao sysUserDao;
 
+
     @Resource
     SysConfigService sysConfigService;
 
@@ -50,11 +51,12 @@ public class SystemInitial implements ApplicationRunner {
 
         menuInCodeRunnable.run();
 
-        sysRoleService.createDefault();
-
+        sysRoleService.initDefaultUserRole();
+        sysRoleService.initDefaultAdmin();
         initUser();
 
     }
+
 
     private void initUser() {
         SysUser admin = sysUserDao.findByAccount("superAdmin");
@@ -66,9 +68,9 @@ public class SystemInitial implements ApplicationRunner {
             admin.setAccount("superAdmin");
             admin.setName("管理员");
             admin.setStatus(CommonStatus.ENABLE);
-
             admin=  sysUserDao.save(admin);
         }
+
         if (StrUtil.isBlankIfStr(admin.getPassword())) {
             String defaultPassWord = sysConfigService.getDefaultPassWord();
             admin.setPassword(PasswordTool.encode(defaultPassWord));
@@ -77,6 +79,7 @@ public class SystemInitial implements ApplicationRunner {
             log.info("-------------------------------------------");
             sysUserDao.save(admin);
         }
+
     }
 
     @Resource
