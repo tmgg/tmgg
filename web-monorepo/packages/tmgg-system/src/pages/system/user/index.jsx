@@ -1,9 +1,18 @@
 import {PlusOutlined} from '@ant-design/icons';
-import {Button, Card, Empty, message, Modal, Popconfirm, Tree} from 'antd';
+import {Button, Card, Empty, Form, Input, InputNumber, message, Modal, Popconfirm, Tree} from 'antd';
 import React from 'react';
 import {ProTable} from "@ant-design/pro-components";
 import UserOrgForm from "./UserOrgForm";
-import {ButtonList, dictValue, dictValueTag, hasPermission, HttpClient, LeftRightLayout} from "../../../common";
+import {
+  ButtonList,
+  dictValue,
+  dictValueTag,
+  FieldDictSelect,
+  hasPermission,
+  HttpClient,
+  LeftRightLayout
+} from "../../../common";
+import OrgTree from "../../../commponents/OrgTree";
 
 const baseTitle = "用户"
 const baseApi = 'sysUser/';
@@ -35,6 +44,9 @@ export default class extends React.Component {
   }
   actionRef = React.createRef();
   orgFormRef = React.createRef();
+
+  formRef = React.createRef()
+  tableRef = React.createRef()
 
   columns = [
     {
@@ -220,34 +232,38 @@ export default class extends React.Component {
     })
   }
 
-  onSelectOrg = orgIds => {
-    if (orgIds.length > 0) {
-      this.setState({currentOrgId: orgIds[0]})
-    } else {
-      this.setState({currentOrgId: null})
-    }
-
+  onSelectOrg = key => {
+    this.setState({currentOrgId: key})
     this.actionRef.current.reload()
   }
 
+  handleAdd = ()=>{
+    this.setState({formOpen: true, formValues: {}})
+  }
+
+  handleEdit = record=>{
+    this.setState({formOpen: true, formValues: record})
+  }
+
+
+  onFinish = values => {
+    HttpClient.post( 'sysUser/save', values).then(rs => {
+      message.success(rs.message)
+      this.setState({formOpen: false})
+      this.tableRef.current.reload()
+    })
+  }
+
   render() {
-    let {showAddForm, showEditForm, treeData} = this.state
+    let {treeData} = this.state
 
     return <>
       <LeftRightLayout leftSize={250}>
-        <Card title={'组织机构'}>
-
-          {treeData.length > 0 ? <Tree
-            treeData={treeData}
-            defaultExpandAll
-            onSelect={this.onSelectOrg}
-          >
-          </Tree> : <Empty description={'组织机构数据为空'}>
-
-          </Empty>}
+        <Card>
+          <OrgTree onChange={this.onSelectOrg}/>
         </Card>
 
-        <Card title='用户列表'>
+        <Card >
           <ProTable
             actionRef={this.actionRef}
             toolBarRender={(action, {selectedRows}) => {
@@ -255,9 +271,7 @@ export default class extends React.Component {
 
               if (hasPermission(addPerm)) {
                 menus.push(<Button type="primary"
-                                   onClick={() => {
-                  this.setState({showAddForm: true})
-                }}>
+                                   onClick={ this.handleAdd}>
                   <PlusOutlined/> 新增
                 </Button>)
 
@@ -278,25 +292,74 @@ export default class extends React.Component {
       </LeftRightLayout>
 
 
-      <Modal
-        maskClosable={false}
-        destroyOnClose
-        title={addTitle}
-        open={showAddForm}
-        onCancel={() => {
-          this.state.showAddForm = false;
-          this.setState({showAddForm: false})
-        }}
-        footer={null}
-        width={800}
+      <Modal title='系统用户'
+             open={this.state.formOpen}
+             onOk={() => this.formRef.current.submit()}
+             onCancel={() => this.setState({formOpen: false})}
+             destroyOnClose
       >
-        <ProTable
-          onSubmit={this.handleSave}
-          form={{layout: 'horizontal', labelCol: {span: 3}}}
-          type="form"
-          columns={this.columns}
-          rowSelection={{}}
-        />
+
+        <Form ref={this.formRef} labelCol={{flex: '100px'}}
+              initialValues={this.state.formValues}
+              onFinish={this.onFinish} >
+          <Form.Item  name='id' noStyle></Form.Item>
+
+          <Form.Item label='所属机构' name='orgId' rules={[{required: true}]}>
+            <Input/>
+          </Form.Item>
+          <Form.Item label='orgLabel' name='orgLabel' rules={[{required: true}]}>
+            <Input/>
+          </Form.Item>
+          <Form.Item label='所属部门' name='deptId' rules={[{required: true}]}>
+            <Input/>
+          </Form.Item>
+          <Form.Item label='deptLabel' name='deptLabel' rules={[{required: true}]}>
+            <Input/>
+          </Form.Item>
+          <Form.Item label='账号' name='account' rules={[{required: true}]}>
+            <Input/>
+          </Form.Item>
+          <Form.Item label='密码' name='password' rules={[{required: true}]}>
+            <Input/>
+          </Form.Item>
+          <Form.Item label='姓名' name='name' rules={[{required: true}]}>
+            <Input/>
+          </Form.Item>
+          <Form.Item label='电话' name='phone' rules={[{required: true}]}>
+            <Input/>
+          </Form.Item>
+          <Form.Item label='邮箱' name='email' rules={[{required: true}]}>
+            <Input/>
+          </Form.Item>
+          <Form.Item label='lastLoginIp' name='lastLoginIp' rules={[{required: true}]}>
+            <Input/>
+          </Form.Item>
+          <Form.Item label='lastLoginTime' name='lastLoginTime' rules={[{required: true}]}>
+            <Input/>
+          </Form.Item>
+          <Form.Item label='adminType' name='adminType' rules={[{required: true}]}>
+            <InputNumber />
+          </Form.Item>
+          <Form.Item label='状态' name='status' rules={[{required: true}]}>
+            <Input/>
+          </Form.Item>
+          <Form.Item label='roles' name='roles' rules={[{required: true}]}>
+            <Input/>
+          </Form.Item>
+          <Form.Item label='roleNames' name='roleNames' rules={[{required: true}]}>
+            <Input/>
+          </Form.Item>
+          <Form.Item label='roleIds' name='roleIds' rules={[{required: true}]}>
+            <Input/>
+          </Form.Item>
+          <Form.Item label='dataPermType' name='dataPermType' rules={[{required: true}]}>
+            <FieldDictSelect typeCode="data_perm_type" />
+          </Form.Item>
+          <Form.Item label='orgDataScope' name='orgDataScope' rules={[{required: true}]}>
+            <Input/>
+          </Form.Item>
+
+        </Form>
       </Modal>
 
 

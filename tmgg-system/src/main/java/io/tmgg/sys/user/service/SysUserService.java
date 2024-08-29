@@ -13,19 +13,15 @@ import io.tmgg.sys.org.dao.SysOrgDao;
 import io.tmgg.sys.org.entity.SysOrg;
 import io.tmgg.sys.role.dao.SysRoleDao;
 import io.tmgg.sys.role.entity.SysRole;
-import io.tmgg.sys.user.UserChangedEvent;
 import io.tmgg.sys.user.controller.GrantDataParam;
 import io.tmgg.sys.user.dao.SysUserDao;
 import io.tmgg.sys.user.entity.SysUser;
 import io.tmgg.sys.user.enums.DataPermType;
 import io.tmgg.sys.user.enums.SysUserExceptionEnum;
-import io.tmgg.sys.user.factory.SysUserFactory;
 import io.tmgg.sys.user.param.SysUserParam;
-import io.tmgg.web.enums.AdminType;
 import io.tmgg.web.enums.CommonStatus;
 import io.tmgg.web.perm.SecurityUtils;
 import io.tmgg.web.perm.Subject;
-import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
@@ -42,6 +38,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import jakarta.annotation.Resource;
+
 import java.sql.SQLException;
 import java.util.Collection;
 import java.util.Collections;
@@ -59,6 +56,8 @@ public class SysUserService extends BaseService<SysUser> implements UserLabelQue
     @Lazy
     private SysFileService sysFileService;
 
+    private SysConfigService sysConfigService;
+
     @Resource
     private SysUserDao sysUserDao;
 
@@ -70,8 +69,6 @@ public class SysUserService extends BaseService<SysUser> implements UserLabelQue
     @Resource
     private SysOrgDao sysOrgDao;
 
-    @Resource
-    private SysConfigService sysConfigService;
 
     public List<SysUser> findByOrg(Collection<String> org) {
         JpaQuery<SysUser> query = new JpaQuery<>();
@@ -158,8 +155,7 @@ public class SysUserService extends BaseService<SysUser> implements UserLabelQue
             query.like(SysUser.Fields.account, param.getAccount());
 
 
-        //查询非删除状态，排除超级管理员
-        query.ne(SysUser.Fields.adminType, AdminType.SUPER_ADMIN);
+
 
 
         Subject subject = SecurityUtils.getSubject();
@@ -170,31 +166,19 @@ public class SysUserService extends BaseService<SysUser> implements UserLabelQue
 
 
     @Transactional(rollbackFor = Exception.class)
-    public void add(SysUserParam param) {
-        checkParam(param, false);
+    public void add(SysUser sysUser) {
+        sysUser.setStatus(CommonStatus.ENABLE);
 
-        SysUser sysUser = new SysUser();
-        BeanUtil.copyProperties(param, sysUser);
-        SysUserFactory.fillAddCommonUserInfo(sysUser);
-        if (ObjectUtil.isNotEmpty(param.getPassword())) {
-            sysUser.setPassword(PasswordTool.encode(param.getPassword()));
-        }
-        sysUser = this.save(sysUser);
+        String password = sysConfigService.getDefaultPassWord();
+        sysUser.setPassword(PasswordTool.encode(password));
 
-
-        SpringUtil.getApplicationContext().publishEvent(new UserChangedEvent(this));
-
-        this.grantRole(sysUser.getId(), param.getRoleIds());
+        this.save(sysUser);
     }
 
 
     @Transactional
     public void delete(String id) {
         SysUser sysUser = sysUserDao.findOne(id);
-        //不能删除超级管理员
-        if (AdminType.SUPER_ADMIN == sysUser.getAdminType()) {
-            throw new CodeException(SysUserExceptionEnum.USER_CAN_NOT_DELETE_ADMIN);
-        }
         try {
             sysUserDao.delete(sysUser);
         } catch (Exception e) {
@@ -206,6 +190,7 @@ public class SysUserService extends BaseService<SysUser> implements UserLabelQue
     /**
      * 用户修改
      * 该表比较敏感，所以采用手动设置字段的方式，防止前端恶意设置字段
+     *
      * @param param
      */
     @Transactional(rollbackFor = Exception.class)
@@ -275,9 +260,6 @@ public class SysUserService extends BaseService<SysUser> implements UserLabelQue
     }
 
 
-
-
-
     public SysUser getUserById(String userId) {
         SysUser sysUser = this.findOne(userId);
         if (ObjectUtil.isNull(sysUser)) {
@@ -290,7 +272,6 @@ public class SysUserService extends BaseService<SysUser> implements UserLabelQue
     public List<String> getAllUserIdList() {
         List<String> resultList = CollectionUtil.newArrayList();
         JpaQuery<SysUser> queryWrapper = new JpaQuery<>();
-        queryWrapper.ne(SysUser.Fields.adminType, AdminType.SUPER_ADMIN);
         this.findAll(queryWrapper).forEach(sysUser -> resultList.add(sysUser.getId()));
         return resultList;
     }
@@ -304,7 +285,7 @@ public class SysUserService extends BaseService<SysUser> implements UserLabelQue
         String account = param.getAccount();
         JpaQuery<SysUser> queryWrapper = new JpaQuery<>();
         queryWrapper.eq(SysUser.Fields.account, account)
-           ;
+        ;
         //是否排除自己，如果是则查询条件排除自己id
         if (isExcludeSelf) {
             queryWrapper.ne("id", id);
@@ -354,7 +335,7 @@ public class SysUserService extends BaseService<SysUser> implements UserLabelQue
 
 
         // 超级管理员返回所有
-        if (user.getAdminType() == AdminType.SUPER_ADMIN || dataPermType == DataPermType.ALL) {
+        if ( dataPermType == DataPermType.ALL) {
             List<SysOrg> all = sysOrgDao.findAll();
             return all.stream().map(BaseEntity::getId).collect(Collectors.toSet());
         }

@@ -191,11 +191,6 @@ public class SysUserAuthService implements AuthorizingRealm {
         subject.getOrgPermissions().addAll(loginDataScope);
 
 
-        if (subject.isSuperAdmin()) {
-            subject.addRole("superAdmin");
-            subject.getPermissions().add("*");
-        }
-
         // 封存，防止变更权限
         subject.sealed();
 

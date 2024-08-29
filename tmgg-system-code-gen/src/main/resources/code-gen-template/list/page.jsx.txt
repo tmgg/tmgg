@@ -3,7 +3,7 @@ import {Button, Card,InputNumber, Popconfirm,Modal,Form,Input,message} from 'ant
 import React from 'react'
 import {ProTable} from '@ant-design/pro-components'
 
-import {ButtonList,FieldDictSelect,FieldRadioBoolean,HttpClient, PageContent} from "crec-web";
+import {ButtonList,FieldDictSelect,FieldRadioBoolean,HttpClient} from "@tmgg/tmgg-base";
 
 
 

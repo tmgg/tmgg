@@ -66,10 +66,10 @@ public class SysUserController {
     }
 
     @HasPermission
-    @PostMapping("add")
+    @PostMapping("save")
     @BusinessLog("系统用户_增加")
-    public AjaxResult add(@RequestBody SysUserParam sysUserParam) {
-        sysUserService.add(sysUserParam);
+    public AjaxResult add(@RequestBody SysUser sysUser) {
+        sysUserService.add(sysUser);
         return AjaxResult.success("添加用户成功，新密码为" + configService.getDefaultPassWord(), null);
     }
 

@@ -188,7 +188,6 @@ public class DefaultCommonController {
 
         Map<String, SysMenu> map = sysMenuService.findMap();
 
-        if (!subject.isSuperAdmin()) {
             Collection<String> userMenuIds = new HashSet<>();
 
             // 过滤id
@@ -207,7 +206,6 @@ public class DefaultCommonController {
             }
 
             list = list.stream().filter(r -> userMenuIds.contains(r.getId())).collect(Collectors.toList());
-        }
 
 
         {

@@ -1,6 +1,5 @@
 package io.tmgg.web.perm;
 
-import io.tmgg.web.enums.AdminType;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -22,7 +21,6 @@ public class Subject {
 
     Subject() {
         // 友元构造
-        this.adminType = -1;
         this.authenticated = false;
     }
 
@@ -61,7 +59,6 @@ public class Subject {
     private String phone;
 
 
-    private Integer adminType;
 
 
     // ------------- 权限相关----------
@@ -95,9 +92,7 @@ public class Subject {
             return false;
         }
 
-        if (isSuperAdmin()) {
-            return true;
-        }
+
         return orgPermissions.contains(orgId);
     }
 
@@ -172,9 +167,7 @@ public class Subject {
         return "用户 " + account;
     }
 
-    public boolean isSuperAdmin() {
-        return getAdminType() == AdminType.SUPER_ADMIN;
-    }
+
 
     private boolean sealed = false;
 

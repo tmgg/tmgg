@@ -101,10 +101,7 @@ public class SysUser extends BaseEntity {
      */
     private Date lastLoginTime;
 
-    /**
-     * 管理员类型（1超级管理员 2非管理员）
-     */
-    private Integer adminType;
+
 
     /**
      * 状态（字典 0正常 1停用 2删除）

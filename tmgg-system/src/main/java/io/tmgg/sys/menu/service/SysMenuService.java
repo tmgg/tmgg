@@ -13,7 +13,6 @@ import io.tmgg.sys.menu.node.MenuTreeNode;
 import io.tmgg.sys.role.entity.SysRole;
 import io.tmgg.sys.user.dao.SysUserDao;
 import io.tmgg.sys.user.entity.SysUser;
-import io.tmgg.web.enums.AdminType;
 import io.tmgg.web.enums.CommonStatus;
 import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -136,25 +135,17 @@ public class SysMenuService extends BaseService<SysMenu> {
 
         Set<String> list = new HashSet<>();
 
-        // 管理员则返回所有权限
-        if (user.getAdminType() == AdminType.SUPER_ADMIN) {
-            List<SysMenu> allValid = sysMenuDao.findAllValid();
-            for (SysMenu m : allValid) {
-                list.add(m.getPermission());
+        Set<SysRole> roles = user.getRoles();
+        for (SysRole role : roles) {
+            if (role.getStatus() != CommonStatus.ENABLE) {
+                continue;
             }
-        } else {
-            Set<SysRole> roles = user.getRoles();
-            for (SysRole role : roles) {
-                if (role.getStatus() != CommonStatus.ENABLE) {
+            Set<SysMenu> roleMenus = role.getMenus();
+            for (SysMenu menu : roleMenus) {
+                if (menu.getStatus() != CommonStatus.ENABLE) {
                     continue;
                 }
-                Set<SysMenu> roleMenus = role.getMenus();
-                for (SysMenu menu : roleMenus) {
-                    if (menu.getStatus() != CommonStatus.ENABLE) {
-                        continue;
-                    }
-                    list.add(menu.getPermission());
-                }
+                list.add(menu.getPermission());
             }
         }
 

@@ -1,15 +1,11 @@
 package io.tmgg.init;
 
-import cn.hutool.core.date.DateUtil;
 import io.tmgg.lang.PasswordTool;
-import io.tmgg.sys.consts.dao.SysConfigDao;
 import io.tmgg.sys.consts.service.SysConfigService;
 import io.tmgg.sys.role.service.SysRoleService;
 import io.tmgg.sys.user.dao.SysUserDao;
 import io.tmgg.sys.user.entity.SysUser;
-import io.tmgg.web.enums.AdminType;
 import io.tmgg.web.enums.CommonStatus;
-import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.ApplicationArguments;
@@ -18,8 +14,6 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import jakarta.annotation.Resource;
-
-import java.util.Date;
 
 import static io.tmgg.init.SystemInitial.ORDER;
 
@@ -72,7 +66,6 @@ public class SystemInitial implements ApplicationRunner {
             admin.setAccount("superAdmin");
             admin.setName("管理员");
             admin.setStatus(CommonStatus.ENABLE);
-            admin.setAdminType(AdminType.SUPER_ADMIN);
 
             admin=  sysUserDao.save(admin);
         }

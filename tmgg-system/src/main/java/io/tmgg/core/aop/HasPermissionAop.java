@@ -5,7 +5,6 @@ import io.tmgg.core.log.LogManager;
 import io.tmgg.lang.HttpServletTool;
 import io.tmgg.web.annotion.HasPermission;
 import io.tmgg.web.consts.AopSortConstant;
-import io.tmgg.web.enums.AdminType;
 import io.tmgg.web.exception.PermissionException;
 import io.tmgg.web.perm.SecurityUtils;
 import io.tmgg.web.perm.Subject;
@@ -15,7 +14,6 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -40,10 +38,7 @@ public class HasPermissionAop {
     public void doPermission(JoinPoint joinPoint) {
         // 如果是超级管理员，直接放过权限校验
         Subject me = SecurityUtils.getSubject();
-        boolean isSuperAdmin = me.getAdminType() == AdminType.SUPER_ADMIN;
-        if (isSuperAdmin) {
-            return;
-        }
+
 
         // 如果不是超级管理员，则开始进行权限校验
         MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();

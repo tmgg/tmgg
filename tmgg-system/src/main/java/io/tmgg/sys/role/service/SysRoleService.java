@@ -13,7 +13,6 @@ import io.tmgg.sys.role.enums.SysRoleExceptionEnum;
 import io.tmgg.sys.role.param.SysRoleParam;
 import io.tmgg.sys.user.dao.SysUserDao;
 import io.tmgg.sys.user.entity.SysUser;
-import io.tmgg.web.enums.AdminType;
 import io.tmgg.web.enums.CommonStatus;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.ObjectUtil;
@@ -75,12 +74,7 @@ public class SysRoleService extends BaseService<SysRole> {
         Assert.state(userId != null, "用户ID不能为空");
         SysUser user = sysUserDao.findOne(userId);
 
-        Collection<SysRole> roles;
-        if (user.getAdminType() == AdminType.SUPER_ADMIN) {
-            roles = roleDao.findAll();
-        } else {
-            roles = user.getRoles();
-        }
+        Collection<SysRole> roles = user.getRoles();
 
 
         return roles.stream().filter(r -> r.getStatus() == CommonStatus.ENABLE).collect(Collectors.toSet());
