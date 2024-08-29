@@ -61,6 +61,19 @@ public class SysCodeGenController {
             return AjaxResult.ok().msg("生成成功");
         }
 
+        if (param.getGenType() == GenType.diskFlat) {
+            for (Map.Entry<String, String> e : map.entrySet()) {
+                String file = e.getKey();
+                String content = e.getValue();
+
+
+                file = "D:/代码生成结果/" + FileUtil.getName(file);
+                FileUtil.writeUtf8String(content, file);
+            }
+
+            return AjaxResult.ok().msg("生成成功");
+        }
+
 
         return AjaxResult.err();
     }
@@ -114,6 +127,7 @@ public class SysCodeGenController {
 
     public enum GenType {
         project,
-        disk
+        disk,
+        diskFlat
     }
 }

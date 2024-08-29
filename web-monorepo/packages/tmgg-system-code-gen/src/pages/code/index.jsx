@@ -1,4 +1,4 @@
-import {Button, Form, message, Modal, Radio, Row, Tabs} from 'antd'
+import {Button, Form, message, Modal, Radio, Row, Select, Tabs} from 'antd'
 import React from 'react'
 import {http} from "@tmgg/tmgg-base";
 import {ProTable} from "@tmgg/pro-table";
@@ -103,6 +103,7 @@ export default class extends React.Component {
             <Radio.Group>
               <Radio value='project'>项目源码</Radio>
               <Radio value='disk' >D盘（D:/代码生成结果）</Radio>
+              <Radio value='diskFlat' >D盘（同一个目录）</Radio>
             </Radio.Group>
           </Form.Item>
 
