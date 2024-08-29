@@ -36,7 +36,7 @@ public class SysDictDataController {
     @GetMapping("/sysDictData/page")
     @BusinessLog("系统字典值_查询")
     public AjaxResult page(SysDictData SysDictData, Pageable pageable) {
-        return AjaxResult.success(sysDictDataService.page(SysDictData, pageable));
+        return AjaxResult.ok().data(sysDictDataService.page(SysDictData, pageable));
     }
 
     /**
@@ -49,7 +49,7 @@ public class SysDictDataController {
     @GetMapping("/sysDictData/list")
     @BusinessLog("系统字典值_列表")
     public AjaxResult list(SysDictData SysDictData) {
-        return AjaxResult.success(sysDictDataService.list(SysDictData));
+        return AjaxResult.ok().data(sysDictDataService.list(SysDictData));
     }
 
     /**
@@ -62,7 +62,7 @@ public class SysDictDataController {
     @GetMapping("/sysDictData/detail")
     @BusinessLog("系统字典值_查看")
     public AjaxResult detail( SysDictData SysDictData) {
-        return AjaxResult.success(sysDictDataService.findOne(SysDictData.getId()));
+        return AjaxResult.ok().data(sysDictDataService.findOne(SysDictData.getId()));
     }
 
     /**
@@ -76,7 +76,7 @@ public class SysDictDataController {
     @BusinessLog("系统字典值_增加")
     public AjaxResult add(@RequestBody SysDictData SysDictData) {
         sysDictDataService.add(SysDictData);
-        return AjaxResult.success();
+        return AjaxResult.ok();
     }
 
     /**
@@ -90,7 +90,7 @@ public class SysDictDataController {
     @BusinessLog("系统字典值_删除")
     public AjaxResult delete(@RequestBody SysDictData SysDictData) {
         sysDictDataService.delete(SysDictData);
-        return AjaxResult.success();
+        return AjaxResult.ok();
     }
 
     /**
@@ -104,7 +104,7 @@ public class SysDictDataController {
     @BusinessLog("系统字典值_编辑")
     public AjaxResult edit(@RequestBody SysDictData SysDictData) {
         sysDictDataService.edit(SysDictData);
-        return AjaxResult.success();
+        return AjaxResult.ok();
     }
 
     /**
@@ -118,7 +118,7 @@ public class SysDictDataController {
     @BusinessLog("系统字典值_修改状态")
     public AjaxResult changeStatus(@RequestBody SysDictData SysDictData) {
         sysDictDataService.changeStatus(SysDictData);
-        return AjaxResult.success();
+        return AjaxResult.ok();
     }
 
 }

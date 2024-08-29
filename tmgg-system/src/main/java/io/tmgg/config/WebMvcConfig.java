@@ -4,14 +4,13 @@ package io.tmgg.config;
 import io.tmgg.core.filter.xss.XssFilter;
 import io.tmgg.interceptor.CookieInterceptor;
 import io.tmgg.interceptor.SecurityInterceptor;
-import io.tmgg.interceptor.SetUserInfoInterceptor;
+import io.tmgg.interceptor.SubjectInfoFillInterceptor;
 import io.tmgg.SystemProperties;
 import cn.hutool.core.collection.CollUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistration;
@@ -66,7 +65,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
 
     @Resource
-    private SetUserInfoInterceptor setUserInfoInterceptor;
+    private SubjectInfoFillInterceptor subjectInfoFillInterceptor;
 
 
 
@@ -75,7 +74,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
         // 登录拦截器
         HandlerInterceptor[] interceptors = new HandlerInterceptor[]{securityInterceptor,
                 cookieInterceptor,
-                setUserInfoInterceptor};
+                subjectInfoFillInterceptor};
         for (HandlerInterceptor interceptor : interceptors) {
             InterceptorRegistration registration = registry.addInterceptor(interceptor)
                     .addPathPatterns("/**")

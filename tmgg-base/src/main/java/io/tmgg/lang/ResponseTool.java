@@ -88,7 +88,7 @@ public class ResponseTool {
                                               String message) {
         response.setCharacterEncoding(CharsetUtil.UTF_8);
         response.setContentType(ContentType.JSON.toString());
-        AjaxResult result = AjaxResult.error(code, message);
+        AjaxResult result = AjaxResult.err().code(code).msg( message);
         String errorResponseJsonData = JsonTool.toPrettyJsonQuietly(result);
         try {
             response.setStatus(code);

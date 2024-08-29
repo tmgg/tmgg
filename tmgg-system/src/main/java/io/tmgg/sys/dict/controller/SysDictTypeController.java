@@ -36,7 +36,7 @@ public class SysDictTypeController {
     @GetMapping("page")
     public AjaxResult page() {
         List<SysDictType> page = typeService.findAll(Sort.by(Sort.Direction.DESC, SysDictType.FIELD_UPDATE_TIME));
-        return AjaxResult.success(page);
+        return AjaxResult.ok().data(page);
     }
 
 
@@ -45,7 +45,7 @@ public class SysDictTypeController {
      */
     @GetMapping("dropDown")
     public AjaxResult dropDown(SysDictType sysDictTypeParam) {
-        return AjaxResult.success(typeService.dropDown(sysDictTypeParam));
+        return AjaxResult.ok().data(typeService.dropDown(sysDictTypeParam));
     }
 
     /**
@@ -96,7 +96,7 @@ public class SysDictTypeController {
     public AjaxResult save(@RequestBody SysDictType sysDictTypeParam) {
 
         typeService.save(sysDictTypeParam);
-        return AjaxResult.success();
+        return AjaxResult.ok();
     }
 
 
@@ -105,7 +105,7 @@ public class SysDictTypeController {
     @BusinessLog("系统字典类型_删除")
     public AjaxResult delete(@RequestBody SysDictType sysDictTypeParam) {
         typeService.delete(sysDictTypeParam);
-        return AjaxResult.success();
+        return AjaxResult.ok();
     }
 
 
@@ -116,13 +116,13 @@ public class SysDictTypeController {
     @GetMapping("tree")
     @PublicApi
     public AjaxResult tree() {
-        return AjaxResult.success(typeService.tree());
+        return AjaxResult.ok().data(typeService.tree());
     }
 
     @GetMapping("options")
     public AjaxResult options() {
         List<SysDictType> list = typeService.findAll();
-        return AjaxResult.success(Option.convertList(list, SysDictType::getCode, SysDictType::getName));
+        return AjaxResult.ok().data(Option.convertList(list, SysDictType::getCode, SysDictType::getName));
     }
 
 }

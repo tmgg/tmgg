@@ -74,7 +74,7 @@ public class KettleSysJobController {
         param.setGroup("kettle");
 
         SysJob result = service.saveOrUpdate(param);
-        return AjaxResult.success("操作成功", result.getId());
+        return AjaxResult.ok().msg("操作成功", result.getId());
     }
 
 

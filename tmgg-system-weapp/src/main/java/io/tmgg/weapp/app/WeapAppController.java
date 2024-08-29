@@ -59,7 +59,7 @@ public class WeapAppController {
     @PostMapping("login")
     public AjaxResult login(String code) {
         if (StringUtils.isBlank(code)) {
-            return AjaxResult.error("微信登录，code不能为空");
+            return AjaxResult.err().msg("微信登录，code不能为空");
         }
 
         try {
@@ -91,10 +91,10 @@ public class WeapAppController {
 
             }
 
-            return AjaxResult.success("登录成功", model);
+            return AjaxResult.ok().msg("登录成功").data( model);
         } catch (WxErrorException e) {
             log.error(e.getMessage(), e);
-            return AjaxResult.error(e.getMessage());
+            return AjaxResult.err().msg(e.getMessage());
         } finally {
             WxMaConfigHolder.remove();//清理ThreadLocal
         }
@@ -114,7 +114,7 @@ public class WeapAppController {
         user.setPhone(phoneNoInfo.getPurePhoneNumber());
         weappUserService.save(user);
 
-        return AjaxResult.success(phoneNoInfo.getPurePhoneNumber());
+        return AjaxResult.ok().data(phoneNoInfo.getPurePhoneNumber());
     }
 
 
@@ -139,7 +139,7 @@ public class WeapAppController {
         weappUser = weappUserService.save(weappUser);
 
 
-        return AjaxResult.success(weappUser);
+        return AjaxResult.ok().data(weappUser);
     }
 
 
@@ -152,7 +152,7 @@ public class WeapAppController {
     public AjaxResult getUserInfo() {
         String id = WeappTool.curUserId();
         WeappUser user = weappUserService.findOne(id);
-        return AjaxResult.success(user);
+        return AjaxResult.ok().data(user);
     }
 
 
@@ -165,7 +165,7 @@ public class WeapAppController {
     public AjaxResult updateUser(WeappUser weappUser) {
         String id = WeappTool.curUserId();
         WeappUser user = weappUserService.updateNickName(id, weappUser);
-        return AjaxResult.success(user);
+        return AjaxResult.ok().data(user);
     }
 
     @PostMapping("uploadAvatar")
@@ -178,7 +178,7 @@ public class WeapAppController {
 
         WeappUser user = weappUserService.updateAvatar(id, png);
 
-        return AjaxResult.success(user);
+        return AjaxResult.ok().data(user);
     }
 
 }

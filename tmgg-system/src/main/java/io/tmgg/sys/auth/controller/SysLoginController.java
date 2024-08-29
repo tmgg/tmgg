@@ -77,7 +77,7 @@ public class SysLoginController {
            //检测是否开启验证码
            boolean codeValid = verificationCaptcha(param.getClientId());
            if (!codeValid) {
-               return AjaxResult.error(401, "验证码错误");
+               return AjaxResult.err().code(401).msg( "验证码错误");
            }
 
            AccountCheckResult resultEnum = authService.checkAccount(account, password);
@@ -86,7 +86,7 @@ public class SysLoginController {
 
         String token = authService.createToken(account);
 
-        return AjaxResult.success("登录成功", token);
+        return AjaxResult.ok().msg("登录成功").data( token);
     }
 
 
@@ -111,7 +111,7 @@ public class SysLoginController {
 
         request.getSession().invalidate();
 
-        return AjaxResult.success("退出登录成功");
+        return AjaxResult.ok().msg("退出登录成功");
     }
 
 

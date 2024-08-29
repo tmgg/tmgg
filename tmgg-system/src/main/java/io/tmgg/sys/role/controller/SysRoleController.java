@@ -50,7 +50,7 @@ public class SysRoleController {
     @GetMapping("page")
     public AjaxResult page() {
         List<SysRole> list = sysRoleService.findAll(Sort.by(Sort.Direction.DESC, "updateTime"));
-        return AjaxResult.success(list);
+        return AjaxResult.ok().data(list);
     }
 
 
@@ -60,7 +60,7 @@ public class SysRoleController {
 
         List<Option> options = Option.convertList(list, BaseEntity::getId, SysRole::getName);
 
-        return AjaxResult.success(options);
+        return AjaxResult.ok().data(options);
     }
 
     /**
@@ -76,7 +76,7 @@ public class SysRoleController {
             sysRoleService.edit(sysRoleParam);
         }
 
-        return AjaxResult.success();
+        return AjaxResult.ok();
     }
 
 
@@ -88,7 +88,7 @@ public class SysRoleController {
     @BusinessLog("删除")
     public AjaxResult delete(@RequestBody SysRoleParam sysRoleParam) {
         sysRoleService.delete(sysRoleParam);
-        return AjaxResult.success();
+        return AjaxResult.ok();
     }
 
 
@@ -98,7 +98,7 @@ public class SysRoleController {
     @HasPermission
     @GetMapping("detail")
     public AjaxResult detail(@Validated(Detail.class) SysRoleParam sysRoleParam) {
-        return AjaxResult.success(sysRoleService.detail(sysRoleParam));
+        return AjaxResult.ok().data(sysRoleService.detail(sysRoleParam));
     }
 
     /**
@@ -132,7 +132,7 @@ public class SysRoleController {
         String roleId = param.getId();
         sysRoleService.grantMenu(roleId, total);
 
-        return AjaxResult.success("授权成功");
+        return AjaxResult.ok().msg("授权成功");
     }
 
 
@@ -157,7 +157,7 @@ public class SysRoleController {
 
 
         List<String> leafList = menuIdList.stream().filter(allLeafList::contains).collect(Collectors.toList());
-        return AjaxResult.success(leafList);
+        return AjaxResult.ok().data(leafList);
     }
 
 
@@ -166,7 +166,7 @@ public class SysRoleController {
     public AjaxResult getUserByRole(String roleId) {
         List<SysUser> users = sysUserService.findByRoleId(roleId);
 
-        return AjaxResult.success(users.stream().map(BaseEntity::getId).collect(Collectors.toList()));
+        return AjaxResult.ok().data(users.stream().map(BaseEntity::getId).collect(Collectors.toList()));
     }
 
 

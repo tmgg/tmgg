@@ -13,6 +13,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.annotation.Resource;
+
 import java.sql.SQLException;
 
 @RestController
@@ -23,20 +24,19 @@ public class SysMsgController {
     SysMsgService service;
 
     @GetMapping("page")
-    public AjaxResult page( Boolean read,
-            @PageableDefault(sort = BaseEntity.FIELD_CREATE_TIME, direction = Sort.Direction.DESC) Pageable pageable) throws SQLException {
+    public AjaxResult page(Boolean read,
+                           @PageableDefault(sort = BaseEntity.FIELD_CREATE_TIME, direction = Sort.Direction.DESC) Pageable pageable) throws SQLException {
         Page<MsgVo> page = service.page(pageable, SecurityUtils.getSubject().getId(), read);
 
-        return  AjaxResult.success(page);
+        return AjaxResult.ok().data(page);
     }
 
     @PostMapping("read")
-    public AjaxResult read(@RequestBody SysMsgUser msg){
+    public AjaxResult read(@RequestBody SysMsgUser msg) {
         service.read(msg.getId());
 
-        return  AjaxResult.success();
+        return AjaxResult.ok();
     }
-
 
 
 }

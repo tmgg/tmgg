@@ -31,7 +31,7 @@ public class SysFileController {
     @HasPermission
     @GetMapping("page")
     public AjaxResult page(SysFile param, @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) {
-        return AjaxResult.success(null,service.findByExampleLike(param, pageable));
+        return AjaxResult.ok().data(service.findByExampleLike(param, pageable));
     }
 
 
@@ -80,7 +80,7 @@ public class SysFileController {
     @HasPermission
     @GetMapping("detail")
     public AjaxResult detail(String id) {
-        return AjaxResult.success(null,service.findOne(id));
+        return AjaxResult.ok().data(service.findOne(id));
     }
 
 
@@ -89,7 +89,7 @@ public class SysFileController {
     @BusinessLog("文件信息表_删除")
     public AjaxResult delete(String id) throws Exception {
         service.deleteById(id);
-        return AjaxResult.success();
+        return AjaxResult.ok();
     }
 
 }

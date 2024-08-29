@@ -28,7 +28,7 @@ public class SysConfigController {
   @GetMapping("page")
   public AjaxResult page() {
     List<SysConfig> list = sysConfigService.findAll();
-    return AjaxResult.success(list);
+    return AjaxResult.ok().data(list);
   }
 
 
@@ -38,7 +38,7 @@ public class SysConfigController {
   @BusinessLog("系统参数配置_编辑")
   public AjaxResult edit(@RequestBody SysConfig SysConfig) {
     sysConfigService.updateValue(SysConfig);
-    return AjaxResult.success();
+    return AjaxResult.ok();
   }
 
 }

@@ -39,7 +39,7 @@ public class ExcelTool {
             excelToTable.parse();
             String html = excelToTable.toHTML();
 
-            return AjaxResult.success("操作成功", html);
+            return AjaxResult.ok().data( html);
         }
     }
 

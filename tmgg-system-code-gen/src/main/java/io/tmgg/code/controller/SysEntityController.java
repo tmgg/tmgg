@@ -50,7 +50,7 @@ public class SysEntityController {
             return map;
         }).collect(Collectors.toList());
 
-        return AjaxResult.success(new PageImpl<>(voList));
+        return AjaxResult.ok().data(new PageImpl<>(voList));
     }
 
 

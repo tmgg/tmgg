@@ -26,7 +26,7 @@ public class SysOnlineUserController {
     @PostMapping("/sysOnlineUser/page")
     @BusinessLog("系统在线用户_列表")
     public AjaxResult page(Pageable pageable) {
-        return AjaxResult.success(sysOnlineUserService.findAll(pageable));
+        return AjaxResult.ok().data(sysOnlineUserService.findAll(pageable));
     }
 
     /**
@@ -37,6 +37,6 @@ public class SysOnlineUserController {
     @BusinessLog("系统在线用户_强退")
     public AjaxResult forceExist(String sessionId) {
         sysOnlineUserService.forceExist(sessionId);
-        return AjaxResult.success();
+        return AjaxResult.ok();
     }
 }

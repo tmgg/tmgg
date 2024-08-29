@@ -72,7 +72,7 @@ public class SysJobController {
         }).collect(Collectors.toList());
 
 
-        return AjaxResult.success(null, new PageImpl<>(list, pageable, page.getTotalElements()));
+        return AjaxResult.ok().data( new PageImpl<>(list, pageable, page.getTotalElements()));
     }
 
     @HasPermission
@@ -81,7 +81,7 @@ public class SysJobController {
         Class.forName(param.getJobClass());
 
         SysJob result = service.saveOrUpdate(param);
-        return AjaxResult.success("操作成功", result.getId());
+        return AjaxResult.ok().msg("操作成功").data( result.getId());
     }
 
 
@@ -140,7 +140,7 @@ public class SysJobController {
                     return option;
                 }).sorted(Comparator.comparing(Option::getLabel)).collect(Collectors.toList());
 
-        return AjaxResult.success(options);
+        return AjaxResult.ok().data(options);
     }
 
 

@@ -25,35 +25,29 @@ public abstract class BaseCURDController<T extends Persistable<String>> {
     @GetMapping("page")
     public AjaxResult page(T param, @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) {
         Page<T> page = service.findByExampleLike(param, pageable);
-        return AjaxResult.success(null, page);
+        return AjaxResult.ok().data(page);
     }
 
     @HasPermission
     @PostMapping("save")
     public AjaxResult save(@RequestBody T param) throws Exception {
         T result = service.saveOrUpdate(param);
-        return AjaxResult.success("保存成功", result.getId());
+        return AjaxResult.ok().data( result.getId());
     }
 
 
-    @HasPermission
-    @PostMapping("delete")
-    public AjaxResult delete(@RequestBody T param) {
-        service.deleteById(param.getId());
-        return AjaxResult.success("删除成功");
-    }
 
     @HasPermission
     @GetMapping("delete")
     public AjaxResult delete(String id) {
         service.deleteById(id);
-        return AjaxResult.success("删除成功");
+        return AjaxResult.ok().msg("删除成功");
     }
 
 
     @GetMapping("get")
     public AjaxResult get(String id) {
-        return AjaxResult.success(null, service.findOne(id));
+        return AjaxResult.ok().data(service.findOne(id));
     }
 
 

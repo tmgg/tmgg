@@ -25,7 +25,7 @@ import java.util.Collection;
  */
 @Slf4j
 @Component
-public class SetUserInfoInterceptor implements HandlerInterceptor {
+public class SubjectInfoFillInterceptor implements HandlerInterceptor {
 
     @Resource
     TokenManger tokenManger;

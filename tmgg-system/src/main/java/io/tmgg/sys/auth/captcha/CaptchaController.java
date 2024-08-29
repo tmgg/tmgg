@@ -58,7 +58,7 @@ public class CaptchaController {
 
         is.close();
 
-        return AjaxResult.success(captcha);
+        return AjaxResult.ok().data(captcha);
     }
 
     @PublicApi
@@ -67,6 +67,6 @@ public class CaptchaController {
 
         boolean verify = captchaService.verify(param);
 
-        return AjaxResult.success(verify);
+        return AjaxResult.ok().data(verify);
     }
 }

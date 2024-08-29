@@ -63,7 +63,7 @@ public class DefaultCommonController {
     @GetMapping("site-info")
     public AjaxResult siteInfo() {
         Map<String, Object> data = BeanUtil.beanToMap(systemProperties, "captchaEnable", "copyright", "siteTitle");
-        return AjaxResult.success(data);
+        return AjaxResult.ok().data(data);
     }
 
 
@@ -100,7 +100,7 @@ public class DefaultCommonController {
         // 水印
         vo.setWatermarkList(watermarkService.findValid());
 
-        return AjaxResult.success(vo);
+        return AjaxResult.ok().data(vo);
     }
 
     /**
@@ -132,7 +132,7 @@ public class DefaultCommonController {
             sum += count;
         }
 
-        return AjaxResult.success(sum);
+        return AjaxResult.ok().data(sum);
     }
 
     @GetMapping("getMessageList")
@@ -157,23 +157,17 @@ public class DefaultCommonController {
         }
 
 
-        return AjaxResult.success(sortData);
+        return AjaxResult.ok().data(sortData);
     }
 
 
-    @PublicApi
-    @GetMapping("ping")
-    public AjaxResult ping(HttpServletRequest req) {
-        String baseUrl = RequestTool.getBaseUrl(req);
-        return AjaxResult.success("pong", baseUrl);
-    }
 
     @PublicApi
     @GetMapping("sysAbout")
     public AjaxResult sysAbout() throws IOException {
         org.springframework.core.io.Resource about = ResourceTool.findOne(systemProperties.getAboutFile());
         String content = IoUtil.readUtf8(about.getInputStream());
-        return AjaxResult.success("ok", content);
+        return AjaxResult.ok().data(content);
     }
 
 
@@ -244,10 +238,8 @@ public class DefaultCommonController {
 
         List<Route> tree = TreeTool.buildTree(list);
 
-        // 删除空应用（不包含任何功能的application)
-        tree = tree.stream().filter(app -> CollUtil.isNotEmpty(app.getChildren())).collect(Collectors.toList());
 
-        return AjaxResult.success(tree);
+        return AjaxResult.ok().data(tree);
     }
 
 }

@@ -29,7 +29,7 @@ public class SysReportController {
 
     @GetMapping("list")
     public AjaxResult list(HttpServletRequest request) {
-        String token = tokenManger.getTokenFromRequest(request);
+        String token = tokenManger.getTokenFromRequest(request,true);
 
         Collection<ReportProvider> list = SpringTool.getBeans(ReportProvider.class);
 
@@ -44,7 +44,7 @@ public class SysReportController {
             }
         }
 
-        return AjaxResult.success(voList);
+        return AjaxResult.ok().data(voList);
     }
 
     @Data

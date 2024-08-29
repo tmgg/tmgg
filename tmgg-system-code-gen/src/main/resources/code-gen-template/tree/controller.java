@@ -41,7 +41,7 @@ public class ${name}Controller extends BaseCURDController<${name}> {
 
         List<TreeOption> tree = TreeOption.convertTree(treeList);
 
-        return AjaxResult.success(tree);
+        return AjaxResult.ok().data(tree);
     }
 
 
@@ -49,7 +49,7 @@ public class ${name}Controller extends BaseCURDController<${name}> {
     public AjaxResult detail(String id) {
         ${name} data = service.findOne(id);
 
-        return AjaxResult.success(data);
+        return AjaxResult.ok().data(data);
     }
 
 

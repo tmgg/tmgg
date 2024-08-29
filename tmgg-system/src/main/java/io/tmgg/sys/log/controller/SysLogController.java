@@ -35,14 +35,14 @@ public class SysLogController {
     public AjaxResult visLogPage(@RequestBody SysVisLog visLogParam,
                                  @PageableDefault(sort = "visTime", direction = Sort.Direction.DESC)
                                          Pageable pageable) {
-        return AjaxResult.success(sysVisLogService.findByExampleLike(visLogParam, pageable));
+        return AjaxResult.ok().data(sysVisLogService.findByExampleLike(visLogParam, pageable));
     }
 
 
     @HasPermission
     @PostMapping("/sysOpLog/page")
     public AjaxResult opLogPage(@RequestBody SysOpLog sysOpLogParam, @PageableDefault(sort = "opTime", direction = Sort.Direction.DESC) Pageable pageable) {
-        return AjaxResult.success(sysOpLogService.findByExampleLike(sysOpLogParam, pageable));
+        return AjaxResult.ok().data(sysOpLogService.findByExampleLike(sysOpLogParam, pageable));
     }
 
 

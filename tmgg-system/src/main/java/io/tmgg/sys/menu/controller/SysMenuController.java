@@ -28,7 +28,7 @@ public class SysMenuController  {
     @GetMapping("treeForGrant")
     public AjaxResult treeForGrant() {
         List<MenuTreeNode> data = sysMenuService.treeForGrant();
-        return AjaxResult.success(data);
+        return AjaxResult.ok().data(data);
     }
 
 

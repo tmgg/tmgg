@@ -62,7 +62,7 @@ public class SysUserController {
     public AjaxResult page(SysUserParam sysUserParam, @PageableDefault(sort = SysUser.FIELD_UPDATE_TIME ,direction = Sort.Direction.DESC) Pageable pageable) throws SQLException {
         Page<SysUser> page = sysUserService.findAll(sysUserParam, pageable);
         sysUserService.fillRoleName(page);
-        return AjaxResult.success(null, page);
+        return AjaxResult.ok().data( page);
     }
 
     @HasPermission
@@ -70,7 +70,7 @@ public class SysUserController {
     @BusinessLog("系统用户_增加")
     public AjaxResult add(@RequestBody SysUser sysUser) {
         sysUserService.add(sysUser);
-        return AjaxResult.success("添加用户成功，新密码为" + configService.getDefaultPassWord(), null);
+        return AjaxResult.ok().msg("添加用户成功，新密码为" + configService.getDefaultPassWord());
     }
 
 
@@ -80,7 +80,7 @@ public class SysUserController {
     public AjaxResult edit(@RequestBody SysUserParam sysUserParam) {
         sysUserService.edit(sysUserParam);
         SecurityUtils.refresh(sysUserParam.getId());
-        return AjaxResult.success();
+        return AjaxResult.ok();
     }
 
 
@@ -89,7 +89,7 @@ public class SysUserController {
     @BusinessLog("系统用户_删除")
     public AjaxResult delete(String id) {
         sysUserService.delete(id);
-        return AjaxResult.success();
+        return AjaxResult.ok();
     }
 
 
@@ -126,7 +126,7 @@ public class SysUserController {
 
         sysUserService.updatePwd(userId, password, newPassword);
         SecurityUtils.logout(userId);
-        return AjaxResult.success();
+        return AjaxResult.ok();
     }
 
     /**
@@ -134,7 +134,7 @@ public class SysUserController {
      */
     @GetMapping("ownRole")
     public AjaxResult ownRole(SysUserParam sysUserParam) {
-        return AjaxResult.success(sysUserService.ownRole(sysUserParam));
+        return AjaxResult.ok().data(sysUserService.ownRole(sysUserParam));
     }
 
 
@@ -146,7 +146,7 @@ public class SysUserController {
     @BusinessLog("系统用户_重置密码")
     public AjaxResult resetPwd(@RequestBody  SysUserParam sysUserParam) {
         sysUserService.resetPwd(sysUserParam.getId());
-        return AjaxResult.success("重置成功,新密码为：" + configService.getDefaultPassWord(), null);
+        return AjaxResult.ok().msg("重置成功,新密码为：" + configService.getDefaultPassWord());
     }
 
 
@@ -158,7 +158,7 @@ public class SysUserController {
 
         sysUserService.fillRoleName(CollUtil.newArrayList(user));
 
-        return AjaxResult.success(user);
+        return AjaxResult.ok().data(user);
     }
 
     @HasPermission
@@ -216,7 +216,7 @@ public class SysUserController {
         });
 
 
-        return AjaxResult.success(options);
+        return AjaxResult.ok().data(options);
     }
 
 
@@ -225,7 +225,7 @@ public class SysUserController {
      */
     @GetMapping("ownData")
     public AjaxResult ownData(String id) {
-        return AjaxResult.success(sysUserService.ownData(id));
+        return AjaxResult.ok().data(sysUserService.ownData(id));
     }
 
 
@@ -240,7 +240,7 @@ public class SysUserController {
 
         SecurityUtils.refresh(param.getId());
 
-        return AjaxResult.success();
+        return AjaxResult.ok();
     }
 
     @GetMapping("tree")
@@ -248,7 +248,7 @@ public class SysUserController {
         Subject subject = SecurityUtils.getSubject();
         List<SysOrg> orgList = sysOrgService.findByLoginUser(subject, null, true);
         if (orgList.isEmpty()) {
-            return AjaxResult.success(Collections.emptyList());
+            return AjaxResult.ok().data(Collections.emptyList());
         }
 
         Collection<String> orgPermissions = subject.getOrgPermissions();
@@ -262,7 +262,7 @@ public class SysUserController {
 
         tree = TreeOption.convertTree(tree);
 
-        return AjaxResult.success(tree);
+        return AjaxResult.ok().data(tree);
     }
 
 

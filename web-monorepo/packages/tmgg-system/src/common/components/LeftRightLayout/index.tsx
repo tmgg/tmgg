@@ -16,7 +16,7 @@ const style = {
 
 export class LeftRightLayout extends React.Component<LeftRightLayoutProps,any> {
   static defaultProps = {
-    leftSize: 240
+    leftSize: 300
   }
   render() {
     const {leftSize, children} = this.props;

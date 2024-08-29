@@ -347,7 +347,7 @@ public class SysUserService extends BaseService<SysUser> implements UserLabelQue
             case ORG_AND_CHILDREN:
                 return sysOrgDao.findChildIdListWithSelfById(orgId, true);
             case CUSTOM:
-                return user.getOrgDataScope().stream().map(o -> o.getId()).collect(Collectors.toList());
+                return user.getOrgDataScope().stream().map(BaseEntity::getId).collect(Collectors.toList());
         }
 
         throw new IllegalStateException("有未处理的类型" + dataPermType);

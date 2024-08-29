@@ -6,6 +6,7 @@ import io.tmgg.sys.role.entity.SysRole;
 import io.tmgg.sys.role.service.SysRoleService;
 import io.tmgg.sys.user.dao.SysUserDao;
 import io.tmgg.sys.user.entity.SysUser;
+import io.tmgg.sys.user.enums.DataPermType;
 import io.tmgg.web.enums.CommonStatus;
 import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -71,6 +72,7 @@ public class SystemInitial implements ApplicationRunner {
             admin.setName("管理员");
             admin.setStatus(CommonStatus.ENABLE);
             admin.getRoles().add(adminRole);
+            admin.setDataPermType(DataPermType.ALL);
 
             admin=  sysUserDao.save(admin);
         }

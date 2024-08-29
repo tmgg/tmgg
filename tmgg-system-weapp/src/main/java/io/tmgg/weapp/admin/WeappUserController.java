@@ -29,6 +29,6 @@ public class WeappUserController  {
     @GetMapping("page")
     public AjaxResult page(WeappUser param, @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) {
         Page<WeappUser> page = service.findByExampleLike(param, pageable);
-        return AjaxResult.success(null, page);
+        return AjaxResult.ok().data( page);
     }
 }

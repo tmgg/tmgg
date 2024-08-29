@@ -39,7 +39,7 @@ public class SysOrgController {
         // 否则需要二次登录
         SecurityUtils.refresh(SecurityUtils.getSubject().getId());
 
-        return AjaxResult.success();
+        return AjaxResult.ok();
     }
 
     @HasPermission
@@ -47,14 +47,14 @@ public class SysOrgController {
     @BusinessLog("组织机构_删除")
     public AjaxResult delete(@RequestBody SysOrg sysOrg) {
         sysOrgService.deleteById(sysOrg.getId());
-        return AjaxResult.success();
+        return AjaxResult.ok();
     }
 
     @HasPermission
     @GetMapping("detail")
-    @BusinessLog("组织机构_查看")
     public AjaxResult detail(String id) {
-        return AjaxResult.success(sysOrgService.findOne(id));
+        SysOrg org = sysOrgService.findOne(id);
+        return AjaxResult.ok().data(org);
     }
 
     @HasPermission
@@ -62,7 +62,7 @@ public class SysOrgController {
     @BusinessLog("组织机构_启用所有")
     public AjaxResult enableAll(String id) {
         sysOrgService.toggleAllStatus(id,true);
-        return AjaxResult.success();
+        return AjaxResult.ok();
     }
 
     @HasPermission
@@ -70,7 +70,7 @@ public class SysOrgController {
     @BusinessLog("组织机构_禁用所有")
     public AjaxResult disableAll(String id) {
         sysOrgService.toggleAllStatus(id,false);
-        return AjaxResult.success();
+        return AjaxResult.ok();
     }
 
 
@@ -104,7 +104,7 @@ public class SysOrgController {
 
         List<TreeOption> tree = TreeOption.convertTree(treeList);
 
-        return AjaxResult.success(tree);
+        return AjaxResult.ok().data(tree);
     }
 
 }

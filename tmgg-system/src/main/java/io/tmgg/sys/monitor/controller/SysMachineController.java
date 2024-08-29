@@ -28,6 +28,6 @@ public class SysMachineController {
     @GetMapping("/sysMachine/query")
     @BusinessLog("系统属性监控_查询")
     public AjaxResult query() {
-        return AjaxResult.success(sysMachineService.query());
+        return AjaxResult.ok().data(sysMachineService.query());
     }
 }

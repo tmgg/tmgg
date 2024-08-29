@@ -67,7 +67,7 @@ public class GlobalExceptionHandler {
         String parameterType = e.getParameterType();
         String parameterName = e.getParameterName();
         String message = StrUtil.format(">>> 缺少请求的参数{}，类型为{}", parameterName, parameterType);
-        return AjaxResult.error(500, message);
+        return AjaxResult.err().code(500).msg( message);
     }
 
     /**
@@ -119,7 +119,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public AjaxResult notFound(NoHandlerFoundException e) {
         log.error(">>> 资源不存在异常，请求号为：{}，具体信息为：{}", RequestNoContext.get(), e.getMessage() + "，请求地址为:" + HttpServletTool.getRequest().getRequestURI());
-        return AjaxResult.error(404, "资源路径不存在，请检查请求地址，请求地址为:" + HttpServletTool.getRequest().getRequestURI());
+        return AjaxResult.err().code(404).msg( "资源路径不存在，请检查请求地址，请求地址为:" + HttpServletTool.getRequest().getRequestURI());
     }
 
     /**
@@ -131,7 +131,7 @@ public class GlobalExceptionHandler {
     public AjaxResult methodArgumentNotValidException(MethodArgumentNotValidException e) {
         String argNotValidMessage = getArgNotValidMessage(e.getBindingResult());
         log.error(">>> 参数校验错误异常，请求号为：{}，具体信息为：{}", RequestNoContext.get(), argNotValidMessage);
-        return AjaxResult.error(ParamExceptionEnum.PARAM_ERROR.getCode(), argNotValidMessage);
+        return AjaxResult.err().code(ParamExceptionEnum.PARAM_ERROR.getCode()).msg( argNotValidMessage);
     }
 
     /**
@@ -143,7 +143,7 @@ public class GlobalExceptionHandler {
     public AjaxResult paramError(BindException e) {
         String argNotValidMessage = getArgNotValidMessage(e.getBindingResult());
         log.error(">>> 参数校验错误异常，请求号为：{}，具体信息为：{}", RequestNoContext.get(), argNotValidMessage);
-        return AjaxResult.error(ParamExceptionEnum.PARAM_ERROR.getCode(), argNotValidMessage);
+        return AjaxResult.err().code(ParamExceptionEnum.PARAM_ERROR.getCode()).msg( argNotValidMessage);
     }
 
 
@@ -155,7 +155,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(PermissionException.class)
     public AjaxResult noPermission(PermissionException e) {
         log.error(">>> 权限异常，请求号为：{}，具体信息为：{}", RequestNoContext.get(), e.getMessage() + "，请求地址为:" + HttpServletTool.getRequest().getRequestURI());
-        return AjaxResult.error(401, e.getMessage() + "，请求地址为:" + HttpServletTool.getRequest().getRequestURI());
+        return AjaxResult.err().code(401).msg( e.getMessage() + "，请求地址为:" + HttpServletTool.getRequest().getRequestURI());
     }
 
     /**
@@ -178,7 +178,7 @@ public class GlobalExceptionHandler {
              return null;
         }
 
-        return AjaxResult.error(e.getCode(), e.getMessage());
+        return AjaxResult.err().code(e.getCode()).msg( e.getMessage());
     }
 
     /**
@@ -193,14 +193,14 @@ public class GlobalExceptionHandler {
             e.printStackTrace();
         }
 
-        return AjaxResult.error(500, e.getMessage());
+        return AjaxResult.err().code(500).msg( e.getMessage());
     }
 
 
     @ExceptionHandler(ConstraintViolationException.class)
     public AjaxResult constraintViolationException(ConstraintViolationException e) {
         log.warn("约束异常:{}", e.getMessage());
-        return AjaxResult.error(getHumanMessage(e));
+        return AjaxResult.err().msg(getHumanMessage(e));
     }
 
 
@@ -213,7 +213,7 @@ public class GlobalExceptionHandler {
             String msg = ex.getMessage();
 
             if (msg.contains("Data too long")) {
-                return AjaxResult.error("数据长度超过限制，请修改！");
+                return AjaxResult.err().msg("数据长度超过限制，请修改！");
             }
 
 
@@ -221,7 +221,7 @@ public class GlobalExceptionHandler {
                 if (msg.startsWith("Duplicate")) {
                     String result = RegexTool.findFirstMatch("\\'(.*?)\\'", msg, 1);
                     if (StrUtil.isNotBlank(result)) {
-                        return AjaxResult.error("数据重复,操作不能继续进行。 重复数据为：" + result);
+                        return AjaxResult.err().msg("数据重复,操作不能继续进行。 重复数据为：" + result);
                     }
                 }
 
@@ -230,21 +230,17 @@ public class GlobalExceptionHandler {
                     String regex = "Column '(.*)' cannot be null";
                     String fieldName = RegexTool.findFirstMatch(regex, msg, 1);
                     if (StrUtil.isNotEmpty(fieldName)) {
-                        return AjaxResult.error("字段" + fieldName + "不能为空");
+                        return AjaxResult.err().msg("字段" + fieldName + "不能为空");
                     }
                 }
 
             }
         }
 
-        return AjaxResult.error("违反数据库规则，操作不能继续进行");
+        return AjaxResult.err().msg("违反数据库规则，操作不能继续进行");
     }
 
-    public static void main(String[] args) {
-        String msg = "Column 'file_id' cannot be null";
 
-
-    }
 
 
     @ExceptionHandler(TransactionSystemException.class)
@@ -256,18 +252,18 @@ public class GlobalExceptionHandler {
                 Throwable cause2 = cause.getCause();
                 if (cause2 instanceof ConstraintViolationException) {
                     String humanMessage = getHumanMessage((ConstraintViolationException) cause2);
-                    return AjaxResult.error(humanMessage);
+                    return AjaxResult.err().msg(humanMessage);
                 }
             }
         }
-        return AjaxResult.error("网络异常,请稍后再试");
+        return AjaxResult.err().msg("网络异常,请稍后再试");
     }
 
     @ExceptionHandler(InvalidDataAccessApiUsageException.class)
     public AjaxResult InvalidDataAccessApiUsageException(InvalidDataAccessApiUsageException e, HttpServletRequest request) {
         e.printStackTrace();
         Throwable throwable = e.getCause();
-        return AjaxResult.error(throwable.getMessage());
+        return AjaxResult.err().msg(throwable.getMessage());
     }
 
 
@@ -303,7 +299,7 @@ public class GlobalExceptionHandler {
  *
      */
     private AjaxResult renderJson(AbstractBaseExceptionEnum baseExceptionEnum) {
-        return AjaxResult.error(baseExceptionEnum.getCode(), baseExceptionEnum.getMessage());
+        return AjaxResult.err().code(baseExceptionEnum.getCode()).msg(baseExceptionEnum.getMessage());
     }
 
     /**
@@ -317,7 +313,7 @@ public class GlobalExceptionHandler {
             message = ServerExceptionEnum.SERVER_ERROR.getMessage();
         }
 
-        return AjaxResult.error(ServerExceptionEnum.SERVER_ERROR.getCode(), message);
+        return AjaxResult.err().code(ServerExceptionEnum.SERVER_ERROR.getCode()).msg( message);
     }
 
 

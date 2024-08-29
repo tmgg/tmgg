@@ -30,14 +30,14 @@ public class SysJobLogController {
     @PostMapping("jobLog")
     public AjaxResult page(@RequestBody SysJobLog param, @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) {
         Page<SysJobLog> page = service.findByExampleLike(param, pageable);
-        return AjaxResult.success(null, page);
+        return AjaxResult.ok().data( page);
     }
 
     @HasPermission
     @PostMapping("jobLogClean")
     public AjaxResult clean(int cleanDate) {
         sysJobService.clean(cleanDate);
-        return AjaxResult.success(null);
+        return AjaxResult.ok();
     }
 
 

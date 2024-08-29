@@ -1,7 +1,23 @@
 import {DeleteOutlined, EditOutlined, PlusOutlined, SyncOutlined} from '@ant-design/icons';
-import {Button, Card, Col, Empty, Form, Input, InputNumber, message, Popconfirm, Row, Space, Switch, Tree} from 'antd';
+import {
+  Button,
+  Card,
+  Checkbox,
+  Col,
+  Empty,
+  Form,
+  Input,
+  InputNumber,
+  message,
+  Popconfirm,
+  Row,
+  Space,
+  Switch,
+  Tree
+} from 'antd';
 import React from 'react';
-import {FieldDictRadio, FieldRemoteTreeSelect, HttpClient} from "../../../common";
+import {FieldDictRadio, FieldRemoteTreeSelect, HttpClient, LeftRightLayout} from "../../../common";
+import {http} from "@tmgg/tmgg-base";
 
 const baseTitle = "组织机构";
 const baseApi = 'sysOrg/';
@@ -75,7 +91,7 @@ export default class extends React.Component {
     const key = selectedKeys[0]
 
     this.setState({formLoading: true, formEditing: false})
-    HttpClient.get(baseApi + "detail", {id: key}).then(rs => {
+    http.get(baseApi + "detail", {id: key}).then(rs => {
       this.setState({formValues: rs.data})
     }).finally(() => {
       this.setState({formLoading: false})
@@ -113,36 +129,36 @@ export default class extends React.Component {
   render() {
     let disabled = this.state.formValues == null;
     return <div>
-      <Row gutter={16} wrap={false}>
-        <Col flex='400px'>
-          <Card title='组织机构' loading={this.state.treeLoading}
-                extra={<>
-                  <Switch checked={this.state.showAll}
-                          onChange={e => this.setState({showAll: e}, this.loadTree)}
-                          checkedChildren='显示所有' unCheckedChildren="只显示启用"></Switch>
-                  <Button icon={<SyncOutlined/>} type='link' onClick={this.loadTree}>刷新</Button>
-                </>}>
+      <LeftRightLayout leftSize={400}>
+        <Card  loading={this.state.treeLoading}
+               extra={<>
+                 <Checkbox
+                     checked={this.state.showAll}
+                     onChange={e => {
+                       this.setState({showAll: e.target.checked}, this.loadTree);
+                     }}
+                 >包含禁用</Checkbox>
+                 <Button size='small' icon={<SyncOutlined/>}   onClick={this.loadTree}></Button>
+               </>}>
 
-            <Tree.DirectoryTree
+          <Tree.DirectoryTree
               ref={this.treeRef}
               treeData={this.state.treeData}
               defaultExpandedKeys={this.state.defaultExpandedKeys}
               expandAction='doubleClick'
 
               onSelect={this.onSelect}
-            >
+          >
 
-            </Tree.DirectoryTree>
+          </Tree.DirectoryTree>
 
 
-          </Card>
-        </Col>
-        <Col flex='auto'>
-          <Card
-            title='机构信息'
+        </Card>
+        <Card
+
             loading={this.state.formLoading}
             extra={<Space>
-              <Button onClick={() => {
+              <Button type='primary' onClick={() => {
                 this.setState({
                   formLoading:true,
                   formEditing: true,
@@ -169,9 +185,9 @@ export default class extends React.Component {
               </Popconfirm>
 
               <Popconfirm
-                title='启用本级及子节点'
-                disabled={disabled}
-                onConfirm={() => this.handleEnableAll(this.state.formValues?.id)}>
+                  title='启用本级及子节点'
+                  disabled={disabled}
+                  onConfirm={() => this.handleEnableAll(this.state.formValues?.id)}>
                 <Button disabled={disabled}>启用本级及子节点</Button>
               </Popconfirm>
 
@@ -181,15 +197,15 @@ export default class extends React.Component {
               </Popconfirm>
 
             </Space>}
-          >
+        >
 
-            {this.state.formValues ?
+          {this.state.formValues ?
               <Form
-                disabled={!this.state.formEditing}
-                labelCol={{flex: '150px'}}
-                wrapperCol={{flex: '400px'}}
-                initialValues={this.state.formValues}
-                onFinish={this.onFinish}
+                  disabled={!this.state.formEditing}
+                  labelCol={{flex: '150px'}}
+                  wrapperCol={{flex: '400px'}}
+                  initialValues={this.state.formValues}
+                  onFinish={this.onFinish}
               >
                 <Form.Item noStyle name='id'>
                 </Form.Item>
@@ -238,13 +254,12 @@ export default class extends React.Component {
               </Form>
               :
               <Empty description='未选择机构'/>
-            }
+          }
 
 
-          </Card>
+        </Card>
+      </LeftRightLayout>
 
-        </Col>
-      </Row>
 
 
     </div>

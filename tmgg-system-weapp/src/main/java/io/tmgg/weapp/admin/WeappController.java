@@ -24,14 +24,14 @@ public class WeappController {
     @GetMapping("page")
     public AjaxResult page(Weapp param, @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) {
         Page<Weapp> page = service.findByExampleLike(param, pageable);
-        return AjaxResult.success(null, page);
+        return AjaxResult.ok().data( page);
     }
 
     @HasPermission
     @PostMapping("save")
     public AjaxResult save(@RequestBody Weapp param) throws Exception {
         Weapp result = service.saveOrUpdate(param);
-        return AjaxResult.success("保存成功", result.getId());
+        return AjaxResult.ok().msg("保存成功").data( result.getId());
     }
 
 
@@ -40,7 +40,7 @@ public class WeappController {
     @GetMapping("delete")
     public AjaxResult delete(String id) {
         service.deleteById(id);
-        return AjaxResult.success("删除成功");
+        return AjaxResult.ok().msg("删除成功");
     }
 
 }
