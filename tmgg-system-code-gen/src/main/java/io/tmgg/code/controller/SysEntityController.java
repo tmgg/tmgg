@@ -1,5 +1,6 @@
 package io.tmgg.code.controller;
 
+import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
 import io.tmgg.lang.ann.RemarkTool;
 import io.tmgg.lang.dao.JpaTool;
@@ -9,7 +10,6 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import jakarta.annotation.Resource;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -21,20 +21,16 @@ import java.util.stream.Collectors;
 @RequestMapping("code/entity")
 public class SysEntityController {
 
-    public static final String[] EX = {
-            "cn.crec.job.",
-            "cn.crec.sys.",
-            "cn.crec.web."
-    };
-
 
 
     @RequestMapping("page")
-    public AjaxResult page() throws IOException {
+    public AjaxResult page(final String keyword) throws IOException {
         List<String> list = JpaTool.findAllEntity();
 
-        // 排除系统的实体
-        list = list.stream().filter(e -> !StrUtil.startWithAny(e, EX)).sorted().collect(Collectors.toList());
+        if(StrUtil.isNotEmpty(keyword)){
+            list = list.stream().filter(s->StrUtil.containsIgnoreCase(s, keyword)).collect(Collectors.toList());
+        }
+
 
         List<Map<String, Object>> voList = list.stream().map(clsName -> {
             Map<String, Object> map = new HashMap<>();

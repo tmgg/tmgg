@@ -1,4 +1,4 @@
-import {Button, Form, message, Modal, Radio} from 'antd'
+import {Button, Form, message, Modal, Radio, Row, Tabs} from 'antd'
 import React from 'react'
 import {http} from "@tmgg/tmgg-base";
 import {ProTable} from "@tmgg/pro-table";
@@ -56,6 +56,9 @@ export default class extends React.Component {
 
   render() {
     return <>
+
+
+
       <ProTable
           actionRef={this.tableRef}
           toolBarRender={(action, {selectedRowKeys}) => {
@@ -74,6 +77,9 @@ export default class extends React.Component {
           }}
           rowKey='id'
           search={false}
+          options={{
+            search:true
+          }}
 
       />
 
@@ -82,6 +88,7 @@ export default class extends React.Component {
              onCancel={() => this.setState({formOpen: false})}
              destroyOnClose={true}
              width={700}
+             maskClosable={false}
       >
 
         <Form ref={this.formRef} labelCol={{flex: '100px'}} onFinish={this.onFinish}>

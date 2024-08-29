@@ -12,7 +12,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.annotation.Resource;
+
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -26,18 +28,48 @@ public class SysCodeGenController {
     CodeGenService codeGenService;
 
 
-
     @PostMapping
     public AjaxResult gen(@RequestBody GenParam param) throws Exception {
         List<String> ids = param.getIds();
 
-        genByFolder(ids, "code-gen-template/common");
-        genByFolder(ids, "code-gen-template/" + param.getTemplate());
+        Map<String, String> map = genMap(ids, "code-gen-template/common");
+        Map<String, String> map2 = genMap(ids, "code-gen-template/" + param.getTemplate());
+        map.putAll(map2);
 
-        return AjaxResult.ok().msg("生成成功");
+
+        if (param.getGenType() == GenType.project) {
+            writeToProject(map);
+            return AjaxResult.ok().msg("生成成功");
+        }
+        if (param.getGenType() == GenType.zip) {
+
+
+            return AjaxResult.ok().msg("生成成功");
+        }
+
+
+        return AjaxResult.err();
     }
 
-    private void genByFolder(List<String> ids, String templateFolder) throws Exception {
+    private void writeToProject(Map<String,String> map) throws Exception {
+        for (Map.Entry<String, String> e : map.entrySet()) {
+            String file = e.getKey();
+            String content = e.getValue();
+            FileUtil.writeUtf8String(content, file);
+        }
+    }
+
+
+
+
+    /**
+     * @param ids
+     * @param templateFolder
+     * @return map: {file: content}
+     * @throws Exception
+     */
+    private Map<String, String> genMap(List<String> ids, String templateFolder) throws Exception {
+        Map<String, String> resultMap = new HashMap<>();
         InputStream configStream = ResourceUtil.getStream(templateFolder + "/config.properties");
         Properties prop = new Properties();
         prop.load(configStream);
@@ -52,7 +84,7 @@ public class SysCodeGenController {
             for (Map.Entry<Object, Object> e : prop.entrySet()) {
                 String templateFile = (String) e.getKey();
                 String targetFile = (String) e.getValue();
-                targetFile =   FreemarkerTool.renderString(targetFile, model);
+                targetFile = FreemarkerTool.renderString(targetFile, model);
 
                 String template = ResourceUtil.readUtf8Str(templateFolder + "/" + templateFile);
 
@@ -60,16 +92,24 @@ public class SysCodeGenController {
                 String result = FreemarkerTool.renderString(template, model);
                 log.info("渲染结果\n {}", result);
 
-                FileUtil.writeUtf8String(result, targetFile);
+                resultMap.put(targetFile, result);
+
             }
         }
+
+        return resultMap;
     }
 
 
     @Data
     public static class GenParam {
         List<String> ids;
-        String genType;
+        GenType genType; //
         String template;
+    }
+
+    public enum GenType {
+        project,
+        zip
     }
 }
