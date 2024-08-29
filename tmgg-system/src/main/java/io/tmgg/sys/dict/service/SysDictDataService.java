@@ -102,8 +102,6 @@ public class SysDictDataService extends BaseService<SysDictData> {
                 queryWrapper.like(SysDictData.Fields.value, dictData.getValue());
             }
         }
-        //查询未删除的
-        queryWrapper.ne(SysDictData.Fields.status, CommonStatus.DELETED);
         //返回分页查询结果
         return this.findAll(queryWrapper, pageable);
     }
@@ -117,8 +115,6 @@ public class SysDictDataService extends BaseService<SysDictData> {
                 queryWrapper.eq(SysDictData.Fields.typeId, dictData.getTypeId());
             }
         }
-        //查询未删除的
-        queryWrapper.ne(SysDictData.Fields.status, CommonStatus.DELETED);
         return this.findAll(queryWrapper, Sort.by(SysDictData.Fields.sort));
     }
 
@@ -144,8 +140,6 @@ public class SysDictDataService extends BaseService<SysDictData> {
     public void delete(SysDictData SysDictData) {
         SysDictData sysDictData = this.findOne(SysDictData.getId());
 
-        //逻辑删除，修改状态
-        sysDictData.setStatus(CommonStatus.DELETED);
 
         //更新实体
         this.save(sysDictData);
@@ -180,7 +174,7 @@ public class SysDictDataService extends BaseService<SysDictData> {
 
         JpaQuery<SysDictData> queryWrapper = new JpaQuery<>();
 
-        queryWrapper.eq(SysDictData.Fields.typeId, type.getId()).ne(SysDictData.Fields.status, CommonStatus.DELETED);
+        queryWrapper.eq(SysDictData.Fields.typeId, type.getId());
 
 
         return this.findAll(queryWrapper, Sort.by(SysDictData.Fields.sort));
@@ -217,7 +211,7 @@ public class SysDictDataService extends BaseService<SysDictData> {
         JpaQuery<SysDictData> queryWrapper = new JpaQuery<>();
         queryWrapper.eq(SysDictData.Fields.typeId, typeId)
                 .eq(SysDictData.Fields.code, code)
-                .ne(SysDictData.Fields.status, CommonStatus.DELETED);
+                ;
 
         //如果排除自己，则增加查询条件主键id不等于本条id
         if (isExcludeSelf) {

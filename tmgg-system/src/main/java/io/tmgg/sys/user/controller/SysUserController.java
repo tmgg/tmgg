@@ -149,15 +149,6 @@ public class SysUserController {
         return AjaxResult.success("重置成功,新密码为：" + configService.getDefaultPassWord(), null);
     }
 
-    /**
-     * 修改头像
-     */
-    @PostMapping("updateAvatar")
-    @BusinessLog("系统用户_修改头像")
-    public AjaxResult updateAvatar(@RequestBody  SysUserParam sysUserParam) {
-        sysUserService.updateAvatar(sysUserParam);
-        return AjaxResult.success();
-    }
 
 
     @HasPermission

@@ -144,11 +144,11 @@ public class SysRoleService extends BaseService<SysRole> {
 
         JpaQuery<SysRole> queryWrapperByName = new JpaQuery<>();
         queryWrapperByName.eq(SysRole.Fields.name, name)
-                .ne(SysRole.Fields.status, CommonStatus.DELETED);
+                ;
 
         JpaQuery<SysRole> queryWrapperByCode = new JpaQuery<>();
         queryWrapperByCode.eq(SysRole.Fields.code, code)
-                .ne(SysRole.Fields.status, CommonStatus.DELETED);
+               ;
 
         //是否排除自己，如果排除自己则不查询自己的id
         if (isExcludeSelf) {

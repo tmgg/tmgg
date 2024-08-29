@@ -1,6 +1,7 @@
 
 package io.tmgg.sys.user.entity;
 
+import io.tmgg.lang.ann.Remark;
 import io.tmgg.lang.dao.AutoFill;
 import io.tmgg.lang.dao.BaseEntity;
 import io.tmgg.core.jpa.fill.AutoFillOrgLabelStrategy;
@@ -20,14 +21,12 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import java.util.*;
 
-/**
- * 系统用户表
- */
 @Getter
 @Setter
 @Entity
 @Table(name = "sys_user")
 @FieldNameConstants
+@Remark("系统用户")
 public class SysUser extends BaseEntity {
 
     public static SysUser of(String id) {
@@ -47,6 +46,7 @@ public class SysUser extends BaseEntity {
     /**
      * 所属机构 (公司，单位级别）
      */
+    @Remark("所属机构")
     private String orgId;
 
 
@@ -55,16 +55,15 @@ public class SysUser extends BaseEntity {
     private String orgLabel;
 
 
-    //  部门
+    @Remark("所属部门")
     private String deptId;
 
     @Transient
     @AutoFill(value = AutoFillOrgLabelStrategy.class, sourceField = "deptId")
     private String deptLabel;
 
-    /**
-     * 账号
-     */
+
+    @Remark("账号")
     @NotNull(message = "账号不能为空")
     @Column(unique = true)
     private String account;
@@ -72,27 +71,22 @@ public class SysUser extends BaseEntity {
     /**
      * 密码， 转换json时不显示，但可接受前端设置
      */
+    @Remark("密码")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
-    /**
-     * 姓名
-     */
+    @Remark("姓名")
     @Column(length = 50)
     private String name;
 
-    /**
-     * 头像
-     */
-    private String avatar;
 
-    /**
-     * 手机
-     */
-    @Column(length = 20)
+
+    @Remark("电话")
+    @Column(length = 11)
     private String phone;
 
 
+    @Remark("邮箱")
     @Column(length = 30)
     private String email;
 
@@ -115,6 +109,7 @@ public class SysUser extends BaseEntity {
     /**
      * 状态（字典 0正常 1停用 2删除）
      */
+    @Remark("状态")
     @NotNull
     @Column(length = 10)
     private CommonStatus status;
@@ -146,24 +141,11 @@ public class SysUser extends BaseEntity {
     @JoinTable(name = "sys_user_org_data_scope", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "org_id"))
     List<SysOrg> orgDataScope = new ArrayList<>();
 
-    // 用户类型，为了扩展
-    Integer userType;
-
-
-    /**
-     * 拼音, 如字节跳动： zijietiaodong
-     */
-    @Column(length = 50)
-    private String pinyin;
-
-
 
 
     @Override
     public void beforeSaveOrUpdate() {
         super.beforeSaveOrUpdate();
-        pinyin = PinyinUtil.getPinyin(name, "");
-        pinyin += ":" + PinyinUtil.getFirstLetter(name, "");
         if(dataPermType == null ){
             dataPermType = DataPermType.ORG_AND_CHILDREN;
         }

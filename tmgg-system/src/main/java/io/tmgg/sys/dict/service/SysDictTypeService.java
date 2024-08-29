@@ -108,7 +108,6 @@ public class SysDictTypeService extends BaseService<SysDictType> {
         }
 
         JpaQuery<SysDictData> dictQueryWrapper = new JpaQuery<>();
-        dictQueryWrapper.ne(SysDictData.Fields.status, CommonStatus.DELETED);
 
         List<SysDictData> dictData = dictDataDao.findAll(dictQueryWrapper, Sort.by(SysDictData.Fields.sort));
         for (SysDictData sysDictData : dictData) {

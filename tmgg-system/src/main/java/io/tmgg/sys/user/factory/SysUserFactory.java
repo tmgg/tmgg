@@ -49,9 +49,7 @@ public class SysUserFactory {
             sysUser.setPassword(PasswordTool.encode(password));
         }
 
-        if (ObjectUtil.isEmpty(sysUser.getAvatar())) {
-            sysUser.setAvatar(null);
-        }
+
 
         sysUser.setStatus(CommonStatus.ENABLE);
     }

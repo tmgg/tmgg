@@ -14,11 +14,11 @@ public enum CommonStatus implements MessageEnum {
 
 
     ENABLE("正常"),
-    DISABLE("停用"),
+    DISABLE("停用");
 
 
 
-    DELETED("封存");
+
 
 
     private final String message;

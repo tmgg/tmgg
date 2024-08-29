@@ -75,7 +75,7 @@ public class SysUserAuthService implements AuthorizingRealm {
         }
         //验证账号是否被冻结
         CommonStatus status = sysUser.getStatus();
-        if (CommonStatus.DISABLE == status || CommonStatus.DELETED == status) {
+        if (CommonStatus.DISABLE == status ) {
             LogManager.me().saveLoginLog(sysUser.getAccount(), LogSuccessStatusEnum.FAIL.getCode(), AuthExceptionEnum.ACCOUNT_FREEZE_ERROR.getMessage());
             return AccountCheckResult.ACC_DISABLED;
         }

@@ -134,7 +134,6 @@ public class SysUserService extends BaseService<SysUser> implements UserLabelQue
     public SysUser getUserByAccount(String account) {
         JpaQuery<SysUser> queryWrapper = new JpaQuery<>();
         queryWrapper.eq(SysUser.Fields.account, account);
-        queryWrapper.ne(SysUser.Fields.status, CommonStatus.DELETED);
         return this.findOne(queryWrapper);
     }
 
@@ -276,14 +275,7 @@ public class SysUserService extends BaseService<SysUser> implements UserLabelQue
     }
 
 
-    public void updateAvatar(SysUserParam sysUserParam) {
-        SysUser sysUser = this.querySysUser(sysUserParam);
-        String avatar = sysUserParam.getAvatar();
-        sysFileService.assertFile(avatar);
-        sysUser.setAvatar(avatar);
-        this.save(sysUser);
 
-    }
 
 
     public SysUser getUserById(String userId) {
@@ -312,7 +304,7 @@ public class SysUserService extends BaseService<SysUser> implements UserLabelQue
         String account = param.getAccount();
         JpaQuery<SysUser> queryWrapper = new JpaQuery<>();
         queryWrapper.eq(SysUser.Fields.account, account)
-                .ne(SysUser.Fields.status, CommonStatus.DELETED);
+           ;
         //是否排除自己，如果是则查询条件排除自己id
         if (isExcludeSelf) {
             queryWrapper.ne("id", id);

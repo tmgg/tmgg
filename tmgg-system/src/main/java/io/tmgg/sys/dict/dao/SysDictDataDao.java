@@ -54,7 +54,7 @@ public class SysDictDataDao extends BaseDao<SysDictData> {
     public List<Dict> getDictDataListByDictTypeId(String dictTypeId) {
         //构造查询条件
         JpaQuery<SysDictData> queryWrapper = new JpaQuery<>();
-        queryWrapper.eq(SysDictData.Fields.typeId, dictTypeId).ne(SysDictData.Fields.status, CommonStatus.DELETED);
+        queryWrapper.eq(SysDictData.Fields.typeId, dictTypeId);
         List<SysDictData> results = this.findAll(queryWrapper, Sort.by(SysDictData.Fields.sort));
 
         //抽取code和value封装到map返回
