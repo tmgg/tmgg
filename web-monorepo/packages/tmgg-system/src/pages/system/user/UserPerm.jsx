@@ -1,6 +1,7 @@
-import {Form, Modal, Tree} from 'antd';
+import {Form, Input, Modal, Spin, Tree} from 'antd';
 import React from 'react';
 import {FieldDictSelect, FieldRemoteMultipleSelect, FieldRemoteSelect, HttpClient} from "../../../common";
+import FieldOrgTree from "@/common/components/field/FieldOrgTree";
 
 
 export default class UserPerm extends React.Component {
@@ -8,7 +9,7 @@ export default class UserPerm extends React.Component {
 
     state = {
         visible: false,
-        treeData: [],
+
         confirmLoading: false,
 
         formValues: {
@@ -34,28 +35,16 @@ export default class UserPerm extends React.Component {
 
 
     }
-    onCheck = (e) => {
-        this.setState({
-            checked: e.checked
-        })
-    };
 
     show(item) {
-        console.log(item)
-        this.setState({
-            visible: true,
-            formValues: {},
-        })
+        this.setState({visible: true})
 
         HttpClient.get('/sysUser/getPermInfo', {id: item.id}).then(rs => {
             this.setState({formValues: rs.data})
+            this.formRef.current.setFieldsValue(rs.data)
         })
 
-        HttpClient.get('/sysOrg/tree').then(rs => {
-            const list = rs.data;
 
-            this.setState({treeData: list})
-        })
     }
 
     formRef = React.createRef()
@@ -76,7 +65,6 @@ export default class UserPerm extends React.Component {
 
             <Form ref={this.formRef}
                   onFinish={this.handleSave}
-                  initialValues={this.state.formValues}
                   onValuesChange={(change, values) => {
                       this.setState({formValues: values})
                   }}
@@ -91,19 +79,9 @@ export default class UserPerm extends React.Component {
                 </Form.Item>
 
 
-                {treeData.length > 0 && this.state.formValues.dataPermType === 'CUSTOM' && <>
+                {this.state.formValues.dataPermType === 'CUSTOM' && <>
                     <Form.Item label='组织机构' name='orgIds'>
-                        <Tree
-                            multiple
-                            checkable
-                            onCheck={this.onCheck}
-                            checkedKeys={checked}
-                            treeData={treeData}
-                            defaultExpandAll
-                            checkStrictly
-
-                        >
-                        </Tree>
+                        <FieldTree/>
                     </Form.Item>
                 </>}
 
@@ -116,6 +94,39 @@ export default class UserPerm extends React.Component {
 
 
 }
+
+class FieldTree extends React.Component {
+
+    state = {
+        treeLoading: true,
+        treeData: [],
+    }
+
+    componentDidMount() {
+        HttpClient.get('/sysOrg/tree').then(rs => {
+            const list = rs.data;
+            this.setState({treeData: list, treeLoading: false})
+        })
+    }
+
+
+    render() {
+        if (this.state.treeLoading) {
+            return <Spin />
+        }
+        return <Tree
+            multiple
+            checkable
+            onCheck={e => this.props.onChange(e.checked)}
+            checkedKeys={this.props.value}
+            treeData={this.state.treeData}
+            defaultExpandAll
+            checkStrictly
+        >
+        </Tree>
+    }
+}
+
 
 
 
