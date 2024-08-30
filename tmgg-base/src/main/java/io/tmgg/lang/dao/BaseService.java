@@ -278,7 +278,7 @@ public abstract class BaseService<T extends Persistable<String>> {
 
 
         if (StrUtil.isNotEmpty(searchValue) && fields != null && fields.length > 0) {
-            query.any(q -> {
+            query.or(q -> {
                 for (String f : fields) {
                     q.like(f, searchValue);
                 }

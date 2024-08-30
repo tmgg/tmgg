@@ -19,7 +19,7 @@ public class SysJobLoggingService {
 
     public Page<SysJobLogging> read(String name) {
         JpaQuery<SysJobLogging> q = new JpaQuery<>();
-        q.any(qq -> {
+        q.or(qq -> {
             qq.eq(SysJobLogging.Fields.jobId, name);
             qq.eq(SysJobLogging.Fields.jogLogId, name);
         });

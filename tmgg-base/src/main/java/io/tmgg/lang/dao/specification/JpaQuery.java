@@ -317,7 +317,7 @@ public class JpaQuery<T> implements Specification<T> {
      * @param subQuery 子查询
      * @return 自己
      */
-    public JpaQuery<T> any(Consumer<JpaQuery<T>> subQuery) {
+    public JpaQuery<T> or(Consumer<JpaQuery<T>> subQuery) {
         JpaQuery<T> wrapper = new JpaQuery<>();
 
         subQuery.accept(wrapper);
@@ -333,7 +333,7 @@ public class JpaQuery<T> implements Specification<T> {
         return this;
     }
 
-    public JpaQuery<T> any(Specification<T>... specifications) {
+    public JpaQuery<T> or(Specification<T>... specifications) {
         LogicalExpression<T> logicalExpression = new LogicalExpression<>(Operator.OR);
 
         for (Specification specification : specifications) {

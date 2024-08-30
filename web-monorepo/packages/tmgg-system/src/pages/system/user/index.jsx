@@ -1,13 +1,13 @@
 import {PlusOutlined} from '@ant-design/icons';
 import {Button, Card, Empty, Form, Input, InputNumber, message, Modal, Popconfirm, Tree, Typography} from 'antd';
 import React from 'react';
-import {ProTable} from "@ant-design/pro-components";
+import {ProTable} from "@tmgg/pro-table";
 import UserOrgForm from "./UserOrgForm";
 import {
   ButtonList,
   dictValue,
-  dictValueTag, FieldDeptTreeSelect,
-  FieldDictSelect, FieldOrgTreeSelect, FieldUnitTreeSelect,
+  dictValueTag, FieldDeptTreeSelect, FieldDictRadio,
+  FieldDictSelect, FieldOrgTreeSelect, FieldRadioBoolean, FieldUnitTreeSelect,
   hasPermission,
   HttpClient,
   LeftRightLayout
@@ -166,7 +166,6 @@ export default class extends React.Component {
 
           <a perm='sysUser:grantData' onClick={() => this.orgFormRef.current.show(record)}> 数据权限 </a>
 
-
           <Popconfirm perm='sysUser:resetPwd' title='确认重置密码？' onConfirm={() => this.resetPwd(record)}>
             <a>重置密码</a>
           </Popconfirm>
@@ -256,7 +255,6 @@ export default class extends React.Component {
   }
 
   render() {
-    let {treeData} = this.state
 
     return <>
       <LeftRightLayout >
@@ -271,6 +269,8 @@ export default class extends React.Component {
 
         <Card >
           <ProTable
+              search={false}
+              options={{search:true}}
             actionRef={this.actionRef}
             toolBarRender={(action, {selectedRows}) => {
               const menus = []
@@ -324,15 +324,15 @@ export default class extends React.Component {
             <Input/>
           </Form.Item>
 
-          <Form.Item label='电话' name='phone' rules={[{required: true}]}>
+          <Form.Item label='电话' name='phone' >
             <Input/>
           </Form.Item>
-          <Form.Item label='邮箱' name='email' rules={[{required: true}]}>
+          <Form.Item label='邮箱' name='email' >
             <Input/>
           </Form.Item>
 
           <Form.Item label='状态' name='status' rules={[{required: true}]}>
-            <Input/>
+            <FieldDictRadio typeCode='common_status' />
           </Form.Item>
 
 

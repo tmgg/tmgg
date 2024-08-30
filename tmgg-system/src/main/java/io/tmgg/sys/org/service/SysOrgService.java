@@ -184,7 +184,7 @@ public class SysOrgService extends BaseService<SysOrg> {
     public List<SysOrg> findByNameOrShortName(String name) {
         JpaQuery<SysOrg> query = new JpaQuery<>();
 
-        query.any(q -> {
+        query.or(q -> {
             q.eq(SysOrg.Fields.name, name);
             q.eq(SysOrg.Fields.shortName, name);
         });

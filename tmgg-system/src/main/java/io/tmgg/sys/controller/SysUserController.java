@@ -42,7 +42,6 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("sysUser")
-@BusinessLog("用户")
 public class SysUserController {
 
     @Resource
@@ -55,27 +54,25 @@ public class SysUserController {
     private SysOrgService sysOrgService;
 
 
-    @BusinessLog("查看列表")
     @HasPermission
     @GetMapping("page")
-    public AjaxResult page(SysUserParam sysUserParam, @PageableDefault(sort = SysUser.FIELD_UPDATE_TIME ,direction = Sort.Direction.DESC) Pageable pageable) throws SQLException {
-        Page<SysUser> page = sysUserService.findAll(sysUserParam, pageable);
+    public AjaxResult page(String orgId, String keyword, @PageableDefault(sort = SysUser.FIELD_UPDATE_TIME ,direction = Sort.Direction.DESC) Pageable pageable) throws SQLException {
+        Page<SysUser> page = sysUserService.findAll(orgId, keyword, pageable);
         sysUserService.fillRoleName(page);
         return AjaxResult.ok().data( page);
     }
 
     @HasPermission
     @PostMapping("save")
-    @BusinessLog("系统用户_增加")
-    public AjaxResult add(@RequestBody SysUser sysUser) {
-        sysUserService.add(sysUser);
+    public AjaxResult add(@RequestBody SysUser sysUser) throws Exception {
+        sysUserService.saveOrUpdate(sysUser);
+
         return AjaxResult.ok().msg("添加用户成功，新密码为" + configService.getDefaultPassWord());
     }
 
 
     @HasPermission
     @PostMapping("edit")
-    @BusinessLog("系统用户_编辑")
     public AjaxResult edit(@RequestBody SysUserParam sysUserParam) {
         sysUserService.edit(sysUserParam);
         SecurityUtils.refresh(sysUserParam.getId());
@@ -85,7 +82,6 @@ public class SysUserController {
 
     @HasPermission
     @GetMapping("delete")
-    @BusinessLog("系统用户_删除")
     public AjaxResult delete(String id) {
         sysUserService.delete(id);
         return AjaxResult.ok();
@@ -128,9 +124,7 @@ public class SysUserController {
         return AjaxResult.ok();
     }
 
-    /**
-     * 拥有角色
-     */
+
     @GetMapping("ownRole")
     public AjaxResult ownRole(SysUserParam sysUserParam) {
         return AjaxResult.ok().data(sysUserService.ownRole(sysUserParam));
@@ -142,7 +136,6 @@ public class SysUserController {
      */
     @HasPermission
     @PostMapping("resetPwd")
-    @BusinessLog("系统用户_重置密码")
     public AjaxResult resetPwd(@RequestBody  SysUserParam sysUserParam) {
         sysUserService.resetPwd(sysUserParam.getId());
         return AjaxResult.ok().msg("重置成功,新密码为：" + configService.getDefaultPassWord());
@@ -197,7 +190,7 @@ public class SysUserController {
         // 权限过滤
         Collection<String> orgIds = SecurityUtils.getSubject().getOrgPermissions();
         if (CollUtil.isNotEmpty(orgIds)) {
-            query.any(q -> {
+            query.or(q -> {
                 q.in(SysUser.Fields.unitId, orgIds);
                 q.in(SysUser.Fields.deptId, orgIds);
             });
@@ -231,8 +224,6 @@ public class SysUserController {
     /**
      * 授权数据
      */
-
-    @HasPermission(title = "授权数据")
     @PostMapping("grantData")
     public AjaxResult grantData(@Valid @RequestBody GrantDataParam param) {
         sysUserService.grantData(param);

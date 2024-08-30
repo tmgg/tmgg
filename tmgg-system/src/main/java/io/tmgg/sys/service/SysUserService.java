@@ -1,6 +1,12 @@
 
 package io.tmgg.sys.service;
 
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.bean.copier.CopyOptions;
+import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.StrUtil;
+import cn.hutool.extra.spring.SpringUtil;
 import io.tmgg.lang.CodeException;
 import io.tmgg.lang.PasswordTool;
 import io.tmgg.lang.dao.BaseEntity;
@@ -10,7 +16,6 @@ import io.tmgg.lang.dao.specification.JpaQuery;
 import io.tmgg.sys.app.service.SysConfigService;
 import io.tmgg.sys.dao.SysUserDao;
 import io.tmgg.sys.entity.SysUser;
-import io.tmgg.sys.file.service.SysFileService;
 import io.tmgg.sys.org.dao.SysOrgDao;
 import io.tmgg.sys.org.entity.SysOrg;
 import io.tmgg.sys.role.dao.SysRoleDao;
@@ -20,14 +25,8 @@ import io.tmgg.sys.user.enums.DataPermType;
 import io.tmgg.sys.user.enums.SysUserExceptionEnum;
 import io.tmgg.sys.user.param.SysUserParam;
 import io.tmgg.web.enums.CommonStatus;
-import io.tmgg.web.perm.SecurityUtils;
-import io.tmgg.web.perm.Subject;
-import cn.hutool.core.collection.CollectionUtil;
-import cn.hutool.core.util.ObjectUtil;
-import cn.hutool.core.util.StrUtil;
-import cn.hutool.extra.spring.SpringUtil;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -36,8 +35,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
-
-import jakarta.annotation.Resource;
 
 import java.sql.SQLException;
 import java.util.Collection;
@@ -53,12 +50,6 @@ public class SysUserService extends BaseService<SysUser> implements UserLabelQue
 
 
     @Resource
-    @Lazy
-    private SysFileService sysFileService;
-
-    private SysConfigService sysConfigService;
-
-    @Resource
     private SysUserDao sysUserDao;
 
 
@@ -68,6 +59,9 @@ public class SysUserService extends BaseService<SysUser> implements UserLabelQue
 
     @Resource
     private SysOrgDao sysOrgDao;
+
+    @Resource
+    private SysConfigService sysConfigService;
 
 
     public List<SysUser> findByUnit(Collection<String> org) {
@@ -135,45 +129,51 @@ public class SysUserService extends BaseService<SysUser> implements UserLabelQue
     }
 
 
-    public Page<SysUser> findAll(SysUserParam param, Pageable pageable) throws SQLException {
+    public Page<SysUser> findAll(String orgId, String keyword, Pageable pageable) throws SQLException {
         JpaQuery<SysUser> query = new JpaQuery<>();
 
-        if (ObjectUtil.isNotEmpty(param.getOrgId())) {
-            query.any(q -> {
-                q.eq(SysUser.Fields.unitId, param.getOrgId());
-                q.eq(SysUser.Fields.deptId, param.getOrgId());
+        if (StrUtil.isNotEmpty(orgId)) {
+            query.or(q -> {
+                q.eq(SysUser.Fields.unitId, orgId);
+                q.eq(SysUser.Fields.deptId, orgId);
 
             });
         }
+        if(StrUtil.isNotEmpty(keyword)){
+            query.or(q->{
+                q.like(SysUser.Fields.name, keyword);
+                q.like(SysUser.Fields.phone, keyword);
+                q.like(SysUser.Fields.account, keyword);
+                q.like(SysUser.Fields.email, keyword);
+            });
+        }
 
-
-        if (StrUtil.isNotEmpty(param.getName()))
-            query.like(SysUser.Fields.name, param.getName());
-        if (StrUtil.isNotEmpty(param.getPhone()))
-            query.like(SysUser.Fields.phone, param.getPhone());
-        if (StrUtil.isNotEmpty(param.getAccount()))
-            query.like(SysUser.Fields.account, param.getAccount());
-
-
-
-
-
-        Subject subject = SecurityUtils.getSubject();
-
-        Page<SysUser> page = sysUserDao.findAll(query, pageable);
-        return page;
+        return sysUserDao.findAll(query, pageable);
     }
 
+    @Override
+    public SysUser saveOrUpdate(SysUser input) throws Exception {
+        boolean isNew = input.isNew();
+        SysUser old = null;
 
-    @Transactional(rollbackFor = Exception.class)
-    public void add(SysUser sysUser) {
-        sysUser.setStatus(CommonStatus.ENABLE);
+        if(isNew){
+            String password = sysConfigService.getDefaultPassWord();
+            input.setPassword(PasswordTool.encode(password));
+        }
 
-        String password = sysConfigService.getDefaultPassWord();
-        sysUser.setPassword(PasswordTool.encode(password));
+        if (!isNew) {
+            old = baseDao.findOne(input);
+        }
 
-        this.save(sysUser);
+        if (old != null) {
+            BeanUtil.copyProperties(input, old, CopyOptions.create().setIgnoreProperties(BaseEntity.BASE_ENTITY_FIELDS));
+            // 由于加了Transactional注解，会自动修改变化的属性
+            return old;
+        }
+
+        return baseDao.save(input);
     }
+
 
 
     @Transactional
