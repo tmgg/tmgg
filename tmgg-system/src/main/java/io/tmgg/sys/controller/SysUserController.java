@@ -14,6 +14,7 @@ import io.tmgg.lang.obj.TreeOption;
 import io.tmgg.sys.app.service.SysConfigService;
 import io.tmgg.sys.entity.SysUser;
 import io.tmgg.sys.org.entity.SysOrg;
+import io.tmgg.sys.org.enums.OrgType;
 import io.tmgg.sys.org.service.SysOrgService;
 import io.tmgg.sys.service.SysUserService;
 import io.tmgg.sys.user.controller.GrantDataParam;
@@ -27,6 +28,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.annotation.Resource;
@@ -64,20 +66,23 @@ public class SysUserController {
 
     @HasPermission
     @PostMapping("save")
-    public AjaxResult add(@RequestBody SysUser sysUser) throws Exception {
-        sysUserService.saveOrUpdate(sysUser);
+    public AjaxResult save(@RequestBody SysUser input) throws Exception {
+        String inputOrgId = input.getDeptId();
+        SysOrg org = sysOrgService.findOne(inputOrgId);
+        if (org.getType() == OrgType.UNIT) {
+            input.setUnitId(inputOrgId);
+            input.setDeptId(null);
+        } else {
+            SysOrg unit = sysOrgService.findParentUnit(org);
+            Assert.notNull(unit,"部门%s没有所属单位".formatted(org.getName()));
+            input.setUnitId(unit.getId());
+        }
 
+        SysUser sysUser = sysUserService.saveOrUpdate(input);
+        SecurityUtils.refresh(sysUser.getId());
         return AjaxResult.ok().msg("添加用户成功，新密码为" + configService.getDefaultPassWord());
     }
 
-
-    @HasPermission
-    @PostMapping("edit")
-    public AjaxResult edit(@RequestBody SysUserParam sysUserParam) {
-        sysUserService.edit(sysUserParam);
-        SecurityUtils.refresh(sysUserParam.getId());
-        return AjaxResult.ok();
-    }
 
 
     @HasPermission

@@ -9,7 +9,6 @@ import io.tmgg.sys.org.entity.SysOrg;
 import io.tmgg.sys.role.entity.SysRole;
 import io.tmgg.sys.user.enums.DataPermType;
 import io.tmgg.web.enums.CommonStatus;
-import cn.hutool.extra.pinyin.PinyinUtil;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
@@ -89,16 +88,7 @@ public class SysUser extends BaseEntity {
     @Column(length = 30)
     private String email;
 
-    /**
-     * 最后登陆IP
-     */
-    @Column(length = 15)
-    private String lastLoginIp;
 
-    /**
-     * 最后登陆时间
-     */
-    private Date lastLoginTime;
 
 
 
@@ -134,10 +124,8 @@ public class SysUser extends BaseEntity {
     @JsonIgnore
     @Lazy
     @ManyToMany
-    @JoinTable(name = "sys_user_org_data_scope", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "org_id"))
-    List<SysOrg> orgDataScope = new ArrayList<>();
-
-
+    @JoinTable(name = "sys_user_data_perm", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "org_id"))
+    List<SysOrg> dataPerms = new ArrayList<>();
 
     @Override
     public void beforeSaveOrUpdate() {

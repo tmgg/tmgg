@@ -4,6 +4,7 @@ package io.tmgg.sys.service;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
@@ -18,6 +19,7 @@ import io.tmgg.sys.dao.SysUserDao;
 import io.tmgg.sys.entity.SysUser;
 import io.tmgg.sys.org.dao.SysOrgDao;
 import io.tmgg.sys.org.entity.SysOrg;
+import io.tmgg.sys.org.enums.OrgType;
 import io.tmgg.sys.role.dao.SysRoleDao;
 import io.tmgg.sys.role.entity.SysRole;
 import io.tmgg.sys.user.controller.GrantDataParam;
@@ -37,10 +39,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.sql.SQLException;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -154,27 +153,24 @@ public class SysUserService extends BaseService<SysUser> implements UserLabelQue
     @Override
     public SysUser saveOrUpdate(SysUser input) throws Exception {
         boolean isNew = input.isNew();
-        SysUser old = null;
-
-        if(isNew){
+        if (isNew) {
             String password = sysConfigService.getDefaultPassWord();
             input.setPassword(PasswordTool.encode(password));
+            return baseDao.save(input);
         }
 
-        if (!isNew) {
-            old = baseDao.findOne(input);
-        }
 
-        if (old != null) {
-            BeanUtil.copyProperties(input, old, CopyOptions.create().setIgnoreProperties(BaseEntity.BASE_ENTITY_FIELDS));
-            // 由于加了Transactional注解，会自动修改变化的属性
-            return old;
-        }
 
-        return baseDao.save(input);
+
+
+        SysUser old = baseDao.findOne(input);
+        BeanUtil.copyProperties(input, old, CopyOptions.create()
+                .setIgnoreProperties(ArrayUtil.append(BaseEntity.BASE_ENTITY_FIELDS,
+                        SysUser.Fields.roles, SysUser.Fields.password, SysUser.Fields.dataPerms
+                )));
+        return  baseDao.save(old);
+
     }
-
-
 
     @Transactional
     public void delete(String id) {
@@ -187,30 +183,6 @@ public class SysUserService extends BaseService<SysUser> implements UserLabelQue
     }
 
 
-    /**
-     * 用户修改
-     * 该表比较敏感，所以采用手动设置字段的方式，防止前端恶意设置字段
-     *
-     * @param param
-     */
-    @Transactional(rollbackFor = Exception.class)
-    public void edit(SysUserParam param) {
-        checkParam(param, true);
-
-        // 账号
-        SysUser user = sysUserDao.findOne(param.getId());
-        user.setAccount(param.getAccount());
-        user.setName(param.getName());
-        user.setStatus(param.getStatus());
-        user.setPhone(param.getPhone());
-        user.setUnitId(param.getOrgId());
-        user.setDeptId(param.getDeptId());
-        user.setEmail(param.getEmail());
-        this.save(user);
-
-        // 角色
-        this.grantRole(user.getId(), param.getRoleIds());
-    }
 
 
     public void updatePwd(String userId, String password, String newPassword) {
@@ -341,7 +313,7 @@ public class SysUserService extends BaseService<SysUser> implements UserLabelQue
             case ORG_AND_CHILDREN:
                 return sysOrgDao.findChildIdListWithSelfById(orgId, true);
             case CUSTOM:
-                return user.getOrgDataScope().stream().map(BaseEntity::getId).collect(Collectors.toList());
+                return user.getDataPerms().stream().map(BaseEntity::getId).collect(Collectors.toList());
         }
 
         throw new IllegalStateException("有未处理的类型" + dataPermType);
@@ -350,7 +322,7 @@ public class SysUserService extends BaseService<SysUser> implements UserLabelQue
 
     public List<String> ownData(String id) {
         SysUser user = this.findOne(id);
-        List<SysOrg> orgDataScope = user.getOrgDataScope();
+        List<SysOrg> orgDataScope = user.getDataPerms();
         return orgDataScope.stream().map(BaseEntity::getId).collect(Collectors.toList());
     }
 
@@ -358,7 +330,7 @@ public class SysUserService extends BaseService<SysUser> implements UserLabelQue
     public void grantData(@RequestBody @Validated GrantDataParam param) {
         SysUser user = this.findOne(param.getId());
         List<SysOrg> orgs = sysOrgDao.findAllById(param.getGrantOrgIdList());
-        user.setOrgDataScope(orgs);
+        user.setDataPerms(orgs);
         user.setDataPermType(param.getDataPermType());
     }
 

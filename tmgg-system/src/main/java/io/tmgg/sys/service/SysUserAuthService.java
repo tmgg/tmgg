@@ -100,12 +100,9 @@ public class SysUserAuthService implements AuthorizingRealm {
         //生成token
         String token = tokenManger.createToken(sysUser.getId());
 
-        //设置最后登录ip和时间
-        sysUser.setLastLoginIp(IpAddressTool.getIp(HttpServletTool.getRequest()));
-        sysUser.setLastLoginTime(DateTime.now());
 
-        //更新用户登录信息
-        sysUserService.save(sysUser);
+
+
 
         //登录成功，记录登录日志
         LogManager.me().saveLoginLog(sysUser.getAccount(), LogSuccessStatusEnum.SUCCESS.getCode(), null);

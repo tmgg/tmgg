@@ -1,5 +1,5 @@
 import {registerRoutes} from "@tmgg/tmgg-base";
-
+import './init'
 registerRoutes({
     'settings/ChangePassword': require('./pages/settings/ChangePassword').default,
     'system/log/vislog': require('./pages/system/log/vislog/index').default,

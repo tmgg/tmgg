@@ -217,4 +217,7 @@ public class SysOrgService extends BaseService<SysOrg> {
     }
 
 
+    public SysOrg findParentUnit(SysOrg org) {
+        return dao.findParentUnit(org);
+    }
 }

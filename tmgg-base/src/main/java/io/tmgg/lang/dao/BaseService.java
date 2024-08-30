@@ -206,18 +206,13 @@ public abstract class BaseService<T extends Persistable<String>> {
     @Transactional
     public T saveOrUpdate(T input) throws Exception {
         boolean isNew = input.isNew();
-        T old = null;
-        if (!isNew) {
-            old = baseDao.findOne(input);
+        if (isNew) {
+            return baseDao.save(input);
         }
 
-        if (old != null) {
-            BeanUtil.copyProperties(input, old, CopyOptions.create().setIgnoreProperties(BaseEntity.BASE_ENTITY_FIELDS));
-            // 由于加了Transactional注解，会自动修改变化的属性
-            return old;
-        }
-
-        return baseDao.save(input);
+        T old = baseDao.findOne(input);
+        BeanUtil.copyProperties(input, old, CopyOptions.create().setIgnoreProperties(BaseEntity.BASE_ENTITY_FIELDS));
+        return  baseDao.save(old);
     }
 
 
