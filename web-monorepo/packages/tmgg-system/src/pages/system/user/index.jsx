@@ -1,14 +1,23 @@
 import {PlusOutlined} from '@ant-design/icons';
-import {Button, Card, Empty, Form, Input, InputNumber, message, Modal, Popconfirm, Tree, Typography} from 'antd';
+import {
+    Button,
+    Card,
+    Form,
+    Input,
+    Layout,
+    message,
+    Modal,
+    Popconfirm,
+    Typography
+} from 'antd';
 import React from 'react';
 import {ProTable} from "@tmgg/pro-table";
+import {http} from "@tmgg/tmgg-base";
 import UserOrgForm from "./UserOrgForm";
 import {
     ButtonList,
-    dictValue,
-    dictValueTag, FieldDeptTreeSelect, FieldDictRadio,
-    FieldDictSelect, FieldOrgTreeSelect, FieldRadioBoolean, FieldUnitTreeSelect,
-    hasPermission,
+    dictValueTag, FieldDictRadio,
+    FieldOrgTreeSelect, hasPermission,
     HttpClient,
     LeftRightLayout
 } from "../../../common";
@@ -99,7 +108,6 @@ export default class extends React.Component {
             hideInSearch: true,
             hideInForm: true,
             render(_, item) {
-
                 return dictValueTag('data_perm_type', item.dataPermType)
             }
         },
@@ -221,12 +229,11 @@ export default class extends React.Component {
                     <div style={{marginBottom: '1rem'}}
                     >
                         <Typography.Text>组织机构</Typography.Text>
-
                     </div>
                     <OrgTree onChange={this.onSelectOrg}/>
                 </Card>
 
-                <Card>
+                <>
                     <ProTable
                         size={'small'}
                         search={false}
@@ -248,14 +255,13 @@ export default class extends React.Component {
                         }}
                         request={(params, sort) => {
                             params.orgId = this.state.currentOrgId
-                            return HttpClient.getPageableData(pageApi, params, sort)
+                            return http.requestPageData(pageApi, params, sort)
                         }
                         }
                         columns={this.columns}
-                        rowSelection={false}
                         rowKey="id"
                         scroll={{x:'max-content'}}
-                    /> </Card>
+                    /> </>
             </LeftRightLayout>
 
 

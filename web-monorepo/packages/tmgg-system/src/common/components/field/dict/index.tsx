@@ -18,7 +18,7 @@ export interface DictProps {
  * @constructor
  */
 export function DictSelect(props: DictProps) {
-  const { typeCode, params, mode, value, onChange, placeholder = '请选择', ...restProps } = props;
+  let { typeCode, params, mode, value, onChange, placeholder = '请选择', ...restProps } = props;
 
   if(typeCode == null){
     typeCode = params;
