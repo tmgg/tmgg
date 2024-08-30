@@ -13,7 +13,6 @@ import {
     LeftRightLayout
 } from "../../../common";
 import OrgTree from "../../../commponents/OrgTree";
-import FieldOrgTree from "@/common/components/field/FieldOrgTree";
 
 const baseTitle = "用户"
 const baseApi = 'sysUser/';
@@ -52,51 +51,19 @@ export default class extends React.Component {
     columns = [
         {
             title: '单位',
-            dataIndex: 'orgLabel',
-            hideInSearch: true,
-            hideInForm: true
-        },
-        {
-            title: '单位',
-            dataIndex: 'orgId',
-            hideInTable: true,
-            hideInSearch: true,
-            valueType: 'remoteTreeSelect',
-            params: '/sysOrg/tree?type=UNIT',
-            formItemProps: {
-                required: true,
-                rules: [{required: true}]
-            }
+            dataIndex: 'unitLabel',
         },
         {
             title: '部门',
             dataIndex: 'deptLabel',
-            hideInSearch: true,
-            hideInForm: true
-        },
-        {
-            title: '部门',
-            dataIndex: 'deptId',
-            hideInTable: true,
-            hideInSearch: true,
-            valueType: 'remoteTreeSelect',
-            params: '/sysOrg/tree?type=DEPT'
         },
         {
             title: '姓名',
             dataIndex: 'name',
-            formItemProps: {
-                required: true,
-                rules: [{required: true}]
-            }
         },
         {
             title: '登录账号',
             dataIndex: 'account',
-            formItemProps: {
-                required: true,
-                rules: [{required: true}]
-            }
         },
 
 
@@ -137,10 +104,8 @@ export default class extends React.Component {
             }
         },
         {
-            title: '唯一标识',
+            title: 'id',
             dataIndex: 'id',
-            hideInSearch: true,
-            hideInForm: true,
         },
         {
             title: '修改时间',
@@ -263,6 +228,7 @@ export default class extends React.Component {
 
                 <Card>
                     <ProTable
+                        size={'small'}
                         search={false}
                         options={{search: true}}
                         actionRef={this.actionRef}
@@ -288,6 +254,7 @@ export default class extends React.Component {
                         columns={this.columns}
                         rowSelection={false}
                         rowKey="id"
+                        scroll={{x:'max-content'}}
                     /> </Card>
             </LeftRightLayout>
 

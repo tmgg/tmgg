@@ -15,7 +15,7 @@
   "version": "0.1.17",
   "dependencies": {
     "@ant-design/icons": "^5.4.0",
-    "@tmgg/pro-table": "^5.0.0",
+    "@tmgg/pro-table": "^5.0.1",
     "antd": "^5.20.3",
     "@moon-cn/hutool": "^1.0.0",
     "@tinymce/tinymce-react": "^5.0.0",

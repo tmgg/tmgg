@@ -4,6 +4,7 @@ import {dictList, dictValue, dictValueTag} from "../../../system";
 
 export interface DictProps {
   typeCode: string;
+  params?: string; // 同typeCode, pro-table用
   mode?: string | 'read';
   value?: any;
   onChange?: (value: any) => void;
@@ -17,7 +18,13 @@ export interface DictProps {
  * @constructor
  */
 export function DictSelect(props: DictProps) {
-  const { typeCode, mode, value, onChange, placeholder = '请选择', ...restProps } = props;
+  const { typeCode, params, mode, value, onChange, placeholder = '请选择', ...restProps } = props;
+
+  if(typeCode == null){
+    typeCode = params;
+  }
+
+
   if (mode === 'read') {
     return dictValueTag(typeCode, value);
   }
@@ -35,7 +42,12 @@ export function DictSelect(props: DictProps) {
 }
 
 export function DictRadio(props: DictProps) {
-  const { typeCode, mode, value } = props;
+  let { typeCode, mode, value, params } = props;
+
+  if(typeCode == null){
+    typeCode = params;
+  }
+
   if (mode === 'read') {
     return dictValueTag(typeCode, value);
   }
