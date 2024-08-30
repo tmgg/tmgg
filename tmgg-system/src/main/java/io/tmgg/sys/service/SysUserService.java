@@ -15,8 +15,8 @@ import io.tmgg.lang.dao.BaseService;
 import io.tmgg.lang.dao.exports.UserLabelQuery;
 import io.tmgg.lang.dao.specification.JpaQuery;
 import io.tmgg.sys.app.service.SysConfigService;
-import io.tmgg.sys.controller.SysUserController;
 import io.tmgg.sys.dao.SysUserDao;
+import io.tmgg.sys.dto.GrantPermDto;
 import io.tmgg.sys.entity.SysUser;
 import io.tmgg.sys.org.dao.SysOrgDao;
 import io.tmgg.sys.org.entity.SysOrg;
@@ -27,7 +27,6 @@ import io.tmgg.sys.user.enums.SysUserExceptionEnum;
 import io.tmgg.sys.user.param.SysUserParam;
 import io.tmgg.web.enums.CommonStatus;
 import jakarta.annotation.Resource;
-import jakarta.validation.constraints.NotNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -200,11 +199,6 @@ public class SysUserService extends BaseService<SysUser> implements UserLabelQue
     }
 
 
-    public List<String> ownRole(SysUserParam sysUserParam) {
-        SysUser sysUser = this.findOne(sysUserParam.getId());
-        return sysUser.getRoles().stream().map(SysRole::getId).collect(Collectors.toList());
-    }
-
 
     @Transactional
     public void resetPwd(String id) {
@@ -310,10 +304,16 @@ public class SysUserService extends BaseService<SysUser> implements UserLabelQue
 
     }
 
-    public List<String> ownData(String id) {
+    public GrantPermDto getPermInfo(String id) {
         SysUser user = this.findOne(id);
-        List<SysOrg> orgDataScope = user.getDataPerms();
-        return orgDataScope.stream().map(BaseEntity::getId).collect(Collectors.toList());
+
+        GrantPermDto p = new GrantPermDto();
+        p.setId(user.getId());
+        p.setDataPermType(user.getDataPermType());
+        p.setOrgIds(user.getDataPerms().stream().map(BaseEntity::getId).collect(Collectors.toList()));
+        p.setRoleIds(user.getRoles().stream().map(BaseEntity::getId).collect(Collectors.toList()));
+
+        return p;
     }
 
     @Transactional

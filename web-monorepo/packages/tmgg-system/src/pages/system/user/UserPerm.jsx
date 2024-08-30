@@ -6,108 +6,113 @@ import {FieldDictSelect, FieldRemoteMultipleSelect, FieldRemoteSelect, HttpClien
 export default class UserPerm extends React.Component {
 
 
-  state = {
-    visible: false,
-    treeData: [],
-    checked: [],
-    confirmLoading: false,
-
-    formValues: {
-      dataPermType: null
-    },
-  }
-
-
-  handleSave = (values) => {
-
-    values.grantOrgIdList = this.state.checked
-
-
-    this.setState({
-      confirmLoading: true
-    })
-    HttpClient.post('sysUser/grantPerm', values).then(rs => {
-      this.setState({
+    state = {
         visible: false,
-        confirmLoading: false
-      })
-    })
+        treeData: [],
+        confirmLoading: false,
+
+        formValues: {
+            dataPermType: null
+        },
+    }
 
 
-  }
-  onCheck = (e) => {
-    this.setState({
-      checked: e.checked
-    })
-  };
+    handleSave = (values) => {
+        values.grantOrgIdList = this.state.checked
 
-  show(item) {
-    console.log(item)
-    this.setState({
-      visible: true,
-      formValues: item,
-      checked: []
-    })
-
-    HttpClient.get('/sysUser/ownData', {id: item.id}).then(rs => {
-      this.setState({checked: rs.data})
-    })
-
-    HttpClient.get('/sysOrg/tree').then(rs => {
-      const list = rs.data;
-
-      this.setState({treeData: list})
-    })
-  }
-
-  formRef = React.createRef()
+        this.setState({
+            confirmLoading: true
+        })
 
 
-  render() {
-    let {visible, treeData, confirmLoading, checked} = this.state
-
-    return <Modal
-      title="授权"
-      destroyOnClose
-      width={600}
-      open={visible}
-      confirmLoading={confirmLoading}
-      onCancel={() => this.setState({visible: false})}
-      onOk={() => this.formRef.current.submit()}
-    >
-
-      <Form ref={this.formRef}
-            onFinish={this.handleSave}
-            initialValues={this.state.formValues}
-            onValuesChange={(change,values)=>{
-                this.setState({formValues:values})
-            }}
-      >
-        <Form.Item name='id' noStyle></Form.Item>
-        <Form.Item label='角色' name='roleIds' rules={[{required: true}]}>
-          <FieldRemoteMultipleSelect url='sysRole/options'></FieldRemoteMultipleSelect>
-        </Form.Item>
-        <Form.Item label='数据权限' name='dataPermType' rules={[{required: true}]}>
-          <FieldDictSelect typeCode='dataPermType'></FieldDictSelect>
-        </Form.Item>
-      </Form>
+        HttpClient.post('sysUser/grantPerm', values).then(rs => {
+            this.setState({
+                visible: false,
+                confirmLoading: false
+            })
+        })
 
 
-      {treeData.length > 0 && this.state.formValues.dataPermType === 'CUSTOM' && <Tree
-        multiple
-        checkable
-        onCheck={this.onCheck}
-        checkedKeys={checked}
-        treeData={treeData}
-        defaultExpandAll
-        checkStrictly
+    }
+    onCheck = (e) => {
+        this.setState({
+            checked: e.checked
+        })
+    };
 
-      >
-      </Tree>}
+    show(item) {
+        console.log(item)
+        this.setState({
+            visible: true,
+            formValues: {},
+        })
+
+        HttpClient.get('/sysUser/getPermInfo', {id: item.id}).then(rs => {
+            this.setState({formValues: rs.data})
+        })
+
+        HttpClient.get('/sysOrg/tree').then(rs => {
+            const list = rs.data;
+
+            this.setState({treeData: list})
+        })
+    }
+
+    formRef = React.createRef()
 
 
-    </Modal>
-  }
+    render() {
+        let {visible, treeData, confirmLoading, checked} = this.state
+
+        return <Modal
+            title="授权"
+            destroyOnClose
+            width={600}
+            open={visible}
+            confirmLoading={confirmLoading}
+            onCancel={() => this.setState({visible: false})}
+            onOk={() => this.formRef.current.submit()}
+        >
+
+            <Form ref={this.formRef}
+                  onFinish={this.handleSave}
+                  initialValues={this.state.formValues}
+                  onValuesChange={(change, values) => {
+                      this.setState({formValues: values})
+                  }}
+                  labelCol={{flex: '100px'}}
+            >
+                <Form.Item name='id' noStyle></Form.Item>
+                <Form.Item label='角色' name='roleIds' rules={[{required: true}]}>
+                    <FieldRemoteMultipleSelect url='sysRole/options'></FieldRemoteMultipleSelect>
+                </Form.Item>
+                <Form.Item label='数据权限' name='dataPermType' rules={[{required: true}]}>
+                    <FieldDictSelect typeCode='dataPermType'></FieldDictSelect>
+                </Form.Item>
+
+
+                {treeData.length > 0 && this.state.formValues.dataPermType === 'CUSTOM' && <>
+                    <Form.Item label='组织机构' name='orgIds'>
+                        <Tree
+                            multiple
+                            checkable
+                            onCheck={this.onCheck}
+                            checkedKeys={checked}
+                            treeData={treeData}
+                            defaultExpandAll
+                            checkStrictly
+
+                        >
+                        </Tree>
+                    </Form.Item>
+                </>}
+
+
+            </Form>
+
+
+        </Modal>
+    }
 
 
 }

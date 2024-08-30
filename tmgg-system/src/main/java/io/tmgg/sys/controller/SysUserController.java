@@ -12,20 +12,17 @@ import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.obj.Option;
 import io.tmgg.lang.obj.TreeOption;
 import io.tmgg.sys.app.service.SysConfigService;
+import io.tmgg.sys.dto.GrantPermDto;
 import io.tmgg.sys.entity.SysUser;
 import io.tmgg.sys.org.entity.SysOrg;
 import io.tmgg.sys.org.enums.OrgType;
 import io.tmgg.sys.org.service.SysOrgService;
 import io.tmgg.sys.service.SysUserService;
-import io.tmgg.sys.user.enums.DataPermType;
 import io.tmgg.sys.user.param.SysUserParam;
 import io.tmgg.web.annotion.BusinessLog;
 import io.tmgg.web.annotion.HasPermission;
 import io.tmgg.web.perm.SecurityUtils;
 import io.tmgg.web.perm.Subject;
-import jakarta.validation.constraints.NotNull;
-import lombok.Getter;
-import lombok.Setter;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -133,10 +130,7 @@ public class SysUserController {
     }
 
 
-    @GetMapping("ownRole")
-    public AjaxResult ownRole(SysUserParam sysUserParam) {
-        return AjaxResult.ok().data(sysUserService.ownRole(sysUserParam));
-    }
+
 
 
     /**
@@ -212,9 +206,9 @@ public class SysUserController {
     /**
      * 拥有数据
      */
-    @GetMapping("ownData")
-    public AjaxResult ownData(String id) {
-        return AjaxResult.ok().data(sysUserService.ownData(id));
+    @GetMapping("getPermInfo")
+    public AjaxResult getPermInfo(String id) {
+        return AjaxResult.ok().data(sysUserService.getPermInfo(id));
     }
 
 
@@ -222,8 +216,8 @@ public class SysUserController {
      * 授权数据
      */
     @PostMapping("grantPerm")
-    public AjaxResult grantPerm(@Valid @RequestBody SysUserController.GrantParam param) {
-        sysUserService.grantPerm(param.getId(), param.getRoleIds(),param.getDataPermType(),  param.getGrantOrgIdList());
+    public AjaxResult grantPerm(@Valid @RequestBody GrantPermDto param) {
+        sysUserService.grantPerm(param.getId(), param.getRoleIds(),param.getDataPermType(),  param.getOrgIds());
 
         SecurityUtils.refresh(param.getId());
 
@@ -253,19 +247,5 @@ public class SysUserController {
     }
 
 
-    @Getter
-    @Setter
-    public static class GrantParam {
 
-        @NotNull
-        String id;
-
-        @NotNull
-        DataPermType dataPermType;
-
-        List<String> grantOrgIdList;
-
-        List<String> roleIds;
-
-    }
 }
