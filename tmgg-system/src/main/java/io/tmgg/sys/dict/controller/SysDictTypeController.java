@@ -11,7 +11,7 @@ import io.tmgg.sys.dict.entity.SysDictType;
 import io.tmgg.sys.dict.service.SysDictDataService;
 import io.tmgg.sys.dict.service.SysDictTypeService;
 import io.tmgg.web.annotion.BusinessLog;
-import io.tmgg.web.annotion.HasPermission;
+import io.tmgg.web.annotion.HasPerm;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,7 +32,7 @@ public class SysDictTypeController {
     private SysDictDataService dataService;
 
 
-    @HasPermission
+    @HasPerm
     @GetMapping("page")
     public AjaxResult page() {
         List<SysDictType> page = typeService.findAll(Sort.by(Sort.Direction.DESC, SysDictType.FIELD_UPDATE_TIME));
@@ -90,7 +90,7 @@ public class SysDictTypeController {
     }
 
 
-    @HasPermission
+    @HasPerm
     @PostMapping("save")
     @BusinessLog("系统字典类型_增加")
     public AjaxResult save(@RequestBody SysDictType sysDictTypeParam) {
@@ -100,7 +100,7 @@ public class SysDictTypeController {
     }
 
 
-    @HasPermission
+    @HasPerm
     @PostMapping("delete")
     @BusinessLog("系统字典类型_删除")
     public AjaxResult delete(@RequestBody SysDictType sysDictTypeParam) {

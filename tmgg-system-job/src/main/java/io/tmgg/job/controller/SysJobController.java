@@ -9,7 +9,7 @@ import io.tmgg.job.service.SysJobService;
 import io.tmgg.lang.ann.RemarkTool;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.obj.Option;
-import io.tmgg.web.annotion.HasPermission;
+import io.tmgg.web.annotion.HasPerm;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.lang.Dict;
 import cn.hutool.core.util.ClassUtil;
@@ -40,7 +40,7 @@ public class SysJobController {
     private QuartzManager quartzManager;
 
 
-    @HasPermission
+    @HasPerm
     @GetMapping("page")
     public AjaxResult page(SysJob param, @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) {
         Page<SysJob> page = service.findByExampleLike(param, pageable);
@@ -75,7 +75,7 @@ public class SysJobController {
         return AjaxResult.ok().data( new PageImpl<>(list, pageable, page.getTotalElements()));
     }
 
-    @HasPermission
+    @HasPerm
     @PostMapping("save")
     public AjaxResult save(@RequestBody SysJob param) throws Exception {
         Class.forName(param.getJobClass());
@@ -91,7 +91,7 @@ public class SysJobController {
         return AjaxResult.ok().msg("删除成功");
     }
 
-    @HasPermission(title = "执行一次")
+    @HasPerm(title = "执行一次")
     @GetMapping("triggerJob")
     public AjaxResult triggerJob(String id) throws SchedulerException, ClassNotFoundException {
         SysJob job = service.findOne(id);

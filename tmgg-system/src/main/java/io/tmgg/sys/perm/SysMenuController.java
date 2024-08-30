@@ -1,9 +1,7 @@
 
-package io.tmgg.sys.menu.controller;
+package io.tmgg.sys.perm;
 
 import io.tmgg.lang.obj.AjaxResult;
-import io.tmgg.sys.menu.node.MenuTreeNode;
-import io.tmgg.sys.menu.service.SysMenuService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,13 +19,13 @@ import java.util.List;
 public class SysMenuController  {
 
     @Resource
-    private SysMenuService sysMenuService;
+    private SysPermService sysPermService;
 
 
 
     @GetMapping("treeForGrant")
     public AjaxResult treeForGrant() {
-        List<MenuTreeNode> data = sysMenuService.treeForGrant();
+        List<MenuTreeNode> data = sysPermService.treeForGrant();
         return AjaxResult.ok().data(data);
     }
 

@@ -2,6 +2,7 @@ package io.tmgg.init;
 
 import io.tmgg.lang.PasswordTool;
 import io.tmgg.sys.consts.service.SysConfigService;
+import io.tmgg.sys.perm.SysPermService;
 import io.tmgg.sys.role.entity.SysRole;
 import io.tmgg.sys.role.service.SysRoleService;
 import io.tmgg.sys.user.dao.SysUserDao;
@@ -40,17 +41,17 @@ public class SystemInitial implements ApplicationRunner {
     @Resource
     SysConfigService sysConfigService;
 
+    @Resource
+    SysPermService sysPermService;
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
         sysConfigService.initDefault();
         autoAddDictDataRunnable.run();
 
+        sysPermService.init();
 
-        cleanDataRunnable.run();
-
-        databaseDataXmlInitRunnable.run();
-        databaseDataJsonInitRunnable.run();
+        jsonToDatabaseHandler.run();
 
         menuInCodeRunnable.run();
 
@@ -88,14 +89,11 @@ public class SystemInitial implements ApplicationRunner {
 
     }
 
-    @Resource
-    CleanDataRunnable cleanDataRunnable;
+
+
 
     @Resource
-    DatabaseDataXmlInitRunnable databaseDataXmlInitRunnable;
-
-    @Resource
-    DatabaseDataJsonInitRunnable databaseDataJsonInitRunnable;
+    JsonToDatabaseHandler jsonToDatabaseHandler;
 
 
     @Resource

@@ -4,7 +4,6 @@ package io.tmgg.sys;
 import io.tmgg.SystemProperties;
 import io.tmgg.config.external.MenuBadgeProvider;
 import io.tmgg.config.external.UserMessageProvider;
-import io.tmgg.lang.RequestTool;
 import io.tmgg.lang.ResourceTool;
 import io.tmgg.lang.SpringTool;
 import io.tmgg.lang.TreeTool;
@@ -12,17 +11,14 @@ import io.tmgg.lang.ann.PublicApi;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.obj.Route;
 import io.tmgg.sys.auth.controller.LoginUserVo;
-import io.tmgg.sys.menu.entity.SysMenu;
-import io.tmgg.sys.menu.service.SysMenuService;
+import io.tmgg.sys.perm.SysPermService;
 import io.tmgg.sys.role.entity.SysRole;
 import io.tmgg.sys.role.service.SysRoleService;
 import io.tmgg.sys.watermask.service.WatermarkService;
 import io.tmgg.web.perm.SecurityUtils;
 import io.tmgg.web.perm.Subject;
 import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.io.IoUtil;
-import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -32,7 +28,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.annotation.Resource;
-import jakarta.servlet.http.HttpServletRequest;
 
 import java.io.IOException;
 import java.util.*;
@@ -47,7 +42,7 @@ public class DefaultCommonController {
     SysRoleService roleService;
 
     @Resource
-    SysMenuService sysMenuService;
+    SysPermService sysPermService;
 
     @Resource
     SystemProperties systemProperties;
@@ -177,69 +172,48 @@ public class DefaultCommonController {
     @GetMapping("menuTree")
     public AjaxResult menuTree() {
         Subject subject = SecurityUtils.getSubject();
-        List<Route> list = sysMenuService.findAllAppMenuList();
+        List<Route> list = sysPermService.findAllAppMenuList();
 
-        Map<String, SysMenu> map = sysMenuService.findMap();
-
-        Collection<String> userMenuIds = new HashSet<>();
-
-        // 过滤id
-        for (SysMenu m : map.values()) {
-            String perm = m.getPermission();
-            if (StrUtil.isEmpty(perm)) {
-                continue;
-            }
-            if (subject.hasPermission(perm)) {
-                userMenuIds.add(m.getId());
-
-                // 父节点加入
-                SysMenu parent = map.get(m.getPid());
-                while (parent != null) {
-                    userMenuIds.add(parent.getId());
-                    parent = map.get(parent.getPid());
-                }
-            }
-        }
-
-        list = list.stream().filter(r -> userMenuIds.contains(r.getId())).collect(Collectors.toList());
+        list = list.stream().filter(r -> subject.hasPermission(r.getPerm())).collect(Collectors.toList());
 
 
-        {
-            // 角标, 右上角数字
-
-            Map<String, Route> idMap = list.stream().collect(Collectors.toMap(Route::getId, r -> r));
-            Map<String, Route> codeMap = list.stream().collect(Collectors.toMap(Route::getKey, r -> r));
-
-            List<MenuBadgeProvider.MenuBadge> badges = new ArrayList<>();
-            Collection<MenuBadgeProvider> menuBadgeProviders = SpringTool.getBeans(MenuBadgeProvider.class);
-            for (MenuBadgeProvider badgeProvider : menuBadgeProviders) {
-                badges.addAll(badgeProvider.getData());
-            }
-
-            for (MenuBadgeProvider.MenuBadge menuBadge : badges) {
-                String code = menuBadge.getMenuCode();
-                int badge = menuBadge.getBadge();
-
-                Route r = codeMap.get(code);
-                if (r == null || badge <= 0) {
-                    continue;
-                }
-                r.setBadge(badge);
-
-                // 父节点累加
-                Route parent = idMap.get(r.getPid());
-                if (parent == null) {
-                    continue;
-                }
-                parent.setBadge(r.getBadge() + parent.getBadge());
-            }
-        }
+        fillBadge(list);
 
 
         List<Route> tree = TreeTool.buildTree(list);
 
-
         return AjaxResult.ok().data(tree);
+    }
+
+    private static void fillBadge(List<Route> list) {
+        // 角标, 右上角数字
+
+        Map<String, Route> idMap = list.stream().collect(Collectors.toMap(Route::getId, r -> r));
+        Map<String, Route> codeMap = list.stream().collect(Collectors.toMap(Route::getKey, r -> r));
+
+        List<MenuBadgeProvider.MenuBadge> badges = new ArrayList<>();
+        Collection<MenuBadgeProvider> menuBadgeProviders = SpringTool.getBeans(MenuBadgeProvider.class);
+        for (MenuBadgeProvider badgeProvider : menuBadgeProviders) {
+            badges.addAll(badgeProvider.getData());
+        }
+
+        for (MenuBadgeProvider.MenuBadge menuBadge : badges) {
+            String code = menuBadge.getMenuCode();
+            int badge = menuBadge.getBadge();
+
+            Route r = codeMap.get(code);
+            if (r == null || badge <= 0) {
+                continue;
+            }
+            r.setBadge(badge);
+
+            // 父节点累加
+            Route parent = idMap.get(r.getPid());
+            if (parent == null) {
+                continue;
+            }
+            parent.setBadge(r.getBadge() + parent.getBadge());
+        }
     }
 
 }

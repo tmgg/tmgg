@@ -3,7 +3,7 @@ package io.tmgg.core.aop;
 
 import io.tmgg.core.log.LogManager;
 import io.tmgg.lang.HttpServletTool;
-import io.tmgg.web.annotion.HasPermission;
+import io.tmgg.web.annotion.HasPerm;
 import io.tmgg.web.consts.AopSortConstant;
 import io.tmgg.web.exception.PermissionException;
 import io.tmgg.web.perm.SecurityUtils;
@@ -28,13 +28,12 @@ import java.lang.reflect.Method;
 @Slf4j
 @Order(AopSortConstant.PERMISSION_AOP)
 @Component
-@ConditionalOnProperty(name = "tmgg.system.enable-permission-aop", havingValue = "true", matchIfMissing = true)
 public class HasPermissionAop {
 
     /**
      * 执行权限过滤
      */
-    @Before("@annotation(io.tmgg.web.annotion.HasPermission)")
+    @Before("@annotation(io.tmgg.web.annotion.HasPerm)")
     public void doPermission(JoinPoint joinPoint) {
         // 如果是超级管理员，直接放过权限校验
         Subject me = SecurityUtils.getSubject();
@@ -43,7 +42,7 @@ public class HasPermissionAop {
         // 如果不是超级管理员，则开始进行权限校验
         MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
         Method method = methodSignature.getMethod();
-        HasPermission permission = method.getAnnotation(HasPermission.class);
+        HasPerm permission = method.getAnnotation(HasPerm.class);
 
 
         // 首先校验当前用户有没有 当前请求requestUri的权限

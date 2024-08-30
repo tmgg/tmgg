@@ -17,7 +17,7 @@ import jakarta.persistence.Entity;
  */
 @Getter
 @Setter
-@Entity(name = "sys_config")
+@Entity
 @FieldNameConstants
 @ToString
 public class SysConfig extends BaseEntity {

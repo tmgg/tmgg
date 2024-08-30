@@ -19,7 +19,7 @@ export function patchClientRoutesRegistered(routes ) {
             id: path,
             parentId: root.id,
             path: path,
-            element: element
+            element: React.createElement(element)
         })
     }
 }

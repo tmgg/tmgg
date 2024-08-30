@@ -4,8 +4,8 @@ package io.tmgg.sys.role.service;
 import io.tmgg.lang.CodeException;
 import io.tmgg.lang.dao.BaseService;
 import io.tmgg.lang.dao.specification.JpaQuery;
-import io.tmgg.sys.menu.dao.SysMenuDao;
-import io.tmgg.sys.menu.entity.SysMenu;
+import io.tmgg.sys.perm.SysPermDao;
+import io.tmgg.sys.perm.SysPerm;
 import io.tmgg.sys.role.dao.SysRoleDao;
 import io.tmgg.sys.role.entity.SysRole;
 import io.tmgg.sys.role.enums.SysRoleExceptionEnum;
@@ -38,7 +38,7 @@ public class SysRoleService extends BaseService<SysRole> {
     private SysRoleDao roleDao;
 
     @Resource
-    private SysMenuDao menuDao;
+    private SysPermDao menuDao;
 
     @Resource
     private SysUserDao sysUserDao;
@@ -53,10 +53,10 @@ public class SysRoleService extends BaseService<SysRole> {
     @Transactional
     public void grantMenu(String roleId, Collection<String> grantMenuIdList) {
         SysRole role = roleDao.findOne(roleId);
-        List<SysMenu> newMenus = menuDao.findAllById(grantMenuIdList);
+        List<SysPerm> newMenus = menuDao.findAllById(grantMenuIdList);
 
 
-        List<String> perms = newMenus.stream().map(SysMenu::getPermission).filter(Objects::nonNull).toList();
+        List<String> perms = newMenus.stream().map(SysPerm::getPerm).filter(Objects::nonNull).toList();
         role.setPerms(perms);
         roleDao.save(role);
     }

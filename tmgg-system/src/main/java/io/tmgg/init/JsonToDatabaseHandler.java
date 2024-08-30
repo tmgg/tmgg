@@ -5,7 +5,7 @@ import io.tmgg.lang.SpringTool;
 import io.tmgg.lang.dao.BaseDao;
 import io.tmgg.lang.dao.JpaTool;
 import io.tmgg.SystemProperties;
-import io.tmgg.sys.menu.entity.SysMenu;
+import io.tmgg.sys.perm.SysPerm;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.util.StrUtil;
@@ -28,7 +28,7 @@ import java.util.Map;
  */
 @Slf4j
 @Component
-public class DatabaseDataJsonInitRunnable implements Runnable {
+public class JsonToDatabaseHandler  {
 
     public static final String CLASSPATH_DATABASE_XML = "classpath*:database/*.json";
 
@@ -49,7 +49,6 @@ public class DatabaseDataJsonInitRunnable implements Runnable {
     SystemProperties systemProperties;
 
 
-    @Override
     public void run() {
         try {
             log.info("开始解析并初始化默认数据");
@@ -86,10 +85,10 @@ public class DatabaseDataJsonInitRunnable implements Runnable {
         Class entityCls = JpaTool.findEntityClass(entityName);
         if (entityCls == null) {
             System.err.println("实体标签异常 " + entityName);
-            return;
+            throw new IllegalStateException();
         }
 
-        if(!systemProperties.isMenuAutoUpdate() && (entityCls.equals(SysMenu.class)  )){
+        if(!systemProperties.isMenuAutoUpdate() && (entityCls.equals(SysPerm.class)  )){
             log.warn("已关闭菜单更新，不再更新{}", entityCls);
             return;
         }

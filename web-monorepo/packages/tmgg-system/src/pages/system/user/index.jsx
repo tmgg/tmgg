@@ -7,7 +7,7 @@ import {
   ButtonList,
   dictValue,
   dictValueTag,
-  FieldDictSelect,
+  FieldDictSelect, FieldOrgTreeSelect,
   hasPermission,
   HttpClient,
   LeftRightLayout
@@ -310,11 +310,9 @@ export default class extends React.Component {
           <Form.Item  name='id' noStyle></Form.Item>
 
           <Form.Item label='所属机构' name='orgId' rules={[{required: true}]}>
-            <Input/>
+           <FieldOrgTreeSelect />
           </Form.Item>
-          <Form.Item label='orgLabel' name='orgLabel' rules={[{required: true}]}>
-            <Input/>
-          </Form.Item>
+
           <Form.Item label='所属部门' name='deptId' rules={[{required: true}]}>
             <Input/>
           </Form.Item>

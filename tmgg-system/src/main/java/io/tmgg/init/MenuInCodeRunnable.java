@@ -2,10 +2,9 @@ package io.tmgg.init;
 
 import io.tmgg.lang.LongTool;
 import io.tmgg.SystemProperties;
-import io.tmgg.sys.menu.dao.SysMenuDao;
-import io.tmgg.sys.menu.entity.SysMenu;
-import io.tmgg.web.annotion.HasPermission;
-import io.tmgg.web.enums.CommonStatus;
+import io.tmgg.sys.perm.SysPermDao;
+import io.tmgg.sys.perm.SysPerm;
+import io.tmgg.web.annotion.HasPerm;
 import io.tmgg.web.enums.MenuType;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
@@ -29,7 +28,7 @@ public class MenuInCodeRunnable implements Runnable {
 
 
     @Resource
-    private SysMenuDao menuDao;
+    private SysPermDao menuDao;
 
     @Resource
     private SystemProperties systemProperties;
@@ -98,14 +97,14 @@ public class MenuInCodeRunnable implements Runnable {
                 RequestMappingInfo info = e.getKey();
                 HandlerMethod handlerMethod = e.getValue();
 
-                if (!handlerMethod.hasMethodAnnotation(HasPermission.class)) {
+                if (!handlerMethod.hasMethodAnnotation(HasPerm.class)) {
                     continue;
                 }
 
-                HasPermission hasPermission = handlerMethod.getMethodAnnotation(HasPermission.class);
+                HasPerm hasPerm = handlerMethod.getMethodAnnotation(HasPerm.class);
 
-                String perm = hasPermission.value();
-                String label = hasPermission.title();
+                String perm = hasPerm.value();
+                String label = hasPerm.title();
 
                 if (StrUtil.isEmpty(perm)) {
                     perm = getPermByRequestMapping(info);
@@ -121,7 +120,7 @@ public class MenuInCodeRunnable implements Runnable {
     private static String getPermByRequestMapping(RequestMappingInfo info) {
         String perm;
         Set<String> patterns = info.getPathPatternsCondition().getPatterns().stream().map(PathPattern::getPatternString).collect(Collectors.toSet());
-        Assert.state(patterns.size() == 1, "未指定 " + HasPermission.class.getSimpleName() + "的value时，url只能设置一个");
+        Assert.state(patterns.size() == 1, "未指定 " + HasPerm.class.getSimpleName() + "的value时，url只能设置一个");
 
         perm = patterns.iterator().next();
 
@@ -136,7 +135,7 @@ public class MenuInCodeRunnable implements Runnable {
 
 
     private void addMenu(String perm, String label) {
-        SysMenu byPerm = menuDao.findByPerm(perm);
+        SysPerm byPerm = menuDao.findByPerm(perm);
         if (byPerm != null) {
             return;
         }
@@ -146,26 +145,23 @@ public class MenuInCodeRunnable implements Runnable {
         }
 
 
-        SysMenu parentMenu = getParent(perm);
-        Assert.state(parentMenu != null, String.format("权限码：%s, 父菜单编码不存在，请检查菜单", perm));
+
 
         Assert.state(!perm.contains(","), "权限中不能包含逗号" + perm); //  旧版本支持，新版本不支持
 
 
-        SysMenu old = menuDao.findByCode(perm);
+        SysPerm old = menuDao.findByPerm(perm);
 
-        SysMenu btn = old == null ? new SysMenu() : old;
+        SysPerm btn = old == null ? new SysPerm() : old;
 
 
         btn.setName(label);
-        btn.setPermission(perm);
-        btn.setStatus(CommonStatus.ENABLE);
+        btn.setPerm(perm);
         btn.setType(MenuType.BTN);
 
-        btn.setPid(parentMenu.getId());
+        String pid = StringUtils.substringBeforeLast(perm, ":");
+        btn.setPid(pid);
         btn.setVisible(false);
-
-        btn.setSeq(0);
 
         if (btn.getId() == null) {
             btn.setId(convertPermToId(perm));
@@ -174,13 +170,7 @@ public class MenuInCodeRunnable implements Runnable {
         menuDao.save(btn);
     }
 
-    private SysMenu getParent(String perm) {
-        Assert.state(StrUtil.count(perm,":") <= 1, "权限码中最多有1个分号,当前权限码为" + perm);
-        String parentCode = StringUtils.substringBeforeLast(perm, ":");
-        SysMenu parentMenu = menuDao.findByCode(parentCode);
 
-        return parentMenu;
-    }
 
 
     /**

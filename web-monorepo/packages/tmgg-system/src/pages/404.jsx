@@ -12,8 +12,6 @@ export default class extends React.Component {
 
             return  <Result
                 status="404"
-                title={this.state.errResult.status}
-                subTitle={this.state.errResult.message}
             />
 
     }
