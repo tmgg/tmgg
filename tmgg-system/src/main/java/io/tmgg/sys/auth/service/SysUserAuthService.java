@@ -9,7 +9,7 @@ import io.tmgg.lang.IpAddressTool;
 import io.tmgg.lang.PasswordTool;
 import io.tmgg.sys.auth.AccountCheckResult;
 import io.tmgg.sys.consts.service.SysConfigService;
-import io.tmgg.sys.menu.service.SysMenuService;
+import io.tmgg.sys.perm.SysPermService;
 import io.tmgg.sys.role.entity.SysRole;
 import io.tmgg.sys.role.service.SysRoleService;
 import io.tmgg.sys.user.entity.SysUser;
@@ -50,7 +50,7 @@ public class SysUserAuthService implements AuthorizingRealm {
     private SysConfigService sysConfigService;
 
     @Resource
-    private SysMenuService sysMenuService;
+    private SysPermService sysPermService;
 
     @Resource
     private SysRoleService sysRoleService;

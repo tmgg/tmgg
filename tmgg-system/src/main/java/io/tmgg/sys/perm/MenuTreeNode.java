@@ -1,5 +1,5 @@
 
-package io.tmgg.sys.menu.node;
+package io.tmgg.sys.perm;
 
 import io.tmgg.lang.TreeDefinition;
 import lombok.Getter;

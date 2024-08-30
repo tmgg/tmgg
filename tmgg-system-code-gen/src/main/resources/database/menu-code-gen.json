@@ -1,13 +1,12 @@
 {
-  "SysMenu": [
+  "SysPerm": [
     {
       "id": "sys_code_gen",
       "name": "代码生成",
-      "code": "sys_code_gen",
-      "router": "/code",
-      "type": "MENU",
+      "perm": "sys_code_gen",
+      "path": "/code",
       "icon": "ApartmentOutlined",
-      "seq": "10"
+      "seq": 1
     }
 
   ]

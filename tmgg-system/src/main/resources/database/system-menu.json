@@ -1,117 +1,96 @@
 {
-  "SysMenu": [
+  "SysPerm": [
     {
       "id": "sysOrg",
       "name": "机构管理",
-      "code": "sysOrg",
-      "router": "/system/org",
-      "type": "MENU",
+      "perm": "sysOrg",
+      "path": "/system/org",
       "icon": "ApartmentOutlined",
-      "seq": "1"
+      "seq": 1
     },
     {
       "id": "sysUser",
       "name": "用户管理",
-      "code": "sysUser",
-      "router": "/system/user",
-      "type": "MENU",
-      "status": "ENABLE",
-      "visible": "Y",
+      "perm": "sysUser",
+      "path": "/system/user",
       "icon": "UserOutlined",
-      "seq": "2"
+      "seq": 2
     },
     {
       "id": "sysRole",
       "name": "角色管理",
-      "code": "sysRole",
-      "router": "/system/role",
-      "type": "MENU",
-      "status": "ENABLE",
-      "visible": "Y",
+      "perm": "sysRole",
+      "path": "/system/role",
       "icon": "SafetyCertificateOutlined",
-      "seq": "4"
+      "seq": 3
     },
     {
       "id": "sysConfig",
       "name": "系统配置",
-      "code": "sysConfig",
-      "router": "/system/config",
-      "type": "MENU",
+      "perm": "sysConfig",
+      "path": "/system/config",
+
       "icon": "SettingOutlined",
-      "seq": "5"
+      "seq": 4
     },
     {
       "id": "sysDictType",
       "name": "数据字典",
-      "code": "sysDictType",
-      "router": "/system/dict",
-      "type": "MENU",
-      "seq": "6"
+      "perm": "sysDictType",
+      "path": "/system/dict",
+
+      "seq": 5
     },
     {
       "id": "sysDictData",
       "name": "数据字典-数据",
-      "code": "sysDictData",
-      "type": "MENU",
-      "seq": "7"
+      "perm": "sysDictData",
+
+      "seq": 6
     },
     {
       "id": "sysFile",
       "name": "文件管理",
-      "code": "sysFile",
-      "router": "/system/file/main",
-      "type": "MENU",
-      "seq": "13"
-    },
-    {
-      "id": "sys_monitor",
-      "name": "系统监控",
-      "type": "DIR",
-      "seq": "900"
+      "perm": "sysFile",
+      "path": "/system/file/main",
+      "seq": 7
     },
     {
       "id": "machine",
       "name": "环境监控",
-      "code": "machine",
-      "router": "/system/machine",
-      "pid": "sys_monitor",
-      "type": "MENU",
-      "seq": "8"
+      "perm": "machine",
+      "path": "/system/machine",
+      "seq": 9
     },
     {
       "id": "sysOnlineUser",
       "name": "在线用户",
-      "code": "sysOnlineUser",
-      "router": "/system/onlineUser",
-      "pid": "sys_monitor",
-      "type": "MENU",
-      "seq": "9"
+      "perm": "sysOnlineUser",
+      "path": "/system/onlineUser",
+      "seq": 10
     },
     {
       "id": "sysOpLog",
       "name": "访问日志",
-      "code": "sysOpLog",
-      "router": "/system/log/vislog",
-      "pid": "sys_monitor",
-      "type": "MENU",
-      "seq": "11"
+      "perm": "sysOpLog",
+      "path": "/system/log/vislog",
+
+      "seq": 11
     },
     {
       "id": "sysVisLog",
       "name": "操作日志",
-      "code": "sysVisLog",
-      "router": "/system/log/oplog",
-      "pid": "sys_monitor",
-      "type": "MENU",
-      "seq": "12"
+      "perm": "sysVisLog",
+      "path": "/system/log/oplog",
+
+      "seq": 12
     },
     {
       "id": "watermark",
       "name": "水印管理",
-      "code": "watermark",
-      "router": "/system/watermark",
-      "type": "MENU",
-      "seq": "13"
+      "perm": "watermark",
+      "path": "/system/watermark",
+      "seq": 13
     }
   ]
 }

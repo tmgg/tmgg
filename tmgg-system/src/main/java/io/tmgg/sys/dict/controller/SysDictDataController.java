@@ -3,7 +3,7 @@ package io.tmgg.sys.dict.controller;
 
 import io.tmgg.sys.dict.entity.SysDictData;
 import io.tmgg.web.annotion.BusinessLog;
-import io.tmgg.web.annotion.HasPermission;
+import io.tmgg.web.annotion.HasPerm;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.sys.dict.service.SysDictDataService;
 import org.springframework.data.domain.Pageable;
@@ -32,7 +32,7 @@ public class SysDictDataController {
 
  *
      */
-    @HasPermission
+    @HasPerm
     @GetMapping("/sysDictData/page")
     @BusinessLog("系统字典值_查询")
     public AjaxResult page(SysDictData SysDictData, Pageable pageable) {
@@ -45,7 +45,7 @@ public class SysDictDataController {
 
  *
      */
-    @HasPermission
+    @HasPerm
     @GetMapping("/sysDictData/list")
     @BusinessLog("系统字典值_列表")
     public AjaxResult list(SysDictData SysDictData) {
@@ -58,7 +58,7 @@ public class SysDictDataController {
 
  *
      */
-    @HasPermission
+    @HasPerm
     @GetMapping("/sysDictData/detail")
     @BusinessLog("系统字典值_查看")
     public AjaxResult detail( SysDictData SysDictData) {
@@ -71,7 +71,7 @@ public class SysDictDataController {
 
  *
      */
-    @HasPermission
+    @HasPerm
     @PostMapping("/sysDictData/add")
     @BusinessLog("系统字典值_增加")
     public AjaxResult add(@RequestBody SysDictData SysDictData) {
@@ -85,7 +85,7 @@ public class SysDictDataController {
 
  *
      */
-    @HasPermission
+    @HasPerm
     @PostMapping("/sysDictData/delete")
     @BusinessLog("系统字典值_删除")
     public AjaxResult delete(@RequestBody SysDictData SysDictData) {
@@ -99,7 +99,7 @@ public class SysDictDataController {
 
  *
      */
-    @HasPermission
+    @HasPerm
     @PostMapping("/sysDictData/edit")
     @BusinessLog("系统字典值_编辑")
     public AjaxResult edit(@RequestBody SysDictData SysDictData) {
@@ -113,7 +113,7 @@ public class SysDictDataController {
      *
  *
      */
-    @HasPermission
+    @HasPerm
     @PostMapping("/sysDictData/changeStatus")
     @BusinessLog("系统字典值_修改状态")
     public AjaxResult changeStatus(@RequestBody SysDictData SysDictData) {

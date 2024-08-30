@@ -1,17 +1,11 @@
 
-package io.tmgg.sys.menu.service;
+package io.tmgg.sys.perm;
 
+import io.tmgg.SystemProperties;
 import io.tmgg.core.event.LogoutEvent;
 import io.tmgg.lang.TreeTool;
 import io.tmgg.lang.dao.BaseService;
 import io.tmgg.lang.obj.Route;
-import io.tmgg.sys.menu.dao.SysMenuDao;
-import io.tmgg.sys.menu.entity.SysMenu;
-import io.tmgg.sys.menu.node.MenuTreeNode;
-import io.tmgg.sys.role.entity.SysRole;
-import io.tmgg.sys.user.dao.SysUserDao;
-import io.tmgg.sys.user.entity.SysUser;
-import io.tmgg.web.enums.CommonStatus;
 import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
@@ -19,41 +13,41 @@ import org.springframework.stereotype.Service;
 
 import jakarta.annotation.Resource;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * 系统菜单service接口实现类
  */
 @Service
 @Slf4j
-public class SysMenuService extends BaseService<SysMenu> {
+public class SysPermService extends BaseService<SysPerm> {
 
 
     @Resource
-    private SysMenuDao sysMenuDao;
+    private SysPermDao sysPermDao;
 
     @Resource
-    private SysUserDao sysUserDao;
+    private SystemProperties systemProperties;
+
 
 
     /**
      * 不含按钮 及 不显示的东西
      */
     public List<Route> findAllAppMenuList() {
-        List<SysMenu> sysMenuList = sysMenuDao.findMenuVisible();
+        List<SysPerm> sysPermList = sysPermDao.findMenuVisible();
 
         List<Route> routes = new LinkedList<>();
 
 
-        for (SysMenu m : sysMenuList) {
+        for (SysPerm m : sysPermList) {
             String pid = m.getPid();
 
             // iframe设置完整url
-            String url = m.getRouter();
+            String url = m.getPath();
 
             Route route = new Route(String.valueOf(m.getId()), pid, m.getName(), url, null);
             route.setIcon(m.getIcon());
-            route.setPerm(StrUtil.emptyToNull(m.getPermission()));
+            route.setPerm(StrUtil.emptyToNull(m.getPerm()));
             route.setIframe(m.getIframe());
             routes.add(route);
         }
@@ -65,21 +59,21 @@ public class SysMenuService extends BaseService<SysMenu> {
 
 
     public List<MenuTreeNode> treeForGrant() {
-        List<SysMenu> all = sysMenuDao.findAllValid();
+        List<SysPerm> all = sysPermDao.findAllValid();
 
         Collection<MenuTreeNode> nodes = new ArrayList<>();
 
 
 
 
-        for (SysMenu sysMenu : all) {
+        for (SysPerm sysPerm : all) {
             MenuTreeNode menuTreeNode = new MenuTreeNode();
-            menuTreeNode.setId(sysMenu.getId());
-            menuTreeNode.setPid(sysMenu.getPid());
-            menuTreeNode.setValue(sysMenu.getId());
-            String titleAddon = StrUtil.isEmpty(sysMenu.getPermission()) ? "" : " [" + sysMenu.getPermission() + "]";
-            menuTreeNode.setTitle(sysMenu.getName() + titleAddon);
-            menuTreeNode.setWeight(sysMenu.getSeq());
+            menuTreeNode.setId(sysPerm.getId());
+            menuTreeNode.setPid(sysPerm.getPid());
+            menuTreeNode.setValue(sysPerm.getId());
+            String titleAddon = StrUtil.isEmpty(sysPerm.getPerm()) ? "" : " [" + sysPerm.getPerm() + "]";
+            menuTreeNode.setTitle(sysPerm.getName() + titleAddon);
+            menuTreeNode.setWeight(sysPerm.getSeq());
             nodes.add(menuTreeNode);
         }
 
@@ -94,14 +88,23 @@ public class SysMenuService extends BaseService<SysMenu> {
     }
 
 
-    public Map<String, SysMenu> findMap() {
-        Map<String, SysMenu> map = new HashMap<>();
-        List<SysMenu> all = this.findAll();
-        for (SysMenu sysMenu : all) {
-            map.put(sysMenu.getId(), sysMenu);
+    public Map<String, SysPerm> findMap() {
+        Map<String, SysPerm> map = new HashMap<>();
+        List<SysPerm> all = this.findAll();
+        for (SysPerm sysPerm : all) {
+            map.put(sysPerm.getId(), sysPerm);
         }
         return map;
     }
 
 
+    public void init() {
+        System.err.println("自定更新权限菜单：" + systemProperties.isMenuAutoUpdate());
+        if(!systemProperties.isMenuAutoUpdate()){
+            return;
+        }
+
+        System.err.println("开始清空权限菜单表");
+        sysPermDao.deleteAll();
+    }
 }

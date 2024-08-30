@@ -9,12 +9,11 @@ import java.lang.annotation.*;
 @Inherited
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.METHOD})
-public @interface HasPermission {
+public @interface HasPerm {
 
 
     String value() default "";
 
-    // 权限显示的，如增加。 常见的权限显示已经设置，如add,delete
     String title() default "";
 
 

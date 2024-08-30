@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * 系统角色表
  */
-@Entity(name = "sys_role")
+@Entity
 @Getter
 @Setter
 @FieldNameConstants

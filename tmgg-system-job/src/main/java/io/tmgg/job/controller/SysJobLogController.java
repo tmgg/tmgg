@@ -4,7 +4,7 @@ import io.tmgg.job.entity.SysJobLog;
 import io.tmgg.job.service.SysJobLogService;
 import io.tmgg.job.service.SysJobService;
 import io.tmgg.lang.obj.AjaxResult;
-import io.tmgg.web.annotion.HasPermission;
+import io.tmgg.web.annotion.HasPerm;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -26,14 +26,14 @@ public class SysJobLogController {
     @Resource
     private SysJobService sysJobService;
 
-    @HasPermission
+    @HasPerm
     @PostMapping("jobLog")
     public AjaxResult page(@RequestBody SysJobLog param, @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) {
         Page<SysJobLog> page = service.findByExampleLike(param, pageable);
         return AjaxResult.ok().data( page);
     }
 
-    @HasPermission
+    @HasPerm
     @PostMapping("jobLogClean")
     public AjaxResult clean(int cleanDate) {
         sysJobService.clean(cleanDate);

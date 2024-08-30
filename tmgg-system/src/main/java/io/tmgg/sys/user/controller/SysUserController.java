@@ -18,7 +18,7 @@ import io.tmgg.sys.user.entity.SysUser;
 import io.tmgg.sys.user.param.SysUserParam;
 import io.tmgg.sys.user.service.SysUserService;
 import io.tmgg.web.annotion.BusinessLog;
-import io.tmgg.web.annotion.HasPermission;
+import io.tmgg.web.annotion.HasPerm;
 import io.tmgg.web.perm.SecurityUtils;
 import io.tmgg.web.perm.Subject;
 import org.springframework.data.domain.Page;
@@ -57,7 +57,7 @@ public class SysUserController {
 
 
     @BusinessLog("查看列表")
-    @HasPermission
+    @HasPerm
     @GetMapping("page")
     public AjaxResult page(SysUserParam sysUserParam, @PageableDefault(sort = SysUser.FIELD_UPDATE_TIME ,direction = Sort.Direction.DESC) Pageable pageable) throws SQLException {
         Page<SysUser> page = sysUserService.findAll(sysUserParam, pageable);
@@ -65,7 +65,7 @@ public class SysUserController {
         return AjaxResult.ok().data( page);
     }
 
-    @HasPermission
+    @HasPerm
     @PostMapping("save")
     @BusinessLog("系统用户_增加")
     public AjaxResult add(@RequestBody SysUser sysUser) {
@@ -74,7 +74,7 @@ public class SysUserController {
     }
 
 
-    @HasPermission
+    @HasPerm
     @PostMapping("edit")
     @BusinessLog("系统用户_编辑")
     public AjaxResult edit(@RequestBody SysUserParam sysUserParam) {
@@ -84,7 +84,7 @@ public class SysUserController {
     }
 
 
-    @HasPermission
+    @HasPerm
     @GetMapping("delete")
     @BusinessLog("系统用户_删除")
     public AjaxResult delete(String id) {
@@ -141,7 +141,7 @@ public class SysUserController {
     /**
      * 重置密码
      */
-    @HasPermission
+    @HasPerm
     @PostMapping("resetPwd")
     @BusinessLog("系统用户_重置密码")
     public AjaxResult resetPwd(@RequestBody  SysUserParam sysUserParam) {
@@ -151,7 +151,7 @@ public class SysUserController {
 
 
 
-    @HasPermission
+    @HasPerm
     @GetMapping("detail")
     public AjaxResult detail(String id) {
         SysUser user = sysUserService.findOne(id);
@@ -161,7 +161,7 @@ public class SysUserController {
         return AjaxResult.ok().data(user);
     }
 
-    @HasPermission
+    @HasPerm
     @GetMapping("export")
     public void export(HttpServletResponse response) throws IOException {
         List<SysUser> list = sysUserService.findAll();
@@ -233,7 +233,7 @@ public class SysUserController {
      * 授权数据
      */
 
-    @HasPermission(title = "授权数据")
+    @HasPerm(title = "授权数据")
     @PostMapping("grantData")
     public AjaxResult grantData(@Valid @RequestBody GrantDataParam param) {
         sysUserService.grantData(param);

@@ -3,24 +3,21 @@ package io.tmgg.sys.role.controller;
 
 import io.minio.messages.Grant;
 import io.tmgg.lang.TreeManager;
-import io.tmgg.sys.menu.entity.SysMenu;
-import io.tmgg.sys.menu.service.SysMenuService;
+import io.tmgg.sys.perm.SysPerm;
+import io.tmgg.sys.perm.SysPermService;
 import io.tmgg.sys.user.entity.SysUser;
 import io.tmgg.sys.user.service.SysUserService;
 import io.tmgg.web.annotion.BusinessLog;
-import io.tmgg.web.annotion.HasPermission;
+import io.tmgg.web.annotion.HasPerm;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.obj.Option;
-import io.tmgg.lang.obj.TreeOption;
 import io.tmgg.lang.dao.BaseEntity;
 import io.tmgg.sys.role.entity.SysRole;
 import io.tmgg.sys.role.param.SysRoleParam;
 import io.tmgg.sys.role.service.SysRoleService;
-import io.tmgg.web.perm.SecurityUtils;
 import io.tmgg.web.validation.group.Detail;
 import lombok.Data;
 import org.springframework.data.domain.Sort;
-import org.springframework.util.Assert;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,13 +37,13 @@ public class SysRoleController {
     private SysRoleService sysRoleService;
 
     @Resource
-    private SysMenuService sysMenuService;
+    private SysPermService sysPermService;
 
     @Resource
     private SysUserService sysUserService;
 
 
-    @HasPermission
+    @HasPerm
     @GetMapping("page")
     public AjaxResult page() {
         List<SysRole> list = sysRoleService.findAll(Sort.by(Sort.Direction.DESC, "updateTime"));
@@ -66,7 +63,7 @@ public class SysRoleController {
     /**
      * 添加系统角色
      */
-    @HasPermission
+    @HasPerm
     @PostMapping("save")
     @BusinessLog("增改")
     public AjaxResult add(@RequestBody SysRoleParam sysRoleParam) {
@@ -83,7 +80,7 @@ public class SysRoleController {
     /**
      * 删除系统角色
      */
-    @HasPermission
+    @HasPerm
     @PostMapping("delete")
     @BusinessLog("删除")
     public AjaxResult delete(@RequestBody SysRoleParam sysRoleParam) {
@@ -95,7 +92,7 @@ public class SysRoleController {
     /**
      * 查看系统角色
      */
-    @HasPermission
+    @HasPerm
     @GetMapping("detail")
     public AjaxResult detail(@Validated(Detail.class) SysRoleParam sysRoleParam) {
         return AjaxResult.ok().data(sysRoleService.detail(sysRoleParam));
@@ -104,21 +101,21 @@ public class SysRoleController {
     /**
      * 授权菜单
      */
-    @HasPermission
+    @HasPerm
     @PostMapping("grantMenu")
     @BusinessLog("授权菜单")
     public AjaxResult grantMenu(@RequestBody @Validated(Grant.class) SysRoleParam param) {
         List<String> grantMenuIdList = param.getGrantMenuIdList();
 
         // 选择子节点，同时也选中父节点
-        Map<String, SysMenu> map = sysMenuService.findMap();
+        Map<String, SysPerm> map = sysPermService.findMap();
         Set<String> allMenuIds = map.keySet();
         // 过滤掉appid
         grantMenuIdList = grantMenuIdList.stream().filter(menuId -> allMenuIds.contains(menuId)).collect(Collectors.toList());
 
         Set<String> total = new HashSet<>();
         for (String menuId : grantMenuIdList) {
-            SysMenu menu = map.get(menuId);
+            SysPerm menu = map.get(menuId);
             total.add(menuId);
 
 
@@ -142,7 +139,7 @@ public class SysRoleController {
 
  *
      */
-    @HasPermission
+    @HasPerm
     @GetMapping("ownMenu")
     @BusinessLog("拥有菜单")
     public AjaxResult ownMenu(String id) {
@@ -151,8 +148,8 @@ public class SysRoleController {
 
         // 为了防止父子联动， 比如选择了某菜单，但并没有全选所有子节点，前段会默认勾选所有
         // 这里只返回叶子节点
-        List<SysMenu> all = sysMenuService.findAll();
-        TreeManager<SysMenu> tm = TreeManager.newInstance(all);
+        List<SysPerm> all = sysPermService.findAll();
+        TreeManager<SysPerm> tm = TreeManager.newInstance(all);
         List<String> allLeafList = tm.getLeafIdList();
 
 
@@ -161,7 +158,7 @@ public class SysRoleController {
     }
 
 
-    @HasPermission("sysRole:page")
+    @HasPerm("sysRole:page")
     @GetMapping("getUserIdsByRoleId")
     public AjaxResult getUserByRole(String roleId) {
         List<SysUser> users = sysUserService.findByRoleId(roleId);

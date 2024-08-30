@@ -10,7 +10,7 @@
   "name": "@tmgg/tmgg-system-code-gen",
   "main": "src/index.js",
   "scripts": {
-    "dev": "umi dev"
+    "dev-code": "umi dev"
   },
   "version": "0.1.17",
   "dependencies": {
