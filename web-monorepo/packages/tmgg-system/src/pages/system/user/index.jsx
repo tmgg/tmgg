@@ -27,8 +27,6 @@ const baseTitle = "用户"
 const baseApi = 'sysUser/';
 const basePerm = 'sysUser:';
 
-const addTitle = "添加" + baseTitle
-const editTitle = '编辑' + baseTitle
 const deleteTitle = '删除' + baseTitle
 
 
@@ -87,14 +85,11 @@ export default class extends React.Component {
         {
             title: '角色',
             dataIndex: 'roleIds',
-            render: (roleNames, row) => {
+            render: (_, row) => {
                 if (row.roleNames) {
                     return row.roleNames.join(',')
                 }
             },
-
-            valueType: 'remoteMultipleSelect',
-            params: '/sysRole/options',
         },
         {
             title: '状态',
@@ -105,11 +100,8 @@ export default class extends React.Component {
         {
             title: '数据权限',
             dataIndex: 'dataPermType',
-            hideInSearch: true,
-            hideInForm: true,
-            render(_, item) {
-                return dictValueTag('data_perm_type', item.dataPermType)
-            }
+            valueType: 'dictRadio',
+            params: 'data_perm_type',
         },
         {
             title: 'id',
@@ -118,9 +110,6 @@ export default class extends React.Component {
         {
             title: '修改时间',
             dataIndex: 'updateTime',
-            hideInSearch: true,
-            hideInForm: true,
-
         },
         {
             title: '操作',
@@ -128,9 +117,9 @@ export default class extends React.Component {
             valueType: 'option',
             render: (_, record) => {
                 return <ButtonList>
-                    <a perm={editPerm} onClick={() => this.edit(record)}> 修改 </a>
+                    <a perm={editPerm} onClick={() => this.handleEdit(record)}> 修改 </a>
 
-                    <a perm='sysUser:grantData' onClick={() => this.orgFormRef.current.show(record)}> 数据权限 </a>
+                    <a perm='sysUser:grantData' onClick={() => this.orgFormRef.current.show(record)}> 授权 </a>
 
                     <Popconfirm perm='sysUser:resetPwd' title='确认重置密码？' onConfirm={() => this.resetPwd(record)}>
                         <a>重置密码</a>
@@ -145,16 +134,7 @@ export default class extends React.Component {
         },
     ];
 
-    edit(record) {
-        this.setState({
-            showEditForm: true,
-            formValues: null
-        })
 
-        HttpClient.get(baseApi + 'detail', {id: record.id}).then(rs => {
-            this.setState({formValues: rs.data})
-        })
-    }
 
     componentDidMount() {
         HttpClient.get('sysOrg/tree').then(rs => {
@@ -171,21 +151,6 @@ export default class extends React.Component {
         })
     }
 
-    handleSave = value => {
-        HttpClient.post(addApi, value).then(rs => {
-            this.setState({showAddForm: false})
-            this.actionRef.current.reload();
-            message.success(rs.message)
-        })
-    }
-
-    handleUpdate = value => {
-        let params = {id: this.state.formValues.id, ...value}
-        HttpClient.post(editApi, params).then(rs => {
-            this.setState({showEditForm: false})
-            this.actionRef.current.reload();
-        })
-    }
 
     handleDelete = r => {
         HttpClient.get(delApi, {id: r.id}).then(rs => {
@@ -209,6 +174,7 @@ export default class extends React.Component {
     }
 
     handleEdit = record => {
+        record.deptId = record.deptId || record.unitId
         this.setState({formOpen: true, formValues: record})
     }
 

@@ -148,15 +148,6 @@ public class SysUserController {
 
 
 
-    @HasPermission
-    @GetMapping("detail")
-    public AjaxResult detail(String id) {
-        SysUser user = sysUserService.findOne(id);
-
-        sysUserService.fillRoleName(CollUtil.newArrayList(user));
-
-        return AjaxResult.ok().data(user);
-    }
 
     @HasPermission
     @GetMapping("export")
