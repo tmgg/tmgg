@@ -6,7 +6,7 @@ import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.sys.file.entity.SysFile;
 import io.tmgg.sys.file.service.SysFileService;
 import io.tmgg.web.annotion.BusinessLog;
-import io.tmgg.web.annotion.HasPerm;
+import io.tmgg.web.annotion.HasPermission;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -27,7 +27,7 @@ public class SysFileController {
     @Resource
     private SysFileService service;
 
-    @HasPerm
+    @HasPermission
     @GetMapping("page")
     public AjaxResult page(SysFile param, @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) {
         return AjaxResult.ok().data(service.findByExampleLike(param, pageable));
@@ -76,14 +76,14 @@ public class SysFileController {
     }
 
 
-    @HasPerm
+    @HasPermission
     @GetMapping("detail")
     public AjaxResult detail(String id) {
         return AjaxResult.ok().data(service.findOne(id));
     }
 
 
-    @HasPerm
+    @HasPermission
     @PostMapping("delete")
     @BusinessLog("文件信息表_删除")
     public AjaxResult delete(String id) throws Exception {

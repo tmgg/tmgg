@@ -53,7 +53,7 @@ public class SystemInitial implements ApplicationRunner {
 
         jsonToDatabaseHandler.run();
 
-        menuInCodeRunnable.run();
+        permissionToDatabaseHandler.run();
 
         sysRoleService.initDefaultUserRole();
         SysRole adminRole = sysRoleService.initDefaultAdmin();
@@ -101,6 +101,6 @@ public class SystemInitial implements ApplicationRunner {
 
 
     @Resource
-    MenuInCodeRunnable menuInCodeRunnable;
+    PermissionToDatabaseHandler permissionToDatabaseHandler;
 
 }

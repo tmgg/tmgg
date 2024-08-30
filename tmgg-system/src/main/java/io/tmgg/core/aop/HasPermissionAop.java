@@ -3,7 +3,7 @@ package io.tmgg.core.aop;
 
 import io.tmgg.core.log.LogManager;
 import io.tmgg.lang.HttpServletTool;
-import io.tmgg.web.annotion.HasPerm;
+import io.tmgg.web.annotion.HasPermission;
 import io.tmgg.web.consts.AopSortConstant;
 import io.tmgg.web.exception.PermissionException;
 import io.tmgg.web.perm.SecurityUtils;
@@ -14,7 +14,6 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
@@ -33,7 +32,7 @@ public class HasPermissionAop {
     /**
      * 执行权限过滤
      */
-    @Before("@annotation(io.tmgg.web.annotion.HasPerm)")
+    @Before("@annotation(io.tmgg.web.annotion.HasPermission)")
     public void doPermission(JoinPoint joinPoint) {
         // 如果是超级管理员，直接放过权限校验
         Subject me = SecurityUtils.getSubject();
@@ -42,7 +41,7 @@ public class HasPermissionAop {
         // 如果不是超级管理员，则开始进行权限校验
         MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
         Method method = methodSignature.getMethod();
-        HasPerm permission = method.getAnnotation(HasPerm.class);
+        HasPermission permission = method.getAnnotation(HasPermission.class);
 
 
         // 首先校验当前用户有没有 当前请求requestUri的权限

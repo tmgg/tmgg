@@ -1,7 +1,7 @@
 package io.tmgg.lang.dao;
 
 import io.tmgg.lang.obj.AjaxResult;
-import io.tmgg.web.annotion.HasPerm;
+import io.tmgg.web.annotion.HasPermission;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,14 +21,14 @@ public abstract class BaseCURDController<T extends Persistable<String>> {
     private BaseService<T> service;
 
 
-    @HasPerm
+    @HasPermission
     @GetMapping("page")
     public AjaxResult page(T param, @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) {
         Page<T> page = service.findByExampleLike(param, pageable);
         return AjaxResult.ok().data(page);
     }
 
-    @HasPerm
+    @HasPermission
     @PostMapping("save")
     public AjaxResult save(@RequestBody T param) throws Exception {
         T result = service.saveOrUpdate(param);
@@ -37,7 +37,7 @@ public abstract class BaseCURDController<T extends Persistable<String>> {
 
 
 
-    @HasPerm
+    @HasPermission
     @GetMapping("delete")
     public AjaxResult delete(String id) {
         service.deleteById(id);

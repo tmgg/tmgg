@@ -4,7 +4,7 @@ import io.tmgg.lang.LongTool;
 import io.tmgg.SystemProperties;
 import io.tmgg.sys.perm.SysPermDao;
 import io.tmgg.sys.perm.SysPerm;
-import io.tmgg.web.annotion.HasPerm;
+import io.tmgg.web.annotion.HasPermission;
 import io.tmgg.web.enums.MenuType;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 
 @Component
 @Slf4j
-public class MenuInCodeRunnable implements Runnable {
+public class PermissionToDatabaseHandler {
 
 
     @Resource
@@ -75,7 +75,6 @@ public class MenuInCodeRunnable implements Runnable {
         DICT = null;
     }
 
-    @Override
     public void run() {
         log.info("开始分析代码中的权限码");
         if (!systemProperties.isMenuAutoUpdate()) {
@@ -97,14 +96,14 @@ public class MenuInCodeRunnable implements Runnable {
                 RequestMappingInfo info = e.getKey();
                 HandlerMethod handlerMethod = e.getValue();
 
-                if (!handlerMethod.hasMethodAnnotation(HasPerm.class)) {
+                if (!handlerMethod.hasMethodAnnotation(HasPermission.class)) {
                     continue;
                 }
 
-                HasPerm hasPerm = handlerMethod.getMethodAnnotation(HasPerm.class);
+                HasPermission hasPermission = handlerMethod.getMethodAnnotation(HasPermission.class);
 
-                String perm = hasPerm.value();
-                String label = hasPerm.title();
+                String perm = hasPermission.value();
+                String label = hasPermission.title();
 
                 if (StrUtil.isEmpty(perm)) {
                     perm = getPermByRequestMapping(info);
@@ -120,7 +119,7 @@ public class MenuInCodeRunnable implements Runnable {
     private static String getPermByRequestMapping(RequestMappingInfo info) {
         String perm;
         Set<String> patterns = info.getPathPatternsCondition().getPatterns().stream().map(PathPattern::getPatternString).collect(Collectors.toSet());
-        Assert.state(patterns.size() == 1, "未指定 " + HasPerm.class.getSimpleName() + "的value时，url只能设置一个");
+        Assert.state(patterns.size() == 1, "未指定 " + HasPermission.class.getSimpleName() + "的value时，url只能设置一个");
 
         perm = patterns.iterator().next();
 

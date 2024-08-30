@@ -7,7 +7,7 @@ import io.tmgg.sys.org.entity.SysOrg;
 import io.tmgg.sys.org.enums.OrgType;
 import io.tmgg.sys.org.service.SysOrgService;
 import io.tmgg.web.annotion.BusinessLog;
-import io.tmgg.web.annotion.HasPerm;
+import io.tmgg.web.annotion.HasPermission;
 import io.tmgg.web.enums.CommonStatus;
 import io.tmgg.web.perm.SecurityUtils;
 import io.tmgg.web.perm.Subject;
@@ -30,7 +30,7 @@ public class SysOrgController {
     private SysOrgService sysOrgService;
 
 
-    @HasPerm
+    @HasPermission
     @PostMapping("save")
     @BusinessLog("组织机构_保存")
     public AjaxResult saveOrUpdate(@RequestBody  SysOrg sysOrg) {
@@ -42,7 +42,7 @@ public class SysOrgController {
         return AjaxResult.ok();
     }
 
-    @HasPerm
+    @HasPermission
     @PostMapping("delete")
     @BusinessLog("组织机构_删除")
     public AjaxResult delete(@RequestBody SysOrg sysOrg) {
@@ -50,14 +50,14 @@ public class SysOrgController {
         return AjaxResult.ok();
     }
 
-    @HasPerm
+    @HasPermission
     @GetMapping("detail")
     public AjaxResult detail(String id) {
         SysOrg org = sysOrgService.findOne(id);
         return AjaxResult.ok().data(org);
     }
 
-    @HasPerm
+    @HasPermission
     @GetMapping("enableAll")
     @BusinessLog("组织机构_启用所有")
     public AjaxResult enableAll(String id) {
@@ -65,7 +65,7 @@ public class SysOrgController {
         return AjaxResult.ok();
     }
 
-    @HasPerm
+    @HasPermission
     @GetMapping("disableAll")
     @BusinessLog("组织机构_禁用所有")
     public AjaxResult disableAll(String id) {

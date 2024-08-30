@@ -3,7 +3,7 @@ package io.tmgg.weapp.admin;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.weapp.entity.Weapp;
 import io.tmgg.weapp.service.WeappService;
-import io.tmgg.web.annotion.HasPerm;
+import io.tmgg.web.annotion.HasPermission;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -20,14 +20,14 @@ public class WeappController {
     private WeappService service;
 
 
-    @HasPerm
+    @HasPermission
     @GetMapping("page")
     public AjaxResult page(Weapp param, @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) {
         Page<Weapp> page = service.findByExampleLike(param, pageable);
         return AjaxResult.ok().data( page);
     }
 
-    @HasPerm
+    @HasPermission
     @PostMapping("save")
     public AjaxResult save(@RequestBody Weapp param) throws Exception {
         Weapp result = service.saveOrUpdate(param);
@@ -36,7 +36,7 @@ public class WeappController {
 
 
 
-    @HasPerm
+    @HasPermission
     @GetMapping("delete")
     public AjaxResult delete(String id) {
         service.deleteById(id);

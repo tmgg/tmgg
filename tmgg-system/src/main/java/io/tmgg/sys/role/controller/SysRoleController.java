@@ -8,7 +8,7 @@ import io.tmgg.sys.perm.SysPermService;
 import io.tmgg.sys.user.entity.SysUser;
 import io.tmgg.sys.user.service.SysUserService;
 import io.tmgg.web.annotion.BusinessLog;
-import io.tmgg.web.annotion.HasPerm;
+import io.tmgg.web.annotion.HasPermission;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.obj.Option;
 import io.tmgg.lang.dao.BaseEntity;
@@ -43,7 +43,7 @@ public class SysRoleController {
     private SysUserService sysUserService;
 
 
-    @HasPerm
+    @HasPermission
     @GetMapping("page")
     public AjaxResult page() {
         List<SysRole> list = sysRoleService.findAll(Sort.by(Sort.Direction.DESC, "updateTime"));
@@ -63,7 +63,7 @@ public class SysRoleController {
     /**
      * 添加系统角色
      */
-    @HasPerm
+    @HasPermission
     @PostMapping("save")
     @BusinessLog("增改")
     public AjaxResult add(@RequestBody SysRoleParam sysRoleParam) {
@@ -80,7 +80,7 @@ public class SysRoleController {
     /**
      * 删除系统角色
      */
-    @HasPerm
+    @HasPermission
     @PostMapping("delete")
     @BusinessLog("删除")
     public AjaxResult delete(@RequestBody SysRoleParam sysRoleParam) {
@@ -92,7 +92,7 @@ public class SysRoleController {
     /**
      * 查看系统角色
      */
-    @HasPerm
+    @HasPermission
     @GetMapping("detail")
     public AjaxResult detail(@Validated(Detail.class) SysRoleParam sysRoleParam) {
         return AjaxResult.ok().data(sysRoleService.detail(sysRoleParam));
@@ -101,7 +101,7 @@ public class SysRoleController {
     /**
      * 授权菜单
      */
-    @HasPerm
+    @HasPermission
     @PostMapping("grantMenu")
     @BusinessLog("授权菜单")
     public AjaxResult grantMenu(@RequestBody @Validated(Grant.class) SysRoleParam param) {
@@ -139,7 +139,7 @@ public class SysRoleController {
 
  *
      */
-    @HasPerm
+    @HasPermission
     @GetMapping("ownMenu")
     @BusinessLog("拥有菜单")
     public AjaxResult ownMenu(String id) {
@@ -158,7 +158,7 @@ public class SysRoleController {
     }
 
 
-    @HasPerm("sysRole:page")
+    @HasPermission("sysRole:page")
     @GetMapping("getUserIdsByRoleId")
     public AjaxResult getUserByRole(String roleId) {
         List<SysUser> users = sysUserService.findByRoleId(roleId);
