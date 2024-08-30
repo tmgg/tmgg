@@ -31,6 +31,7 @@ public class AjaxResult  {
 
     public AjaxResult(boolean success) {
         this.setSuccess(success);
+        this.setMessage(success ? "操作成功":"操作失败");
     }
 
 

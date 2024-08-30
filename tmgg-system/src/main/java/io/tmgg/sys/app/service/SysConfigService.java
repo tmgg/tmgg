@@ -1,12 +1,12 @@
 
-package io.tmgg.sys.consts.service;
+package io.tmgg.sys.app.service;
 
 import cn.hutool.core.util.RandomUtil;
 import io.tmgg.sys.consts.SysConfigConstants;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.ObjectUtil;
-import io.tmgg.sys.consts.dao.SysConfigDao;
-import io.tmgg.sys.consts.entity.SysConfig;
+import io.tmgg.sys.dao.SysConfigDao;
+import io.tmgg.sys.entity.SysConfig;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

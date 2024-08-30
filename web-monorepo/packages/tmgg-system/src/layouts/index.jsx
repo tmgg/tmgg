@@ -5,6 +5,7 @@ import {ConfigProvider} from "antd";
 import {http, PageTool, theme} from "@tmgg/tmgg-base";
 import Auth from "./Auth";
 import {Outlet,history} from "umi";
+import zhCN from 'antd/locale/zh_CN';
 
 import './index.less'
 import {sys} from "../common";
@@ -38,14 +39,7 @@ export class Layouts extends React.Component {
           required: '必填项'
         }
       }}
-      locale={{
-        locale:'zh-cn',
-        Modal:{
-          okText:'确定',
-          cancelText:'取消'
-        }
-
-      }}
+      locale={zhCN}
       theme={{
         token:{
           colorPrimary: theme["primary-color"],

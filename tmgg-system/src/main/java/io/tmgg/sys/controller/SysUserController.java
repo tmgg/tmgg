@@ -1,5 +1,5 @@
 
-package io.tmgg.sys.user.controller;
+package io.tmgg.sys.controller;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.text.PasswdStrength;
@@ -11,12 +11,13 @@ import io.tmgg.lang.excel.ExcelWrap;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.obj.Option;
 import io.tmgg.lang.obj.TreeOption;
-import io.tmgg.sys.consts.service.SysConfigService;
+import io.tmgg.sys.app.service.SysConfigService;
+import io.tmgg.sys.entity.SysUser;
 import io.tmgg.sys.org.entity.SysOrg;
 import io.tmgg.sys.org.service.SysOrgService;
-import io.tmgg.sys.user.entity.SysUser;
+import io.tmgg.sys.service.SysUserService;
+import io.tmgg.sys.user.controller.GrantDataParam;
 import io.tmgg.sys.user.param.SysUserParam;
-import io.tmgg.sys.user.service.SysUserService;
 import io.tmgg.web.annotion.BusinessLog;
 import io.tmgg.web.annotion.HasPermission;
 import io.tmgg.web.perm.SecurityUtils;
@@ -38,9 +39,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/**
- * 系统用户
- */
+
 @RestController
 @RequestMapping("sysUser")
 @BusinessLog("用户")
@@ -175,7 +174,7 @@ public class SysUserController {
                 Col.builder().title("账号").dataIndex("account").build(),
                 Col.builder().title("手机号").dataIndex("phone").build(),
                 Col.<SysUser>builder().title("部门").render(SysUser::getDeptLabel).build(),
-                Col.<SysUser>builder().title("单位").render(SysUser::getOrgLabel).build(),
+                Col.<SysUser>builder().title("单位").render(SysUser::getUnitId).build(),
                 Col.<SysUser>builder().title("角色").render(SysUser::getRoleNames).build(),
         };
 
@@ -199,7 +198,7 @@ public class SysUserController {
         Collection<String> orgIds = SecurityUtils.getSubject().getOrgPermissions();
         if (CollUtil.isNotEmpty(orgIds)) {
             query.any(q -> {
-                q.in(SysUser.Fields.orgId, orgIds);
+                q.in(SysUser.Fields.unitId, orgIds);
                 q.in(SysUser.Fields.deptId, orgIds);
             });
 
@@ -252,11 +251,11 @@ public class SysUserController {
         }
 
         Collection<String> orgPermissions = subject.getOrgPermissions();
-        List<SysUser> userList = sysUserService.findByOrg(orgPermissions);
+        List<SysUser> userList = sysUserService.findByUnit(orgPermissions);
 
         List<TreeOption> tree = orgList.stream().map(o -> new TreeOption("[" + o.getType().getMessage() + "] " + o.getBestName(), o.getId(), o.getPid())).collect(Collectors.toList());
 
-        List<TreeOption> userTree = userList.stream().map(u -> new TreeOption(u.getName(), u.getId(), StrUtil.emptyToDefault(u.getDeptId(), u.getOrgId()))).collect(Collectors.toList());
+        List<TreeOption> userTree = userList.stream().map(u -> new TreeOption(u.getName(), u.getId(), StrUtil.emptyToDefault(u.getDeptId(), u.getUnitId()))).collect(Collectors.toList());
 
         tree.addAll(userTree);
 

@@ -1,12 +1,12 @@
 
-package io.tmgg.sys.consts.dao;
+package io.tmgg.sys.dao;
 
 
 import io.tmgg.lang.SpringTool;
 import io.tmgg.lang.dao.BaseDao;
 import io.tmgg.lang.dao.specification.JpaQuery;
 import io.tmgg.sys.consts.SysConfigValueChangeEvent;
-import io.tmgg.sys.consts.entity.SysConfig;
+import io.tmgg.sys.entity.SysConfig;
 import cn.hutool.core.util.StrUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.cache.annotation.CacheConfig;

@@ -15,6 +15,10 @@ export function FieldUnitTreeSelect(props:any) {
   return <FieldRemoteTreeSelect url="/sysOrg/tree?type=UNIT" {...props} />;
 }
 
+export function FieldDeptTreeSelect(props:any) {
+  return <FieldRemoteTreeSelect url="/sysOrg/tree?type=DEPT" {...props} />;
+}
+
 export function FieldOrgTreeSelect(props:any) {
   return <FieldRemoteTreeSelect url="/sysOrg/tree" {...props} />;
 }
@@ -22,3 +26,5 @@ export function FieldOrgTreeSelect(props:any) {
 export function FieldOrgTreeMultipleSelect(props:any) {
   return <FieldRemoteMultipleSelect url="/sysOrg/tree" {...props} />;
 }
+
+

@@ -7,8 +7,8 @@ import io.tmgg.sys.msg.dao.SysMsgSubscribeDao;
 import io.tmgg.sys.msg.dao.SysMsgUserDao;
 import io.tmgg.sys.msg.entity.SysMsg;
 import io.tmgg.sys.msg.entity.SysMsgUser;
-import io.tmgg.sys.user.dao.SysUserDao;
-import io.tmgg.sys.user.entity.SysUser;
+import io.tmgg.sys.dao.SysUserDao;
+import io.tmgg.sys.entity.SysUser;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 

@@ -6,13 +6,14 @@ import UserOrgForm from "./UserOrgForm";
 import {
   ButtonList,
   dictValue,
-  dictValueTag,
-  FieldDictSelect, FieldOrgTreeSelect,
+  dictValueTag, FieldDeptTreeSelect,
+  FieldDictSelect, FieldOrgTreeSelect, FieldUnitTreeSelect,
   hasPermission,
   HttpClient,
   LeftRightLayout
 } from "../../../common";
 import OrgTree from "../../../commponents/OrgTree";
+import FieldOrgTree from "@/common/components/field/FieldOrgTree";
 
 const baseTitle = "用户"
 const baseApi = 'sysUser/';
@@ -310,13 +311,10 @@ export default class extends React.Component {
           <Form.Item  name='id' noStyle></Form.Item>
 
           <Form.Item label='所属机构' name='orgId' rules={[{required: true}]}>
-           <FieldOrgTreeSelect />
+           <FieldOrgTreeSelect  />
           </Form.Item>
 
-          <Form.Item label='所属部门' name='deptId' rules={[{required: true}]}>
-            <Input/>
-          </Form.Item>
-          <Form.Item label='deptLabel' name='deptLabel' rules={[{required: true}]}>
+          <Form.Item label='姓名' name='name' rules={[{required: true}]}>
             <Input/>
           </Form.Item>
           <Form.Item label='账号' name='account' rules={[{required: true}]}>
@@ -325,42 +323,18 @@ export default class extends React.Component {
           <Form.Item label='密码' name='password' rules={[{required: true}]}>
             <Input/>
           </Form.Item>
-          <Form.Item label='姓名' name='name' rules={[{required: true}]}>
-            <Input/>
-          </Form.Item>
+
           <Form.Item label='电话' name='phone' rules={[{required: true}]}>
             <Input/>
           </Form.Item>
           <Form.Item label='邮箱' name='email' rules={[{required: true}]}>
             <Input/>
           </Form.Item>
-          <Form.Item label='lastLoginIp' name='lastLoginIp' rules={[{required: true}]}>
-            <Input/>
-          </Form.Item>
-          <Form.Item label='lastLoginTime' name='lastLoginTime' rules={[{required: true}]}>
-            <Input/>
-          </Form.Item>
-          <Form.Item label='adminType' name='adminType' rules={[{required: true}]}>
-            <InputNumber />
-          </Form.Item>
+
           <Form.Item label='状态' name='status' rules={[{required: true}]}>
             <Input/>
           </Form.Item>
-          <Form.Item label='roles' name='roles' rules={[{required: true}]}>
-            <Input/>
-          </Form.Item>
-          <Form.Item label='roleNames' name='roleNames' rules={[{required: true}]}>
-            <Input/>
-          </Form.Item>
-          <Form.Item label='roleIds' name='roleIds' rules={[{required: true}]}>
-            <Input/>
-          </Form.Item>
-          <Form.Item label='dataPermType' name='dataPermType' rules={[{required: true}]}>
-            <FieldDictSelect typeCode="data_perm_type" />
-          </Form.Item>
-          <Form.Item label='orgDataScope' name='orgDataScope' rules={[{required: true}]}>
-            <Input/>
-          </Form.Item>
+
 
         </Form>
       </Modal>

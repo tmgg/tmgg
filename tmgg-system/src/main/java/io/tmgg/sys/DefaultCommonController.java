@@ -10,11 +10,10 @@ import io.tmgg.lang.TreeTool;
 import io.tmgg.lang.ann.PublicApi;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.obj.Route;
-import io.tmgg.sys.auth.controller.LoginUserVo;
+import io.tmgg.sys.controller.LoginUserVo;
 import io.tmgg.sys.perm.SysPermService;
 import io.tmgg.sys.role.entity.SysRole;
 import io.tmgg.sys.role.service.SysRoleService;
-import io.tmgg.sys.watermask.service.WatermarkService;
 import io.tmgg.web.perm.SecurityUtils;
 import io.tmgg.web.perm.Subject;
 import cn.hutool.core.bean.BeanUtil;
@@ -47,8 +46,6 @@ public class DefaultCommonController {
     @Resource
     SystemProperties systemProperties;
 
-    @Resource
-    WatermarkService watermarkService;
 
 
     /**
@@ -92,8 +89,6 @@ public class DefaultCommonController {
         vo.setSystemProperties(sysProps);
 
 
-        // 水印
-        vo.setWatermarkList(watermarkService.findValid());
 
         return AjaxResult.ok().data(vo);
     }

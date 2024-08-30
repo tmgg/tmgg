@@ -1,5 +1,5 @@
 
-package io.tmgg.sys.consts.entity;
+package io.tmgg.sys.entity;
 
 import io.tmgg.web.enums.CommonStatus;
 import io.tmgg.lang.dao.BaseEntity;

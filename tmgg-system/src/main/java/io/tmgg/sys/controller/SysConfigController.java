@@ -1,12 +1,12 @@
 
-package io.tmgg.sys.consts.controller;
+package io.tmgg.sys.controller;
 
 
 import io.tmgg.web.annotion.BusinessLog;
 import io.tmgg.web.annotion.HasPermission;
 import io.tmgg.lang.obj.AjaxResult;
-import io.tmgg.sys.consts.entity.SysConfig;
-import io.tmgg.sys.consts.service.SysConfigService;
+import io.tmgg.sys.entity.SysConfig;
+import io.tmgg.sys.app.service.SysConfigService;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.annotation.Resource;

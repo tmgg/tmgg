@@ -23,21 +23,7 @@ public enum SysUserExceptionEnum implements AbstractBaseExceptionEnum {
     /**
      * 账号已存在
      */
-    USER_ACCOUNT_REPEAT(2, "账号已存在，请检查account参数"),
-
-
-
-
-
-    /**
-     * 不能删除超级管理员
-     */
-    USER_CAN_NOT_DELETE_ADMIN(5, "不能删除超级管理员"),
-
-    /**
-     * 不能修改超级管理员状态
-     */
-    USER_CAN_NOT_UPDATE_ADMIN(6, "不能修改超级管理员状态");
+    USER_ACCOUNT_REPEAT(2, "账号已存在，请检查account参数");
 
     private final int code;
 

@@ -1,12 +1,12 @@
 
-package io.tmgg.sys.user.dao;
+package io.tmgg.sys.dao;
 
 import io.tmgg.dbtool.DbTool;
+import io.tmgg.lang.dao.BaseDao;
+import io.tmgg.sys.entity.SysUser;
 import io.tmgg.sys.role.entity.SysRole;
 import io.tmgg.web.enums.CommonStatus;
-import io.tmgg.lang.dao.BaseDao;
 import io.tmgg.lang.dao.specification.JpaQuery;
-import io.tmgg.sys.user.entity.SysUser;
 import org.springframework.stereotype.Repository;
 
 import jakarta.annotation.Resource;

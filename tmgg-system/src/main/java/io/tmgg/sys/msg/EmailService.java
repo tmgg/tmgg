@@ -5,7 +5,7 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.mail.MailAccount;
 import cn.hutool.extra.mail.MailUtil;
 import io.tmgg.SystemProperties;
-import io.tmgg.sys.consts.dao.SysConfigDao;
+import io.tmgg.sys.dao.SysConfigDao;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 

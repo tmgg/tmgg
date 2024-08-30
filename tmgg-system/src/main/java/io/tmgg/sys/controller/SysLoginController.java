@@ -1,5 +1,5 @@
 
-package io.tmgg.sys.auth.controller;
+package io.tmgg.sys.controller;
 
 import io.tmgg.SystemProperties;
 import io.tmgg.core.event.LogoutEvent;
@@ -10,7 +10,7 @@ import io.tmgg.lang.ann.PublicApi;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.sys.auth.AccountCheckResult;
 import io.tmgg.sys.auth.captcha.CaptchaService;
-import io.tmgg.sys.auth.service.SysUserAuthService;
+import io.tmgg.sys.service.SysUserAuthService;
 import io.tmgg.web.perm.SecurityUtils;
 import io.tmgg.web.perm.Subject;
 import io.tmgg.web.token.TokenManger;

@@ -1,7 +1,7 @@
 
 package io.tmgg.config;
 
-import io.tmgg.sys.consts.service.SysConfigService;
+import io.tmgg.sys.app.service.SysConfigService;
 import io.tmgg.sys.file.FileOperator;
 import io.tmgg.sys.file.LocalFileOperator;
 import io.tmgg.sys.file.LocalFileProperties;

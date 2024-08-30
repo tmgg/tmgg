@@ -2,7 +2,7 @@ package io.tmgg.sys.msg.entity;
 
 import io.tmgg.lang.ann.Remark;
 import io.tmgg.lang.dao.BaseEntity;
-import io.tmgg.sys.user.entity.SysUser;
+import io.tmgg.sys.entity.SysUser;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldNameConstants;

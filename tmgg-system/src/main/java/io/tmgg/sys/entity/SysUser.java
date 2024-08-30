@@ -1,5 +1,5 @@
 
-package io.tmgg.sys.user.entity;
+package io.tmgg.sys.entity;
 
 import io.tmgg.lang.ann.Remark;
 import io.tmgg.lang.dao.AutoFill;
@@ -24,7 +24,6 @@ import java.util.*;
 @Getter
 @Setter
 @Entity
-@Table(name = "sys_user")
 @FieldNameConstants
 @Remark("系统用户")
 public class SysUser extends BaseEntity {
@@ -47,12 +46,12 @@ public class SysUser extends BaseEntity {
      * 所属机构 (公司，单位级别）
      */
     @Remark("所属机构")
-    private String orgId;
+    private String unitId;
 
 
     @Transient
-    @AutoFill(value = AutoFillOrgLabelStrategy.class, sourceField = "orgId")
-    private String orgLabel;
+    @AutoFill(value = AutoFillOrgLabelStrategy.class, sourceField = "unitId")
+    private String unitLabel;
 
 
     @Remark("所属部门")

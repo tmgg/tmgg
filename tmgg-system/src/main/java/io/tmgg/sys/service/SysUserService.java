@@ -1,5 +1,5 @@
 
-package io.tmgg.sys.user.service;
+package io.tmgg.sys.service;
 
 import io.tmgg.lang.CodeException;
 import io.tmgg.lang.PasswordTool;
@@ -7,15 +7,15 @@ import io.tmgg.lang.dao.BaseEntity;
 import io.tmgg.lang.dao.BaseService;
 import io.tmgg.lang.dao.exports.UserLabelQuery;
 import io.tmgg.lang.dao.specification.JpaQuery;
-import io.tmgg.sys.consts.service.SysConfigService;
+import io.tmgg.sys.app.service.SysConfigService;
+import io.tmgg.sys.dao.SysUserDao;
+import io.tmgg.sys.entity.SysUser;
 import io.tmgg.sys.file.service.SysFileService;
 import io.tmgg.sys.org.dao.SysOrgDao;
 import io.tmgg.sys.org.entity.SysOrg;
 import io.tmgg.sys.role.dao.SysRoleDao;
 import io.tmgg.sys.role.entity.SysRole;
 import io.tmgg.sys.user.controller.GrantDataParam;
-import io.tmgg.sys.user.dao.SysUserDao;
-import io.tmgg.sys.user.entity.SysUser;
 import io.tmgg.sys.user.enums.DataPermType;
 import io.tmgg.sys.user.enums.SysUserExceptionEnum;
 import io.tmgg.sys.user.param.SysUserParam;
@@ -70,9 +70,9 @@ public class SysUserService extends BaseService<SysUser> implements UserLabelQue
     private SysOrgDao sysOrgDao;
 
 
-    public List<SysUser> findByOrg(Collection<String> org) {
+    public List<SysUser> findByUnit(Collection<String> org) {
         JpaQuery<SysUser> query = new JpaQuery<>();
-        query.in(SysUser.Fields.orgId, org);
+        query.in(SysUser.Fields.unitId, org);
         return sysUserDao.findAll(query, Sort.by(SysUser.Fields.name));
     }
 
@@ -140,7 +140,7 @@ public class SysUserService extends BaseService<SysUser> implements UserLabelQue
 
         if (ObjectUtil.isNotEmpty(param.getOrgId())) {
             query.any(q -> {
-                q.eq(SysUser.Fields.orgId, param.getOrgId());
+                q.eq(SysUser.Fields.unitId, param.getOrgId());
                 q.eq(SysUser.Fields.deptId, param.getOrgId());
 
             });
@@ -203,7 +203,7 @@ public class SysUserService extends BaseService<SysUser> implements UserLabelQue
         user.setName(param.getName());
         user.setStatus(param.getStatus());
         user.setPhone(param.getPhone());
-        user.setOrgId(param.getOrgId());
+        user.setUnitId(param.getOrgId());
         user.setDeptId(param.getDeptId());
         user.setEmail(param.getEmail());
         this.save(user);
@@ -317,13 +317,7 @@ public class SysUserService extends BaseService<SysUser> implements UserLabelQue
         return sysUserDao.findAll(q);
     }
 
-    public boolean hasUserUnderOrg(String orgId) {
-        JpaQuery<SysUser> q = new JpaQuery<>();
 
-        q.eq(SysUser.Fields.orgId, orgId);
-
-        return sysUserDao.count(q) > 0;
-    }
 
     // 数据范围
     public Collection<String> getLoginDataScope(String userId) {
@@ -340,7 +334,7 @@ public class SysUserService extends BaseService<SysUser> implements UserLabelQue
             return all.stream().map(BaseEntity::getId).collect(Collectors.toSet());
         }
 
-        String orgId = user.getOrgId();
+        String orgId = user.getUnitId();
         switch (dataPermType) {
             case ORG_ONLY:
                 return orgId == null ? Collections.emptyList() : Collections.singletonList(orgId);

@@ -84,13 +84,6 @@
       "path": "/system/log/oplog",
 
       "seq": 12
-    },
-    {
-      "id": "watermark",
-      "name": "水印管理",
-      "perm": "watermark",
-      "path": "/system/watermark",
-      "seq": 13
     }
   ]
 }

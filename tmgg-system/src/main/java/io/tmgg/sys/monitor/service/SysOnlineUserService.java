@@ -2,8 +2,8 @@
 package io.tmgg.sys.monitor.service;
 
 import io.tmgg.lang.dao.BaseEntity;
-import io.tmgg.sys.user.entity.SysUser;
-import io.tmgg.sys.user.service.SysUserService;
+import io.tmgg.sys.entity.SysUser;
+import io.tmgg.sys.service.SysUserService;
 import io.tmgg.web.perm.SecurityUtils;
 import io.tmgg.web.perm.Subject;
 import io.tmgg.core.log.LogManager;

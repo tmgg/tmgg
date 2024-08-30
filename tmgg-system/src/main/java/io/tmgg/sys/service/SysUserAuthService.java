@@ -1,5 +1,5 @@
 
-package io.tmgg.sys.auth.service;
+package io.tmgg.sys.service;
 
 import io.tmgg.core.enums.LogSuccessStatusEnum;
 import io.tmgg.core.log.LogManager;
@@ -8,12 +8,11 @@ import io.tmgg.lang.HttpServletTool;
 import io.tmgg.lang.IpAddressTool;
 import io.tmgg.lang.PasswordTool;
 import io.tmgg.sys.auth.AccountCheckResult;
-import io.tmgg.sys.consts.service.SysConfigService;
+import io.tmgg.sys.app.service.SysConfigService;
+import io.tmgg.sys.entity.SysUser;
 import io.tmgg.sys.perm.SysPermService;
 import io.tmgg.sys.role.entity.SysRole;
 import io.tmgg.sys.role.service.SysRoleService;
-import io.tmgg.sys.user.entity.SysUser;
-import io.tmgg.sys.user.service.SysUserService;
 import io.tmgg.web.enums.CommonStatus;
 import io.tmgg.web.exception.enums.AuthExceptionEnum;
 import io.tmgg.web.exception.enums.ServerExceptionEnum;
@@ -153,8 +152,8 @@ public class SysUserAuthService implements AuthorizingRealm {
         BeanUtils.copyProperties(user, subject);
 
 
-        subject.setUnitId(user.getOrgId());
-        subject.setUnitName(user.getOrgLabel());
+        subject.setUnitId(user.getUnitId());
+        subject.setUnitName(user.getUnitLabel());
         subject.setDeptId(user.getDeptId());
         subject.setDeptName(user.getDeptLabel());
 
