@@ -1,9 +1,9 @@
 import {Form, Modal, Tree} from 'antd';
 import React from 'react';
-import {FieldDictSelect, HttpClient} from "../../../common";
+import {FieldDictSelect, FieldRemoteMultipleSelect, FieldRemoteSelect, HttpClient} from "../../../common";
 
 
-export default class UserOrgForm extends React.Component {
+export default class UserPerm extends React.Component {
 
 
   state = {
@@ -26,7 +26,7 @@ export default class UserOrgForm extends React.Component {
     this.setState({
       confirmLoading: true
     })
-    HttpClient.post('sysUser/grantData', values).then(rs => {
+    HttpClient.post('sysUser/grantPerm', values).then(rs => {
       this.setState({
         visible: false,
         confirmLoading: false
@@ -67,7 +67,7 @@ export default class UserOrgForm extends React.Component {
     let {visible, treeData, confirmLoading, checked} = this.state
 
     return <Modal
-      title="设置数据权限"
+      title="授权"
       destroyOnClose
       width={600}
       open={visible}
@@ -84,7 +84,10 @@ export default class UserOrgForm extends React.Component {
             }}
       >
         <Form.Item name='id' noStyle></Form.Item>
-        <Form.Item label='类型' name='dataPermType' rules={[{required: true}]}>
+        <Form.Item label='角色' name='roleIds' rules={[{required: true}]}>
+          <FieldRemoteMultipleSelect url='sysRole/options'></FieldRemoteMultipleSelect>
+        </Form.Item>
+        <Form.Item label='数据权限' name='dataPermType' rules={[{required: true}]}>
           <FieldDictSelect typeCode='dataPermType'></FieldDictSelect>
         </Form.Item>
       </Form>

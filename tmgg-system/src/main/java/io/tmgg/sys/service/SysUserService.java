@@ -15,19 +15,19 @@ import io.tmgg.lang.dao.BaseService;
 import io.tmgg.lang.dao.exports.UserLabelQuery;
 import io.tmgg.lang.dao.specification.JpaQuery;
 import io.tmgg.sys.app.service.SysConfigService;
+import io.tmgg.sys.controller.SysUserController;
 import io.tmgg.sys.dao.SysUserDao;
 import io.tmgg.sys.entity.SysUser;
 import io.tmgg.sys.org.dao.SysOrgDao;
 import io.tmgg.sys.org.entity.SysOrg;
-import io.tmgg.sys.org.enums.OrgType;
 import io.tmgg.sys.role.dao.SysRoleDao;
 import io.tmgg.sys.role.entity.SysRole;
-import io.tmgg.sys.user.controller.GrantDataParam;
 import io.tmgg.sys.user.enums.DataPermType;
 import io.tmgg.sys.user.enums.SysUserExceptionEnum;
 import io.tmgg.sys.user.param.SysUserParam;
 import io.tmgg.web.enums.CommonStatus;
 import jakarta.annotation.Resource;
+import jakarta.validation.constraints.NotNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -35,8 +35,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.sql.SQLException;
 import java.util.*;
@@ -92,15 +90,7 @@ public class SysUserService extends BaseService<SysUser> implements UserLabelQue
     }
 
 
-    @Transactional
-    public void grantRole(String userId, List<String> roleIds) {
-        SysUser user = sysUserDao.findOne(userId);
-        List<SysRole> newRoles = roleDao.findAllById(roleIds);
 
-        Set<SysRole> roles = user.getRoles();
-        roles.clear();
-        roles.addAll(newRoles);
-    }
 
 
     public boolean isPasswordSameAsDefault(String dbPwd) {
@@ -327,11 +317,18 @@ public class SysUserService extends BaseService<SysUser> implements UserLabelQue
     }
 
     @Transactional
-    public void grantData(@RequestBody @Validated GrantDataParam param) {
-        SysUser user = this.findOne(param.getId());
-        List<SysOrg> orgs = sysOrgDao.findAllById(param.getGrantOrgIdList());
+    public void grantPerm( String id,List<String> roleIds, DataPermType dataPermType, List<String> orgIdList) {
+        SysUser user = this.findOne(id);
+        List<SysOrg> orgs = sysOrgDao.findAllById(orgIdList);
         user.setDataPerms(orgs);
-        user.setDataPermType(param.getDataPermType());
+        user.setDataPermType(dataPermType);
+
+
+
+        List<SysRole> newRoles = roleDao.findAllById(roleIds);
+        Set<SysRole> roles = user.getRoles();
+        roles.clear();
+        roles.addAll(newRoles);
     }
 
 

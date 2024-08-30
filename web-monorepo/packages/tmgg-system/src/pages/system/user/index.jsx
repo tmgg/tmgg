@@ -13,7 +13,7 @@ import {
 import React from 'react';
 import {ProTable} from "@tmgg/pro-table";
 import {http} from "@tmgg/tmgg-base";
-import UserOrgForm from "./UserOrgForm";
+import UserPerm from "./UserPerm";
 import {
     ButtonList,
     dictValueTag, FieldDictRadio,
@@ -50,7 +50,7 @@ export default class extends React.Component {
         currentOrgId: null
     }
     actionRef = React.createRef();
-    orgFormRef = React.createRef();
+    permRef = React.createRef();
 
     formRef = React.createRef()
     tableRef = React.createRef()
@@ -117,9 +117,9 @@ export default class extends React.Component {
             valueType: 'option',
             render: (_, record) => {
                 return <ButtonList>
-                    <a perm={editPerm} onClick={() => this.handleEdit(record)}> 修改 </a>
+                    <Button size='small' perm={editPerm} onClick={() => this.handleEdit(record)}> 修改 </Button>
 
-                    <a perm='sysUser:grantData' onClick={() => this.orgFormRef.current.show(record)}> 授权 </a>
+                    <Button size='small' perm='sysUser:grantData' onClick={() => this.permRef.current.show(record)}> 授权 </Button>
 
                     <Popconfirm perm='sysUser:resetPwd' title='确认重置密码？' onConfirm={() => this.resetPwd(record)}>
                         <a>重置密码</a>
@@ -271,7 +271,7 @@ export default class extends React.Component {
             </Modal>
 
 
-            <UserOrgForm ref={this.orgFormRef}/>
+            <UserPerm ref={this.permRef}/>
 
         </>
     }

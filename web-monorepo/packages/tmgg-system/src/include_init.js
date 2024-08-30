@@ -4,7 +4,6 @@ registerRoutes({
     'settings/ChangePassword': require('./pages/settings/ChangePassword').default,
     'system/log/vislog': require('./pages/system/log/vislog/index').default,
     'system/onlineUser': require('./pages/system/onlineUser/index').default,
-    'system/user/UserOrgForm': require('./pages/system/user/UserOrgForm').default,
     'system/log/oplog': require('./pages/system/log/oplog/index').default,
     'settings/MsgSubscribe': require('./pages/settings/MsgSubscribe').default,
     'system/machine': require('./pages/system/machine/index').default,

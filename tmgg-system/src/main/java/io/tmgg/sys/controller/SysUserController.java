@@ -17,12 +17,15 @@ import io.tmgg.sys.org.entity.SysOrg;
 import io.tmgg.sys.org.enums.OrgType;
 import io.tmgg.sys.org.service.SysOrgService;
 import io.tmgg.sys.service.SysUserService;
-import io.tmgg.sys.user.controller.GrantDataParam;
+import io.tmgg.sys.user.enums.DataPermType;
 import io.tmgg.sys.user.param.SysUserParam;
 import io.tmgg.web.annotion.BusinessLog;
 import io.tmgg.web.annotion.HasPermission;
 import io.tmgg.web.perm.SecurityUtils;
 import io.tmgg.web.perm.Subject;
+import jakarta.validation.constraints.NotNull;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -34,6 +37,7 @@ import org.springframework.web.bind.annotation.*;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
+
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Collection;
@@ -58,10 +62,10 @@ public class SysUserController {
 
     @HasPermission
     @GetMapping("page")
-    public AjaxResult page(String orgId, String keyword, @PageableDefault(sort = SysUser.FIELD_UPDATE_TIME ,direction = Sort.Direction.DESC) Pageable pageable) throws SQLException {
+    public AjaxResult page(String orgId, String keyword, @PageableDefault(sort = SysUser.FIELD_UPDATE_TIME, direction = Sort.Direction.DESC) Pageable pageable) throws SQLException {
         Page<SysUser> page = sysUserService.findAll(orgId, keyword, pageable);
         sysUserService.fillRoleName(page);
-        return AjaxResult.ok().data( page);
+        return AjaxResult.ok().data(page);
     }
 
     @HasPermission
@@ -74,7 +78,7 @@ public class SysUserController {
             input.setDeptId(null);
         } else {
             SysOrg unit = sysOrgService.findParentUnit(org);
-            Assert.notNull(unit,"部门%s没有所属单位".formatted(org.getName()));
+            Assert.notNull(unit, "部门%s没有所属单位".formatted(org.getName()));
             input.setUnitId(unit.getId());
         }
 
@@ -82,7 +86,6 @@ public class SysUserController {
         SecurityUtils.refresh(sysUser.getId());
         return AjaxResult.ok().msg("添加用户成功，新密码为" + configService.getDefaultPassWord());
     }
-
 
 
     @HasPermission
@@ -95,12 +98,12 @@ public class SysUserController {
 
     /**
      * 检查密码强度
-     * @param password
      *
+     * @param password
      */
     @GetMapping("pwdStrength")
     public AjaxResult pwdStrength(String password) {
-        if(password == null){
+        if (password == null) {
             return AjaxResult.err().msg("请输入密码");
         }
 
@@ -141,12 +144,10 @@ public class SysUserController {
      */
     @HasPermission
     @PostMapping("resetPwd")
-    public AjaxResult resetPwd(@RequestBody  SysUserParam sysUserParam) {
+    public AjaxResult resetPwd(@RequestBody SysUserParam sysUserParam) {
         sysUserService.resetPwd(sysUserParam.getId());
         return AjaxResult.ok().msg("重置成功,新密码为：" + configService.getDefaultPassWord());
     }
-
-
 
 
     @HasPermission
@@ -170,7 +171,7 @@ public class SysUserController {
         excel.addBeanList(list, cols);
 
         // TODO
-      //  ServletTool.setDownloadFileHeader("用户列表.xlsx", response);
+        //  ServletTool.setDownloadFileHeader("用户列表.xlsx", response);
         excel.writeTo(response.getOutputStream());
     }
 
@@ -220,9 +221,9 @@ public class SysUserController {
     /**
      * 授权数据
      */
-    @PostMapping("grantData")
-    public AjaxResult grantData(@Valid @RequestBody GrantDataParam param) {
-        sysUserService.grantData(param);
+    @PostMapping("grantPerm")
+    public AjaxResult grantPerm(@Valid @RequestBody SysUserController.GrantParam param) {
+        sysUserService.grantPerm(param.getId(), param.getRoleIds(),param.getDataPermType(),  param.getGrantOrgIdList());
 
         SecurityUtils.refresh(param.getId());
 
@@ -252,4 +253,19 @@ public class SysUserController {
     }
 
 
+    @Getter
+    @Setter
+    public static class GrantParam {
+
+        @NotNull
+        String id;
+
+        @NotNull
+        DataPermType dataPermType;
+
+        List<String> grantOrgIdList;
+
+        List<String> roleIds;
+
+    }
 }
