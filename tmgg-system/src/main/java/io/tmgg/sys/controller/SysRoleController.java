@@ -89,7 +89,7 @@ public class SysRoleController {
 
     @HasPermission(title = "权限授权")
     @PostMapping("grantPerm")
-    public AjaxResult grantPerm(@RequestParam(required = true) String id, @RequestParam List<String> permIds) {
+    public AjaxResult grantPerm(@RequestParam(required = true) String id, @RequestParam(required = false) List<String> permIds) {
         sysRoleService.grantPerm(id, permIds);
 
         return AjaxResult.ok().msg("授权成功");

@@ -36,7 +36,7 @@ export default class extends React.Component {
   handleSave = () => {
     const data = {
       id: this.props.id,
-      permIds: this.state.checked
+      permIds: this.state.checked || []
     }
     this.setState({
       confirmLoading: true

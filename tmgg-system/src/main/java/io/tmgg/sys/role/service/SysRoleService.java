@@ -46,16 +46,13 @@ public class SysRoleService extends BaseService<SysRole> {
 
     /**
      * 角色授权
-     *
-     * @param roleId
-     * @param grantMenuIdList
      */
     @Transactional
-    public void grantPerm(String roleId, Collection<String> grantMenuIdList) {
+    public void grantPerm(String roleId, Collection<String> ids) {
         SysRole role = roleDao.findOne(roleId);
 
         Assert.state(!role.getBuiltin(), "内置角色不能修改");
-        List<SysPerm> newMenus = menuDao.findAllById(grantMenuIdList);
+        List<SysPerm> newMenus = menuDao.findAllById(ids);
 
         List<String> perms = newMenus.stream().map(SysPerm::getPerm).filter(Objects::nonNull).toList();
         role.setPerms(perms);
