@@ -30,7 +30,7 @@ export default class extends React.Component {
 
   state = {
     formOpen:false,
-    selectData: {},
+    curRecord: {},
     roleList: []
   }
 
@@ -51,7 +51,7 @@ export default class extends React.Component {
   handleSave = value => {
     HttpClient.post(baseApi + 'save', value).then(rs => {
       message.success(rs.message)
-      this.setState({formOpen:false,selectData:rs.data})
+      this.setState({formOpen:false,curRecord:rs.data})
       this.loadData()
     })
   }
@@ -64,7 +64,7 @@ export default class extends React.Component {
   }
 
   render() {
-    let {selectData} = this.state
+    let {curRecord} = this.state
 
     return <>
       <LeftRightLayout leftSize={600}>
@@ -78,14 +78,14 @@ export default class extends React.Component {
             }}>新增</Button>
             <Button  perm={basePerm + 'save'} onClick={() => {
               this.setState({formOpen:true},()=>{
-                this.formRef.current.setFieldsValue(selectData)
+                this.formRef.current.setFieldsValue(this.state.curRecord)
               })
 
             }
             }> 修改 </Button>
 
             <Popconfirm perm={basePerm + 'delete'} title={'是否确定删除'}
-                        onConfirm={() => this.handleDelete(selectData.id)}>
+                        onConfirm={() => this.handleDelete(this.state.curRecord.id)}>
               <Button >删除</Button>
             </Popconfirm>
           </ButtonList>
@@ -96,8 +96,8 @@ export default class extends React.Component {
             rowSelection={{
               type: 'radio',
               onSelect: (data) => {
-                this.setState({selectData:null},()=>{
-                  this.setState({selectData: data})
+                this.setState({curRecord:null},()=>{
+                  this.setState({curRecord: data})
                 })
               }
             }}
@@ -119,7 +119,7 @@ export default class extends React.Component {
         </Card>
 
         <Card title='角色信息'>
-          {this.renderRoleDetail(selectData)}
+          {this.renderRoleDetail()}
 
         </Card>
 
@@ -153,20 +153,21 @@ export default class extends React.Component {
   }
 
 
-  renderRoleDetail(selectData) {
-    if(selectData == null || !selectData.id){
+  renderRoleDetail() {
+    const {curRecord} = this.state;
+    if(curRecord == null || !curRecord.id){
       return <Empty description='请先选择角色'> </Empty>
     }
     return <>
       <Descriptions column={2}>
-        <Descriptions.Item label='角色名称'>{selectData.name}</Descriptions.Item>
-        <Descriptions.Item label='编码'>{selectData.code}</Descriptions.Item>
-        <Descriptions.Item label='序号'>{selectData.sort}</Descriptions.Item>
-        <Descriptions.Item label='备注'>{selectData.remark}</Descriptions.Item>
+        <Descriptions.Item label='角色名称'>{curRecord.name}</Descriptions.Item>
+        <Descriptions.Item label='编码'>{curRecord.code}</Descriptions.Item>
+        <Descriptions.Item label='序号'>{curRecord.sort}</Descriptions.Item>
+        <Descriptions.Item label='备注'>{curRecord.remark}</Descriptions.Item>
       </Descriptions>
 
       <h4>权限设置</h4>
-      <RoleMenuTree id={selectData.id}/>
+      <RoleMenuTree id={curRecord.id}/>
     </>
   }
 }
