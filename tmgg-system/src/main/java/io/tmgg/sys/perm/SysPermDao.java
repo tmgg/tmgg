@@ -33,13 +33,17 @@ public class SysPermDao extends BaseDao<SysPerm> {
     }
 
 
-    public SysPerm findByPerm(String btnPerm) {
+    public SysPerm findByPerm(String perm) {
         JpaQuery<SysPerm> query = new JpaQuery<>();
-        query.eq(SysPerm.Fields.perm, btnPerm);
+        query.eq(SysPerm.Fields.perm, perm);
         return this.findOne(query);
     }
 
-
+    public List<SysPerm> findByPerms(List<String> perms) {
+        JpaQuery<SysPerm> query = new JpaQuery<>();
+        query.in(SysPerm.Fields.perm, perms);
+        return this.findAll(query);
+    }
 
 
 }

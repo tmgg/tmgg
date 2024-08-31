@@ -1,20 +1,15 @@
 
 package io.tmgg.sys.role.service;
 
-import io.tmgg.lang.CodeException;
 import io.tmgg.lang.dao.BaseService;
 import io.tmgg.lang.dao.specification.JpaQuery;
 import io.tmgg.sys.perm.SysPermDao;
 import io.tmgg.sys.perm.SysPerm;
 import io.tmgg.sys.role.dao.SysRoleDao;
 import io.tmgg.sys.role.entity.SysRole;
-import io.tmgg.sys.role.enums.SysRoleExceptionEnum;
-import io.tmgg.sys.role.param.SysRoleParam;
 import io.tmgg.sys.dao.SysUserDao;
 import io.tmgg.sys.entity.SysUser;
 import io.tmgg.web.enums.CommonStatus;
-import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.util.ObjectUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -38,7 +33,7 @@ public class SysRoleService extends BaseService<SysRole> {
     private SysRoleDao roleDao;
 
     @Resource
-    private SysPermDao menuDao;
+    private SysPermDao sysPermDao;
 
     @Resource
     private SysUserDao sysUserDao;
@@ -52,7 +47,7 @@ public class SysRoleService extends BaseService<SysRole> {
         SysRole role = roleDao.findOne(roleId);
 
         Assert.state(!role.getBuiltin(), "内置角色不能修改");
-        List<SysPerm> newMenus = menuDao.findAllById(ids);
+        List<SysPerm> newMenus = sysPermDao.findAllById(ids);
 
         List<String> perms = newMenus.stream().map(SysPerm::getPerm).filter(Objects::nonNull).toList();
         role.setPerms(perms);
@@ -110,10 +105,13 @@ public class SysRoleService extends BaseService<SysRole> {
         return this.findAll(q);
     }
 
-    // TODO
     public List<String> ownMenu(String roleId) {
         SysRole role = this.findOne(roleId);
-        return role.getPerms();
+        List<String> perms = role.getPerms();
+
+        List<SysPerm> list  = sysPermDao.findByPerms(perms);
+
+        return list.stream().map(SysPerm::getId).collect(Collectors.toList());
     }
 
 
