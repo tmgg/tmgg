@@ -52,7 +52,7 @@ public class SysPerm extends BaseEntity implements TreeDefinition<SysPerm> {
     /**
      * 权限标识
      */
-    @Column(unique = true, nullable = false, length = 30)
+    @Column(unique = true,  length = 30)
     private String perm;
 
     @NotNull

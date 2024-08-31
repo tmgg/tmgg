@@ -41,9 +41,6 @@ public class SysRoleController {
     @Resource
     private SysPermService sysPermService;
 
-    @Resource
-    private SysUserService sysUserService;
-
 
     @HasPermission
     @GetMapping("page")
@@ -67,15 +64,15 @@ public class SysRoleController {
      */
     @HasPermission
     @PostMapping("save")
-    @BusinessLog("增改")
-    public AjaxResult add(@RequestBody SysRole role) throws Exception {
+    public AjaxResult save(@RequestBody SysRole role) throws Exception {
         role.setBuiltin(false);
         role.setStatus(CommonStatus.ENABLE);
 
 
-        sysRoleService.saveOrUpdate(role);
+        role= sysRoleService.saveOrUpdate(role);
 
-        return AjaxResult.ok();
+        AjaxResult result = AjaxResult.ok().data(role).msg("保存角色成功");
+        return result;
     }
 
 
@@ -87,9 +84,19 @@ public class SysRoleController {
     }
 
 
+    @HasPermission(value = "sysRole:grant",title = "权限授权")
+    @GetMapping("ownMenu")
+    public AjaxResult ownMenu(String id) {
+        List<String> menuIdList = sysRoleService.ownMenu(id);
+        List<SysPerm> all = sysPermService.findAll();
+        TreeManager<SysPerm> tm = TreeManager.newInstance(all);
+        List<String> allLeafList = tm.getLeafIdList();
 
+        List<String> leafList = menuIdList.stream().filter(allLeafList::contains).collect(Collectors.toList());
+        return AjaxResult.ok().data(leafList);
+    }
 
-    @HasPermission(title = "权限授权")
+    @HasPermission(value = "sysRole:grant", title = "权限授权")
     @PostMapping("grantPerm")
     public AjaxResult grantPerm(@RequestParam(required = true) String id, @RequestParam(required = false) List<String> permIds) {
         sysRoleService.grantPerm(id, permIds);
@@ -108,31 +115,8 @@ public class SysRoleController {
     }
 
 
-    @HasPermission(title = "拥有菜单")
-    @GetMapping("ownMenu")
-    public AjaxResult ownMenu(String id) {
-        List<String> menuIdList = sysRoleService.ownMenu(id);
 
 
-        // 为了防止父子联动， 比如选择了某菜单，但并没有全选所有子节点，前段会默认勾选所有
-        // 这里只返回叶子节点
-        List<SysPerm> all = sysPermService.findAll();
-        TreeManager<SysPerm> tm = TreeManager.newInstance(all);
-        List<String> allLeafList = tm.getLeafIdList();
-
-
-        List<String> leafList = menuIdList.stream().filter(allLeafList::contains).collect(Collectors.toList());
-        return AjaxResult.ok().data(leafList);
-    }
-
-
-    @HasPermission("sysRole:page")
-    @GetMapping("getUserIdsByRoleId")
-    public AjaxResult getUserByRole(String roleId) {
-        List<SysUser> users = sysUserService.findByRoleId(roleId);
-
-        return AjaxResult.ok().data(users.stream().map(BaseEntity::getId).collect(Collectors.toList()));
-    }
 
 
 }

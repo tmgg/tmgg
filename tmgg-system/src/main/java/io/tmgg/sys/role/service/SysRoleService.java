@@ -1,6 +1,10 @@
 
 package io.tmgg.sys.role.service;
 
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.bean.copier.CopyOptions;
+import cn.hutool.core.util.ArrayUtil;
+import io.tmgg.lang.dao.BaseEntity;
 import io.tmgg.lang.dao.BaseService;
 import io.tmgg.lang.dao.specification.JpaQuery;
 import io.tmgg.sys.perm.SysPermDao;
@@ -55,7 +59,7 @@ public class SysRoleService extends BaseService<SysRole> {
     }
 
 
-    public SysRole getByCode(String code) {
+    public SysRole findByCode(String code) {
         JpaQuery<SysRole> query = new JpaQuery<>();
         query.eq(SysRole.Fields.code, code);
 
@@ -75,19 +79,22 @@ public class SysRoleService extends BaseService<SysRole> {
     }
 
 
-    public List<SysRole> list() {
-        JpaQuery<SysRole> queryWrapper = new JpaQuery<>();
-        //只查询正常状态
-        queryWrapper.eq(SysRole.Fields.status, CommonStatus.ENABLE);
-        return this.findAll(queryWrapper);
-    }
-
-
     @Override
     public SysRole saveOrUpdate(SysRole input) throws Exception {
-        SysRole sysRole = super.saveOrUpdate(input);
-        Assert.state(!sysRole.getBuiltin(), "内置角色不能修改");
-        return sysRole;
+        boolean isNew = input.isNew();
+        if (isNew) {
+            return baseDao.save(input);
+        }
+
+        SysRole old = baseDao.findOne(input);
+        Assert.state(!old.getBuiltin(), "内置角色不能修改");
+
+        BeanUtil.copyProperties(input, old,
+                CopyOptions.create().setIgnoreProperties(
+                ArrayUtil.append( BaseEntity.BASE_ENTITY_FIELDS, SysRole.Fields.perms)
+               ));
+
+        return   baseDao.save(old);
     }
 
     @Override

@@ -30,8 +30,8 @@ public class AjaxResult  {
     }
 
     public AjaxResult(boolean success) {
-        this.setSuccess(success);
-        this.setMessage(success ? "操作成功":"操作失败");
+        this.success = success;
+        this.message = success ? "操作成功":"操作失败";
     }
 
 
@@ -51,12 +51,12 @@ public class AjaxResult  {
 
 
     public AjaxResult data(Object data){
-        this.setData(data);
+        this.data = data;
         return this;
     }
 
     public AjaxResult msg(String msg){
-        this.setMessage(msg);
+        this.message = msg;
         return this;
     }
 

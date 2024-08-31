@@ -30,7 +30,6 @@ export default class extends React.Component {
 
   state = {
     formOpen:false,
-    formValues: {},
     selectData: {},
     roleList: []
   }
@@ -43,12 +42,16 @@ export default class extends React.Component {
     HttpClient.get(baseApi + 'page').then(rs => {
       const list = rs.data;
       this.setState({roleList: list})
+
     })
   }
+
+
+
   handleSave = value => {
     HttpClient.post(baseApi + 'save', value).then(rs => {
       message.success(rs.message)
-      this.setState({formOpen:false})
+      this.setState({formOpen:false,selectData:rs.data})
       this.loadData()
     })
   }
@@ -68,10 +71,16 @@ export default class extends React.Component {
         <Card  extra={
           <ButtonList maxNum={3}>
             <Button  type='primary' perm={basePerm + 'save'} onClick={() => {
-              this.setState({formOpen:true,formValues: {}})
+              this.setState({formOpen:true},()=>{
+                this.formRef.current.resetFields()
+
+              })
             }}>新增</Button>
             <Button  perm={basePerm + 'save'} onClick={() => {
-              this.setState({formOpen:true,formValues: selectData})
+              this.setState({formOpen:true},()=>{
+                this.formRef.current.setFieldsValue(selectData)
+              })
+
             }
             }> 修改 </Button>
 
@@ -85,7 +94,8 @@ export default class extends React.Component {
 
           <Table
             rowSelection={{
-              type: 'radio', onSelect: (data) => {
+              type: 'radio',
+              onSelect: (data) => {
                 this.setState({selectData:null},()=>{
                   this.setState({selectData: data})
                 })
@@ -117,11 +127,12 @@ export default class extends React.Component {
       </LeftRightLayout>
 
 
-      <Modal open={this.state.formOpen} title='角色信息' destroyOnClose
+      <Modal open={this.state.formOpen}
+             title='角色信息'
              onOk={()=>this.formRef.current.submit()}
              onCancel={()=>this.setState({formOpen:false})}
       >
-        <Form ref={this.formRef} onFinish={this.handleSave} initialValues={this.state.formValues} labelCol={{flex:"100px"}}>
+        <Form ref={this.formRef} onFinish={this.handleSave}  labelCol={{flex:"100px"}}>
           <Form.Item name='id' noStyle/>
           <Form.Item label='名称' name='name' rules={[{required: true}]}>
             <Input />
