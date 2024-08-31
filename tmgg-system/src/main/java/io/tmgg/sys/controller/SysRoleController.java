@@ -1,6 +1,5 @@
 package io.tmgg.sys.controller;
 
-import io.minio.messages.Grant;
 import io.tmgg.lang.TreeManager;
 import io.tmgg.sys.perm.SysPerm;
 import io.tmgg.sys.perm.SysPermService;
@@ -14,13 +13,15 @@ import io.tmgg.lang.dao.BaseEntity;
 import io.tmgg.sys.role.entity.SysRole;
 import io.tmgg.sys.role.param.SysRoleParam;
 import io.tmgg.sys.role.service.SysRoleService;
+import io.tmgg.web.enums.CommonStatus;
 import io.tmgg.web.validation.group.Detail;
-import lombok.Data;
 import org.springframework.data.domain.Sort;
+import org.springframework.util.Assert;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.annotation.Resource;
+
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -65,60 +66,34 @@ public class SysRoleController {
     @HasPermission
     @PostMapping("save")
     @BusinessLog("增改")
-    public AjaxResult add(@RequestBody SysRoleParam sysRoleParam) {
-        if (sysRoleParam.getId() == null) {
-            sysRoleService.add(sysRoleParam);
-        } else {
-            sysRoleService.edit(sysRoleParam);
-        }
+    public AjaxResult add(@RequestBody SysRole role) throws Exception {
+        role.setBuiltin(false);
+        role.setStatus(CommonStatus.ENABLE);
+
+
+        sysRoleService.saveOrUpdate(role);
 
         return AjaxResult.ok();
     }
 
 
     @HasPermission(title = "删除")
-    @PostMapping("delete")
-    public AjaxResult delete(@RequestBody SysRoleParam sysRoleParam) {
-        sysRoleService.delete(sysRoleParam);
+    @GetMapping("delete")
+    public AjaxResult delete(@RequestParam String id) {
+        sysRoleService.deleteById(id);
         return AjaxResult.ok();
     }
 
 
 
-    @HasPermission
-    @GetMapping("detail")
-    public AjaxResult detail(@Validated(Detail.class) SysRoleParam sysRoleParam) {
-        return AjaxResult.ok().data(sysRoleService.detail(sysRoleParam));
-    }
-
 
     @HasPermission(title = "权限授权")
-    @PostMapping("grantMenu")
-    public AjaxResult grantMenu(String roleId,  @RequestParam List<String> grantMenuIdList) {
-        // 选择子节点，同时也选中父节点
-        Map<String, SysPerm> map = sysPermService.findMap();
-        Set<String> allMenuIds = map.keySet();
-        // 过滤掉appid
-        grantMenuIdList = grantMenuIdList.stream().filter(menuId -> allMenuIds.contains(menuId)).collect(Collectors.toList());
-
-        Set<String> total = new HashSet<>();
-        for (String menuId : grantMenuIdList) {
-            SysPerm menu = map.get(menuId);
-            total.add(menuId);
-
-
-            while (map.containsKey(menu.getPid())) {
-                total.add(menu.getPid());
-                menu = map.get(menu.getPid());
-            }
-        }
-
-
-        sysRoleService.grantMenu(roleId, total);
+    @PostMapping("grantPerm")
+    public AjaxResult grantPerm(@RequestParam(required = true) String id, @RequestParam List<String> permIds) {
+        sysRoleService.grantPerm(id, permIds);
 
         return AjaxResult.ok().msg("授权成功");
     }
-
 
 
     @HasPermission(title = "拥有菜单")
@@ -146,7 +121,6 @@ public class SysRoleController {
 
         return AjaxResult.ok().data(users.stream().map(BaseEntity::getId).collect(Collectors.toList()));
     }
-
 
 
 }

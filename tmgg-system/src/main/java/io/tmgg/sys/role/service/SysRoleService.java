@@ -51,10 +51,11 @@ public class SysRoleService extends BaseService<SysRole> {
      * @param grantMenuIdList
      */
     @Transactional
-    public void grantMenu(String roleId, Collection<String> grantMenuIdList) {
+    public void grantPerm(String roleId, Collection<String> grantMenuIdList) {
         SysRole role = roleDao.findOne(roleId);
-        List<SysPerm> newMenus = menuDao.findAllById(grantMenuIdList);
 
+        Assert.state(!role.getBuiltin(), "内置角色不能修改");
+        List<SysPerm> newMenus = menuDao.findAllById(grantMenuIdList);
 
         List<String> perms = newMenus.stream().map(SysPerm::getPerm).filter(Objects::nonNull).toList();
         role.setPerms(perms);
@@ -90,75 +91,21 @@ public class SysRoleService extends BaseService<SysRole> {
     }
 
 
-    public void add(SysRoleParam sysRoleParam) {
-        //校验参数，检查是否存在相同的名称和编码
-        checkParam(sysRoleParam, false);
-        SysRole sysRole = new SysRole();
-        BeanUtil.copyProperties(sysRoleParam, sysRole);
-        sysRole.setStatus(CommonStatus.ENABLE);
-        this.save(sysRole);
+    @Override
+    public SysRole saveOrUpdate(SysRole input) throws Exception {
+        SysRole sysRole = super.saveOrUpdate(input);
+        Assert.state(!sysRole.getBuiltin(), "内置角色不能修改");
+        return sysRole;
     }
 
-    public void delete(SysRoleParam sysRoleParam) {
-        roleDao.deleteById(sysRoleParam.getId());
+    @Override
+    public void deleteById(String id) {
+        Assert.hasText(id, "id不能为空");
+
+        SysRole db = baseDao.findOne(id);
+        Assert.state(!db.getBuiltin(), "内置角色不能删除");
+        baseDao.deleteById(id);
     }
-
-
-    public void edit(SysRoleParam sysRoleParam) {
-        SysRole sysRole = this.findOne(sysRoleParam.getId());
-        //校验参数，检查是否存在相同的名称和编码
-        checkParam(sysRoleParam, true);
-        BeanUtil.copyProperties(sysRoleParam, sysRole, SysRole.Fields.status);
-        this.save(sysRole);
-    }
-
-
-    public SysRole detail(SysRoleParam sysRoleParam) {
-        return this.findOne(sysRoleParam.getId());
-    }
-
-
-    public String getNameByRoleId(String roleId) {
-        SysRole sysRole = this.findOne(roleId);
-        if (ObjectUtil.isEmpty(sysRole)) {
-            throw new CodeException(SysRoleExceptionEnum.ROLE_NOT_EXIST);
-        }
-        return sysRole.getName();
-    }
-
-
-    /**
-     * 校验参数，检查是否存在相同的名称和编码
-     */
-    private void checkParam(SysRoleParam sysRoleParam, boolean isExcludeSelf) {
-        String id = sysRoleParam.getId();
-        String name = sysRoleParam.getName();
-        String code = sysRoleParam.getCode();
-
-        JpaQuery<SysRole> queryWrapperByName = new JpaQuery<>();
-        queryWrapperByName.eq(SysRole.Fields.name, name)
-        ;
-
-        JpaQuery<SysRole> queryWrapperByCode = new JpaQuery<>();
-        queryWrapperByCode.eq(SysRole.Fields.code, code)
-        ;
-
-        //是否排除自己，如果排除自己则不查询自己的id
-        if (isExcludeSelf) {
-            queryWrapperByName.ne("id", id);
-            queryWrapperByCode.ne("id", id);
-        }
-        long countByName = this.count(queryWrapperByName);
-        long countByCode = this.count(queryWrapperByCode);
-
-        if (countByName >= 1) {
-            throw new CodeException(SysRoleExceptionEnum.ROLE_NAME_REPEAT);
-        }
-        if (countByCode >= 1) {
-            throw new CodeException(SysRoleExceptionEnum.ROLE_CODE_REPEAT);
-        }
-    }
-
 
     public List<SysRole> findValid() {
         JpaQuery<SysRole> q = new JpaQuery<>();
@@ -188,8 +135,10 @@ public class SysRoleService extends BaseService<SysRole> {
         SysRole sysRole = new SysRole();
         sysRole.setId(SysRole.DEFAULT_ROLE);
         sysRole.setCode(SysRole.DEFAULT_ROLE);
-        sysRole.setName("系统默认角色");
+        sysRole.setName("默认角色");
         sysRole.setStatus(CommonStatus.ENABLE);
+        sysRole.setRemark("创建用户时的默认角色");
+        sysRole.setBuiltin(true);
 
         roleDao.save(sysRole);
     }
@@ -207,6 +156,8 @@ public class SysRoleService extends BaseService<SysRole> {
         sysRole.setName("管理员");
         sysRole.setStatus(CommonStatus.ENABLE);
         sysRole.setPerms(List.of("*"));
+        sysRole.setBuiltin(true);
+        sysRole.setRemark("内置管理员");
 
         return roleDao.save(sysRole);
     }

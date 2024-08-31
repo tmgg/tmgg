@@ -48,7 +48,7 @@ export default class extends React.Component {
 
 
   handleDelete = (id) => {
-    HttpClient.post(baseApi + 'delete', {id}).then(rs => {
+    HttpClient.get(baseApi + 'delete', {id}).then(rs => {
       this.loadData()
     })
   }
@@ -124,6 +124,11 @@ export default class extends React.Component {
           <Form.Item label='备注' name='remark' >
             <Input/>
           </Form.Item>
+
+          <Form.Item label=' ' colon={false}>
+            <Button type='primary' htmlType='submit' >确定</Button>
+          </Form.Item>
+
         </Form>
 
       </ProModal>

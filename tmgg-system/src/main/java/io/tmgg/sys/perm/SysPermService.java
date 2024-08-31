@@ -88,14 +88,7 @@ public class SysPermService extends BaseService<SysPerm> {
     }
 
 
-    public Map<String, SysPerm> findMap() {
-        Map<String, SysPerm> map = new HashMap<>();
-        List<SysPerm> all = this.findAll();
-        for (SysPerm sysPerm : all) {
-            map.put(sysPerm.getId(), sysPerm);
-        }
-        return map;
-    }
+
 
 
     public void init() {

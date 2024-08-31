@@ -36,12 +36,12 @@ export default class extends React.Component {
   handleSave = () => {
     const data = {
       id: this.props.id,
-      grantMenuIdList: this.state.checked
+      permIds: this.state.checked
     }
     this.setState({
       confirmLoading: true
     })
-    http.postForm('sysRole/grantMenu', data).then(rs => {
+    http.postForm('sysRole/grantPerm', data).then(rs => {
       this.setState({
         confirmLoading: false
       })

@@ -23,24 +23,25 @@ import java.util.List;
 @FieldNameConstants
 public class SysRole extends BaseEntity {
 
-    public static final String DEFAULT_ROLE = "SYS_DEFAULT_ROLE"; // 默认角色
+    public static final String DEFAULT_ROLE = "sys_default_role"; // 默认角色
 
 
     /**
      * 名称
      */
+    @Column(length = 50, unique = true)
     private String name;
 
     /**
      * 编码
      */
-    @Column(unique = true)
+    @Column(unique = true, length = 20)
     private String code;
 
     /**
      * 排序
      */
-    private Integer sort;
+    private Integer seq;
 
 
     /**
@@ -63,6 +64,14 @@ public class SysRole extends BaseEntity {
     @Convert(converter = ToListConverter.class)
     @Column(length = 10000)
     private List<String> perms;
+
+
+    /**
+     * 是否内置，内置的不让修改
+     */
+    @Column(nullable = false)
+    Boolean builtin;
+
 
 
     public SysRole(String id) {
