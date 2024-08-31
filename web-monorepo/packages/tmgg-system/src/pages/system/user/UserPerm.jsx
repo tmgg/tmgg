@@ -31,6 +31,7 @@ export default class UserPerm extends React.Component {
                 visible: false,
                 confirmLoading: false
             })
+            this.props.onOk()
         })
 
 

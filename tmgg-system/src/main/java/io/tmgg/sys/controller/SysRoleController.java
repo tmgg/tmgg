@@ -14,6 +14,8 @@ import io.tmgg.sys.role.entity.SysRole;
 import io.tmgg.sys.role.param.SysRoleParam;
 import io.tmgg.sys.role.service.SysRoleService;
 import io.tmgg.web.enums.CommonStatus;
+import io.tmgg.web.perm.SecurityUtils;
+import io.tmgg.web.perm.Subject;
 import io.tmgg.web.validation.group.Detail;
 import org.springframework.data.domain.Sort;
 import org.springframework.util.Assert;
@@ -91,6 +93,16 @@ public class SysRoleController {
     @PostMapping("grantPerm")
     public AjaxResult grantPerm(@RequestParam(required = true) String id, @RequestParam(required = false) List<String> permIds) {
         sysRoleService.grantPerm(id, permIds);
+
+
+        // 刷新 登录用户的权限
+        SysRole role = sysRoleService.findOne(id);
+        List<Subject> list = SecurityUtils.findAll();
+        for (Subject subject : list) {
+            if(subject.hasRole(role.getCode())){
+                SecurityUtils.refresh(subject.getId());
+            }
+        }
 
         return AjaxResult.ok().msg("授权成功");
     }

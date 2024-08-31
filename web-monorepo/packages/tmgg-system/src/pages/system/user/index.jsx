@@ -270,7 +270,7 @@ export default class extends React.Component {
             </Modal>
 
 
-            <UserPerm ref={this.permRef}/>
+            <UserPerm ref={this.permRef} onOk={()=>this.tableRef.current.reload()}/>
 
         </>
     }

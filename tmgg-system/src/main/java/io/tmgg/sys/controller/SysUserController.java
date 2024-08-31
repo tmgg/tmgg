@@ -214,7 +214,8 @@ public class SysUserController {
      */
     @GetMapping("getPermInfo")
     public AjaxResult getPermInfo(String id) {
-        return AjaxResult.ok().data(sysUserService.getPermInfo(id));
+        GrantPermDto permInfo = sysUserService.getPermInfo(id);
+        return AjaxResult.ok().data(permInfo);
     }
 
 
