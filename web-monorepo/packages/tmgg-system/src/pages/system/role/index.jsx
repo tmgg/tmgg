@@ -1,4 +1,17 @@
-import {Form, Card, Descriptions, Empty, Input, Popconfirm, Table, Tabs, Button, Typography} from 'antd';
+import {
+  Form,
+  Modal,
+  Card,
+  Descriptions,
+  Empty,
+  Input,
+  Popconfirm,
+  Table,
+  Tabs,
+  Button,
+  Typography,
+  message
+} from 'antd';
 import React from 'react';
 
 import {ProForm, ProFormItem, ProFormText} from "@ant-design/pro-components";
@@ -16,8 +29,8 @@ export default class extends React.Component {
 
 
   state = {
+    formOpen:false,
     formValues: {},
-    dataMap: {},
     selectData: {},
     roleList: []
   }
@@ -30,18 +43,12 @@ export default class extends React.Component {
     HttpClient.get(baseApi + 'page').then(rs => {
       const list = rs.data;
       this.setState({roleList: list})
-
-      const dataMap = {}
-
-      list.map(t => {
-        dataMap[t.id] = t;
-      })
-      this.setState({dataMap})
     })
   }
   handleSave = value => {
     HttpClient.post(baseApi + 'save', value).then(rs => {
-      this.formRef.current.close()
+      message.success(rs.message)
+      this.setState({formOpen:false})
       this.loadData()
     })
   }
@@ -60,19 +67,17 @@ export default class extends React.Component {
       <LeftRightLayout leftSize={600}>
         <Card  extra={
           <ButtonList maxNum={3}>
-            <Button size='small' type='primary' perm={basePerm + 'save'} onClick={() => {
-              this.setState({formValues: {}})
-              this.formRef.current.show()
+            <Button  type='primary' perm={basePerm + 'save'} onClick={() => {
+              this.setState({formOpen:true,formValues: {}})
             }}>新增</Button>
-            <Button size='small' perm={basePerm + 'save'} onClick={() => {
-              this.setState({formValues: selectData})
-              this.formRef.current.show()
+            <Button  perm={basePerm + 'save'} onClick={() => {
+              this.setState({formOpen:true,formValues: selectData})
             }
             }> 修改 </Button>
 
             <Popconfirm perm={basePerm + 'delete'} title={'是否确定删除'}
                         onConfirm={() => this.handleDelete(selectData.id)}>
-              <Button size='small'>删除</Button>
+              <Button >删除</Button>
             </Popconfirm>
           </ButtonList>
         }>
@@ -112,8 +117,11 @@ export default class extends React.Component {
       </LeftRightLayout>
 
 
-      <ProModal title='角色信息' ref={this.formRef}>
-        <Form onFinish={this.handleSave} initialValues={this.state.formValues} labelCol={{flex:"100px"}}>
+      <Modal open={this.state.formOpen} title='角色信息' destroyOnClose
+             onOk={()=>this.formRef.current.submit()}
+             onCancel={()=>this.setState({formOpen:false})}
+      >
+        <Form ref={this.formRef} onFinish={this.handleSave} initialValues={this.state.formValues} labelCol={{flex:"100px"}}>
           <Form.Item name='id' noStyle/>
           <Form.Item label='名称' name='name' rules={[{required: true}]}>
             <Input />
@@ -125,13 +133,9 @@ export default class extends React.Component {
             <Input/>
           </Form.Item>
 
-          <Form.Item label=' ' colon={false}>
-            <Button type='primary' htmlType='submit' >确定</Button>
-          </Form.Item>
-
         </Form>
 
-      </ProModal>
+      </Modal>
 
 
     </>
