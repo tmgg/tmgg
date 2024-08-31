@@ -1,9 +1,8 @@
-import {Card, Descriptions, Empty, Popconfirm, Table, Tabs} from 'antd';
+import {Form, Card, Descriptions, Empty, Input, Popconfirm, Table, Tabs, Button, Typography} from 'antd';
 import React from 'react';
 
 import {ProForm, ProFormItem, ProFormText} from "@ant-design/pro-components";
 import RoleMenuTree from "./RoleMenuTree";
-import RoleUserTree from "./RoleUserTree";
 import {ButtonList, HttpClient, LeftRightLayout, ProModal} from "../../../common";
 
 const baseApi = 'sysRole/';
@@ -58,22 +57,22 @@ export default class extends React.Component {
     let {selectData} = this.state
 
     return <>
-      <LeftRightLayout leftSize={500}>
-        <Card title='角色列表' extra={
+      <LeftRightLayout leftSize={600}>
+        <Card  extra={
           <ButtonList maxNum={3}>
-            <a perm={basePerm + 'save'} onClick={() => {
+            <Button size='small' type='primary' perm={basePerm + 'save'} onClick={() => {
               this.setState({formValues: {}})
               this.formRef.current.show()
-            }}>新增</a>
-            <a perm={basePerm + 'save'} onClick={() => {
+            }}>新增</Button>
+            <Button size='small' perm={basePerm + 'save'} onClick={() => {
               this.setState({formValues: selectData})
               this.formRef.current.show()
             }
-            }> 修改 </a>
+            }> 修改 </Button>
 
             <Popconfirm perm={basePerm + 'delete'} title={'是否确定删除'}
                         onConfirm={() => this.handleDelete(selectData.id)}>
-              <a>删除</a>
+              <Button size='small'>删除</Button>
             </Popconfirm>
           </ButtonList>
         }>
@@ -90,12 +89,13 @@ export default class extends React.Component {
             dataSource={this.state.roleList}
             columns={[
               {dataIndex: 'name', title: "角色名称"},
-              {dataIndex: 'code', title: "角色代码"}
+              {dataIndex: 'code', title: "角色代码"},
+              {dataIndex: 'remark', title: "备注"},
+
             ]}
             rowKey='id'
             pagination={false}
             bordered
-            size="small"
           >
 
           </Table>
@@ -112,13 +112,19 @@ export default class extends React.Component {
       </LeftRightLayout>
 
 
-      <ProModal title='角色' ref={this.formRef}>
-        <ProForm onFinish={this.handleSave} initialValues={this.state.formValues}>
-          <ProFormItem name='id' noStyle/>
-          <ProFormText label='名称' name='name' rules={[{required: true}]}/>
-          <ProFormText label='编码' name='code' rules={[{required: true}]}/>
-          <ProFormText label='序号' name='sort' rules={[{required: true}]}/>
-        </ProForm>
+      <ProModal title='角色信息' ref={this.formRef}>
+        <Form onFinish={this.handleSave} initialValues={this.state.formValues} labelCol={{flex:"100px"}}>
+          <Form.Item name='id' noStyle/>
+          <Form.Item label='名称' name='name' rules={[{required: true}]}>
+            <Input />
+          </Form.Item>
+          <Form.Item label='编码' name='code' rules={[{required: true}]}>
+            <Input/>
+          </Form.Item>
+          <Form.Item label='备注' name='remark' >
+            <Input/>
+          </Form.Item>
+        </Form>
 
       </ProModal>
 
@@ -132,20 +138,15 @@ export default class extends React.Component {
       return <Empty description='请先选择角色'> </Empty>
     }
     return <>
-      <Descriptions>
+      <Descriptions column={2}>
         <Descriptions.Item label='角色名称'>{selectData.name}</Descriptions.Item>
         <Descriptions.Item label='编码'>{selectData.code}</Descriptions.Item>
         <Descriptions.Item label='序号'>{selectData.sort}</Descriptions.Item>
         <Descriptions.Item label='备注'>{selectData.remark}</Descriptions.Item>
       </Descriptions>
-      <Tabs type='card' style={{marginTop: 16}} destroyInactiveTabPane>
-        <Tabs.TabPane tab='设置功能权限' key='1'>
-          <RoleMenuTree id={selectData.id}/>
-        </Tabs.TabPane>
-        <Tabs.TabPane tab='设置用户' key='2'>
-          <RoleUserTree id={selectData.id}/>
-        </Tabs.TabPane>
-      </Tabs>
+
+      <h4>权限设置</h4>
+      <RoleMenuTree id={selectData.id}/>
     </>
   }
 }

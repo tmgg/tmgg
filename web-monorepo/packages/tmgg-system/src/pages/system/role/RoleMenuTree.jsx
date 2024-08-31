@@ -2,6 +2,7 @@ import {Button, Divider, message, Tree} from 'antd';
 import React from 'react';
 import {HttpClient} from "../../../common";
 import {PageLoading} from "@ant-design/pro-components";
+import {http} from "@tmgg/tmgg-base";
 
 
 export default class extends React.Component {
@@ -40,7 +41,7 @@ export default class extends React.Component {
     this.setState({
       confirmLoading: true
     })
-    HttpClient.post('sysRole/grantMenu', data).then(rs => {
+    http.postForm('sysRole/grantMenu', data).then(rs => {
       this.setState({
         confirmLoading: false
       })

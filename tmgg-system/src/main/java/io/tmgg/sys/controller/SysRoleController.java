@@ -1,5 +1,4 @@
-
-package io.tmgg.sys.role.controller;
+package io.tmgg.sys.controller;
 
 import io.minio.messages.Grant;
 import io.tmgg.lang.TreeManager;
@@ -77,36 +76,25 @@ public class SysRoleController {
     }
 
 
-    /**
-     * 删除系统角色
-     */
-    @HasPermission
+    @HasPermission(title = "删除")
     @PostMapping("delete")
-    @BusinessLog("删除")
     public AjaxResult delete(@RequestBody SysRoleParam sysRoleParam) {
         sysRoleService.delete(sysRoleParam);
         return AjaxResult.ok();
     }
 
 
-    /**
-     * 查看系统角色
-     */
+
     @HasPermission
     @GetMapping("detail")
     public AjaxResult detail(@Validated(Detail.class) SysRoleParam sysRoleParam) {
         return AjaxResult.ok().data(sysRoleService.detail(sysRoleParam));
     }
 
-    /**
-     * 授权菜单
-     */
-    @HasPermission
-    @PostMapping("grantMenu")
-    @BusinessLog("授权菜单")
-    public AjaxResult grantMenu(@RequestBody @Validated(Grant.class) SysRoleParam param) {
-        List<String> grantMenuIdList = param.getGrantMenuIdList();
 
+    @HasPermission(title = "权限授权")
+    @PostMapping("grantMenu")
+    public AjaxResult grantMenu(String roleId,  @RequestParam List<String> grantMenuIdList) {
         // 选择子节点，同时也选中父节点
         Map<String, SysPerm> map = sysPermService.findMap();
         Set<String> allMenuIds = map.keySet();
@@ -126,22 +114,15 @@ public class SysRoleController {
         }
 
 
-        String roleId = param.getId();
         sysRoleService.grantMenu(roleId, total);
 
         return AjaxResult.ok().msg("授权成功");
     }
 
 
-    /**
-     * 拥有菜单
-     *
 
- *
-     */
-    @HasPermission
+    @HasPermission(title = "拥有菜单")
     @GetMapping("ownMenu")
-    @BusinessLog("拥有菜单")
     public AjaxResult ownMenu(String id) {
         List<String> menuIdList = sysRoleService.ownMenu(id);
 
@@ -170,8 +151,3 @@ public class SysRoleController {
 
 }
 
-@Data
-class GrantToUserParam {
-    String roleId;
-    List<String> checkedUserIds;
-}

@@ -49,7 +49,6 @@ export default class extends React.Component {
 
         currentOrgId: null
     }
-    actionRef = React.createRef();
     permRef = React.createRef();
 
     formRef = React.createRef()
@@ -154,7 +153,7 @@ export default class extends React.Component {
 
     handleDelete = r => {
         HttpClient.get(delApi, {id: r.id}).then(rs => {
-            this.actionRef.current.reload();
+            this.tableRef.current.reload();
         })
     }
 
@@ -166,7 +165,7 @@ export default class extends React.Component {
 
     onSelectOrg = key => {
         this.setState({currentOrgId: key})
-        this.actionRef.current.reload()
+        this.tableRef.current.reload()
     }
 
     handleAdd = () => {
@@ -204,7 +203,7 @@ export default class extends React.Component {
                         size={'small'}
                         search={false}
                         options={{search: true}}
-                        actionRef={this.actionRef}
+                        actionRef={this.tableRef}
                         toolBarRender={(action, {selectedRows}) => {
                             const menus = []
 

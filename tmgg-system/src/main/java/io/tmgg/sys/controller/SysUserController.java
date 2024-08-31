@@ -68,6 +68,7 @@ public class SysUserController {
     @HasPermission
     @PostMapping("save")
     public AjaxResult save(@RequestBody SysUser input) throws Exception {
+        boolean isNew = input.isNew();
         String inputOrgId = input.getDeptId();
         SysOrg org = sysOrgService.findOne(inputOrgId);
         if (org.getType() == OrgType.UNIT) {
@@ -81,7 +82,12 @@ public class SysUserController {
 
         SysUser sysUser = sysUserService.saveOrUpdate(input);
         SecurityUtils.refresh(sysUser.getId());
-        return AjaxResult.ok().msg("添加用户成功，新密码为" + configService.getDefaultPassWord());
+
+        if(isNew){
+            return AjaxResult.ok().msg("添加成功,密码：" + configService.getDefaultPassWord());
+        }
+
+        return AjaxResult.ok();
     }
 
 
