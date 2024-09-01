@@ -70,7 +70,7 @@ public class SysPerm extends BaseEntity implements TreeDefinition<SysPerm> {
 
 
     @Override
-    public void beforeSaveOrUpdate() {
+    public void prePersistOrUpdate() {
         perm = StringUtils.defaultIfEmpty(perm, null);
         visible = ObjectUtils.defaultIfNull(visible, true);
         type = ObjectUtils.defaultIfNull(type, MenuType.MENU);

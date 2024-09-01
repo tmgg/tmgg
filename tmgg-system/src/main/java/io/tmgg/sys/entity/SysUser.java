@@ -128,8 +128,8 @@ public class SysUser extends BaseEntity {
     List<SysOrg> dataPerms = new ArrayList<>();
 
     @Override
-    public void beforeSaveOrUpdate() {
-        super.beforeSaveOrUpdate();
+    public void prePersistOrUpdate() {
+        super.prePersistOrUpdate();
         if(dataPermType == null ){
             dataPermType = DataPermType.ORG_AND_CHILDREN;
         }

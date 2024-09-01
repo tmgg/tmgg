@@ -10,6 +10,7 @@ import io.tmgg.sys.entity.SysDict;
 import cn.hutool.core.util.ClassUtil;
 import cn.hutool.core.util.StrUtil;
 import com.google.common.hash.Hashing;
+import io.tmgg.web.enums.CommonStatus;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
@@ -26,13 +27,13 @@ import java.util.Set;
 
 @Component
 @Slf4j
-public class AutoAddDictDataRunnable implements Runnable {
+public class EnumToDictHandler implements Runnable {
 
     @Resource
-    SysDictDao typeDao;
+    SysDictDao sysDictDao;
 
     @Resource
-    SysDictItemDao dataDao;
+    SysDictItemDao sysDictItemDao;
 
     @Override
     public void run() {
@@ -59,9 +60,9 @@ public class AutoAddDictDataRunnable implements Runnable {
             sysDict.setCode(StrUtil.toUnderlineCase(simpleTypeName));
             sysDict.setName(label);
             sysDict.setBuiltin(true);
-            sysDict = typeDao.save(sysDict);
+            sysDict = sysDictDao.save(sysDict);
 
-            dataDao.deleteByTypeId(sysDict.getId());
+            sysDictItemDao.deleteByTypeId(sysDict.getId());
 
 
             for (int i = 0; i < enumConstants.length; i++) {
@@ -75,20 +76,21 @@ public class AutoAddDictDataRunnable implements Runnable {
                 String color = me.getColor().name().toLowerCase();
 
                 SysDictItem data = new SysDictItem();
-                data.setCode(name);
+                data.setKey(name);
                 data.setValue(msg);
                 data.setRemark("系统通过枚举自动生成");
-                data.setSort(i);
-                data.setTypeId(sysDict.getId());
+                data.setSeq(i);
+                data.setSysDict(sysDict);
                 data.setId(md5(simpleTypeName + name));
                 data.setColor(color);
                 data.setBuiltin(true);
+                data.setStatus(CommonStatus.ENABLE);
 
                 log.trace("{} {}={}", data.getId(), name, msg);
                 dataList.add(data);
             }
         }
-        dataDao.saveAll(dataList);
+        sysDictItemDao.saveAll(dataList);
     }
 
     private String md5(String str) {

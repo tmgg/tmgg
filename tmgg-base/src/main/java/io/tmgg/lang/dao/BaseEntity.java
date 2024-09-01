@@ -95,7 +95,7 @@ public abstract class BaseEntity implements PersistId, Serializable {
 
     @PrePersist
     public void prePersist() {
-        this.beforeSaveOrUpdate();
+        this.prePersistOrUpdate();
         Date now = new Date();
 
         if (this.createTime == null) { // 有些异步保存的数据，时间上有些许差异。 可提前设置createTime，防止差异发生
@@ -114,7 +114,7 @@ public abstract class BaseEntity implements PersistId, Serializable {
 
     @PreUpdate
     public void preUpdate() {
-        this.beforeSaveOrUpdate();
+        this.prePersistOrUpdate();
         this.updateTime = new Date();
         if (SecurityUtils.getSubject().isAuthenticated()) {
             if (this.updateUser == null) {
@@ -124,7 +124,7 @@ public abstract class BaseEntity implements PersistId, Serializable {
     }
 
 
-    public void beforeSaveOrUpdate() {
+    public void prePersistOrUpdate() {
     }
 
 
@@ -165,12 +165,6 @@ public abstract class BaseEntity implements PersistId, Serializable {
 
         return hashCode;
     }
-
-    @Transient
-    @JsonIgnore
-    public void initialFormValues() {
-    }
-
 
 
     @Transient

@@ -4,8 +4,7 @@ import React from 'react'
 
 import {ProTable} from '@tmgg/pro-table'
 import {http} from "@tmgg/tmgg-base"
-
-import {ButtonList,FieldRadioBoolean} from "@tmgg/tmgg-system";
+import {ButtonList,FieldDictSelect,FieldRadioBoolean} from "@tmgg/tmgg-system";
 
 
 
@@ -22,21 +21,21 @@ export default class extends React.Component {
   columns = [
     
     {
-      title: 'name',
+      title: '名称',
       dataIndex: 'name',
 
 
     },
 
     {
-      title: 'code',
+      title: '编码',
       dataIndex: 'code',
 
 
     },
 
     {
-      title: 'builtin',
+      title: '系统内置',
       dataIndex: 'builtin',
 
        valueType: 'boolean',
@@ -50,7 +49,7 @@ export default class extends React.Component {
       render: (_, record) => (
           <ButtonList>
             <a perm='sysDict:save' onClick={() => this.handleEdit(record)}> 修改 </a>
-            <Popconfirm perm='sysDict:delete' title='是否确定删除SysDict'  onConfirm={() => this.handleDelete(record)}>
+            <Popconfirm perm='sysDict:delete' title='是否确定删除数据字典'  onConfirm={() => this.handleDelete(record)}>
               <a>删除</a>
             </Popconfirm>
           </ButtonList>
@@ -100,9 +99,10 @@ export default class extends React.Component {
           rowKey='id'
           columnEmptyText={false}
           bordered
+          size='small'
       />
 
-  <Modal title='SysDict'
+  <Modal title='数据字典'
     open={this.state.formOpen}
     onOk={() => this.formRef.current.submit()}
     onCancel={() => this.setState({formOpen: false})}
@@ -114,19 +114,17 @@ export default class extends React.Component {
         onFinish={this.onFinish} >
         <Form.Item  name='id' noStyle></Form.Item>
 
-              <Form.Item label='name' name='name' rules={[{required: true}]}>
+              <Form.Item label='名称' name='name' rules={[{required: true}]}>
                     <Input/>
               </Form.Item>
-              <Form.Item label='code' name='code' rules={[{required: true}]}>
+              <Form.Item label='编码' name='code' rules={[{required: true}]}>
                     <Input/>
               </Form.Item>
-              <Form.Item label='builtin' name='builtin' rules={[{required: true}]}>
-                   <FieldRadioBoolean />
-              </Form.Item>
+
 
     </Form>
   </Modal>
-</>
+    </>
 
 
   }

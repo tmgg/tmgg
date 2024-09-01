@@ -86,8 +86,8 @@ public class SysOrg extends BaseEntity implements TreeDefinition<SysOrg> {
 
 
     @Override
-    public void beforeSaveOrUpdate() {
-        super.beforeSaveOrUpdate();
+    public void prePersistOrUpdate() {
+        super.prePersistOrUpdate();
         pinyin = PinyinUtil.getFirstLetter(name, ""); // 缩写
         pinyin += ":" + PinyinUtil.getPinyin(name, ""); // 全屏
 

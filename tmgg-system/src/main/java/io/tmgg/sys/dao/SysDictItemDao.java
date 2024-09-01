@@ -22,17 +22,13 @@ public class SysDictItemDao extends BaseDao<SysDictItem> {
     public void deleteByTypeId(String typeId) {
         JpaQuery<SysDictItem> query = new JpaQuery<>();
 
-        query.eq(SysDictItem.Fields.typeId, typeId);
+        query.eq(SysDictItem.Fields.sysDict + ".id", typeId);
 
         List<SysDictItem> all = this.findAll(query);
 
 
         this.deleteAll(all);
 
-    }
-
-    public void deleteByTypeIdPhysical(String typeId) {
-        deleteAll(new JpaQuery<>().eq(SysDictItem.Fields.typeId, typeId));
     }
 
 }

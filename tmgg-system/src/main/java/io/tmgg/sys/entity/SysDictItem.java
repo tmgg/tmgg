@@ -1,21 +1,18 @@
 
 package io.tmgg.sys.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import io.tmgg.lang.ann.Remark;
 import io.tmgg.web.enums.CommonStatus;
 import io.tmgg.lang.dao.BaseEntity;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldNameConstants;
 
-import jakarta.persistence.Entity;
-
-/**
- * 系统字典值表
- *
-
- *
- */
+@Remark("字典项")
 @Getter
 @Setter
 @Entity
@@ -23,54 +20,46 @@ import jakarta.persistence.Entity;
 public class SysDictItem extends BaseEntity {
 
 
-    /**
-     * 字典类型id
-     */
-    private String typeId;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @ManyToOne
+    SysDict sysDict;
 
-    /**
-     * 值
-     */
+
+    @Remark("键")
+    @Column(length = 50, name = "key_")
+    String key;
+
+    @Remark("值")
     private String value;
 
-    /**
-     * 编码
-     */
-    private String code;
 
-    /**
-     * 排序
-     */
-    private Integer sort;
-
-    /**
-     * 备注
-     */
+    @Remark("备注")
     private String remark;
 
-    /**
-     * 状态（字典 0正常 1停用 2删除）
-     */
+    @Remark("状态")
+    @Enumerated(EnumType.STRING)
     private CommonStatus status;
 
-    // 前段颜色
+    @Remark("颜色")
+    @Column(length = 10)
     private String color;
 
-    // 是否系统内置
+    @Remark("系统内置")
     @NotNull
     private Boolean builtin;
 
+    private Integer seq;
 
-    @Override
-    public void prePersist() {
-        super.prePersist();
-        status = status == null ? CommonStatus.ENABLE : status;
-    }
+
 
 
     @Override
-    public void preUpdate() {
-        super.preUpdate();
+    public void prePersistOrUpdate() {
         status = status == null ? CommonStatus.ENABLE : status;
+        if(seq != null){
+            seq = 0;
+        }
     }
+
+
 }
