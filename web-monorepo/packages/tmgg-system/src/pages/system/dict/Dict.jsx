@@ -4,7 +4,8 @@ import React from 'react'
 
 import {ProTable} from '@tmgg/pro-table'
 import {http} from "@tmgg/tmgg-base"
-import {ButtonList,FieldDictSelect,FieldRadioBoolean} from "@tmgg/tmgg-system";
+import {ButtonList} from "@tmgg/tmgg-system";
+import DictItem from "./DictItem";
 
 
 
@@ -19,37 +20,28 @@ export default class extends React.Component {
   tableRef = React.createRef()
 
   columns = [
-    <#list fieldInfoList as f>
-
+    
     {
-      title: '${f.title}',
-      dataIndex: '${f.name}',
-    <#if (f.hideInSearch)>
-      hideInSearch: true,
-    </#if>
-    <#if (f.hideInForm)>
-        hideInForm: true,
-    </#if>
-    <#if (f.hideInTable)>
-        hideInTable: true,
-    </#if>
-    <#if (f.dict)>
-      valueType: 'dictSelect',
-      params: '${f.dictTypeCode}'
-    </#if>
+      title: '名称',
+      dataIndex: 'name',
 
-    <#if (f.type == 'java.lang.Boolean')>
-       valueType: 'boolean',
-    </#if>
-    <#if (f.type == 'java.lang.Float')>
-       valueType: 'digit',
-    </#if>
-    <#if (f.type == 'java.lang.Integer')>
-       valueType: 'digit',
-    </#if>
 
     },
-    </#list>
+
+    {
+      title: '编码',
+      dataIndex: 'code',
+
+
+    },
+
+    {
+      title: '系统内置',
+      dataIndex: 'builtin',
+
+       valueType: 'boolean',
+
+    },
 
     {
       title: '操作',
@@ -57,8 +49,8 @@ export default class extends React.Component {
       valueType: 'option',
       render: (_, record) => (
           <ButtonList>
-            <a perm='${firstLowerName}:save' onClick={() => this.handleEdit(record)}> 修改 </a>
-            <Popconfirm perm='${firstLowerName}:delete' title='是否确定删除${label}'  onConfirm={() => this.handleDelete(record)}>
+            <a perm='sysDict:save' onClick={() => this.handleEdit(record)}> 修改 </a>
+            <Popconfirm perm='sysDict:delete' title='是否确定删除数据字典'  onConfirm={() => this.handleDelete(record)}>
               <a>删除</a>
             </Popconfirm>
           </ButtonList>
@@ -76,7 +68,7 @@ export default class extends React.Component {
 
 
   onFinish = values => {
-    http.post( '${firstLowerName}/save', values).then(rs => {
+    http.post( 'sysDict/save', values).then(rs => {
       message.success(rs.message)
       this.setState({formOpen: false})
       this.tableRef.current.reload()
@@ -86,7 +78,7 @@ export default class extends React.Component {
 
 
   handleDelete = row => {
-    http.post( '${firstLowerName}/delete', row).then(rs => {
+    http.post( 'sysDict/delete', row).then(rs => {
       this.tableRef.current.reload()
     })
   }
@@ -97,17 +89,18 @@ export default class extends React.Component {
           actionRef={this.tableRef}
           toolBarRender={() => {
             return <ButtonList>
-              <Button perm='${firstLowerName}:save' type='primary' onClick={this.handleAdd}>
+              <Button perm='sysDict:save' type='primary' onClick={this.handleAdd}>
                 <PlusOutlined/> 新增
               </Button>
             </ButtonList>
           }}
-          request={(params, sort) => http.requestPageData('${firstLowerName}/page', params, sort)}
+          request={(params, sort) => http.requestPageData('sysDict/page', params, sort)}
           columns={this.columns}
           rowKey='id'
+          search={false}
       />
 
-  <Modal title='${label}'
+  <Modal title='数据字典'
     open={this.state.formOpen}
     onOk={() => this.formRef.current.submit()}
     onCancel={() => this.setState({formOpen: false})}
@@ -119,24 +112,18 @@ export default class extends React.Component {
         onFinish={this.onFinish} >
         <Form.Item  name='id' noStyle></Form.Item>
 
-        <#list fieldInfoList as f>
-         <#if (!f.hideInForm)>
-              <Form.Item label='${f.title}' name='${f.name}' rules={[{required: true}]}>
-               <#if (f.dict)>
-                 <FieldDictSelect typeCode="${f.dictTypeCode}" />
-                <#elseif (f.type == 'java.lang.Boolean')>
-                   <FieldRadioBoolean />
-                <#elseif (f.type == 'java.lang.Float' || f.type == 'java.lang.Integer')>
-                    <InputNumber />
-                <#else>
+              <Form.Item label='名称' name='name' rules={[{required: true}]}>
                     <Input/>
-                </#if>
               </Form.Item>
-         </#if>
-         </#list>
+              <Form.Item label='编码' name='code' rules={[{required: true}]}>
+                    <Input/>
+              </Form.Item>
+
 
     </Form>
   </Modal>
+
+
     </>
 
 

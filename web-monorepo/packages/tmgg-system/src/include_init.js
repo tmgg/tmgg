@@ -11,7 +11,6 @@ registerRoutes({
     'system/dict': require('./pages/system/dict/index').default,
     'system/role': require('./pages/system/role/index').default,
     'system/user': require( "./pages/system/user").default,
-    'system/dict/Data': require('./pages/system/dict/Data').default,
     'system/file/main': require('./pages/system/file/main').default,
     'system/msg': require('./pages/system/msg/index').default,
     'system/org': require('./pages/system/org/index').default,
