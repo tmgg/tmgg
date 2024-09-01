@@ -30,8 +30,6 @@ const basePerm = 'sysUser:';
 const deleteTitle = '删除' + baseTitle
 
 
-const addApi = baseApi + 'add'
-const editApi = baseApi + 'edit'
 const delApi = baseApi + 'delete'
 const pageApi = baseApi + 'page'
 
