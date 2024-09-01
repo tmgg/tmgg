@@ -2,11 +2,11 @@ package io.tmgg.init;
 
 import io.tmgg.BasePackage;
 import io.tmgg.lang.ann.Remark;
+import io.tmgg.sys.entity.SysDictItem;
 import io.tmgg.web.base.MessageEnum;
-import io.tmgg.sys.dict.dao.SysDictDataDao;
-import io.tmgg.sys.dict.dao.SysDictTypeDao;
-import io.tmgg.sys.dict.entity.SysDictData;
-import io.tmgg.sys.dict.entity.SysDictType;
+import io.tmgg.sys.dao.SysDictItemDao;
+import io.tmgg.sys.dao.SysDictDao;
+import io.tmgg.sys.entity.SysDictType;
 import cn.hutool.core.util.ClassUtil;
 import cn.hutool.core.util.StrUtil;
 import com.google.common.hash.Hashing;
@@ -29,10 +29,10 @@ import java.util.Set;
 public class AutoAddDictDataRunnable implements Runnable {
 
     @Resource
-    SysDictTypeDao typeDao;
+    SysDictDao typeDao;
 
     @Resource
-    SysDictDataDao dataDao;
+    SysDictItemDao dataDao;
 
     @Override
     public void run() {
@@ -41,7 +41,7 @@ public class AutoAddDictDataRunnable implements Runnable {
         Class<MessageEnum> superClass = MessageEnum.class;
         Set<Class<?>> classes = ClassUtil.scanPackageBySuper(BasePackage.BASE_PACKAGE, superClass);
 
-        List<SysDictData> dataList = new ArrayList<>();
+        List<SysDictItem> dataList = new ArrayList<>();
         for (Class cls : classes) {
             Object[] enumConstants = cls.getEnumConstants();
 
@@ -74,7 +74,7 @@ public class AutoAddDictDataRunnable implements Runnable {
 
                 String color = me.getColor().name().toLowerCase();
 
-                SysDictData data = new SysDictData();
+                SysDictItem data = new SysDictItem();
                 data.setCode(name);
                 data.setValue(msg);
                 data.setRemark("系统通过枚举自动生成");

@@ -2,10 +2,10 @@
 package io.tmgg.sys.file.controller;
 
 import cn.hutool.core.lang.Dict;
+import io.tmgg.lang.ann.Remark;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.sys.file.entity.SysFile;
 import io.tmgg.sys.file.service.SysFileService;
-import io.tmgg.web.annotion.BusinessLog;
 import io.tmgg.web.annotion.HasPermission;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -38,7 +38,7 @@ public class SysFileController {
      * 上传文件
      */
     @PostMapping("upload")
-    public Dict upload(@RequestPart("file") MultipartFile file) throws IOException {
+    public Dict upload(@RequestPart("file") MultipartFile file) throws Exception {
         SysFile sysFile = service.uploadFile(file);
         Dict result = new Dict();
 
@@ -54,24 +54,24 @@ public class SysFileController {
      * 下载文件
      */
     @GetMapping("download")
-    public void download(String id, HttpServletResponse response) {
+    public void download(String id, HttpServletResponse response) throws Exception {
         service.download(id, response);
     }
 
     @GetMapping("download/{fileId}")
-    public void downloadFile(@PathVariable String fileId, HttpServletResponse response) {
+    public void downloadFile(@PathVariable String fileId, HttpServletResponse response) throws Exception {
         service.download(fileId, response);
     }
 
 
 
     @GetMapping("preview")
-    public void preview(String id, HttpServletResponse response) throws IOException {
+    public void preview(String id, HttpServletResponse response) throws Exception {
         service.preview(id, response);
     }
 
     @GetMapping("preview/{id}")
-    public void previewByPath(@PathVariable String id, HttpServletResponse response) throws IOException {
+    public void previewByPath(@PathVariable String id, HttpServletResponse response) throws Exception {
         service.preview(id, response);
     }
 
@@ -85,7 +85,6 @@ public class SysFileController {
 
     @HasPermission
     @PostMapping("delete")
-    @BusinessLog("文件信息表_删除")
     public AjaxResult delete(String id) throws Exception {
         service.deleteById(id);
         return AjaxResult.ok();

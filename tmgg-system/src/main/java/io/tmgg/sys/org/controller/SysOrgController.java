@@ -6,7 +6,6 @@ import io.tmgg.lang.obj.TreeOption;
 import io.tmgg.sys.org.entity.SysOrg;
 import io.tmgg.sys.org.enums.OrgType;
 import io.tmgg.sys.org.service.SysOrgService;
-import io.tmgg.web.annotion.BusinessLog;
 import io.tmgg.web.annotion.HasPermission;
 import io.tmgg.web.enums.CommonStatus;
 import io.tmgg.web.perm.SecurityUtils;
@@ -32,11 +31,9 @@ public class SysOrgController {
 
     @HasPermission
     @PostMapping("save")
-    @BusinessLog("组织机构_保存")
     public AjaxResult saveOrUpdate(@RequestBody  SysOrg sysOrg) {
         sysOrgService.saveOrUpdate(sysOrg);
 
-        // 否则需要二次登录
         SecurityUtils.refresh(SecurityUtils.getSubject().getId());
 
         return AjaxResult.ok();
@@ -44,7 +41,6 @@ public class SysOrgController {
 
     @HasPermission
     @PostMapping("delete")
-    @BusinessLog("组织机构_删除")
     public AjaxResult delete(@RequestBody SysOrg sysOrg) {
         sysOrgService.deleteById(sysOrg.getId());
         return AjaxResult.ok();
@@ -59,7 +55,6 @@ public class SysOrgController {
 
     @HasPermission
     @GetMapping("enableAll")
-    @BusinessLog("组织机构_启用所有")
     public AjaxResult enableAll(String id) {
         sysOrgService.toggleAllStatus(id,true);
         return AjaxResult.ok();
@@ -67,7 +62,6 @@ public class SysOrgController {
 
     @HasPermission
     @GetMapping("disableAll")
-    @BusinessLog("组织机构_禁用所有")
     public AjaxResult disableAll(String id) {
         sysOrgService.toggleAllStatus(id,false);
         return AjaxResult.ok();

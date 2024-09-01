@@ -38,15 +38,7 @@
       "name": "数据字典",
       "perm": "sysDictType",
       "path": "/system/dict",
-
       "seq": 5
-    },
-    {
-      "id": "sysDictData",
-      "name": "数据字典-数据",
-      "perm": "sysDictData",
-
-      "seq": 6
     },
     {
       "id": "sysFile",

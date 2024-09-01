@@ -1,7 +1,6 @@
 
 package io.tmgg.sys.monitor.controller;
 
-import io.tmgg.web.annotion.BusinessLog;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.sys.monitor.service.SysMachineService;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,7 +25,6 @@ public class SysMachineController {
  *
      */
     @GetMapping("/sysMachine/query")
-    @BusinessLog("系统属性监控_查询")
     public AjaxResult query() {
         return AjaxResult.ok().data(sysMachineService.query());
     }

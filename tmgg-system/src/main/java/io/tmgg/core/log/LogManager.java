@@ -4,9 +4,8 @@ package io.tmgg.core.log;
 import io.tmgg.core.enums.LogSuccessStatusEnum;
 import io.tmgg.lang.*;
 import io.tmgg.lang.IpAddressTool;
-import io.tmgg.web.annotion.BusinessLog;
+import io.tmgg.web.annotion.HasPermission;
 import io.tmgg.web.context.requestno.RequestNoContext;
-import io.tmgg.web.exception.enums.ServerExceptionEnum;
 import io.tmgg.sys.log.entity.SysOpLog;
 import io.tmgg.sys.log.entity.SysVisLog;
 import io.tmgg.sys.log.service.SysOpLogService;
@@ -151,7 +150,6 @@ public class LogManager {
  *
      */
     private SysVisLog newVisLog(HttpServletRequest request) {
-        if (ObjectUtil.isNotNull(request)) {
             String ip = IpAddressTool.getIp(request);
 
             String browser = UserAgentTool.getBrowser(request);
@@ -163,16 +161,12 @@ public class LogManager {
             sysVisLog.setBrowser(browser);
             sysVisLog.setOs(os);
             return sysVisLog;
-        } else {
-            throw new CodeException(ServerExceptionEnum.REQUEST_EMPTY);
-        }
     }
 
     /**
      * 构建基础操作日志
      */
     private SysOpLog newSysOpLog(HttpServletRequest request) {
-        if (ObjectUtil.isNotNull(request)) {
             String ip = IpAddressTool.getIp(request);
 
             String browser = UserAgentTool.getBrowser(request);
@@ -188,9 +182,6 @@ public class LogManager {
             sysOpLog.setUrl(url);
             sysOpLog.setReqMethod(method);
             return sysOpLog;
-        } else {
-            throw new CodeException(ServerExceptionEnum.REQUEST_EMPTY);
-        }
     }
 
 
@@ -198,14 +189,14 @@ public class LogManager {
         MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
         Method method = methodSignature.getMethod();
 
-        BusinessLog businessLog = method.getAnnotation(BusinessLog.class);
+        HasPermission businessLog = method.getAnnotation(HasPermission.class);
         if (businessLog == null) {
             return method.getName();
         }
         String logMsg = businessLog.value();
 
         Object controller = joinPoint.getTarget();
-        BusinessLog controllerLog = controller.getClass().getAnnotation(BusinessLog.class);
+        HasPermission controllerLog = controller.getClass().getAnnotation(HasPermission.class);
         if (controllerLog != null) {
             logMsg = controllerLog.value() + "_" + logMsg;
         }

@@ -2,7 +2,6 @@
 package io.tmgg.sys.controller;
 
 
-import io.tmgg.web.annotion.BusinessLog;
 import io.tmgg.web.annotion.HasPermission;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.sys.entity.SysConfig;
@@ -35,7 +34,6 @@ public class SysConfigController {
 
   @HasPermission
   @PostMapping("edit")
-  @BusinessLog("系统参数配置_编辑")
   public AjaxResult edit(@RequestBody SysConfig SysConfig) {
     sysConfigService.updateValue(SysConfig);
     return AjaxResult.ok();

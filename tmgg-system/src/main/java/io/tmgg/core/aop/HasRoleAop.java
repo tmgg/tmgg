@@ -2,9 +2,9 @@
 package io.tmgg.core.aop;
 
 import io.tmgg.core.log.LogManager;
+import io.tmgg.web.SystemException;
 import io.tmgg.web.annotion.HasRole;
 import io.tmgg.web.consts.AopSortConstant;
-import io.tmgg.web.exception.PermissionException;
 import io.tmgg.web.perm.SecurityUtils;
 import io.tmgg.web.perm.Subject;
 import lombok.extern.slf4j.Slf4j;
@@ -37,9 +37,9 @@ public class HasRoleAop {
         }
 
         if (!me.hasRole(ann.value())) {
-            PermissionException exception = new PermissionException("必须需要角色访问：" + ann.value());
-            this.executeNoPermissionExceptionLog(joinPoint, exception);
-            throw exception;
+            SystemException e = new SystemException(401, "权限限制，角色：" + ann.value());
+            this.executeNoPermissionExceptionLog(joinPoint, e);
+            throw e;
         }
     }
 

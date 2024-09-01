@@ -4,7 +4,6 @@ package io.tmgg.sys.monitor.controller;
 
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.sys.monitor.service.SysOnlineUserService;
-import io.tmgg.web.annotion.BusinessLog;
 import io.tmgg.web.annotion.HasPermission;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,7 +23,6 @@ public class SysOnlineUserController {
      */
     @HasPermission
     @PostMapping("/sysOnlineUser/page")
-    @BusinessLog("系统在线用户_列表")
     public AjaxResult page(Pageable pageable) {
         return AjaxResult.ok().data(sysOnlineUserService.findAll(pageable));
     }
@@ -34,7 +32,6 @@ public class SysOnlineUserController {
      */
     @HasPermission
     @PostMapping("/sysOnlineUser/forceExist")
-    @BusinessLog("系统在线用户_强退")
     public AjaxResult forceExist(String sessionId) {
         sysOnlineUserService.forceExist(sessionId);
         return AjaxResult.ok();

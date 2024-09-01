@@ -1,11 +1,10 @@
 
-package io.tmgg.sys.dict.service;
+package io.tmgg.sys.service;
 
-import io.tmgg.sys.dict.dao.SysDictTypeDao;
-import io.tmgg.sys.dict.entity.SysDictData;
-import io.tmgg.sys.dict.entity.SysDictType;
+import io.tmgg.sys.dao.SysDictDao;
+import io.tmgg.sys.entity.SysDictItem;
+import io.tmgg.sys.entity.SysDictType;
 import io.tmgg.web.enums.CommonStatus;
-import io.tmgg.web.exception.ServiceAssert;
 import io.tmgg.lang.obj.Option;
 import io.tmgg.lang.dao.BaseService;
 import io.tmgg.lang.dao.specification.JpaQuery;
@@ -31,18 +30,18 @@ import java.util.Map;
  */
 @Service
 @CacheConfig(cacheNames = "dict_data")
-public class SysDictDataService extends BaseService<SysDictData> {
+public class SysDictDataService extends BaseService<SysDictItem> {
 
     @Resource
-    SysDictTypeDao dictTypeDao;
+    SysDictDao dictTypeDao;
 
 
     public Map<String, String> getMap(String typeCode) {
-        List<SysDictData> list = this.getDictDataListByDictTypeCode(typeCode);
+        List<SysDictItem> list = this.getDictDataListByDictTypeCode(typeCode);
 
         Map<String, String> map = new LinkedHashMap<>();
 
-        for (SysDictData data : list) {
+        for (SysDictItem data : list) {
             map.put(data.getCode(), data.getValue());
         }
 
@@ -64,10 +63,10 @@ public class SysDictDataService extends BaseService<SysDictData> {
         }
 
         JpaQuery dataQuery = new JpaQuery<>()
-                .eq(SysDictData.Fields.typeId, type.getId())
-                .eq(SysDictData.Fields.code, dataCode)
-                .eq(SysDictData.Fields.status, CommonStatus.ENABLE);
-        SysDictData data = baseDao.findOne(dataQuery);
+                .eq(SysDictItem.Fields.typeId, type.getId())
+                .eq(SysDictItem.Fields.code, dataCode)
+                .eq(SysDictItem.Fields.status, CommonStatus.ENABLE);
+        SysDictItem data = baseDao.findOne(dataQuery);
         if (data != null) {
             return data.getValue();
         }
@@ -77,29 +76,29 @@ public class SysDictDataService extends BaseService<SysDictData> {
     public String getCodeByValue(String typeCode, String dataValue) {
         SysDictType type = dictTypeDao.findOne(new JpaQuery<>().eq(SysDictType.Fields.code, typeCode));
 
-        SysDictData data = baseDao.findOne(new JpaQuery<>().eq(SysDictData.Fields.typeId, type.getId()).eq(SysDictData.Fields.value, dataValue));
+        SysDictItem data = baseDao.findOne(new JpaQuery<>().eq(SysDictItem.Fields.typeId, type.getId()).eq(SysDictItem.Fields.value, dataValue));
         if (data != null) {
             return data.getValue();
         }
         return null;
     }
 
-    public Page<SysDictData> page(SysDictData dictData, Pageable pageable) {
+    public Page<SysDictItem> page(SysDictItem dictData, Pageable pageable) {
 
         //构造条件
-        JpaQuery<SysDictData> queryWrapper = new JpaQuery<>();
+        JpaQuery<SysDictItem> queryWrapper = new JpaQuery<>();
         if (ObjectUtil.isNotNull(dictData)) {
             //根据字典类型查询
             if (ObjectUtil.isNotEmpty(dictData.getTypeId())) {
-                queryWrapper.eq(SysDictData.Fields.typeId, dictData.getTypeId());
+                queryWrapper.eq(SysDictItem.Fields.typeId, dictData.getTypeId());
             }
             //根据字典值的编码模糊查询
             if (ObjectUtil.isNotEmpty(dictData.getCode())) {
-                queryWrapper.like(SysDictData.Fields.code, dictData.getCode());
+                queryWrapper.like(SysDictItem.Fields.code, dictData.getCode());
             }
             //根据字典值的内容模糊查询
             if (ObjectUtil.isNotEmpty(dictData.getValue())) {
-                queryWrapper.like(SysDictData.Fields.value, dictData.getValue());
+                queryWrapper.like(SysDictItem.Fields.value, dictData.getValue());
             }
         }
         //返回分页查询结果
@@ -107,77 +106,77 @@ public class SysDictDataService extends BaseService<SysDictData> {
     }
 
 
-    public List<SysDictData> list(SysDictData dictData) {
+    public List<SysDictItem> list(SysDictItem dictData) {
         //构造条件,查询某个字典类型下的
-        JpaQuery<SysDictData> queryWrapper = new JpaQuery<>();
+        JpaQuery<SysDictItem> queryWrapper = new JpaQuery<>();
         if (ObjectUtil.isNotNull(dictData)) {
             if (ObjectUtil.isNotEmpty(dictData.getTypeId())) {
-                queryWrapper.eq(SysDictData.Fields.typeId, dictData.getTypeId());
+                queryWrapper.eq(SysDictItem.Fields.typeId, dictData.getTypeId());
             }
         }
-        return this.findAll(queryWrapper, Sort.by(SysDictData.Fields.sort));
+        return this.findAll(queryWrapper, Sort.by(SysDictItem.Fields.sort));
     }
 
 
     @CacheEvict(cacheNames = {"getDictDataListByDictTypeCode","getOptions","getValue"}, allEntries = true)
-    public SysDictData add(SysDictData SysDictData) {
+    public SysDictItem add(SysDictItem SysDictItem) {
         //校验参数，检查是否存在重复的编码，不排除当前添加的这条记录
-        checkParam(SysDictData, false);
+        checkParam(SysDictItem, false);
 
         //将dto转为实体
-        SysDictData sysDictData = new SysDictData();
-        BeanUtil.copyProperties(SysDictData, sysDictData);
+        SysDictItem sysDictItem = new SysDictItem();
+        BeanUtil.copyProperties(SysDictItem, sysDictItem);
 
         //设置状态为启用
-        sysDictData.setStatus(CommonStatus.ENABLE);
-        sysDictData.setValue(sysDictData.getValue().trim());
+        sysDictItem.setStatus(CommonStatus.ENABLE);
+        sysDictItem.setValue(sysDictItem.getValue().trim());
 
-        this.save(sysDictData);
-        return sysDictData;
+        this.save(sysDictItem);
+        return sysDictItem;
     }
 
     @CacheEvict(cacheNames = {"getDictDataListByDictTypeCode","getOptions","getValue"}, allEntries = true)
-    public void delete(SysDictData SysDictData) {
-        SysDictData sysDictData = this.findOne(SysDictData.getId());
+    public void delete(SysDictItem SysDictItem) {
+        SysDictItem sysDictItem = this.findOne(SysDictItem.getId());
 
 
         //更新实体
-        this.save(sysDictData);
+        this.save(sysDictItem);
     }
 
     @CacheEvict(cacheNames = {"getDictDataListByDictTypeCode","getOptions","getValue"}, allEntries = true)
-    public void edit(SysDictData dictData) {
-        SysDictData sysDictData = this.findOne(dictData.getId());
+    public void edit(SysDictItem dictData) {
+        SysDictItem sysDictItem = this.findOne(dictData.getId());
 
         //校验参数，检查是否存在重复的编码或者名称，排除当前编辑的这条记录
         checkParam(dictData, true);
 
         //请求参数转化为实体
-        BeanUtil.copyProperties(dictData, sysDictData, SysDictData.Fields.status);
+        BeanUtil.copyProperties(dictData, sysDictItem, SysDictItem.Fields.status);
 
-        sysDictData.setValue(sysDictData.getValue().trim());
+        sysDictItem.setValue(sysDictItem.getValue().trim());
 
-        this.save(sysDictData);
+        this.save(sysDictItem);
     }
 
     @Cacheable(cacheNames = "getOptions")
     public List<Option> getOptions(String typeCode) {
-        List<SysDictData> list = this.getDictDataListByDictTypeCode(typeCode);
-        return Option.convertList(list, SysDictData::getCode, SysDictData::getValue);
+        List<SysDictItem> list = this.getDictDataListByDictTypeCode(typeCode);
+        return Option.convertList(list, SysDictItem::getCode, SysDictItem::getValue);
     }
 
 
     @Cacheable(cacheNames = "getDictDataListByDictTypeCode")
-    public List<SysDictData> getDictDataListByDictTypeCode(String typeCode) {
+    public List<SysDictItem> getDictDataListByDictTypeCode(String typeCode) {
         SysDictType type = dictTypeDao.findOne(new JpaQuery<>().eq(SysDictType.Fields.code, typeCode));
-        ServiceAssert.state(type != null, "字典类型编码" + typeCode + "不存在");
+        Assert.state(type != null, "字典类型编码" + typeCode + "不存在");
 
-        JpaQuery<SysDictData> queryWrapper = new JpaQuery<>();
+        JpaQuery<SysDictItem> queryWrapper = new JpaQuery<>();
 
-        queryWrapper.eq(SysDictData.Fields.typeId, type.getId());
+        queryWrapper.eq(SysDictItem.Fields.typeId, type.getId());
 
 
-        return this.findAll(queryWrapper, Sort.by(SysDictData.Fields.sort));
+        return this.findAll(queryWrapper, Sort.by(SysDictItem.Fields.sort));
     }
 
 
@@ -189,10 +188,10 @@ public class SysDictDataService extends BaseService<SysDictData> {
 
 
     @Transactional
-    public void changeStatus(SysDictData SysDictData) {
-        SysDictData sysDictData = this.findOne(SysDictData.getId());
-        CommonStatus status = SysDictData.getStatus();
-        sysDictData.setStatus(status);
+    public void changeStatus(SysDictItem SysDictItem) {
+        SysDictItem sysDictItem = this.findOne(SysDictItem.getId());
+        CommonStatus status = SysDictItem.getStatus();
+        sysDictItem.setStatus(status);
     }
 
 
@@ -202,15 +201,15 @@ public class SysDictDataService extends BaseService<SysDictData> {
 
  *
      */
-    private void checkParam(SysDictData sysDictData, boolean isExcludeSelf) {
-        String id = sysDictData.getId();
-        String typeId = sysDictData.getTypeId();
-        String code = sysDictData.getCode();
+    private void checkParam(SysDictItem sysDictItem, boolean isExcludeSelf) {
+        String id = sysDictItem.getId();
+        String typeId = sysDictItem.getTypeId();
+        String code = sysDictItem.getCode();
 
         //构建带code的查询条件
-        JpaQuery<SysDictData> queryWrapper = new JpaQuery<>();
-        queryWrapper.eq(SysDictData.Fields.typeId, typeId)
-                .eq(SysDictData.Fields.code, code)
+        JpaQuery<SysDictItem> queryWrapper = new JpaQuery<>();
+        queryWrapper.eq(SysDictItem.Fields.typeId, typeId)
+                .eq(SysDictItem.Fields.code, code)
                 ;
 
         //如果排除自己，则增加查询条件主键id不等于本条id

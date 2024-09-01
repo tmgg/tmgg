@@ -1,4 +1,4 @@
-import {Card, Descriptions, Empty, Popconfirm, Tree} from 'antd';
+import {Button,Card, Descriptions, Empty, Popconfirm, Tree} from 'antd';
 import React, {Fragment} from 'react';
 
 import Data from "./Data";
@@ -63,18 +63,18 @@ export default class extends React.Component {
       <LeftRightLayout leftSize={300}>
         <Card title={'字典类型'} extra={
           <ButtonList>
-            <a perm={basePerm + 'save'} onClick={() => {
+            <Button perm={basePerm + 'save'} onClick={() => {
               this.setState({formValues: {}})
               this.formRef.current.show()
-            }}>新增</a>
-            <a perm={basePerm + 'save'} onClick={() => {
+            }}>新增</Button>
+            <Button perm={basePerm + 'save'} onClick={() => {
               this.setState({formValues: selectData})
               this.formRef.current.show()
             }
-            }> 修改 </a>
+            }> 修改 </Button>
 
             <Popconfirm perm={basePerm + 'delete'} title={'是否确定删除'} onConfirm={this.handleDelete}>
-              <a>删除</a>
+              <Button>删除</Button>
             </Popconfirm>
           </ButtonList>
         }>
@@ -108,7 +108,6 @@ export default class extends React.Component {
 
       </LeftRightLayout>
 
-      <div>提示:字典主要针对可能变化的数据，对于可枚举数据，建议使用Java中的枚举，在开发过程中语义更强，参考ApproveStatus</div>
       <ProModal title='字典类型' ref={this.formRef}>
         <ProForm onFinish={this.handleSave} initialValues={this.state.formValues}>
           <ProFormItem name='id' noStyle/>

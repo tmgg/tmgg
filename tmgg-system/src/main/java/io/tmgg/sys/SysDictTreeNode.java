@@ -1,5 +1,5 @@
 
-package io.tmgg.sys.dict.result;
+package io.tmgg.sys;
 
 import io.tmgg.lang.TreeDefinition;
 import lombok.Data;

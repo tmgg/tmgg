@@ -11,11 +11,7 @@ import java.lang.annotation.*;
 @Target({ElementType.METHOD})
 public @interface HasPermission {
 
-
     String value() default "";
-
-    String title() default "";
-
 
 }
 

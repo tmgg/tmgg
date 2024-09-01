@@ -1,16 +1,15 @@
 
-package io.tmgg.sys.dict.controller;
+package io.tmgg.sys.controller;
 
 import cn.hutool.core.lang.Dict;
 import io.tmgg.lang.ann.PublicApi;
 import io.tmgg.lang.dao.specification.JpaQuery;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.obj.Option;
-import io.tmgg.sys.dict.entity.SysDictData;
-import io.tmgg.sys.dict.entity.SysDictType;
-import io.tmgg.sys.dict.service.SysDictDataService;
-import io.tmgg.sys.dict.service.SysDictTypeService;
-import io.tmgg.web.annotion.BusinessLog;
+import io.tmgg.sys.entity.SysDictItem;
+import io.tmgg.sys.entity.SysDictType;
+import io.tmgg.sys.service.SysDictDataService;
+import io.tmgg.sys.service.SysDictTypeService;
 import io.tmgg.web.annotion.HasPermission;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
@@ -54,14 +53,13 @@ public class SysDictTypeController {
      * yubaoshan
      */
     @GetMapping("dataDict")
-    @BusinessLog("系统字典类型数据_下拉")
     public Dict dataDict(String code) {
         SysDictType type = typeService.findOne(new JpaQuery().eq(SysDictType.Fields.code, code));
 
-        List<SysDictData> list = dataService.findAll(new JpaQuery().eq(SysDictData.Fields.typeId, type.getId()));
+        List<SysDictItem> list = dataService.findAll(new JpaQuery().eq(SysDictItem.Fields.typeId, type.getId()));
 
         Dict dict = new Dict();
-        for (SysDictData data : list) {
+        for (SysDictItem data : list) {
             dict.put(data.getCode(), data.getValue());
         }
 
@@ -72,7 +70,6 @@ public class SysDictTypeController {
      * 获取字典类型下所有字典，举例，返回格式为：[{code:"M",value:"男"},{code:"F",value:"女"}]
      */
     @GetMapping("dict")
-    @BusinessLog("系统字典类型_下拉")
     public Dict dict(String searchValue) {
         JpaQuery<SysDictType> query = new JpaQuery<>();
 
@@ -92,7 +89,6 @@ public class SysDictTypeController {
 
     @HasPermission
     @PostMapping("save")
-    @BusinessLog("系统字典类型_增加")
     public AjaxResult save(@RequestBody SysDictType sysDictTypeParam) {
 
         typeService.save(sysDictTypeParam);
@@ -102,7 +98,6 @@ public class SysDictTypeController {
 
     @HasPermission
     @PostMapping("delete")
-    @BusinessLog("系统字典类型_删除")
     public AjaxResult delete(@RequestBody SysDictType sysDictTypeParam) {
         typeService.delete(sysDictTypeParam);
         return AjaxResult.ok();

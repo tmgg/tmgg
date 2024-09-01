@@ -1,7 +1,6 @@
 
 package io.tmgg.lang;
 
-import io.tmgg.web.exception.enums.ServerExceptionEnum;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -22,11 +21,8 @@ public class HttpServletTool {
      */
     public static HttpServletRequest getRequest() {
         ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        if (requestAttributes == null) {
-            throw new CodeException(ServerExceptionEnum.REQUEST_EMPTY);
-        } else {
+
             return requestAttributes.getRequest();
-        }
     }
 
     /**
@@ -36,10 +32,7 @@ public class HttpServletTool {
      */
     public static HttpServletResponse getResponse() {
         ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        if (requestAttributes == null) {
-            throw new CodeException(ServerExceptionEnum.REQUEST_EMPTY);
-        } else {
+
             return requestAttributes.getResponse();
-        }
     }
 }

@@ -1,15 +1,14 @@
 
 package io.tmgg.sys.file.service;
 
-import io.tmgg.lang.CodeException;
 import io.tmgg.lang.DownloadTool;
 import io.tmgg.lang.dao.specification.JpaQuery;
 import io.tmgg.sys.file.FileOperator;
 import io.tmgg.sys.file.dao.SysFileDao;
 import io.tmgg.sys.file.entity.SysFile;
 import io.tmgg.sys.file.enums.FileLocationEnum;
-import io.tmgg.sys.file.enums.SysFileExceptionEnum;
 import io.tmgg.sys.file.result.SysFileResult;
+import io.tmgg.web.SystemException;
 import io.tmgg.web.consts.SymbolConstant;
 import io.tmgg.web.context.requestno.RequestNoContext;
 import io.tmgg.web.perm.SecurityUtils;
@@ -27,10 +26,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletResponse;
+
 import java.awt.*;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -72,17 +73,12 @@ public class SysFileService {
     }
 
 
-    /***
-     *
-     * @param file
-     *
-     * @throws IOException
-     */
-    public SysFile uploadFile(MultipartFile file) throws IOException {
+
+    public SysFile uploadFile(MultipartFile file) throws Exception {
         return this.uploadFile(file.getBytes(), file.getOriginalFilename());
     }
 
-    public SysFile uploadFile(byte[] bytes, String originalFilename) {
+    public SysFile uploadFile(byte[] bytes, String originalFilename) throws Exception {
         String fileId = String.valueOf(IdUtil.getSnowflake().nextId());
 
         // 获取文件后缀
@@ -95,11 +91,7 @@ public class SysFileService {
         String finalName = fileId + SymbolConstant.PERIOD + fileSuffix;
 
         // 存储文件
-        try {
-            fileOperator.storageFile(null, finalName, bytes);
-        } catch (Exception e) {
-            throw new CodeException(SysFileExceptionEnum.ERROR_FILE);
-        }
+        fileOperator.storageFile(null, finalName, bytes);
 
         // 计算文件大小kb
         long fileSizeKb = Convert.toLong(NumberUtil.div(new BigDecimal(bytes.length), BigDecimal.valueOf(1024))
@@ -123,21 +115,14 @@ public class SysFileService {
     }
 
 
-    public SysFileResult getFileInfoResult(String fileId) {
+    public SysFileResult getFileInfoResult(String fileId) throws Exception {
         byte[] fileBytes;
         // 获取文件名
         SysFile sysFile = sysFileDao.findOne(fileId);
-        if (sysFile == null) {
-            throw new CodeException(SysFileExceptionEnum.NOT_EXISTED_FILE);
-        }
-        try {
-            // 返回文件字节码
-            fileBytes = fileOperator.getFileBytes(sysFile.getFileBucket(), sysFile.getFileObjectName());
+        Assert.notNull(sysFile, "文件不存在");
+        // 返回文件字节码
+        fileBytes = fileOperator.getFileBytes(sysFile.getFileBucket(), sysFile.getFileObjectName());
 
-        } catch (Exception e) {
-            log.error(">>>{} 获取文件流异常，请求号为：{}，具体信息为：{}", fileOperator.getClass().getName(), RequestNoContext.get(), e.getMessage());
-            throw new CodeException(SysFileExceptionEnum.FILE_STREAM_ERROR);
-        }
 
         SysFileResult sysFileResult = new SysFileResult();
         BeanUtil.copyProperties(sysFile, sysFileResult);
@@ -154,15 +139,10 @@ public class SysFileService {
     }
 
 
-    public void assertFile(String id) {
-        SysFile sysFile = sysFileDao.findOne(id);
-        if (ObjectUtil.isEmpty(sysFile)) {
-            throw new CodeException(SysFileExceptionEnum.NOT_EXISTED);
-        }
-    }
 
 
-    public void preview(String id, HttpServletResponse response) throws IOException {
+
+    public void preview(String id, HttpServletResponse response) throws Exception {
         byte[] fileBytes;
         //根据文件id获取文件信息结果集
         SysFileResult fileResult = this.getFileInfoResult(id);
@@ -182,7 +162,7 @@ public class SysFileService {
     }
 
 
-    public void download(String id, HttpServletResponse response) {
+    public void download(String id, HttpServletResponse response) throws Exception {
         // 获取文件信息结果集
         SysFileResult sysFileResult = this.getFileInfoResult(id);
         String fileName = sysFileResult.getFileOriginName();

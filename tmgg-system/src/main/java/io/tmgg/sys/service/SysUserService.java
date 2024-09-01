@@ -5,10 +5,8 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.ArrayUtil;
-import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
-import io.tmgg.lang.CodeException;
 import io.tmgg.lang.PasswordTool;
 import io.tmgg.lang.dao.BaseEntity;
 import io.tmgg.lang.dao.BaseService;
@@ -23,8 +21,6 @@ import io.tmgg.sys.org.entity.SysOrg;
 import io.tmgg.sys.role.dao.SysRoleDao;
 import io.tmgg.sys.role.entity.SysRole;
 import io.tmgg.sys.user.enums.DataPermType;
-import io.tmgg.sys.user.enums.SysUserExceptionEnum;
-import io.tmgg.sys.user.param.SysUserParam;
 import io.tmgg.web.enums.CommonStatus;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
@@ -216,15 +212,6 @@ public class SysUserService extends BaseService<SysUser> implements UserLabelQue
     }
 
 
-    public SysUser getUserById(String userId) {
-        SysUser sysUser = this.findOne(userId);
-        if (ObjectUtil.isNull(sysUser)) {
-            throw new CodeException(SysUserExceptionEnum.USER_NOT_EXIST);
-        }
-        return sysUser;
-    }
-
-
     public List<String> getAllUserIdList() {
         List<String> resultList = CollectionUtil.newArrayList();
         JpaQuery<SysUser> queryWrapper = new JpaQuery<>();
@@ -232,38 +219,6 @@ public class SysUserService extends BaseService<SysUser> implements UserLabelQue
         return resultList;
     }
 
-
-    /**
-     * 校验参数，检查是否存在相同的账号
-     */
-    private void checkParam(SysUserParam param, boolean isExcludeSelf) {
-        String id = param.getId();
-        String account = param.getAccount();
-        JpaQuery<SysUser> queryWrapper = new JpaQuery<>();
-        queryWrapper.eq(SysUser.Fields.account, account)
-        ;
-        //是否排除自己，如果是则查询条件排除自己id
-        if (isExcludeSelf) {
-            queryWrapper.ne("id", id);
-        }
-        long countByAccount = this.count(queryWrapper);
-        //大于等于1个则表示重复
-        if (countByAccount >= 1) {
-            throw new CodeException(SysUserExceptionEnum.USER_ACCOUNT_REPEAT);
-        }
-    }
-
-
-    /**
-     * 获取系统用户
-     */
-    private SysUser querySysUser(SysUserParam sysUserParam) {
-        SysUser sysUser = this.findOne(sysUserParam.getId());
-        if (ObjectUtil.isNull(sysUser)) {
-            throw new CodeException(SysUserExceptionEnum.USER_NOT_EXIST);
-        }
-        return sysUser;
-    }
 
     public List<SysUser> findValid() {
         JpaQuery<SysUser> q = new JpaQuery<>();

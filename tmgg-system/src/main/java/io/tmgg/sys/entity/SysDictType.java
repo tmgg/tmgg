@@ -1,5 +1,5 @@
 
-package io.tmgg.sys.dict.entity;
+package io.tmgg.sys.entity;
 
 import io.tmgg.lang.dao.BaseEntity;
 import lombok.Getter;
@@ -9,12 +9,7 @@ import lombok.experimental.FieldNameConstants;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 
-/**
- * 系统字典类型表
- *
 
- *
- */
 @Getter
 @Setter
 @Entity

@@ -8,7 +8,6 @@ import io.tmgg.lang.InnerTokenTool;
 import io.tmgg.lang.PasswordTool;
 import io.tmgg.lang.ann.PublicApi;
 import io.tmgg.lang.obj.AjaxResult;
-import io.tmgg.sys.auth.AccountCheckResult;
 import io.tmgg.sys.auth.captcha.CaptchaService;
 import io.tmgg.sys.service.SysUserAuthService;
 import io.tmgg.web.perm.SecurityUtils;
@@ -80,8 +79,7 @@ public class SysLoginController {
                return AjaxResult.err().code(401).msg( "验证码错误");
            }
 
-           AccountCheckResult resultEnum = authService.checkAccount(account, password);
-           Assert.state(resultEnum == AccountCheckResult.VALID, resultEnum.getMessage());
+            authService.checkAccount(account, password);
        }
 
         String token = authService.createToken(account);

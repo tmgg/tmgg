@@ -1,10 +1,10 @@
 package io.tmgg.web.perm;
 
-import io.tmgg.lang.CodeException;
 import io.tmgg.lang.RequestTool;
 import cn.hutool.cache.Cache;
 import cn.hutool.cache.CacheUtil;
 import cn.hutool.cache.impl.CacheObj;
+import io.tmgg.web.SystemException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.Assert;
@@ -63,7 +63,7 @@ public class SecurityUtils {
 
     public static void login(String token, Subject subject) {
         if (LOGOUT_TOKEN.containsKey(token)) {
-            throw new CodeException(401, "登录凭证已注销，请重新登录");
+            throw new SystemException(401, "登录凭证已注销，请重新登录");
         }
 
         TOKEN_SUBJECT_CACHE.put(token, subject);

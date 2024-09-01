@@ -33,53 +33,12 @@ public class PermissionToDatabaseHandler {
     @Resource
     private SystemProperties systemProperties;
 
-    private static Map<String, String> DICT = new HashMap<>();
 
-    {
-        DICT.put("save", "增改");
-        DICT.put("add", "新增");
-        DICT.put("page", "列表");
-        DICT.put("edit", "编辑");
-        DICT.put("view", "查看");
-        DICT.put("export", "导出");
-        DICT.put("grant", "授权");
-        DICT.put("role", "角色");
-        DICT.put("own", "拥有");
-        DICT.put("data", "数据");
-        DICT.put("update", "更新");
-        DICT.put("info", "信息");
-        DICT.put("pwd", "密码");
-        DICT.put("change", "修改");
-        DICT.put("status", "状态");
-        DICT.put("reset", "重置");
-        DICT.put("tree", "树状列表");
-        DICT.put("setAsDefault", "设为默认");
-        DICT.put("delete", "删除");
-        DICT.put("detail", "详情");
-        DICT.put("report", "报表");
-        DICT.put("change_status", "调整状态");
-        DICT.put("submit", "提交");
-        DICT.put("check", "审核");
-        DICT.put("uncheck", "反审");
-        DICT.put("deploy", "部署");
-        DICT.put("save_content", "保存内容");
-        DICT.put("reset_pwd", "重置密码");
-        DICT.put("list", "列表");
-        DICT.put("get", "详情");
-        DICT.put("entry_page", "查看明细");
-        DICT.put("grant_data", "授权数据");
-    }
-
-    private void clean() {
-        DICT.clear();
-        DICT = null;
-    }
 
     public void run() {
         log.info("开始分析代码中的权限码");
         if (!systemProperties.isMenuAutoUpdate()) {
             log.info("系统配置不用自动更新菜单，返回");
-            this.clean();
             return;
         }
 
@@ -103,16 +62,14 @@ public class PermissionToDatabaseHandler {
                 HasPermission hasPermission = handlerMethod.getMethodAnnotation(HasPermission.class);
 
                 String perm = hasPermission.value();
-                String label = hasPermission.title();
 
                 if (StrUtil.isEmpty(perm)) {
                     perm = getPermByRequestMapping(info);
                 }
-                addMenu(perm, label);
+                addMenu(perm);
             }
         }
 
-        this.clean();
     }
 
     @NotNull
@@ -133,15 +90,13 @@ public class PermissionToDatabaseHandler {
     }
 
 
-    private void addMenu(String perm, String label) {
+    private void addMenu(String perm) {
         SysPerm byPerm = menuDao.findByPerm(perm);
         if (byPerm != null) {
             return;
         }
 
-        if (StrUtil.isEmpty(label)) {
-            label = translate(StringUtils.substringAfterLast(perm, ":"));
-        }
+
 
 
 
@@ -154,7 +109,7 @@ public class PermissionToDatabaseHandler {
         SysPerm btn = old == null ? new SysPerm() : old;
 
 
-        btn.setName(label);
+        btn.setName(perm); // TODO
         btn.setPerm(perm);
         btn.setType(MenuType.BTN);
 
@@ -182,21 +137,6 @@ public class PermissionToDatabaseHandler {
      */
     private String convertPermToId(String perm) {
         return String.valueOf(LongTool.strToMd5Long(perm));
-    }
-
-
-    private String translate(String en) {
-        String str = StrUtil.toUnderlineCase(en);
-
-        String[] arr = str.split("[-:]");
-
-
-        List<String> list = Arrays.stream(arr).map(a -> {
-            String res = DICT.get(a);
-            return StringUtils.defaultString(res, a);
-        }).collect(Collectors.toList());
-
-        return StringUtils.join(list, "");
     }
 
 

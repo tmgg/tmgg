@@ -1,11 +1,9 @@
 package io.tmgg.sys.controller;
 
 import io.tmgg.lang.TreeManager;
+import io.tmgg.lang.ann.Remark;
 import io.tmgg.sys.perm.SysPerm;
 import io.tmgg.sys.perm.SysPermService;
-import io.tmgg.sys.entity.SysUser;
-import io.tmgg.sys.service.SysUserService;
-import io.tmgg.web.annotion.BusinessLog;
 import io.tmgg.web.annotion.HasPermission;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.obj.Option;
@@ -32,7 +30,6 @@ import java.util.stream.Collectors;
  */
 @RestController
 @RequestMapping("sysRole")
-@BusinessLog("角色")
 public class SysRoleController {
 
     @Resource
@@ -76,7 +73,7 @@ public class SysRoleController {
     }
 
 
-    @HasPermission(title = "删除")
+    @HasPermission
     @GetMapping("delete")
     public AjaxResult delete(@RequestParam String id) {
         sysRoleService.deleteById(id);
@@ -84,8 +81,9 @@ public class SysRoleController {
     }
 
 
-    @HasPermission(value = "sysRole:grant",title = "权限授权")
+    @HasPermission(value = "sysRole:grant")
     @GetMapping("ownMenu")
+    @Remark("权限授权")
     public AjaxResult ownMenu(String id) {
         List<String> menuIdList = sysRoleService.ownMenu(id);
         List<SysPerm> all = sysPermService.findAll();
@@ -96,8 +94,9 @@ public class SysRoleController {
         return AjaxResult.ok().data(leafList);
     }
 
-    @HasPermission(value = "sysRole:grant", title = "权限授权")
+    @HasPermission( "sysRole:grant")
     @PostMapping("grantPerm")
+    @Remark("权限授权")
     public AjaxResult grantPerm(@RequestParam(required = true) String id, @RequestParam(required = false) List<String> permIds) {
         sysRoleService.grantPerm(id, permIds);
 

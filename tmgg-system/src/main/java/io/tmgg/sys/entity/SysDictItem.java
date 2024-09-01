@@ -1,5 +1,5 @@
 
-package io.tmgg.sys.dict.entity;
+package io.tmgg.sys.entity;
 
 import io.tmgg.web.enums.CommonStatus;
 import io.tmgg.lang.dao.BaseEntity;
@@ -19,7 +19,7 @@ import jakarta.persistence.Entity;
 @Setter
 @Entity
 @FieldNameConstants
-public class SysDictData extends BaseEntity {
+public class SysDictItem extends BaseEntity {
 
 
     /**

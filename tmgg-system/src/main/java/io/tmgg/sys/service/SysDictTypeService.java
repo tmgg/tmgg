@@ -1,11 +1,11 @@
 
-package io.tmgg.sys.dict.service;
+package io.tmgg.sys.service;
 
-import io.tmgg.sys.dict.dao.SysDictDataDao;
-import io.tmgg.sys.dict.dao.SysDictTypeDao;
-import io.tmgg.sys.dict.entity.SysDictData;
-import io.tmgg.sys.dict.entity.SysDictType;
-import io.tmgg.sys.dict.result.SysDictTreeNode;
+import io.tmgg.sys.SysDictTreeNode;
+import io.tmgg.sys.dao.SysDictItemDao;
+import io.tmgg.sys.dao.SysDictDao;
+import io.tmgg.sys.entity.SysDictItem;
+import io.tmgg.sys.entity.SysDictType;
 import io.tmgg.web.enums.CommonStatus;
 import io.tmgg.lang.TreeTool;
 import io.tmgg.lang.dao.BaseService;
@@ -30,11 +30,11 @@ import java.util.List;
 public class SysDictTypeService extends BaseService<SysDictType> {
 
     @Resource
-    private SysDictDataDao dictDataDao;
+    private SysDictItemDao dictDataDao;
 
 
     @Resource
-    private SysDictTypeDao dictTypeDao;
+    private SysDictDao dictTypeDao;
 
 
     public SysDictType findByCode(String typeCode) {
@@ -66,7 +66,7 @@ public class SysDictTypeService extends BaseService<SysDictType> {
         List<String> lines = StrUtil.splitTrim(content, "\n");
 
         for (String line : lines) {
-            SysDictData dictData = new SysDictData();
+            SysDictItem dictData = new SysDictItem();
             dictData.setTypeId(type.getId());
             dictData.setCode(line);
             dictData.setValue(line);
@@ -78,7 +78,7 @@ public class SysDictTypeService extends BaseService<SysDictType> {
 
     public List<Dict> dropDown(SysDictType SysDictType) {
         JpaQuery<SysDictType> query = new JpaQuery<>()
-                .eq(io.tmgg.sys.dict.entity.SysDictType.Fields.code, SysDictType.getCode());
+                .eq(io.tmgg.sys.entity.SysDictType.Fields.code, SysDictType.getCode());
 
         SysDictType sysDictType = this.findOne(query);
         Assert.state(sysDictType != null, "字典类型不存在");
@@ -107,16 +107,16 @@ public class SysDictTypeService extends BaseService<SysDictType> {
             resultList.add(sysDictTreeNode);
         }
 
-        JpaQuery<SysDictData> dictQueryWrapper = new JpaQuery<>();
+        JpaQuery<SysDictItem> dictQueryWrapper = new JpaQuery<>();
 
-        List<SysDictData> dictData = dictDataDao.findAll(dictQueryWrapper, Sort.by(SysDictData.Fields.sort));
-        for (SysDictData sysDictData : dictData) {
+        List<SysDictItem> dictData = dictDataDao.findAll(dictQueryWrapper, Sort.by(SysDictItem.Fields.sort));
+        for (SysDictItem sysDictItem : dictData) {
             SysDictTreeNode sysDictTreeNode = new SysDictTreeNode();
-            sysDictTreeNode.setId(sysDictData.getId());
-            sysDictTreeNode.setPid(sysDictData.getTypeId());
-            sysDictTreeNode.setCode(sysDictData.getCode());
-            sysDictTreeNode.setName(sysDictData.getValue());
-            sysDictTreeNode.setColor(sysDictData.getColor());
+            sysDictTreeNode.setId(sysDictItem.getId());
+            sysDictTreeNode.setPid(sysDictItem.getTypeId());
+            sysDictTreeNode.setCode(sysDictItem.getCode());
+            sysDictTreeNode.setName(sysDictItem.getValue());
+            sysDictTreeNode.setColor(sysDictItem.getColor());
             resultList.add(sysDictTreeNode);
         }
         return  TreeTool.buildTree(resultList);

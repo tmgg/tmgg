@@ -5,12 +5,10 @@ import cn.hutool.extra.servlet.JakartaServletUtil;
 import io.tmgg.SystemProperties;
 import io.tmgg.lang.*;
 import io.tmgg.lang.obj.AjaxResult;
+import io.tmgg.web.SystemException;
 import io.tmgg.web.consts.AopSortConstant;
 import io.tmgg.web.context.requestno.RequestNoContext;
-import io.tmgg.web.exception.PermissionException;
-import io.tmgg.web.exception.enums.*;
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.extra.servlet.ServletUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.annotation.Order;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -70,45 +68,9 @@ public class GlobalExceptionHandler {
         return AjaxResult.err().code(500).msg( message);
     }
 
-    /**
-     * 拦截参数格式传递异常
-     *
- *
-     */
-    @ExceptionHandler(HttpMessageNotReadableException.class)
-    public AjaxResult httpMessageNotReadable(HttpMessageNotReadableException e) {
-        log.error(">>> 参数格式传递异常，请求号为：{}，具体信息为：{}", RequestNoContext.get(), e.getMessage());
-        return renderJson(RequestTypeExceptionEnum.REQUEST_JSON_ERROR);
-    }
 
-    /**
-     * 拦截不支持媒体类型异常
-     *
- *
-     */
-    @ExceptionHandler(HttpMediaTypeNotSupportedException.class)
-    public AjaxResult httpMediaTypeNotSupport(HttpMediaTypeNotSupportedException e) {
-        log.error(">>> 参数格式传递异常，请求号为：{}，具体信息为：{}", RequestNoContext.get(), e.getMessage());
-        return renderJson(RequestTypeExceptionEnum.REQUEST_TYPE_IS_JSON);
-    }
 
-    /**
-     * 拦截请求方法的异常
-     *
- *
-     */
-    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
-    public AjaxResult methodNotSupport(HttpServletRequest request) {
-        if (JakartaServletUtil.isPostMethod(request)) {
-            log.error(">>> 请求方法异常，请求号为：{}，具体信息为：{}", RequestNoContext.get(), RequestMethodExceptionEnum.REQUEST_METHOD_IS_GET.getMessage());
-            return renderJson(RequestMethodExceptionEnum.REQUEST_METHOD_IS_GET);
-        }
-        if (JakartaServletUtil.isGetMethod(request)) {
-            log.error(">>> 请求方法异常，请求号为：{}，具体信息为：{}", RequestNoContext.get(), RequestMethodExceptionEnum.REQUEST_METHOD_IS_POST.getMessage());
-            return renderJson(RequestMethodExceptionEnum.REQUEST_METHOD_IS_POST);
-        }
-        return null;
-    }
+
 
     /**
      * 拦截资源找不到的运行时异常
@@ -122,29 +84,7 @@ public class GlobalExceptionHandler {
         return AjaxResult.err().code(404).msg( "资源路径不存在，请检查请求地址，请求地址为:" + HttpServletTool.getRequest().getRequestURI());
     }
 
-    /**
-     * 拦截参数校验错误异常,JSON传参
-     *
- *
-     */
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public AjaxResult methodArgumentNotValidException(MethodArgumentNotValidException e) {
-        String argNotValidMessage = getArgNotValidMessage(e.getBindingResult());
-        log.error(">>> 参数校验错误异常，请求号为：{}，具体信息为：{}", RequestNoContext.get(), argNotValidMessage);
-        return AjaxResult.err().code(ParamExceptionEnum.PARAM_ERROR.getCode()).msg( argNotValidMessage);
-    }
 
-    /**
-     * 拦截参数校验错误异常
-     *
- *
-     */
-    @ExceptionHandler(BindException.class)
-    public AjaxResult paramError(BindException e) {
-        String argNotValidMessage = getArgNotValidMessage(e.getBindingResult());
-        log.error(">>> 参数校验错误异常，请求号为：{}，具体信息为：{}", RequestNoContext.get(), argNotValidMessage);
-        return AjaxResult.err().code(ParamExceptionEnum.PARAM_ERROR.getCode()).msg( argNotValidMessage);
-    }
 
 
     /**
@@ -152,40 +92,12 @@ public class GlobalExceptionHandler {
      *
  *
      */
-    @ExceptionHandler(PermissionException.class)
-    public AjaxResult noPermission(PermissionException e) {
-        log.error(">>> 权限异常，请求号为：{}，具体信息为：{}", RequestNoContext.get(), e.getMessage() + "，请求地址为:" + HttpServletTool.getRequest().getRequestURI());
-        return AjaxResult.err().code(401).msg( e.getMessage() + "，请求地址为:" + HttpServletTool.getRequest().getRequestURI());
+    @ExceptionHandler(SystemException.class)
+    public AjaxResult systemException(SystemException e) {
+        return AjaxResult.err().code(e.getCode()).msg( e.getMessage() + "，请求地址为:" + HttpServletTool.getRequest().getRequestURI());
     }
 
-    /**
-     * 拦截业务异常
-     *
- *
-     */
-    @ExceptionHandler({CodeException.class})
-    public AjaxResult codeException(CodeException e, HttpServletResponse response) {
-        log.error(">>> ServiceException 业务异常，请求号为：{}，具体信息为：{}", RequestNoContext.get(), e.getMessage());
-        if (systemProperties.isPrintException()) {
-            log.info("异常信息如下，仅开发阶段可见, 通过配置 showError 实现");
-            e.printStackTrace();
-        } else {
-            log.error(e.getMessage());
-        }
 
-        if (e.getCode() == 401) {
-             ResponseTool.responseExceptionError(response, e.getCode(), e.getMessage());
-             return null;
-        }
-
-        return AjaxResult.err().code(e.getCode()).msg( e.getMessage());
-    }
-
-    /**
-     * 拦截业务异常
-     *
- *
-     */
     @ExceptionHandler({IllegalArgumentException.class, IllegalStateException.class})
     public AjaxResult assertError(RuntimeException e) {
         log.error(">>> 业务异常，assertError 请求号为：{}，具体信息为：{}", RequestNoContext.get(), e.getMessage());
@@ -310,10 +222,10 @@ public class GlobalExceptionHandler {
 
         // 中文则提示中文，非中文则使用默认提示
         if (!StrTool.isChinese(message)) {
-            message = ServerExceptionEnum.SERVER_ERROR.getMessage();
+            message = "服务异常";
         }
 
-        return AjaxResult.err().code(ServerExceptionEnum.SERVER_ERROR.getCode()).msg( message);
+        return AjaxResult.err().code(500).msg( message);
     }
 
 

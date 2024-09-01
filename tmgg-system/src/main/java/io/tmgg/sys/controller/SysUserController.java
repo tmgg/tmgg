@@ -4,6 +4,7 @@ package io.tmgg.sys.controller;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.text.PasswdStrength;
 import cn.hutool.core.util.StrUtil;
+import io.tmgg.lang.ann.Remark;
 import io.tmgg.lang.dao.BaseEntity;
 import io.tmgg.lang.dao.specification.JpaQuery;
 import io.tmgg.lang.excel.Col;
@@ -19,7 +20,6 @@ import io.tmgg.sys.org.enums.OrgType;
 import io.tmgg.sys.org.service.SysOrgService;
 import io.tmgg.sys.service.SysUserService;
 import io.tmgg.sys.user.param.SysUserParam;
-import io.tmgg.web.annotion.BusinessLog;
 import io.tmgg.web.annotion.HasPermission;
 import io.tmgg.web.perm.SecurityUtils;
 import io.tmgg.web.perm.Subject;
@@ -122,11 +122,8 @@ public class SysUserController {
         return AjaxResult.ok().data(level);
     }
 
-    /**
-     * 修改密码
-     */
     @PostMapping("updatePwd")
-    @BusinessLog("系统用户_修改密码")
+    @Remark("修改密码")
     public AjaxResult updatePwd(String password, String newPassword) {
         String userId = SecurityUtils.getSubject().getId();
 
