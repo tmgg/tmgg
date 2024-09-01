@@ -98,7 +98,7 @@ export default class extends React.Component {
             title: '数据权限',
             dataIndex: 'dataPermType',
             valueType: 'dictRadio',
-            params: 'data_perm_type',
+            params: 'dataPermType',
         },
         {
             title: 'id',
