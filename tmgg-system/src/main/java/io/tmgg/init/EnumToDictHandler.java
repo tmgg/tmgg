@@ -57,7 +57,7 @@ public class EnumToDictHandler implements Runnable {
 
             SysDict sysDict = new SysDict();
             sysDict.setId(md5(simpleTypeName));
-            sysDict.setCode(StrUtil.toUnderlineCase(simpleTypeName));
+            sysDict.setCode(StrUtil.lowerFirst(simpleTypeName));
             sysDict.setName(label);
             sysDict.setBuiltin(true);
             sysDict = sysDictDao.save(sysDict);

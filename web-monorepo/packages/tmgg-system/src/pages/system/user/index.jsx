@@ -92,7 +92,7 @@ export default class extends React.Component {
             title: '状态',
             dataIndex: 'status',
             valueType: 'dictRadio',
-            params: 'common_status',
+            params: 'commonStatus',
         },
         {
             title: '数据权限',
@@ -260,7 +260,7 @@ export default class extends React.Component {
                     </Form.Item>
 
                     <Form.Item label='状态' name='status' rules={[{required: true}]}>
-                        <FieldDictRadio typeCode='common_status'/>
+                        <FieldDictRadio typeCode='commonStatus'/>
                     </Form.Item>
 
 

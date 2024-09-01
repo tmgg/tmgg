@@ -232,7 +232,7 @@ export default class extends React.Component {
                 </Form.Item>
 
                 <Form.Item label='状态' name='status' rules={[{required: true}]}>
-                  <FieldDictRadio typeCode='common_status'/>
+                  <FieldDictRadio typeCode='commonStatus'/>
                 </Form.Item>
 
                 <Form.Item label='预留字段1' name='reservedField1'>
