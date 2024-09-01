@@ -5,8 +5,8 @@ import Data from "./Data";
 import {ProForm, ProFormItem, ProFormText} from "@ant-design/pro-components";
 import {ButtonList, HttpClient, LeftRightLayout, ProModal} from "../../../common";
 
-const baseApi = 'sysDictType/';
-const basePerm = 'sysDictType:';
+const baseApi = 'sysDict/';
+const basePerm = 'sysDict:';
 
 
 export default class extends React.Component {
@@ -82,7 +82,6 @@ export default class extends React.Component {
           <Tree
             treeData={this.state.treeData}
             multiple={false}
-            showLine={true}
             showIcon={true}
             onSelect={selectedKeys => {
               if (selectedKeys.length > 0) {

@@ -39,8 +39,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
      * 放开权限校验的接口
      */
     private static final String[] NONE_SECURITY_URL_PATTERNS = {
-            "/sysDictType/tree", // 数据字典，方便未登录页面获取
-
             "/wx/**",
             "/app/weapp/**",
             "/**/**.jpg",

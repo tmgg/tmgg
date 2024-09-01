@@ -17,12 +17,9 @@ import org.springframework.web.bind.annotation.*;
 import jakarta.annotation.Resource;
 import java.util.List;
 
-/**
- * 系统字典类型
- */
 @RestController
-@RequestMapping("sysDictType")
-public class SysDictTypeController {
+@RequestMapping("sysDict")
+public class SysDictController {
 
     @Resource
     private SysDictService typeService;

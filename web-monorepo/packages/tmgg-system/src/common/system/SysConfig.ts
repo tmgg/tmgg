@@ -91,7 +91,7 @@ class Config {
   }
 
   loadDict() {
-    HttpClient.get('sysDictType/tree').then(rs => {
+    HttpClient.get('sysDict/tree').then(rs => {
       StorageUtil.set("DICT", rs.data)
     })
   }

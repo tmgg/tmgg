@@ -5,8 +5,8 @@ import {ProTable} from "@ant-design/pro-components";
 import {ButtonList, hasPermission, HttpClient} from "../../../common";
 
 const baseTitle = "字典数据";
-const baseApi = 'sysDictData/';
-const basePerm = 'sysDictData:';
+const baseApi = 'sysDictItem/';
+const basePerm = 'sysDictItem:';
 
 const addTitle = "添加" + baseTitle
 const editTitle = '编辑' + baseTitle

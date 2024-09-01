@@ -34,9 +34,9 @@
       "seq": 4
     },
     {
-      "id": "sysDictType",
+      "id": "sysDict",
       "name": "数据字典",
-      "perm": "sysDictType",
+      "perm": "sysDict",
       "path": "/system/dict",
       "seq": 5
     },
