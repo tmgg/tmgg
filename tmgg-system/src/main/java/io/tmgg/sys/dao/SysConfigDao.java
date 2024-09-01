@@ -35,7 +35,7 @@ public class SysConfigDao extends BaseDao<SysConfig> {
         SysConfig config = this.findByCode(code);
         if (config == null) {
             config = new SysConfig();
-            config.setCode(code);
+            config.setKey(code);
             config.setName(name);
             config.setDefaultValue(defaultValue);
             config.setValue(defaultValue);
@@ -88,7 +88,7 @@ public class SysConfigDao extends BaseDao<SysConfig> {
         String newValue = newData.getValue();
         if (!StringUtils.equals(oldValue, newValue)) {
             SysConfigValueChangeEvent event = new SysConfigValueChangeEvent(this);
-            event.setCode(entity.getCode());
+            event.setCode(entity.getKey());
             event.setOldValue(oldValue);
             event.setNewValue(newValue);
             SpringTool.publishEvent(event);

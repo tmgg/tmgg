@@ -12,6 +12,12 @@
       "name": "邮件发送密码",
       "code": "EMAIL-PASS",
       "$update": false
+    },
+    {
+      "id": "pageFooterText",
+      "name": "页脚文本",
+      "code": "pageFooterText",
+      "$update": false
     }
   ]
 }

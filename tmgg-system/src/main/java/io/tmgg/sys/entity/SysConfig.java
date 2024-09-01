@@ -1,7 +1,7 @@
 
 package io.tmgg.sys.entity;
 
-import io.tmgg.web.enums.CommonStatus;
+import io.tmgg.lang.ann.Remark;
 import io.tmgg.lang.dao.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,6 +15,8 @@ import jakarta.persistence.Entity;
 /**
  * 参数配置
  */
+
+@Remark("系统配置")
 @Getter
 @Setter
 @Entity
@@ -22,30 +24,26 @@ import jakarta.persistence.Entity;
 @ToString
 public class SysConfig extends BaseEntity {
 
-    /**
-     * 名称
-     */
-    @Column(length = 30, nullable = false)
+    @Remark("名称")
+    @Column(length = 30, nullable = false, unique = true)
     private String name;
 
-    /**
-     * 编码
-     */
-    @Column(unique = true)
-    private String code;
+    @Remark("键")
+    @Column(unique = true,name = "key_", length = 30)
+    private String key;
 
     /**
      * 属性值
      */
+    @Remark("值")
     private String value;
 
+    @Remark("默认值")
     private String defaultValue;
 
 
 
-    /**
-     * 备注
-     */
+    @Remark("备注")
     private String remark;
 
 

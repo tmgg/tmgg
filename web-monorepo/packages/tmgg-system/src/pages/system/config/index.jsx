@@ -1,6 +1,6 @@
 import {Modal, Table} from 'antd';
 import React from 'react';
-import {ProTable} from "@ant-design/pro-components";
+import {ProTable} from "@tmgg/pro-table";
 import {ButtonList, FieldText, HttpClient} from "../../../common";
 
 const baseTitle = "系统配置";

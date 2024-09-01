@@ -1,5 +1,5 @@
 
-package io.tmgg.sys.app.service;
+package io.tmgg.sys.service;
 
 import cn.hutool.core.util.RandomUtil;
 import io.tmgg.sys.consts.SysConfigConstants;
