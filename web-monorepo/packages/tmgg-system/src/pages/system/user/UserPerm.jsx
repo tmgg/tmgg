@@ -1,7 +1,6 @@
 import {Form, Input, Modal, Spin, Tree} from 'antd';
 import React from 'react';
-import {FieldDictSelect, FieldRemoteMultipleSelect, FieldRemoteSelect, HttpClient} from "../../../common";
-import FieldOrgTree from "@/common/components/field/FieldOrgTree";
+import {FieldDictSelect, FieldRemoteMultipleSelect, HttpClient} from "../../../common";
 
 
 export default class UserPerm extends React.Component {
