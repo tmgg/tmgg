@@ -23,6 +23,12 @@ export default class extends React.Component {
       this.setState({treeData: list})
     })
 
+    this.init(id);
+  }
+
+  init = id => {
+    this.setState({ checked: []})
+
     // 加载关联关系
     const hide = message.loading('加载中...', 0)
     HttpClient.get('/sysRole/ownMenu', {id: id}).then(rs => {
@@ -30,7 +36,12 @@ export default class extends React.Component {
       this.setState({checked: ids})
       hide()
     })
+  };
 
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (this.props.id !== prevProps.id) {
+      this.init(this.props.id)
+    }
   }
 
   handleSave = () => {

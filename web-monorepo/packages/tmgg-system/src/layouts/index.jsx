@@ -39,6 +39,7 @@ export class Layouts extends React.Component {
           required: '必填项'
         }
       }}
+      componentSize='small'
       locale={zhCN}
       theme={{
         token:{
@@ -60,7 +61,7 @@ export class Layouts extends React.Component {
             triggerBg: theme["primary-color-click"],
             headerBg: 'white',
             triggerHeight:32
-          }
+          },
         }
       }}
 

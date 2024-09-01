@@ -7,14 +7,11 @@ import {
   Input,
   Popconfirm,
   Table,
-  Tabs,
   Button,
-  Typography,
   message
 } from 'antd';
 import React from 'react';
 
-import {ProForm, ProFormItem, ProFormText} from "@ant-design/pro-components";
 import RoleMenuTree from "./RoleMenuTree";
 import {ButtonList, HttpClient, LeftRightLayout, ProModal} from "../../../common";
 
@@ -29,6 +26,7 @@ export default class extends React.Component {
 
 
   state = {
+    selectedRowKeys:[],
     formOpen:false,
     curRecord: {},
     roleList: []
@@ -63,11 +61,12 @@ export default class extends React.Component {
     })
   }
 
-  render() {
-    let {curRecord} = this.state
 
+
+
+  render() {
     return <>
-      <LeftRightLayout leftSize={600}>
+    <LeftRightLayout leftSize={600}>
         <Card  extra={
           <ButtonList maxNum={3}>
             <Button  type='primary' perm={basePerm + 'save'} onClick={() => {
@@ -93,14 +92,7 @@ export default class extends React.Component {
 
 
           <Table
-            rowSelection={{
-              type: 'radio',
-              onSelect: (data) => {
-                this.setState({curRecord:null},()=>{
-                  this.setState({curRecord: data})
-                })
-              }
-            }}
+
             dataSource={this.state.roleList}
             columns={[
               {dataIndex: 'name', title: "角色名称"},
@@ -111,6 +103,24 @@ export default class extends React.Component {
             rowKey='id'
             pagination={false}
             bordered
+
+            rowSelection={{
+              type: 'radio',
+              selectedRowKeys: this.state.selectedRowKeys,
+              onChange: (selectedRowKeys,selectedRows)=>{
+                console.log('selectedRowKeys', selectedRowKeys)
+                const record = selectedRows[0]
+
+                this.setState({curRecord:record})
+                this.setState({ selectedRowKeys: selectedRowKeys});
+              }
+            }}
+            onRow={(record) => ({
+              onClick: () => {
+                this.setState({curRecord:record})
+                this.setState({ selectedRowKeys: [record.id] });
+              }
+            })}
           >
 
           </Table>
