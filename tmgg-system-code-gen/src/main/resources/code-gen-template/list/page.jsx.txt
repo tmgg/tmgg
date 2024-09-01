@@ -1,9 +1,10 @@
 import {PlusOutlined} from '@ant-design/icons'
 import {Button, Card,InputNumber, Popconfirm,Modal,Form,Input,message} from 'antd'
 import React from 'react'
-import {ProTable} from '@ant-design/pro-components'
 
-import {ButtonList,FieldDictSelect,FieldRadioBoolean,HttpClient} from "@tmgg/tmgg-base";
+import {ProTable} from '@tmgg/pro-table'
+import {http} from "@tmgg/tmgg-base"
+import {ButtonList,FieldDictSelect,FieldRadioBoolean} from "@tmgg/tmgg-system";
 
 
 
@@ -75,7 +76,7 @@ export default class extends React.Component {
 
 
   onFinish = values => {
-    HttpClient.post( '${firstLowerName}/save', values).then(rs => {
+    http.post( '${firstLowerName}/save', values).then(rs => {
       message.success(rs.message)
       this.setState({formOpen: false})
       this.tableRef.current.reload()
@@ -85,13 +86,13 @@ export default class extends React.Component {
 
 
   handleDelete = row => {
-    HttpClient.post( '${firstLowerName}/delete', row).then(rs => {
+    http.post( '${firstLowerName}/delete', row).then(rs => {
       this.tableRef.current.reload()
     })
   }
 
   render() {
-    return <PageContent bgGray>
+    return <>
       <ProTable
           actionRef={this.tableRef}
           toolBarRender={() => {
@@ -101,7 +102,7 @@ export default class extends React.Component {
               </Button>
             </ButtonList>
           }}
-          request={(params, sort) => HttpClient.getPageableData('${firstLowerName}/page', params, sort)}
+          request={(params, sort) => http.requestPageData('${firstLowerName}/page', params, sort)}
           columns={this.columns}
           rowSelection={false}
           rowKey='id'
@@ -139,7 +140,7 @@ export default class extends React.Component {
 
     </Form>
   </Modal>
-</PageContent>
+    </>
 
 
   }

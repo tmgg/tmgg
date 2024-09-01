@@ -1,125 +1,135 @@
-import {Button,Card, Descriptions, Empty, Popconfirm, Tree} from 'antd';
-import React, {Fragment} from 'react';
+import {PlusOutlined} from '@ant-design/icons'
+import {Button, Card,InputNumber, Popconfirm,Modal,Form,Input,message} from 'antd'
+import React from 'react'
 
-import Data from "./Data";
-import {ProForm, ProFormItem, ProFormText} from "@ant-design/pro-components";
-import {ButtonList, HttpClient, LeftRightLayout, ProModal} from "../../../common";
+import {ProTable} from '@tmgg/pro-table'
+import {http} from "@tmgg/tmgg-base"
 
-const baseApi = 'sysDict/';
-const basePerm = 'sysDict:';
+import {ButtonList,FieldRadioBoolean} from "@tmgg/tmgg-system";
+
 
 
 export default class extends React.Component {
 
-
-  formRef = React.createRef()
-
-
   state = {
     formValues: {},
-    treeData: [],
-    dataMap: {},
-    selectData: {}
+    formOpen: false
   }
 
-  componentDidMount() {
-    this.loadData()
+  formRef = React.createRef()
+  tableRef = React.createRef()
+
+  columns = [
+    
+    {
+      title: 'name',
+      dataIndex: 'name',
+
+
+    },
+
+    {
+      title: 'code',
+      dataIndex: 'code',
+
+
+    },
+
+    {
+      title: 'builtin',
+      dataIndex: 'builtin',
+
+       valueType: 'boolean',
+
+    },
+
+    {
+      title: '操作',
+      dataIndex: 'option',
+      valueType: 'option',
+      render: (_, record) => (
+          <ButtonList>
+            <a perm='sysDict:save' onClick={() => this.handleEdit(record)}> 修改 </a>
+            <Popconfirm perm='sysDict:delete' title='是否确定删除SysDict'  onConfirm={() => this.handleDelete(record)}>
+              <a>删除</a>
+            </Popconfirm>
+          </ButtonList>
+      ),
+    },
+  ]
+
+  handleAdd = ()=>{
+    this.setState({formOpen: true, formValues: {}})
   }
 
-  loadData = () => {
-    HttpClient.get(baseApi + 'page').then(rs => {
-      const list = rs.data;
-
-      const dataMap = {}
-
-      const treeData = list.map(t => {
-        dataMap[t.id] = t;
-        return {title: t.name, key: t.id}
-      })
+  handleEdit = record=>{
+      this.setState({formOpen: true, formValues: record})
+  }
 
 
-      this.setState({treeData, dataMap})
+  onFinish = values => {
+    http.post( 'sysDict/save', values).then(rs => {
+      message.success(rs.message)
+      this.setState({formOpen: false})
+      this.tableRef.current.reload()
     })
   }
-  handleSave = value => {
-    HttpClient.post(baseApi + 'save', value).then(rs => {
-      this.formRef.current.close()
-      this.loadData()
-    })
-  }
 
 
-  handleDelete = () => {
-    HttpClient.post(baseApi + 'delete', this.state.formValues).then(rs => {
-      this.loadData()
+
+  handleDelete = row => {
+    http.post( 'sysDict/delete', row).then(rs => {
+      this.tableRef.current.reload()
     })
   }
 
   render() {
-    let {selectData} = this.state
-
     return <>
+      <ProTable
+          actionRef={this.tableRef}
+          toolBarRender={() => {
+            return <ButtonList>
+              <Button perm='sysDict:save' type='primary' onClick={this.handleAdd}>
+                <PlusOutlined/> 新增
+              </Button>
+            </ButtonList>
+          }}
+          request={(params, sort) => http.requestPageData('sysDict/page', params, sort)}
+          columns={this.columns}
+          rowSelection={false}
+          rowKey='id'
+          columnEmptyText={false}
+          bordered
+      />
 
-      <LeftRightLayout leftSize={300}>
-        <Card title={'字典类型'} extra={
-          <ButtonList>
-            <Button type='primary' perm={basePerm + 'save'} onClick={() => {
-              this.setState({formValues: {}})
-              this.formRef.current.show()
-            }}>新增</Button>
-            <Button perm={basePerm + 'save'} onClick={() => {
-              this.setState({formValues: selectData})
-              this.formRef.current.show()
-            }
-            }> 修改 </Button>
+  <Modal title='SysDict'
+    open={this.state.formOpen}
+    onOk={() => this.formRef.current.submit()}
+    onCancel={() => this.setState({formOpen: false})}
+    destroyOnClose
+    >
 
-            <Popconfirm perm={basePerm + 'delete'} title={'是否确定删除'} onConfirm={this.handleDelete}>
-              <a>删除</a>
-            </Popconfirm>
-          </ButtonList>
-        }>
+    <Form ref={this.formRef} labelCol={{flex: '100px'}}
+        initialValues={this.state.formValues}
+        onFinish={this.onFinish} >
+        <Form.Item  name='id' noStyle></Form.Item>
 
-          <Tree
-            treeData={this.state.treeData}
-            multiple={false}
-            showIcon={true}
-            onSelect={selectedKeys => {
-              if (selectedKeys.length > 0) {
-                const id = selectedKeys[0];
-                this.setState({selectData: this.state.dataMap[id]})
-              }
-            }
-            }></Tree>
-        </Card>
-        <Card title='字典数据'>
-          {selectData?.id ? <div>
-            <Descriptions>
-              <Descriptions.Item label={'类型名称'}>{selectData.name}</Descriptions.Item>
-              <Descriptions.Item label={'唯一编码'}>{selectData.code}</Descriptions.Item>
-              <Descriptions.Item label={'序号'}>{selectData.sort}</Descriptions.Item>
-              <Descriptions.Item label={'备注'}>{selectData.remark}</Descriptions.Item>
+              <Form.Item label='name' name='name' rules={[{required: true}]}>
+                    <Input/>
+              </Form.Item>
+              <Form.Item label='code' name='code' rules={[{required: true}]}>
+                    <Input/>
+              </Form.Item>
+              <Form.Item label='builtin' name='builtin' rules={[{required: true}]}>
+                   <FieldRadioBoolean />
+              </Form.Item>
 
-            </Descriptions>
-            <Data id={selectData.id}/>
-          </div> : <Empty/>}
-        </Card>
+    </Form>
+  </Modal>
+</>
 
 
-      </LeftRightLayout>
-
-      <ProModal title='字典类型' ref={this.formRef}>
-        <ProForm onFinish={this.handleSave} initialValues={this.state.formValues}>
-          <ProFormItem name='id' noStyle/>
-          <ProFormText label='名称' name='name' rules={[{required: true}]}/>
-          <ProFormText label='编码' name='code' rules={[{required: true}]}/>
-        </ProForm>
-      </ProModal>
-
-
-    </>
   }
-
-
 }
 
 

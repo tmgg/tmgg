@@ -71,7 +71,6 @@ export default class extends React.Component {
           }}
           columns={this.columns}
           rowSelection={{
-            alwaysShowAlert:true
           }}
           rowKey='id'
           search={false}
