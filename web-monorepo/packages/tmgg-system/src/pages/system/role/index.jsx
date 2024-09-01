@@ -13,7 +13,7 @@ import {
 import React from 'react';
 
 import RoleMenuTree from "./RoleMenuTree";
-import {ButtonList, HttpClient, LeftRightLayout, ProModal} from "../../../common";
+import {ButtonList, HttpClient, LeftRightLayout} from "../../../common";
 
 const baseApi = 'sysRole/';
 const basePerm = 'sysRole:';
@@ -40,7 +40,6 @@ export default class extends React.Component {
     HttpClient.get(baseApi + 'page').then(rs => {
       const list = rs.data;
       this.setState({roleList: list})
-
     })
   }
 
@@ -92,7 +91,6 @@ export default class extends React.Component {
 
 
           <Table
-
             dataSource={this.state.roleList}
             columns={[
               {dataIndex: 'name', title: "角色名称"},
@@ -102,23 +100,17 @@ export default class extends React.Component {
             ]}
             rowKey='id'
             pagination={false}
-            bordered
 
             rowSelection={{
               type: 'radio',
               selectedRowKeys: this.state.selectedRowKeys,
               onChange: (selectedRowKeys,selectedRows)=>{
-                console.log('selectedRowKeys', selectedRowKeys)
-                const record = selectedRows[0]
-
-                this.setState({curRecord:record})
-                this.setState({ selectedRowKeys: selectedRowKeys});
+                this.setState({curRecord:selectedRows[0],selectedRowKeys: selectedRowKeys})
               }
             }}
             onRow={(record) => ({
               onClick: () => {
-                this.setState({curRecord:record})
-                this.setState({ selectedRowKeys: [record.id] });
+                this.setState({curRecord:record,selectedRowKeys: [record.id]})
               }
             })}
           >
