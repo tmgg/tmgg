@@ -3,20 +3,62 @@
     {
       "id": "EMAIL-FROM",
       "name": "邮件发送账号",
-      "code": "EMAIL-FROM",
+      "key": "EMAIL-FROM",
       "defaultValue": "410518072@qq.com",
       "$update": false
     },
     {
       "id": "EMAIL-PASS",
       "name": "邮件发送密码",
-      "code": "EMAIL-PASS",
+      "key": "EMAIL-PASS",
       "$update": false
     },
     {
       "id": "pageFooterText",
       "name": "页脚文本",
-      "code": "pageFooterText",
+      "key": "pageFooterText",
+      "$update": false
+    },
+    {
+      "id": "SESSION_EXPIRE",
+      "name": "会话过期时间",
+      "key": "SESSION_EXPIRE",
+      "defaultValue": "7200",
+      "remark": "单位秒",
+      "$update": false
+    },
+
+    {
+      "id": "DEFAULT_PASSWORD",
+      "name": "用户默认密码",
+      "key": "DEFAULT_PASSWORD",
+      "defaultValue": "9.shuiJiao",
+      "remark": "单位秒",
+      "$update": false
+    },
+
+    {
+      "id": "FILE_UPLOAD_PATH_FOR_WINDOWS",
+      "name": "win本地上传文件路径",
+      "key": "FILE_UPLOAD_PATH_FOR_WINDOWS",
+      "defaultValue": "d:/tmp",
+      "$update": false
+    },
+
+    {
+      "id": "FILE_UPLOAD_PATH_FOR_LINUX",
+      "name": "linux/mac本地上传文件路径",
+      "key": "FILE_UPLOAD_PATH_FOR_LINUX",
+      "defaultValue": "/home/files",
+      "$update": false
+    },
+
+    {
+      "id": "ENABLE_SINGLE_LOGIN",
+      "name": "单用户登陆的开关",
+      "key": "ENABLE_SINGLE_LOGIN",
+      "defaultValue": "false",
+      "remark": "填写true | false",
       "$update": false
     }
   ]

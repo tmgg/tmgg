@@ -32,23 +32,19 @@ public abstract class BaseCURDController<T extends Persistable<String>> {
     @PostMapping("save")
     public AjaxResult save(@RequestBody T param) throws Exception {
         T result = service.saveOrUpdate(param);
-        return AjaxResult.ok().data( result.getId());
+        return AjaxResult.ok().data( result.getId()).msg("保存成功");
     }
 
 
 
     @HasPermission
-    @GetMapping("delete")
+    @PostMapping("delete")
     public AjaxResult delete(String id) {
         service.deleteById(id);
         return AjaxResult.ok().msg("删除成功");
     }
 
 
-    @GetMapping("get")
-    public AjaxResult get(String id) {
-        return AjaxResult.ok().data(service.findOne(id));
-    }
 
 
 }

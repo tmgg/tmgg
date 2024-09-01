@@ -2,10 +2,12 @@
 package io.tmgg.sys.controller;
 
 
+import io.tmgg.lang.dao.BaseCURDController;
+import io.tmgg.sys.service.SysConfigService;
 import io.tmgg.web.annotion.HasPermission;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.sys.entity.SysConfig;
-import io.tmgg.sys.app.service.SysConfigService;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.annotation.Resource;
@@ -17,28 +19,23 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("sysConfig")
-public class SysConfigController {
+public class SysConfigController extends BaseCURDController<SysConfig> {
 
   @Resource
   private SysConfigService sysConfigService;
 
+  @Override
+  public AjaxResult save(SysConfig param) throws Exception {
 
-  @HasPermission
-  @GetMapping("page")
-  public AjaxResult page() {
-    List<SysConfig> list = sysConfigService.findAll();
-    return AjaxResult.ok().data(list);
+    return super.save(param);
   }
 
+  @Override
+  public AjaxResult delete(String id) {
+    Assert.state(false,"禁止删除");
 
-
-  @HasPermission
-  @PostMapping("edit")
-  public AjaxResult edit(@RequestBody SysConfig SysConfig) {
-    sysConfigService.updateValue(SysConfig);
-    return AjaxResult.ok();
+    return super.delete(id);
   }
-
 }
 
 

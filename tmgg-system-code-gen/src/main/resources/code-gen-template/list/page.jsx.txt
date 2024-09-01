@@ -85,8 +85,8 @@ export default class extends React.Component {
 
 
 
-  handleDelete = row => {
-    http.post( '${firstLowerName}/delete', row).then(rs => {
+  handleDelete = record => {
+    http.post( '${firstLowerName}/delete', {id:record.id}).then(rs => {
       this.tableRef.current.reload()
     })
   }

@@ -1,6 +1,6 @@
 import axios from "axios";
 import {storage} from "./storage.js";
-import {Modal} from "antd";
+import {message, Modal} from "antd";
 
 
 const axiosInstance = axios.create({
@@ -10,6 +10,32 @@ const axiosInstance = axios.create({
 
 const AUTH_STORE_KEYS = ['jwt', 'appToken', 'token', 'Authorization'];
 
+const defaultRequestConfig = {
+
+    autoShowErrorMessage: true,
+
+    /**
+     * 当请求为post，时，是否自动显示操作成功时的消息(message字段）
+     */
+    autoShowSuccessMessage: true,
+
+    /**
+     * 转换数据， 直接返回结果数据的data字段
+     */
+    transformData: true,
+}
+
+function showSuccessMessage(msg) {
+    message.success(msg)
+}
+
+function showErrorMessage(title, msg) {
+    Modal.error({
+        title: title,
+        content: msg
+    })
+}
+
 
 function getToken() {
     for (let key of AUTH_STORE_KEYS) {
@@ -18,7 +44,6 @@ function getToken() {
             return v;
         }
     }
-
     return storage.get("HD:Authorization")
 }
 
@@ -40,59 +65,11 @@ axiosInstance.interceptors.request.use(
     }
 );
 
-axiosInstance.interceptors.response.use(res => {
-    const {data, headers} = res;
 
-    if (data && (typeof data) === 'object') {
-        data._headers = headers
-    }
-
-    return data;
-})
-
-/**
- *
- * @param msg
- * @param error 原始错误信息
- */
-
-let globalErrorMessageHandler = (msg, error) => {
-    console.log('请求异常', msg, error)
-    Modal.error({
-        title: '网络请求异常',
-        content: error.status + ":" + msg
-    })
-}
+addInterceptor()
 
 
-addErrorInterceptor()
-
-
-/**
- *
- * @param errorMessageHandler
- * @param autoReject 如何响应里面的success 字段为false，则reject
- */
-function init({errorMessageHandler = null, autoReject = true}) {
-    if (errorMessageHandler) {
-        globalErrorMessageHandler = errorMessageHandler
-    }
-
-    if (autoReject) {
-        axiosInstance.interceptors.response.use(response => {
-            // 注意，response是具体数据，不带header等
-            if (response.success === false) {
-                globalErrorMessageHandler(response.message, response)
-                return Promise.reject(response)
-            }
-
-            return response;
-        })
-    }
-}
-
-
-function addErrorInterceptor() {
+function addInterceptor() {
     const STATUS_MESSAGE = {
         200: '服务器成功返回请求的数据',
         201: '新增或修改数据成功',
@@ -133,16 +110,31 @@ function addErrorInterceptor() {
     }
 
     axiosInstance.interceptors.response.use(
-        null,
+        (res) => {
+            const {data, config: {autoShowErrorMessage, autoShowSuccessMessage, transformData, method}} = res;
+            const isAjaxResult = data.success !== undefined && data.code !== undefined
+            if (isAjaxResult) {
+                if (autoShowSuccessMessage  && data.success === true && data.message != null) {
+                    showSuccessMessage(data.message)
+                }
+                if (data.success === false && autoShowErrorMessage) {
+                    showErrorMessage('操作失败', data.message)
+                }
+                if (transformData) {
+                    return data.data
+                }
+            }
+
+            return data;
+        },
         error => {
-            // 对响应错误做点什么
             let {message, code, response, config = {}} = error;
             let msg = response ? STATUS_MESSAGE[response.status] : AXIOS_CODE_MESSAGE[code];
 
-            const {autoShowError = true} = config;
+            const {autoShowErrorMessage} = config;
 
-            if (autoShowError) {
-                globalErrorMessageHandler(msg || message, error)
+            if (autoShowErrorMessage) {
+                showErrorMessage( '网络请求异常',error.status + ":" + msg)
             }
 
 
@@ -184,15 +176,14 @@ function makeUrl(url) {
     return url;
 }
 
-
-function get(url, params = null, config = {autoShowError: true}) {
+function get(url, params = null, config = defaultRequestConfig) {
     url = makeUrl(url)
     return axiosInstance.get(url, {params, ...config})
 }
 
-function post(url, data, params = null) {
+function post(url, data, params = null, config = defaultRequestConfig) {
     url = makeUrl(url)
-    return axiosInstance.post(url, data, {params})
+    return axiosInstance.post(url, data, {params, ...config})
 }
 
 function postForm(url, data) {
@@ -209,7 +200,7 @@ function postForm(url, data) {
  * @returns {Promise<unknown>}
  */
 function pageData(url, params, sort) {
-    const {current,pageSize,keyword, ...data} = params;
+    const {current, pageSize, keyword, ...data} = params;
 
     const pageParams = {
         pageNumber: current,
@@ -226,15 +217,15 @@ function pageData(url, params, sort) {
     }
 
 
-    function convertToProTableData(rs) {
-       return  {
-            data: rs.data.content,
-            success:true,
-            total: parseInt(rs.data.totalElements)
+    function convertToProTableData(data) {
+        return {
+            data: data.content,
+            success: true,
+            total: parseInt(data.totalElements)
         }
     }
 
-    return post(url, data,pageParams).then(convertToProTableData)
+    return post(url, data, pageParams).then(convertToProTableData)
 }
 
 function downloadFile(url, params) {
@@ -294,7 +285,6 @@ function downloadFile(url, params) {
 export const http = {
     axiosInstance,
     getToken,
-    init,
     setGlobalHeader,
     downloadFile,
     pageData,

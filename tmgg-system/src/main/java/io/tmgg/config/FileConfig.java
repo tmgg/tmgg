@@ -1,7 +1,6 @@
 
 package io.tmgg.config;
 
-import io.tmgg.sys.app.service.SysConfigService;
 import io.tmgg.sys.file.FileOperator;
 import io.tmgg.sys.file.LocalFileOperator;
 import io.tmgg.sys.file.LocalFileProperties;
@@ -10,6 +9,7 @@ import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
+import io.tmgg.sys.service.SysConfigService;
 import jakarta.annotation.Resource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

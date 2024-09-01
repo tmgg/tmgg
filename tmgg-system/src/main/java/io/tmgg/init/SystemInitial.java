@@ -1,12 +1,12 @@
 package io.tmgg.init;
 
 import io.tmgg.lang.PasswordTool;
-import io.tmgg.sys.app.service.SysConfigService;
 import io.tmgg.sys.perm.SysPermService;
 import io.tmgg.sys.role.entity.SysRole;
 import io.tmgg.sys.role.service.SysRoleService;
 import io.tmgg.sys.dao.SysUserDao;
 import io.tmgg.sys.entity.SysUser;
+import io.tmgg.sys.service.SysConfigService;
 import io.tmgg.sys.user.enums.DataPermType;
 import io.tmgg.web.enums.CommonStatus;
 import cn.hutool.core.util.StrUtil;
@@ -46,7 +46,6 @@ public class SystemInitial implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        sysConfigService.initDefault();
         enumToDictHandler.run();
 
         sysPermService.init();

@@ -22,33 +22,13 @@ import org.springframework.transaction.annotation.Transactional;
 @CacheConfig(cacheNames = "sys_config")
 public class SysConfigDao extends BaseDao<SysConfig> {
 
-    /**
-     * 初始化配置， 如果不存在则添加
-     *
-     * @param code
-     * @param name
-     * @param defaultValue
-     * @param remark
-     */
-    @Transactional
-    public void initDefault(String code, String name, String defaultValue, String remark) {
-        SysConfig config = this.findByCode(code);
-        if (config == null) {
-            config = new SysConfig();
-            config.setKey(code);
-            config.setName(name);
-            config.setDefaultValue(defaultValue);
-            config.setValue(defaultValue);
-            config.setRemark(remark);
-            this.save(config);
-        }
-    }
+
 
 
     @Cacheable
     public String findValueByCode(String code) {
         JpaQuery<SysConfig> query = new JpaQuery<>();
-        query.eq(SysConfig.Fields.code, code);
+        query.eq(SysConfig.Fields.key, code);
 
         SysConfig config = this.findOne(query);
         if (config != null) {
@@ -62,7 +42,7 @@ public class SysConfigDao extends BaseDao<SysConfig> {
 
     public SysConfig findByCode(String code) {
         JpaQuery<SysConfig> query = new JpaQuery<>();
-        query.eq(SysConfig.Fields.code, code);
+        query.eq(SysConfig.Fields.key, code);
 
         SysConfig config = this.findOne(query);
         return config;

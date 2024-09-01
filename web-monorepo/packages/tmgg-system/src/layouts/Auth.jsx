@@ -11,7 +11,7 @@ export default class extends React.Component {
     }
 
     componentDidMount() {
-        http.get('/check-token', null, {autoShowError:false}).then(rs => {
+        http.get('/check-token', null, {autoShowErrorMessage:false}).then(rs => {
             let tokenValid = rs.data;
             this.setState({tokenValid})
         }).catch((err)=>{

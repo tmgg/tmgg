@@ -12,7 +12,6 @@ import io.tmgg.lang.dao.BaseEntity;
 import io.tmgg.lang.dao.BaseService;
 import io.tmgg.lang.dao.exports.UserLabelQuery;
 import io.tmgg.lang.dao.specification.JpaQuery;
-import io.tmgg.sys.app.service.SysConfigService;
 import io.tmgg.sys.dao.SysUserDao;
 import io.tmgg.sys.dto.GrantPermDto;
 import io.tmgg.sys.entity.SysUser;

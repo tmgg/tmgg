@@ -5,7 +5,6 @@ import io.tmgg.core.enums.LogSuccessStatusEnum;
 import io.tmgg.core.log.LogManager;
 import io.tmgg.lang.HttpServletTool;
 import io.tmgg.lang.PasswordTool;
-import io.tmgg.sys.app.service.SysConfigService;
 import io.tmgg.sys.entity.SysUser;
 import io.tmgg.sys.perm.SysPermService;
 import io.tmgg.sys.role.entity.SysRole;
