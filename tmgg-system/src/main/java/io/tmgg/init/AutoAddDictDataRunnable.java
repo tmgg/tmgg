@@ -6,7 +6,7 @@ import io.tmgg.sys.entity.SysDictItem;
 import io.tmgg.web.base.MessageEnum;
 import io.tmgg.sys.dao.SysDictItemDao;
 import io.tmgg.sys.dao.SysDictDao;
-import io.tmgg.sys.entity.SysDictType;
+import io.tmgg.sys.entity.SysDict;
 import cn.hutool.core.util.ClassUtil;
 import cn.hutool.core.util.StrUtil;
 import com.google.common.hash.Hashing;
@@ -54,14 +54,14 @@ public class AutoAddDictDataRunnable implements Runnable {
 
             log.info("发现枚举 {} {} ", simpleTypeName, annotation.value());
 
-            SysDictType sysDictType = new SysDictType();
-            sysDictType.setId(md5(simpleTypeName));
-            sysDictType.setCode(StrUtil.toUnderlineCase(simpleTypeName));
-            sysDictType.setName(label);
-            sysDictType.setEmbed(true);
-            sysDictType = typeDao.save(sysDictType);
+            SysDict sysDict = new SysDict();
+            sysDict.setId(md5(simpleTypeName));
+            sysDict.setCode(StrUtil.toUnderlineCase(simpleTypeName));
+            sysDict.setName(label);
+            sysDict.setBuiltin(true);
+            sysDict = typeDao.save(sysDict);
 
-            dataDao.deleteByTypeId(sysDictType.getId());
+            dataDao.deleteByTypeId(sysDict.getId());
 
 
             for (int i = 0; i < enumConstants.length; i++) {
@@ -79,10 +79,10 @@ public class AutoAddDictDataRunnable implements Runnable {
                 data.setValue(msg);
                 data.setRemark("系统通过枚举自动生成");
                 data.setSort(i);
-                data.setTypeId(sysDictType.getId());
+                data.setTypeId(sysDict.getId());
                 data.setId(md5(simpleTypeName + name));
                 data.setColor(color);
-                data.setEmbed(true);
+                data.setBuiltin(true);
 
                 log.trace("{} {}={}", data.getId(), name, msg);
                 dataList.add(data);

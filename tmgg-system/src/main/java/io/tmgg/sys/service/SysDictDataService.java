@@ -2,8 +2,8 @@
 package io.tmgg.sys.service;
 
 import io.tmgg.sys.dao.SysDictDao;
+import io.tmgg.sys.entity.SysDict;
 import io.tmgg.sys.entity.SysDictItem;
-import io.tmgg.sys.entity.SysDictType;
 import io.tmgg.web.enums.CommonStatus;
 import io.tmgg.lang.obj.Option;
 import io.tmgg.lang.dao.BaseService;
@@ -56,8 +56,8 @@ public class SysDictDataService extends BaseService<SysDictItem> {
         dataCode = String.valueOf(dataCode);
 
         JpaQuery typeQuery = new JpaQuery<>()
-                .eq(SysDictType.Fields.code, typeCode);
-        SysDictType type = dictTypeDao.findOne(typeQuery);
+                .eq(SysDict.Fields.code, typeCode);
+        SysDict type = dictTypeDao.findOne(typeQuery);
         if(type == null){
             return  null;
         }
@@ -74,7 +74,7 @@ public class SysDictDataService extends BaseService<SysDictItem> {
     }
 
     public String getCodeByValue(String typeCode, String dataValue) {
-        SysDictType type = dictTypeDao.findOne(new JpaQuery<>().eq(SysDictType.Fields.code, typeCode));
+        SysDict type = dictTypeDao.findOne(new JpaQuery<>().eq(SysDict.Fields.code, typeCode));
 
         SysDictItem data = baseDao.findOne(new JpaQuery<>().eq(SysDictItem.Fields.typeId, type.getId()).eq(SysDictItem.Fields.value, dataValue));
         if (data != null) {
@@ -168,7 +168,7 @@ public class SysDictDataService extends BaseService<SysDictItem> {
 
     @Cacheable(cacheNames = "getDictDataListByDictTypeCode")
     public List<SysDictItem> getDictDataListByDictTypeCode(String typeCode) {
-        SysDictType type = dictTypeDao.findOne(new JpaQuery<>().eq(SysDictType.Fields.code, typeCode));
+        SysDict type = dictTypeDao.findOne(new JpaQuery<>().eq(SysDict.Fields.code, typeCode));
         Assert.state(type != null, "字典类型编码" + typeCode + "不存在");
 
         JpaQuery<SysDictItem> queryWrapper = new JpaQuery<>();

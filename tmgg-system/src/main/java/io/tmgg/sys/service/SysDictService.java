@@ -4,8 +4,8 @@ package io.tmgg.sys.service;
 import io.tmgg.sys.SysDictTreeNode;
 import io.tmgg.sys.dao.SysDictItemDao;
 import io.tmgg.sys.dao.SysDictDao;
+import io.tmgg.sys.entity.SysDict;
 import io.tmgg.sys.entity.SysDictItem;
-import io.tmgg.sys.entity.SysDictType;
 import io.tmgg.web.enums.CommonStatus;
 import io.tmgg.lang.TreeTool;
 import io.tmgg.lang.dao.BaseService;
@@ -23,11 +23,8 @@ import org.springframework.util.Assert;
 import jakarta.annotation.Resource;
 import java.util.List;
 
-/**
- * 系统字典类型service接口实现类
- */
 @Service
-public class SysDictTypeService extends BaseService<SysDictType> {
+public class SysDictService extends BaseService<SysDict> {
 
     @Resource
     private SysDictItemDao dictDataDao;
@@ -37,16 +34,16 @@ public class SysDictTypeService extends BaseService<SysDictType> {
     private SysDictDao dictTypeDao;
 
 
-    public SysDictType findByCode(String typeCode) {
+    public SysDict findByCode(String typeCode) {
 
-        return this.findOne(new JpaQuery<>().eq(SysDictType.Fields.code, typeCode));
+        return this.findOne(new JpaQuery<>().eq(SysDict.Fields.code, typeCode));
     }
 
 
-    public SysDictType saveOrUpdateByCode(String code, String name) {
-        SysDictType type = this.findByCode(code);
+    public SysDict saveOrUpdateByCode(String code, String name) {
+        SysDict type = this.findByCode(code);
         if (type == null) {
-            type = new SysDictType();
+            type = new SysDict();
             type.setCode(code);
             type.setName(name);
             type = dictTypeDao.save(type);
@@ -59,7 +56,7 @@ public class SysDictTypeService extends BaseService<SysDictType> {
 
     @Transactional
     public void initByFile(String code, String name, String file) {
-        SysDictType type = this.saveOrUpdateByCode(code, name);
+        SysDict type = this.saveOrUpdateByCode(code, name);
         dictDataDao.deleteByTypeIdPhysical(type.getId());
 
         String content = ResourceUtil.readUtf8Str(file);
@@ -76,33 +73,26 @@ public class SysDictTypeService extends BaseService<SysDictType> {
     }
 
 
-    public List<Dict> dropDown(SysDictType SysDictType) {
-        JpaQuery<SysDictType> query = new JpaQuery<>()
-                .eq(io.tmgg.sys.entity.SysDictType.Fields.code, SysDictType.getCode());
 
-        SysDictType sysDictType = this.findOne(query);
-        Assert.state(sysDictType != null, "字典类型不存在");
-        return dictDataDao.getDictDataListByDictTypeId(sysDictType.getId());
-    }
 
 
     @Transactional(rollbackFor = Exception.class)
-    public void delete(SysDictType SysDictType) {
-        this.deleteById(SysDictType.getId());
+    public void delete(SysDict SysDict) {
+        this.deleteById(SysDict.getId());
         //级联删除字典值
-        dictDataDao.deleteByTypeIdPhysical(SysDictType.getId());
+        dictDataDao.deleteByTypeIdPhysical(SysDict.getId());
     }
 
 
     public List<SysDictTreeNode> tree() {
         List<SysDictTreeNode> resultList = CollectionUtil.newArrayList();
 
-        JpaQuery<SysDictType> query = new JpaQuery<>();
-        List<SysDictType> typeList = this.findAll(query);
+        JpaQuery<SysDict> query = new JpaQuery<>();
+        List<SysDict> typeList = this.findAll(query);
 
-        for (SysDictType sysDictType : typeList) {
+        for (SysDict sysDict : typeList) {
             SysDictTreeNode sysDictTreeNode = new SysDictTreeNode();
-            BeanUtil.copyProperties(sysDictType, sysDictTreeNode);
+            BeanUtil.copyProperties(sysDict, sysDictTreeNode);
             sysDictTreeNode.setPid(null);
             resultList.add(sysDictTreeNode);
         }

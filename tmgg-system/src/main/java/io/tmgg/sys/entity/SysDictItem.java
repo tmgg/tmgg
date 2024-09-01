@@ -3,6 +3,7 @@ package io.tmgg.sys.entity;
 
 import io.tmgg.web.enums.CommonStatus;
 import io.tmgg.lang.dao.BaseEntity;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldNameConstants;
@@ -56,7 +57,8 @@ public class SysDictItem extends BaseEntity {
     private String color;
 
     // 是否系统内置
-    private Boolean embed;
+    @NotNull
+    private Boolean builtin;
 
 
     @Override

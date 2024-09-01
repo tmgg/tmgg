@@ -2,6 +2,7 @@
 package io.tmgg.sys.entity;
 
 import io.tmgg.lang.dao.BaseEntity;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldNameConstants;
@@ -14,33 +15,18 @@ import jakarta.persistence.Entity;
 @Setter
 @Entity
 @FieldNameConstants
-public class SysDictType extends BaseEntity {
+public class SysDict extends BaseEntity {
 
 
-    /**
-     * 名称
-     */
     @Column(nullable = false, unique = true)
     private String name;
 
-    /**
-     * 编码
-     */
     @Column(nullable = false, unique = true)
     private String code;
 
 
     // 是否系统内置
-    private Boolean embed;
+    @NotNull
+    private Boolean builtin;
 
-    @Override
-    public void prePersist() {
-        super.prePersist();
-    }
-
-
-    @Override
-    public void preUpdate() {
-        super.preUpdate();
-    }
 }

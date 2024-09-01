@@ -6,10 +6,10 @@ import io.tmgg.lang.ann.PublicApi;
 import io.tmgg.lang.dao.specification.JpaQuery;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.obj.Option;
+import io.tmgg.sys.entity.SysDict;
 import io.tmgg.sys.entity.SysDictItem;
-import io.tmgg.sys.entity.SysDictType;
 import io.tmgg.sys.service.SysDictDataService;
-import io.tmgg.sys.service.SysDictTypeService;
+import io.tmgg.sys.service.SysDictService;
 import io.tmgg.web.annotion.HasPermission;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +25,7 @@ import java.util.List;
 public class SysDictTypeController {
 
     @Resource
-    private SysDictTypeService typeService;
+    private SysDictService typeService;
 
     @Resource
     private SysDictDataService dataService;
@@ -34,18 +34,12 @@ public class SysDictTypeController {
     @HasPermission
     @GetMapping("page")
     public AjaxResult page() {
-        List<SysDictType> page = typeService.findAll(Sort.by(Sort.Direction.DESC, SysDictType.FIELD_UPDATE_TIME));
+        List<SysDict> page = typeService.findAll(Sort.by(Sort.Direction.DESC, SysDict.FIELD_UPDATE_TIME));
         return AjaxResult.ok().data(page);
     }
 
 
-    /**
-     * 获取字典类型下所有字典，举例，返回格式为：[{code:"M",value:"男"},{code:"F",value:"女"}]
-     */
-    @GetMapping("dropDown")
-    public AjaxResult dropDown(SysDictType sysDictTypeParam) {
-        return AjaxResult.ok().data(typeService.dropDown(sysDictTypeParam));
-    }
+
 
     /**
      * 获取字典类型下所有字典，举例，返回格式为：[{code:"M",value:"男"},{code:"F",value:"女"}]
@@ -54,7 +48,7 @@ public class SysDictTypeController {
      */
     @GetMapping("dataDict")
     public Dict dataDict(String code) {
-        SysDictType type = typeService.findOne(new JpaQuery().eq(SysDictType.Fields.code, code));
+        SysDict type = typeService.findOne(new JpaQuery().eq(SysDict.Fields.code, code));
 
         List<SysDictItem> list = dataService.findAll(new JpaQuery().eq(SysDictItem.Fields.typeId, type.getId()));
 
@@ -71,15 +65,15 @@ public class SysDictTypeController {
      */
     @GetMapping("dict")
     public Dict dict(String searchValue) {
-        JpaQuery<SysDictType> query = new JpaQuery<>();
+        JpaQuery<SysDict> query = new JpaQuery<>();
 
         if (searchValue != null)
             query.like("name", searchValue);
 
-        List<SysDictType> list = typeService.findAll();
+        List<SysDict> list = typeService.findAll();
 
         Dict dict = new Dict();
-        for (SysDictType data : list) {
+        for (SysDict data : list) {
             dict.put(data.getCode(), data.getName());
         }
 
@@ -89,17 +83,17 @@ public class SysDictTypeController {
 
     @HasPermission
     @PostMapping("save")
-    public AjaxResult save(@RequestBody SysDictType sysDictTypeParam) {
+    public AjaxResult save(@RequestBody SysDict sysDictParam) {
 
-        typeService.save(sysDictTypeParam);
+        typeService.save(sysDictParam);
         return AjaxResult.ok();
     }
 
 
     @HasPermission
     @PostMapping("delete")
-    public AjaxResult delete(@RequestBody SysDictType sysDictTypeParam) {
-        typeService.delete(sysDictTypeParam);
+    public AjaxResult delete(@RequestBody SysDict sysDictParam) {
+        typeService.delete(sysDictParam);
         return AjaxResult.ok();
     }
 
@@ -116,8 +110,8 @@ public class SysDictTypeController {
 
     @GetMapping("options")
     public AjaxResult options() {
-        List<SysDictType> list = typeService.findAll();
-        return AjaxResult.ok().data(Option.convertList(list, SysDictType::getCode, SysDictType::getName));
+        List<SysDict> list = typeService.findAll();
+        return AjaxResult.ok().data(Option.convertList(list, SysDict::getCode, SysDict::getName));
     }
 
 }
