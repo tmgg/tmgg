@@ -58,12 +58,12 @@ export default class extends React.Component {
   render() {
     let {selectData} = this.state
 
-    return <Fragment>
+    return <>
 
       <LeftRightLayout leftSize={300}>
         <Card title={'字典类型'} extra={
           <ButtonList>
-            <Button perm={basePerm + 'save'} onClick={() => {
+            <Button type='primary' perm={basePerm + 'save'} onClick={() => {
               this.setState({formValues: {}})
               this.formRef.current.show()
             }}>新增</Button>
@@ -74,7 +74,7 @@ export default class extends React.Component {
             }> 修改 </Button>
 
             <Popconfirm perm={basePerm + 'delete'} title={'是否确定删除'} onConfirm={this.handleDelete}>
-              <Button>删除</Button>
+              <a>删除</a>
             </Popconfirm>
           </ButtonList>
         }>
@@ -117,7 +117,7 @@ export default class extends React.Component {
       </ProModal>
 
 
-    </Fragment>
+    </>
   }
 
 
