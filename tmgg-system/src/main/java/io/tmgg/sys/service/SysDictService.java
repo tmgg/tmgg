@@ -13,7 +13,6 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import jakarta.annotation.Resource;
 import java.util.List;
@@ -50,7 +49,7 @@ public class SysDictService extends BaseService<SysDict> {
             sysDictTreeNode.setId(sysDictItem.getId());
             sysDictTreeNode.setPid(sysDictItem.getSysDict().getId());
             sysDictTreeNode.setCode(sysDictItem.getKey());
-            sysDictTreeNode.setName(sysDictItem.getValue());
+            sysDictTreeNode.setName(sysDictItem.getText());
             sysDictTreeNode.setColor(sysDictItem.getColor());
             resultList.add(sysDictTreeNode);
         }

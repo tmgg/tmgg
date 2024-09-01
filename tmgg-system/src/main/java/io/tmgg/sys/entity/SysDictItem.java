@@ -1,7 +1,6 @@
 
 package io.tmgg.sys.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.tmgg.lang.ann.Remark;
 import io.tmgg.web.enums.CommonStatus;
@@ -26,15 +25,13 @@ public class SysDictItem extends BaseEntity {
 
 
     @Remark("键")
-    @Column(length = 50, name = "key_")
+    @Column(name = "key_",length = 50)
     String key;
 
-    @Remark("值")
-    private String value;
+    @Remark("文本")
+    private String text;
 
 
-    @Remark("备注")
-    private String remark;
 
     @Remark("状态")
     @Enumerated(EnumType.STRING)
@@ -48,6 +45,8 @@ public class SysDictItem extends BaseEntity {
     @NotNull
     private Boolean builtin;
 
+
+    @Remark("序号")
     private Integer seq;
 
 

@@ -29,34 +29,6 @@ import java.util.Map;
 @Service
 public class SysDictDataService extends BaseService<SysDictItem> {
 
-    @Resource
-    SysDictDao dictTypeDao;
-
-
-    @Cacheable(cacheNames = "getValue")
-    public String getValue(String code, String key) {
-        if (key == null) {
-            return null;
-        }
-
-        JpaQuery typeQuery = new JpaQuery<>()
-                .eq(SysDict.Fields.code, code);
-        SysDict type = dictTypeDao.findOne(typeQuery);
-        if(type == null){
-            return  null;
-        }
-
-        JpaQuery dataQuery = new JpaQuery<>()
-                .eq(SysDictItem.Fields.sysDict, type.getId())
-                .eq(SysDictItem.Fields.key, key)
-                .eq(SysDictItem.Fields.status, CommonStatus.ENABLE);
-        SysDictItem data = baseDao.findOne(dataQuery);
-        if (data != null) {
-            return data.getValue();
-        }
-        return null;
-    }
-
 
 
 

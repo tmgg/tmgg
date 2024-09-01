@@ -77,8 +77,7 @@ public class EnumToDictHandler implements Runnable {
 
                 SysDictItem data = new SysDictItem();
                 data.setKey(name);
-                data.setValue(msg);
-                data.setRemark("系统通过枚举自动生成");
+                data.setText(msg);
                 data.setSeq(i);
                 data.setSysDict(sysDict);
                 data.setId(md5(simpleTypeName + name));
