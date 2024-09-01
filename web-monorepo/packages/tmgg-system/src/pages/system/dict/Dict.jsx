@@ -86,6 +86,7 @@ export default class extends React.Component {
   render() {
     return <>
       <ProTable
+          headerTitle='数据字典'
           actionRef={this.tableRef}
           toolBarRender={() => {
             return <ButtonList>
@@ -94,7 +95,7 @@ export default class extends React.Component {
               </Button>
             </ButtonList>
           }}
-          request={(params, sort) => http.requestPageData('sysDict/page', params, sort)}
+          request={(params, sort) => http.pageData('sysDict/page', params, sort)}
           columns={this.columns}
           rowKey='id'
           search={false}

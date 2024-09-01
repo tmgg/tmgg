@@ -102,7 +102,7 @@ export default class extends React.Component {
               </Button>
             </ButtonList>
           }}
-          request={(params, sort) => http.requestPageData('${firstLowerName}/page', params, sort)}
+          request={(params, sort) => http.pageData('${firstLowerName}/page', params, sort)}
           columns={this.columns}
           rowKey='id'
       />

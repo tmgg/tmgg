@@ -164,7 +164,7 @@ export default class extends React.Component {
           </Button>]
         }}
         request={(params, sort) => {
-          return http.requestPageData('job/page', params, sort).then(rs => {
+          return http.pageData('job/page', params, sort).then(rs => {
             return rs;
           });
         }}

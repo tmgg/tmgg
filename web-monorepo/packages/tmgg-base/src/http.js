@@ -208,35 +208,33 @@ function postForm(url, data) {
  * @param sort
  * @returns {Promise<unknown>}
  */
-function requestPageData(url, params, sort) {
-    params.pageNumber = params.current;
-    delete params.current
+function pageData(url, params, sort) {
+    const {current,pageSize,keyword, ...data} = params;
+
+    const pageParams = {
+        pageNumber: current,
+        pageSize,
+    }
+
     if (sort) {
         let keys = Object.keys(sort);
         if (keys.length > 0) {
             let key = keys[0];
             let dir = sort[key] === 'ascend' ? 'asc' : 'desc';
-            params.orderBy = key + "," + dir
+            pageParams.orderBy = key + "," + dir
         }
     }
 
 
-    function convert(response) {
-        // 判断是否被包装
-        if (response.data != null && response.data.totalElements != undefined) {
-            response = response.data
+    function convertToProTableData(rs) {
+       return  {
+            data: rs.data.content,
+            success:true,
+            total: parseInt(rs.data.totalElements)
         }
-        // 按pro table 的格式修改数据结构
-        let pageable = {};
-        pageable.data = response.content;
-        pageable.success = true;
-        pageable.total = parseInt(response.totalElements);
-        return pageable;
     }
 
-    return post(url, params).then(convert)
-
-
+    return post(url, data,pageParams).then(convertToProTableData)
 }
 
 function downloadFile(url, params) {
@@ -299,7 +297,7 @@ export const http = {
     init,
     setGlobalHeader,
     downloadFile,
-    requestPageData,
+    pageData,
     postForm,
     post,
     get,

@@ -15,12 +15,7 @@ export default class extends React.Component {
         return <Row gutter={12}>
             <Col> <Dict onChange={selectedKey => this.setState({selectedKey})}/></Col>
             <Col>
-                <Card title='字典项列表'>
-                {this.state.selectedKey == null ?
-                    <Empty description='请选择字典'></Empty>
-                    :                        <DictItem selectedKey={this.state.selectedKey}/>
-                } </Card>
-
+                <DictItem sysDictId={this.state.selectedKey}/>
             </Col>
         </Row>
 

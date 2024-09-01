@@ -17,6 +17,13 @@ export default class extends React.Component {
     formRef = React.createRef()
     tableRef = React.createRef()
 
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if(prevProps.sysDictId !== this.props.sysDictId){
+            this.tableRef.current.reload()
+        }
+
+    }
+
     columns = [
 
         {
@@ -90,6 +97,7 @@ export default class extends React.Component {
     render() {
         return <>
             <ProTable
+                headerTitle='字典项列表'
                 actionRef={this.tableRef}
                 toolBarRender={() => {
                     return <ButtonList>
@@ -99,8 +107,8 @@ export default class extends React.Component {
                     </ButtonList>
                 }}
                 request={(params, sort) => {
-                    params.sysDict = {id:this.props.selectedKey}
-                    return http.requestPageData('sysDictItem/page', params, sort);
+                    params.sysDict = {id:this.props.sysDictId}
+                    return http.pageData('sysDictItem/page', params, sort);
                 }}
                 columns={this.columns}
                 rowKey='id'

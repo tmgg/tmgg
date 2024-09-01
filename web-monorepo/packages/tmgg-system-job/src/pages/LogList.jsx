@@ -92,7 +92,7 @@ export default class extends React.Component {
         </>]}
         actionRef={this.tableRef}
         request={(params, sort) => {
-          return http.requestPageData('job/jobLog', params, sort, 'POST');
+          return http.pageData('job/jobLog', params, sort, 'POST');
         }}
         columns={this.columns}
         rowSelection={false}

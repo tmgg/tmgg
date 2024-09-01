@@ -94,7 +94,7 @@ export default class extends React.Component {
           </Button>
         }}
         request={(params, sort) => {
-          return http.requestPageData('weapp/page', params, sort)
+          return http.pageData('weapp/page', params, sort)
         }}
         columns={this.columns}
         rowSelection={false}

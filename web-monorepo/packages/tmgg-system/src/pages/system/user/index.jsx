@@ -218,7 +218,7 @@ export default class extends React.Component {
                         }}
                         request={(params, sort) => {
                             params.orgId = this.state.currentOrgId
-                            return http.requestPageData(pageApi, params, sort)
+                            return http.pageData(pageApi, params, sort)
                         }
                         }
                         columns={this.columns}
