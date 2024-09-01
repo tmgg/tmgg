@@ -5,7 +5,6 @@ import React from 'react'
 import {ProTable} from '@tmgg/pro-table'
 import {http} from "@tmgg/tmgg-base"
 import {ButtonList} from "@tmgg/tmgg-system";
-import DictItem from "./DictItem";
 
 
 
@@ -13,7 +12,8 @@ export default class extends React.Component {
 
   state = {
     formValues: {},
-    formOpen: false
+    formOpen: false,
+      selectedRowKeys:[]
   }
 
   formRef = React.createRef()
@@ -98,6 +98,22 @@ export default class extends React.Component {
           columns={this.columns}
           rowKey='id'
           search={false}
+
+          rowSelection={{
+              type: 'radio',
+              selectedRowKeys: this.state.selectedRowKeys,
+              onChange: (selectedRowKeys,selectedRows)=>{
+                  this.setState({selectedRowKeys: selectedRowKeys})
+
+                  this.props.onChange(selectedRowKeys[0])
+              }
+          }}
+          onRow={(record) => ({
+              onClick: () => {
+                  this.setState({selectedRowKeys: [record.id]})
+                  this.props.onChange(record.id)
+              }
+          })}
       />
 
   <Modal title='数据字典'

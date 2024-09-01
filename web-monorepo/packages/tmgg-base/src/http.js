@@ -59,15 +59,13 @@ axiosInstance.interceptors.response.use(res => {
 let globalErrorMessageHandler = (msg, error) => {
     console.log('请求异常', msg, error)
     Modal.error({
-        title:'网络请求异常',
+        title: '网络请求异常',
         content: error.status + ":" + msg
     })
 }
 
 
 addErrorInterceptor()
-
-
 
 
 /**
@@ -141,16 +139,16 @@ function addErrorInterceptor() {
             let {message, code, response, config = {}} = error;
             let msg = response ? STATUS_MESSAGE[response.status] : AXIOS_CODE_MESSAGE[code];
 
-            const {autoShowError=true} = config;
+            const {autoShowError = true} = config;
 
-            if(autoShowError){
+            if (autoShowError) {
                 globalErrorMessageHandler(msg || message, error)
             }
 
 
             const result = {
                 code: code,
-                message: msg|| message,
+                message: msg || message,
                 success: false,
                 status: response.status
             }
@@ -159,11 +157,11 @@ function addErrorInterceptor() {
         })
 }
 
- function setGlobalHeader(key, value) {
+function setGlobalHeader(key, value) {
     storage.set("HD:" + key, value)
 }
 
- function getGlobalHeaders() {
+function getGlobalHeaders() {
     const result = {}
     let all = storage.getAll();
     for (let key in all) {
@@ -187,12 +185,12 @@ function makeUrl(url) {
 }
 
 
-function get(url, params = null, config= {autoShowError:true}) {
+function get(url, params = null, config = {autoShowError: true}) {
     url = makeUrl(url)
-    return axiosInstance.get(url, {params,...config })
+    return axiosInstance.get(url, {params, ...config})
 }
 
- function post(url, data, params = null) {
+function post(url, data, params = null) {
     url = makeUrl(url)
     return axiosInstance.post(url, data, {params})
 }
@@ -210,7 +208,7 @@ function postForm(url, data) {
  * @param sort
  * @returns {Promise<unknown>}
  */
-function requestPageData(url, params, sort, method = 'GET') {
+function requestPageData(url, params, sort) {
     params.pageNumber = params.current;
     delete params.current
     if (sort) {
@@ -236,13 +234,7 @@ function requestPageData(url, params, sort, method = 'GET') {
         return pageable;
     }
 
-    if (method === 'GET') {
-        return get(url, params).then(convert)
-    } else if (method === "POST") {
-        return post(url, params).then(convert)
-    } else {
-        throw new Error('不支持 Method：' + method)
-    }
+    return post(url, params).then(convert)
 
 
 }

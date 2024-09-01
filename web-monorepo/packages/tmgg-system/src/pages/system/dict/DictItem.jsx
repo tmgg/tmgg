@@ -98,13 +98,16 @@ export default class extends React.Component {
                         </Button>
                     </ButtonList>
                 }}
-                request={(params, sort) => http.requestPageData('sysDictItem/page', params, sort)}
+                request={(params, sort) => {
+                    params.sysDict = {id:this.props.selectedKey}
+                    return http.requestPageData('sysDictItem/page', params, sort);
+                }}
                 columns={this.columns}
                 rowKey='id'
                 search={false}
             />
 
-            <Modal title='字典项'
+            <Modal
                    open={this.state.formOpen}
                    onOk={() => this.formRef.current.submit()}
                    onCancel={() => this.setState({formOpen: false})}

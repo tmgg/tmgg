@@ -22,8 +22,8 @@ public abstract class BaseCURDController<T extends Persistable<String>> {
 
 
     @HasPermission
-    @GetMapping("page")
-    public AjaxResult page(T param, @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) {
+    @PostMapping("page")
+    public AjaxResult page(@RequestBody T param, @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) {
         Page<T> page = service.findByExampleLike(param, pageable);
         return AjaxResult.ok().data(page);
     }
