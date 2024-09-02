@@ -1,9 +1,7 @@
 import axios from "axios";
-import {storage} from "./storage.js";
 import {message, Modal} from "antd";
 
-
-const axiosInstance = axios.create({
+export const axiosInstance = axios.create({
     withCredentials: true, // 带cookie
     baseURL: '/',
 })
@@ -37,7 +35,7 @@ function showErrorMessage(title, msg) {
 }
 
 
-function getToken() {
+export function getToken() {
     for (let key of AUTH_STORE_KEYS) {
         let v = localStorage.getItem(key);
         if (v) {
@@ -66,94 +64,89 @@ axiosInstance.interceptors.request.use(
 );
 
 
-addInterceptor()
+const STATUS_MESSAGE = {
+    200: '服务器成功返回请求的数据',
+    201: '新增或修改数据成功',
+    202: '一个请求已经进入后台排队（异步任务）',
+    204: '删除数据成功',
+    400: '发出的请求有错误，服务器没有进行新增或修改数据的操作',
+    401: '请求需要登录',
+    403: '权限不足',
+    404: '接口未定义',
+    406: '请求的格式不可得',
+    410: '请求的资源被永久删除，且不会再得到的',
+    422: '当创建一个对象时，发生一个验证错误',
+    500: '服务器发生错误，请检查服务器',
+    502: '网关错误',
+    503: '服务不可用，服务器暂时过载或维护',
+    504: '网关超时',
+};
 
 
-function addInterceptor() {
-    const STATUS_MESSAGE = {
-        200: '服务器成功返回请求的数据',
-        201: '新增或修改数据成功',
-        202: '一个请求已经进入后台排队（异步任务）',
-        204: '删除数据成功',
-        400: '发出的请求有错误，服务器没有进行新增或修改数据的操作',
-        401: '请求需要登录',
-        403: '权限不足',
-        404: '接口未定义',
-        406: '请求的格式不可得',
-        410: '请求的资源被永久删除，且不会再得到的',
-        422: '当创建一个对象时，发生一个验证错误',
-        500: '服务器发生错误，请检查服务器',
-        502: '网关错误',
-        503: '服务不可用，服务器暂时过载或维护',
-        504: '网关超时',
-    };
-
-
-    /**
-     * axios 的错误代码
-     * 来源 AxiosError.ERR_NETWORK
-     * 直接使用的chatgpt 转换为js对象并翻译
-     */
-    const AXIOS_CODE_MESSAGE = {
-        ERR_FR_TOO_MANY_REDIRECTS: "错误：重定向过多",
-        ERR_BAD_OPTION_VALUE: "错误：选项值无效",
-        ERR_BAD_OPTION: "错误：无效选项",
-        ERR_NETWORK: "错误：网络错误",
-        ERR_DEPRECATED: "错误：已弃用",
-        ERR_BAD_RESPONSE: "错误：响应错误",
-        ERR_BAD_REQUEST: "错误：无效请求",
-        ERR_NOT_SUPPORT: "错误：不支持",
-        ERR_INVALID_URL: "错误：无效的URL",
-        ERR_CANCELED: "错误：已取消",
-        ECONNABORTED: "连接中止",
-        ETIMEDOUT: "连接超时"
-    }
-
-    axiosInstance.interceptors.response.use(
-        (res) => {
-            const {data, config: {autoShowErrorMessage, autoShowSuccessMessage, transformData, method}} = res;
-            const isAjaxResult = data.success !== undefined && data.code !== undefined
-            if (isAjaxResult) {
-                if (autoShowSuccessMessage  && data.success === true && data.message != null) {
-                    showSuccessMessage(data.message)
-                }
-                if (data.success === false && autoShowErrorMessage) {
-                    showErrorMessage('操作失败', data.message)
-                }
-                if (transformData) {
-                    return data.data
-                }
-            }
-
-            return data;
-        },
-        error => {
-            let {message, code, response, config = {}} = error;
-            let msg = response ? STATUS_MESSAGE[response.status] : AXIOS_CODE_MESSAGE[code];
-
-            const {autoShowErrorMessage} = config;
-
-            if (autoShowErrorMessage) {
-                showErrorMessage( '网络请求异常',error.status + ":" + msg)
-            }
-
-
-            const result = {
-                code: code,
-                message: msg || message,
-                success: false,
-                status: response.status
-            }
-
-            return Promise.reject(result)
-        })
+/**
+ * axios 的错误代码
+ * 来源 AxiosError.ERR_NETWORK
+ * 直接使用的chatgpt 转换为js对象并翻译
+ */
+const AXIOS_CODE_MESSAGE = {
+    ERR_FR_TOO_MANY_REDIRECTS: "错误：重定向过多",
+    ERR_BAD_OPTION_VALUE: "错误：选项值无效",
+    ERR_BAD_OPTION: "错误：无效选项",
+    ERR_NETWORK: "错误：网络错误",
+    ERR_DEPRECATED: "错误：已弃用",
+    ERR_BAD_RESPONSE: "错误：响应错误",
+    ERR_BAD_REQUEST: "错误：无效请求",
+    ERR_NOT_SUPPORT: "错误：不支持",
+    ERR_INVALID_URL: "错误：无效的URL",
+    ERR_CANCELED: "错误：已取消",
+    ECONNABORTED: "连接中止",
+    ETIMEDOUT: "连接超时"
 }
 
-function setGlobalHeader(key, value) {
+axiosInstance.interceptors.response.use(
+    (res) => {
+        const {data, config: {autoShowErrorMessage, autoShowSuccessMessage, transformData, method}} = res;
+        const isAjaxResult = data.success !== undefined && data.code !== undefined
+        if (isAjaxResult) {
+            if (autoShowSuccessMessage  && data.success === true && data.message != null) {
+                showSuccessMessage(data.message)
+            }
+            if (data.success === false && autoShowErrorMessage) {
+                showErrorMessage('操作失败', data.message)
+            }
+            if (transformData) {
+                return data.data
+            }
+        }
+
+        return data;
+    },
+    error => {
+        let {message, code, response, config = {}} = error;
+        let msg = response ? STATUS_MESSAGE[response.status] : AXIOS_CODE_MESSAGE[code];
+
+        const {autoShowErrorMessage} = config;
+
+        if (autoShowErrorMessage) {
+            showErrorMessage( '网络请求异常',error.status + ":" + msg)
+        }
+
+
+        const result = {
+            code: code,
+            message: msg || message,
+            success: false,
+            status: response.status
+        }
+
+        return Promise.reject(result)
+    })
+
+export function setGlobalHeader(key, value) {
     storage.set("HD:" + key, value)
 }
 
-function getGlobalHeaders() {
+export function getGlobalHeaders() {
     const result = {}
     let all = storage.getAll();
     for (let key in all) {
@@ -169,25 +162,25 @@ function getGlobalHeaders() {
 /**
  *  防止双斜杠出现
  */
-function makeUrl(url) {
+function _replaceUrl(url) {
     if (url.startsWith("//")) {
         return url.substring(1)
     }
     return url;
 }
 
-function get(url, params = null, config = defaultRequestConfig) {
-    url = makeUrl(url)
+export function get(url, params = null, config = defaultRequestConfig) {
+    url = _replaceUrl(url)
     return axiosInstance.get(url, {params, ...config})
 }
 
-function post(url, data, params = null, config = defaultRequestConfig) {
-    url = makeUrl(url)
+export function post(url, data, params = null, config = defaultRequestConfig) {
+    url = _replaceUrl(url)
     return axiosInstance.post(url, data, {params, ...config})
 }
 
-function postForm(url, data) {
-    url = makeUrl(url)
+export function postForm(url, data) {
+    url = _replaceUrl(url)
     return axiosInstance.postForm(url, data)
 }
 
@@ -199,7 +192,7 @@ function postForm(url, data) {
  * @param sort
  * @returns {Promise<unknown>}
  */
-function pageData(url, params, sort) {
+export function pageData(url, params, sort) {
     const {current, pageSize, keyword, ...data} = params;
 
     const pageParams = {
@@ -228,7 +221,7 @@ function pageData(url, params, sort) {
     return post(url, data, pageParams).then(convertToProTableData)
 }
 
-function downloadFile(url, params) {
+export function downloadFile(url, params) {
     console.log('下载中...')
 
     let config = {
@@ -282,14 +275,3 @@ function downloadFile(url, params) {
 
 }
 
-export const http = {
-    axiosInstance,
-    getToken,
-    setGlobalHeader,
-    downloadFile,
-    pageData,
-    postForm,
-    post,
-    get,
-    getGlobalHeaders
-}

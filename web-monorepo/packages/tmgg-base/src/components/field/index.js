@@ -16,7 +16,7 @@ export * from './flat-select';
 export * from './dict';
 export * from './remote-image';
 export * from './FieldRemoteTreeCascader';
-export * from './remote-tree-multiple-select';
+export * from './FieldRemoteTreeMultipleSelect';
 export * from './text';
 export * from './FieldProps'
 export * from './FieldCaptcha'

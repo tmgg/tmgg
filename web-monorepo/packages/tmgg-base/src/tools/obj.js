@@ -8,6 +8,7 @@
  *
  * @param obj
  * @param path
+ * @param defaultValue
  */
 export function get(obj, path, defaultValue = undefined){
 

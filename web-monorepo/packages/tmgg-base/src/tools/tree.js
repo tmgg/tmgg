@@ -192,7 +192,7 @@ export function getOnDropData(info, tree) {
     const dropKey = info.node.key;
     const { dropPosition, dropToGap } = info;
 
-    const dropNode = TreeUtil.findByKey(tree, dropKey);
+    const dropNode = findByKey(tree, dropKey);
     const data = {
         id: dragKey,
     };

@@ -3,7 +3,7 @@
  * @param subStr
  * @returns {boolean}
  */
-function contains(str, subStr) {
+export function contains(str, subStr) {
     if (!str) {
         return false
     }
@@ -15,7 +15,7 @@ function contains(str, subStr) {
  * 判断字符串出现的个数
  * @param subStr
  */
-function count(str, subStr) {
+export function count(str, subStr) {
     if (str == null || str.length == 0) {
         return 0;
     }
@@ -38,7 +38,7 @@ function count(str, subStr) {
 /**
  *  将字符串的首字母转换为大写
  */
-function capitalize(str) {
+export function capitalize(str) {
     if (str == null) {
         return str
     }
@@ -50,7 +50,7 @@ function capitalize(str) {
  * @param str
  * @returns {*}
  */
-function reverse(str) {
+export function reverse(str) {
     if (str == null) {
         return str;
     }
@@ -63,7 +63,7 @@ function reverse(str) {
  * @param sub
  * @returns {string|null}
  */
-function subAfter(s, sub) {
+export function subAfter(s, sub) {
     if (s == null) {
         return s;
     }
@@ -71,7 +71,7 @@ function subAfter(s, sub) {
     return index === -1 ? s : s.substring(index + 1);
 }
 
-function subBefore(s, sub) {
+export function subBefore(s, sub) {
     if (s == null) {
         return s;
     }
@@ -84,7 +84,7 @@ function subBefore(s, sub) {
  * @param str
  * @returns {*}
  */
-function obfuscateString(str) {
+export function obfuscateString(str) {
     if (str == null) {
         return str
     }
@@ -99,7 +99,7 @@ function obfuscateString(str) {
  * @param padChar
  * @returns {string}
  */
-function pad(input, totalLen, padChar = '0') {
+export function pad(input, totalLen, padChar = '0') {
     if (input == null) {
         return padChar.repeat(totalLen)
     }
@@ -117,7 +117,7 @@ function pad(input, totalLen, padChar = '0') {
  * @param str
  * @returns {string}
  */
-function encrypt(str) {
+export function encrypt(str) {
     if (str == null) {
         return str
     }
@@ -131,7 +131,7 @@ function encrypt(str) {
 }
 
 
-function decrypt(hexString) {
+export function decrypt(hexString) {
     if (hexString == null) {
         return hexString;
     }
@@ -153,7 +153,7 @@ function decrypt(hexString) {
  * 获取字符串长度，英文字符 长度1，中文字符长度2
  * @param {*} str
  */
-function getWidth(str) {
+export function getWidth(str) {
     if (str == null || str.length === 0) {
         return 0
     }
@@ -166,7 +166,7 @@ function getWidth(str) {
     }, 0);
 }
 
-function cutByWidth(str, maxWidth) {
+export function cutByWidth(str, maxWidth) {
     let showLength = 0;
     return str.split('').reduce((pre, cur) => {
         const charCode = cur.charCodeAt(0);
@@ -189,7 +189,7 @@ function cutByWidth(str, maxWidth) {
  * @param len 字符长度，注：中文字符算2
  * @constructor
  */
-function ellipsis(str, len, suffix = '...') {
+export function ellipsis(str, len, suffix = '...') {
     if (str == null) {
         return str;
     }
@@ -212,14 +212,14 @@ function ellipsis(str, len, suffix = '...') {
     return cutByWidth(str, len) + suffix;
 }
 
-function isStr(value) {
+export function isStr(value) {
     return typeof value === "string"
 }
 
 
 // 转驼峰
-function toCamelCase(str, firstLower = true) {
-    let result = str.replace(/\_(\w)/g, function (all, letter) {
+export function toCamelCase(str, firstLower = true) {
+    let result = str.replace(/\_(\w)/g,  function (all, letter) {
         return letter.toUpperCase();
     });
 
@@ -230,7 +230,7 @@ function toCamelCase(str, firstLower = true) {
     return result;
 }
 
-function toUnderlineCase(name) {
+export function toUnderlineCase(name) {
     if (name == null) {
         return null;
     }
@@ -241,7 +241,7 @@ function toUnderlineCase(name) {
     return result;
 }
 
-function equalsIgnoreCase(a, b) {
+export function equalsIgnoreCase(a, b) {
     if (a != null && b != null) {
         if (a === b) {
             return true;

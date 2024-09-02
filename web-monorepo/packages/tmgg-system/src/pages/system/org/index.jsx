@@ -3,7 +3,6 @@ import {
   Button,
   Card,
   Checkbox,
-  Col,
   Empty,
   Form,
   Input,
@@ -15,7 +14,6 @@ import {
 } from 'antd';
 import React from 'react';
 import {FieldDictRadio, FieldRemoteTreeSelect, http, LeftRightLayout} from "@tmgg/tmgg-base";
-import {http} from "@tmgg/tmgg-base";
 
 const baseTitle = "组织机构";
 const baseApi = 'sysOrg/';

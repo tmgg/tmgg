@@ -1,3 +1,4 @@
 export * from './components'
 export * from './system'
-export * from './tools'
+export * as tools from './tools'
+export *  from './tools'

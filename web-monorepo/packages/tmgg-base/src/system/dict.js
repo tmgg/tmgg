@@ -2,20 +2,19 @@
  *
  * @param code
  */
-import {StorageUtil} from '../utils';
 import {Tag} from 'antd';
 import React from 'react';
-import {str} from "@tmgg/tmgg-base"
+import {storage} from "../tools";
 
 // 根据字典类型code返回字典数据列表， code 支持 驼峰或下划线（都转为下划线比较）
 export function dictList(code) {
-  const dictTypeTree = StorageUtil.get('DICT');
+  const dictTypeTree = storage.get('DICT');
   if (dictTypeTree === undefined) {
     return [];
   }
 
   let filtered = dictTypeTree.filter((item) => {
-      return item.code == code || str.toUnderlineCase(item.code) == str.toUnderlineCase(code);
+      return item.code == code || strT.toUnderlineCase(item.code) == str.toUnderlineCase(code);
     }
   );
 

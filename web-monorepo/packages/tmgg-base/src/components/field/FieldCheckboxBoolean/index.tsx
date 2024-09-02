@@ -53,10 +53,8 @@ export class FieldCheckboxBoolean extends React.Component<FieldProps, any> {
     if (typeof v === 'boolean') {
       return v;
     }
-    if (v === 1 || v === 'true' || v === 'Y') {
-      return true;
-    }
-    return false;
+    return v === 1 || v === 'true' || v === 'Y';
+
   }
 }
 

@@ -1,7 +1,6 @@
 import React from 'react';
 import { FieldRemoteMultipleSelect, FieldRemoteSelect, FieldRemoteTreeSelect } from './field';
 
-export * from './LinkToViewFile';
 
 export function FieldUserSelect(props:any) {
   return <FieldRemoteSelect url="/sysUser/options" {...props} />;

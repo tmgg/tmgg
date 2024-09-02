@@ -1,7 +1,6 @@
 import {registerField} from "@tmgg/pro-table";
 import {FieldDictRadio} from "../components";
 import {http} from "../tools";
-import {sys} from "./SysConfig";
 
 
 export function initSystem(){

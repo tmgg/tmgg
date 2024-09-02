@@ -1,9 +1,7 @@
-export * from './SysConfig'
 export * from './PageTool'
 export * from './dict'
-export * from './tools'
 export * from './permissions'
-export * from './init'
+export * from './initSystem'
 
 export * from './theme'
 export * from './PageTool'

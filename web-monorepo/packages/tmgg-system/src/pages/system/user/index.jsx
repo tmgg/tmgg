@@ -16,9 +16,8 @@ import {http} from "@tmgg/tmgg-base";
 import UserPerm from "./UserPerm";
 import {
     ButtonList,
-    dictValueTag, FieldDictRadio,
+    FieldDictRadio,
     FieldOrgTreeSelect, hasPermission,
-    http,
     LeftRightLayout
 } from "@tmgg/tmgg-base";
 import {OrgTree} from "@tmgg/tmgg-base";
