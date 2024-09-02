@@ -4,14 +4,18 @@
 import {SysConfig} from "./SysConfig";
 import {arr} from "@tmgg/tmgg-base"
 
-export function hasPermission(perm:any) {
+/**
+ * 是否拥有权限
+ * @param perm 权限码
+ */
+export function hasPermission(perm) {
   if (perm === null || perm === '') {
     return false;
   }
 
   const info = SysConfig.getLoginInfo();
   const { permissions } = info;
-  if(permissions == null || permissions.length == 0){
+  if(permissions == null || permissions.length === 0){
     return false
   }
 

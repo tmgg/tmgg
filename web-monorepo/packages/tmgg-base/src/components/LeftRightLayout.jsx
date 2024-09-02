@@ -1,12 +1,8 @@
-import React, {ReactNode} from 'react';
+import React from 'react';
 
 import { Col, Row } from 'antd';
 
 
-interface LeftRightLayoutProps {
-  leftSize: number;
-  children:ReactNode[];
-}
 
 const style = {
   marginRight: 0,
@@ -14,7 +10,7 @@ const style = {
 
 
 
-export class LeftRightLayout extends React.Component<LeftRightLayoutProps,any> {
+export class LeftRightLayout extends React.Component {
   static defaultProps = {
     leftSize: 300
   }

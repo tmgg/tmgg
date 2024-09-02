@@ -1,28 +1,17 @@
 import React from 'react';
 import { Modal } from 'antd';
-import {SysConfig} from "../../system";
 
-interface IProps {
-  // 推荐使用 ， 支持id， url， 并支持逗号分隔符
-  value?: string | string[];
-
-  // 弃用
-  fileId?: string | string[];
-
-  // 弃用
-  url?: string | string[];
-}
-
-export interface IState {
-  visible: boolean;
-  previewUrl: string | null;
-}
 
 /**
  *  可以使用 fileId 或 url 属性
+ *
+ *    // 推荐使用 ， 支持id， url， 并支持逗号分隔符
+ *   value?: string | string[];
+ *
+ *
  */
-export class RemoteImageView extends React.Component<IProps, IState> {
-  preview = (url: string) => {
+export class RemoteImageView extends React.Component {
+  preview = (url) => {
     Modal.info({
       title: '预览图片',
       width: '70vw',
