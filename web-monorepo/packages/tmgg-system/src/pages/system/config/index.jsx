@@ -1,10 +1,9 @@
 import {PlusOutlined} from '@ant-design/icons'
-import {Button, Card,InputNumber, Popconfirm,Modal,Form,Input,message} from 'antd'
+import {Button, Popconfirm,Modal,Form,Input} from 'antd'
 import React from 'react'
 
 import {ProTable} from '@tmgg/pro-table'
-import {http} from "@tmgg/tmgg-base"
-import {ButtonList} from "@tmgg/tmgg-base";
+import {ButtonList, FieldText, HttpUtil} from "@tmgg/tmgg-base";
 
 
 
@@ -62,17 +61,11 @@ export default class extends React.Component {
       render: (_, record) => (
           <ButtonList>
             <a perm='sysConfig:save' onClick={() => this.handleEdit(record)}> 修改 </a>
-            <Popconfirm perm='sysConfig:delete' title='是否确定删除系统配置'  onConfirm={() => this.handleDelete(record)}>
-              <a>删除</a>
-            </Popconfirm>
           </ButtonList>
       ),
     },
   ]
 
-  handleAdd = ()=>{
-    this.setState({formOpen: true, formValues: {}})
-  }
 
   handleEdit = record=>{
     this.setState({formOpen: true, formValues: record})
@@ -88,11 +81,7 @@ export default class extends React.Component {
 
 
 
-  handleDelete = record => {
-    HttpUtil.post( 'sysConfig/delete', {id:record.id}).then(rs => {
-      this.tableRef.current.reload()
-    })
-  }
+
 
   render() {
     return <>
@@ -122,20 +111,20 @@ export default class extends React.Component {
               onFinish={this.onFinish} >
           <Form.Item  name='id' noStyle></Form.Item>
 
-          <Form.Item label='名称' name='name' rules={[{required: true}]}>
-            <Input/>
+          <Form.Item label='名称' name='name' >
+            <FieldText/>
           </Form.Item>
-          <Form.Item label='键' name='key' rules={[{required: true}]}>
-            <Input/>
+          <Form.Item label='键' name='key' >
+            <FieldText/>
           </Form.Item>
           <Form.Item label='值' name='value' rules={[{required: true}]}>
             <Input/>
           </Form.Item>
-          <Form.Item label='默认值' name='defaultValue' rules={[{required: true}]}>
-            <Input/>
+          <Form.Item label='默认值' name='defaultValue' >
+            <FieldText/>
           </Form.Item>
-          <Form.Item label='备注' name='remark' rules={[{required: true}]}>
-            <Input/>
+          <Form.Item label='备注' name='remark' >
+            <FieldText/>
           </Form.Item>
 
         </Form>

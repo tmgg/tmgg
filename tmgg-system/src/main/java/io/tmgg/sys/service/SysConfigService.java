@@ -1,9 +1,12 @@
 
 package io.tmgg.sys.service;
 
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.bean.copier.CopyOptions;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
+import io.tmgg.lang.dao.BaseEntity;
 import io.tmgg.lang.dao.BaseService;
 import io.tmgg.sys.dao.SysConfigDao;
 import io.tmgg.sys.entity.SysConfig;
@@ -25,6 +28,13 @@ public class SysConfigService extends BaseService<SysConfig> {
 
     @Resource
     private SysConfigDao dao;
+
+    @Override
+    public SysConfig saveOrUpdate(SysConfig input) throws Exception {
+        SysConfig old = baseDao.findOne(input);
+        old.setValue(input.getValue());
+        return  baseDao.save(old);
+    }
 
     public String get(String code) {
         return dao.findValueByCode(code);

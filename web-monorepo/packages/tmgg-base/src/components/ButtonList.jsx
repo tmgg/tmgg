@@ -52,7 +52,7 @@ export class ButtonList extends React.Component {
 
       const childPerm = child.props == null ? null : child.props.perm;
 
-      if (childPerm == null || hasPermission(childPerm)) {
+      if (childPerm == null || PermUtil.hasPermission(childPerm)) {
         showList.push(child);
       }
     }

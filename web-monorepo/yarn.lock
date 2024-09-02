@@ -2917,10 +2917,10 @@
     unstated-next "^1.1.0"
     use-json-comparison "^1.0.5"
 
-"@tmgg/pro-table@^5.0.1":
-  version "5.0.1"
-  resolved "https://registry.yarnpkg.com/@tmgg/pro-table/-/pro-table-5.0.1.tgz#0c5574b9293d1594b253b341b10ef7c86156f983"
-  integrity sha512-49mmk7mDP6cLYdAdcybPYSVEiUIwSFgOaXTDEUUgC5tqo0yxT7AEO2Pr2g7ppf9edmCci6qj9di6udevwU5G5Q==
+"@tmgg/pro-table@^5.0.2":
+  version "5.0.2"
+  resolved "https://registry.yarnpkg.com/@tmgg/pro-table/-/pro-table-5.0.2.tgz#9a61bc75deafe02e815eeb33b8e6d29e588a5a94"
+  integrity sha512-61LRQNXYFBud6ay52q/lGXu255qx2wtxgzRv+7ADlazuXa6Zm+UQOjC2HB3xRxQfll4nMhF5f8jv1xFJAiBjDQ==
   dependencies:
     "@ant-design/icons" "^5.0.0"
     "@babel/runtime" "^7.18.0"
