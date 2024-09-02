@@ -1,24 +1,19 @@
 import React from 'react';
 import {Editor as TinyMceEditor} from '@tinymce/tinymce-react';
-import {SysConfig} from "../../../system";
-import {LoadingOutlined} from "@ant-design/icons";
-
-
-interface IProps {
-  value?: string;
-  onChange?: any
-}
+import {SysUtil} from "../../system";
 
 
 
-export {FieldEditor as Editor}
-export class FieldEditor extends React.Component<IProps, any> {
+
+
+
+export class FieldEditor extends React.Component {
 
 
 
   render() {
 
-    let serverUrl = SysConfig.getServerUrl();
+    let serverUrl = SysUtil.getServerUrl();
     let uploadUrl = serverUrl + 'sysFile/upload'
     return <>
       <TinyMceEditor
