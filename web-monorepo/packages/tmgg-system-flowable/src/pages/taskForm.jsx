@@ -1,7 +1,7 @@
 import React from "react";
 import {Button, Card, Form, Input, message, Modal, Radio,} from "antd";
 import InstanceInfo from "../components/InstanceInfo";
-import {url} from "@tmgg/tmgg-base"
+import {HttpUtil, url} from "@tmgg/tmgg-base"
 
 export default class extends React.Component {
 
@@ -17,8 +17,6 @@ export default class extends React.Component {
 
     value.taskId = taskId
     HttpUtil.post("/flowable/userside/handleTask", value).then(rs => {
-      rs.success ?  message.success(rs.message): message.error(rs.message)
-
       if(rs.success){
         Modal.success({
           title:'操作结果',

@@ -86,7 +86,6 @@ export default class extends React.Component {
     handleEnableAll = (id) => {
         this.setState({enableAllLoading: true})
         HttpUtil.get(baseApi + 'enableAll', {id}).then(rs => {
-            message.success(rs.message)
             this.loadTree()
         }).finally(() => {
             this.setState({enableAllLoading: false})
@@ -96,7 +95,6 @@ export default class extends React.Component {
     handleDisableAll = (id) => {
         this.setState({enableAllLoading: true})
         HttpUtil.get(baseApi + 'disableAll', {id}).then(rs => {
-            message.success(rs.message)
             this.loadTree()
         }).finally(() => {
             this.setState({enableAllLoading: false})

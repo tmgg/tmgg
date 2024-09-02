@@ -13,7 +13,6 @@ export default class extends React.Component {
 
       const hide = message.loading("加载登录数据中")
       SysConfig.loadLoginData().then(() => {
-        console.log("跳转到首页....")
         hide();
         history.push('/')
         window.location = "/"

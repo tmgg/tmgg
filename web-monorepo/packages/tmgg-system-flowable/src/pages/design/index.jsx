@@ -17,7 +17,7 @@ import OriginModule from 'diagram-js-origin';
 import contextPad from "../../components/flow/design/contextPad";
 import {CloudUploadOutlined, EditOutlined, SaveOutlined} from "@ant-design/icons";
 import qs from "qs";
-import {http} from "@tmgg/tmgg-base";
+import {http, HttpUtil} from "@tmgg/tmgg-base";
 
 export default class extends React.Component {
 
@@ -158,14 +158,7 @@ export default class extends React.Component {
     let id = this.state.id;
 
     this.bpmnModeler.saveXML().then(res => {
-      HttpUtil.post('/flowable/model/deploy', {id: id, content: res.xml}).then(rs => {
-        if(rs.success){
-          message.success(rs.message)
-        }else {
-          message.error(rs.message)
-        }
-
-      })
+      HttpUtil.post('/flowable/model/deploy', {id: id, content: res.xml})
     })
   }
 

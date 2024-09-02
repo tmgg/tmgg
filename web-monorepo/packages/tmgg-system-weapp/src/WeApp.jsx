@@ -2,7 +2,7 @@ import {Button, Form, Input, message, Modal, Popconfirm, Select, Space, Switch, 
 import React from 'react'
 import {PlusOutlined} from "@ant-design/icons";
 import {ProTable} from "@ant-design/pro-table";
-import {http} from "@tmgg/tmgg-base";
+import {http, HttpUtil} from "@tmgg/tmgg-base";
 export default class extends React.Component {
 
   state = {
@@ -67,7 +67,6 @@ export default class extends React.Component {
       if(rs.success){
         this.setState({formOpen: false})
         this.tableRef.current.reload();
-        message.success(rs.message)
       }else {
         Modal.error({title:'操作异常',content:rs.message})
       }
@@ -80,7 +79,6 @@ export default class extends React.Component {
   handleDelete = row => {
     const  hide =message.loading("删除任务中...")
     HttpUtil.get('weapp/delete', {id: row.id}).then(rs => {
-      message.success(rs.message)
       this.tableRef.current.reload();
     }).catch(hide)
   }

@@ -3,7 +3,7 @@ import {Button, Card,InputNumber, Popconfirm,Modal,Form,Input,message} from 'ant
 import React from 'react'
 
 import {ProTable} from '@tmgg/pro-table'
-import {http,ButtonList} from "@tmgg/tmgg-base"
+import {http, ButtonList, HttpUtil} from "@tmgg/tmgg-base"
 
 
 
@@ -68,7 +68,6 @@ export default class extends React.Component {
 
   onFinish = values => {
     HttpUtil.post( 'sysDict/save', values).then(rs => {
-      message.success(rs.message)
       this.setState({formOpen: false})
       this.tableRef.current.reload()
     })

@@ -1,7 +1,7 @@
 import {Button, Divider, message, Tree} from 'antd';
 import React from 'react';
 import {PageLoading} from "@ant-design/pro-components";
-import {http} from "@tmgg/tmgg-base";
+import {http, HttpUtil} from "@tmgg/tmgg-base";
 
 
 export default class extends React.Component {
@@ -16,10 +16,8 @@ export default class extends React.Component {
 
   componentDidMount() {
     const {id} = this.props;
-    // 加载树状菜单
     HttpUtil.get('/sysMenu/treeForGrant').then(rs => {
-      const list = rs.data;
-      this.setState({treeData: list})
+      this.setState({treeData: rs})
     })
 
     this.init(id);
@@ -55,7 +53,6 @@ export default class extends React.Component {
       this.setState({
         confirmLoading: false
       })
-      message.success(rs.message)
     })
   }
 

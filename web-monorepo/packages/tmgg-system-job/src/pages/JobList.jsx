@@ -2,7 +2,7 @@ import {AutoComplete, Button, Form, Input, message, Modal, Popconfirm, Select, S
 import React from 'react'
 import {MinusCircleOutlined, PlusOutlined} from "@ant-design/icons";
 import StreamLog from "../components/StreamLog";
-import {http} from "@tmgg/tmgg-base";
+import {http, HttpUtil} from "@tmgg/tmgg-base";
 import ProTable from "@tmgg/pro-table";
 
 
@@ -133,7 +133,6 @@ export default class extends React.Component {
     HttpUtil.post('job/save', values).then(rs => {
       this.setState({formOpen: false})
       this.tableRef.current.reload();
-      message.success(rs.message)
     }).catch(err => {
       alert(err)
     })
@@ -142,13 +141,11 @@ export default class extends React.Component {
   handleDelete = row => {
     const hide = message.loading("删除任务中...")
     HttpUtil.get('job/delete', {id: row.id}).then(rs => {
-      message.success(rs.message)
       this.tableRef.current.reload();
     }).catch(hide)
   }
   handleTriggerJob = row => {
      HttpUtil.get('job/triggerJob', {id: row.id}).then(rs => {
-      message.success(rs.message)
       this.tableRef.current.reload();
     })
   }
@@ -249,7 +246,6 @@ export default class extends React.Component {
   }
 
   onValuesChange = (changed, values) => {
-    console.log('修改数据', changed)
     if (changed.jobClass) {
       const option = this.state.jobClassOptions.find(o => o.value === changed.jobClass)
       if (option) {

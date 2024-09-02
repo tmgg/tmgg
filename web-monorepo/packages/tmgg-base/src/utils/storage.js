@@ -12,7 +12,6 @@ export const StorageUtil = {
         }
 
         let text = StrUtil.decrypt(hexString);
-        console.log(text)
         return JSON.parse(text)
     },
     keys() {

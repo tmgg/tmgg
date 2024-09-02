@@ -55,7 +55,6 @@ export class FieldRemoteSelect extends React.Component {
         return;
       }
 
-      console.log('下拉表数据', data);
 
       this.setState({ data });
       if (this.props.onLoadedData) {

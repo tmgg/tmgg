@@ -73,7 +73,6 @@ export class Layouts extends React.Component {
 
 
     renderContent() {
-        console.log('renderContent', this.state.pathname)
 
         if (this.state.pathname === '/login') {
             return <SiteInfoInterceptor>

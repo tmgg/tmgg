@@ -62,7 +62,6 @@ export class FieldRemoteMultipleSelect extends React.Component {
     let { fetching, data, ...rest } = this.state;
     let { value } = this.props;
 
-    console.log('默认值', value);
 
     // 默认为空数组
     if (value == undefined || value == null || value === '') {

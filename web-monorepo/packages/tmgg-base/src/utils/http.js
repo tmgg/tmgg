@@ -215,7 +215,6 @@ export const HttpUtil = {
         return new Promise((resolve, reject) => {
             axiosInstance(config).then(res => {
                 const {data,headers} = res
-                console.log('下载数据结束', data);
 
 
                 // 获取文件名称

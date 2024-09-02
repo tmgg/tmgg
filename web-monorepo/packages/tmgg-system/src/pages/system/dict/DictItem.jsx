@@ -3,7 +3,7 @@ import {Button, Card, InputNumber, Popconfirm, Modal, Form, Input, message, Tag}
 import React from 'react'
 
 import {ProTable} from '@tmgg/pro-table'
-import {http} from "@tmgg/tmgg-base"
+import {http, HttpUtil} from "@tmgg/tmgg-base"
 import {ButtonList, FieldDictSelect, FieldRadioBoolean} from "@tmgg/tmgg-base";
 
 
@@ -84,7 +84,6 @@ export default class extends React.Component {
 
     onFinish = values => {
         HttpUtil.post('sysDictItem/save', values).then(rs => {
-            message.success(rs.message)
             this.setState({formOpen: false})
             this.tableRef.current.reload()
         })

@@ -69,7 +69,6 @@ export default class extends React.Component {
   onFinish = (values) => {
     this.setState({submitLoading: true, formEditing: false})
     http.post('${firstLowerName}/save', values).then(rs => {
-      message.success(rs.message)
       this.loadTree()
     }).finally(() => {
       this.setState({submitLoading: false})

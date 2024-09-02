@@ -2,7 +2,7 @@ import {Button, Form, Input, message, Modal, Popconfirm, Select, Space} from 'an
 import React from 'react';
 import {ProTable} from "@ant-design/pro-components";
 import {MinusCircleOutlined, PlusOutlined} from "@ant-design/icons";
-import {http} from "@tmgg/tmgg-base";
+import {http, HttpUtil} from "@tmgg/tmgg-base";
 
 const baseTitle = "流程模型";
 const baseApi = 'flowable/model/';
@@ -84,7 +84,6 @@ export default class extends React.Component {
   }
   onFinish = values=>{
     HttpUtil.post('flowable/model/save',values).then(rs=>{
-      message.success(rs.message)
       this.actionRef.current.reload()
       this.setState({formOpen:false})
     })
@@ -92,7 +91,6 @@ export default class extends React.Component {
 
   handleDelete = row => {
     HttpUtil.get(delApi, {id:row.id}).then(rs => {
-      rs.success ? message.success(rs.message) : message.error(rs.message)
       this.actionRef.current.reload();
     })
   }

@@ -24,7 +24,6 @@ export default class extends React.Component {
     render() {
         const pathname = PageTool.currentPathname();
 
-        console.log('auth.jsx', 'pathname', pathname, 'tokenValid',this.state.tokenValid)
 
         if(pathname === '/login'){
             return this.props.children

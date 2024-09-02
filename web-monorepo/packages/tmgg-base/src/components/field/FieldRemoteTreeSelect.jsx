@@ -29,7 +29,6 @@ export class FieldRemoteTreeSelect extends React.Component {
   };
 
   handleChange = (value) => {
-    console.log(value);
     if (this.props.onChange) {
       this.props.onChange(value);
     }

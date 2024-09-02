@@ -13,7 +13,7 @@ import {
 import React from 'react';
 
 import RoleMenuTree from "./RoleMenuTree";
-import {ButtonList, http, LeftRightLayout} from "@tmgg/tmgg-base";
+import {ButtonList, http, HttpUtil, LeftRightLayout} from "@tmgg/tmgg-base";
 
 const baseApi = 'sysRole/';
 const basePerm = 'sysRole:';
@@ -38,7 +38,7 @@ export default class extends React.Component {
 
   loadData = () => {
     HttpUtil.get(baseApi + 'page').then(rs => {
-      const list = rs.data;
+      const list = rs;
       this.setState({roleList: list})
     })
   }
@@ -47,7 +47,6 @@ export default class extends React.Component {
 
   handleSave = value => {
     HttpUtil.post(baseApi + 'save', value).then(rs => {
-      message.success(rs.message)
       this.setState({formOpen:false,curRecord:rs.data})
       this.loadData()
     })

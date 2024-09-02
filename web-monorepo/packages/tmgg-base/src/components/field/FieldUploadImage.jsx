@@ -69,7 +69,6 @@ export class FieldUploadImage extends React.Component {
         }
       });
       let files = fileIds.join(',');
-      console.log('uploadResult', files);
       this.props.onChange(files);
     }
   };

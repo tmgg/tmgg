@@ -10,10 +10,8 @@ let defaultUploadUrl = getServerUrl() + 'sysFile/upload';
  */
 export class FieldMultipleUploadFile extends React.Component {
   handleChange = (e) => {
-    console.log('upload change', JSON.stringify(e));
 
     const { fileList, file } = e;
-    console.log('file', file.response);
 
     const ajaxResult = file.response;
     if (ajaxResult) {

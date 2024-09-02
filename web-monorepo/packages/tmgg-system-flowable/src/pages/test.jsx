@@ -1,7 +1,7 @@
 import React from "react";
 import {Button, Card, Form, Input, message} from "antd";
 import {PageLoading} from "@ant-design/pro-components";
-import {http, url} from "@tmgg/tmgg-base";
+import {http, HttpUtil, url} from "@tmgg/tmgg-base";
 
 export default class extends React.Component {
 
@@ -48,12 +48,6 @@ export default class extends React.Component {
 
   onFinish = values => {
     values.modelCode = this.state.model.code
-    HttpUtil.post('flowable/test/submit', values).then(rs => {
-      if(rs.success){
-        message.success(rs.message)
-      }else {
-        message.error(rs.message)
-      }
-    })
+    HttpUtil.post('flowable/test/submit', values)
   };
 }

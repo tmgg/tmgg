@@ -1,6 +1,6 @@
 import React from "react";
 import {Button, message, Modal, Popconfirm, Space, Table, Tabs, Upload} from "antd";
-import {http} from "@tmgg/tmgg-base";
+import {http, HttpUtil} from "@tmgg/tmgg-base";
 
 export default class extends React.Component {
 
@@ -69,12 +69,7 @@ export default class extends React.Component {
 
   deleteFile = id => {
     HttpUtil.get('/kettle/file/delete', {id}).then(rs => {
-      if (rs.success) {
-        message.success(rs.message)
-        this.loadData()
-      } else {
-        message.error(rs.message)
-      }
+      this.loadData()
     })
   }
 

@@ -80,7 +80,6 @@ export default class extends React.Component {
 
 
     onMenuSelect = (key, path, label, icon) => {
-        console.log(key, path, label)
         const {tabs} = this.state
 
         if (!tabs.some(t => t.key === key)) {

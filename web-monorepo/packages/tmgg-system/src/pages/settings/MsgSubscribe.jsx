@@ -1,5 +1,5 @@
 import React from "react";
-import {arr, http} from "@tmgg/tmgg-base";
+import {arr, http, HttpUtil} from "@tmgg/tmgg-base";
 import {List, message, Switch} from "antd";
 
 export default class extends React.Component {
@@ -22,14 +22,10 @@ export default class extends React.Component {
     const {myTopicList} = this.state
     if (v) {
       myTopicList.push(topic)
-      HttpUtil.get('/sysMsgSubscribe/subscribe', {topic}).then(rs => {
-        message.success(rs.message)
-      })
+      HttpUtil.get('/sysMsgSubscribe/subscribe', {topic})
     } else {
       arr.remove(myTopicList, topic)
-      HttpUtil.get('/sysMsgSubscribe/unsubscribe', {topic}).then(rs => {
-        message.success(rs.message)
-      })
+      HttpUtil.get('/sysMsgSubscribe/unsubscribe', {topic})
     }
     this.setState({myTopicList})
   }

@@ -47,7 +47,6 @@ export default class extends React.Component {
     values.ids = this.state.selectedRowKeys
     HttpUtil.post('code/gen', values).then(rs => {
       this.setState({formOpen: false})
-      message.success(rs.message)
     }).catch(err => {
       alert(JSON.stringify(err))
     })
