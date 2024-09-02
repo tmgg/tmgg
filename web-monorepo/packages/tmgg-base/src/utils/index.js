@@ -10,8 +10,7 @@ export * from "./dom"
 export * from "./uid";
 export * from './validate'
 
-export * as strTool from "./str"
-export * as urlTool from "./url"
-export *  as treeTool from "./tree";
-export *  as http from "./http";
-export * as storage from  './storage'
+export * from "./str"
+export * from "./tree";
+export * from "./http";
+export * from './storage'

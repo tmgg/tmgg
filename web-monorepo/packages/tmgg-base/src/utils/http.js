@@ -169,109 +169,113 @@ function _replaceUrl(url) {
     return url;
 }
 
-export function get(url, params = null, config = defaultRequestConfig) {
-    url = _replaceUrl(url)
-    return axiosInstance.get(url, {params, ...config})
-}
-
-export function post(url, data, params = null, config = defaultRequestConfig) {
-    url = _replaceUrl(url)
-    return axiosInstance.post(url, data, {params, ...config})
-}
-
-export function postForm(url, data) {
-    url = _replaceUrl(url)
-    return axiosInstance.postForm(url, data)
-}
 
 
-/**
- * 分页请求, 正对前端为antd的ProTable
- * @param url
- * @param params
- * @param sort
- * @returns {Promise<unknown>}
- */
-export function pageData(url, params, sort) {
-    const {current, pageSize, keyword, ...data} = params;
 
-    const pageParams = {
-        page: current,
-        size: pageSize,
-    }
 
-    if (sort) {
-        let keys = Object.keys(sort);
-        if (keys.length > 0) {
-            let key = keys[0];
-            let dir = sort[key] === 'ascend' ? 'asc' : 'desc';
-            pageParams.sort = key + "," + dir
+
+export const httpUtil = {
+    get(url, params = null, config = defaultRequestConfig) {
+        url = _replaceUrl(url)
+        return axiosInstance.get(url, {params, ...config})
+    },
+
+    post(url, data, params = null, config = defaultRequestConfig) {
+        url = _replaceUrl(url)
+        return axiosInstance.post(url, data, {params, ...config})
+    },
+
+    postForm(url, data) {
+        url = _replaceUrl(url)
+        return axiosInstance.postForm(url, data)
+    },
+
+    /**
+     * 分页请求, 为antd的ProTable
+     * @param url
+     * @param params
+     * @param sort
+     * @returns {Promise<unknown>}
+     */
+    pageData(url, params, sort) {
+        const {current, pageSize, keyword, ...data} = params;
+
+        const pageParams = {
+            page: current,
+            size: pageSize,
         }
-    }
 
-
-    function convertToProTableData(data) {
-        return {
-            data: data.content,
-            success: true,
-            total: parseInt(data.totalElements)
-        }
-    }
-
-    return post(url, data, pageParams).then(convertToProTableData)
-}
-
-export function downloadFile(url, params) {
-    console.log('下载中...')
-
-    let config = {
-        url,
-        params,
-        responseType: 'blob',
-    };
-    return new Promise((resolve, reject) => {
-
-
-        axiosInstance(config).then(data => {
-            console.log('下载数据结束', data);
-
-            const headers = data._headers
-
-            // 获取文件名称
-            var contentDisposition = headers.get('content-disposition');
-            if (headers == null || contentDisposition == null) {
-                showError('获取文件信息失败');
-                reject(null)
-                return
+        if (sort) {
+            let keys = Object.keys(sort);
+            if (keys.length > 0) {
+                let key = keys[0];
+                let dir = sort[key] === 'ascend' ? 'asc' : 'desc';
+                pageParams.sort = key + "," + dir
             }
+        }
 
 
-            let regExp = new RegExp('filename=(.*)');
-            // @ts-ignore
-            const result = regExp.exec(contentDisposition);
+        function convertToProTableData(data) {
+            return {
+                data: data.content,
+                success: true,
+                total: parseInt(data.totalElements)
+            }
+        }
 
-            // @ts-ignore
-            let filename = result[1];
+        return this.post(url, data, pageParams).then(convertToProTableData)
+    },
+    downloadFile(url, params) {
+        console.log('下载中...')
 
-            filename = decodeURIComponent(filename);
-            filename = filename.replaceAll('"', '');
-            filename = filename.replace(/^["](.*)["]$/g, '$1')
+        let config = {
+            url,
+            params,
+            responseType: 'blob',
+        };
+        return new Promise((resolve, reject) => {
 
 
-            const url = window.URL.createObjectURL(new Blob([data]));
-            const link = document.createElement('a');
-            link.style.display = 'none';
+            axiosInstance(config).then(data => {
+                console.log('下载数据结束', data);
 
-            link.href = url;
-            link.download = decodeURI(filename); // 下载后文件名
+                const headers = data._headers
 
-            document.body.appendChild(link);
-            link.click();
+                // 获取文件名称
+                var contentDisposition = headers.get('content-disposition');
+                if (headers == null || contentDisposition == null) {
+                    showError('获取文件信息失败');
+                    reject(null)
+                    return
+                }
 
-            document.body.removeChild(link); // 下载完成移除元素
-            window.URL.revokeObjectURL(url);
+
+                let regExp = new RegExp('filename=(.*)');
+                // @ts-ignore
+                const result = regExp.exec(contentDisposition);
+
+                // @ts-ignore
+                let filename = result[1];
+
+                filename = decodeURIComponent(filename);
+                filename = filename.replaceAll('"', '');
+                filename = filename.replace(/^["](.*)["]$/g, '$1')
+
+
+                const url = window.URL.createObjectURL(new Blob([data]));
+                const link = document.createElement('a');
+                link.style.display = 'none';
+
+                link.href = url;
+                link.download = decodeURI(filename); // 下载后文件名
+
+                document.body.appendChild(link);
+                link.click();
+
+                document.body.removeChild(link); // 下载完成移除元素
+                window.URL.revokeObjectURL(url);
+            })
         })
-    })
 
+    }
 }
-

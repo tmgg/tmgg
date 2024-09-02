@@ -50,7 +50,10 @@ const randomBytes = (() => {
 // or improve speed by increasing this number (try 16384)
 const BUFFER_SIZE = 4096
 
-export  function uid () {
+
+
+export const UidUtil = {
+     uid () {
     // Buffer some random bytes for speed
     if (buf === void 0 || (bufIdx + 16 > BUFFER_SIZE)) {
         bufIdx = 0
@@ -69,4 +72,5 @@ export  function uid () {
         + hexBytes[ b[ 10 ] ] + hexBytes[ b[ 11 ] ]
         + hexBytes[ b[ 12 ] ] + hexBytes[ b[ 13 ] ]
         + hexBytes[ b[ 14 ] ] + hexBytes[ b[ 15 ] ]
+}
 }
