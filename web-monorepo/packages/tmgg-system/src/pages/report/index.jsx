@@ -2,7 +2,7 @@ import {PlusOutlined} from '@ant-design/icons'
 import {Button, Popconfirm} from 'antd'
 import React from 'react'
 import {ProTable} from "@ant-design/pro-components";
-import {ButtonList, http, PageContent, ProModal} from "@tmgg/tmgg-base";
+import {ButtonList, httpUtil,  ProModal} from "@tmgg/tmgg-base";
 
 
 
@@ -90,7 +90,7 @@ export default class extends React.Component {
   }
 
   render() {
-    return <PageContent bgGray>
+    return <>
       <ProTable
           actionRef={this.tableRef}
           toolBarRender={() => {
@@ -100,7 +100,7 @@ export default class extends React.Component {
               </Button>
             </ButtonList>
           }}
-          request={(params, sort) => httpUtil.getPageableData('sysReport/page', params, sort)}
+          request={(params, sort) => httpUtil.pageData('sysReport/page', params, sort)}
           columns={this.columns}
           rowSelection={false}
           rowKey='id'
@@ -128,7 +128,7 @@ export default class extends React.Component {
         />
       </ProModal>
 
-    </PageContent>
+    </>
   }
 }
 

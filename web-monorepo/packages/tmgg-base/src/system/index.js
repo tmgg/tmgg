@@ -1,6 +1,6 @@
 export * from './PageTool'
 export * from './dict'
-export * from './permissions'
+export * from './permission'
 export * from './initSystem'
 
 export * from './theme'

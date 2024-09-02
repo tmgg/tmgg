@@ -3,13 +3,13 @@ import {Button, Form, Input, Modal} from "antd";
 
 
 import {history} from 'umi'
-import {http,sys} from "@tmgg/tmgg-base";
+import {httpUtil, SysUtil} from "@tmgg/tmgg-base";
 
 export default class extends React.Component {
 
 
   onFinish = (values) => {
-    httpUtil.postForm(sys.getServerUrl() + '/sysUser/updatePwd', values).then(rs => {
+    httpUtil.postForm(SysUtil.getServerUrl() + '/sysUser/updatePwd', values).then(rs => {
       if (rs.success) {
         Modal.success({
           title: '提示',
