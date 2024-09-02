@@ -4,21 +4,21 @@
  */
 import {Tag} from 'antd';
 import React from 'react';
-import {storage} from "../tools";
+import {StorageUtil, StrUtil} from "../utils";
 
 // 根据字典类型code返回字典数据列表， code 支持 驼峰或下划线（都转为下划线比较）
 export function dictList(code) {
-  const dictTypeTree = storage.get('DICT');
+  const dictTypeTree = StorageUtil.get('DICT');
   if (dictTypeTree === undefined) {
     return [];
   }
 
   let filtered = dictTypeTree.filter((item) => {
-      return item.code == code || strT.toUnderlineCase(item.code) == str.toUnderlineCase(code);
+      return item.code === code || StrUtil.toUnderlineCase(item.code) === StrUtil.toUnderlineCase(code);
     }
   );
 
-  if (filtered.length == 0) {
+  if (filtered.length === 0) {
     console.log('字典' + code + '不存在,请刷新或在后台添加字典');
     return [];
   }

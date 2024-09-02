@@ -34,7 +34,7 @@ export default class extends React.Component {
   }
 
   componentDidMount() {
-    http.get('job/jobClassOptions').then(rs => {
+    httpUtil.get('job/jobClassOptions').then(rs => {
       this.setState({jobClassOptions: rs.data})
     })
   }
@@ -130,7 +130,7 @@ export default class extends React.Component {
 
 
   onFinish = (values) => {
-    http.post('job/save', values).then(rs => {
+    httpUtil.post('job/save', values).then(rs => {
       this.setState({formOpen: false})
       this.tableRef.current.reload();
       message.success(rs.message)
@@ -141,13 +141,13 @@ export default class extends React.Component {
 
   handleDelete = row => {
     const hide = message.loading("删除任务中...")
-    http.get('job/delete', {id: row.id}).then(rs => {
+    httpUtil.get('job/delete', {id: row.id}).then(rs => {
       message.success(rs.message)
       this.tableRef.current.reload();
     }).catch(hide)
   }
   handleTriggerJob = row => {
-     http.get('job/triggerJob', {id: row.id}).then(rs => {
+     httpUtil.get('job/triggerJob', {id: row.id}).then(rs => {
       message.success(rs.message)
       this.tableRef.current.reload();
     })
@@ -164,7 +164,7 @@ export default class extends React.Component {
           </Button>]
         }}
         request={(params, sort) => {
-          return http.pageData('job/page', params, sort).then(rs => {
+          return httpUtil.pageData('job/page', params, sort).then(rs => {
             return rs;
           });
         }}

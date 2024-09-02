@@ -60,7 +60,7 @@ export class FieldMultipleUploadFile extends React.Component {
         defaultFileList={fileList}
         listType="text"
         onChange={this.handleChange}
-        headers={http.getHeader()}
+        headers={httpUtil.getHeader()}
       >
         <Button>
           <UploadOutlined /> 选择文件

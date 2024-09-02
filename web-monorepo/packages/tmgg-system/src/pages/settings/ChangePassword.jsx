@@ -9,7 +9,7 @@ export default class extends React.Component {
 
 
   onFinish = (values) => {
-    http.postForm(sys.getServerUrl() + '/sysUser/updatePwd', values).then(rs => {
+    httpUtil.postForm(sys.getServerUrl() + '/sysUser/updatePwd', values).then(rs => {
       if (rs.success) {
         Modal.success({
           title: '提示',
@@ -44,7 +44,7 @@ export default class extends React.Component {
                      {
                        validator: (rule, value) => {
                          return new Promise((resolve, reject) => {
-                           http.get(sys.getServerUrl() + "/sysUser/pwdStrength", {password: value}).then(rs => {
+                           httpUtil.get(sys.getServerUrl() + "/sysUser/pwdStrength", {password: value}).then(rs => {
                              if (!rs.success) {
                                reject(rs.message)
                              }

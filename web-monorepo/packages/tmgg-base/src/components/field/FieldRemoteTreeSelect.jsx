@@ -25,7 +25,7 @@ export class FieldRemoteTreeSelect extends React.Component {
     const { url } = this.props;
     this.setState({ fetching: true });
 
-    http.get(url).then((rs) => {
+    httpUtil.get(url).then((rs) => {
       if (rs == null) {
         console.error(url, '未查询到数据');
         return;

@@ -16,7 +16,7 @@ export default class extends React.Component {
 
 
     value.taskId = taskId
-    http.post("/flowable/userside/handleTask", value).then(rs => {
+    httpUtil.post("/flowable/userside/handleTask", value).then(rs => {
       rs.success ?  message.success(rs.message): message.error(rs.message)
 
       if(rs.success){

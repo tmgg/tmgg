@@ -55,7 +55,7 @@ export default class extends React.Component {
   actionRef = React.createRef();
 
   forceExist = row => {
-    http.post('sysOnlineUser/forceExist', row).then(r => {
+    httpUtil.post('sysOnlineUser/forceExist', row).then(r => {
       message.info(r.message || '强制下线成功')
       this.actionRef.current.reload()
     })

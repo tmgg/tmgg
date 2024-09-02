@@ -65,7 +65,7 @@ export default class extends React.Component {
     this.addRef.current.show()
   }
   handleSave = value => {
-    http.post( 'sysReport/save', value).then(rs => {
+    httpUtil.post( 'sysReport/save', value).then(rs => {
       this.addRef.current.hide()
       this.tableRef.current.reload()
     })
@@ -77,14 +77,14 @@ export default class extends React.Component {
   }
   handleUpdate = value => {
     let params = {id:this.state.formValues.id, ...value}
-    http.post('sysReport/save', params).then(rs => {
+    httpUtil.post('sysReport/save', params).then(rs => {
       this.editRef.current.hide()
       this.tableRef.current.reload()
     })
   }
 
   handleDelete = row => {
-    http.post( 'sysReport/delete', row).then(rs => {
+    httpUtil.post( 'sysReport/delete', row).then(rs => {
       this.tableRef.current.reload()
     })
   }
@@ -100,7 +100,7 @@ export default class extends React.Component {
               </Button>
             </ButtonList>
           }}
-          request={(params, sort) => http.getPageableData('sysReport/page', params, sort)}
+          request={(params, sort) => httpUtil.getPageableData('sysReport/page', params, sort)}
           columns={this.columns}
           rowSelection={false}
           rowKey='id'

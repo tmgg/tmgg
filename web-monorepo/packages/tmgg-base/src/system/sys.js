@@ -1,34 +1,39 @@
-import {storage} from "../storage";
-
+import {StorageUtil} from "../utils";
 
 const SITE_INFO_KEY = "siteInfo"
-
-export function setSiteInfo(data){
-    return storage.set(SITE_INFO_KEY,data)
-}
-export  function getSiteInfo(){
-    return storage.get(SITE_INFO_KEY)
-}
-
-
-
-
 const LOGIN_INFO_KEY = "loginInfo"
-export function setLoginInfo(data){
-    return storage.set(LOGIN_INFO_KEY,data)
-}
-
-export function getLoginInfo(){
-    return storage.get(LOGIN_INFO_KEY)
-}
-
-
-
 const DICT_INFO_KEY = "dictInfo"
-export function setDictInfo(data){
-    return storage.set(DICT_INFO_KEY,data)
+export const SysUtil = {
+
+    getServerUrl() {
+        const serverUrl = process.env.API_BASE_URL
+        return serverUrl
+    },
+
+    setSiteInfo(data) {
+        return StorageUtil.set(SITE_INFO_KEY, data)
+    },
+
+    getSiteInfo() {
+        return StorageUtil.get(SITE_INFO_KEY)
+    },
+
+    setLoginInfo(data) {
+        return StorageUtil.set(LOGIN_INFO_KEY, data)
+    },
+
+    getLoginInfo() {
+        return StorageUtil.get(LOGIN_INFO_KEY)
+    },
+
+
+    setDictInfo(data) {
+        return StorageUtil.set(DICT_INFO_KEY, data)
+    },
+
+    getDictInfo() {
+        return StorageUtil.get(DICT_INFO_KEY)
+    }
 }
 
-export function getDictInfo(){
-    return storage.get(DICT_INFO_KEY)
-}
+

@@ -14,7 +14,7 @@ export default class extends React.Component {
     let params = url.params()
     const id = this.id = params.id
 
-    http.get('flowable/test/get', {id}).then(rs=>{
+    httpUtil.get('flowable/test/get', {id}).then(rs=>{
         this.setState({model: rs.data})
 
     })
@@ -48,7 +48,7 @@ export default class extends React.Component {
 
   onFinish = values => {
     values.modelCode = this.state.model.code
-    http.post('flowable/test/submit', values).then(rs => {
+    httpUtil.post('flowable/test/submit', values).then(rs => {
       if(rs.success){
         message.success(rs.message)
       }else {

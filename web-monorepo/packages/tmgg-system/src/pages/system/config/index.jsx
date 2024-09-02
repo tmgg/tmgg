@@ -80,7 +80,7 @@ export default class extends React.Component {
 
 
   onFinish = values => {
-    http.post( 'sysConfig/save', values ).then(rs => {
+    httpUtil.post( 'sysConfig/save', values ).then(rs => {
       this.setState({formOpen: false})
       this.tableRef.current.reload()
     })
@@ -89,7 +89,7 @@ export default class extends React.Component {
 
 
   handleDelete = record => {
-    http.post( 'sysConfig/delete', {id:record.id}).then(rs => {
+    httpUtil.post( 'sysConfig/delete', {id:record.id}).then(rs => {
       this.tableRef.current.reload()
     })
   }
@@ -105,7 +105,7 @@ export default class extends React.Component {
               </Button>
             </ButtonList>
           }}
-          request={(params, sort) => http.pageData('sysConfig/page', params, sort)}
+          request={(params, sort) => httpUtil.pageData('sysConfig/page', params, sort)}
           columns={this.columns}
           rowKey='id'
       />

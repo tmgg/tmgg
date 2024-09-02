@@ -1,9 +1,8 @@
 import { Modal, Upload } from 'antd';
 
-import React, { Component } from 'react';
+import React from 'react';
 import ImgCrop from 'antd-img-crop';
 import { PlusOutlined } from '@ant-design/icons';
-import {sys, SysConfig} from "../../../system";
 
 const serverUrl = process.env.API_BASE_URL;
 const fileUrl = serverUrl;
@@ -11,8 +10,9 @@ const fileUrl = serverUrl;
 /**
  * crop: 带裁切
  */
-export { UploadImage as FieldUploadImage };
-export class UploadImage extends React.Component {
+
+export class FieldUploadImage extends React.Component {
+
   state = {
     previewVisible: false,
     previewImage: '',
@@ -84,7 +84,7 @@ export class UploadImage extends React.Component {
     );
     const maxNum = this.props.maxNum ? this.props.maxNum : 8;
     let multiple = this.props.multiple != null ? this.props.multiple : true;
-    if (maxNum == 1) {
+    if (maxNum === 1) {
       multiple = false;
     }
     if (this.props.crop) {
@@ -102,7 +102,7 @@ export class UploadImage extends React.Component {
               {fileList.length >= maxNum ? null : uploadButton}
             </Upload>
           </ImgCrop>
-          <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
+          <Modal open={previewVisible} footer={null} onCancel={this.handleCancel}>
             <img style={{ width: '100%' }} src={previewImage} />
           </Modal>
         </div>
@@ -122,7 +122,7 @@ export class UploadImage extends React.Component {
         >
           {fileList.length >= maxNum ? null : uploadButton}
         </Upload>
-        <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
+        <Modal open={previewVisible} footer={null} onCancel={this.handleCancel}>
           <img style={{ width: '100%' }} src={previewImage} />
         </Modal>
       </div>

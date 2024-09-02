@@ -57,7 +57,7 @@ export default class extends React.Component {
     }
 
     const {showAll} = this.state
-    http.get('sysOrg/tree', {showAll}).then(rs => {
+    httpUtil.get('sysOrg/tree', {showAll}).then(rs => {
 
       let treeData = rs;
       const defaultExpandedKeys = this.getAutoExpand(treeData)
@@ -76,7 +76,7 @@ export default class extends React.Component {
 
 
   handleDelete = row => {
-    http.post(delApi, row).then(rs => {
+    httpUtil.post(delApi, row).then(rs => {
       this.setState({formValues: null})
       this.loadTree()
     })
@@ -87,7 +87,7 @@ export default class extends React.Component {
     const key = selectedKeys[0]
 
     this.setState({formLoading: true, formEditing: false})
-    http.get(baseApi + "detail", {id: key}).then(rs => {
+    httpUtil.get(baseApi + "detail", {id: key}).then(rs => {
       this.setState({formValues: rs.data})
     }).finally(() => {
       this.setState({formLoading: false})
@@ -96,7 +96,7 @@ export default class extends React.Component {
 
   onFinish = (values) => {
     this.setState({submitLoading: true, formEditing: false})
-    http.post(baseApi + 'save', values).then(rs => {
+    httpUtil.post(baseApi + 'save', values).then(rs => {
       message.success(rs.message)
       this.loadTree()
     }).finally(() => {
@@ -105,7 +105,7 @@ export default class extends React.Component {
   }
   handleEnableAll =(id)=>{
     this.setState({enableAllLoading: true})
-    http.get(baseApi + 'enableAll', {id}).then(rs => {
+    httpUtil.get(baseApi + 'enableAll', {id}).then(rs => {
       message.success(rs.message)
       this.loadTree()
     }).finally(() => {
@@ -115,7 +115,7 @@ export default class extends React.Component {
 
   handleDisableAll =(id)=>{
     this.setState({enableAllLoading: true})
-    http.get(baseApi + 'disableAll', {id}).then(rs => {
+    httpUtil.get(baseApi + 'disableAll', {id}).then(rs => {
       message.success(rs.message)
       this.loadTree()
     }).finally(() => {

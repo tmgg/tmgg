@@ -1,7 +1,7 @@
 import {http} from "@tmgg/tmgg-base";
 import {Modal} from "antd";
 
-http.init({
+httpUtil.init({
   errorMessageHandler: function (msg) {
     Modal.error({
       title: '请求异常',

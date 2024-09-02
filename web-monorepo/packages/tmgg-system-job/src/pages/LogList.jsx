@@ -76,7 +76,7 @@ export default class extends React.Component {
   ]
 
   clean = ()=>{
-    http.postForm('/job/jobLogClean', {cleanDate: this.state.cleanDate} ).then(rs=>{
+    httpUtil.postForm('/job/jobLogClean', {cleanDate: this.state.cleanDate} ).then(rs=>{
       this.tableRef.current.reload()
     })
   }
@@ -92,7 +92,7 @@ export default class extends React.Component {
         </>]}
         actionRef={this.tableRef}
         request={(params, sort) => {
-          return http.pageData('job/jobLog', params, sort, 'POST');
+          return httpUtil.pageData('job/jobLog', params, sort, 'POST');
         }}
         columns={this.columns}
         rowSelection={false}

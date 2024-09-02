@@ -37,7 +37,7 @@ export default class extends React.Component {
     return <ProTable
       search={false}
       columns={this.columns}
-                     request={(params, sort, filter) => http.getPageable('flowable/monitor/processDefinition', params, sort)}
+                     request={(params, sort, filter) => httpUtil.getPageable('flowable/monitor/processDefinition', params, sort)}
                      rowKey='id'
     >
 

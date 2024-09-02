@@ -1,4 +1,3 @@
-import {str} from "../str";
 import {history} from "umi";
 
 export  class PageTool {

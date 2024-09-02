@@ -133,13 +133,13 @@ export default class extends React.Component {
 
 
     componentDidMount() {
-        http.get('sysOrg/tree').then(rs => {
+        httpUtil.get('sysOrg/tree').then(rs => {
             this.setState({treeData: rs.data})
         })
     }
 
     resetPwd(row) {
-        http.post('/sysUser/resetPwd', {id: row.id}).then(rs => {
+        httpUtil.post('/sysUser/resetPwd', {id: row.id}).then(rs => {
             Modal.success({
                 title: '成功',
                 content: rs.message
@@ -149,13 +149,13 @@ export default class extends React.Component {
 
 
     handleDelete = r => {
-        http.get(delApi, {id: r.id}).then(rs => {
+        httpUtil.get(delApi, {id: r.id}).then(rs => {
             this.tableRef.current.reload();
         })
     }
 
     handleExport = () => {
-        http.downloadFile("sysUser/export").then(rs => {
+        httpUtil.downloadFile("sysUser/export").then(rs => {
             message.success('下载成功')
         })
     }
@@ -176,7 +176,7 @@ export default class extends React.Component {
 
 
     onFinish = values => {
-        http.post('sysUser/save', values).then(rs => {
+        httpUtil.post('sysUser/save', values).then(rs => {
             message.success(rs.message)
             this.setState({formOpen: false})
             this.tableRef.current.reload()
@@ -217,7 +217,7 @@ export default class extends React.Component {
                         }}
                         request={(params, sort) => {
                             params.orgId = this.state.currentOrgId
-                            return http.pageData(pageApi, params, sort)
+                            return httpUtil.pageData(pageApi, params, sort)
                         }
                         }
                         columns={this.columns}

@@ -170,11 +170,8 @@ function _replaceUrl(url) {
 }
 
 
-
-
-
-
 export const httpUtil = {
+    axiosInstance,
     get(url, params = null, config = defaultRequestConfig) {
         url = _replaceUrl(url)
         return axiosInstance.get(url, {params, ...config})

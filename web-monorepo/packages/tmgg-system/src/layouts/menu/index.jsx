@@ -59,7 +59,7 @@ export default class extends React.Component {
 
     initMenu = () => {
 
-        http.get('menuTree').then(rs => {
+        httpUtil.get('menuTree').then(rs => {
             const list = rs.data;
             // 设置icon
             TreeUtil.every(list, (item) => {

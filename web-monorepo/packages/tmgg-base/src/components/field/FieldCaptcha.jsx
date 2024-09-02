@@ -1,8 +1,8 @@
 import React from "react";
 import {Button, Modal} from "antd";
 import SliderCaptcha from "rc-slider-captcha";
-import {CheckCircleOutlined, InfoCircleOutlined, RightCircleFilled, RightOutlined} from "@ant-design/icons";
-import {http, uid} from "../../tools";
+import {CheckCircleOutlined, InfoCircleOutlined} from "@ant-design/icons";
+import {httpUtil, UidUtil} from "../../utils";
 
 export class FieldCaptcha extends React.Component {
 
@@ -11,7 +11,7 @@ export class FieldCaptcha extends React.Component {
     openCaptcha: false
   }
 
-  clientId = 'id-' + uid()
+  clientId = 'id-' + UidUtil.uid()
 
   render() {
     if (this.state.captchaOk) {
@@ -38,7 +38,7 @@ export class FieldCaptcha extends React.Component {
     }}
     request={() => {
       return new Promise(resolve => {
-        http.get("captcha/get", {clientId: this.clientId}).then(rs => {
+        httpUtil.get("captcha/get", {clientId: this.clientId}).then(rs => {
           resolve(rs)
         })
       })
@@ -46,7 +46,7 @@ export class FieldCaptcha extends React.Component {
     onVerify={(param) => {
       return new Promise((resolve, reject) => {
         let clientId = this.clientId;
-        http.post("captcha/verify", {...param, clientId}).then(rs => {
+        httpUtil.post("captcha/verify", {...param, clientId}).then(rs => {
           if (rs) {
             this.setState({captchaOk: true, openCaptcha: false})
             this.props.onChange(clientId)

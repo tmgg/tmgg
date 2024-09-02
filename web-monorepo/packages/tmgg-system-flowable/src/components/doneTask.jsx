@@ -76,7 +76,7 @@ export default class  extends React.Component {
             <ProTable
                 search={false}
                 actionRef={this.actionRef}
-                request={(params, sort) => http.getPageable("flowable/userside/doneTaskPage", params, sort)}
+                request={(params, sort) => httpUtil.getPageable("flowable/userside/doneTaskPage", params, sort)}
                 columns={this.columns}
                 rowSelection={false}
                 rowKey="id"

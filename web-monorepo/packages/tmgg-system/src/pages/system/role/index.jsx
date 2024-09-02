@@ -37,7 +37,7 @@ export default class extends React.Component {
   }
 
   loadData = () => {
-    http.get(baseApi + 'page').then(rs => {
+    httpUtil.get(baseApi + 'page').then(rs => {
       const list = rs.data;
       this.setState({roleList: list})
     })
@@ -46,7 +46,7 @@ export default class extends React.Component {
 
 
   handleSave = value => {
-    http.post(baseApi + 'save', value).then(rs => {
+    httpUtil.post(baseApi + 'save', value).then(rs => {
       message.success(rs.message)
       this.setState({formOpen:false,curRecord:rs.data})
       this.loadData()
@@ -55,7 +55,7 @@ export default class extends React.Component {
 
 
   handleDelete = (id) => {
-    http.get(baseApi + 'delete', {id}).then(rs => {
+    httpUtil.get(baseApi + 'delete', {id}).then(rs => {
       this.loadData()
     })
   }

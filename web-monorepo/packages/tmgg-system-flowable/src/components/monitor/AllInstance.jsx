@@ -55,7 +55,7 @@ export default class extends React.Component {
   ]
 
   close = (id) => {
-    http.get('/flowable/monitor/processInstance/close', {id}).then((rs) => {
+    httpUtil.get('/flowable/monitor/processInstance/close', {id}).then((rs) => {
       alert(rs.message)
       this.tableRef.current.reload()
     })
@@ -67,7 +67,7 @@ export default class extends React.Component {
     return <ProTable    search={false}
       actionRef={this.tableRef}
       columns={this.columns}
-      request={(params, sort, filter) => http.getPageable('flowable/monitor/processInstance', params, sort)}
+      request={(params, sort, filter) => httpUtil.getPageable('flowable/monitor/processInstance', params, sort)}
       rowKey='id'
       scroll={{
         x: 'max-content'

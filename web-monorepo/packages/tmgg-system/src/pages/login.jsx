@@ -49,7 +49,7 @@ export default class login extends React.Component {
     localStorage.clear()
 
     this.setState({logining: true})
-    http.post('/login', values).then(rs => {
+    httpUtil.post('/login', values).then(rs => {
       message.info(rs.message)
       localStorage.setItem(sys.AUTH_TOKEN_NAME, rs.data)
 

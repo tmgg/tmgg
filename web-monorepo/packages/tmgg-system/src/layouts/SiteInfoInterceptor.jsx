@@ -8,7 +8,7 @@ export default class extends React.Component {
     }
 
     componentDidMount() {
-        http.get("/site-info").then(rs=>{
+        httpUtil.get("/site-info").then(rs=>{
             setSiteInfo(rs)
             this.setState({loading: false})
         })

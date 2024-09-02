@@ -24,7 +24,7 @@ export default class extends React.Component {
   }
 
   componentDidMount() {
-    http.get('flowable/model/javaDelegateOptions').then(rs=>{
+    httpUtil.get('flowable/model/javaDelegateOptions').then(rs=>{
       this.setState({javaDelegateOptions:rs.data})
 
     })

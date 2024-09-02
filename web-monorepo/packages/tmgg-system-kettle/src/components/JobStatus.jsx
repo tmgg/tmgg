@@ -59,7 +59,7 @@ export default class extends React.Component {
 
   loadData = () => {
     this.setState({loading: true})
-    http.get('/kettle/status').then(rs => {
+    httpUtil.get('/kettle/status').then(rs => {
       this.setState({list: rs.data?.jobStatusList})
       this.setState({loading: false})
     })

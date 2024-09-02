@@ -108,13 +108,13 @@ export default class extends React.Component {
   componentDidMount() {
     this.loadData()
 
-    http.get('/kettle/file/options').then(rs=>{
+    httpUtil.get('/kettle/file/options').then(rs=>{
       this.setState({fileOptions:rs.data})
     })
   }
 
   loadData() {
-    http.get('kettle/sysJob/list').then(rs => {
+    httpUtil.get('kettle/sysJob/list').then(rs => {
       this.setState({list: rs.data})
     })
   }
@@ -128,7 +128,7 @@ export default class extends React.Component {
 
 
   onFinish = (values) => {
-    http.post('kettle/sysJob/save', values).then(rs => {
+    httpUtil.post('kettle/sysJob/save', values).then(rs => {
       this.setState({formOpen: false})
       this.loadData()
       message.success(rs.message)
@@ -139,14 +139,14 @@ export default class extends React.Component {
 
   handleDelete = row => {
     const hide = message.loading("删除任务中...")
-    http.get('kettle/sysJob/delete', {id: row.id}).then(rs => {
+    httpUtil.get('kettle/sysJob/delete', {id: row.id}).then(rs => {
       message.success(rs.message)
       this.loadData()
     }).catch(hide)
   }
 
   handleTriggerJob = row => {
-    http.get('kettle/sysJob/triggerJob', {id: row.id}).then(rs => {
+    httpUtil.get('kettle/sysJob/triggerJob', {id: row.id}).then(rs => {
       message.success(rs.message)
       this.loadData()
     })

@@ -83,7 +83,7 @@ export default class extends React.Component {
     })
   }
   onFinish = values=>{
-    http.post('flowable/model/save',values).then(rs=>{
+    httpUtil.post('flowable/model/save',values).then(rs=>{
       message.success(rs.message)
       this.actionRef.current.reload()
       this.setState({formOpen:false})
@@ -91,7 +91,7 @@ export default class extends React.Component {
   }
 
   handleDelete = row => {
-    http.get(delApi, {id:row.id}).then(rs => {
+    httpUtil.get(delApi, {id:row.id}).then(rs => {
       rs.success ? message.success(rs.message) : message.error(rs.message)
       this.actionRef.current.reload();
     })
@@ -104,7 +104,7 @@ export default class extends React.Component {
         search={false}
         actionRef={this.actionRef}
         toolBarRender={() => <Button icon={<PlusOutlined/>} type='primary' onClick={this.handleAdd}>新建</Button>}
-        request={(params, sort) => http.getPageable(pageApi, params, sort)}
+        request={(params, sort) => httpUtil.getPageable(pageApi, params, sort)}
         columns={this.columns}
         rowSelection={false}
         rowKey="id"

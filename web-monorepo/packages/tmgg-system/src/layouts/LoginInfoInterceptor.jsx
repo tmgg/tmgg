@@ -1,5 +1,5 @@
 import React from "react";
-import {http, PageLoading, setDictInfo, setLoginInfo} from "@tmgg/tmgg-base";
+import {httpUtil, PageLoading, SysUtil} from "@tmgg/tmgg-base";
 
 export default class extends React.Component {
 
@@ -9,13 +9,13 @@ export default class extends React.Component {
     }
 
     componentDidMount() {
-        http.get('/getLoginInfo').then(rs => {
-            setLoginInfo(rs)
+        httpUtil.get('/getLoginInfo').then(rs => {
+            SysUtil.setLoginInfo(rs)
             this.setState({loginInfoLoading:false})
         })
 
-        http.get('sysDict/tree').then(rs => {
-            setDictInfo(rs)
+        httpUtil.get('sysDict/tree').then(rs => {
+            SysUtil.setDictInfo(rs)
             this.setState({sysDictLoading:false})
         })
     }

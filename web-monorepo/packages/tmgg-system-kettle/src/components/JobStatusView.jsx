@@ -15,11 +15,11 @@ export default class extends React.Component {
   componentDidMount() {
     const {jobId, jobName} = this.props
 
-    http.get('/kettle/jobStatus', {jobId, jobName}).then(rs => {
+    httpUtil.get('/kettle/jobStatus', {jobId, jobName}).then(rs => {
       this.setState({jobStatus: rs.data})
     })
 
-    http.get('/kettle/jobImage', {jobId, jobName}).then(rs => {
+    httpUtil.get('/kettle/jobImage', {jobId, jobName}).then(rs => {
       let jobImageErrorMessage = null;
       let jobImageUrl = null;
 

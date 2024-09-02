@@ -1,8 +1,8 @@
 import {message, Spin, TreeSelect} from 'antd';
 
 import React from 'react';
-import {http} from "../../tools";
-import {findByKeyList} from "../../tools/tree";
+
+import {httpUtil, TreeUtil} from "../../utils";
 
 
 
@@ -29,7 +29,7 @@ export class FieldRemoteTreeCheckable extends React.Component {
   fetchData = (url) => {
     this.setState({fetching: true});
 
-    http.get(url).then((rs) => {
+    httpUtil.get(url).then((rs) => {
       if (rs == null || rs.success == false) {
         message.error(rs?.message || '异常');
         this.setState({fetching: false});
@@ -81,11 +81,8 @@ export class FieldRemoteTreeCheckable extends React.Component {
     if (value == null) {
       return '-';
     }
-
     const {data} = this.state;
-
-    const itemList = findByKeyList(data, value);
-
+    const itemList = TreeUtil.findByKeyList(data, value);
     return itemList.map((item) => item.title || item.label).join(',');
   }
 }

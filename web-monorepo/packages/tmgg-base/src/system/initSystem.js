@@ -1,10 +1,11 @@
 import {registerField} from "@tmgg/pro-table";
 import {FieldDictRadio} from "../components";
-import {http} from "../tools";
+import {httpUtil} from "../utils";
+import {SysUtil} from "./sys";
 
 
 export function initSystem(){
-    http.axiosInstance.defaults.baseURL = sys.getServerUrl()
+    httpUtil.axiosInstance.defaults.baseURL = SysUtil.getServerUrl()
 
     registerField('dict', FieldDictRadio)
     registerField('dictRadio', FieldDictRadio)

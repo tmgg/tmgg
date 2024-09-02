@@ -53,7 +53,7 @@ export class FlatSelect extends React.Component {
 
     this.setState({ fetching: true });
 
-    http.get(url, { searchText }).then((rs) => {
+    httpUtil.get(url, { searchText }).then((rs) => {
       this.setState({ fetching: false });
 
       if (rs.success == false) {

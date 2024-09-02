@@ -27,13 +27,13 @@ export default class HeaderRight extends React.Component {
     }
 
     initMessage = () => {
-        http.get('/getMessageCount').then(rs => {
+        httpUtil.get('/getMessageCount').then(rs => {
             this.setState({messageCount: rs.data})
         })
     }
 
     logout = () => {
-        http.get('/logout').finally(() => {
+        httpUtil.get('/logout').finally(() => {
             localStorage.clear()
             history.replace(SysConfig.getLoginUrl())
         })

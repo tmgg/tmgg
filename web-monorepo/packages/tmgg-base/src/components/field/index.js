@@ -8,7 +8,7 @@ export * from './input-number-percent';
 export * from './FieldRemoteSelect';
 export * from './FieldRemoteTreeSelect';
 
-export * from './upload-image';
+export * from './FieldUploadImage';
 export * from './time';
 export * from './remote-multiple-select';
 export * from './flat-multiple-select';
@@ -23,4 +23,4 @@ export * from './FieldCaptcha'
 export * from './FieldOrgTree'
 export * from './FieldUploadFile'
 export * from './FieldAutoTime'
-export  * from './FieldRemoteTreeCheckable'
+export * from './FieldRemoteTreeCheckable'

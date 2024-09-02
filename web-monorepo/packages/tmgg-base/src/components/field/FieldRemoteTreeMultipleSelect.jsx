@@ -33,7 +33,7 @@ export class FieldRemoteTreeMultipleSelect extends React.Component {
     const {url} = this.state;
 
     this.setState({fetching: true});
-    http.get(url).then((rs) => {
+    httpUtil.get(url).then((rs) => {
       if (rs == null || rs.success === false) {
         message.error(rs?.message || '异常');
         this.setState({fetching: false});
