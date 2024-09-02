@@ -1,14 +1,9 @@
 {
   "SysMsgTopic": [
     {
-      "id": "JOB-EXCEPTION",
-      "code": "JOB-EXCEPTION",
+      "id": "JOB_EXCEPTION",
+      "code": "JOB-JOB_EXCEPTION",
       "description": "定时任务异常"
-    },
-    {
-      "id": "SYSTEM-LOGIN-EXCEPTION",
-      "code": "SYSTEM-LOGIN-EXCEPTION",
-      "description": "系统用户异常登录"
     }
   ]
 }

@@ -11,10 +11,10 @@ export default class extends React.Component {
 
   componentDidMount() {
     http.get('/sysMsgSubscribe/myTopicList').then(rs => {
-      this.setState({myTopicList: rs.data})
+      this.setState({myTopicList: rs})
     })
     http.get("/sysMsgTopic/list").then(rs => {
-      this.setState({topicList: rs.data})
+      this.setState({topicList: rs})
     })
   }
 

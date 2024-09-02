@@ -93,7 +93,7 @@ public class QuartzListener implements JobListener {
 
                 PrintWriter pw = new PrintWriter(out);
                 jobException.printStackTrace(pw);
-                messagePublishService.publish("JOB-EXCEPTION", "定时任务执行异常:" + jobName, out.toString());
+                messagePublishService.publish("JOB_EXCEPTION", "定时任务执行异常:" + jobName, out.toString());
                 IOUtils.closeQuietly(out, pw);
             }
         }

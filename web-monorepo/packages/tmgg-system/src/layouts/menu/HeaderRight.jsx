@@ -40,7 +40,7 @@ export default class HeaderRight extends React.Component {
     }
 
     account = () => {
-        PageTool.open('个人设置', '/settings')
+        history.push('/settings')
     }
 
     render() {
