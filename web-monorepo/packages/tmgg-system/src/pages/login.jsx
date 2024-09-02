@@ -3,8 +3,8 @@ import {Button, Form, Input, message} from 'antd';
 import {LockOutlined, UserOutlined} from '@ant-design/icons';
 import "./login.less"
 import {history} from 'umi';
-import {FieldCaptcha, http, sys, SysConfig} from "@tmgg/tmgg-base";
-import {getSiteInfo, PageTool} from "@tmgg/tmgg-base";
+import {FieldCaptcha, httpUtil, PageTool, SysUtil} from "@tmgg/tmgg-base";
+
 
 
 export default class login extends React.Component {
@@ -13,12 +13,6 @@ export default class login extends React.Component {
   state = {
     // 登陆中状态
     logining: false,
-
-    siteInfo: {
-      siteTitle: null,
-      copyright: null,
-      captchaEnable: null
-    }
 
   }
 
@@ -51,14 +45,7 @@ export default class login extends React.Component {
     this.setState({logining: true})
     httpUtil.post('/login', values).then(rs => {
       message.info(rs.message)
-      localStorage.setItem(sys.AUTH_TOKEN_NAME, rs.data)
-
-      const hide = message.loading("加载初始数据中")
-      SysConfig.loadLoginData().then(() => {
-        console.log("跳转到首页....")
-        hide();
-        history.replace('/')
-      })
+      history.replace('/')
     }).finally(() => {
       this.setState({logining: false})
     })
@@ -67,7 +54,7 @@ export default class login extends React.Component {
 
   render() {
 
-    let siteInfo = getSiteInfo();
+    let siteInfo = SysUtil.getSiteInfo()
 
 
     return (
@@ -114,19 +101,12 @@ export default class login extends React.Component {
                      block size='large'>
                 登录
               </Button>
-              {sys.isSsoLoginEnable() && <Button type='link' onClick={()=>history.push('/system/ssoLogin')} style={{marginTop:16}}>扫码登录</Button>}
-              {sys.getSlot('LOGIN_PAGE_FORM_BUTTON_NEXT')}
             </Form.Item>
           </Form>
 
 
         </div>
 
-        <footer style={{position: "fixed", bottom: 30, left: 0, right: 0, color: "white", fontSize: 'small', fontWeight:'lighter'}}>
-          <center>
-            {siteInfo.copyright}
-          </center>
-        </footer>
       </section>
     );
   }

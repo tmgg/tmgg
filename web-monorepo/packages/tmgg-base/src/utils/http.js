@@ -1,5 +1,6 @@
 import axios from "axios";
 import {message, Modal} from "antd";
+import {StorageUtil} from "./storage";
 
 export const axiosInstance = axios.create({
     withCredentials: true, // 带cookie
@@ -28,6 +29,8 @@ function showSuccessMessage(msg) {
 }
 
 function showErrorMessage(title, msg) {
+
+
     Modal.error({
         title: title,
         content: msg
@@ -42,7 +45,7 @@ export function getToken() {
             return v;
         }
     }
-    return storage.get("HD:Authorization")
+    return StorageUtil.get("HD:Authorization")
 }
 
 axiosInstance.interceptors.request.use(
@@ -105,6 +108,7 @@ const AXIOS_CODE_MESSAGE = {
 
 axiosInstance.interceptors.response.use(
     (res) => {
+        debugger
         const {data, config: {autoShowErrorMessage, autoShowSuccessMessage, transformData, method}} = res;
         const isAjaxResult = data.success !== undefined && data.code !== undefined
         if (isAjaxResult) {
@@ -123,32 +127,31 @@ axiosInstance.interceptors.response.use(
     },
     error => {
         let {message, code, response, config = {}} = error;
-        let msg = response ? STATUS_MESSAGE[response.status] : AXIOS_CODE_MESSAGE[code];
+        let msg = response ? STATUS_MESSAGE[response?.status] : AXIOS_CODE_MESSAGE[code];
 
-        const {autoShowErrorMessage} = config;
+        const {autoShowErrorMessage, url} = config;
 
         if (autoShowErrorMessage) {
-            showErrorMessage( '网络请求异常',error.status + ":" + msg)
+            showErrorMessage( '网络请求异常',error.status + ":" + msg + "，请求地址:" + url )
         }
+
 
 
         const result = {
             code: code,
             message: msg || message,
             success: false,
-            status: response.status
+            status: response?.status
         }
 
         return Promise.reject(result)
     })
 
-export function setGlobalHeader(key, value) {
-    storage.set("HD:" + key, value)
-}
+
 
 export function getGlobalHeaders() {
     const result = {}
-    let all = storage.getAll();
+    let all = StorageUtil.getAll();
     for (let key in all) {
         const value = all[key];
         if (key.startsWith("HD:")) {

@@ -1,5 +1,5 @@
 import React from "react";
-import {http, PageLoading, setSiteInfo} from "@tmgg/tmgg-base";
+import {httpUtil, PageLoading, SysUtil} from "@tmgg/tmgg-base";
 
 export default class extends React.Component {
 
@@ -9,7 +9,7 @@ export default class extends React.Component {
 
     componentDidMount() {
         httpUtil.get("/site-info").then(rs=>{
-            setSiteInfo(rs)
+            SysUtil.setSiteInfo(rs)
             this.setState({loading: false})
         })
     }

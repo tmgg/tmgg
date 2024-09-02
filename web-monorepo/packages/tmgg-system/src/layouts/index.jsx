@@ -2,7 +2,7 @@ import MenuLayout from "./menu"
 import React from "react";
 
 import {ConfigProvider} from "antd";
-import {http, PageTool, theme} from "@tmgg/tmgg-base";
+import {PageTool, theme} from "@tmgg/tmgg-base";
 import AuthInterceptor from "./AuthInterceptor";
 import {history, Outlet} from "umi";
 import zhCN from 'antd/locale/zh_CN';
@@ -78,7 +78,9 @@ export class Layouts extends React.Component {
         console.log('renderContent', this.state.pathname)
 
         if (this.state.pathname === '/login') {
-            return <Outlet/>
+            return <SiteInfoInterceptor>
+                <Outlet/>
+            </SiteInfoInterceptor>
         }
 
         return <>
