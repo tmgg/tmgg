@@ -64,7 +64,7 @@ public class KettleStatusCheckJob implements Job {
                     sb.append(jobStatus.getLoggingString());
 
 
-                    messagePublishService.publish("KETTLE-EXCEPTION", title, sb.toString());
+                    messagePublishService.publish("KETTLE_EXCEPTION", title, sb.toString());
                     JOB_CACHE.put(jobId, StrUtil.EMPTY);
 
                 }
@@ -74,7 +74,7 @@ public class KettleStatusCheckJob implements Job {
             StringWriter sw = new StringWriter();
             PrintWriter out = new PrintWriter(sw);
             e.printStackTrace(out);
-            messagePublishService.publish("KETTLE-EXCEPTION", title, out.toString());
+            messagePublishService.publish("KETTLE_EXCEPTION", title, out.toString());
             IOUtils.closeQuietly(out, sw);
         }
 

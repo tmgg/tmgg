@@ -1,8 +1,8 @@
 {
   "SysMsgTopic": [
     {
-      "id": "KETTLE-EXCEPTION",
-      "code": "KETTLE-EXCEPTION",
+      "id": "KETTLE_EXCEPTION",
+      "code": "KETTLE_EXCEPTION",
       "description": "KETTLE异常"
     }
   ]
