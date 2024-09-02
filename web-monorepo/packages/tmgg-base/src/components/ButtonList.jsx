@@ -1,27 +1,18 @@
 import React from 'react';
 import { Dropdown, Menu, Space } from 'antd';
 import { DownSquareTwoTone } from '@ant-design/icons';
-import {hasPermission} from "../../system";
+import {hasPermission} from "../system";
 
 
 
 
-interface Props{
-
-  /**
-   * 显示子节点的个数， 超过的为收缩起来
-   */
-  maxNum?:number;
 
 
-  children: any[];
-
-}
-
-
-
-
-export class ButtonList extends React.Component<Props, any> {
+/**
+ * @param maxNum: 显示子节点的个数， 超过的为收缩起来
+ *
+ */
+export class ButtonList extends React.Component {
   static defaultProps = {
     maxNum: 2
   }
@@ -49,7 +40,6 @@ export class ButtonList extends React.Component<Props, any> {
       // 添加分割线
       const len = menus.length;
       for (let i = 0; i < len; i++) {
-        // @ts-ignore
         if (i + 1 <= maxNum) {
           showList.push(menus[i]);
         } else {
@@ -60,7 +50,6 @@ export class ButtonList extends React.Component<Props, any> {
       // 单节点
       const child = children;
 
-      // @ts-ignore
       const childPerm = child.props == null ? null : child.props.perm;
 
       if (childPerm == null || hasPermission(childPerm)) {
@@ -70,7 +59,6 @@ export class ButtonList extends React.Component<Props, any> {
 
     return (
       <Space>
-        {' '}
         {showList}
         {dropdownList.length > 0 && (
           <Dropdown

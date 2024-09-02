@@ -4,6 +4,7 @@
     "@babel/core": "^7.25.2",
     "@babel/preset-env": "^7.25.4",
     "@babel/preset-react": "^7.24.7",
+    "jsdoc": "^4.0.3",
     "rollup": "^4.21.1",
     "rollup-plugin-babel": "^4.4.0"
   },
@@ -23,7 +24,8 @@
   "main": "src/index.js",
   "scripts": {
     "start": "rollup -c -w",
-    "build": "rollup -c"
+    "build": "rollup -c",
+    "jsdoc": "jsdoc -d ./src"
   },
   "version": "0.1.17"
 }
