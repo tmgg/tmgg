@@ -11,8 +11,6 @@ export default class extends React.Component {
   render() {
     return <Card>
       欢迎使用本系统
-
-
     </Card>
   }
 

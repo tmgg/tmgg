@@ -3,6 +3,7 @@ package io.tmgg.sys.service;
 
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.StrUtil;
 import io.tmgg.lang.dao.BaseService;
 import io.tmgg.sys.dao.SysConfigDao;
 import io.tmgg.sys.entity.SysConfig;
@@ -40,14 +41,6 @@ public class SysConfigService extends BaseService<SysConfig> {
 
     public SysConfig findByCode(String code) {
         return dao.findByCode(code);
-    }
-
-
-    @Transactional
-    public void updateValue(SysConfig cfg) {
-        SysConfig sysConfig = dao.findOne(cfg.getId());
-        sysConfig.setValue(cfg.getValue());
-        dao.save(sysConfig);
     }
 
 
@@ -97,7 +90,7 @@ public class SysConfigService extends BaseService<SysConfig> {
         List<SysConfig> list = dao.findAll();
 
         String prefix = "siteInfo.";
-      return  list.stream().filter(s->s.getKey().startsWith(prefix)).collect(Collectors.toMap(t->t.getKey().substring(prefix.length()), SysConfig::getValue));
+        return list.stream().filter(s -> s.getKey().startsWith(prefix)).collect(Collectors.toMap(t -> t.getKey().substring(prefix.length()), t->StrUtil.emptyToDefault(t.getValue(), t.getDefaultValue())));
 
     }
 }

@@ -15,7 +15,7 @@ export default class extends React.Component {
 
     componentDidMount() {
         http.get('sysOrg/tree').then(rs => {
-            this.setState({treeData: rs.data})
+            this.setState({treeData: rs})
             this.setState({treeDataLoading: false})
         })
     }
@@ -36,7 +36,7 @@ export default class extends React.Component {
         }
 
         if (treeData.length === 0) {
-            return <Alert message={'组织机构数据为空'}>
+            return <Alert type={"warning"} message={'组织机构数据为空'}>
             </Alert>
         }
 

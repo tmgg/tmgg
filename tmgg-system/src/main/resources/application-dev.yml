@@ -1,18 +1,19 @@
 db_port: 3306
 db_ip: 127.0.0.1
 db_password: 123456
-db_database: tmgg-web
+db_database: system
 
-
+tmgg:
+  system:
+    captcha-enable: false
 
 server:
   port: 88
   servlet:
     session:
       cookie:
-        secure: true
         same-site: strict
-
+        secure: true
 
 
 
@@ -36,10 +37,5 @@ spring:
   data:
     web:
       pageable:
-        default-page-size: 10
-        max-page-size: 2000
         one-indexed-parameters: true
-        page-parameter: pageNo
-        size-parameter: pageSize
-      sort.sort-parameter: orderBy
 

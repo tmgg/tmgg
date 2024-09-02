@@ -7,11 +7,10 @@ import {HttpClient, PageTool, sys, SysConfig} from "../../common";
 
 const ID = 'header-right';
 export default class HeaderRight extends React.Component {
+
     state = {
         info: null,
         messageCount: 0,
-
-        openSwitchUnitModal: false
     };
 
     componentDidMount() {
@@ -100,15 +99,7 @@ export default class HeaderRight extends React.Component {
 
 
     about = () => {
-        debugger
         history.push("/about")
 
-    }
-
-    renderSettingMenuItemSlots = () => {
-        let node = sys.getSlot('TopRightSettingMenuItem');
-        if (node) {
-            return <Menu.Item>          {node}        </Menu.Item>
-        }
     }
 }

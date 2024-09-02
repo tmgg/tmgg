@@ -28,8 +28,6 @@ export default class extends React.Component {
         list: [],
         menus: [],
 
-        currentAppKey: null,
-
         tabs: [],
 
         selectedTabKey: null,
@@ -80,46 +78,15 @@ export default class extends React.Component {
                 }
 
             })
-            this.setState({list}, () => this.changeApp(list[0]))
 
         })
     }
     actionRef = React.createRef()
 
-    /**
-     *
-     * @param item
-     * @param forceNewTab
-     */
-    openTab = (item) => {
-        let {id, path} = item;
-        const {tabs} = this.state;
-
-        if (!path) {
-            return;
-        }
-
-        // 没有id，说明是页面内打开的， 而非通过点击菜单打开
-        if (id == null) {
-            item.id = id = uid()
-        }
-
-        // 判断页签是否打开
-        const exist = tabs.some(t => t.id === id)
-        if (!exist) {
-            tabs.push(item)
-        }
-        this.setState({tabs, selectedTabKey: id})
-
-        PageTool.open(path)
-    }
 
 
-    changeApp = app => {
-        if (app) {
-            this.setState({menus: app.children, currentAppKey: app.key}, this.actionRef.current?.reload)
-        }
-    }
+
+
 
     onMenuSelect = (key, path, label, icon) => {
         console.log(key, path, label)
@@ -149,7 +116,7 @@ export default class extends React.Component {
             </Sider>
             <Layout style={{height:'100%'}}>
                 <Header className='header'>
-                    <h3 style={{color: theme["primary-color"]}}>{title}</h3>
+                    <h3 style={{color: theme["primary-color"]}}>{this.state.siteInfo.title}</h3>
                     <HeaderRight></HeaderRight>
                 </Header>
 

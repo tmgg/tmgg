@@ -58,7 +58,7 @@ public class SysUserController {
 
 
     @HasPermission
-    @GetMapping("page")
+    @PostMapping("page")
     public AjaxResult page(String orgId, String keyword, @PageableDefault(sort = SysUser.FIELD_UPDATE_TIME, direction = Sort.Direction.DESC) Pageable pageable) throws SQLException {
         Page<SysUser> page = sysUserService.findAll(orgId, keyword, pageable);
         sysUserService.fillRoleName(page);

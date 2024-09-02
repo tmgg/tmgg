@@ -41,6 +41,8 @@ public class SysConfig extends BaseEntity {
     @Remark("默认值")
     private String defaultValue;
 
+    @Column(length =  20)
+    private String valueType;
 
 
     @Remark("备注")

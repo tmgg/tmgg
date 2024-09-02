@@ -8,7 +8,7 @@ export default class extends React.Component {
 
     render() {
         return <>
-            关于页面
+            <h1>关于</h1>
         </>
 
     }

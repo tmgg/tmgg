@@ -205,7 +205,6 @@ constructor(props) {
   ];
   onGenNodeLabelChange = v=>{
     let key = PREFIX + 'genNodeLabel';
-    debugger
 
     this.setState({genNodeLabel: v})
 

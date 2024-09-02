@@ -203,8 +203,8 @@ function pageData(url, params, sort) {
     const {current, pageSize, keyword, ...data} = params;
 
     const pageParams = {
-        pageNumber: current,
-        pageSize,
+        page: current,
+        size: pageSize,
     }
 
     if (sort) {
@@ -212,7 +212,7 @@ function pageData(url, params, sort) {
         if (keys.length > 0) {
             let key = keys[0];
             let dir = sort[key] === 'ascend' ? 'asc' : 'desc';
-            pageParams.orderBy = key + "," + dir
+            pageParams.sort = key + "," + dir
         }
     }
 
