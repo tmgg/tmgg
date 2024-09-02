@@ -2,7 +2,7 @@ import {message, Spin, TreeSelect} from 'antd';
 
 import React from 'react';
 
-import {httpUtil, TreeUtil} from "../../utils";
+import {HttpUtil, TreeUtil} from "../../utils";
 
 
 
@@ -29,7 +29,7 @@ export class FieldRemoteTreeCheckable extends React.Component {
   fetchData = (url) => {
     this.setState({fetching: true});
 
-    httpUtil.get(url).then((rs) => {
+    HttpUtil.get(url).then((rs) => {
       if (rs == null || rs.success == false) {
         message.error(rs?.message || '异常');
         this.setState({fetching: false});

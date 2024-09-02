@@ -98,7 +98,7 @@ export class FieldUploadFile extends Component{
           fileList={fileList}
           listType="text"
           onChange={this.handleChange}
-          headers={httpUtil.getHeader()}
+          headers={HttpUtil.getHeader()}
           accept={this.props.accept}
         >
           <Button>

@@ -17,7 +17,7 @@ export default class extends React.Component {
   componentDidMount() {
     const {id} = this.props;
     // 加载树状菜单
-    httpUtil.get('/sysMenu/treeForGrant').then(rs => {
+    HttpUtil.get('/sysMenu/treeForGrant').then(rs => {
       const list = rs.data;
       this.setState({treeData: list})
     })
@@ -30,7 +30,7 @@ export default class extends React.Component {
 
     // 加载关联关系
     const hide = message.loading('加载中...', 0)
-    httpUtil.get('/sysRole/ownMenu', {id: id}).then(rs => {
+    HttpUtil.get('/sysRole/ownMenu', {id: id}).then(rs => {
       const ids = rs.data;
       this.setState({checked: ids})
       hide()
@@ -51,7 +51,7 @@ export default class extends React.Component {
     this.setState({
       confirmLoading: true
     })
-    httpUtil.postForm('sysRole/grantPerm', data).then(rs => {
+    HttpUtil.postForm('sysRole/grantPerm', data).then(rs => {
       this.setState({
         confirmLoading: false
       })

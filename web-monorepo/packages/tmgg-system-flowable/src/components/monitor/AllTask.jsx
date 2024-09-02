@@ -64,7 +64,7 @@ export default class extends React.Component {
 
   render() {
     return <ProTable    search={false} columns={this.columns}
-                     request={(params, sort, filter) => httpUtil.getPageable('flowable/monitor/task', params, sort)}
+                     request={(params, sort, filter) => HttpUtil.getPageable('flowable/monitor/task', params, sort)}
                      rowKey='id'
                      scroll={{
                        x:'max-content'

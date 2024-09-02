@@ -1,5 +1,5 @@
 import React from "react";
-import { httpUtil, PageLoading, PageTool} from "@tmgg/tmgg-base";
+import { HttpUtil, PageLoading, PageTool} from "@tmgg/tmgg-base";
 import {Navigate} from "umi";
 import {Button, Result} from "antd";
 
@@ -11,7 +11,7 @@ export default class extends React.Component {
     }
 
     componentDidMount() {
-        httpUtil.get('/check-token', null, {autoShowErrorMessage:false}).then(rs => {
+        HttpUtil.get('/check-token', null, {autoShowErrorMessage:false}).then(rs => {
             let tokenValid = rs;
             this.setState({tokenValid})
         }).catch((err)=>{

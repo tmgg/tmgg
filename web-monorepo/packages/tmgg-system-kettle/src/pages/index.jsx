@@ -16,7 +16,7 @@ export default class extends React.Component {
   }
 
   componentDidMount() {
-    httpUtil.get('/kettle/status').then(rs => {
+    HttpUtil.get('/kettle/status').then(rs => {
       this.setState({status: rs.data || {}})
     })
   }

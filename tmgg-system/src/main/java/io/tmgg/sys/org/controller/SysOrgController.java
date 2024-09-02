@@ -36,7 +36,7 @@ public class SysOrgController {
 
         SecurityUtils.refresh(SecurityUtils.getSubject().getId());
 
-        return AjaxResult.ok();
+        return AjaxResult.ok().msg("保存机构成功");
     }
 
     @HasPermission

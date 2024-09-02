@@ -54,7 +54,7 @@ export default class extends React.Component {
   }
 
   loadData() {
-    httpUtil.get('/kettle/file/list').then(rs => {
+    HttpUtil.get('/kettle/file/list').then(rs => {
       if (rs.success) {
         this.setState({list: rs.data})
       } else {
@@ -68,7 +68,7 @@ export default class extends React.Component {
   }
 
   deleteFile = id => {
-    httpUtil.get('/kettle/file/delete', {id}).then(rs => {
+    HttpUtil.get('/kettle/file/delete', {id}).then(rs => {
       if (rs.success) {
         message.success(rs.message)
         this.loadData()
@@ -98,7 +98,7 @@ export default class extends React.Component {
   };
 
   loadXml = ( id) => {
-    httpUtil.get('/kettle/xml', {id}).then(rs => {
+    HttpUtil.get('/kettle/xml', {id}).then(rs => {
       this.setState({xml:rs.data})
     })
   }

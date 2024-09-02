@@ -15,7 +15,7 @@ export const SysUtil = {
     },
 
     getSiteInfo() {
-        return StorageUtil.get(SITE_INFO_KEY)
+        return StorageUtil.get(SITE_INFO_KEY) || {}
     },
 
     setLoginInfo(data) {

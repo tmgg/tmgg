@@ -92,7 +92,7 @@ export default class extends React.Component {
 
 
   handleDelete = row => {
-    httpUtil.post('sysFile/delete', row).then(rs => {
+    HttpUtil.post('sysFile/delete', row).then(rs => {
       this.tableRef.current.reload()
     })
   }
@@ -102,7 +102,7 @@ export default class extends React.Component {
     return <>
       <ProTable
         ref={this.tableRef}
-        request={(params, sort) => httpUtil.getPageableData('sysFile/page', params, sort)}
+        request={(params, sort) => HttpUtil.getPageableData('sysFile/page', params, sort)}
         columns={this.columns}
       />
     </>

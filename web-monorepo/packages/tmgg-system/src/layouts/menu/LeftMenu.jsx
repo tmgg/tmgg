@@ -1,8 +1,7 @@
 import React from "react";
 import {Badge, Button, Menu, Skeleton, Space} from "antd";
-import {TreeUtil} from "@tmgg/tmgg-base";
+import {HttpUtil, TreeUtil} from "@tmgg/tmgg-base";
 import * as Icons from "@ant-design/icons";
-import {http} from "@tmgg/tmgg-base";
 import {history} from "umi";
 
 export default class extends React.Component {
@@ -18,10 +17,10 @@ export default class extends React.Component {
 
     componentDidMount() {
 
-        httpUtil.get('menuTree').then(list => {
+        HttpUtil.get('menuTree').then(list => {
             const map = {}
             // 设置icon
-            TreeUtil.every(list, (item) => {
+            TreeUtil.traverseTree(list, (item) => {
                 let IconType = Icons[ item.icon || 'SmileOutlined'];
                 item.icon = <IconType style={{fontSize: 12}}/>
 

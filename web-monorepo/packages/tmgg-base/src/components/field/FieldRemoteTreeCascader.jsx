@@ -1,7 +1,7 @@
 import { Cascader, message, Spin } from 'antd';
 
 import React from 'react';
-import {httpUtil, TreeUtil} from "../../utils";
+import {HttpUtil, TreeUtil} from "../../utils";
 
 /**
  * props : url
@@ -30,7 +30,7 @@ export class FieldRemoteTreeCascader extends React.Component {
     const { url } = this.props;
     this.setState({ fetching: true });
 
-    httpUtil.get(url).then((rs) => {
+    HttpUtil.get(url).then((rs) => {
       if (rs == null) {
         console.error(url, '未查询到数据');
         return;

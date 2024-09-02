@@ -4,23 +4,24 @@ import {StrUtil} from "./str";
 const STORAGE_KEY = "__storage"
 
 
-
-
 export const StorageUtil = {
-getAll() {
+    getAll() {
         let hexString = localStorage.getItem(STORAGE_KEY) || "";
         if (!hexString) {
             return {}
         }
-        return JSON.parse(StrUtil.decrypt(hexString))
+
+        let text = StrUtil.decrypt(hexString);
+        console.log(text)
+        return JSON.parse(text)
     },
-  keys() {
+    keys() {
         return this.getAll().keys();
     },
 
- get(key, defaultValue = null) {
+    get(key, defaultValue = null) {
         let v = this.getAll()[key];
-        if(v == null){
+        if (v == null) {
             v = defaultValue;
         }
         return v

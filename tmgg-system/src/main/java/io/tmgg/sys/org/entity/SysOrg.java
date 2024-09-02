@@ -43,7 +43,6 @@ public class SysOrg extends BaseEntity implements TreeDefinition<SysOrg> {
     @NotNull
     private String name;
 
-    private String shortName;
 
 
     /**
@@ -78,27 +77,6 @@ public class SysOrg extends BaseEntity implements TreeDefinition<SysOrg> {
     List<SysOrg> children;
 
 
-    /**
-     * 拼音, 如字节跳动： zjtd
-     */
-    @Column(length = 500)
-    private String pinyin;
-
-
-    @Override
-    public void prePersistOrUpdate() {
-        super.prePersistOrUpdate();
-        pinyin = PinyinUtil.getFirstLetter(name, ""); // 缩写
-        pinyin += ":" + PinyinUtil.getPinyin(name, ""); // 全屏
-
-        System.out.println(name + "的拼音为：" + pinyin);
-    }
-
-
-    @Transient
-    public String getBestName() {
-        return StrUtil.emptyToDefault(shortName, name);
-    }
 
 
     @Transient

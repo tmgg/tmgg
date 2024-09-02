@@ -10,10 +10,10 @@ export default class extends React.Component {
   }
 
   componentDidMount() {
-    httpUtil.get('/sysMsgSubscribe/myTopicList').then(rs => {
+    HttpUtil.get('/sysMsgSubscribe/myTopicList').then(rs => {
       this.setState({myTopicList: rs})
     })
-    httpUtil.get("/sysMsgTopic/list").then(rs => {
+    HttpUtil.get("/sysMsgTopic/list").then(rs => {
       this.setState({topicList: rs})
     })
   }
@@ -22,12 +22,12 @@ export default class extends React.Component {
     const {myTopicList} = this.state
     if (v) {
       myTopicList.push(topic)
-      httpUtil.get('/sysMsgSubscribe/subscribe', {topic}).then(rs => {
+      HttpUtil.get('/sysMsgSubscribe/subscribe', {topic}).then(rs => {
         message.success(rs.message)
       })
     } else {
       arr.remove(myTopicList, topic)
-      httpUtil.get('/sysMsgSubscribe/unsubscribe', {topic}).then(rs => {
+      HttpUtil.get('/sysMsgSubscribe/unsubscribe', {topic}).then(rs => {
         message.success(rs.message)
       })
     }

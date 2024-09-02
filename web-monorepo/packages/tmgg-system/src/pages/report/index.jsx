@@ -2,7 +2,7 @@ import {PlusOutlined} from '@ant-design/icons'
 import {Button, Popconfirm} from 'antd'
 import React from 'react'
 import {ProTable} from "@ant-design/pro-components";
-import {ButtonList, httpUtil,  ProModal} from "@tmgg/tmgg-base";
+import {ButtonList, HttpUtil,  ProModal} from "@tmgg/tmgg-base";
 
 
 
@@ -65,7 +65,7 @@ export default class extends React.Component {
     this.addRef.current.show()
   }
   handleSave = value => {
-    httpUtil.post( 'sysReport/save', value).then(rs => {
+    HttpUtil.post( 'sysReport/save', value).then(rs => {
       this.addRef.current.hide()
       this.tableRef.current.reload()
     })
@@ -77,14 +77,14 @@ export default class extends React.Component {
   }
   handleUpdate = value => {
     let params = {id:this.state.formValues.id, ...value}
-    httpUtil.post('sysReport/save', params).then(rs => {
+    HttpUtil.post('sysReport/save', params).then(rs => {
       this.editRef.current.hide()
       this.tableRef.current.reload()
     })
   }
 
   handleDelete = row => {
-    httpUtil.post( 'sysReport/delete', row).then(rs => {
+    HttpUtil.post( 'sysReport/delete', row).then(rs => {
       this.tableRef.current.reload()
     })
   }
@@ -100,7 +100,7 @@ export default class extends React.Component {
               </Button>
             </ButtonList>
           }}
-          request={(params, sort) => httpUtil.pageData('sysReport/page', params, sort)}
+          request={(params, sort) => HttpUtil.pageData('sysReport/page', params, sort)}
           columns={this.columns}
           rowSelection={false}
           rowKey='id'

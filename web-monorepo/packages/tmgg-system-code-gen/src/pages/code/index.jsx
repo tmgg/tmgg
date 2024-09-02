@@ -45,7 +45,7 @@ export default class extends React.Component {
 
   onFinish = (values) => {
     values.ids = this.state.selectedRowKeys
-    httpUtil.post('code/gen', values).then(rs => {
+    HttpUtil.post('code/gen', values).then(rs => {
       this.setState({formOpen: false})
       message.success(rs.message)
     }).catch(err => {
@@ -67,7 +67,7 @@ export default class extends React.Component {
             </>
           }}
           request={(params, sort) => {
-            return httpUtil.pageData('code/entity/page', params, sort).catch(err => alert("错误" + err));
+            return HttpUtil.pageData('code/entity/page', params, sort).catch(err => alert("错误" + err));
           }}
           columns={this.columns}
           rowSelection={{

@@ -37,7 +37,7 @@ export default class extends React.Component {
         return <div>
             <ProTable
                 request={(params, sort) => {
-                    return httpUtil.pageData('weappUser/page', params, sort).then(rs => {
+                    return HttpUtil.pageData('weappUser/page', params, sort).then(rs => {
                         return rs;
                     });
                 }}

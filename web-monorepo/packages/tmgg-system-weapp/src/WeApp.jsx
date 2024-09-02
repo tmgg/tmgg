@@ -63,7 +63,7 @@ export default class extends React.Component {
 
 
   onFinish = (values) => {
-    httpUtil.post('weapp/save', values).then(rs => {
+    HttpUtil.post('weapp/save', values).then(rs => {
       if(rs.success){
         this.setState({formOpen: false})
         this.tableRef.current.reload();
@@ -79,7 +79,7 @@ export default class extends React.Component {
 
   handleDelete = row => {
     const  hide =message.loading("删除任务中...")
-    httpUtil.get('weapp/delete', {id: row.id}).then(rs => {
+    HttpUtil.get('weapp/delete', {id: row.id}).then(rs => {
       message.success(rs.message)
       this.tableRef.current.reload();
     }).catch(hide)
@@ -94,7 +94,7 @@ export default class extends React.Component {
           </Button>
         }}
         request={(params, sort) => {
-          return httpUtil.pageData('weapp/page', params, sort)
+          return HttpUtil.pageData('weapp/page', params, sort)
         }}
         columns={this.columns}
         rowSelection={false}

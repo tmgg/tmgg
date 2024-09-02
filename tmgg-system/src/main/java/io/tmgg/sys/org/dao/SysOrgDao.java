@@ -152,7 +152,7 @@ public class SysOrgDao extends BaseDao<SysOrg> {
     }
 
     public String getNameById(String id) {
-        return getTreeManager().getMap().get(id).getBestName();
+        return getTreeManager().getMap().get(id).getName();
     }
 
     /**

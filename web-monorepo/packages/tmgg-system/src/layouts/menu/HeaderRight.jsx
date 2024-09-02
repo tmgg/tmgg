@@ -2,38 +2,30 @@ import {Badge, Dropdown, Menu, Popover, Spin} from "antd";
 import {NotificationOutlined, SettingOutlined, UserOutlined} from "@ant-design/icons";
 import React from "react";
 import {history} from "umi";
-import {http, PageTool, sys, SysConfig} from "@tmgg/tmgg-base";
+import {HttpUtil, SysUtil} from "@tmgg/tmgg-base";
 
 
 const ID = 'header-right';
 export default class HeaderRight extends React.Component {
 
     state = {
-        info: null,
         messageCount: 0,
     };
 
     componentDidMount() {
-        let info = sys.getLoginInfo()
-        if (info == null) {
-            history.push(sys.getLoginUrl())
-            return
-        }
-
         this.initMessage()
-        this.setState({info})
 
         document.dispatchEvent(new CustomEvent('componentDidMount', {detail: ID}))
     }
 
     initMessage = () => {
-        httpUtil.get('/getMessageCount').then(rs => {
+        HttpUtil.get('/getMessageCount').then(rs => {
             this.setState({messageCount: rs.data})
         })
     }
 
     logout = () => {
-        httpUtil.get('/logout').finally(() => {
+        HttpUtil.get('/logout').finally(() => {
             localStorage.clear()
             history.replace(SysConfig.getLoginUrl())
         })
@@ -44,15 +36,11 @@ export default class HeaderRight extends React.Component {
     }
 
     render() {
-        const {info} = this.state
-        if (info == null) {
-            return <div>
-                <Spin/>
-            </div>
-        }
+        const info = SysUtil.getLoginInfo()
+
         return <div className='header-right'>
 
-            <Popover className='item' title={info.name || '姓名未定义'} content={<div style={{width: 200}}>
+            <Popover className='item' title={info.name} content={<div style={{width: 200}}>
                 <p>{info.roleNames}</p>
                 <p>{info.orgName}</p>
                 <p>{info.deptName}</p>

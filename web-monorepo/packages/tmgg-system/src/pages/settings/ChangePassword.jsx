@@ -3,13 +3,13 @@ import {Button, Form, Input, Modal} from "antd";
 
 
 import {history} from 'umi'
-import {httpUtil, SysUtil} from "@tmgg/tmgg-base";
+import {HttpUtil, SysUtil} from "@tmgg/tmgg-base";
 
 export default class extends React.Component {
 
 
   onFinish = (values) => {
-    httpUtil.postForm(SysUtil.getServerUrl() + '/sysUser/updatePwd', values).then(rs => {
+    HttpUtil.postForm(SysUtil.getServerUrl() + '/sysUser/updatePwd', values).then(rs => {
       if (rs.success) {
         Modal.success({
           title: '提示',
@@ -44,7 +44,7 @@ export default class extends React.Component {
                      {
                        validator: (rule, value) => {
                          return new Promise((resolve, reject) => {
-                           httpUtil.get(sys.getServerUrl() + "/sysUser/pwdStrength", {password: value}).then(rs => {
+                           HttpUtil.get(sys.getServerUrl() + "/sysUser/pwdStrength", {password: value}).then(rs => {
                              if (!rs.success) {
                                reject(rs.message)
                              }

@@ -3,7 +3,7 @@ import {Button, Form, Input, message} from 'antd';
 import {LockOutlined, UserOutlined} from '@ant-design/icons';
 import "./login.less"
 import {history} from 'umi';
-import {FieldCaptcha, httpUtil, PageTool, SysUtil} from "@tmgg/tmgg-base";
+import {FieldCaptcha, HttpUtil, PageTool, StorageUtil, SysUtil} from "@tmgg/tmgg-base";
 
 
 
@@ -14,9 +14,12 @@ export default class login extends React.Component {
     // 登陆中状态
     logining: false,
 
+
   }
 
   componentDidMount() {
+
+
     // 内部系统登录
     let token = PageTool.currentLocationQuery().token
     if (token) {
@@ -43,8 +46,8 @@ export default class login extends React.Component {
     localStorage.clear()
 
     this.setState({logining: true})
-    httpUtil.post('/login', values).then(rs => {
-      message.info(rs.message)
+    HttpUtil.post('/login', values).then(rs => {
+      StorageUtil.set("token",rs)
       history.replace('/')
     }).finally(() => {
       this.setState({logining: false})
@@ -53,15 +56,13 @@ export default class login extends React.Component {
 
 
   render() {
-
-    let siteInfo = SysUtil.getSiteInfo()
-
+    const siteInfo = SysUtil.getSiteInfo()
 
     return (
       <section className='login-page'>
 
         <div className="login-content">
-          <h1>{siteInfo.siteTitle}</h1>
+          <h1>{siteInfo.title}</h1>
           <Form
             name="normal_login"
             className="login-form"
@@ -90,10 +91,6 @@ export default class login extends React.Component {
             </Form.Item>
 
 
-            {siteInfo.captchaEnable &&
-              <Form.Item name='clientId' required rules={[{required: true, message: '请先进行校验'}]}>
-                <FieldCaptcha></FieldCaptcha>
-              </Form.Item>}
 
 
             <Form.Item style={{marginTop: 10}}>

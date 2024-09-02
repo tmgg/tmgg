@@ -23,8 +23,6 @@ export class Layouts extends React.Component {
     }
 
     componentDidMount() {
-        console.log('************************进入主布局************************')
-
         const unlisten = history.listen(({location, action}) => {
             console.log(location.pathname);
             this.setState({pathname: location.pathname})

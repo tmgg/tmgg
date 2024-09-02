@@ -1,22 +1,19 @@
 // 全局路由
 
 import React from 'react';
-import {Badge, Breadcrumb, Card, Dropdown, Layout, Menu, Segmented, Slider, Tabs} from 'antd';
-import {history, Link, Outlet} from 'umi';
+import {Layout} from 'antd';
+import {history, Outlet} from 'umi';
 import "./index.less"
-import '../../css/style.less'
-import '../../css/table.less'
 import * as Icons from '@ant-design/icons';
 import logo from '../../asserts/logo.png'
 
-import {PageLoading, ProLayout} from "@ant-design/pro-components";
+import {PageLoading} from "@ant-design/pro-components";
 
 import HeaderRight from "./HeaderRight";
-import {http, sys, SysConfig, TreeUtil, uid} from "@tmgg/tmgg-base";
 
-import {arr, getSiteInfo, PageTool, theme} from "@tmgg/tmgg-base";
 import TabMenu from "./TabMenu";
 import LeftMenu from "./LeftMenu";
+import {HttpUtil, SysUtil, theme, TreeUtil} from "@tmgg/tmgg-base";
 
 const {Header, Footer, Sider, Content} = Layout;
 /**
@@ -32,11 +29,9 @@ export default class extends React.Component {
 
         selectedTabKey: null,
 
-        dataLoaded: false,
 
         collapsed: false,
 
-        siteInfo:{}
     }
 
 
@@ -48,21 +43,17 @@ export default class extends React.Component {
 
         this.initMenu()
 
-        SysConfig.loadLoginData().then(() => {
-            this.setState({dataLoaded: true})
-        })
 
-        this.setState({siteInfo: getSiteInfo()})
 
     }
 
 
     initMenu = () => {
 
-        httpUtil.get('menuTree').then(rs => {
-            const list = rs.data;
+        HttpUtil.get('menuTree').then(rs => {
+            const list = rs;
             // 设置icon
-            TreeUtil.every(list, (item) => {
+            TreeUtil.traverseTree(list, (item) => {
                 let IconType = Icons[item.icon || 'SmileOutlined'];
                 item.icon = <IconType style={{fontSize: 12}}/>
 
@@ -98,13 +89,7 @@ export default class extends React.Component {
     }
 
     render() {
-        console.log('开始渲染 menu index.jsx')
-        if (!this.state.dataLoaded) {
-            return <PageLoading/>
-        }
-
-
-
+        let siteInfo = SysUtil.getSiteInfo();
         return <Layout className='main-layout'>
             <Sider id='left-sider' collapsible collapsed={this.state.collapsed}
                    onCollapse={(value) => this.toggleCollapsed(value)}>
@@ -115,7 +100,7 @@ export default class extends React.Component {
             </Sider>
             <Layout style={{height:'100%'}}>
                 <Header className='header'>
-                    <h3 style={{color: theme["primary-color"]}}>{this.state.siteInfo.title}</h3>
+                    <h3 style={{color: theme["primary-color"]}}>{siteInfo.title}</h3>
                     <HeaderRight></HeaderRight>
                 </Header>
 
@@ -138,7 +123,7 @@ export default class extends React.Component {
                         padding:12
                     }}
                 >
-                    {this.state.siteInfo.footer}
+                    {siteInfo.footer}
                 </Footer>
             </Layout>
         </Layout>

@@ -28,7 +28,7 @@ export default class InstanceInfo extends React.Component {
   componentDidMount() {
     const {id, businessKey} = this.props;
 
-    httpUtil.get("flowable/userside/getInstanceInfo", {id, businessKey}).then(rs => {
+    HttpUtil.get("flowable/userside/getInstanceInfo", {id, businessKey}).then(rs => {
       this.setState(rs.data)
       this.setState({data: rs.data, loading: false})
 

@@ -181,18 +181,6 @@ public class SysOrgService extends BaseService<SysOrg> {
     }
 
 
-    public List<SysOrg> findByNameOrShortName(String name) {
-        JpaQuery<SysOrg> query = new JpaQuery<>();
-
-        query.or(q -> {
-            q.eq(SysOrg.Fields.name, name);
-            q.eq(SysOrg.Fields.shortName, name);
-        });
-
-        return this.findAll(query, Sort.by(SysOrg.Fields.seq));
-
-    }
-
     /**
      * 组织机构分一般分部门和公司，如果orgId属于部门，则返回该部门对于的公司
      *

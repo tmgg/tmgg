@@ -16,7 +16,7 @@ export class RemoteImage extends React.Component {
     const { src } = this.props;
     const { id } = this.state;
 
-    httpUtil.getBlob(fileURL + src).then((response) => {
+    HttpUtil.getBlob(fileURL + src).then((response) => {
       if (response) {
         response.blob().then((buffer) => {
           const urlCreator = window.URL || window.webkitURL;

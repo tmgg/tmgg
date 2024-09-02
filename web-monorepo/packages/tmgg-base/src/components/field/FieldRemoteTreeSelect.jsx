@@ -1,6 +1,7 @@
 import { message, Spin, TreeSelect } from 'antd';
 
 import React from 'react';
+import {HttpUtil} from "../../utils";
 
 export class FieldRemoteTreeSelect extends React.Component {
   state = {
@@ -11,13 +12,10 @@ export class FieldRemoteTreeSelect extends React.Component {
   };
 
   componentDidMount() {
-    // 下载默认值的label
     this.fetchData();
   }
 
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    this.setState({ url: this.props.url }, this.fetchData);
-  }
+
 
 
 
@@ -25,18 +23,8 @@ export class FieldRemoteTreeSelect extends React.Component {
     const { url } = this.props;
     this.setState({ fetching: true });
 
-    httpUtil.get(url).then((rs) => {
-      if (rs == null) {
-        console.error(url, '未查询到数据');
-        return;
-      }
-      if (rs.success === false) {
-        message.error(rs.message);
-        this.setState({ fetching: false });
-        return;
-      }
-
-      this.setState({ data:  rs.data, fetching: false });
+    HttpUtil.get(url).then((rs) => {
+      this.setState({ data:  rs, fetching: false });
     });
   };
 

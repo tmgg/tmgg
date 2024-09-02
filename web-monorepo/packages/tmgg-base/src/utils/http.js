@@ -7,7 +7,6 @@ export const axiosInstance = axios.create({
     baseURL: '/',
 })
 
-const AUTH_STORE_KEYS = ['jwt', 'appToken', 'token', 'Authorization'];
 
 const defaultRequestConfig = {
 
@@ -39,13 +38,7 @@ function showErrorMessage(title, msg) {
 
 
 export function getToken() {
-    for (let key of AUTH_STORE_KEYS) {
-        let v = localStorage.getItem(key);
-        if (v) {
-            return v;
-        }
-    }
-    return StorageUtil.get("HD:Authorization")
+    return StorageUtil.get("token")
 }
 
 axiosInstance.interceptors.request.use(
@@ -55,11 +48,6 @@ axiosInstance.interceptors.request.use(
         let token = getToken();
         if (token) {
             config.headers['Authorization'] = token;
-        }
-
-        let globalHeaders = getGlobalHeaders();
-        for (let key in globalHeaders) {
-            config.headers[key] = globalHeaders[key];
         }
 
         return config;
@@ -108,7 +96,6 @@ const AXIOS_CODE_MESSAGE = {
 
 axiosInstance.interceptors.response.use(
     (res) => {
-        debugger
         const {data, config: {autoShowErrorMessage, autoShowSuccessMessage, transformData, method}} = res;
         const isAjaxResult = data.success !== undefined && data.code !== undefined
         if (isAjaxResult) {
@@ -149,18 +136,7 @@ axiosInstance.interceptors.response.use(
 
 
 
-export function getGlobalHeaders() {
-    const result = {}
-    let all = StorageUtil.getAll();
-    for (let key in all) {
-        const value = all[key];
-        if (key.startsWith("HD:")) {
-            key = key.substring("HD:".length)
-            result[key] = value
-        }
-    }
-    return result;
-}
+
 
 /**
  *  防止双斜杠出现
@@ -173,7 +149,7 @@ function _replaceUrl(url) {
 }
 
 
-export const httpUtil = {
+export const HttpUtil = {
     axiosInstance,
     get(url, params = null, config = defaultRequestConfig) {
         config = Object.assign(config,defaultRequestConfig)

@@ -83,7 +83,7 @@ export default class extends React.Component {
 
 
     onFinish = values => {
-        httpUtil.post('sysDictItem/save', values).then(rs => {
+        HttpUtil.post('sysDictItem/save', values).then(rs => {
             message.success(rs.message)
             this.setState({formOpen: false})
             this.tableRef.current.reload()
@@ -92,7 +92,7 @@ export default class extends React.Component {
 
 
     handleDelete = row => {
-        httpUtil.post('sysDictItem/delete', row).then(rs => {
+        HttpUtil.post('sysDictItem/delete', row).then(rs => {
             this.tableRef.current.reload()
         })
     }
@@ -111,7 +111,7 @@ export default class extends React.Component {
                 }}
                 request={(params, sort) => {
                     params.sysDict = {id:this.props.sysDictId}
-                    return httpUtil.pageData('sysDictItem/page', params, sort);
+                    return HttpUtil.pageData('sysDictItem/page', params, sort);
                 }}
                 columns={this.columns}
                 rowKey='id'

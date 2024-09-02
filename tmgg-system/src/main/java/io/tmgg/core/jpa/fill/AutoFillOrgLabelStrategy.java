@@ -38,8 +38,7 @@ public class AutoFillOrgLabelStrategy implements AutoFillStrategy {
             return null;
         }
 
-        String name = org.getBestName();
-        cache.put(orgId, name);
-        return name;
+        cache.put(orgId, org.getName());
+        return org.getName();
     }
 }

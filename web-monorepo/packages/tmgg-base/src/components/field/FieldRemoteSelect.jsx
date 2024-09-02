@@ -1,7 +1,7 @@
 import { message, Select, Spin } from 'antd';
 
 import React from 'react';
-import {httpUtil} from "../../utils";
+import {HttpUtil} from "../../utils";
 
 const { Option } = Select;
 
@@ -41,7 +41,7 @@ export class FieldRemoteSelect extends React.Component {
     const selected = this.props.value;
     const { url } = this.state;
 
-    httpUtil.get(url, { searchText, selected: selected }).then((rs) => {
+    HttpUtil.get(url, { searchText, selected: selected }).then((rs) => {
       this.setState({ loading: false });
       if (rs.success === false) {
         message.error(rs.message);

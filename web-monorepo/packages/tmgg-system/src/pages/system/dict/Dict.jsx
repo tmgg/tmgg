@@ -67,7 +67,7 @@ export default class extends React.Component {
 
 
   onFinish = values => {
-    httpUtil.post( 'sysDict/save', values).then(rs => {
+    HttpUtil.post( 'sysDict/save', values).then(rs => {
       message.success(rs.message)
       this.setState({formOpen: false})
       this.tableRef.current.reload()
@@ -77,7 +77,7 @@ export default class extends React.Component {
 
 
   handleDelete = row => {
-    httpUtil.post( 'sysDict/delete', row).then(rs => {
+    HttpUtil.post( 'sysDict/delete', row).then(rs => {
       this.tableRef.current.reload()
     })
   }
@@ -94,7 +94,7 @@ export default class extends React.Component {
               </Button>
             </ButtonList>
           }}
-          request={(params, sort) => httpUtil.pageData('sysDict/page', params, sort)}
+          request={(params, sort) => HttpUtil.pageData('sysDict/page', params, sort)}
           columns={this.columns}
           rowKey='id'
           search={false}

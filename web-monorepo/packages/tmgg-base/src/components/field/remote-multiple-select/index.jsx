@@ -36,7 +36,7 @@ export class FieldRemoteMultipleSelect extends React.Component {
     const { url } = this.state;
     this.setState({ fetching: true });
 
-    httpUtil.get(url, { searchText }).then((rs) => {
+    HttpUtil.get(url, { searchText }).then((rs) => {
       this.setState({ fetching: false });
       if (rs.success == false) {
         message.error(rs.message);

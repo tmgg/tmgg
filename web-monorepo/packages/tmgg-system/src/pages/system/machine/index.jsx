@@ -17,7 +17,7 @@ export default class extends React.Component {
 
   componentDidMount() {
     this.setState({loading: true})
-    httpUtil.get('sysMachine/query').then(rs => {
+    HttpUtil.get('sysMachine/query').then(rs => {
       this.setState({loading: false})
       this.setState(rs.data)
     })

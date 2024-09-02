@@ -1,5 +1,10 @@
 export const StrUtil = {
 
+    nullText(key){
+        return (key || '') + "未定义"
+    },
+
+
     /**
      * 包含
      * @param subStr
