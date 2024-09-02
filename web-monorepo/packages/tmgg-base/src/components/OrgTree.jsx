@@ -3,7 +3,7 @@ import React from 'react';
 import {http} from "@tmgg/tmgg-base";
 
 
-export default class extends React.Component {
+export  class OrgTree  extends React.Component {
 
     state = {
         treeDataLoading: true,

@@ -18,20 +18,9 @@ let globalEnableSsoLogin = false
 class Config {
 
   private hooks = new KeyValueDataMap()
-
-  setSsoLoginEnable() {
-    globalEnableSsoLogin = true
-  }
-
   isSsoLoginEnable(){
    return globalEnableSsoLogin
   }
-
-  addHook<K extends keyof Events>(key: K, callback: Events[K]): void {
-    console.log('添加钩子 hook', key, callback)
-    this.hooks.addItem(key, callback)
-  }
-
   runHook(key: string, data: any) {
     const promiseList: Promise<any>[] = [];
 
@@ -60,49 +49,10 @@ class Config {
     return JSON.parse(str)
   }
 
-  getLoginInfo() {
-    const info = localStorage.getItem('LOGIN_INFO');
-    if (info != null && info.length > 0) {
-      return JSON.parse(info);
-    }
-    return {}
-  }
-
-  loadLoginInfo() {
-    localStorage.removeItem('LOGIN_INFO');
-    return new Promise(resolve => {
-      http.get('/getLoginInfo').then(rs => {
-        const {data} = rs;
-        localStorage.setItem('LOGIN_INFO', JSON.stringify(data));
-        if (data.avatar != null) {
-          localStorage.setItem('AVATAR', this.getServerUrl() + '/sysFile/preview/' + data.avatar)
-        }
-        if (this.initDataLoadedListeners.length > 0) {
-          for (let listener of this.initDataLoadedListeners) {
-            listener(data)
-          }
-        }
-        resolve(true)
-      })
-    })
 
 
-  }
-
-  loadDict() {
-    http.get('sysDict/tree').then(rs => {
-      StorageUtil.set("DICT", rs.data)
-    })
-  }
 
 
-  setPermissions(perms: string[]) {
-    this.setConfig("permissions", perms)
-  }
-
-  getPermissions(): string[] {
-    return this.getConfig("permissions")
-  }
 
 
   getServerUrl(): string {
@@ -116,14 +66,6 @@ class Config {
     return localStorage.getItem(this.AUTH_TOKEN_NAME);
   }
 
-  getFullUrl(url: string, appendToken = false) {
-    let rs = this.getServerUrl() + url;
-    if (appendToken) {
-      let join = url.indexOf('?') == -1 ? '?' : '&';
-      rs += join + "token=" + this.getToken();
-    }
-    return rs
-  }
 
 
   getHeader() {
@@ -140,31 +82,8 @@ class Config {
     return process.env.LOGIN_URL || "/login";
   }
 
-  isPageNeedLogin(url: string) {
-    // 也行还有其他url也不需登录呢
-    return url != this.getLoginUrl() && url != '/sso';
-  }
 
-  /**
-   * 系统插槽， 比如右上角加个什么啊
-   *
-   *
-   */
-  private slots: { type: SlotType; node: ReactNode }[] = [];
 
-  addSlot = (type: SlotType, node: ReactNode) => {
-    this.slots.push({type, node})
-  }
-
-  getSlot = (type: SlotType) => {
-    let slots = this.slots
-
-    for (const item of slots) {
-      if (type == item.type) {
-        return item.node
-      }
-    }
-  }
 
 
   /**

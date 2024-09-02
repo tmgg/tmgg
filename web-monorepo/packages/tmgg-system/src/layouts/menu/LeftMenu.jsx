@@ -1,6 +1,6 @@
 import React from "react";
 import {Badge, Button, Menu, Skeleton, Space} from "antd";
-import {TreeUtil} from "../../common";
+import {TreeUtil} from "@tmgg/tmgg-base";
 import * as Icons from "@ant-design/icons";
 import {http} from "@tmgg/tmgg-base";
 import {history} from "umi";

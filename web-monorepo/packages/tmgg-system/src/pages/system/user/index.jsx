@@ -20,8 +20,8 @@ import {
     FieldOrgTreeSelect, hasPermission,
     http,
     LeftRightLayout
-} from "../../../common";
-import OrgTree from "../../../commponents/OrgTree";
+} from "@tmgg/tmgg-base";
+import {OrgTree} from "@tmgg/tmgg-base";
 
 const baseTitle = "用户"
 const baseApi = 'sysUser/';

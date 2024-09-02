@@ -4,7 +4,7 @@ import React from 'react'
 
 import {ProTable} from '@tmgg/pro-table'
 import {http} from "@tmgg/tmgg-base"
-import {ButtonList,FieldDictSelect,FieldRadioBoolean} from "@tmgg/tmgg-system";
+import {ButtonList} from "@tmgg/tmgg-base";
 
 
 

@@ -5,8 +5,8 @@ export * from './FieldRadioBoolean';
 export * from './switch-y-n';
 export * from './FieldSelectPosition';
 export * from './input-number-percent';
-export * from './remote-select';
-export * from './remote-tree-select';
+export * from './FieldRemoteSelect';
+export * from './FieldRemoteTreeSelect';
 
 export * from './upload-image';
 export * from './time';
@@ -15,7 +15,7 @@ export * from './flat-multiple-select';
 export * from './flat-select';
 export * from './dict';
 export * from './remote-image';
-export * from './remote-tree-cascader';
+export * from './FieldRemoteTreeCascader';
 export * from './remote-tree-multiple-select';
 export * from './text';
 export * from './FieldProps'

@@ -1,7 +1,7 @@
 import React from "react";
 import {ProTable} from "@ant-design/pro-components";
 import InstanceInfo from "./InstanceInfo";
-import { ProModal} from "../common";
+import { ProModal} from "@tmgg/tmgg-base";
 
 export default class  extends React.Component {
 

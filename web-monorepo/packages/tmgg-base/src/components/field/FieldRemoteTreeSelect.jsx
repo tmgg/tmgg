@@ -1,9 +1,6 @@
 import { message, Spin, TreeSelect } from 'antd';
 
 import React from 'react';
-import {StrUtil, TreeUtil} from '../../../utils';
-import {http} from "../../../system";
-
 
 export class FieldRemoteTreeSelect extends React.Component {
   state = {
@@ -18,11 +15,11 @@ export class FieldRemoteTreeSelect extends React.Component {
     this.fetchData();
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.url !== this.props.url) {
-      this.setState({ url: nextProps.url }, this.fetchData);
-    }
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    this.setState({ url: this.props.url }, this.fetchData);
   }
+
+
 
   fetchData = () => {
     const { url } = this.props;
@@ -84,7 +81,7 @@ export class FieldRemoteTreeSelect extends React.Component {
 
         filterTreeNode={(inputValue, treeNode)=>{
           const {title} = treeNode
-          return StrUtil.contains(title,inputValue)
+          return str.contains(title,inputValue)
         }}
         treeLine={{showLeafIcon:true}}
 

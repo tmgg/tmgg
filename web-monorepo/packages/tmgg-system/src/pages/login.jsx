@@ -3,7 +3,7 @@ import {Button, Form, Input, message} from 'antd';
 import {LockOutlined, UserOutlined} from '@ant-design/icons';
 import "./login.less"
 import {history} from 'umi';
-import {FieldCaptcha, http, sys, SysConfig} from "../common";
+import {FieldCaptcha, http, sys, SysConfig} from "@tmgg/tmgg-base";
 import {getSiteInfo, PageTool} from "@tmgg/tmgg-base";
 
 

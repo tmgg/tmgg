@@ -1,7 +1,6 @@
 import React, {Fragment} from "react";
 import {ProTable} from "@ant-design/pro-components";
 import InstanceInfo from "./InstanceInfo";
-import { ProModal} from "../common";
 import {Modal} from "antd";
 
 export default class MyInstance extends React.Component {

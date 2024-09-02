@@ -8,10 +8,10 @@ import {history, Outlet} from "umi";
 import zhCN from 'antd/locale/zh_CN';
 
 import './index.less'
-import {sys} from "../common";
-import SiteInfoInteceptor from "./SiteInfoInteceptor";
+import SiteInfoInterceptor from "./SiteInfoInterceptor";
+import LoginInfoInterceptor from "./LoginInfoInterceptor";
 
-http.axiosInstance.defaults.baseURL = sys.getServerUrl()
+
 
 export class Layouts extends React.Component {
 
@@ -82,11 +82,13 @@ export class Layouts extends React.Component {
         }
 
         return <>
-            <SiteInfoInteceptor>
+            <SiteInfoInterceptor>
                 <AuthInterceptor>
-                    <MenuLayout pathname={this.state.pathname}/>
+                    <LoginInfoInterceptor>
+                        <MenuLayout pathname={this.state.pathname}/>
+                    </LoginInfoInterceptor>
                 </AuthInterceptor>
-            </SiteInfoInteceptor>
+            </SiteInfoInterceptor>
         </>
     }
 

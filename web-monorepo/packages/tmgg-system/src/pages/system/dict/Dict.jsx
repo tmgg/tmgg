@@ -3,8 +3,7 @@ import {Button, Card,InputNumber, Popconfirm,Modal,Form,Input,message} from 'ant
 import React from 'react'
 
 import {ProTable} from '@tmgg/pro-table'
-import {http} from "@tmgg/tmgg-base"
-import {ButtonList} from "@tmgg/tmgg-system";
+import {http,ButtonList} from "@tmgg/tmgg-base"
 
 
 
@@ -20,7 +19,7 @@ export default class extends React.Component {
   tableRef = React.createRef()
 
   columns = [
-    
+
     {
       title: '名称',
       dataIndex: 'name',

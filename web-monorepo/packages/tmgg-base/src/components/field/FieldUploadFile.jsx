@@ -1,35 +1,25 @@
 import { Button, Modal, Upload } from 'antd';
 
-import React, {Component, ReactNode} from 'react';
+import React, {Component} from 'react';
 import UploadOutlined from '@ant-design/icons/lib/icons/UploadOutlined';
-import {http, SysConfig} from "../../../system";
-import {LinkToViewFile} from "../../LinkToViewFile";
+
+
+
+
+
 
 
 
 /**
- *  changelog: jiangtao 调整为默认上传一个, 最新上传的有效
- * 文件上传组件
- * 可用属性：
- * url，不传则默认到文件中心
- * label: 按钮显示的文字
+ * onChange?: (result: string) => void;
+ *   value?: string;
+ *   url?: string;
+ *   businessKey?: string;
+ *   accept?: string;
+ *
+ *   children:ReactNode;
  */
-const defaultURL = SysConfig.getServerUrl() + 'sysFile/upload';
-
-interface UploadFileProps {
-  onChange?: (result: string) => void;
-  value?: string;
-  url?: string;
-  businessKey?: string;
-  accept?: string;
-
-  children:ReactNode;
-}
-
-
-export { FieldUploadFile as UploadFile };
-
-export class FieldUploadFile extends Component<UploadFileProps, any> {
+export class FieldUploadFile extends Component{
   state = {
     fileList: [],
   };
@@ -84,7 +74,7 @@ export class FieldUploadFile extends Component<UploadFileProps, any> {
   render() {
     const { fileList } = this.state;
     const { businessKey, mode } = this.props;
-
+    const defaultURL = SysConfig.getServerUrl() + 'sysFile/upload';
     let url = defaultURL;
 
     if (this.props.url != null) {
@@ -120,8 +110,9 @@ export class FieldUploadFile extends Component<UploadFileProps, any> {
   }
 
   renderReadOnly() {
+    // TODO 显示
     return (
-      <LinkToViewFile value={this.props.value}>{this.props.children || '预览'}</LinkToViewFile>
+      <a >{this.props.children }</a>
     );
   }
 }

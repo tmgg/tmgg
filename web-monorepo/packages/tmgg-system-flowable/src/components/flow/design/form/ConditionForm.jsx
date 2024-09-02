@@ -1,9 +1,8 @@
 import React from 'react';
 import {Button, Form, Input, InputNumber, message, Radio, Switch, Table} from 'antd';
 import {DeleteOutlined, PlusOutlined} from '@ant-design/icons';
-import {ProModal} from "../../../../common";
+import {ProModal} from "@tmgg/tmgg-base";
 import BpmnUtils from "../../BpmnUtils";
-import {ArrayUtil} from "@crec/lang";
 import {arr} from "@tmgg/tmgg-base";
 
 /**

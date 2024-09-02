@@ -1,6 +1,6 @@
 import React from "react";
 
-import {sys, SysConfig} from "../common";
+import {sys, SysConfig} from "@tmgg/tmgg-base";
 import {message} from "antd";
 import {history} from "umi";
 

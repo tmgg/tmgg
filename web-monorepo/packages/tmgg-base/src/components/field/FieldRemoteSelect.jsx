@@ -1,13 +1,12 @@
 import { message, Select, Spin } from 'antd';
 
 import React from 'react';
-import {http} from "../../../system";
+import {http} from "../../tools";
 
 const { Option } = Select;
 
-export { RemoteSelect as FieldRemoteSelect };
 
-export class RemoteSelect extends React.Component {
+export class FieldRemoteSelect extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -23,14 +22,13 @@ export class RemoteSelect extends React.Component {
     this.loadData({});
   }
 
-  // 监听URL 变化
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.url !== this.props.url) {
-      this.setState({ url: nextProps.url }, () => {
-        this.loadData({});
-      });
-    }
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    this.setState({ url: this.props.url }, () => {
+      this.loadData({});
+    });
   }
+
+
 
   handleSearch = (searchText) => {
     this.setState({ searchText });

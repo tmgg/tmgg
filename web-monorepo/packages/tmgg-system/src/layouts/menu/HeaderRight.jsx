@@ -2,7 +2,7 @@ import {Badge, Dropdown, Menu, Popover, Spin} from "antd";
 import {NotificationOutlined, SettingOutlined, UserOutlined} from "@ant-design/icons";
 import React from "react";
 import {history} from "umi";
-import {http, PageTool, sys, SysConfig} from "../../common";
+import {http, PageTool, sys, SysConfig} from "@tmgg/tmgg-base";
 
 
 const ID = 'header-right';

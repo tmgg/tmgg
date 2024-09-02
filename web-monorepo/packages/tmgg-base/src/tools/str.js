@@ -254,22 +254,4 @@ function equalsIgnoreCase(a, b) {
 
     return false;
 }
-export const str = {
-    equalsIgnoreCase,
-    toUnderlineCase,
-    toCamelCase,
-    isStr,
-    ellipsis,
-    cutByWidth,
-    getWidth,
-    decrypt,
-    encrypt,
-    pad,
-    obfuscateString,
-    subBefore,
-    subAfter,
-    reverse,
-    capitalize,
-    count,
-    contains
-}
+

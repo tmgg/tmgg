@@ -1,7 +1,7 @@
 import {Popconfirm} from 'antd'
 import React from 'react'
 import {ProTable} from "@ant-design/pro-components";
-import {ButtonList, http, LinkToViewFile} from "../../../common";
+import {ButtonList, http} from "@tmgg/tmgg-base";
 
 
 export default class extends React.Component {
@@ -82,7 +82,6 @@ export default class extends React.Component {
       valueType: 'option',
       render: (_, record) => (
         <ButtonList>
-          <LinkToViewFile value={record.id}>预览</LinkToViewFile>
           <Popconfirm perm='sysFile:delete' title='是否确定删除文件信息' onConfirm={() => this.handleDelete(record)}>
             <a>删除</a>
           </Popconfirm>

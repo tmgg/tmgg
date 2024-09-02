@@ -1,5 +1,4 @@
 import React from "react";
-import {LeftRightLayout} from "../../../common/components/LeftRightLayout";
 import Dict from "./Dict";
 import DictItem from "./DictItem";
 import {Card, Col, Empty, Row} from "antd";

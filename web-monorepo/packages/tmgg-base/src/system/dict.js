@@ -8,13 +8,13 @@ import React from 'react';
 import {str} from "@tmgg/tmgg-base"
 
 // 根据字典类型code返回字典数据列表， code 支持 驼峰或下划线（都转为下划线比较）
-export function dictList(code: string) {
+export function dictList(code) {
   const dictTypeTree = StorageUtil.get('DICT');
   if (dictTypeTree === undefined) {
     return [];
   }
 
-  let filtered = dictTypeTree.filter((item: any) => {
+  let filtered = dictTypeTree.filter((item) => {
       return item.code == code || str.toUnderlineCase(item.code) == str.toUnderlineCase(code);
     }
   );
@@ -30,7 +30,7 @@ export function dictList(code: string) {
   return tree;
 }
 
-export function dictMap(typeCode: string) {
+export function dictMap(typeCode) {
   const list = dictList(typeCode);
 
   if (list == null) {
@@ -38,7 +38,7 @@ export function dictMap(typeCode: string) {
     return {};
   }
   const map = {};
-  list.forEach((i: any) => {
+  list.forEach((i) => {
     const code = i.code;
 
     // @ts-ignore
@@ -48,14 +48,14 @@ export function dictMap(typeCode: string) {
   return map;
 }
 
-export function dictValue(typeCode: string, code: string) {
+export function dictValue(typeCode, code) {
   const item = dictData(typeCode, code);
   if (item) {
     return item.name;
   }
 }
 
-export function dictValueTag(typeCode: string, dataCode: string) {
+export function dictValueTag(typeCode, dataCode) {
   if (dataCode == null) {
     return '';
   }
@@ -73,7 +73,7 @@ export function dictValueTag(typeCode: string, dataCode: string) {
   return '';
 }
 
-export function dictData(typeCode: string, code: string) {
+export function dictData(typeCode, code) {
   if (code == null) {
     return null;
   }

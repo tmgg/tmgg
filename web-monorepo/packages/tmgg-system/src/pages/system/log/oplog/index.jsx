@@ -1,7 +1,6 @@
 import React, {Fragment} from 'react';
 import {ProTable} from "@ant-design/pro-components";
 import {Modal} from "antd";
-import {http, ZzTable} from "../../../../common";
 
 
 const baseApi = 'sysOpLog/';
@@ -103,7 +102,7 @@ export default class extends React.Component {
 
     render() {
         return <>
-            <ZzTable
+            <ProTable
                 requestUrl={pageApi}
                 columns={this.columns}
             />

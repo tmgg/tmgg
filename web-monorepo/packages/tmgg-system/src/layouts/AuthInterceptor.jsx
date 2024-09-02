@@ -19,6 +19,8 @@ export default class extends React.Component {
         })
     }
 
+
+
     render() {
         const pathname = PageTool.currentPathname();
 

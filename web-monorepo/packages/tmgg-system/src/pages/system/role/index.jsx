@@ -13,7 +13,7 @@ import {
 import React from 'react';
 
 import RoleMenuTree from "./RoleMenuTree";
-import {ButtonList, http, LeftRightLayout} from "../../../common";
+import {ButtonList, http, LeftRightLayout} from "@tmgg/tmgg-base";
 
 const baseApi = 'sysRole/';
 const basePerm = 'sysRole:';

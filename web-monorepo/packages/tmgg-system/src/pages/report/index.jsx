@@ -2,7 +2,7 @@ import {PlusOutlined} from '@ant-design/icons'
 import {Button, Popconfirm} from 'antd'
 import React from 'react'
 import {ProTable} from "@ant-design/pro-components";
-import {ButtonList, http, PageContent, ProModal} from "../../common";
+import {ButtonList, http, PageContent, ProModal} from "@tmgg/tmgg-base";
 
 
 

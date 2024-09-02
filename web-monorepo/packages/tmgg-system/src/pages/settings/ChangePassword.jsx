@@ -3,8 +3,7 @@ import {Button, Form, Input, Modal} from "antd";
 
 
 import {history} from 'umi'
-import {sys} from "../../common";
-import {http} from "@tmgg/tmgg-base";
+import {http,sys} from "@tmgg/tmgg-base";
 
 export default class extends React.Component {
 

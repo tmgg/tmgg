@@ -1,6 +1,7 @@
 import React from 'react';
 import {message, Popconfirm} from "antd";
-import {ButtonList, http, ZzTable} from "../../../common";
+import {ButtonList, http} from "@tmgg/tmgg-base";
+import {ProTable} from "@tmgg/pro-table";
 
 
 
@@ -62,7 +63,7 @@ export default class extends React.Component {
 
 
   render() {
-    return <ZzTable
+    return <ProTable
       ref={this.actionRef}
       requestUrl= 'sysOnlineUser/page'
       columns={this.columns}

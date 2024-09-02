@@ -3,7 +3,7 @@ import React, {Fragment} from 'react';
 
 
 import './index.css'
-import {http} from "../../../common";
+import {http} from "@tmgg/tmgg-base";
 
 export default class extends React.Component {
 

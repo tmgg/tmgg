@@ -1,5 +1,5 @@
-import React, {Fragment} from 'react';
-import {http, PageContent, ZzTable} from "../../../../common";
+import React from 'react';
+import {ProTable} from "@tmgg/pro-table";
 
 
 const baseApi = 'sysVisLog/';
@@ -52,7 +52,7 @@ export default class extends React.Component {
 
   render() {
     return <PageContent bgGray>
-      <ZzTable
+      <ProTable
         requestUrl={pageApi}
         columns={this.columns}
       />

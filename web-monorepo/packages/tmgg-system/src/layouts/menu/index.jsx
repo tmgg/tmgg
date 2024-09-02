@@ -12,7 +12,7 @@ import logo from '../../asserts/logo.png'
 import {PageLoading, ProLayout} from "@ant-design/pro-components";
 
 import HeaderRight from "./HeaderRight";
-import {http, sys, SysConfig, TreeUtil, uid} from "../../common";
+import {http, sys, SysConfig, TreeUtil, uid} from "@tmgg/tmgg-base";
 
 import {arr, getSiteInfo, PageTool, theme} from "@tmgg/tmgg-base";
 import TabMenu from "./TabMenu";

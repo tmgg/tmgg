@@ -1,6 +1,5 @@
 import {Button, Divider, message, Tree} from 'antd';
 import React from 'react';
-import {http} from "../../../common";
 import {PageLoading} from "@ant-design/pro-components";
 import {http} from "@tmgg/tmgg-base";
 

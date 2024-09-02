@@ -1,19 +1,19 @@
 import {message, Spin, TreeSelect} from 'antd';
 
 import React from 'react';
-import {http} from '../../../system';
-import {TreeUtil} from '../../../utils';
-import {FieldProps} from "../FieldProps";
+import {http} from "../../tools";
+import {findByKeyList} from "../../tools/tree";
 
-interface Props extends FieldProps {
-  url: string
-}
+
 
 /**
  * 带checkbox的tree select
  * props : url
  */
-export class FieldRemoteTreeCheckable extends React.Component<Props, any> {
+export class FieldRemoteTreeCheckable extends React.Component {
+
+
+
   state = {
     data: [],
     fetching: false,
@@ -26,7 +26,7 @@ export class FieldRemoteTreeCheckable extends React.Component<Props, any> {
   }
 
 
-  fetchData = (url:string) => {
+  fetchData = (url) => {
     this.setState({fetching: true});
 
     http.get(url).then((rs) => {
@@ -40,7 +40,7 @@ export class FieldRemoteTreeCheckable extends React.Component<Props, any> {
     });
   };
 
-  handleChange = (value:string[]) => {
+  handleChange = (value) => {
     if (this.props.onChange) {
       this.props.onChange(value);
     }
@@ -54,7 +54,7 @@ export class FieldRemoteTreeCheckable extends React.Component<Props, any> {
       return <Spin/>;
     }
 
-    if (mode == 'read') {
+    if (mode === 'read') {
       return this.renderRead();
     }
 
@@ -70,7 +70,6 @@ export class FieldRemoteTreeCheckable extends React.Component<Props, any> {
         onChange={this.handleChange}
         multiple
         value={value || []}
-        showArrow={true}
         treeCheckable
         treeLine
       />
@@ -85,8 +84,8 @@ export class FieldRemoteTreeCheckable extends React.Component<Props, any> {
 
     const {data} = this.state;
 
-    const itemList = TreeUtil.findByKeyList(data, value);
+    const itemList = findByKeyList(data, value);
 
-    return itemList.map((item:any) => item.title || item.label).join(',');
+    return itemList.map((item) => item.title || item.label).join(',');
   }
 }

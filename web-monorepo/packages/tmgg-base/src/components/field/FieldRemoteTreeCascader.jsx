@@ -1,14 +1,12 @@
 import { Cascader, message, Spin } from 'antd';
 
 import React from 'react';
-import { TreeUtil } from '../../../utils';
-import {http} from "../../../system";
+import {http} from "../../tools";
 
 /**
  * props : url
  */
-export { RemoteTreeCascader as FieldRemoteTreeCascader };
-export class RemoteTreeCascader extends React.Component {
+export class FieldRemoteTreeCascader extends React.Component {
   state = {
     data: [],
     value: [],
@@ -20,13 +18,13 @@ export class RemoteTreeCascader extends React.Component {
     this.fetchData();
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.url !== this.props.url) {
-      this.setState({ url: nextProps.url }, () => {
-        this.fetchData();
-      });
-    }
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    this.setState({ url: this.props.url }, () => {
+      this.fetchData();
+    });
   }
+
+
 
   fetchData = () => {
     const { url } = this.props;
@@ -69,8 +67,8 @@ export class RemoteTreeCascader extends React.Component {
     let { value, ...restProps } = this.props;
 
     let arr = [];
-    if (value != null && value != undefined) {
-      arr = TreeUtil.getKeyList(data, value);
+    if (value != null) {
+      arr = treeTool.getKeyList(data, value);
     }
 
     return (
