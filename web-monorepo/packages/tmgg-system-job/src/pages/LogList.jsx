@@ -76,7 +76,7 @@ export default class extends React.Component {
   ]
 
   clean = ()=>{
-    hutool.http.postForm('/job/jobLogClean', {cleanDate: this.state.cleanDate} ).then(rs=>{
+    http.postForm('/job/jobLogClean', {cleanDate: this.state.cleanDate} ).then(rs=>{
       this.tableRef.current.reload()
     })
   }

@@ -13,7 +13,7 @@ import {PageLoading, ProLayout} from "@ant-design/pro-components";
 
 import HeaderRight from "./HeaderRight";
 import {HttpClient, sys, SysConfig, TreeUtil, uid} from "../../common";
-import hutool from "@moon-cn/hutool";
+
 import {arr, getSiteInfo, PageTool, theme} from "@tmgg/tmgg-base";
 import TabMenu from "./TabMenu";
 import LeftMenu from "./LeftMenu";
@@ -156,7 +156,6 @@ export default class extends React.Component {
 
     renderIframe() {
         return <iframe
-            {...hutool.html.getIframeCommonProps()}
             src={sys.appendTokenToUrl(path)}
             style={{height: 'calc(100vh - 100px)'}}
             sandbox="allow-scripts allow-same-origin allow-forms"

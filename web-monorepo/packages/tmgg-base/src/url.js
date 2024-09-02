@@ -51,3 +51,7 @@ export function replaceParam(url, key, value) {
     p[key] = value;
     return baseUrl(url) + '?' + paramsToSearch(p);
 }
+
+export const url = {
+    params, baseUrl, paramsToSearch, replaceParam
+}

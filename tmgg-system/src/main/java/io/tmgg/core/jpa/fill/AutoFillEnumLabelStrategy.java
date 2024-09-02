@@ -1,7 +1,7 @@
 package io.tmgg.core.jpa.fill;
 
 import io.tmgg.lang.dao.AutoFillStrategy;
-import io.tmgg.web.base.MessageEnum;
+import io.tmgg.web.base.DictEnum;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -14,8 +14,8 @@ public class AutoFillEnumLabelStrategy implements AutoFillStrategy {
             return null;
         }
 
-        if (sourceValue instanceof MessageEnum) {
-            MessageEnum me = (MessageEnum) sourceValue;
+        if (sourceValue instanceof DictEnum) {
+            DictEnum me = (DictEnum) sourceValue;
             return me.getMessage();
         }
 

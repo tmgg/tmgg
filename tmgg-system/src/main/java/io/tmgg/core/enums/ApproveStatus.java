@@ -2,7 +2,7 @@
 package io.tmgg.core.enums;
 
 import io.tmgg.lang.ann.Remark;
-import io.tmgg.web.base.MessageEnum;
+import io.tmgg.web.base.DictEnum;
 import io.tmgg.web.base.StatusColor;
 import lombok.Getter;
 
@@ -11,7 +11,7 @@ import lombok.Getter;
  */
 @Remark("审核状态")
 @Getter
-public enum ApproveStatus implements MessageEnum {
+public enum ApproveStatus implements DictEnum {
 
     DRAFT("待提交"),
     PENDING("审核中"),

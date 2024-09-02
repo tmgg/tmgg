@@ -3,14 +3,14 @@ package io.tmgg.web.enums;
 
 
 import io.tmgg.lang.ann.Remark;
-import io.tmgg.web.base.MessageEnum;
+import io.tmgg.web.base.DictEnum;
 import io.tmgg.web.base.StatusColor;
 import lombok.Getter;
 
 
 @Remark("数据状态")
 @Getter
-public enum CommonStatus implements MessageEnum {
+public enum CommonStatus implements DictEnum {
 
 
     ENABLE("正常"),

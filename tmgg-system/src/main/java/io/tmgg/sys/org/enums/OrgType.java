@@ -1,7 +1,7 @@
 package io.tmgg.sys.org.enums;
 
 import io.tmgg.lang.ann.Remark;
-import io.tmgg.web.base.MessageEnum;
+import io.tmgg.web.base.DictEnum;
 import io.tmgg.web.base.StatusColor;
 import lombok.Getter;
 
@@ -9,7 +9,7 @@ import lombok.Getter;
 // 组织类型
 @Remark("组织类型")
 @Getter
-public enum OrgType implements MessageEnum {
+public enum OrgType implements DictEnum {
 
   UNIT("单位", false), // 单位
   DEPT("部门", true); // 部门

@@ -2,8 +2,7 @@ import React from "react";
 import {Button, Card, Form, Input, message} from "antd";
 import {HttpClient} from "@crec/lang";
 import {PageLoading} from "@ant-design/pro-components";
-import hutool from "@moon-cn/hutool";
-import {http} from "@tmgg/tmgg-base";
+import {http, url} from "@tmgg/tmgg-base";
 
 export default class extends React.Component {
 
@@ -13,7 +12,7 @@ export default class extends React.Component {
 
 
   componentDidMount() {
-    let params = hutool.url.params()
+    let params = url.params()
     const id = this.id = params.id
 
     http.get('flowable/test/get', {id}).then(rs=>{

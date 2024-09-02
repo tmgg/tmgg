@@ -2,7 +2,7 @@
 package io.tmgg.web.enums;
 
 import io.tmgg.lang.ann.Remark;
-import io.tmgg.web.base.MessageEnum;
+import io.tmgg.web.base.DictEnum;
 import lombok.Getter;
 
 /**
@@ -10,7 +10,7 @@ import lombok.Getter;
  */
 @Getter
 @Remark("菜单类型")
-public enum MenuType implements MessageEnum {
+public enum MenuType implements DictEnum {
 
 
     DIR(0, "目录"),

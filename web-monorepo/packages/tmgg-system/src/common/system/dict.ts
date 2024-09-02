@@ -5,7 +5,7 @@
 import {StorageUtil} from '../utils';
 import {Tag} from 'antd';
 import React from 'react';
-import hutool from "@moon-cn/hutool";
+import {str} from "@tmgg/tmgg-base"
 
 // 根据字典类型code返回字典数据列表， code 支持 驼峰或下划线（都转为下划线比较）
 export function dictList(code: string) {
@@ -15,7 +15,7 @@ export function dictList(code: string) {
   }
 
   let filtered = dictTypeTree.filter((item: any) => {
-      return item.code == code || hutool.str.toUnderlineCase(item.code) == hutool.str.toUnderlineCase(code);
+      return item.code == code || str.toUnderlineCase(item.code) == str.toUnderlineCase(code);
     }
   );
 

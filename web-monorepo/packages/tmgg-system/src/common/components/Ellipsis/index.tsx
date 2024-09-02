@@ -1,7 +1,6 @@
 import React from 'react';
 import {Tooltip} from 'antd';
-import hutool from "@moon-cn/hutool";
-
+import {str} from '@tmgg/tmgg-base'
 interface Props {
 
   /**
@@ -21,11 +20,12 @@ export class Ellipsis extends React.Component<Props, any> {
     let {length, children} = this.props;
     console.trace("裁切长度为:", length)
 
-    let str = children;
+    let s = children;
 
-    const ellipsis =  hutool.str.ellipsis(str, length)
+
+    const ellipsis =  str.ellipsis(s, length)
     return (
-      <Tooltip title={str}>{ellipsis}</Tooltip>
+      <Tooltip title={s}>{ellipsis}</Tooltip>
     );
   }
 }

@@ -2,8 +2,7 @@ import React from "react";
 import {Button, Card, Form, Input, message, Modal, Radio,} from "antd";
 import {HttpClient} from "@crec/lang";
 import InstanceInfo from "../components/InstanceInfo";
-import hutool from "@moon-cn/hutool";
-
+import {url} from "@tmgg/tmgg-base"
 
 export default class extends React.Component {
 
@@ -14,7 +13,7 @@ export default class extends React.Component {
 
   handleTask = value => {
     this.setState({submitLoading: true});
-    const {taskId} = hutool.url.params();;
+    const {taskId} = url.params();
 
 
     value.taskId = taskId
@@ -41,7 +40,7 @@ export default class extends React.Component {
 
   render() {
     const {submitLoading} = this.state
-    let params = hutool.url.params()
+    let params = url.params()
 
     const {instanceId} = params;
     return <div style={{background: '#f5f5f5'}}>

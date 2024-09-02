@@ -1,14 +1,14 @@
 package io.tmgg.sys.user.enums;
 
 import io.tmgg.lang.ann.Remark;
-import io.tmgg.web.base.MessageEnum;
+import io.tmgg.web.base.DictEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Remark("数据权限类型")
 @Getter
 @AllArgsConstructor
-public enum DataPermType implements MessageEnum {
+public enum DataPermType implements DictEnum {
 
     ALL("所有"),
 

@@ -5,7 +5,7 @@ export *  from "./arr";
 export *  from "./html";
 export *  from "./tree";
 export *  from "./url"
-export *  from "./str.js"
+export *  from "./str"
 export * from "./eventBus";
 export * from "./color"
 export * from "./debounce";

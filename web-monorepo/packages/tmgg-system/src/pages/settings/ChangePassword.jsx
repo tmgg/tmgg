@@ -3,14 +3,14 @@ import {Button, Form, Input, Modal} from "antd";
 
 
 import {history} from 'umi'
-import hutool from "@moon-cn/hutool";
 import {sys} from "../../common";
+import {http} from "@tmgg/tmgg-base";
 
 export default class extends React.Component {
 
 
   onFinish = (values) => {
-    hutool.http.postForm(sys.getServerUrl() + '/sysUser/updatePwd', values).then(rs => {
+    http.postForm(sys.getServerUrl() + '/sysUser/updatePwd', values).then(rs => {
       if (rs.success) {
         Modal.success({
           title: '提示',
@@ -45,7 +45,7 @@ export default class extends React.Component {
                      {
                        validator: (rule, value) => {
                          return new Promise((resolve, reject) => {
-                           hutool.http.get(sys.getServerUrl() + "/sysUser/pwdStrength", {password: value}).then(rs => {
+                           http.get(sys.getServerUrl() + "/sysUser/pwdStrength", {password: value}).then(rs => {
                              if (!rs.success) {
                                reject(rs.message)
                              }
