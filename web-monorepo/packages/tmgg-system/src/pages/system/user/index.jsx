@@ -12,7 +12,7 @@ import {
 } from 'antd';
 import React from 'react';
 import {ProTable} from "@tmgg/pro-table";
-import {http} from "@tmgg/tmgg-base";
+import {http, HttpUtil} from "@tmgg/tmgg-base";
 import UserPerm from "./UserPerm";
 import {
     ButtonList,
@@ -177,7 +177,6 @@ export default class extends React.Component {
 
     onFinish = values => {
         HttpUtil.post('sysUser/save', values).then(rs => {
-            message.success(rs.message)
             this.setState({formOpen: false})
             this.tableRef.current.reload()
         })
@@ -202,18 +201,18 @@ export default class extends React.Component {
                         options={{search: true}}
                         actionRef={this.tableRef}
                         toolBarRender={(action, {selectedRows}) => {
-                            const menus = []
 
-                            if (hasPermission(addPerm)) {
-                                menus.push(<Button type="primary"
-                                                   onClick={this.handleAdd}>
+                            return <ButtonList>
+                                <Button
+                                    perm={addPerm}
+                                    type="primary"
+                                        onClick={this.handleAdd}>
                                     <PlusOutlined/> 新增
-                                </Button>)
+                                </Button>
 
-                                menus.push(<Button
-                                    onClick={this.handleExport}>导出</Button>)
-                            }
-                            return menus
+                                <Button  perm={addPerm}
+                                    onClick={this.handleExport}>导出</Button>
+                            </ButtonList>
                         }}
                         request={(params, sort) => {
                             params.orgId = this.state.currentOrgId

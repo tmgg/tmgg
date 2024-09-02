@@ -20,6 +20,17 @@ import java.nio.charset.StandardCharsets;
 @Slf4j
 public class ResponseTool {
 
+    public static final String CONTENT_TYPE_EXCEL = "application/vnd.ms-excel";
+
+
+    public static void setDownloadHeader(String filename, String contentType, HttpServletResponse response) throws IOException {
+        filename = URLUtil.encode(filename, StandardCharsets.UTF_8);
+
+        response.setContentType(contentType +";charset=utf-8");
+        response.setHeader("Content-Disposition", "attachment;filename=" + filename);
+        response.setHeader("Access-Control-Expose-Headers", "content-disposition");
+    }
+
 
     public static void responseHtmlBlock(HttpServletResponse response, String title, String content) throws IOException {
         if (content != null) {
@@ -47,13 +58,6 @@ public class ResponseTool {
         return result;
     }
 
-    public static void main(String[] args) {
-        String str = "<p><img src=\"http://127.0.0.1:82/sysFile/preview/1663735755184021504\" alt=\"\" width=\"637\" height=\"468\"></p>";
-
-        System.out.println(str);
-        String rs = removeImgPrefix(str);
-        System.err.println(rs);
-    }
 
 
     public static void setCrossDomain(HttpServletRequest request, HttpServletResponse response) {
@@ -69,18 +73,7 @@ public class ResponseTool {
     }
 
 
-    public static ServletOutputStream getDownloadExcelStream(String filename, HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.reset();
-        filename = URLUtil.encode(filename, StandardCharsets.UTF_8);
-        response.setContentType("application/vnd.ms-excel;charset=utf-8");
-        response.setHeader("Content-Disposition", "attachment;filename=" + filename);
-        response.setHeader("Access-Control-Expose-Headers", "content-disposition");
-        ResponseTool.setCrossDomain(HttpServletTool.getRequest(), response);
 
-        return response.getOutputStream();
-
-
-    }
 
 
     public static void responseExceptionError(HttpServletResponse response,

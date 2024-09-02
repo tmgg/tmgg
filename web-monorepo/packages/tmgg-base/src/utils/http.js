@@ -110,7 +110,7 @@ axiosInstance.interceptors.response.use(
             }
         }
 
-        return data;
+        return res;
     },
     error => {
         let {message, code, response, config = {}} = error;
@@ -182,6 +182,7 @@ export const HttpUtil = {
         const pageParams = {
             page: current,
             size: pageSize,
+            keyword
         }
 
         if (sort) {
@@ -205,25 +206,22 @@ export const HttpUtil = {
         return this.post(url, data, pageParams).then(convertToProTableData)
     },
     downloadFile(url, params) {
-        console.log('下载中...')
-
         let config = {
             url,
             params,
             responseType: 'blob',
+            transformData: false
         };
         return new Promise((resolve, reject) => {
-
-
-            axiosInstance(config).then(data => {
+            axiosInstance(config).then(res => {
+                const {data,headers} = res
                 console.log('下载数据结束', data);
 
-                const headers = data._headers
 
                 // 获取文件名称
                 var contentDisposition = headers.get('content-disposition');
-                if (headers == null || contentDisposition == null) {
-                    showError('获取文件信息失败');
+                if (contentDisposition == null) {
+                    showErrorMessage('获取文件信息失败', "缺少content-disposition响应头");
                     reject(null)
                     return
                 }

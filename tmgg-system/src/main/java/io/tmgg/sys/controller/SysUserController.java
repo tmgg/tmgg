@@ -2,13 +2,14 @@
 package io.tmgg.sys.controller;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.lang.Dict;
 import cn.hutool.core.text.PasswdStrength;
 import cn.hutool.core.util.StrUtil;
+import io.tmgg.lang.ExcelExportTool;
+import io.tmgg.lang.ResponseTool;
 import io.tmgg.lang.ann.Remark;
 import io.tmgg.lang.dao.BaseEntity;
 import io.tmgg.lang.dao.specification.JpaQuery;
-import io.tmgg.lang.excel.Col;
-import io.tmgg.lang.excel.ExcelWrap;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.obj.Option;
 import io.tmgg.lang.obj.TreeOption;
@@ -23,6 +24,8 @@ import io.tmgg.sys.user.param.SysUserParam;
 import io.tmgg.web.annotion.HasPermission;
 import io.tmgg.web.perm.SecurityUtils;
 import io.tmgg.web.perm.Subject;
+import org.apache.catalina.User;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -37,9 +40,8 @@ import jakarta.validation.Valid;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 
@@ -59,7 +61,8 @@ public class SysUserController {
 
     @HasPermission
     @PostMapping("page")
-    public AjaxResult page(String orgId, String keyword, @PageableDefault(sort = SysUser.FIELD_UPDATE_TIME, direction = Sort.Direction.DESC) Pageable pageable) throws SQLException {
+    public AjaxResult page(@RequestBody Dict dict, String keyword, @PageableDefault(sort = SysUser.FIELD_UPDATE_TIME, direction = Sort.Direction.DESC) Pageable pageable) throws SQLException {
+        String orgId =dict.getStr("orgId");
         Page<SysUser> page = sysUserService.findAll(orgId, keyword, pageable);
         sysUserService.fillRoleName(page);
         return AjaxResult.ok().data(page);
@@ -155,21 +158,15 @@ public class SysUserController {
         sysUserService.fillRoleName(list);
 
 
-        ExcelWrap excel = new ExcelWrap();
-        Col<SysUser>[] cols = new Col[]{
-                Col.builder().title("姓名").dataIndex("name").build(),
-                Col.builder().title("账号").dataIndex("account").build(),
-                Col.builder().title("手机号").dataIndex("phone").build(),
-                Col.<SysUser>builder().title("部门").render(SysUser::getDeptLabel).build(),
-                Col.<SysUser>builder().title("单位").render(SysUser::getUnitId).build(),
-                Col.<SysUser>builder().title("角色").render(SysUser::getRoleNames).build(),
-        };
+        Map<String, Function<SysUser,Object>> columns = new LinkedHashMap<>();
+        columns.put("姓名", SysUser::getName);
+        columns.put("账号", SysUser::getAccount);
+        columns.put("手机号", SysUser::getPhone);
+        columns.put("部门", SysUser::getDeptLabel);
+        columns.put("单位",SysUser::getUnitLabel);
+        columns.put("角色", SysUser::getRoleNames);
 
-        excel.addBeanList(list, cols);
-
-        // TODO
-        //  ServletTool.setDownloadFileHeader("用户列表.xlsx", response);
-        excel.writeTo(response.getOutputStream());
+        ExcelExportTool.exportTable("用户列表.xlsx", columns, list, response);
     }
 
 

@@ -1,6 +1,6 @@
 import {Alert, Skeleton, Tree} from 'antd';
 import React from 'react';
-import {http} from "@tmgg/tmgg-base";
+import {HttpUtil} from "../utils";
 
 
 export  class OrgTree  extends React.Component {
@@ -15,8 +15,7 @@ export  class OrgTree  extends React.Component {
 
     componentDidMount() {
         HttpUtil.get('sysOrg/tree').then(rs => {
-            this.setState({treeData: rs})
-            this.setState({treeDataLoading: false})
+            this.setState({treeData: rs,treeDataLoading: false})
         })
     }
 
