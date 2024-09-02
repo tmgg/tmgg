@@ -2,7 +2,7 @@
   "SysMsgTopic": [
     {
       "id": "JOB_EXCEPTION",
-      "code": "JOB-JOB_EXCEPTION",
+      "code": "JOB_EXCEPTION",
       "description": "定时任务异常"
     }
   ]
