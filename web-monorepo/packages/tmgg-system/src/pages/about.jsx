@@ -7,10 +7,9 @@ export default class extends React.Component {
 
 
     render() {
-
-            return  <Result
-                status="404"
-            />
+        return <>
+            关于页面
+        </>
 
     }
 }

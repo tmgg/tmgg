@@ -18,6 +18,7 @@ registerRoutes({
     'report': require('./pages/report/index').default,
     'ssoLogin': require('./pages/ssoLogin').default,
     'login': require('./pages/login').default,
+    'about': require('./pages/about').default,
 })
 
 
