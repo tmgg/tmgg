@@ -1,6 +1,6 @@
 import {Form, Input, Modal, Spin, Tree} from 'antd';
 import React from 'react';
-import {FieldDictSelect, FieldRemoteMultipleSelect, HttpClient} from "../../../common";
+import {FieldDictSelect, FieldRemoteMultipleSelect, http} from "../../../common";
 
 
 export default class UserPerm extends React.Component {
@@ -25,7 +25,7 @@ export default class UserPerm extends React.Component {
         })
 
 
-        HttpClient.post('sysUser/grantPerm', values).then(rs => {
+        http.post('sysUser/grantPerm', values).then(rs => {
             this.setState({
                 visible: false,
                 confirmLoading: false
@@ -39,7 +39,7 @@ export default class UserPerm extends React.Component {
     show(item) {
         this.setState({visible: true})
 
-        HttpClient.get('/sysUser/getPermInfo', {id: item.id}).then(rs => {
+        http.get('/sysUser/getPermInfo', {id: item.id}).then(rs => {
             this.setState({formValues: rs.data})
             this.formRef.current.setFieldsValue(rs.data)
         })
@@ -103,7 +103,7 @@ class FieldTree extends React.Component {
     }
 
     componentDidMount() {
-        HttpClient.get('/sysOrg/tree').then(rs => {
+        http.get('/sysOrg/tree').then(rs => {
             const list = rs.data;
             this.setState({treeData: list, treeLoading: false})
         })

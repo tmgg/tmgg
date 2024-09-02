@@ -1,5 +1,5 @@
 import {PlusOutlined} from '@ant-design/icons'
-import {Button, Card, InputNumber, Popconfirm, Modal, Form, Input, message} from 'antd'
+import {Button, Card, InputNumber, Popconfirm, Modal, Form, Input, message, Tag} from 'antd'
 import React from 'react'
 
 import {ProTable} from '@tmgg/pro-table'
@@ -37,12 +37,15 @@ export default class extends React.Component {
         {
             title: '状态',
             dataIndex: 'status',
-            valueType: 'dictSelect',
-            params: 'status'
+            valueType: 'dict',
+            params: 'commonStatus'
         },
         {
-            title: '颜色',
+            title: '显示颜色',
             dataIndex: 'color',
+            render(v){
+                return <Tag color={v}>COLOR</Tag>
+            }
         },
         {
             title: '系统内置',

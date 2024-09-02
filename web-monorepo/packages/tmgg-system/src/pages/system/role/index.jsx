@@ -13,7 +13,7 @@ import {
 import React from 'react';
 
 import RoleMenuTree from "./RoleMenuTree";
-import {ButtonList, HttpClient, LeftRightLayout} from "../../../common";
+import {ButtonList, http, LeftRightLayout} from "../../../common";
 
 const baseApi = 'sysRole/';
 const basePerm = 'sysRole:';
@@ -37,7 +37,7 @@ export default class extends React.Component {
   }
 
   loadData = () => {
-    HttpClient.get(baseApi + 'page').then(rs => {
+    http.get(baseApi + 'page').then(rs => {
       const list = rs.data;
       this.setState({roleList: list})
     })
@@ -46,7 +46,7 @@ export default class extends React.Component {
 
 
   handleSave = value => {
-    HttpClient.post(baseApi + 'save', value).then(rs => {
+    http.post(baseApi + 'save', value).then(rs => {
       message.success(rs.message)
       this.setState({formOpen:false,curRecord:rs.data})
       this.loadData()
@@ -55,7 +55,7 @@ export default class extends React.Component {
 
 
   handleDelete = (id) => {
-    HttpClient.get(baseApi + 'delete', {id}).then(rs => {
+    http.get(baseApi + 'delete', {id}).then(rs => {
       this.loadData()
     })
   }

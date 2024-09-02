@@ -3,7 +3,7 @@ import React, {Fragment} from 'react';
 
 
 import './index.css'
-import {HttpClient} from "../../../common";
+import {http} from "../../../common";
 
 export default class extends React.Component {
 
@@ -17,7 +17,7 @@ export default class extends React.Component {
 
   componentDidMount() {
     this.setState({loading: true})
-    HttpClient.get('sysMachine/query').then(rs => {
+    http.get('sysMachine/query').then(rs => {
       this.setState({loading: false})
       this.setState(rs.data)
     })

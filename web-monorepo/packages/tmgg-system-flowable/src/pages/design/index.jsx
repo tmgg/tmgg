@@ -16,8 +16,8 @@ import palette from "../../components/flow/design/palette";
 import OriginModule from 'diagram-js-origin';
 import contextPad from "../../components/flow/design/contextPad";
 import {CloudUploadOutlined, EditOutlined, SaveOutlined} from "@ant-design/icons";
-import {HttpClient} from "@crec/lang";
 import qs from "qs";
+import {http} from "@tmgg/tmgg-base";
 
 export default class extends React.Component {
 
@@ -67,7 +67,7 @@ export default class extends React.Component {
 
 
 
-    HttpClient.get('flowable/model/detail', {id: this.state.id}).then(rs => {
+    http.get('flowable/model/detail', {id: this.state.id}).then(rs => {
       let {conditionVariable, model} = rs.data;
       this.setState({model, conditionVariable})
       this.initBpmn(model.content)
@@ -143,7 +143,7 @@ export default class extends React.Component {
     return new Promise((resolve, reject) => {
       const hide = message.loading('保存中...', 0)
       this.bpmnModeler.saveXML().then(res => {
-        HttpClient.post('/flowable/model/saveContent', {id: id, content: res.xml}).then(rs => {
+        http.post('/flowable/model/saveContent', {id: id, content: res.xml}).then(rs => {
           hide()
           message.success('服务端保存成功')
           resolve()
@@ -158,7 +158,7 @@ export default class extends React.Component {
     let id = this.state.id;
 
     this.bpmnModeler.saveXML().then(res => {
-      HttpClient.post('/flowable/model/deploy', {id: id, content: res.xml}).then(rs => {
+      http.post('/flowable/model/deploy', {id: id, content: res.xml}).then(rs => {
         if(rs.success){
           message.success(rs.message)
         }else {

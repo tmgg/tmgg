@@ -3,8 +3,8 @@ import {Button, Form, Input, message} from 'antd';
 import {LockOutlined, UserOutlined} from '@ant-design/icons';
 import "./login.less"
 import {history} from 'umi';
-import {FieldCaptcha, HttpClient, sys, SysConfig} from "../common";
-import {PageTool} from "@tmgg/tmgg-base";
+import {FieldCaptcha, http, sys, SysConfig} from "../common";
+import {getSiteInfo, PageTool} from "@tmgg/tmgg-base";
 
 
 export default class login extends React.Component {
@@ -49,7 +49,7 @@ export default class login extends React.Component {
     localStorage.clear()
 
     this.setState({logining: true})
-    HttpClient.post('/login', values).then(rs => {
+    http.post('/login', values).then(rs => {
       message.info(rs.message)
       localStorage.setItem(sys.AUTH_TOKEN_NAME, rs.data)
 
@@ -66,7 +66,8 @@ export default class login extends React.Component {
 
 
   render() {
-    let siteInfo = SysConfig.getSiteInfo()
+
+    let siteInfo = getSiteInfo();
 
 
     return (

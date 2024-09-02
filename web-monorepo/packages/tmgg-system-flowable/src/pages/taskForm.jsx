@@ -1,6 +1,5 @@
 import React from "react";
 import {Button, Card, Form, Input, message, Modal, Radio,} from "antd";
-import {HttpClient} from "@crec/lang";
 import InstanceInfo from "../components/InstanceInfo";
 import {url} from "@tmgg/tmgg-base"
 
@@ -17,7 +16,7 @@ export default class extends React.Component {
 
 
     value.taskId = taskId
-    HttpClient.post("/flowable/userside/handleTask", value).then(rs => {
+    http.post("/flowable/userside/handleTask", value).then(rs => {
       rs.success ?  message.success(rs.message): message.error(rs.message)
 
       if(rs.success){

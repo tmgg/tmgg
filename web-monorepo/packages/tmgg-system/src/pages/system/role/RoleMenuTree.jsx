@@ -1,6 +1,6 @@
 import {Button, Divider, message, Tree} from 'antd';
 import React from 'react';
-import {HttpClient} from "../../../common";
+import {http} from "../../../common";
 import {PageLoading} from "@ant-design/pro-components";
 import {http} from "@tmgg/tmgg-base";
 
@@ -18,7 +18,7 @@ export default class extends React.Component {
   componentDidMount() {
     const {id} = this.props;
     // 加载树状菜单
-    HttpClient.get('/sysMenu/treeForGrant').then(rs => {
+    http.get('/sysMenu/treeForGrant').then(rs => {
       const list = rs.data;
       this.setState({treeData: list})
     })
@@ -31,7 +31,7 @@ export default class extends React.Component {
 
     // 加载关联关系
     const hide = message.loading('加载中...', 0)
-    HttpClient.get('/sysRole/ownMenu', {id: id}).then(rs => {
+    http.get('/sysRole/ownMenu', {id: id}).then(rs => {
       const ids = rs.data;
       this.setState({checked: ids})
       hide()

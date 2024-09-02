@@ -12,7 +12,7 @@ import logo from '../../asserts/logo.png'
 import {PageLoading, ProLayout} from "@ant-design/pro-components";
 
 import HeaderRight from "./HeaderRight";
-import {HttpClient, sys, SysConfig, TreeUtil, uid} from "../../common";
+import {http, sys, SysConfig, TreeUtil, uid} from "../../common";
 
 import {arr, getSiteInfo, PageTool, theme} from "@tmgg/tmgg-base";
 import TabMenu from "./TabMenu";
@@ -59,7 +59,7 @@ export default class extends React.Component {
 
     initMenu = () => {
 
-        HttpClient.get('menuTree').then(rs => {
+        http.get('menuTree').then(rs => {
             const list = rs.data;
             // 设置icon
             TreeUtil.every(list, (item) => {
@@ -103,7 +103,6 @@ export default class extends React.Component {
             return <PageLoading/>
         }
 
-        const title = sys.getSiteInfo().siteTitle || '未定义标题'
 
 
         return <Layout className='main-layout'>

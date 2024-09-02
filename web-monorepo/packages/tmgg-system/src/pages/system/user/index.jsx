@@ -18,7 +18,7 @@ import {
     ButtonList,
     dictValueTag, FieldDictRadio,
     FieldOrgTreeSelect, hasPermission,
-    HttpClient,
+    http,
     LeftRightLayout
 } from "../../../common";
 import OrgTree from "../../../commponents/OrgTree";
@@ -134,13 +134,13 @@ export default class extends React.Component {
 
 
     componentDidMount() {
-        HttpClient.get('sysOrg/tree').then(rs => {
+        http.get('sysOrg/tree').then(rs => {
             this.setState({treeData: rs.data})
         })
     }
 
     resetPwd(row) {
-        HttpClient.post('/sysUser/resetPwd', {id: row.id}).then(rs => {
+        http.post('/sysUser/resetPwd', {id: row.id}).then(rs => {
             Modal.success({
                 title: '成功',
                 content: rs.message
@@ -150,13 +150,13 @@ export default class extends React.Component {
 
 
     handleDelete = r => {
-        HttpClient.get(delApi, {id: r.id}).then(rs => {
+        http.get(delApi, {id: r.id}).then(rs => {
             this.tableRef.current.reload();
         })
     }
 
     handleExport = () => {
-        HttpClient.downloadFile("sysUser/export").then(rs => {
+        http.downloadFile("sysUser/export").then(rs => {
             message.success('下载成功')
         })
     }
@@ -177,7 +177,7 @@ export default class extends React.Component {
 
 
     onFinish = values => {
-        HttpClient.post('sysUser/save', values).then(rs => {
+        http.post('sysUser/save', values).then(rs => {
             message.success(rs.message)
             this.setState({formOpen: false})
             this.tableRef.current.reload()

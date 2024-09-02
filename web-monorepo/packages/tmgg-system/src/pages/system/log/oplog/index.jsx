@@ -1,7 +1,7 @@
 import React, {Fragment} from 'react';
 import {ProTable} from "@ant-design/pro-components";
 import {Modal} from "antd";
-import {HttpClient, ZzTable} from "../../../../common";
+import {http, ZzTable} from "../../../../common";
 
 
 const baseApi = 'sysOpLog/';

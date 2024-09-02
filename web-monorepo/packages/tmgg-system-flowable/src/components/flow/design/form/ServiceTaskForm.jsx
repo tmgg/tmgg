@@ -1,6 +1,6 @@
 import React from 'react';
 import {Form, Select} from 'antd';
-import {HttpClient} from "@crec/lang";
+import {http} from "@tmgg/tmgg-base";
 
 export default class extends React.Component {
   bo = null;
@@ -24,7 +24,7 @@ export default class extends React.Component {
   }
 
   componentDidMount() {
-    HttpClient.get('flowable/model/javaDelegateOptions').then(rs=>{
+    http.get('flowable/model/javaDelegateOptions').then(rs=>{
       this.setState({javaDelegateOptions:rs.data})
 
     })

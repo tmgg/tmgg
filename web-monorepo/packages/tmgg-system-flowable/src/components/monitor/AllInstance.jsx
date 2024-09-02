@@ -1,8 +1,7 @@
 import React from "react";
 import {ProTable} from "@ant-design/pro-components"
 import {Popconfirm} from "antd";
-import { ProFormUtil} from "../../common";
-import {HttpClient} from "@crec/lang";
+import {http} from "@tmgg/tmgg-base";
 
 export default class extends React.Component {
 
@@ -56,7 +55,7 @@ export default class extends React.Component {
   ]
 
   close = (id) => {
-    HttpClient.get('/flowable/monitor/processInstance/close', {id}).then((rs) => {
+    http.get('/flowable/monitor/processInstance/close', {id}).then((rs) => {
       alert(rs.message)
       this.tableRef.current.reload()
     })
@@ -68,7 +67,7 @@ export default class extends React.Component {
     return <ProTable    search={false}
       actionRef={this.tableRef}
       columns={this.columns}
-      request={(params, sort, filter) => HttpClient.getPageable('flowable/monitor/processInstance', params, sort)}
+      request={(params, sort, filter) => http.getPageable('flowable/monitor/processInstance', params, sort)}
       rowKey='id'
       scroll={{
         x: 'max-content'

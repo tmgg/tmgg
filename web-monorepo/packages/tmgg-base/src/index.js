@@ -20,3 +20,5 @@ export * from './components/PageLoading.jsx'
 
 export * from './system/routes'
 export  * from "./system/sys"
+
+export  * from "./system"

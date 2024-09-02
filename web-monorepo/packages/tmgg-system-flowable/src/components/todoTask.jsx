@@ -1,6 +1,5 @@
 import React from "react";
 import {ProTable} from "@ant-design/pro-components";
-import {HttpClient} from "@crec/lang";
 
 export default class extends React.Component {
 
@@ -57,7 +56,7 @@ export default class extends React.Component {
     return <ProTable
       search={false}
       actionRef={this.actionRef}
-      request={(params, sort) => HttpClient.getPageable("flowable/userside/todoTaskPage", params, sort)}
+      request={(params, sort) => http.getPageable("flowable/userside/todoTaskPage", params, sort)}
       columns={this.columns}
       rowSelection={false}
       rowKey="id"

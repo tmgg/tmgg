@@ -1,6 +1,5 @@
 import React from "react";
 import {ProTable} from "@ant-design/pro-components"
-import {HttpClient} from "@crec/lang";
 
 export default class extends React.Component {
 
@@ -38,7 +37,7 @@ export default class extends React.Component {
     return <ProTable
       search={false}
       columns={this.columns}
-                     request={(params, sort, filter) => HttpClient.getPageable('flowable/monitor/processDefinition', params, sort)}
+                     request={(params, sort, filter) => http.getPageable('flowable/monitor/processDefinition', params, sort)}
                      rowKey='id'
     >
 

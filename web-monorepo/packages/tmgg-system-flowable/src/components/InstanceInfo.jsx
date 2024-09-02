@@ -1,6 +1,5 @@
 import React from "react";
 import {Card, Descriptions, Empty, Skeleton, Table, Tabs} from "antd";
-import {HttpClient} from "@crec/lang";
 import {PageLoading} from "@ant-design/pro-components";
 
 
@@ -29,7 +28,7 @@ export default class InstanceInfo extends React.Component {
   componentDidMount() {
     const {id, businessKey} = this.props;
 
-    HttpClient.get("flowable/userside/getInstanceInfo", {id, businessKey}).then(rs => {
+    http.get("flowable/userside/getInstanceInfo", {id, businessKey}).then(rs => {
       this.setState(rs.data)
       this.setState({data: rs.data, loading: false})
 

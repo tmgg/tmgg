@@ -1,7 +1,7 @@
 import React from "react";
 import {Button, Card, Tabs, Tag} from "antd";
 import {ProTable} from "@ant-design/pro-components";
-import {HttpClient} from "../../../common";
+import {http} from "../../../common";
 
 export default class  extends React.Component {
 
@@ -38,7 +38,7 @@ export default class  extends React.Component {
   ]
 
   read = (record) => {
-    HttpClient.post("/msg/read", record).then(rs => {
+    http.post("/msg/read", record).then(rs => {
       this.tableRef.current.reload()
     })
   }
@@ -52,7 +52,7 @@ export default class  extends React.Component {
         <Tabs.TabPane key='0' tab='所有消息'>
           <ProTable
             actionRef={this.tableRef}
-            request={(params, sort) => HttpClient.getPageableData("msg/page", params, sort)}
+            request={(params, sort) => http.getPageableData("msg/page", params, sort)}
             columns={this.columns}
             rowSelection={false}
             rowKey='id'
@@ -64,7 +64,7 @@ export default class  extends React.Component {
         <Tabs.TabPane key='1' tab='未读消息'>
           <ProTable
             actionRef={this.tableRef}
-            request={(params, sort) => HttpClient.getPageableData("msg/page?read=false", params, sort)}
+            request={(params, sort) => http.getPageableData("msg/page?read=false", params, sort)}
             columns={this.columns}
             rowSelection={false}
             rowKey='id'
@@ -79,7 +79,7 @@ export default class  extends React.Component {
 
           <ProTable
             actionRef={this.tableRef}
-            request={(params, sort) => HttpClient.getPageableData("msg/page?read=true", params, sort)}
+            request={(params, sort) => http.getPageableData("msg/page?read=true", params, sort)}
             rowSelection={false}
             rowKey='id'
             search={false}

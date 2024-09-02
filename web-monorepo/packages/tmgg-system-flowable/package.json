@@ -15,7 +15,6 @@
   "version" : "0.1.17",
   "dependencies" : {
     "@ant-design/pro-components" : "^2.0.0",
-    "@crec/lang" : "^1.0.0-beta.3",
     "@tmgg/tmgg-system" : "workspace:*",
     "@tmgg/tmgg-base" : "0.1.17",
     "axios" : "^1.6.7",

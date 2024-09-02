@@ -2,7 +2,7 @@ import {Badge, Dropdown, Menu, Popover, Spin} from "antd";
 import {NotificationOutlined, SettingOutlined, UserOutlined} from "@ant-design/icons";
 import React from "react";
 import {history} from "umi";
-import {HttpClient, PageTool, sys, SysConfig} from "../../common";
+import {http, PageTool, sys, SysConfig} from "../../common";
 
 
 const ID = 'header-right';
@@ -27,13 +27,13 @@ export default class HeaderRight extends React.Component {
     }
 
     initMessage = () => {
-        HttpClient.get('/getMessageCount').then(rs => {
+        http.get('/getMessageCount').then(rs => {
             this.setState({messageCount: rs.data})
         })
     }
 
     logout = () => {
-        HttpClient.get('/logout').finally(() => {
+        http.get('/logout').finally(() => {
             localStorage.clear()
             history.replace(SysConfig.getLoginUrl())
         })

@@ -2,7 +2,6 @@ import React, {Fragment} from "react";
 import {ProTable} from "@ant-design/pro-components";
 import InstanceInfo from "./InstanceInfo";
 import { ProModal} from "../common";
-import {HttpClient} from "@crec/lang";
 import {Modal} from "antd";
 
 export default class MyInstance extends React.Component {
@@ -80,7 +79,7 @@ export default class MyInstance extends React.Component {
             <ProTable
                 search={false}
                 actionRef={this.actionRef}
-                request={(params, sort) => HttpClient.getPageable("flowable/userside/myInstance", params, sort)}
+                request={(params, sort) => http.getPageable("flowable/userside/myInstance", params, sort)}
                 columns={this.columns}
                 rowSelection={false}
                 rowKey="id"

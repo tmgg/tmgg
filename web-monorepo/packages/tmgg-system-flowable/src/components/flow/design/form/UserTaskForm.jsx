@@ -1,7 +1,7 @@
 import React from 'react';
 import {Card, Form, Select, Switch} from 'antd';
 import BpmnUtils from '../../BpmnUtils';
-import {HttpClient} from "@crec/lang";
+import {http} from "@tmgg/tmgg-base";
 
 const PREFIX = 'flowable:';
 /**
@@ -43,7 +43,7 @@ export default class extends React.Component {
 
   componentDidMount() {
     const {initData} = this.state;
-    HttpClient.get('/flowable/model/assignmentTypeList').then((rs) => {
+    http.get('/flowable/model/assignmentTypeList').then((rs) => {
       if (this.destroyed) {
         return;
       }
@@ -79,7 +79,7 @@ export default class extends React.Component {
 
   loadAssignmentObjectTree = (assignmentTypeCode) => {
     const url = '/flowable/model/assignmentObjectTree?code=' + assignmentTypeCode;
-    HttpClient.get(url).then((rs) => {
+    http.get(url).then((rs) => {
       this.setState({assignmentObjectList: rs.data});
     });
   };

@@ -54,8 +54,10 @@ public class SysDictItem extends BaseEntity {
 
     @Override
     public void prePersistOrUpdate() {
-        status = status == null ? CommonStatus.ENABLE : status;
-        if(seq != null){
+        if (status == null) {
+            status = CommonStatus.ENABLE;
+        }
+        if(seq == null){
             seq = 0;
         }
     }

@@ -1,7 +1,7 @@
 import {Popconfirm} from 'antd'
 import React from 'react'
 import {ProTable} from "@ant-design/pro-components";
-import {ButtonList, HttpClient, LinkToViewFile} from "../../../common";
+import {ButtonList, http, LinkToViewFile} from "../../../common";
 
 
 export default class extends React.Component {
@@ -93,7 +93,7 @@ export default class extends React.Component {
 
 
   handleDelete = row => {
-    HttpClient.post('sysFile/delete', row).then(rs => {
+    http.post('sysFile/delete', row).then(rs => {
       this.tableRef.current.reload()
     })
   }
@@ -103,7 +103,7 @@ export default class extends React.Component {
     return <>
       <ProTable
         ref={this.tableRef}
-        request={(params, sort) => HttpClient.getPageableData('sysFile/page', params, sort)}
+        request={(params, sort) => http.getPageableData('sysFile/page', params, sort)}
         columns={this.columns}
       />
     </>

@@ -1,6 +1,6 @@
 import React from 'react';
 import {message, Popconfirm} from "antd";
-import {ButtonList, HttpClient, ZzTable} from "../../../common";
+import {ButtonList, http, ZzTable} from "../../../common";
 
 
 
@@ -54,7 +54,7 @@ export default class extends React.Component {
   actionRef = React.createRef();
 
   forceExist = row => {
-    HttpClient.post('sysOnlineUser/forceExist', row).then(r => {
+    http.post('sysOnlineUser/forceExist', row).then(r => {
       message.info(r.message || '强制下线成功')
       this.actionRef.current.reload()
     })

@@ -10,13 +10,11 @@ import {
   InputNumber,
   message,
   Popconfirm,
-  Row,
   Space,
-  Switch,
   Tree
 } from 'antd';
 import React from 'react';
-import {FieldDictRadio, FieldRemoteTreeSelect, HttpClient, LeftRightLayout} from "../../../common";
+import {FieldDictRadio, FieldRemoteTreeSelect, http, LeftRightLayout} from "../../../common";
 import {http} from "@tmgg/tmgg-base";
 
 const baseTitle = "组织机构";
@@ -61,9 +59,9 @@ export default class extends React.Component {
     }
 
     const {showAll} = this.state
-    HttpClient.get('sysOrg/tree', {showAll}).then(rs => {
+    http.get('sysOrg/tree', {showAll}).then(rs => {
 
-      let treeData = rs.data;
+      let treeData = rs;
       const defaultExpandedKeys = this.getAutoExpand(treeData)
       this.setState({treeData, defaultExpandedKeys})
     }).finally(() => {
@@ -80,7 +78,7 @@ export default class extends React.Component {
 
 
   handleDelete = row => {
-    HttpClient.post(delApi, row).then(rs => {
+    http.post(delApi, row).then(rs => {
       this.setState({formValues: null})
       this.loadTree()
     })
@@ -100,7 +98,7 @@ export default class extends React.Component {
 
   onFinish = (values) => {
     this.setState({submitLoading: true, formEditing: false})
-    HttpClient.post(baseApi + 'save', values).then(rs => {
+    http.post(baseApi + 'save', values).then(rs => {
       message.success(rs.message)
       this.loadTree()
     }).finally(() => {
@@ -109,7 +107,7 @@ export default class extends React.Component {
   }
   handleEnableAll =(id)=>{
     this.setState({enableAllLoading: true})
-    HttpClient.get(baseApi + 'enableAll', {id}).then(rs => {
+    http.get(baseApi + 'enableAll', {id}).then(rs => {
       message.success(rs.message)
       this.loadTree()
     }).finally(() => {
@@ -119,7 +117,7 @@ export default class extends React.Component {
 
   handleDisableAll =(id)=>{
     this.setState({enableAllLoading: true})
-    HttpClient.get(baseApi + 'disableAll', {id}).then(rs => {
+    http.get(baseApi + 'disableAll', {id}).then(rs => {
       message.success(rs.message)
       this.loadTree()
     }).finally(() => {

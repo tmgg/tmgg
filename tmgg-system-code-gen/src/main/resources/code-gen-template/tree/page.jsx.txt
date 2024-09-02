@@ -1,7 +1,7 @@
 import {DeleteOutlined, EditOutlined, PlusOutlined, SyncOutlined} from '@ant-design/icons';
 import {Button, Card, Col, Empty, Form, Input, InputNumber, message, Popconfirm, Row, Space, Switch, Tree} from 'antd';
 import React from 'react';
-import {FieldDictRadio, FieldRemoteTreeSelect, HttpClient} from "crec-web";
+import {FieldDictRadio, FieldRemoteTreeSelect} from "@tmgg/tmgg-base";
 
 
 export default class extends React.Component {
@@ -31,7 +31,7 @@ export default class extends React.Component {
       this.setState({treeLoading: true})
     }
 
-    HttpClient.get('${firstLowerName}/tree').then(rs => {
+    http.get('${firstLowerName}/tree').then(rs => {
       let treeData = rs.data;
       const defaultExpandedKeys = this.getAutoExpand(treeData)
       this.setState({treeData, defaultExpandedKeys})
@@ -48,7 +48,7 @@ export default class extends React.Component {
   }
 
   handleDelete = row => {
-    HttpClient.post('${firstLowerName}/delete', row).then(rs => {
+    http.post('${firstLowerName}/delete', row).then(rs => {
       this.setState({formValues: null})
       this.loadTree()
     })
@@ -59,7 +59,7 @@ export default class extends React.Component {
     const key = selectedKeys[0]
 
     this.setState({formLoading: true, formEditing: false})
-    HttpClient.get("${firstLowerName}/detail", {id: key}).then(rs => {
+    http.get("${firstLowerName}/detail", {id: key}).then(rs => {
       this.setState({formValues: rs.data})
     }).finally(() => {
       this.setState({formLoading: false})
@@ -68,7 +68,7 @@ export default class extends React.Component {
 
   onFinish = (values) => {
     this.setState({submitLoading: true, formEditing: false})
-    HttpClient.post('${firstLowerName}/save', values).then(rs => {
+    http.post('${firstLowerName}/save', values).then(rs => {
       message.success(rs.message)
       this.loadTree()
     }).finally(() => {

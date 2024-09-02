@@ -1,5 +1,5 @@
 import React, {Fragment} from 'react';
-import {HttpClient, PageContent, ZzTable} from "../../../../common";
+import {http, PageContent, ZzTable} from "../../../../common";
 
 
 const baseApi = 'sysVisLog/';

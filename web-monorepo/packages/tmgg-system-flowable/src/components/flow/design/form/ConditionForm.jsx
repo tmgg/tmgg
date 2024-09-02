@@ -4,6 +4,7 @@ import {DeleteOutlined, PlusOutlined} from '@ant-design/icons';
 import {ProModal} from "../../../../common";
 import BpmnUtils from "../../BpmnUtils";
 import {ArrayUtil} from "@crec/lang";
+import {arr} from "@tmgg/tmgg-base";
 
 /**
  * 条件表单
@@ -118,7 +119,7 @@ constructor(props) {
   handleDelete = (item) => {
     let { conditionList } = this.state;
 
-    ArrayUtil.remove(conditionList, item);
+    arr.remove(conditionList, item)
     this.save(conditionList);
   };
 

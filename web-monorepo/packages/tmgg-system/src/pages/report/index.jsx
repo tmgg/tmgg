@@ -2,7 +2,7 @@ import {PlusOutlined} from '@ant-design/icons'
 import {Button, Popconfirm} from 'antd'
 import React from 'react'
 import {ProTable} from "@ant-design/pro-components";
-import {ButtonList, HttpClient, PageContent, ProModal} from "../../common";
+import {ButtonList, http, PageContent, ProModal} from "../../common";
 
 
 
@@ -65,7 +65,7 @@ export default class extends React.Component {
     this.addRef.current.show()
   }
   handleSave = value => {
-    HttpClient.post( 'sysReport/save', value).then(rs => {
+    http.post( 'sysReport/save', value).then(rs => {
       this.addRef.current.hide()
       this.tableRef.current.reload()
     })
@@ -77,14 +77,14 @@ export default class extends React.Component {
   }
   handleUpdate = value => {
     let params = {id:this.state.formValues.id, ...value}
-    HttpClient.post('sysReport/save', params).then(rs => {
+    http.post('sysReport/save', params).then(rs => {
       this.editRef.current.hide()
       this.tableRef.current.reload()
     })
   }
 
   handleDelete = row => {
-    HttpClient.post( 'sysReport/delete', row).then(rs => {
+    http.post( 'sysReport/delete', row).then(rs => {
       this.tableRef.current.reload()
     })
   }
@@ -100,7 +100,7 @@ export default class extends React.Component {
               </Button>
             </ButtonList>
           }}
-          request={(params, sort) => HttpClient.getPageableData('sysReport/page', params, sort)}
+          request={(params, sort) => http.getPageableData('sysReport/page', params, sort)}
           columns={this.columns}
           rowSelection={false}
           rowKey='id'
