@@ -18,8 +18,7 @@ public class EmailService  {
     @Resource
     SysConfigDao sysConfigDao;
 
-    @Resource
-    SystemProperties systemProperties;
+
 
     public void send(String to,String title, String content) {
         String from = sysConfigDao.findValueByCode("EMAIL-FROM");
@@ -29,10 +28,6 @@ public class EmailService  {
             return;
         }
 
-        String siteTitle = systemProperties.getSiteTitle();
-        if(siteTitle != null){
-            title = "【" + siteTitle + "】 " + title;
-        }
 
         MailAccount account = new MailAccount();
         account.setFrom(from);

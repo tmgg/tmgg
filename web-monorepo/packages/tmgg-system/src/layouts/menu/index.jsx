@@ -14,7 +14,7 @@ import {PageLoading, ProLayout} from "@ant-design/pro-components";
 import HeaderRight from "./HeaderRight";
 import {HttpClient, sys, SysConfig, TreeUtil, uid} from "../../common";
 import hutool from "@moon-cn/hutool";
-import {arr, PageTool, theme} from "@tmgg/tmgg-base";
+import {arr, getSiteInfo, PageTool, theme} from "@tmgg/tmgg-base";
 import TabMenu from "./TabMenu";
 import LeftMenu from "./LeftMenu";
 
@@ -36,7 +36,9 @@ export default class extends React.Component {
 
         dataLoaded: false,
 
-        collapsed: false
+        collapsed: false,
+
+        siteInfo:{}
     }
 
 
@@ -51,6 +53,8 @@ export default class extends React.Component {
         SysConfig.loadLoginData().then(() => {
             this.setState({dataLoaded: true})
         })
+
+        this.setState({siteInfo: getSiteInfo()})
 
     }
 
@@ -168,7 +172,7 @@ export default class extends React.Component {
                         padding:12
                     }}
                 >
-                    Tmgg Design ©{new Date().getFullYear()} Created by Mxvc
+                    {this.state.siteInfo.footer}
                 </Footer>
             </Layout>
         </Layout>

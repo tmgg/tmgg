@@ -14,9 +14,9 @@
       "$update": false
     },
     {
-      "id": "pageFooterText",
+      "id": "siteInfo.footer",
       "name": "页脚文本",
-      "key": "pageFooterText",
+      "key": "siteInfo.footer",
       "$update": false
     },
     {

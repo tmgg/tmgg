@@ -18,10 +18,7 @@ public class SystemProperties {
     private boolean printException = true;
 
 
-    /**
-     * 站点名称，一般用在前端登录页，顶部logo附件
-     */
-    private String siteTitle;
+
 
     /**
      * 自动更新菜单
@@ -38,10 +35,7 @@ public class SystemProperties {
      */
     private String captchaFiles = "images/captcha/*";
 
-    /**
-     * 版权信息
-     */
-    private String copyright = "Copyright 2024. All rights reserved.";
+
 
     /**
      * 页面右上角，点击关于显示的内容文件

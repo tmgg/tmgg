@@ -13,6 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 
 // config 比较特殊，为了保证可控（如dao层缓存）， 不继承BaseService
@@ -91,6 +93,11 @@ public class SysConfigService extends BaseService<SysConfig> {
     }
 
 
+    public Map<String, String> findSiteInfo() {
+        List<SysConfig> list = dao.findAll();
 
+        String prefix = "siteInfo.";
+      return  list.stream().filter(s->s.getKey().startsWith(prefix)).collect(Collectors.toMap(t->t.getKey().substring(prefix.length()), SysConfig::getValue));
 
+    }
 }

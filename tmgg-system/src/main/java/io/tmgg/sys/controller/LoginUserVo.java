@@ -19,7 +19,6 @@ public class LoginUserVo {
     String roleNames;
 
 
-    SystemProperties systemProperties;
 
     List<String> watermarkList;
 }

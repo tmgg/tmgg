@@ -14,6 +14,7 @@ import io.tmgg.sys.controller.LoginUserVo;
 import io.tmgg.sys.perm.SysPermService;
 import io.tmgg.sys.role.entity.SysRole;
 import io.tmgg.sys.role.service.SysRoleService;
+import io.tmgg.sys.service.SysConfigService;
 import io.tmgg.web.perm.SecurityUtils;
 import io.tmgg.web.perm.Subject;
 import cn.hutool.core.bean.BeanUtil;
@@ -43,8 +44,9 @@ public class DefaultCommonController {
     @Resource
     SysPermService sysPermService;
 
+
     @Resource
-    SystemProperties systemProperties;
+    SysConfigService sysConfigService;
 
 
 
@@ -54,8 +56,8 @@ public class DefaultCommonController {
     @PublicApi
     @GetMapping("site-info")
     public AjaxResult siteInfo() {
-        Map<String, Object> data = BeanUtil.beanToMap(systemProperties, "captchaEnable", "copyright", "siteTitle");
-        return AjaxResult.ok().data(data);
+        Map<String, String> siteInfo = sysConfigService.findSiteInfo();
+        return AjaxResult.ok().data(siteInfo);
     }
 
 
@@ -83,11 +85,6 @@ public class DefaultCommonController {
 
         vo.setOrgName(subject.getUnitName());
         vo.setDeptName(subject.getDeptName());
-
-        SystemProperties sysProps = new SystemProperties();
-        BeanUtils.copyProperties(systemProperties, sysProps);
-        vo.setSystemProperties(sysProps);
-
 
 
         return AjaxResult.ok().data(vo);
@@ -151,14 +148,6 @@ public class DefaultCommonController {
     }
 
 
-
-    @PublicApi
-    @GetMapping("sysAbout")
-    public AjaxResult sysAbout() throws IOException {
-        org.springframework.core.io.Resource about = ResourceTool.findOne(systemProperties.getAboutFile());
-        String content = IoUtil.readUtf8(about.getInputStream());
-        return AjaxResult.ok().data(content);
-    }
 
 
     /**
