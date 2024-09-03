@@ -1,4 +1,4 @@
-import {Badge, Dropdown, Menu, Popover, Spin} from "antd";
+import {Badge, Button, Dropdown, Menu, Popover, Spin} from "antd";
 import {NotificationOutlined, SettingOutlined, UserOutlined} from "@ant-design/icons";
 import React from "react";
 import {history} from "umi";
@@ -40,14 +40,16 @@ export default class HeaderRight extends React.Component {
 
         return <div className='header-right'>
 
-            <div>
+            <div className='item'>
                 <UserOutlined/> {info.name}
             </div>
 
 
             <div className='item'>
                 <Badge count={this.state.messageCount || 1} size="small">
-                    <NotificationOutlined/>
+                <Button icon={<NotificationOutlined/>}></Button>
+
+
                 </Badge>
             </div>
 
