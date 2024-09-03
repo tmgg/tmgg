@@ -24,6 +24,8 @@ import org.springframework.web.bind.annotation.RestController;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 
+import java.util.List;
+
 /**
  * 登录控制器
  */
@@ -51,6 +53,8 @@ public class SysLoginController {
     public AjaxResult loginCheck(HttpServletRequest req) {
         String token = tokenManger.getTokenFromRequest(req,false);
         boolean valid = tokenManger.isValid(token);
+
+        List<Subject> list = SecurityUtils.findAll();
         return AjaxResult.ok().data(valid);
     }
 

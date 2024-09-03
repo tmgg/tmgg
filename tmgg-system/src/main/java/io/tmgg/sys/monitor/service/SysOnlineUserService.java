@@ -4,10 +4,10 @@ package io.tmgg.sys.monitor.service;
 import io.tmgg.lang.dao.BaseEntity;
 import io.tmgg.sys.entity.SysUser;
 import io.tmgg.sys.service.SysUserService;
+import io.tmgg.sys.vo.SysOnlineUserVo;
 import io.tmgg.web.perm.SecurityUtils;
 import io.tmgg.web.perm.Subject;
 import io.tmgg.core.log.LogManager;
-import io.tmgg.sys.monitor.result.SysOnlineUserResult;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.ObjectUtil;
 import org.springframework.data.domain.Page;
@@ -16,6 +16,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import jakarta.annotation.Resource;
+import org.springframework.util.Assert;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -30,29 +32,32 @@ public class SysOnlineUserService {
     @Resource
     SysUserService sysUserService;
 
-    public Page<SysOnlineUserResult> findAll(Pageable pageable) {
-        List<SysOnlineUserResult> resultList = new ArrayList<>();
-        List<Subject> list = SecurityUtils.findAll();
+    public Page<SysOnlineUserVo> findAll(Pageable pageable) {
+        List<SysOnlineUserVo> voList = new ArrayList<>();
 
-        List<SysUser> userList = sysUserService.findAllById(list.stream().map(t -> t.getId()).collect(Collectors.toList()));
+        List<Subject> subjectList = SecurityUtils.findAll();
+
+        List<String> userIds = subjectList.stream().map(Subject::getId).collect(Collectors.toList());
+        List<SysUser> userList = sysUserService.findAllById(userIds);
         Map<String, SysUser> userMap = userList.stream().collect(Collectors.toMap(BaseEntity::getId, t -> t));
 
 
-        for (Subject subject: list){
+        for (Subject subject: subjectList){
             SysUser user = userMap.get(subject.getId());
 
-            SysOnlineUserResult vo = new SysOnlineUserResult();
+            SysOnlineUserVo vo = new SysOnlineUserVo();
             BeanUtil.copyProperties(user, vo);
             vo.setSessionId(subject.getToken());
 
-            resultList.add(vo);
+            voList.add(vo);
         }
 
-        return new PageImpl<>(resultList, pageable, resultList.size());
+        return new PageImpl<>(voList, pageable, voList.size());
     }
 
 
     public void forceExist(String sessionId) {
+        Assert.hasText(sessionId, "sessionId不能为空");
         //获取缓存的key
         String key = sessionId;
 

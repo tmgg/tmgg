@@ -45,8 +45,6 @@ public class TokenManger {
     public static final String URL_PARAM = "token";
     public static final String SESSION_PARAM = "token";
 
-    public static final String COOKIE_PARAM = "ck_token";
-
     @Resource
     private SysSessionDao dao;
 

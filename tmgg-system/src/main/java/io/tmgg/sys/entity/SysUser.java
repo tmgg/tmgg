@@ -117,7 +117,6 @@ public class SysUser extends BaseEntity {
     List<String> roleIds;
 
     // 数据权限类型
-    @Column(length = 20)
     @Enumerated(EnumType.STRING)
     DataPermType dataPermType;
 

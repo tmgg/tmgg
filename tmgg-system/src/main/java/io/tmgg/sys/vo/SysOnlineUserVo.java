@@ -1,7 +1,6 @@
 
-package io.tmgg.sys.monitor.result;
+package io.tmgg.sys.vo;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -11,7 +10,7 @@ import java.io.Serializable;
  *
  */
 @Data
-public class SysOnlineUserResult implements Serializable {
+public class SysOnlineUserVo implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
