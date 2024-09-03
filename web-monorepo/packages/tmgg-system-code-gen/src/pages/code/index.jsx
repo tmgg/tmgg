@@ -1,6 +1,6 @@
 import {Button, Form, message, Modal, Radio, Row, Select, Tabs} from 'antd'
 import React from 'react'
-import {http} from "@tmgg/tmgg-base";
+import {http, HttpUtil} from "@tmgg/tmgg-base";
 import {ProTable} from "@tmgg/pro-table";
 
 
