@@ -91,7 +91,7 @@ public class SysRoleController {
         List<String> allLeafList = tm.getLeafIdList();
 
         List<String> leafList = menuIdList.stream().filter(allLeafList::contains).collect(Collectors.toList());
-        return AjaxResult.ok().data(leafList).msg("权限授权成功");
+        return AjaxResult.ok().data(leafList);
     }
 
     @HasPermission( "sysRole:grant")
@@ -110,7 +110,7 @@ public class SysRoleController {
             }
         }
 
-        return AjaxResult.ok().msg("授权成功");
+        return AjaxResult.ok().msg("权限授权成功");
     }
 
 

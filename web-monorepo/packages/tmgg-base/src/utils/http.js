@@ -164,9 +164,10 @@ export const HttpUtil = {
         return axiosInstance.post(url, data, {params, ...config})
     },
 
-    postForm(url, data) {
+    postForm(url, data, config = defaultRequestConfig) {
+        config = Object.assign(config,defaultRequestConfig)
         url = _replaceUrl(url)
-        return axiosInstance.postForm(url, data)
+        return axiosInstance.postForm(url, data, config)
     },
 
     /**
