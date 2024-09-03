@@ -1,7 +1,7 @@
 package io.tmgg.web.token;
 
 import io.tmgg.lang.dao.specification.JpaQuery;
-import io.tmgg.web.dbproperties.DbPropertiesDao;
+import io.tmgg.web.db.DbRecordDao;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.net.url.UrlQuery;
 import cn.hutool.core.util.RandomUtil;
@@ -49,7 +49,7 @@ public class TokenManger {
     private SysSessionDao dao;
 
     @Resource
-    private DbPropertiesDao dbPropertiesDao;
+    private DbRecordDao dbRecordDao;
 
 
 
@@ -67,16 +67,16 @@ public class TokenManger {
 
         {
             // 初始化AES， 每个项目都是随机的，存储再数据库中
-            String key = dbPropertiesDao.findStrByCode("TOKEN_AES_KEY");
+            String key = dbRecordDao.findStrByCode("TOKEN_AES_KEY");
             if(key == null || key.isEmpty()){
                 key = RandomUtil.randomString(16);
-                dbPropertiesDao.save("TOKEN_AES_KEY", key);
+                dbRecordDao.save("TOKEN_AES_KEY", key);
             }
 
-            String iv = dbPropertiesDao.findStrByCode("TOKEN_AES_IV");
+            String iv = dbRecordDao.findStrByCode("TOKEN_AES_IV");
             if(iv == null || iv.isEmpty()){
                 iv = RandomUtil.randomString(16);
-                dbPropertiesDao.save("TOKEN_AES_IV", iv);
+                dbRecordDao.save("TOKEN_AES_IV", iv);
             }
             aes = new AES(Mode.CBC, Padding.PKCS5Padding, key.getBytes(), iv.getBytes());
         }

@@ -1,5 +1,6 @@
-package io.tmgg.web.dbproperties;
+package io.tmgg.web.db;
 
+import io.tmgg.lang.ann.Remark;
 import io.tmgg.lang.dao.BaseEntity;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -10,17 +11,19 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 
+@Remark("数据记录（用于临时存储，存储杂项等）")
 @Getter
 @Setter
 @FieldNameConstants
 @Entity
-@Table(name = "sys_db_properties")
-public class DbProperties extends BaseEntity {
+@Table(name = "sys_db_record")
+public class DbRecord extends BaseEntity {
 
     @NotNull
     @Column(unique = true)
     String code;
 
+    @Column(length = 5000)
     @NotNull
     String value;
 }
