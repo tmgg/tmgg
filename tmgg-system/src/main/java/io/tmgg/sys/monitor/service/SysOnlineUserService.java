@@ -10,6 +10,7 @@ import io.tmgg.web.perm.Subject;
 import io.tmgg.core.log.LogManager;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.ObjectUtil;
+import io.tmgg.web.session.MySessionRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -31,6 +32,9 @@ public class SysOnlineUserService {
 
     @Resource
     SysUserService sysUserService;
+
+    @Resource
+    MySessionRepository mySessionRepository;
 
     public Page<SysOnlineUserVo> findAll(Pageable pageable) {
         List<SysOnlineUserVo> voList = new ArrayList<>();
@@ -69,6 +73,6 @@ public class SysOnlineUserService {
             LogManager.me().saveLogoutLog(user.getAccount());
         }
 
-        SecurityUtils.logout(key);
+        mySessionRepository.deleteById(sessionId);
     }
 }

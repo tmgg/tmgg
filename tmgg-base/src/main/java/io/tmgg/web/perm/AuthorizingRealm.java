@@ -5,7 +5,7 @@ import java.util.Comparator;
 
 public interface AuthorizingRealm extends Comparator<AuthorizingRealm> {
 
-    Subject doGetSubject(String token);
+    Subject doGetSubject(String userId);
 
     void doGetPermissionInfo(Subject subject);
 

@@ -3,7 +3,7 @@ package io.tmgg.sys.controller;
 import lombok.Data;
 
 @Data
-class LoginParam {
+public class LoginParam {
     String account;
     String password;
     String code;

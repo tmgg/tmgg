@@ -1,6 +1,7 @@
 
 package io.tmgg.sys;
 
+import cn.hutool.core.util.ObjUtil;
 import io.tmgg.SystemProperties;
 import io.tmgg.config.external.MenuBadgeProvider;
 import io.tmgg.config.external.UserMessageProvider;
@@ -20,6 +21,7 @@ import io.tmgg.web.perm.Subject;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.io.IoUtil;
 import cn.hutool.extra.spring.SpringUtil;
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -56,6 +58,10 @@ public class DefaultCommonController {
     @PublicApi
     @GetMapping("site-info")
     public AjaxResult siteInfo() {
+//        Integer count = (Integer) session.getAttribute("count");
+//        count = ObjUtil.defaultIfNull(count, 0);
+//        session.setAttribute("count", count + 1);
+//        System.out.println("sessionId:"+ session.getId() + ",count="+session.getAttribute("count"));
         Map<String, String> siteInfo = sysConfigService.findSiteInfo();
         return AjaxResult.ok().data(siteInfo);
     }
@@ -99,13 +105,6 @@ public class DefaultCommonController {
         return getLoginInfo();
     }
 
-    @Deprecated
-    @PublicApi
-    @GetMapping("initInfo")
-    public AjaxResult initInfo() {
-        System.err.println("改方法已废弃，请升级前端版本");
-        return this.siteInfo();
-    }
 
     @GetMapping("getMessageCount")
     public AjaxResult getMessageCount() {

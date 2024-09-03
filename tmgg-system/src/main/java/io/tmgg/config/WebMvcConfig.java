@@ -2,7 +2,6 @@
 package io.tmgg.config;
 
 import io.tmgg.core.filter.xss.XssFilter;
-import io.tmgg.interceptor.CookieInterceptor;
 import io.tmgg.interceptor.SecurityInterceptor;
 import io.tmgg.interceptor.SubjectInfoFillInterceptor;
 import io.tmgg.SystemProperties;
@@ -58,8 +57,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Resource
     private SecurityInterceptor securityInterceptor;
 
-    @Resource
-    private CookieInterceptor cookieInterceptor;
 
 
     @Resource
@@ -71,7 +68,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         // 登录拦截器
         HandlerInterceptor[] interceptors = new HandlerInterceptor[]{securityInterceptor,
-                cookieInterceptor,
                 subjectInfoFillInterceptor};
         for (HandlerInterceptor interceptor : interceptors) {
             InterceptorRegistration registration = registry.addInterceptor(interceptor)

@@ -2,7 +2,6 @@
 package io.tmgg.sys.perm;
 
 import io.tmgg.SystemProperties;
-import io.tmgg.core.event.LogoutEvent;
 import io.tmgg.lang.TreeTool;
 import io.tmgg.lang.dao.BaseService;
 import io.tmgg.lang.obj.Route;
@@ -82,10 +81,7 @@ public class SysPermService extends BaseService<SysPerm> {
     }
 
 
-    @EventListener
-    public void onLogout(LogoutEvent e) {
-        log.info("退出系统事件 {}", e.getUserId());
-    }
+
 
 
 

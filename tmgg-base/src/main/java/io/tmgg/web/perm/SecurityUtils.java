@@ -61,24 +61,7 @@ public class SecurityUtils {
         return TOKEN_SUBJECT_CACHE.get(token);
     }
 
-    public static void login(String token, Subject subject) {
-        if (LOGOUT_TOKEN.containsKey(token)) {
-            throw new SystemException(401, "登录凭证已注销，请重新登录");
-        }
 
-        TOKEN_SUBJECT_CACHE.put(token, subject);
-        subject.login(token);
-
-        HttpServletRequest request = RequestTool.currentRequest();
-        request.setAttribute(SUBJECT_REQUEST_KEY, subject);
-    }
-
-
-    public static void logout(String token) {
-        Assert.hasText(token, "token不能为空");
-        LOGOUT_TOKEN.put(token, StringUtils.EMPTY);
-        TOKEN_SUBJECT_CACHE.remove(token);
-    }
 
 
     public static List<Subject> findAll(String subjectId) {
@@ -107,14 +90,5 @@ public class SecurityUtils {
     }
 
 
-    // 移除后再次请求就会刷新
-    public static void refresh(String subjectId) {
-        List<Subject> list = findAll(subjectId);
 
-        for (Subject subject : list) {
-            if (subject.getId().equals(subjectId)) {
-                TOKEN_SUBJECT_CACHE.remove(subject.getToken());
-            }
-        }
-    }
 }

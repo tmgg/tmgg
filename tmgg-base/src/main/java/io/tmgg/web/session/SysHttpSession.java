@@ -1,7 +1,9 @@
-package io.tmgg.web.token;
+package io.tmgg.web.session;
 
 import io.tmgg.lang.ann.Remark;
 import io.tmgg.lang.dao.BaseEntity;
+import jakarta.persistence.Column;
+import jakarta.persistence.Lob;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldNameConstants;
@@ -9,20 +11,17 @@ import lombok.experimental.FieldNameConstants;
 import jakarta.persistence.Entity;
 import jakarta.validation.constraints.NotNull;
 
-@Remark("会话")
+@Remark("http会话")
 @Getter
 @Setter
 @Entity
 @FieldNameConstants
-public class SysSession extends BaseEntity {
+public class SysHttpSession extends BaseEntity {
 
+    @Lob
     @NotNull
-    String payload;
+    @Column(columnDefinition = "blob")
+    byte[] payload;
 
-    @NotNull
-    String tokenMd5;
-
-    @NotNull
-    Long expireTime;
 
 }

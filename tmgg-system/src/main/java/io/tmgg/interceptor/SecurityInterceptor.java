@@ -1,9 +1,9 @@
 package io.tmgg.interceptor;
 
 
+import cn.hutool.core.util.ObjUtil;
 import io.tmgg.lang.ann.PublicApi;
 import io.tmgg.lang.ResponseTool;
-import io.tmgg.web.token.TokenManger;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
@@ -24,16 +24,19 @@ import jakarta.servlet.http.HttpSession;
 public class SecurityInterceptor implements HandlerInterceptor {
 
 
-    @Resource
-    TokenManger tokenManger;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         boolean canAccess = canAccess(request, response, handler);
         if (!canAccess) {
             log.warn("尝试访问未授权资源 {}  {}", request.getMethod(), request.getRequestURI());
+            response.setStatus(HttpStatus.UNAUTHORIZED.value());
+            ResponseTool.responseExceptionError(response, HttpStatus.UNAUTHORIZED.value(), "未认证");
+            return false;
         }
-        return canAccess;
+
+
+        return true;
     }
 
     private boolean canAccess(HttpServletRequest request, HttpServletResponse response, Object handler) {
@@ -57,30 +60,10 @@ public class SecurityInterceptor implements HandlerInterceptor {
             }
         }
 
-        String token = tokenManger.getTokenFromRequest(request,true);
+        Boolean isLogin = (Boolean) request.getSession().getAttribute("isLogin");
+        isLogin = ObjUtil.defaultIfNull(isLogin, false);
 
-
-        //校验token，错误则抛异常
-        try {
-            tokenManger.validate(token);
-
-            // 放到session中，方便后端页面直接访问
-            HttpSession session = request.getSession();
-            String sessionToken = (String) session.getAttribute(TokenManger.SESSION_PARAM);
-            log.trace("sessionId={}, token是否存在 {}", session.getId(), sessionToken != null);
-            if(sessionToken == null){
-                session.setAttribute(TokenManger.SESSION_PARAM, token);
-                log.trace("设置sessionToken, sessionId={}",session.getId());
-            }
-        }catch (Exception e){
-            response.setStatus(HttpStatus.UNAUTHORIZED.value());
-            ResponseTool.responseExceptionError(response, HttpStatus.UNAUTHORIZED.value(), e.getMessage() +",url=" + url);
-            return false;
-        }
-
-
-
-        return true;
+        return  isLogin;
     }
 
 

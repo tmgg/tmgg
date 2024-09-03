@@ -6,6 +6,7 @@ import io.tmgg.job.Param;
 import io.tmgg.job.entity.SysJob;
 import io.tmgg.job.quartz.QuartzManager;
 import io.tmgg.job.service.SysJobService;
+import io.tmgg.lang.ann.Remark;
 import io.tmgg.lang.ann.RemarkTool;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.obj.Option;
@@ -91,7 +92,8 @@ public class SysJobController {
         return AjaxResult.ok().msg("删除成功");
     }
 
-    @HasPermission(title = "执行一次")
+    @Remark("执行一次")
+    @HasPermission
     @GetMapping("triggerJob")
     public AjaxResult triggerJob(String id) throws SchedulerException, ClassNotFoundException {
         SysJob job = service.findOne(id);

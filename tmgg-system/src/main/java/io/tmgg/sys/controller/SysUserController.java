@@ -6,7 +6,6 @@ import cn.hutool.core.lang.Dict;
 import cn.hutool.core.text.PasswdStrength;
 import cn.hutool.core.util.StrUtil;
 import io.tmgg.lang.ExcelExportTool;
-import io.tmgg.lang.ResponseTool;
 import io.tmgg.lang.ann.Remark;
 import io.tmgg.lang.dao.BaseEntity;
 import io.tmgg.lang.dao.specification.JpaQuery;
@@ -24,8 +23,7 @@ import io.tmgg.sys.user.param.SysUserParam;
 import io.tmgg.web.annotion.HasPermission;
 import io.tmgg.web.perm.SecurityUtils;
 import io.tmgg.web.perm.Subject;
-import org.apache.catalina.User;
-import org.apache.poi.ss.usermodel.Workbook;
+import io.tmgg.web.session.MySessionRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -58,6 +56,8 @@ public class SysUserController {
     @Resource
     private SysOrgService sysOrgService;
 
+    @Resource
+    private MySessionRepository mySessionRepository;
 
     @HasPermission
     @PostMapping("page")
@@ -84,7 +84,7 @@ public class SysUserController {
         }
 
         SysUser sysUser = sysUserService.saveOrUpdate(input);
-        SecurityUtils.refresh(sysUser.getId());
+        mySessionRepository.deleteBySubject(sysUser.getId());
 
         if(isNew){
             return AjaxResult.ok().msg("添加成功,密码：" + configService.getDefaultPassWord());
@@ -129,9 +129,8 @@ public class SysUserController {
     @Remark("修改密码")
     public AjaxResult updatePwd(String password, String newPassword) {
         String userId = SecurityUtils.getSubject().getId();
-
         sysUserService.updatePwd(userId, password, newPassword);
-        SecurityUtils.logout(userId);
+        mySessionRepository.deleteBySubject(userId);
         return AjaxResult.ok();
     }
 
@@ -146,6 +145,7 @@ public class SysUserController {
     @PostMapping("resetPwd")
     public AjaxResult resetPwd(@RequestBody SysUserParam sysUserParam) {
         sysUserService.resetPwd(sysUserParam.getId());
+        mySessionRepository.deleteBySubject(sysUserParam.getId());
         return AjaxResult.ok().msg("重置成功,新密码为：" + configService.getDefaultPassWord());
     }
 
@@ -220,8 +220,7 @@ public class SysUserController {
     public AjaxResult grantPerm(@Valid @RequestBody GrantPermDto param) {
         sysUserService.grantPerm(param.getId(), param.getRoleIds(),param.getDataPermType(),  param.getOrgIds());
 
-        SecurityUtils.refresh(param.getId());
-
+        mySessionRepository.deleteBySubject(param.getId());
         return AjaxResult.ok();
     }
 

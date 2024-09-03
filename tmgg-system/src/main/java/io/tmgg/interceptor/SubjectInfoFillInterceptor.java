@@ -3,19 +3,17 @@ package io.tmgg.interceptor;
 
 import io.tmgg.lang.SpringTool;
 import io.tmgg.lang.ann.PublicApi;
+import io.tmgg.sys.entity.SysUser;
 import io.tmgg.web.perm.AuthorizingRealm;
-import io.tmgg.web.perm.SecurityUtils;
 import io.tmgg.web.perm.Subject;
-import io.tmgg.web.token.TokenManger;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.resource.ResourceHttpRequestHandler;
 
-import jakarta.annotation.Resource;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import java.util.Collection;
 
 /**
@@ -27,8 +25,6 @@ import java.util.Collection;
 @Component
 public class SubjectInfoFillInterceptor implements HandlerInterceptor {
 
-    @Resource
-    TokenManger tokenManger;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
@@ -36,7 +32,7 @@ public class SubjectInfoFillInterceptor implements HandlerInterceptor {
         String uri = request.getRequestURI();
 
         // 静态资源，忽略
-        if(handler instanceof ResourceHttpRequestHandler){
+        if (handler instanceof ResourceHttpRequestHandler) {
             return true;
         }
 
@@ -50,26 +46,19 @@ public class SubjectInfoFillInterceptor implements HandlerInterceptor {
             }
         }
 
-        String token = tokenManger.getTokenFromRequest(request,true);
-        synchronized (token) {
-            Subject cachedSubject = SecurityUtils.getCachedSubjectByToken(token);
-            if (cachedSubject != null) {
-                // 直接将缓存的用户信息设置下
-                SecurityUtils.login(token, cachedSubject);
-                return true;
-            }
 
-            for (AuthorizingRealm realm : realmArr) {
-                if (!uri.startsWith(realm.prefix())) {
-                    continue;
-                }
-                Subject subject = realm.doGetSubject(token);
-                SecurityUtils.login(token, subject);
-                realm.doGetPermissionInfo(subject);
-                return true;
+        String userId = (String) request.getSession().getAttribute("subjectId");
+
+
+        for (AuthorizingRealm realm : realmArr) {
+            if (!uri.startsWith(realm.prefix())) {
+                continue;
             }
+            Subject subject = realm.doGetSubject(userId);
+            realm.doGetPermissionInfo(subject);
             return true;
         }
+        return true;
 
 
     }

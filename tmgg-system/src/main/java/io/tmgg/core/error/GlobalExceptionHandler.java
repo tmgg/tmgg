@@ -35,6 +35,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
+
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
@@ -53,6 +55,11 @@ public class GlobalExceptionHandler {
     @Resource
     SystemProperties systemProperties;
 
+
+    @ExceptionHandler(NoResourceFoundException.class)
+    public AjaxResult noResourceFoundException(NoResourceFoundException e) {
+        return AjaxResult.err().code(404).msg("资源文件不存在," + e.getMessage());
+    }
 
     /**
      * 请求参数缺失异常

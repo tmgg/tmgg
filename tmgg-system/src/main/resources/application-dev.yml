@@ -18,6 +18,11 @@ server:
 
 
 spring:
+  session:
+    jdbc:
+      initialize-schema: always
+      platform: mysql
+
   jackson:
     time-zone: GMT+8
     date-format: yyyy-MM-dd HH:mm:ss

@@ -27,6 +27,8 @@ import java.util.*;
 @Remark("系统用户")
 public class SysUser extends BaseEntity {
 
+
+
     public static SysUser of(String id) {
         SysUser t = new SysUser();
         t.setId(id);
