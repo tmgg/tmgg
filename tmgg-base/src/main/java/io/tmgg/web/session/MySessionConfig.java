@@ -14,7 +14,7 @@ import org.springframework.session.web.http.HttpSessionIdResolver;
 public class MySessionConfig {
 
     @Bean
-    public SessionRepository<MapSession> sessionRepository() {
+    public MySessionRepository sessionRepository() {
         return new MySessionRepository();
     }
 

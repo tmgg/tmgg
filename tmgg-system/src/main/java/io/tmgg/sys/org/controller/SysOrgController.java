@@ -34,7 +34,6 @@ public class SysOrgController {
     public AjaxResult saveOrUpdate(@RequestBody  SysOrg sysOrg) {
         sysOrgService.saveOrUpdate(sysOrg);
 
-        SecurityUtils.refresh(SecurityUtils.getSubject().getId());
 
         return AjaxResult.ok().msg("保存机构成功");
     }
