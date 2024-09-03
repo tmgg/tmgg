@@ -21,10 +21,23 @@ export class ButtonList extends React.Component {
     let {children, maxNum} = this.props;
 
 
+// 单节点
+    if (children.length === undefined) {
+      const node = children;
+
+      const perm = node.props == null ? null : node.props.perm;
+
+      if (perm == null || PermUtil.hasPermission(perm)) {
+        return  node
+      }
+      return  null
+    }
+
+    // 多个
     const showList = [];
     const dropdownList = [];
 
-    if (children.length > 0) {
+     {
       const menus = [];
       // 权限过滤
       for (let c of children) {
@@ -45,15 +58,6 @@ export class ButtonList extends React.Component {
         } else {
           dropdownList.push(menus[i]);
         }
-      }
-    } else {
-      // 单节点
-      const child = children;
-
-      const childPerm = child.props == null ? null : child.props.perm;
-
-      if (childPerm == null || PermUtil.hasPermission(childPerm)) {
-        showList.push(child);
       }
     }
 

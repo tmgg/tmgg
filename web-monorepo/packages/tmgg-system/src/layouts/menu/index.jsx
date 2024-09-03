@@ -31,7 +31,7 @@ export default class extends React.Component {
 
 
         collapsed: false,
-
+        siteInfo:{}
     }
 
 
@@ -42,8 +42,9 @@ export default class extends React.Component {
     componentDidMount() {
 
         this.initMenu()
+        let siteInfo = SysUtil.getSiteInfo();
 
-
+        this.setState({siteInfo})
 
     }
 
@@ -88,7 +89,7 @@ export default class extends React.Component {
     }
 
     render() {
-        let siteInfo = SysUtil.getSiteInfo();
+       const {siteInfo} = this.state
         return <Layout className='main-layout'>
             <Sider id='left-sider' collapsible collapsed={this.state.collapsed}
                    onCollapse={(value) => this.toggleCollapsed(value)}>
