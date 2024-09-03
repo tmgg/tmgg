@@ -10,7 +10,7 @@ export const axiosInstance = axios.create({
 
 const defaultRequestConfig = {
 
-    autoShowErrorMessage: true,
+    autoHandleErrors: true,
 
     /**
      * 当请求为post，时，是否自动显示操作成功时的消息(message字段）
@@ -96,14 +96,15 @@ const AXIOS_CODE_MESSAGE = {
 
 axiosInstance.interceptors.response.use(
     (res) => {
-        const {data, config: {autoShowErrorMessage, autoShowSuccessMessage, transformData, method}} = res;
+        const {data, config: {autoHandleErrors, autoShowSuccessMessage, transformData, method}} = res;
         const isAjaxResult = data.success !== undefined && data.code !== undefined
         if (isAjaxResult) {
             if (autoShowSuccessMessage  && data.success === true && data.message != null) {
                 showSuccessMessage(data.message)
             }
-            if (data.success === false && autoShowErrorMessage) {
+            if (data.success === false && autoHandleErrors) {
                 showErrorMessage('操作失败', data.message)
+
             }
             if (transformData) {
                 return data.data
@@ -116,9 +117,9 @@ axiosInstance.interceptors.response.use(
         let {message, code, response, config = {}} = error;
         let msg = response ? STATUS_MESSAGE[response?.status] : AXIOS_CODE_MESSAGE[code];
 
-        const {autoShowErrorMessage, url} = config;
+        const {autoHandleErrors, url} = config;
 
-        if (autoShowErrorMessage) {
+        if (autoHandleErrors) {
             showErrorMessage( '网络请求异常',error.status + ":" + msg + "，请求地址:" + url )
         }
 
