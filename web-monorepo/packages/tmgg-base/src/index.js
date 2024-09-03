@@ -4,3 +4,6 @@ export *  from './utils'
 
 export class setSiteInfo {
 }
+
+export class hasPermission {
+}

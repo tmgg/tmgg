@@ -12,12 +12,12 @@ import {
 } from 'antd';
 import React from 'react';
 import {ProTable} from "@tmgg/pro-table";
-import {http, HttpUtil} from "@tmgg/tmgg-base";
+import { HttpUtil} from "@tmgg/tmgg-base";
 import UserPerm from "./UserPerm";
 import {
     ButtonList,
     FieldDictRadio,
-    FieldOrgTreeSelect, hasPermission,
+    FieldOrgTreeSelect,
     LeftRightLayout
 } from "@tmgg/tmgg-base";
 import {OrgTree} from "@tmgg/tmgg-base";
