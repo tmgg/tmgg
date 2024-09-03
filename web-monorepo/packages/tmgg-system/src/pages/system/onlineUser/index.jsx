@@ -1,6 +1,6 @@
 import React from 'react';
 import {message, Popconfirm} from "antd";
-import {ButtonList, http} from "@tmgg/tmgg-base";
+import {ButtonList, HttpUtil} from "@tmgg/tmgg-base";
 import {ProTable} from "@tmgg/pro-table";
 
 
@@ -56,7 +56,6 @@ export default class extends React.Component {
 
   forceExist = row => {
     HttpUtil.post('sysOnlineUser/forceExist', row).then(r => {
-      message.info(r.message || '强制下线成功')
       this.actionRef.current.reload()
     })
   }
@@ -65,7 +64,7 @@ export default class extends React.Component {
   render() {
     return <ProTable
       ref={this.actionRef}
-      requestUrl= 'sysOnlineUser/page'
+      request={(params, sort, filter)=>HttpUtil.pageData('sysOnlineUser/page', params, sort)}
       columns={this.columns}
       rowKey="sessionId"
       search={false}

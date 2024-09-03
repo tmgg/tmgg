@@ -27,7 +27,7 @@ export default class HeaderRight extends React.Component {
     logout = () => {
         HttpUtil.get('/logout').finally(() => {
             localStorage.clear()
-            history.replace('/')
+            history.replace('/login')
         })
     }
 

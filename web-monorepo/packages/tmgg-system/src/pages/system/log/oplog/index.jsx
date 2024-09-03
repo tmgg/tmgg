@@ -1,6 +1,7 @@
 import React, {Fragment} from 'react';
-import {ProTable} from "@ant-design/pro-components";
 import {Modal} from "antd";
+import {ProTable} from "@tmgg/pro-table";
+import {HttpUtil} from "@tmgg/tmgg-base";
 
 
 const baseApi = 'sysOpLog/';
@@ -37,8 +38,7 @@ export default class extends React.Component {
         {
             title: '是否成功',
             dataIndex: 'success',
-            valueType: 'dict',
-            params:'YN'
+            valueType: 'boolean',
         },
         {
             title: 'ip',
@@ -103,27 +103,10 @@ export default class extends React.Component {
     render() {
         return <>
             <ProTable
-                requestUrl={pageApi}
+                request={(params, sort, filter)=>HttpUtil.pageData(pageApi,params, sort)}
                 columns={this.columns}
+                rowKey='id'
             />
-
-            <Modal
-                title={'查看日志'}
-                width={800}
-
-                open={this.state.showDetail}
-                footer={null}
-                onCancel={() => this.setState({showDetail: false})}>
-
-
-                <ProTable
-                    type="form"
-                    columns={this.columns}
-                    form={{initialValues: this.state.formValues, readonly: true}}
-                    footer={null}
-                />
-
-            </Modal>
 
 
         </>

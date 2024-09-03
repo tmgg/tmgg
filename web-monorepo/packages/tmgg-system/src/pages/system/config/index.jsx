@@ -87,13 +87,6 @@ export default class extends React.Component {
     return <>
       <ProTable
           actionRef={this.tableRef}
-          toolBarRender={() => {
-            return <ButtonList>
-              <Button perm='sysConfig:save' type='primary' onClick={this.handleAdd}>
-                <PlusOutlined/> 新增
-              </Button>
-            </ButtonList>
-          }}
           request={(params, sort) => HttpUtil.pageData('sysConfig/page', params, sort)}
           columns={this.columns}
           rowKey='id'
@@ -117,7 +110,7 @@ export default class extends React.Component {
           <Form.Item label='键' name='key' >
             <FieldText/>
           </Form.Item>
-          <Form.Item label='值' name='value' rules={[{required: true}]}>
+          <Form.Item label='值' name='value' >
             <Input/>
           </Form.Item>
           <Form.Item label='默认值' name='defaultValue' >

@@ -1,5 +1,6 @@
 import React from 'react';
 import {ProTable} from "@tmgg/pro-table";
+import {HttpUtil} from "@tmgg/tmgg-base";
 
 
 const baseApi = 'sysVisLog/';
@@ -51,12 +52,13 @@ export default class extends React.Component {
 
 
   render() {
-    return <PageContent bgGray>
+    return <>
       <ProTable
-        requestUrl={pageApi}
-        columns={this.columns}
+          request={(params, sort, filter)=>HttpUtil.pageData(pageApi, params, sort)}
+          columns={this.columns}
+          rowKey='id'
       />
-    </PageContent>
+    </>
   }
 
 

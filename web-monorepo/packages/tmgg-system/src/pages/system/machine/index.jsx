@@ -1,4 +1,4 @@
-import {Card, Col, Row,Descriptions} from 'antd';
+import {Card, Col, Row, Descriptions, Space} from 'antd';
 import React, {Fragment} from 'react';
 
 
@@ -29,9 +29,7 @@ export default class extends React.Component {
 
     const {loading, sysOsInfo, sysJavaInfo, sysJvmMemInfo} = this.state
 
-    return <>
-      <Row gutter={[24,24]}>
-        <Col md={12} sm={24}>
+    return <Space size={12} direction='vertical'>
           <Card loading={loading}  >
             <Descriptions column={2} title='系统信息'>
               <Item label='系统名称'>{sysOsInfo.osName}</Item>
@@ -42,8 +40,6 @@ export default class extends React.Component {
             </Descriptions>
 
           </Card>
-        </Col>
-        <Col md={12} sm={24}>
           <Card loading={loading} >
             <Descriptions column={2} title='Java信息'>
               <Item label='虚拟机名称'>{sysJavaInfo.jvmName}</Item>
@@ -53,9 +49,7 @@ export default class extends React.Component {
               <Item label='java版本'>{sysJavaInfo.javaVersion}</Item>
             </Descriptions>
           </Card>
-        </Col>
 
-        <Col md={24} sm={24}>
           <Card loading={loading}>
             <Descriptions column={1} title='JVM内存信息'>
               <Item label='最大内存'>{sysJvmMemInfo.jvmMaxMemory}</Item>
@@ -68,11 +62,9 @@ export default class extends React.Component {
 
 
           </Card>
-        </Col>
-      </Row>
 
 
-    </>
+    </Space>
   }
 
 

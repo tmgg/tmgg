@@ -16,7 +16,7 @@
   "dependencies": {
     "@ant-design/icons": "^5.4.0",
     "@tinymce/tinymce-react": "^5.0.0",
-    "@tmgg/pro-table": "^5.0.2",
+    "@tmgg/pro-table": "^5.0.4",
     "@tmgg/tmgg-base": "0.1.17",
     "antd": "^5.20.3",
     "antd-img-crop": "^4.12.2",

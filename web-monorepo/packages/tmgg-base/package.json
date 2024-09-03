@@ -9,7 +9,7 @@
   "author": "jiangtao",
   "peerDependencies": {
     "@ant-design/icons": "^5.4.0",
-    "@tmgg/pro-table": "^5.0.0",
+    "@tmgg/pro-table": "^5.0.4",
     "antd": "^5.20.3",
     "axios": "^1.6.8"
   },

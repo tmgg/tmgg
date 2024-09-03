@@ -23,7 +23,7 @@ export default class extends React.Component {
 
 
     render() {
-        if (this.state.loading === true) {
+        if (this.state.loginInfoLoading || this.state.sysDictLoading) {
             return <PageLoading message='加载用户数据中...'/>
         }
 

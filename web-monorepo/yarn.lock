@@ -2901,10 +2901,10 @@
     prop-types "^15.6.2"
     tinymce "^7.0.0 || ^6.0.0 || ^5.5.1"
 
-"@tmgg/pro-table@^5.0.0":
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/@tmgg/pro-table/-/pro-table-5.0.0.tgz#b3cb313d00cc65863449f51221e09d31183cb1e9"
-  integrity sha512-yb7DX+QWpRDdYQawxwzPkkeJYB/o3k/HG8ltCzilRM9+6J1xICdTMJJIzRqGOs6Q/qYFNmCU48MMy1ziCOz/xw==
+"@tmgg/pro-table@^5.0.3":
+  version "5.0.3"
+  resolved "https://registry.yarnpkg.com/@tmgg/pro-table/-/pro-table-5.0.3.tgz#05a44f9a3b0d609fa165fefe3e63c8c2960062fd"
+  integrity sha512-p+Sp5lZWxzTOXEv/vO5aK66WlvluY/9MyNQLv6hKVrAtdm6HxcBgjzKSEEbTYOtjATAyvlbx6HOz/PrQcYoayQ==
   dependencies:
     "@ant-design/icons" "^5.0.0"
     "@babel/runtime" "^7.18.0"
@@ -2917,10 +2917,10 @@
     unstated-next "^1.1.0"
     use-json-comparison "^1.0.5"
 
-"@tmgg/pro-table@^5.0.2":
-  version "5.0.2"
-  resolved "https://registry.yarnpkg.com/@tmgg/pro-table/-/pro-table-5.0.2.tgz#9a61bc75deafe02e815eeb33b8e6d29e588a5a94"
-  integrity sha512-61LRQNXYFBud6ay52q/lGXu255qx2wtxgzRv+7ADlazuXa6Zm+UQOjC2HB3xRxQfll4nMhF5f8jv1xFJAiBjDQ==
+"@tmgg/pro-table@^5.0.4":
+  version "5.0.4"
+  resolved "https://registry.yarnpkg.com/@tmgg/pro-table/-/pro-table-5.0.4.tgz#2b9eb8e6a0472ab21b25c497c0634dbed543340d"
+  integrity sha512-o7S1F1cYuaYj2WbJ62IgmOQFJRW5aD5ZqqT/1HvUibdqvGHbCZOYNetOMi/Rg8rA2IhhPzhnp3S2wiuL0ph9FA==
   dependencies:
     "@ant-design/icons" "^5.0.0"
     "@babel/runtime" "^7.18.0"
