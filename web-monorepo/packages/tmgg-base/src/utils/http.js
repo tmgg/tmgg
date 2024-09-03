@@ -13,7 +13,7 @@ const defaultRequestConfig = {
     autoHandleErrors: true,
 
     /**
-     * 当请求为post，时，是否自动显示操作成功时的消息(message字段）
+     * 是否自动显示操作成功时的消息(message字段）
      */
     autoShowSuccessMessage: true,
 
