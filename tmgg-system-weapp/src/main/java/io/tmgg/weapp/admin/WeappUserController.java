@@ -22,7 +22,7 @@ public class WeappUserController  {
     private WeappUserService service;
 
 
-    @HasPermission(value = "weapp:userList", title = "用户列表")
+    @HasPermission("weapp:userList")
     @GetMapping("page")
     public AjaxResult page(WeappUser param, @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) {
         Page<WeappUser> page = service.findByExampleLike(param, pageable);

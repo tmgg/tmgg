@@ -77,7 +77,7 @@ public class SysRoleController {
     @GetMapping("delete")
     public AjaxResult delete(@RequestParam String id) {
         sysRoleService.deleteById(id);
-        return AjaxResult.ok();
+        return AjaxResult.ok().msg("删除成功");
     }
 
 
@@ -91,7 +91,7 @@ public class SysRoleController {
         List<String> allLeafList = tm.getLeafIdList();
 
         List<String> leafList = menuIdList.stream().filter(allLeafList::contains).collect(Collectors.toList());
-        return AjaxResult.ok().data(leafList);
+        return AjaxResult.ok().data(leafList).msg("权限授权成功");
     }
 
     @HasPermission( "sysRole:grant")

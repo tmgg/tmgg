@@ -13,7 +13,7 @@ import HeaderRight from "./HeaderRight";
 
 import TabMenu from "./TabMenu";
 import LeftMenu from "./LeftMenu";
-import {HttpUtil, SysUtil, theme, TreeUtil} from "@tmgg/tmgg-base";
+import {ArrUtil, HttpUtil, SysUtil, theme, TreeUtil} from "@tmgg/tmgg-base";
 
 const {Header, Footer, Sider, Content} = Layout;
 /**
@@ -31,7 +31,7 @@ export default class extends React.Component {
 
 
         collapsed: false,
-        siteInfo:{}
+        siteInfo: {}
     }
 
 
@@ -76,10 +76,6 @@ export default class extends React.Component {
     actionRef = React.createRef()
 
 
-
-
-
-
     onMenuSelect = (key, path, label, icon) => {
         const {tabs} = this.state
 
@@ -89,7 +85,7 @@ export default class extends React.Component {
     }
 
     render() {
-       const {siteInfo} = this.state
+        const {siteInfo} = this.state
         return <Layout className='main-layout'>
             <Sider id='left-sider' collapsible collapsed={this.state.collapsed}
                    onCollapse={(value) => this.toggleCollapsed(value)}>
@@ -98,7 +94,7 @@ export default class extends React.Component {
                 </div>
                 <LeftMenu pathname={this.props.pathname} onSelect={this.onMenuSelect}/>
             </Sider>
-            <Layout style={{height:'100%'}}>
+            <Layout style={{height: '100%'}}>
                 <Header className='header'>
                     <h3 style={{color: theme["primary-color"]}}>{siteInfo.title}</h3>
                     <HeaderRight></HeaderRight>
@@ -119,8 +115,8 @@ export default class extends React.Component {
                 <Footer
                     style={{
                         textAlign: 'center',
-                        margin:0,
-                        padding:12
+                        margin: 0,
+                        padding: 12
                     }}
                 >
                     {siteInfo.footer}
@@ -132,8 +128,7 @@ export default class extends React.Component {
 
     onTabRemove = (item) => {
         const tabs = this.state.tabs
-
-        arr.remove(tabs, item)
+        ArrUtil.remove(tabs, item)
         this.setState({tabs})
         history.push(tabs[0]?.path || '/')
     }
