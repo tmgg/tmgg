@@ -234,7 +234,7 @@ public class SysUserService extends BaseService<SysUser> implements UserLabelQue
         SysUser user = sysUserDao.findOne(userId);
         DataPermType dataPermType = user.getDataPermType();
         if (dataPermType == null) {
-            dataPermType = DataPermType.ORG_AND_CHILDREN;
+            dataPermType = DataPermType.CHILDREN;
         }
 
 
@@ -246,9 +246,9 @@ public class SysUserService extends BaseService<SysUser> implements UserLabelQue
 
         String orgId = user.getUnitId();
         switch (dataPermType) {
-            case ORG_ONLY:
+            case LEVEL:
                 return orgId == null ? Collections.emptyList() : Collections.singletonList(orgId);
-            case ORG_AND_CHILDREN:
+            case CHILDREN:
                 return sysOrgDao.findChildIdListWithSelfById(orgId, true);
             case CUSTOM:
                 return user.getDataPerms().stream().map(BaseEntity::getId).collect(Collectors.toList());

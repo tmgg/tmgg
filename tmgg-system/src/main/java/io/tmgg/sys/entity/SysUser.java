@@ -131,7 +131,7 @@ public class SysUser extends BaseEntity {
     public void prePersistOrUpdate() {
         super.prePersistOrUpdate();
         if(dataPermType == null ){
-            dataPermType = DataPermType.ORG_AND_CHILDREN;
+            dataPermType = DataPermType.CHILDREN;
         }
     }
 

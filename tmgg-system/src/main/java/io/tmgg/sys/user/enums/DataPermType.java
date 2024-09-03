@@ -12,8 +12,8 @@ public enum DataPermType implements DictEnum {
 
     ALL("所有"),
 
-    ORG_ONLY("本级"),
-    ORG_AND_CHILDREN("本级和子级"),
+    LEVEL("本级"),
+    CHILDREN("本级和子级"),
     CUSTOM("自定义");
 
     String message;
