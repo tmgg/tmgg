@@ -8,6 +8,7 @@ export default class extends React.Component {
     }
 
     componentDidMount() {
+        console.log('SiteInfo拦截器')
         HttpUtil.get("/site-info").then(rs=>{
             SysUtil.setSiteInfo(rs)
             this.setState({loading: false})

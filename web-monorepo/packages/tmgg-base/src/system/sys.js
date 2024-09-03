@@ -23,7 +23,7 @@ export const SysUtil = {
     },
 
     getLoginInfo() {
-        return StorageUtil.get(LOGIN_INFO_KEY)
+        return StorageUtil.get(LOGIN_INFO_KEY) || {}
     },
 
 

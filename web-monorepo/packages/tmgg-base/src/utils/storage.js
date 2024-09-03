@@ -3,6 +3,7 @@ import {StrUtil} from "./str";
 
 const STORAGE_KEY = "__storage"
 
+const ENCRYPT = false;
 
 export const StorageUtil = {
     getAll() {
@@ -11,8 +12,7 @@ export const StorageUtil = {
             return {}
         }
 
-        let text = StrUtil.decrypt(hexString);
-        return JSON.parse(text)
+        return JSON.parse(hexString)
     },
     keys() {
         return this.getAll().keys();
@@ -30,7 +30,7 @@ export const StorageUtil = {
         let data = this.getAll();
         data[key] = value
         const dataStr = JSON.stringify(data)
-        localStorage.setItem(STORAGE_KEY, StrUtil.encrypt(dataStr))
+        localStorage.setItem(STORAGE_KEY, dataStr)
     }
 
 }

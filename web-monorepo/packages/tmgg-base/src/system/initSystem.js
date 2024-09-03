@@ -4,7 +4,7 @@ import {HttpUtil} from "../utils";
 import {SysUtil} from "./sys";
 
 
-export function initSystem(){
+export function initBase(){
     HttpUtil.axiosInstance.defaults.baseURL = SysUtil.getServerUrl()
 
     registerField('dict', FieldDictRadio)

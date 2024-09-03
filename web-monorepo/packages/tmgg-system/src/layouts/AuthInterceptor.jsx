@@ -11,7 +11,9 @@ export default class extends React.Component {
     }
 
     componentDidMount() {
+        console.log("认证拦截器")
         HttpUtil.get('/check-token', null, {autoShowErrorMessage:false}).then(rs => {
+            console.log("认证结果", rs)
             let tokenValid = rs;
             this.setState({tokenValid})
         }).catch((err)=>{
@@ -37,14 +39,14 @@ export default class extends React.Component {
             />
         }
 
-        switch (this.state.tokenValid) {
-            case true:
-                return  this.props.children
-            case false:
-                return <Navigate to="/login"></Navigate>
-            default:
-                return <PageLoading message='登录检查...'/>
+        if (this.state.tokenValid === true) {
+            return this.props.children
         }
+        if (this.state.tokenValid === false) {
+            return <Navigate to="/login"></Navigate>
+        }
+
+        return <PageLoading message='登录检查...'/>
 
     }
 }

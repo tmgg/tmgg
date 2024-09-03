@@ -2,8 +2,7 @@
  * 导出组件
  */
 
-export * from './common'
-
+export * from  './include_init'
 
 export * from "./layouts"
 

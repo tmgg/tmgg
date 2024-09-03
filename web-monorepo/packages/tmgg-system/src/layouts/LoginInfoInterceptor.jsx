@@ -9,6 +9,7 @@ export default class extends React.Component {
     }
 
     componentDidMount() {
+        console.log("登录信息拦截器")
         HttpUtil.get('/getLoginInfo').then(rs => {
             SysUtil.setLoginInfo(rs)
             this.setState({loginInfoLoading:false})
