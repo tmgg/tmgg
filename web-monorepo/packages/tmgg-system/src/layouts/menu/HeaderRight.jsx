@@ -40,13 +40,9 @@ export default class HeaderRight extends React.Component {
 
         return <div className='header-right'>
 
-            <Popover className='item' title={info.name} content={<div style={{width: 200}}>
-                <p>{info.roleNames}</p>
-                <p>{info.orgName}</p>
-                <p>{info.deptName}</p>
-            </div>}>
-                <UserOutlined/>
-            </Popover>
+            <div>
+                <UserOutlined/> {info.name}
+            </div>
 
 
             <div className='item'>
