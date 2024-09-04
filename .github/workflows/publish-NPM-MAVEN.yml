@@ -64,12 +64,11 @@ jobs:
         run: |
           cd web-monorepo
           dir=$(pwd)
-
-          cd $dir/packages/tmgg-base
-          npm publish -r --access public
-
-          cd $dir/apps/tmgg-system
-          npm publish -r --access public
+          cd $dir/packages/tmgg-base &&   npm publish -r --access public
+          cd $dir/packages/tmgg-system &&   npm publish -r --access public
+          cd $dir/packages/tmgg-code-gen &&   npm publish -r --access public
+          cd $dir/packages/tmgg-code-job &&   npm publish -r --access public
+          cd $dir/packages/tmgg-code-kettle &&   npm publish -r --access public
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_ACCESS_TOKEN}}
 
