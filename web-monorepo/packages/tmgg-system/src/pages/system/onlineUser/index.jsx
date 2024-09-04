@@ -24,6 +24,12 @@ export default class extends React.Component {
             title: '失效时间',
             dataIndex: 'expireTime',
         },
+        {
+            title: '是否失效',
+            dataIndex: 'expired',
+            valueType: 'boolean'
+        },
+
 
         {
             title: '最后登录地址',

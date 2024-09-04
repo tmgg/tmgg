@@ -47,10 +47,9 @@ public class SysOnlineUserService {
 
         List<SysHttpSession> sessionList = sysHttpSessionDao.findAll();
 
-        for (SysHttpSession sysHttpSession : sessionList) {
-            MapSession session = sysHttpSession.getSession();
+        for (SysHttpSession session : sessionList) {
             Subject subject = session.getAttribute(SecurityManager.SESSION_KEY);
-            if(sysHttpSession.isInvalidated() || sysHttpSession.isExpired() || subject == null){
+            if(session.isInvalidated() || session.isExpired() || subject == null){
                 continue;
             }
 
@@ -60,11 +59,9 @@ public class SysOnlineUserService {
             vo.setSessionId(session.getId());
             vo.setAccount(subject.getAccount());
             vo.setName(subject.getName());
-            vo.setLastAccessedTime(sysHttpSession.getLastAccessedTime());
-            Date lastAccessedTime = sysHttpSession.getLastAccessedTime();
-
-
-            vo.setExpireTime(DateUtils.addSeconds(lastAccessedTime, (int) sysHttpSession.getMaxInactiveInterval().toSeconds()) );
+            vo.setLastAccessedTime(DateUtil.date(session.getLastAccessedTime()));
+            vo.setExpireTime(DateUtils.addSeconds(DateUtil.date(session.getLastAccessedTime()), (int) session.getMaxInactiveInterval().toSeconds()) );
+            vo.setExpired(session.isExpired());
             voList.add(vo);
         }
 
@@ -75,10 +72,6 @@ public class SysOnlineUserService {
 
     public void forceExist(String sessionId) {
         Assert.hasText(sessionId, "sessionId不能为空");
-        Subject user = securityManager.findBySessionId(sessionId);
-        String account = user.getAccount();
-
         securityManager.forceExistBySessionId(sessionId);
-        LogManager.me().saveLogoutLog(account);
     }
 }

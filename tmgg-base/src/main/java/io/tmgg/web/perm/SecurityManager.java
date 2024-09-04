@@ -26,7 +26,6 @@ public class SecurityManager {
     public List<Subject> findAll() {
         List<SysHttpSession> list = sm.findAll();
         List<Subject> subjectList = list.stream()
-                .map(SysHttpSession::getSession)
                 .filter(session -> null != session.getAttribute(SESSION_KEY))
                 .map(session -> (Subject) session.getAttribute(SESSION_KEY)).collect(Collectors.toList());
 
@@ -35,9 +34,9 @@ public class SecurityManager {
 
 
     public Subject findBySessionId(String sessionId) {
-        SysHttpSession httpSession = sm.findBySessionId(sessionId);
+        SysHttpSession httpSession = sm.findOne(sessionId);
         if (httpSession != null) {
-            return httpSession.getSession().getAttribute(SESSION_KEY);
+            return httpSession.getAttribute(SESSION_KEY);
         }
         return null;
     }
@@ -54,7 +53,6 @@ public class SecurityManager {
         List<SysHttpSession> sessionList = sm.findAll();
 
         List<String> sessionIds = sessionList.stream()
-                .map(SysHttpSession::getSession)
                 .filter(session -> {
                     Subject subject = session.getAttribute(SESSION_KEY);
                     return subject != null && subject.getId().equals(subjectId);

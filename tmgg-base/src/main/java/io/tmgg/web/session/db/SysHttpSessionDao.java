@@ -7,13 +7,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public class SysHttpSessionDao extends BaseDao<SysHttpSession> {
-    public SysHttpSession findBySessionId(String sessionId) {
-        return this.findOneByField(SysHttpSession.Fields.sessionId, sessionId);
-    }
+
 
     @Transactional
     public void invalidate(String sessionId) {
-        SysHttpSession session = this.findBySessionId(sessionId);
+        SysHttpSession session = this.findOne(sessionId);
         session.setInvalidated(true);
         this.save(session);
     }

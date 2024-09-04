@@ -4,6 +4,7 @@ package io.tmgg.sys.vo;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.Date;
 
 /**
@@ -38,7 +39,7 @@ public class SysOnlineUserVo implements Serializable {
 
     private Date lastAccessedTime;
     private Date expireTime;
-
+    private boolean expired;
     /**
      * 最后登陆地址
      */
