@@ -1,13 +1,8 @@
 {
-  "private": "true",
-  "name": "@tmgg/tmgg-monorepo",
-  "workspaces": [
-    "packages/*"
-  ],
-  "scripts": {},
-  "version": "0.1.17",
-  "peerDependencies": {
-
-  }
-
+  "private" : "true",
+  "peerDependencies" : { },
+  "name" : "@tmgg/tmgg-monorepo",
+  "workspaces" : [ "packages/*" ],
+  "scripts" : { },
+  "version" : "0.1.18"
 }

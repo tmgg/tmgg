@@ -19,9 +19,9 @@
     "start" : "react-scripts start",
     "build" : "react-scripts build"
   },
-  "version" : "0.1.17",
+  "version" : "0.1.18",
   "dependencies" : {
-    "@tmgg/tmgg-base" : "0.1.17",
+    "@tmgg/tmgg-base" : "0.1.18",
     "axios" : "^1.6.7",
     "react" : "^18.0.0",
     "react-dom" : "^18.0.0",
