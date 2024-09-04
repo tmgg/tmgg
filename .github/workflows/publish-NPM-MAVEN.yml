@@ -66,9 +66,9 @@ jobs:
           dir=$(pwd)
           cd $dir/packages/tmgg-base &&   npm publish -r --access public
           cd $dir/packages/tmgg-system &&   npm publish -r --access public
-          cd $dir/packages/tmgg-code-gen &&   npm publish -r --access public
-          cd $dir/packages/tmgg-job &&   npm publish -r --access public
-          cd $dir/packages/tmgg-kettle &&   npm publish -r --access public
+          cd $dir/packages/tmgg-system-code-gen &&   npm publish -r --access public
+          cd $dir/packages/tmgg-system-job &&   npm publish -r --access public
+          cd $dir/packages/tmgg-system-kettle &&   npm publish -r --access public
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_ACCESS_TOKEN}}
 
