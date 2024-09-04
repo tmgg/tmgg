@@ -3,6 +3,7 @@ package io.tmgg.sys.perm;
 
 import io.tmgg.SystemProperties;
 import io.tmgg.lang.TreeTool;
+import io.tmgg.lang.dao.BaseEntity;
 import io.tmgg.lang.dao.BaseService;
 import io.tmgg.lang.obj.Route;
 import cn.hutool.core.util.StrUtil;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import jakarta.annotation.Resource;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * 系统菜单service接口实现类
@@ -31,29 +33,12 @@ public class SysPermService extends BaseService<SysPerm> {
     /**
      * 不含按钮 及 不显示的东西
      */
-    public List<Route> findMenuList() {
+    public Map<String, SysPerm> findMenuMap() {
         List<SysPerm> sysPermList = sysPermDao.findMenuVisible();
 
-        List<Route> routes = new LinkedList<>();
 
-
-        for (SysPerm m : sysPermList) {
-            String pid = m.getPid();
-
-            // iframe设置完整url
-            String url = m.getPath();
-
-            Route route = new Route(String.valueOf(m.getId()), pid, m.getName(), url, null);
-            route.setIcon(m.getIcon());
-            route.setPerm(StrUtil.emptyToNull(m.getPerm()));
-            route.setIframe(m.getIframe());
-            routes.add(route);
-        }
-
-        return routes;
+        return sysPermList.stream().collect(Collectors.toMap(BaseEntity::getId, t->t));
     }
-
-
 
 
     public List<MenuTreeNode> treeForGrant() {

@@ -1,7 +1,7 @@
 {
   "SysPerm": [
     {
-      "id": "jobMgr",
+      "id": "jobMgr",      "pid":"sys",
       "type": "DIR",
       "name": "任务调度",
       "seq": 100

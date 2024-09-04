@@ -1,6 +1,9 @@
 
 package io.tmgg.sys;
 
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.util.StrUtil;
+import cn.hutool.extra.spring.SpringUtil;
 import io.tmgg.config.external.MenuBadgeProvider;
 import io.tmgg.config.external.UserMessageProvider;
 import io.tmgg.lang.SpringTool;
@@ -9,21 +12,19 @@ import io.tmgg.lang.ann.PublicApi;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.obj.Route;
 import io.tmgg.sys.controller.LoginUserVo;
+import io.tmgg.sys.perm.SysPerm;
 import io.tmgg.sys.perm.SysPermService;
 import io.tmgg.sys.role.entity.SysRole;
 import io.tmgg.sys.role.service.SysRoleService;
 import io.tmgg.sys.service.SysConfigService;
 import io.tmgg.web.perm.SecurityUtils;
 import io.tmgg.web.perm.Subject;
-import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.extra.spring.SpringUtil;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import jakarta.annotation.Resource;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -42,7 +43,6 @@ public class DefaultCommonController {
 
     @Resource
     SysConfigService sysConfigService;
-
 
 
     /**
@@ -140,23 +140,50 @@ public class DefaultCommonController {
     }
 
 
-
-
     /**
      * 前端左侧菜单调用， 以展示顶部及左侧菜单
      */
     @GetMapping("menuTree")
     public AjaxResult menuTree() {
         Subject subject = SecurityUtils.getSubject();
-        List<Route> list = sysPermService.findMenuList();
-
-        list = list.stream().filter(r -> subject.hasPermission(r.getPerm())).collect(Collectors.toList());
+        Map<String, SysPerm> map = sysPermService.findMenuMap();
 
 
-        fillBadge(list);
+        List<SysPerm> list = map.values().stream().filter(r -> subject.hasPermission(r.getPerm())).toList();
+        list = new ArrayList<>(list); // 调整为可变list
+
+        // 将父节点（目录）也加入
+        {
+            Set<String> ids = new HashSet<>();
+            for (SysPerm route : list) {
+                SysPerm parent = map.get(route.getPid());
+                while (parent != null) {
+                    ids.add(parent.getId());
+                    parent = map.get(parent.getPid());
+                }
+            }
+            for (String id : ids) {
+                list.add(map.get(id));
+            }
+
+        }
+
+        List<Route> routes = new LinkedList<>();
+        for (SysPerm m : list) {
+            String pid = m.getPid();
+            // iframe设置完整url
+            String url = m.getPath();
+
+            Route route = new Route(String.valueOf(m.getId()), pid, m.getName(), url, null);
+            route.setIcon(m.getIcon());
+            route.setPerm(StrUtil.emptyToNull(m.getPerm()));
+            route.setIframe(m.getIframe());
+            routes.add(route);
+        }
 
 
-        List<Route> tree = TreeTool.buildTree(list);
+        fillBadge(routes);
+        List<Route> tree = TreeTool.buildTree(routes);
 
         return AjaxResult.ok().data(tree);
     }
