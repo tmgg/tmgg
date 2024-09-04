@@ -21,8 +21,8 @@ export default class extends React.Component {
             dataIndex: 'lastAccessedTime'
         },
         {
-            title: '最大非活动间隔',
-            dataIndex: 'maxInactiveInterval',
+            title: '失效时间',
+            dataIndex: 'expireTime',
         },
 
         {

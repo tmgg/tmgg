@@ -38,6 +38,7 @@ public class SysHttpSession extends BaseEntity {
 
     boolean expired;
 
+    Duration maxInactiveInterval;
 
 
     public static class SessionConverter implements AttributeConverter<MapSession, byte[]> {

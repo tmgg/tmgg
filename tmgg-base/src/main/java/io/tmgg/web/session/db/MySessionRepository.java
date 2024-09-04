@@ -46,6 +46,7 @@ public class MySessionRepository implements SessionRepository<MapSession> {
         sysSession.setLastAccessedTime(DateUtil.date(localDateTime));
         sysSession.setSession(session);
         sysSession.setExpired(session.isExpired());
+        sysSession.setMaxInactiveInterval(session.getMaxInactiveInterval());
         dao.save(sysSession);
     }
 
