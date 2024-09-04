@@ -46,7 +46,7 @@ axiosInstance.interceptors.request.use(
 
         let token = SysUtil.getToken()
         if (token) {
-            config.headers['X-Auth-Token'] = token;
+            config.headers[SysUtil.getTokenKey()] = token;
 
         }
 

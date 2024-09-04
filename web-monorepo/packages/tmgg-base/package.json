@@ -25,5 +25,8 @@
     "build": "rollup -c",
     "jsdoc": "jsdoc -d ./docs"
   },
-  "version": "0.1.17"
+  "version": "0.1.17",
+  "dependencies": {
+    "antd-img-crop": "^4.23.0"
+  }
 }

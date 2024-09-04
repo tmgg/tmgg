@@ -1,11 +1,11 @@
-package io.tmgg.job;
+package io.tmgg.job.builtin;
 
 import io.tmgg.lang.ann.Remark;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
-@Remark("任务示例-运行中抛出异常")
+@Remark("Demo-异常")
 public class DemoExceptionJob implements Job {
     @Override
     public void execute(JobExecutionContext e) throws JobExecutionException {

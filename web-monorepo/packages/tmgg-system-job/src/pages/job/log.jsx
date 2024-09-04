@@ -1,8 +1,8 @@
 import {Button, InputNumber, Modal} from 'antd'
 import React from 'react'
-import StreamLog from "../components/StreamLog";
-import {http} from "@tmgg/tmgg-base";
+import StreamLog from "../../components/StreamLog";
 import ProTable from "@tmgg/pro-table";
+import {HttpUtil, SysUtil} from "@tmgg/tmgg-base";
 
 
 
@@ -66,7 +66,7 @@ export default class extends React.Component {
                 icon:null,
                 width:1024,
                 closable:true,
-                content:<StreamLog url={'/job/log/'+ record.id } />
+                content:<StreamLog url={SysUtil.getServerUrl() + 'job/log/'+ record.id } />
               })
             }}>日志</a>
         );
@@ -92,7 +92,7 @@ export default class extends React.Component {
         </>]}
         actionRef={this.tableRef}
         request={(params, sort) => {
-          return HttpUtil.pageData('job/jobLog', params, sort, 'POST');
+          return HttpUtil.pageData('job/jobLog', params, sort);
         }}
         columns={this.columns}
         rowSelection={false}

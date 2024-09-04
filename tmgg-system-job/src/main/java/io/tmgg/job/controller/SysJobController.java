@@ -42,8 +42,8 @@ public class SysJobController {
 
 
     @HasPermission
-    @GetMapping("page")
-    public AjaxResult page(SysJob param, @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) {
+    @PostMapping("page")
+    public AjaxResult page(@RequestBody SysJob param, @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) {
         Page<SysJob> page = service.findByExampleLike(param, pageable);
 
 

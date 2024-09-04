@@ -1,8 +1,8 @@
 import {AutoComplete, Button, Form, Input, message, Modal, Popconfirm, Select, Space, Switch, Tag} from 'antd'
 import React from 'react'
 import {MinusCircleOutlined, PlusOutlined} from "@ant-design/icons";
-import StreamLog from "../components/StreamLog";
-import {http, HttpUtil} from "@tmgg/tmgg-base";
+import StreamLog from "../../components/StreamLog";
+import {HttpUtil, SysUtil} from "@tmgg/tmgg-base";
 import ProTable from "@tmgg/pro-table";
 
 
@@ -35,7 +35,7 @@ export default class extends React.Component {
 
   componentDidMount() {
     HttpUtil.get('job/jobClassOptions').then(rs => {
-      this.setState({jobClassOptions: rs.data})
+      this.setState({jobClassOptions: rs})
     })
   }
 
@@ -106,7 +106,7 @@ export default class extends React.Component {
                 icon: null,
                 width: 1024,
                 closable: true,
-                content: <StreamLog url={'/job/log/' + record.id}/>
+                content: <StreamLog url={    SysUtil.getServerUrl() + 'job/log/' + record.id}/>
               })
             }}>日志</Button>
             <Button size='small' onClick={() => this.handleTriggerJob(record)}>执行一次</Button>

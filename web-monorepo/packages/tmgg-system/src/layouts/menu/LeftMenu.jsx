@@ -1,5 +1,5 @@
 import React from "react";
-import {Badge, Button, Menu, Skeleton, Space} from "antd";
+import {Badge, Menu, Skeleton} from "antd";
 import {HttpUtil, TreeUtil} from "@tmgg/tmgg-base";
 import * as Icons from "@ant-design/icons";
 import {history} from "umi";
@@ -21,7 +21,7 @@ export default class extends React.Component {
             const map = {}
             // 设置icon
             TreeUtil.traverseTree(list, (item) => {
-                let IconType = Icons[ item.icon || 'SmileOutlined'];
+                let IconType = Icons[item.icon || 'SmileOutlined'];
                 item.icon = <IconType style={{fontSize: 12}}/>
 
                 if (item.path) {
@@ -38,11 +38,11 @@ export default class extends React.Component {
                 map[item.path] = item
             })
 
-            this.setState({menuLoading:false})
-            this.setState({menuList: list, pathMap:map})
+            this.setState({menuLoading: false})
+            this.setState({menuList: list, pathMap: map})
 
-            if(list.length >0){
-                this.setState({defaultOpenKeys:[list[0].id]})
+            if (list.length > 0) {
+                this.setState({defaultOpenKeys: [list[0].id]})
             }
 
 
@@ -53,30 +53,32 @@ export default class extends React.Component {
     render() {
         let {menuLoading, pathMap} = this.state;
 
-        if(menuLoading){
+        if (menuLoading) {
             return <Skeleton></Skeleton>
         }
         const {pathname} = this.props
 
         const curMenu = pathMap[pathname]
 
-        return    <Menu items={this.state.menuList}
-                  theme='dark'
-                  mode="inline"
-                  defaultOpenKeys={this.state.defaultOpenKeys}
-                        onClick={({key,item})=>{
-                            let {path} = item.props;
-                            let clickMenu = pathMap[path]
-                            history.push(path)
-                            this.props.onSelect( key, path,clickMenu.label, clickMenu.icon)
-                  }}
-                        selectedKeys={[curMenu?.id]}
-            >
-            </Menu>
+        return <Menu items={this.state.menuList}
+                     theme='dark'
+                     mode="inline"
+                     className='left-menu'
+
+                     defaultOpenKeys={this.state.defaultOpenKeys}
+                     onClick={({key, item}) => {
+                         let {path} = item.props;
+                         let clickMenu = pathMap[path]
+                         history.push(path)
+                         this.props.onSelect(key, path, clickMenu.label, clickMenu.icon)
+                     }}
+                     selectedKeys={[curMenu?.id]}
+        >
+        </Menu>
     }
 
-    renderBadge(item){
-      return   <Badge count={item.badge} size="small">
+    renderBadge(item) {
+        return <Badge count={item.badge} size="small">
             <span style={{display: 'inline-block', width: 10}}></span>
         </Badge>
     }
