@@ -15,13 +15,8 @@
   },
   "name" : "@tmgg/tmgg-base",
   "description" : "函数工具类",
-  "files" : [ "dist/*", "src/*" ],
+  "files" : [  "src/*" ],
   "main" : "src/index.js",
-  "scripts" : {
-    "start" : "rollup -c -w",
-    "build" : "rollup -c",
-    "jsdoc" : "jsdoc -d ./docs"
-  },
   "version" : "0.1.18",
   "dependencies" : {
     "antd-img-crop" : "^4.23.0"
