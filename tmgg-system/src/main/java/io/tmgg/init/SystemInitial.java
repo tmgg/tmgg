@@ -54,7 +54,6 @@ public class SystemInitial implements ApplicationRunner {
 
         permissionToDatabaseHandler.run();
 
-        sysRoleService.initDefaultUserRole();
         SysRole adminRole = sysRoleService.initDefaultAdmin();
         initUser(adminRole);
 

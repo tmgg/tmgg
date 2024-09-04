@@ -23,7 +23,6 @@ import java.util.List;
 @FieldNameConstants
 public class SysRole extends BaseEntity {
 
-    public static final String DEFAULT_ROLE = "sys_default_role"; // 默认角色
 
 
     /**

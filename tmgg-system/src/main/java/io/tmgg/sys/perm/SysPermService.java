@@ -7,7 +7,6 @@ import io.tmgg.lang.dao.BaseService;
 import io.tmgg.lang.obj.Route;
 import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
 import jakarta.annotation.Resource;
@@ -32,7 +31,7 @@ public class SysPermService extends BaseService<SysPerm> {
     /**
      * 不含按钮 及 不显示的东西
      */
-    public List<Route> findAllAppMenuList() {
+    public List<Route> findMenuList() {
         List<SysPerm> sysPermList = sysPermDao.findMenuVisible();
 
         List<Route> routes = new LinkedList<>();

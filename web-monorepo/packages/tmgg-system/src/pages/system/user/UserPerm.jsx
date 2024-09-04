@@ -1,6 +1,6 @@
 import {Form, Input, Modal, Spin, Tree} from 'antd';
 import React from 'react';
-import {FieldDictSelect, FieldRemoteMultipleSelect, http} from "@tmgg/tmgg-base";
+import {FieldDictSelect, FieldRemoteMultipleSelect,  HttpUtil} from "@tmgg/tmgg-base";
 
 
 export default class UserPerm extends React.Component {
@@ -15,7 +15,14 @@ export default class UserPerm extends React.Component {
             dataPermType: null
         },
     }
+    show(item) {
+        this.setState({visible: true})
 
+        HttpUtil.get('/sysUser/getPermInfo', {id: item.id}).then(rs => {
+            this.setState({formValues: rs})
+            this.formRef.current.setFieldsValue(rs)
+        })
+    }
 
     handleSave = (values) => {
         values.grantOrgIdList = this.state.checked
@@ -36,16 +43,7 @@ export default class UserPerm extends React.Component {
 
     }
 
-    show(item) {
-        this.setState({visible: true})
 
-        HttpUtil.get('/sysUser/getPermInfo', {id: item.id}).then(rs => {
-            this.setState({formValues: rs.data})
-            this.formRef.current.setFieldsValue(rs.data)
-        })
-
-
-    }
 
     formRef = React.createRef()
 

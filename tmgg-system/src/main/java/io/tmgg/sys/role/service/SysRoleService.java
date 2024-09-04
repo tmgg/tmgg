@@ -128,22 +128,6 @@ public class SysRoleService extends BaseService<SysRole> {
         return this.findAll(q);
     }
 
-    @Transactional
-    public void initDefaultUserRole() {
-        long count = roleDao.countByCode(SysRole.DEFAULT_ROLE);
-        if (count > 0) {
-            return;
-        }
-        SysRole sysRole = new SysRole();
-        sysRole.setId(SysRole.DEFAULT_ROLE);
-        sysRole.setCode(SysRole.DEFAULT_ROLE);
-        sysRole.setName("默认角色");
-        sysRole.setStatus(CommonStatus.ENABLE);
-        sysRole.setRemark("创建用户时的默认角色");
-        sysRole.setBuiltin(true);
-
-        roleDao.save(sysRole);
-    }
 
     @Transactional
     public SysRole initDefaultAdmin() {

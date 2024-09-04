@@ -10,7 +10,7 @@ export * from './FieldRemoteTreeSelect';
 
 export * from './FieldUploadImage';
 export * from './time';
-export * from './remote-multiple-select';
+export * from './FieldRemoteMultipleSelect';
 export * from './flat-multiple-select';
 export * from './flat-select';
 export * from './dict';

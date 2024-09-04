@@ -1,11 +1,8 @@
 
 package io.tmgg.sys;
 
-import cn.hutool.core.util.ObjUtil;
-import io.tmgg.SystemProperties;
 import io.tmgg.config.external.MenuBadgeProvider;
 import io.tmgg.config.external.UserMessageProvider;
-import io.tmgg.lang.ResourceTool;
 import io.tmgg.lang.SpringTool;
 import io.tmgg.lang.TreeTool;
 import io.tmgg.lang.ann.PublicApi;
@@ -19,19 +16,15 @@ import io.tmgg.sys.service.SysConfigService;
 import io.tmgg.web.perm.SecurityUtils;
 import io.tmgg.web.perm.Subject;
 import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.io.IoUtil;
 import cn.hutool.extra.spring.SpringUtil;
-import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.BeanUtils;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.annotation.Resource;
 
-import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -155,7 +148,7 @@ public class DefaultCommonController {
     @GetMapping("menuTree")
     public AjaxResult menuTree() {
         Subject subject = SecurityUtils.getSubject();
-        List<Route> list = sysPermService.findAllAppMenuList();
+        List<Route> list = sysPermService.findMenuList();
 
         list = list.stream().filter(r -> subject.hasPermission(r.getPerm())).collect(Collectors.toList());
 
