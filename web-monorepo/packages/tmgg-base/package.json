@@ -15,9 +15,9 @@
   },
   "name" : "@tmgg/tmgg-base",
   "description" : "函数工具类",
-  "files" : [  "src/*" ],
+  "files" : [ "src/*" ],
   "main" : "src/index.js",
-  "version" : "0.1.18",
+  "version" : "0.1.19",
   "dependencies" : {
     "antd-img-crop" : "^4.23.0"
   }

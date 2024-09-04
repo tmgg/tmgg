@@ -12,12 +12,12 @@
   "scripts" : {
     "dev" : "umi dev"
   },
-  "version" : "0.1.18",
+  "version" : "0.1.19",
   "dependencies" : {
     "@ant-design/icons" : "^5.4.0",
     "@tinymce/tinymce-react" : "^5.0.0",
     "@tmgg/pro-table" : "^5.0.4",
-    "@tmgg/tmgg-base" : "0.1.18",
+    "@tmgg/tmgg-base" : "0.1.19",
     "antd" : "^5.20.3",
     "rc-slider-captcha" : "^1.1.10",
     "react" : "^18.2.0",
