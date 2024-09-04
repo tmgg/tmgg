@@ -1,7 +1,10 @@
 
 package io.tmgg.sys.monitor.service;
 
+import cn.hutool.core.date.DateUtil;
 import io.tmgg.core.log.LogManager;
+import io.tmgg.lang.DurationTool;
+import io.tmgg.lang.PastTimeFormatTool;
 import io.tmgg.sys.service.SysUserService;
 import io.tmgg.sys.vo.SysOnlineUserVo;
 import io.tmgg.web.perm.SecurityManager;
@@ -9,6 +12,7 @@ import io.tmgg.web.perm.Subject;
 import io.tmgg.web.session.db.SysHttpSession;
 import io.tmgg.web.session.db.SysHttpSessionDao;
 import jakarta.annotation.Resource;
+import org.apache.commons.lang3.time.DurationUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -48,10 +52,12 @@ public class SysOnlineUserService {
 
             SysOnlineUserVo vo = new SysOnlineUserVo();
 
+
             vo.setSessionId(session.getId());
             vo.setAccount(subject.getAccount());
             vo.setName(subject.getName());
             vo.setLastAccessedTime(sysHttpSession.getLastAccessedTime());
+            vo.setMaxInactiveInterval(DurationTool.format(sysHttpSession.getMaxInactiveInterval()));
             voList.add(vo);
         }
 

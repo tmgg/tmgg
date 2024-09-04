@@ -13,17 +13,18 @@ export default class extends React.Component {
             dataIndex: 'account'
         },
         {
-            title: '名称',
+            title: '姓名',
             dataIndex: 'name'
-        },
-        {
-            title: '最后登录IP',
-            dataIndex: 'lastLoginIp'
         },
         {
             title: '最后访问时间',
             dataIndex: 'lastAccessedTime'
         },
+        {
+            title: '最大非活动间隔',
+            dataIndex: 'maxInactiveInterval',
+        },
+
         {
             title: '最后登录地址',
             dataIndex: 'lastLoginAddress',

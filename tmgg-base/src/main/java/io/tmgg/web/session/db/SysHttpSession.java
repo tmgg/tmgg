@@ -11,6 +11,7 @@ import org.apache.commons.lang3.SerializationUtils;
 import org.checkerframework.checker.units.qual.N;
 import org.springframework.session.MapSession;
 
+import java.time.Duration;
 import java.util.Date;
 
 @Remark("http会话")
@@ -33,11 +34,11 @@ public class SysHttpSession extends BaseEntity {
 
     Date lastAccessedTime;
 
-    @NotNull
-    Boolean invalidated;
+    boolean invalidated;
 
-    @NotNull
-    Boolean expired;
+    boolean expired;
+
+
 
     public static class SessionConverter implements AttributeConverter<MapSession, byte[]> {
 

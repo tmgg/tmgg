@@ -3,7 +3,6 @@ package io.tmgg.web.perm;
 import io.tmgg.web.session.db.SysHttpSession;
 import io.tmgg.web.session.db.SysHttpSessionDao;
 import jakarta.annotation.Resource;
-import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.session.Session;
 import org.springframework.stereotype.Component;
@@ -44,7 +43,7 @@ public class SecurityManager {
     }
 
     public void forceExistBySessionId(String sessionId) {
-        sm.deleteBySessionId(sessionId);
+        sm.invalidate(sessionId);
 
 
     //    HttpSession httpSession = sm.find(sessionId);

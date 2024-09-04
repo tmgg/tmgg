@@ -2,60 +2,73 @@ package io.tmgg.web.session.db;
 
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.IdUtil;
-import io.tmgg.web.session.db.SysHttpSession;
-import io.tmgg.web.session.db.SysHttpSessionDao;
 import jakarta.annotation.Resource;
-import org.apache.commons.lang3.SerializationUtils;
 import org.springframework.session.MapSession;
-import org.springframework.session.Session;
 import org.springframework.session.SessionRepository;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
+/**
+ * 参考 MapSessionRepository
+ */
 public class MySessionRepository implements SessionRepository<MapSession> {
 
     @Resource
-    private SysHttpSessionDao sysHttpSessionDao;
+    private SysHttpSessionDao dao;
 
 
     @Override
     public MapSession createSession() {
-        return new MapSession("spring-session-"+IdUtil.simpleUUID());
+        MapSession mapSession = new MapSession("session-" + IdUtil.simpleUUID());
+        mapSession.setMaxInactiveInterval(Duration.ofSeconds(29));
+        return mapSession;
     }
 
     @Override
     public void save(MapSession session) {
-        if (session.isExpired()) {
-            sysHttpSessionDao.deleteById(session.getId());
-        } else {
-            SysHttpSession sysHttpSession = sysHttpSessionDao.findBySessionId(session.getId());
-            if(sysHttpSession == null){
-                sysHttpSession = new SysHttpSession();
-                sysHttpSession.setSessionId(session.getId());
-                sysHttpSession.setInvalidated(false);
-            }
-            LocalDateTime localDateTime = DateUtil.toLocalDateTime(session.getLastAccessedTime());
-            sysHttpSession.setLastAccessedTime(DateUtil.date(localDateTime));
-            sysHttpSession.setSession(session);
-            sysHttpSession.setExpired(session.isExpired());
-            sysHttpSessionDao.save(sysHttpSession);
+        if (!session.getId().equals(session.getOriginalId())) {
+            dao.invalidate(session.getOriginalId());
         }
+
+        SysHttpSession sysSession = dao.findBySessionId(session.getId());
+        if (sysSession == null && session.isExpired()) {
+            // 数据库已删除，已过期，就不再保存
+            return;
+        }
+
+        if (sysSession == null) {
+            sysSession = new SysHttpSession();
+            sysSession.setSessionId(session.getId());
+            sysSession.setInvalidated(false);
+        }
+        LocalDateTime localDateTime = DateUtil.toLocalDateTime(session.getLastAccessedTime());
+        sysSession.setLastAccessedTime(DateUtil.date(localDateTime));
+        sysSession.setSession(session);
+        sysSession.setExpired(session.isExpired());
+        dao.save(sysSession);
     }
 
     @Override
     public MapSession findById(String id) {
-        SysHttpSession session = sysHttpSessionDao.findBySessionId(id);
-        if(session ==null){
+        SysHttpSession session = dao.findBySessionId(id);
+        if (session == null) {
             return null;
         }
+
+        if (session.isInvalidated()) {
+            return null;
+        }
+        if(session.isExpired()){
+            return null;
+        }
+
         return session.getSession();
     }
 
     @Override
     public void deleteById(String id) {
-        sysHttpSessionDao.deleteBySessionId(id);
+        dao.invalidate(id);
     }
 
 

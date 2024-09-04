@@ -1,7 +1,7 @@
 package io.tmgg.web.session.db;
 
-import com.mysql.cj.x.protobuf.MysqlxConnection;
 import io.tmgg.lang.dao.BaseDao;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,9 +12,10 @@ public class SysHttpSessionDao extends BaseDao<SysHttpSession> {
     }
 
     @Transactional
-    public void deleteBySessionId(String id) {
-        SysHttpSession session = this.findBySessionId(id);
-        this.delete(session);
+    public void invalidate(String sessionId) {
+        SysHttpSession session = this.findBySessionId(sessionId);
+        session.setInvalidated(true);
+        this.save(session);
     }
 
 

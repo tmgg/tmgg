@@ -37,6 +37,7 @@ public class SysOnlineUserVo implements Serializable {
 
 
     private Date lastAccessedTime;
+    private String maxInactiveInterval;
 
     /**
      * 最后登陆地址
