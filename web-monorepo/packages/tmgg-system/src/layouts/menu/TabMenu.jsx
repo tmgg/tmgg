@@ -19,7 +19,7 @@ export default class extends React.Component {
                 let label = item.label
 
                 let className = 'tab ' + (active ? 'active':'');
-                return <div className={className} >
+                return <div className={className}  key={key}>
                     <div className='icon'  >     {icon}
                     </div>
                     <div className='btn'  onClick={() => history.push(path)}>
