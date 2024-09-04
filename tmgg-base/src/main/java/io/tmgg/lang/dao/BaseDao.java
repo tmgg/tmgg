@@ -274,17 +274,6 @@ public abstract class BaseDao<T extends Persistable<String>> {
         return getQuery(null, Sort.unsorted()).getResultList();
     }
 
-    public Map<String, T> findDict() {
-        List<T> all = this.findAll();
-
-        Map<String, T> map = new HashMap<>();
-        for (T t : all) {
-            String id = t.getId();
-            map.put(id, t);
-        }
-        return map;
-    }
-
 
     public List<T> findAll(Sort sort) {
         return getQuery(null, sort).getResultList();

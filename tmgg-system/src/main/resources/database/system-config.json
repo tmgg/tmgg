@@ -49,11 +49,11 @@
     },
 
     {
-      "id": "ENABLE_SINGLE_LOGIN",
-      "name": "单用户登陆的开关",
-      "key": "ENABLE_SINGLE_LOGIN",
-      "defaultValue": "false",
-      "remark": "填写true | false",
+      "id": "MULTI_DEVICE_LOGIN",
+      "name": "多端登录",
+      "key": "MULTI_DEVICE_LOGIN",
+      "defaultValue": "true",
+      "remark": "填写true | false, 是否允许账号在多个地方登录",
       "$update": false
     },
     {

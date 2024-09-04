@@ -3,7 +3,7 @@ package io.tmgg.config;
 
 import io.tmgg.core.filter.xss.XssFilter;
 import io.tmgg.interceptor.SecurityInterceptor;
-import io.tmgg.interceptor.SubjectInfoFillInterceptor;
+import io.tmgg.interceptor.SubjectInterceptor;
 import io.tmgg.SystemProperties;
 import cn.hutool.core.collection.CollUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -60,7 +60,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
 
     @Resource
-    private SubjectInfoFillInterceptor subjectInfoFillInterceptor;
+    private SubjectInterceptor subjectInterceptor;
 
 
 
@@ -68,7 +68,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         // 登录拦截器
         HandlerInterceptor[] interceptors = new HandlerInterceptor[]{securityInterceptor,
-                subjectInfoFillInterceptor};
+                subjectInterceptor};
         for (HandlerInterceptor interceptor : interceptors) {
             InterceptorRegistration registration = registry.addInterceptor(interceptor)
                     .addPathPatterns("/**")

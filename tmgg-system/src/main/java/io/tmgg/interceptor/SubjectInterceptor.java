@@ -23,7 +23,7 @@ import java.util.Collection;
  */
 @Slf4j
 @Component
-public class SubjectInfoFillInterceptor implements HandlerInterceptor {
+public class SubjectInterceptor implements HandlerInterceptor {
 
 
     @Override

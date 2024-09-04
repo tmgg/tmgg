@@ -35,7 +35,6 @@ public class SysHttpSession extends BaseEntity implements Session, Serializable 
 
     Instant lastAccessedTime;
 
-    boolean invalidated;
 
 
 

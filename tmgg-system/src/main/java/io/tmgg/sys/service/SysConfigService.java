@@ -78,8 +78,8 @@ public class SysConfigService extends BaseService<SysConfig> {
     /**
      * 获取是否允许单用户登陆的开关
      */
-    public Boolean getEnableSingleLogin() {
-        return getSysConfigWithDefault("SINGLE_LOGIN", Boolean.class, false);
+    public boolean getMultiDeviceLogin() {
+        return getSysConfigWithDefault("MULTI_DEVICE_LOGIN", Boolean.class, true);
     }
 
 

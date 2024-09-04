@@ -21,6 +21,8 @@ import io.tmgg.sys.role.dao.SysRoleDao;
 import io.tmgg.sys.role.entity.SysRole;
 import io.tmgg.sys.user.enums.DataPermType;
 import io.tmgg.web.enums.CommonStatus;
+import io.tmgg.web.perm.SecurityManager;
+import io.tmgg.web.session.db.SysHttpSessionDao;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -31,7 +33,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import java.sql.SQLException;
-import java.util.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 
@@ -54,7 +59,14 @@ public class SysUserService extends BaseService<SysUser> implements UserLabelQue
     @Resource
     private SysConfigService sysConfigService;
 
-    public SysUser checkAccount(String account, String password) {
+
+    @Resource
+    private SysHttpSessionDao sysHttpSessionDao;
+
+    @Resource
+    private SecurityManager sm;
+
+    public SysUser checkLogin(String account, String password) {
         Assert.hasText(account, "账号不能为空");
         Assert.hasText(password, "密码不能为空");
         SysUser sysUser = sysUserDao.findByAccount(account);
@@ -69,9 +81,16 @@ public class SysUserService extends BaseService<SysUser> implements UserLabelQue
         boolean checkpw = PasswordTool.checkpw(password, passwordBcrypt);
         Assert.state(checkpw, "密码错误");
 
+
+        // 多端登录检测
+        if (!sysConfigService.getMultiDeviceLogin()) {
+            // "您的账号已在其他地方登录"
+            sm.forceExistBySubjectId(sysUser.getId());
+        }
+
+
         return sysUser;
     }
-
 
 
     public List<SysUser> findByUnit(Collection<String> org) {
@@ -101,9 +120,6 @@ public class SysUserService extends BaseService<SysUser> implements UserLabelQue
         Set<SysRole> roles = user.getRoles();
         return roles.stream().map(BaseEntity::getId).collect(Collectors.toSet());
     }
-
-
-
 
 
     public boolean isPasswordSameAsDefault(String dbPwd) {
@@ -141,8 +157,8 @@ public class SysUserService extends BaseService<SysUser> implements UserLabelQue
 
             });
         }
-        if(StrUtil.isNotEmpty(keyword)){
-            query.or(q->{
+        if (StrUtil.isNotEmpty(keyword)) {
+            query.or(q -> {
                 q.like(SysUser.Fields.name, keyword);
                 q.like(SysUser.Fields.phone, keyword);
                 q.like(SysUser.Fields.account, keyword);
@@ -163,15 +179,12 @@ public class SysUserService extends BaseService<SysUser> implements UserLabelQue
         }
 
 
-
-
-
         SysUser old = baseDao.findOne(input);
         BeanUtil.copyProperties(input, old, CopyOptions.create()
                 .setIgnoreProperties(ArrayUtil.append(BaseEntity.BASE_ENTITY_FIELDS,
                         SysUser.Fields.roles, SysUser.Fields.password, SysUser.Fields.dataPerms
                 )));
-        return  baseDao.save(old);
+        return baseDao.save(old);
 
     }
 
@@ -184,8 +197,6 @@ public class SysUserService extends BaseService<SysUser> implements UserLabelQue
             throw new IllegalStateException("用户已被引用，无法删除。可以尝试禁用该用户: " + sysUser.getName());
         }
     }
-
-
 
 
     public void updatePwd(String userId, String password, String newPassword) {
@@ -211,7 +222,6 @@ public class SysUserService extends BaseService<SysUser> implements UserLabelQue
 
         return sysUserDao.getNameById(userId);
     }
-
 
 
     @Transactional
@@ -247,7 +257,6 @@ public class SysUserService extends BaseService<SysUser> implements UserLabelQue
     }
 
 
-
     // 数据范围
     public Collection<String> getLoginDataScope(String userId) {
         SysUser user = sysUserDao.findOne(userId);
@@ -258,7 +267,7 @@ public class SysUserService extends BaseService<SysUser> implements UserLabelQue
 
 
         // 超级管理员返回所有
-        if ( dataPermType == DataPermType.ALL) {
+        if (dataPermType == DataPermType.ALL) {
             List<SysOrg> all = sysOrgDao.findAll();
             return all.stream().map(BaseEntity::getId).collect(Collectors.toSet());
         }
@@ -290,12 +299,11 @@ public class SysUserService extends BaseService<SysUser> implements UserLabelQue
     }
 
     @Transactional
-    public void grantPerm( String id,List<String> roleIds, DataPermType dataPermType, List<String> orgIdList) {
+    public void grantPerm(String id, List<String> roleIds, DataPermType dataPermType, List<String> orgIdList) {
         SysUser user = this.findOne(id);
         List<SysOrg> orgs = sysOrgDao.findAllById(orgIdList);
         user.setDataPerms(orgs);
         user.setDataPermType(dataPermType);
-
 
 
         List<SysRole> newRoles = roleDao.findAllById(roleIds);

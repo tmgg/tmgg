@@ -49,7 +49,7 @@ public class SysOnlineUserService {
 
         for (SysHttpSession session : sessionList) {
             Subject subject = session.getAttribute(SecurityManager.SESSION_KEY);
-            if(session.isInvalidated() || session.isExpired() || subject == null){
+            if( session.isExpired() || subject == null){
                 continue;
             }
 

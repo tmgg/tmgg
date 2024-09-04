@@ -1,20 +1,23 @@
 package io.tmgg.web.session.db;
 
 import io.tmgg.lang.dao.BaseDao;
-import jakarta.servlet.http.HttpSession;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Repository
 public class SysHttpSessionDao extends BaseDao<SysHttpSession> {
 
 
-    @Transactional
-    public void invalidate(String sessionId) {
-        SysHttpSession session = this.findOne(sessionId);
-        session.setInvalidated(true);
-        this.save(session);
+    @Async
+    public void cleanExpired(){
+        List<SysHttpSession> sessionList = this.findAll();
+
+        for (SysHttpSession session : sessionList) {
+            if(session.isExpired()){
+                this.deleteById(session.getId());
+            }
+        }
     }
-
-
 }

@@ -39,6 +39,8 @@ public class SysLoginController {
     private SysUserService sysUserService;
 
 
+
+
     @GetMapping("/check-token")
     @PublicApi
     public AjaxResult loginCheck(HttpSession session) {
@@ -61,7 +63,10 @@ public class SysLoginController {
         Assert.state(strengthOk, "密码强度不够，请联系管理员重置");
 
 
-        SysUser sysUser = sysUserService.checkAccount(account, password);
+        SysUser sysUser = sysUserService.checkLogin(account, password);
+
+
+
 
         session.setAttribute("isLogin", true);
         session.setAttribute("subjectId", sysUser.getId());

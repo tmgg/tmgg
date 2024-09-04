@@ -20,11 +20,23 @@ public class SecurityManager {
     public static final String SESSION_KEY = "SUBJECT";
 
     @Resource
-    SysHttpSessionDao sm;
+    SysHttpSessionDao dao;
+
+
+    /**
+     *
+     * @param subjectId 用户ID
+     * @return
+     */
+    public List<Subject> findById(String subjectId) {
+        List<Subject> list = this.findAll();
+
+        return  list.stream().filter(subject -> subject.getId().equals(subjectId)).collect(Collectors.toList());
+    }
 
 
     public List<Subject> findAll() {
-        List<SysHttpSession> list = sm.findAll();
+        List<SysHttpSession> list = dao.findAll();
         List<Subject> subjectList = list.stream()
                 .filter(session -> null != session.getAttribute(SESSION_KEY))
                 .map(session -> (Subject) session.getAttribute(SESSION_KEY)).collect(Collectors.toList());
@@ -33,24 +45,12 @@ public class SecurityManager {
     }
 
 
-    public Subject findBySessionId(String sessionId) {
-        SysHttpSession httpSession = sm.findOne(sessionId);
-        if (httpSession != null) {
-            return httpSession.getAttribute(SESSION_KEY);
-        }
-        return null;
-    }
-
     public void forceExistBySessionId(String sessionId) {
-        sm.invalidate(sessionId);
-
-
-    //    HttpSession httpSession = sm.find(sessionId);
-      //  httpSession.invalidate();
+        dao.deleteById(sessionId);
     }
 
     public void forceExistBySubjectId(String subjectId) {
-        List<SysHttpSession> sessionList = sm.findAll();
+        List<SysHttpSession> sessionList = dao.findAll();
 
         List<String> sessionIds = sessionList.stream()
                 .filter(session -> {
@@ -61,13 +61,8 @@ public class SecurityManager {
 
 
         for (String sessionId : sessionIds) {
-            this.forceExistBySessionId(sessionId);
+            dao.deleteById(sessionId);
         }
-
-
-//        for (HttpSession httpSession : sessionList) {
-//            httpSession.invalidate();
-//        }
 
     }
 
