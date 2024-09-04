@@ -46,7 +46,7 @@ public class HasRoleAop {
 
     private void executeNoPermissionExceptionLog(JoinPoint joinPoint, Exception exception) {
         //异步记录日志
-        if (SecurityUtils.getSubject().isAuthenticated()) {
+        if (SecurityUtils.getSubject()!= null) {
             LogManager.me().saveExceptionLog(SecurityUtils.getSubject().getAccount(), joinPoint, exception);
         }
     }

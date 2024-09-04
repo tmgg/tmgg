@@ -8,7 +8,7 @@ import io.tmgg.lang.ann.PublicApi;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.sys.auth.captcha.CaptchaService;
 import io.tmgg.sys.entity.SysUser;
-import io.tmgg.sys.service.SysUserAuthService;
+import io.tmgg.sys.service.SysUserService;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.Assert;
@@ -26,8 +26,7 @@ import jakarta.annotation.Resource;
 @Slf4j
 public class SysLoginController {
 
-    @Resource
-    private SysUserAuthService authService;
+
 
 
     @Resource
@@ -35,6 +34,9 @@ public class SysLoginController {
 
     @Resource
     private CaptchaService captchaService;
+
+    @Resource
+    private SysUserService sysUserService;
 
 
     @GetMapping("/check-token")
@@ -59,12 +61,12 @@ public class SysLoginController {
         Assert.state(strengthOk, "密码强度不够，请联系管理员重置");
 
 
-        SysUser sysUser = authService.checkAccount(account, password);
+        SysUser sysUser = sysUserService.checkAccount(account, password);
 
         session.setAttribute("isLogin", true);
         session.setAttribute("subjectId", sysUser.getId());
 
-        return AjaxResult.ok().msg("登录成功");
+        return AjaxResult.ok().msg("登录成功").data(session.getId());
     }
 
 

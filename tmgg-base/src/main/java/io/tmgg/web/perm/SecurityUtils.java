@@ -1,18 +1,9 @@
 package io.tmgg.web.perm;
 
 import io.tmgg.lang.RequestTool;
-import cn.hutool.cache.Cache;
-import cn.hutool.cache.CacheUtil;
-import cn.hutool.cache.impl.CacheObj;
-import io.tmgg.web.SystemException;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.util.Assert;
-
 import jakarta.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import jakarta.servlet.http.HttpSession;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 参考了shiro 的权限管理
@@ -21,74 +12,23 @@ import java.util.List;
 public class SecurityUtils {
 
 
-    // uuid
-    private static final Cache<String, Subject> TOKEN_SUBJECT_CACHE = CacheUtil.newTimedCache(1000 * 60 * 60 * 2);
-
-
-    // 非法token， value无意义
-    private static final Cache<String, Object> LOGOUT_TOKEN = CacheUtil.newTimedCache(1000L * 60 * 60 * 24 * 30);
-
-    public static final String SUBJECT_REQUEST_KEY = "SUBJECT";
-
+    public static final String SESSION_KEY = "SUBJECT";
 
     /**
-     * 获取当前线程的用户
-     *
-     *
+     * 获取当前的用户
      */
     public static Subject getSubject() {
         HttpServletRequest request = RequestTool.currentRequest();
-
-        Subject subject = null;
-        if (request != null) {
-            subject = (Subject) request.getAttribute(SUBJECT_REQUEST_KEY);
+        if (request == null) {
+            return null;
+        }
+        HttpSession session = request.getSession();
+        if (session == null) {
+            return null;
         }
 
-        if (subject == null) {
-            subject = new Subject();
-        }
-
-        return subject;
+        return (Subject) session.getAttribute(SESSION_KEY);
     }
-
-    /**
-     * 仅权限模块调用，业务代码中请勿调用
-     *
-     * @param token
-     *
-     */
-    public static Subject getCachedSubjectByToken(String token) {
-        return TOKEN_SUBJECT_CACHE.get(token);
-    }
-
-
-
-
-    public static List<Subject> findAll(String subjectId) {
-        List<Subject> list = new ArrayList<>(3);
-        Iterator<CacheObj<String, Subject>> ite = TOKEN_SUBJECT_CACHE.cacheObjIterator();
-        while (ite.hasNext()) {
-            CacheObj<String, Subject> next = ite.next();
-            Subject subject = next.getValue();
-
-            if (subjectId.equals(subject.getId())) {
-                list.add(subject);
-            }
-        }
-        return list;
-    }
-
-    public static List<Subject> findAll() {
-        List<Subject> list = new ArrayList<>(100);
-        Iterator<CacheObj<String, Subject>> ite = TOKEN_SUBJECT_CACHE.cacheObjIterator();
-        while (ite.hasNext()) {
-            CacheObj<String, Subject> next = ite.next();
-            Subject subject = next.getValue();
-            list.add(subject);
-        }
-        return list;
-    }
-
 
 
 }

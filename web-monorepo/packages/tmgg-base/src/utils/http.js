@@ -1,6 +1,7 @@
 import axios from "axios";
 import {message, Modal} from "antd";
 import {StorageUtil} from "./storage";
+import {SysUtil} from "../system";
 
 export const axiosInstance = axios.create({
     withCredentials: true, // 带cookie
@@ -37,18 +38,19 @@ function showErrorMessage(title, msg) {
 }
 
 
-export function getToken() {
-    return StorageUtil.get("token")
-}
+
 
 axiosInstance.interceptors.request.use(
     config => {
         // 增加header
 
-        let token = getToken();
+        let token = SysUtil.getToken()
         if (token) {
-            config.headers['Authorization'] = token;
+            config.headers['X-Auth-Token'] = token;
+
         }
+
+        console.log('请求头', token)
 
         return config;
     }

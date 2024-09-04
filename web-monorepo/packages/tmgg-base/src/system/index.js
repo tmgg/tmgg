@@ -1,7 +1,7 @@
 export * from './PageTool'
 export * from './dict'
 export * from './permission'
-export * from './initSystem'
+export * from './initBase'
 
 export * from './theme'
 export * from './PageTool'

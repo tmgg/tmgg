@@ -43,7 +43,7 @@ export const DateUtil = {
     },
 
      formatDate(d) {
-        return this.year(d) + '-' + this.month(d) + "-" + date(d)
+        return this.year(d) + '-' + this.month(d) + "-" + this.date(d)
     },
 
      formatTime(d) {

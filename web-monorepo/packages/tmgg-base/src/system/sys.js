@@ -3,11 +3,20 @@ import {StorageUtil} from "../utils";
 const SITE_INFO_KEY = "siteInfo"
 const LOGIN_INFO_KEY = "loginInfo"
 const DICT_INFO_KEY = "dictInfo"
+const TOKEN_INFO = "X-Auth-Token"
 export const SysUtil = {
 
     getServerUrl() {
         const serverUrl = process.env.API_BASE_URL
         return serverUrl
+    },
+
+    setToken(data) {
+        return StorageUtil.set(TOKEN_INFO, data)
+    },
+
+    getToken() {
+        return StorageUtil.get(TOKEN_INFO)
     },
 
     setSiteInfo(data) {

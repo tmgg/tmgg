@@ -4,6 +4,7 @@ package io.tmgg.sys.vo;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * 系统在线用户结果集
@@ -34,10 +35,8 @@ public class SysOnlineUserVo implements Serializable {
      */
     private String lastLoginIp;
 
-    /**
-     * 最后登陆时间
-     */
-    private String lastLoginTime;
+
+    private Date lastAccessedTime;
 
     /**
      * 最后登陆地址

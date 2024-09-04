@@ -3,8 +3,8 @@ package io.tmgg.interceptor;
 
 import io.tmgg.lang.SpringTool;
 import io.tmgg.lang.ann.PublicApi;
-import io.tmgg.sys.entity.SysUser;
 import io.tmgg.web.perm.AuthorizingRealm;
+import io.tmgg.web.perm.SecurityManager;
 import io.tmgg.web.perm.Subject;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -50,12 +50,13 @@ public class SubjectInfoFillInterceptor implements HandlerInterceptor {
         String userId = (String) request.getSession().getAttribute("subjectId");
 
 
-        for (AuthorizingRealm realm : realmArr) {
+        for (AuthorizingRealm realm : realmList) {
             if (!uri.startsWith(realm.prefix())) {
                 continue;
             }
             Subject subject = realm.doGetSubject(userId);
             realm.doGetPermissionInfo(subject);
+            request.getSession().setAttribute(SecurityManager.SESSION_KEY, subject);
             return true;
         }
         return true;
@@ -64,14 +65,14 @@ public class SubjectInfoFillInterceptor implements HandlerInterceptor {
     }
 
     private void initReams() {
-        if (realmArr == null) {
+        if (realmList == null) {
             Collection<AuthorizingRealm> realms = SpringTool.getBeans(AuthorizingRealm.class);
-            realmArr = new AuthorizingRealm[realms.size()];
-            realms.toArray(realmArr);
+            realmList = new AuthorizingRealm[realms.size()];
+            realms.toArray(realmList);
         }
     }
 
 
-    private AuthorizingRealm[] realmArr;
+    private AuthorizingRealm[] realmList;
 
 }

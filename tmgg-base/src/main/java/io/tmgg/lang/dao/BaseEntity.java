@@ -103,7 +103,7 @@ public abstract class BaseEntity implements PersistId, Serializable {
         }
         this.updateTime = this.createTime;
 
-        if (SecurityUtils.getSubject().isAuthenticated()) {
+        if (SecurityUtils.getSubject()!= null) {
             if (this.createUser == null) {
                 String userId = SecurityUtils.getSubject().getId();
                 this.updateUser = this.createUser = userId;
@@ -116,7 +116,7 @@ public abstract class BaseEntity implements PersistId, Serializable {
     public void preUpdate() {
         this.prePersistOrUpdate();
         this.updateTime = new Date();
-        if (SecurityUtils.getSubject().isAuthenticated()) {
+        if (SecurityUtils.getSubject()!= null) {
             if (this.updateUser == null) {
                 this.updateUser = SecurityUtils.getSubject().getId();
             }

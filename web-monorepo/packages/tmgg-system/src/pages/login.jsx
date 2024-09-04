@@ -46,8 +46,8 @@ export default class login extends React.Component {
     localStorage.clear()
 
     this.setState({logining: true})
-    HttpUtil.post('/login', values).then(rs => {
-      StorageUtil.set("token",rs)
+    HttpUtil.post('/login', values).then(token => {
+      SysUtil.setToken(token)
       history.replace('/')
     }).finally(() => {
       this.setState({logining: false})

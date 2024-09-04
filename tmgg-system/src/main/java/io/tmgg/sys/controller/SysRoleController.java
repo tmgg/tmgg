@@ -9,16 +9,11 @@ import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.obj.Option;
 import io.tmgg.lang.dao.BaseEntity;
 import io.tmgg.sys.role.entity.SysRole;
-import io.tmgg.sys.role.param.SysRoleParam;
 import io.tmgg.sys.role.service.SysRoleService;
 import io.tmgg.web.enums.CommonStatus;
-import io.tmgg.web.perm.SecurityUtils;
+import io.tmgg.web.perm.SecurityManager;
 import io.tmgg.web.perm.Subject;
-import io.tmgg.web.session.MySessionRepository;
-import io.tmgg.web.validation.group.Detail;
 import org.springframework.data.domain.Sort;
-import org.springframework.util.Assert;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.annotation.Resource;
@@ -40,7 +35,7 @@ public class SysRoleController {
     private SysPermService sysPermService;
 
     @Resource
-    private MySessionRepository mySessionRepository;
+    private SecurityManager sm;
 
 
     @HasPermission
@@ -104,13 +99,12 @@ public class SysRoleController {
     public AjaxResult grantPerm(@RequestParam(required = true) String id, @RequestParam(required = false) List<String> permIds) {
         sysRoleService.grantPerm(id, permIds);
 
-
         // 刷新 登录用户的权限
         SysRole role = sysRoleService.findOne(id);
-        List<Subject> list = SecurityUtils.findAll();
+        List<Subject> list = sm.findAll();
         for (Subject subject : list) {
             if(subject.hasRole(role.getCode())){
-                mySessionRepository.deleteBySubject(subject.getId());
+                sm.forceExistBySubjectId(subject.getId());
             }
         }
 

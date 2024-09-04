@@ -1,11 +1,9 @@
-package io.tmgg.web.session;
+package io.tmgg.web.session.config;
 
+import io.tmgg.web.session.db.MySessionRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.session.MapSession;
-import org.springframework.session.SessionRepository;
 import org.springframework.session.config.annotation.web.http.EnableSpringHttpSession;
-import org.springframework.session.config.annotation.web.server.EnableSpringWebSession;
 import org.springframework.session.web.http.HeaderHttpSessionIdResolver;
 import org.springframework.session.web.http.HttpSessionIdResolver;
 

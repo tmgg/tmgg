@@ -1,36 +1,33 @@
 import {StrUtil} from "./str";
+import {DateUtil} from "./date";
 
 
-const STORAGE_KEY = "__storage"
 
 const ENCRYPT = false;
 
 export const StorageUtil = {
-    getAll() {
-        let hexString = localStorage.getItem(STORAGE_KEY) || "";
-        if (!hexString) {
-            return {}
-        }
 
-        return JSON.parse(hexString)
-    },
-    keys() {
-        return this.getAll().keys();
-    },
 
     get(key, defaultValue = null) {
-        let v = this.getAll()[key];
+        let v = localStorage.getItem(key);
         if (v == null) {
             v = defaultValue;
+        }else {
+            const item = JSON.parse(v);
+            v = item.data
         }
+
+
         return v
     },
 
     set(key, value) {
-        let data = this.getAll();
-        data[key] = value
-        const dataStr = JSON.stringify(data)
-        localStorage.setItem(STORAGE_KEY, dataStr)
+        const item = {
+            createTime: DateUtil.now(),
+            data: value
+        }
+        const dataStr = JSON.stringify(item)
+        localStorage.setItem(key, dataStr)
     }
 
 }

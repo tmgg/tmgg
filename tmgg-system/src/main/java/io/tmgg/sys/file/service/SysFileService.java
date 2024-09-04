@@ -53,12 +53,7 @@ public class SysFileService {
     @Resource
     private FileOperator fileOperator;
 
-    // 是否添加用户水印
-    @Value("${addUserMask.enable:false}")
-    private boolean addUserMask;
 
-    @Value("${addUserMask.fileBucket:}")
-    private String addUserMaskFileBucket;
 
     @Resource
     SysFileDao sysFileDao;
@@ -168,51 +163,6 @@ public class SysFileService {
         String fileName = sysFileResult.getFileOriginName();
         byte[] fileBytes = sysFileResult.getFileBytes();
         DownloadTool.download(fileName, fileBytes, response);
-    }
-
-    // 添加水印
-    private byte[] pressText(HttpServletResponse response, boolean isPublic, byte[] fileBytes, String fileBucket, String fileSuffix) {
-        boolean isImage = false;
-        //设置contentType
-        if (StrUtil.endWithIgnoreCase(fileSuffix, "jpg")) {
-            response.setContentType(MediaType.IMAGE_JPEG_VALUE);
-            isImage = true;
-        } else if (StrUtil.endWithIgnoreCase(fileSuffix, "png")) {
-            response.setContentType(MediaType.IMAGE_PNG_VALUE);
-            isImage = true;
-        }
-
-        if (isImage && addUserMask && (StrUtil.isEmpty(addUserMaskFileBucket) || StrUtil.split(addUserMaskFileBucket, ",").contains(fileBucket))) {
-            ByteArrayInputStream is = new ByteArrayInputStream(fileBytes);
-            Image image = ImgUtil.read(is);
-
-            int fontSize = 50;
-            Font font = new Font("黑体", Font.PLAIN, fontSize);
-            if (!isPublic) {
-                Subject subject = SecurityUtils.getSubject();
-
-
-                int y = 0;
-                image = ImgUtil.pressText(image, "保密文件，请勿外传", Color.WHITE, font, 0, y, 0.5f);
-                y += fontSize;
-
-                if (!subject.isAuthenticated()) {
-                    image = ImgUtil.pressText(image, "未登录，缺少token", Color.WHITE, font, 0, y, 0.5f);
-                } else {
-
-                    String unitName = subject.getUnitName();
-                    if (unitName != null) {
-                        image = ImgUtil.pressText(image, unitName, Color.WHITE, font, 0, y, 0.5f);
-                        y += fontSize;
-                    }
-
-                    image = ImgUtil.pressText(image, subject.getName(), Color.WHITE, font, 0, y, 0.5f);
-                }
-            }
-
-            fileBytes = ImgUtil.toBytes(image, fileSuffix);
-        }
-        return fileBytes;
     }
 
 

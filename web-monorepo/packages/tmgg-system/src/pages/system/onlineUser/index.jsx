@@ -21,8 +21,8 @@ export default class extends React.Component {
             dataIndex: 'lastLoginIp'
         },
         {
-            title: '最后登录时间',
-            dataIndex: 'lastLoginTime'
+            title: '最后访问时间',
+            dataIndex: 'lastAccessedTime'
         },
         {
             title: '最后登录地址',

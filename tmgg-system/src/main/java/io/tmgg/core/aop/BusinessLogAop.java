@@ -40,7 +40,7 @@ public class BusinessLogAop {
     public void doAfterReturning(JoinPoint joinPoint, Object result) {
         Subject subject = SecurityUtils.getSubject();
         String account = CommonConstant.UNKNOWN;
-        if (subject != null && subject.isAuthenticated()) {
+        if (subject != null ) {
             account = subject.getAccount() + " " + subject.getName();
         }
         if (result instanceof AjaxResult) {
@@ -65,7 +65,7 @@ public class BusinessLogAop {
     public void doAfterThrowing(JoinPoint joinPoint, Exception exception) {
         Subject subject = SecurityUtils.getSubject();
         String account = CommonConstant.UNKNOWN;
-        if (subject != null && subject.isAuthenticated()) {
+        if (subject != null ) {
             account = subject.getAccount();
         }
         //异步记录日志

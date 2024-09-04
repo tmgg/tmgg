@@ -21,9 +21,9 @@ import io.tmgg.sys.service.SysConfigService;
 import io.tmgg.sys.service.SysUserService;
 import io.tmgg.sys.user.param.SysUserParam;
 import io.tmgg.web.annotion.HasPermission;
+import io.tmgg.web.perm.SecurityManager;
 import io.tmgg.web.perm.SecurityUtils;
 import io.tmgg.web.perm.Subject;
-import io.tmgg.web.session.MySessionRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -57,7 +57,7 @@ public class SysUserController {
     private SysOrgService sysOrgService;
 
     @Resource
-    private MySessionRepository mySessionRepository;
+    private SecurityManager sm;
 
     @HasPermission
     @PostMapping("page")
@@ -84,7 +84,7 @@ public class SysUserController {
         }
 
         SysUser sysUser = sysUserService.saveOrUpdate(input);
-        mySessionRepository.deleteBySubject(sysUser.getId());
+        sm.forceExistBySubjectId(sysUser.getId());
 
         if(isNew){
             return AjaxResult.ok().msg("添加成功,密码：" + configService.getDefaultPassWord());
@@ -130,7 +130,7 @@ public class SysUserController {
     public AjaxResult updatePwd(String password, String newPassword) {
         String userId = SecurityUtils.getSubject().getId();
         sysUserService.updatePwd(userId, password, newPassword);
-        mySessionRepository.deleteBySubject(userId);
+        sm.forceExistBySubjectId(userId);
         return AjaxResult.ok();
     }
 
@@ -145,7 +145,7 @@ public class SysUserController {
     @PostMapping("resetPwd")
     public AjaxResult resetPwd(@RequestBody SysUserParam sysUserParam) {
         sysUserService.resetPwd(sysUserParam.getId());
-        mySessionRepository.deleteBySubject(sysUserParam.getId());
+        sm.forceExistBySubjectId(sysUserParam.getId());
         return AjaxResult.ok().msg("重置成功,新密码为：" + configService.getDefaultPassWord());
     }
 
@@ -220,7 +220,7 @@ public class SysUserController {
     public AjaxResult grantPerm(@Valid @RequestBody GrantPermDto param) {
         sysUserService.grantPerm(param.getId(), param.getRoleIds(),param.getDataPermType(),  param.getOrgIds());
 
-        mySessionRepository.deleteBySubject(param.getId());
+        sm.forceExistBySubjectId(param.getId());
         return AjaxResult.ok();
     }
 

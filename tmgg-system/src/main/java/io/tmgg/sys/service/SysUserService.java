@@ -54,6 +54,25 @@ public class SysUserService extends BaseService<SysUser> implements UserLabelQue
     @Resource
     private SysConfigService sysConfigService;
 
+    public SysUser checkAccount(String account, String password) {
+        Assert.hasText(account, "账号不能为空");
+        Assert.hasText(password, "密码不能为空");
+        SysUser sysUser = sysUserDao.findByAccount(account);
+
+        Assert.notNull(sysUser, "账号不存在");
+
+        Assert.state(sysUser.getStatus() == CommonStatus.ENABLE, "账号状态异常" + sysUser.getStatus());
+        String passwordBcrypt = sysUser.getPassword();
+
+        Assert.hasText(passwordBcrypt, "账号未设置密码");
+
+        boolean checkpw = PasswordTool.checkpw(password, passwordBcrypt);
+        Assert.state(checkpw, "密码错误");
+
+        return sysUser;
+    }
+
+
 
     public List<SysUser> findByUnit(Collection<String> org) {
         JpaQuery<SysUser> query = new JpaQuery<>();
