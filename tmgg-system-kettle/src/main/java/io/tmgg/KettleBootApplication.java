@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 
 @SpringBootApplication
-public class BootApplication {
+public class KettleBootApplication {
 
 
     public static void main(String[] args) {

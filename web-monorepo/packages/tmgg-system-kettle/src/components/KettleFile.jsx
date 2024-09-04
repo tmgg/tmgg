@@ -1,6 +1,6 @@
 import React from "react";
 import {Button, message, Modal, Popconfirm, Space, Table, Tabs, Upload} from "antd";
-import {http, HttpUtil} from "@tmgg/tmgg-base";
+import {HttpUtil} from "@tmgg/tmgg-base";
 
 export default class extends React.Component {
 
@@ -55,15 +55,7 @@ export default class extends React.Component {
 
   loadData() {
     HttpUtil.get('/kettle/file/list').then(rs => {
-      if (rs.success) {
-        this.setState({list: rs.data})
-      } else {
-        Modal.error({
-          title: '获取存储库失败',
-          content: rs.message
-        })
-      }
-
+        this.setState({list: rs})
     })
   }
 
@@ -94,7 +86,7 @@ export default class extends React.Component {
 
   loadXml = ( id) => {
     HttpUtil.get('/kettle/xml', {id}).then(rs => {
-      this.setState({xml:rs.data})
+      this.setState({xml:rs})
     })
   }
 
@@ -115,7 +107,7 @@ export default class extends React.Component {
       ></Table>
 
 
-      <Modal title='详情'
+      <Modal title='文件详情'
              open={this.state.detailOpen}
              footer={null} width='80vw'
              destroyOnClose={true}

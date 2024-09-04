@@ -1,8 +1,7 @@
 import {AutoComplete, Button, Form, Input, message, Modal, Popconfirm, Select, Space, Switch, Table, Tag} from 'antd'
 import React from 'react'
-import {MinusCircleOutlined, PlusOutlined} from "@ant-design/icons";
-import StreamLog from "../components/StreamLog";
-import {http, HttpUtil} from "@tmgg/tmgg-base";
+import {PlusOutlined} from "@ant-design/icons";
+import { HttpUtil} from "@tmgg/tmgg-base";
 
 
 const cronOptions = [
@@ -109,13 +108,13 @@ export default class extends React.Component {
     this.loadData()
 
     HttpUtil.get('/kettle/file/options').then(rs=>{
-      this.setState({fileOptions:rs.data})
+      this.setState({fileOptions:rs})
     })
   }
 
   loadData() {
     HttpUtil.get('kettle/sysJob/list').then(rs => {
-      this.setState({list: rs.data})
+      this.setState({list: rs})
     })
   }
 

@@ -1,5 +1,5 @@
 import React from "react";
-import {http} from "@tmgg/tmgg-base";
+import {http, HttpUtil} from "@tmgg/tmgg-base";
 import {Alert, Card, Descriptions, Tabs, Tag} from "antd";
 
 const Item = Descriptions.Item
@@ -16,18 +16,14 @@ export default class extends React.Component {
     const {jobId, jobName} = this.props
 
     HttpUtil.get('/kettle/jobStatus', {jobId, jobName}).then(rs => {
-      this.setState({jobStatus: rs.data})
+      this.setState({jobStatus: rs})
     })
 
     HttpUtil.get('/kettle/jobImage', {jobId, jobName}).then(rs => {
       let jobImageErrorMessage = null;
       let jobImageUrl = null;
 
-      if (rs.success) {
         jobImageUrl = 'data:image/png;base64,' + rs.data;
-      } else {
-        jobImageErrorMessage = rs.message;
-      }
       this.setState({jobImageUrl})
       this.setState({jobImageErrorMessage})
     })

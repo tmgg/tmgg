@@ -1,13 +1,12 @@
 import React from 'react'
 import {Card, Descriptions, Tabs} from "antd";
-import KettleFile from "../components/KettleFile";
-import {http, theme} from "@tmgg/tmgg-base";
-import JobList from "../components/JobStatus";
-import SysJob from "../components/SysJob";
+import KettleFile from "../../components/KettleFile";
+import {HttpUtil, theme} from "@tmgg/tmgg-base";
+import JobList from "../../components/JobStatus";
+import SysJob from "../../components/SysJob";
 
 const Item = Descriptions.Item
 
-import '../init'
 
 export default class extends React.Component {
 
@@ -17,14 +16,13 @@ export default class extends React.Component {
 
   componentDidMount() {
     HttpUtil.get('/kettle/status').then(rs => {
-      this.setState({status: rs.data || {}})
+      this.setState({status: rs || {}})
     })
   }
 
   render() {
     const status = this.state.status
-    const iframe = window.self != window.top;
-    return <div style={{padding: iframe ? 0: 12, minHeight:'98vh', background: theme["background-color"]}}>
+    return <div >
       <div>
         <Card>
           <Descriptions title='Kettle服务状态'>

@@ -1,15 +1,11 @@
 {
-  "SysMenu": [
-
+  "SysPerm": [
     {
-      "id": "ETL-KETTLE",
-      "type": "MENU",
-      "application": "system",
-      "name": "ETL-KETTLE",
-      "code": "kettle",
-      "router": "/kettle/index.html",
-      "iframe": true
+      "id": "etl-kettle",
+      "pid": "sys",
+      "name": "kettle调度",
+      "perm": "kettle",
+      "path": "/kettle"
     }
-
   ]
 }

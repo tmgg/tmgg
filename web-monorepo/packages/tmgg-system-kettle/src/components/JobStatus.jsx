@@ -1,6 +1,6 @@
 import React from "react";
 import {Button, Modal, Table, Tag} from "antd";
-import {http, theme} from "@tmgg/tmgg-base";
+import {HttpUtil, theme} from "@tmgg/tmgg-base";
 import JobStatusView from "./JobStatusView";
 import {ReloadOutlined} from "@ant-design/icons";
 
@@ -60,7 +60,7 @@ export default class extends React.Component {
   loadData = () => {
     this.setState({loading: true})
     HttpUtil.get('/kettle/status').then(rs => {
-      this.setState({list: rs.data?.jobStatusList})
+      this.setState({list: rs?.jobStatusList})
       this.setState({loading: false})
     })
   };
