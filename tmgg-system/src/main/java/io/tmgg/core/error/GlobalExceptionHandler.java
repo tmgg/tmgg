@@ -1,7 +1,6 @@
 
 package io.tmgg.core.error;
 
-import cn.hutool.extra.servlet.JakartaServletUtil;
 import io.tmgg.SystemProperties;
 import io.tmgg.lang.*;
 import io.tmgg.lang.obj.AjaxResult;
@@ -14,15 +13,11 @@ import org.springframework.core.annotation.Order;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.transaction.TransactionSystemException;
-import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
-import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -32,7 +27,6 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 import jakarta.annotation.Resource;
 import jakarta.persistence.RollbackException;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
@@ -194,7 +188,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(SQLException.class)
     public AjaxResult sQLException(SQLException e) {
         log.error("SQL异常", e);
-        return renderJson(e);
+        return renderException(e);
     }
 
     /**
@@ -209,22 +203,19 @@ public class GlobalExceptionHandler {
         e.printStackTrace();
 
         log.error(e.getMessage());
-        return renderJson(e);
+        return renderException(e);
     }
 
-    /**
-     * 渲染异常json
-     *
- *
-     */
-    private AjaxResult renderJson(AbstractBaseExceptionEnum baseExceptionEnum) {
-        return AjaxResult.err().code(baseExceptionEnum.getCode()).msg(baseExceptionEnum.getMessage());
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public AjaxResult serverError(HttpRequestMethodNotSupportedException e) {
+        return AjaxResult.err().msg("不支持请求方法" + e.getMethod());
     }
 
     /**
      * 渲染异常json
      */
-    private AjaxResult renderJson(Throwable throwable) {
+    private AjaxResult renderException(Throwable throwable) {
         String message = throwable.getMessage();
 
         // 中文则提示中文，非中文则使用默认提示

@@ -4,9 +4,9 @@ import io.tmgg.lang.RequestTool;
 import io.tmgg.lang.SpringTool;
 import io.tmgg.weapp.entity.WeappUser;
 import io.tmgg.weapp.service.WeappUserService;
-import io.tmgg.web.token.TokenManger;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 public class WeappTool {
 
@@ -15,22 +15,16 @@ public class WeappTool {
         String appId = request.getHeader("appId");
         return appId;
     }
-    public static String curUserId(){
-        TokenManger tm = SpringTool.getBean(TokenManger.class);
-        String token = tm.getTokenFromRequest(RequestTool.currentRequest(),true);
-        String userId = tm.validate(token);
-
-        return userId;
+    public static String curUserId(HttpSession session){
+       return (String) session.getAttribute("APP_USER_ID");
     }
 
     // TODO 缓存
-    public static WeappUser curUser(){
-        String uid = curUserId();
-
-        if (uid != null){
-
+    public static WeappUser curUser(HttpSession session){
+        String userId = curUserId(session);
+        if (userId != null){
             WeappUserService weappUserService = SpringTool.getBean(WeappUserService.class);
-            return weappUserService.findOne(uid);
+            return weappUserService.findOne(userId);
         }
 
         return  null;

@@ -1,4 +1,4 @@
-package io.tmgg.weapp.admin;
+package io.tmgg.weapp.controller.admin;
 
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.weapp.entity.WeappUser;

@@ -1,8 +1,9 @@
 import {Button, Form, Input, message, Modal, Popconfirm, Select, Space, Switch, Tag} from 'antd'
 import React from 'react'
 import {PlusOutlined} from "@ant-design/icons";
-import {ProTable} from "@ant-design/pro-table";
-import {http, HttpUtil} from "@tmgg/tmgg-base";
+
+import { HttpUtil} from "@tmgg/tmgg-base";
+import { ProTable} from "@tmgg/pro-table";
 export default class extends React.Component {
 
   state = {

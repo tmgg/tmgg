@@ -4,7 +4,7 @@ import io.tmgg.weapp.entity.WeappUser;
 
 import java.util.Map;
 
-public interface WeappBizService {
+public interface WeappAuthListener {
 
 
     /**
@@ -12,6 +12,6 @@ public interface WeappBizService {
      * @param weappUser
      * @param model 返回给前端的数据
      */
-   void afterLogin(WeappUser weappUser, Map<String, Object> model);
+   void onAfterLogin(WeappUser weappUser, Map<String, Object> model);
 
 }

@@ -168,6 +168,8 @@ public class DefaultCommonController {
 
         }
 
+        list.sort(Comparator.comparing(SysPerm::getSeq));
+
         List<Route> routes = new LinkedList<>();
         for (SysPerm m : list) {
             String pid = m.getPid();

@@ -117,12 +117,12 @@ axiosInstance.interceptors.response.use(
     },
     error => {
         let {message, code, response, config = {}} = error;
-        let msg = response ? STATUS_MESSAGE[response?.status] : AXIOS_CODE_MESSAGE[code];
+        let msg = response?.data.message ||  STATUS_MESSAGE[response?.status] || AXIOS_CODE_MESSAGE[code];
 
         const {autoHandleErrors, url} = config;
 
         if (autoHandleErrors) {
-            showErrorMessage( '网络请求异常',error.status + ":" + msg + "，请求地址:" + url )
+            showErrorMessage( '请求异常 ' + error.status + "  " + url,  msg )
         }
 
 

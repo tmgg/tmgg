@@ -1,4 +1,4 @@
-package io.tmgg.weapp.app;
+package io.tmgg.weapp.controller.app;
 
 import cn.binarywang.wx.miniapp.api.WxMaService;
 import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
@@ -8,14 +8,13 @@ import cn.binarywang.wx.miniapp.util.WxMaConfigHolder;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.weapp.WeappTool;
 import io.tmgg.weapp.entity.WeappUser;
-import io.tmgg.weapp.service.WeappBizService;
+import io.tmgg.weapp.service.WeappAuthListener;
 import io.tmgg.weapp.service.WeappUserService;
 import cn.hutool.core.img.ImgUtil;
-import io.tmgg.web.token.TokenManger;
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.error.WxErrorException;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.poi.ss.util.ImageUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -47,10 +46,8 @@ public class WeapAppController {
     WeappUserService weappUserService;
 
     @Autowired(required = false)
-    WeappBizService weappBizService;
+    WeappAuthListener weappAuthListener;
 
-    @Resource
-    TokenManger tokenManger;
 
 
     /**
@@ -81,14 +78,11 @@ public class WeapAppController {
             }
 
             //生成token
-            String token = tokenManger.createToken(user.getId());
             Map<String, Object> model = new HashMap<>();
-            model.put("token", token);
             model.put("user", user);
 
-            if (weappBizService != null) {
-                weappBizService.afterLogin(user, model);
-
+            if (weappAuthListener != null) {
+                weappAuthListener.onAfterLogin(user, model);
             }
 
             return AjaxResult.ok().msg("登录成功").data( model);
@@ -105,8 +99,8 @@ public class WeapAppController {
      * 获取用户绑定手机号信息
      */
     @PostMapping("decryptPhone")
-    public AjaxResult decryptPhone(String code) throws WxErrorException {
-        String userId = WeappTool.curUserId();
+    public AjaxResult decryptPhone(String code, HttpSession session) throws WxErrorException {
+        String userId = WeappTool.curUserId(session);
         // 解密
         WxMaPhoneNumberInfo phoneNoInfo = wxMaService.getUserService().getPhoneNoInfo(code);
 
@@ -123,11 +117,12 @@ public class WeapAppController {
      *
      * @param encryptedData
      * @param iv
+     * @param session
      * @return
      */
     @PostMapping("decryptUser")
-    public AjaxResult decryptUser(String encryptedData, String iv) {
-        WeappUser weappUser = WeappTool.curUser();
+    public AjaxResult decryptUser(String encryptedData, String iv, HttpSession session) {
+        WeappUser weappUser = WeappTool.curUser(session);
         String sessionKey = weappUser.getSessionKey();
 
         // 解密
@@ -149,8 +144,8 @@ public class WeapAppController {
      * @return
      */
     @GetMapping("getUserInfo")
-    public AjaxResult getUserInfo() {
-        String id = WeappTool.curUserId();
+    public AjaxResult getUserInfo(HttpSession session) {
+        String id = WeappTool.curUserId(session);
         WeappUser user = weappUserService.findOne(id);
         return AjaxResult.ok().data(user);
     }
@@ -162,19 +157,19 @@ public class WeapAppController {
      * @return
      */
     @PostMapping("updateUser")
-    public AjaxResult updateUser(WeappUser weappUser) {
-        String id = WeappTool.curUserId();
+    public AjaxResult updateUser(WeappUser weappUser, HttpSession session) {
+        String id = WeappTool.curUserId(session);
         WeappUser user = weappUserService.updateNickName(id, weappUser);
         return AjaxResult.ok().data(user);
     }
 
     @PostMapping("uploadAvatar")
-    public AjaxResult uploadAvatar(MultipartFile file) throws IOException {
+    public AjaxResult uploadAvatar(MultipartFile file, HttpSession session) throws IOException {
         BufferedImage image = ImgUtil.read(file.getInputStream());
 
         String png = ImgUtil.toBase64DataUri(image, "png");
 
-        String id = WeappTool.curUserId();
+        String id = WeappTool.curUserId(session);
 
         WeappUser user = weappUserService.updateAvatar(id, png);
 

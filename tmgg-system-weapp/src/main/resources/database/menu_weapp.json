@@ -1,14 +1,22 @@
 {
-  "SysMenu": [
+  "SysPerm": [
     {
-      "application": "system",
       "id": "weapp",
+      "pid": "sys",
       "name": "微信小程序",
-      "type": "MENU",
-      "code": "weapp",
-      "iframe": true,
-      "router": "/weapp/index.html",
-      "seq": 100
+      "perm": "weapp",
+      "path": "/weapp",
+      "seq": 200
+    },
+    {
+      "id": "weappUser",
+      "pid": "sys",
+      "name": "微信用户",
+      "perm": "weappUser",
+      "path": "/weapp/user",
+      "seq": 201
     }
+
+
   ]
 }
