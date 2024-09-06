@@ -69,6 +69,7 @@ jobs:
           cd $dir/packages/tmgg-system-code-gen &&   npm publish -r --access public
           cd $dir/packages/tmgg-system-job &&   npm publish -r --access public
           cd $dir/packages/tmgg-system-kettle &&   npm publish -r --access public
+          cd $dir/packages/tmgg-system-ureport &&   npm publish -r --access public
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_ACCESS_TOKEN}}
 
