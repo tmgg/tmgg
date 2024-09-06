@@ -1,9 +1,11 @@
 package io.tmgg.report.controller;
 
+import cn.hutool.core.lang.Dict;
 import com.bstek.ureport.provider.report.ReportFile;
 import com.bstek.ureport.provider.report.ReportProvider;
 import io.tmgg.lang.SpringTool;
 import io.tmgg.lang.obj.AjaxResult;
+import io.tmgg.web.annotion.HasPermission;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,26 +24,29 @@ import java.util.List;
 public class UReportController {
 
 
+    @HasPermission
     @GetMapping("list")
     public AjaxResult list() {
         Collection<ReportProvider> list = SpringTool.getBeans(ReportProvider.class);
-        List<ReportVo> voList = new ArrayList<>();
-        for (ReportProvider provider : list) {
-            List<ReportFile> reportFiles = provider.getReportFiles();
-            for (ReportFile reportFile : reportFiles) {
-                String name = reportFile.getName();
-                String url = "ureport/preview?_u=" + provider.getPrefix() +  name ;
-                voList.add(new ReportVo(name, url));
+
+        list = list.stream().filter(t -> !t.disabled()).toList();
+
+
+        List<Dict> voList = new ArrayList<>();
+        for (ReportProvider reportProvider : list) {
+            for (ReportFile file : reportProvider.getReportFiles()) {
+                Dict dict = new Dict();
+                dict.put("providerName", reportProvider.getName());
+                dict.put("providerPrefix",reportProvider.getPrefix());
+                dict.put("name", file.getName());
+                dict.put("updateDate", file.getUpdateDate());
+                dict.put("previewUrl", "ureport/preview?_u=" + reportProvider.getPrefix() + file.getName());
+                voList.add(dict);
             }
         }
+
         return AjaxResult.ok().data(voList);
     }
 
-    @Data
-    @AllArgsConstructor
-    public static class ReportVo {
-        String baseName;
-        String url;
 
-    }
 }
