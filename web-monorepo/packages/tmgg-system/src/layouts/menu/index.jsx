@@ -2,12 +2,11 @@
 
 import React from 'react';
 import {Layout} from 'antd';
-import {history, Outlet} from 'umi';
+import {history, Outlet, Link} from 'umi';
 import "./index.less"
 import * as Icons from '@ant-design/icons';
 import logo from '../../asserts/logo.png'
 
-import {PageLoading} from "@ant-design/pro-components";
 
 import HeaderRight from "./HeaderRight";
 
@@ -96,7 +95,10 @@ export default class extends React.Component {
             </Sider>
             <Layout style={{height: '100%'}}>
                 <Header className='header'>
-                    <h3 style={{color: theme["primary-color"]}}>{siteInfo.title}</h3>
+
+                    <h3 >
+                        <Link to="/" style={{color: theme["primary-color"]}}>                        {siteInfo.title}                    </Link>
+                    </h3>
                     <HeaderRight></HeaderRight>
                 </Header>
 

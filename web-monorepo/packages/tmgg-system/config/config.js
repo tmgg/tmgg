@@ -1,11 +1,7 @@
 import {defineConfig} from 'umi';
 
 
-
-
-
-// @ts-ignore
-export default defineConfig({
+export const config = {
   npmClient: 'yarn',
 
   define: {
@@ -19,10 +15,12 @@ export default defineConfig({
    */
   hash: true,
 
+  history:{type:'hash'},
 
   // monorepo 复杂，还得设置忽略、编译等，先关掉
   mfsu: false
 
 
 
-});
+};
+export default defineConfig(config);

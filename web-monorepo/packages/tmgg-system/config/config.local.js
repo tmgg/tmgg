@@ -13,9 +13,14 @@ let proxy = {
     changeOrigin: true,
     pathRewrite: {'^/api': '/'},
   },
+  '/ureport': {
+    target: target,
+    changeOrigin: true,
+    pathRewrite: {'^/ureport': '/ureport'},
+  },
 };
 
-export default defineConfig({
+export const configLocal = {
 
 
   define: {
@@ -23,4 +28,5 @@ export default defineConfig({
   },
 
   proxy
-});
+};
+export default defineConfig(configLocal);

@@ -17,7 +17,7 @@
     "@ant-design/icons" : "^5.4.0",
     "@tmgg/pro-table" : "^5.0.3",
     "@tmgg/tmgg-base" : "0.1.19",
-    "@tmgg/tmgg-system" : "0.1.17",
+    "@tmgg/tmgg-system" : "0.1.19",
     "antd" : "^5.20.3",
     "react" : "^18.2.0",
     "react-dom" : "^18.2.0",
