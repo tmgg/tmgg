@@ -1,5 +1,5 @@
 import {registerField} from "@tmgg/pro-table";
-import {FieldDictRadio} from "../components";
+import {FieldDictRadio, FieldPassword} from "../components";
 import {HttpUtil} from "../utils";
 import {SysUtil} from "./sys";
 
@@ -9,6 +9,7 @@ export function initBase(){
 
     registerField('dict', FieldDictRadio)
     registerField('dictRadio', FieldDictRadio)
+    registerField('password', FieldPassword)
 }
 
 

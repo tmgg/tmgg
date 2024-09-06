@@ -1,4 +1,4 @@
-import {Button, Form, Input, message, Modal, Popconfirm, Select, Space, Switch, Tag} from 'antd'
+import {Button, Form, Input, Modal, Popconfirm, Space} from 'antd'
 import React from 'react'
 import {PlusOutlined} from "@ant-design/icons";
 
@@ -65,23 +65,15 @@ export default class extends React.Component {
 
   onFinish = (values) => {
     HttpUtil.post('weapp/save', values).then(rs => {
-      if(rs.success){
         this.setState({formOpen: false})
         this.tableRef.current.reload();
-      }else {
-        Modal.error({title:'操作异常',content:rs.message})
-      }
-
-    }).catch(err => {
-      Modal.error({title:'操作异常',content:err})
     })
   }
 
   handleDelete = row => {
-    const  hide =message.loading("删除任务中...")
-    HttpUtil.get('weapp/delete', {id: row.id}).then(rs => {
+    HttpUtil.post('weapp/delete', null,{id: row.id}).then(rs => {
       this.tableRef.current.reload();
-    }).catch(hide)
+    })
   }
   render() {
     return <div >

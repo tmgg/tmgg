@@ -18,7 +18,6 @@ import {
  https://procomponents.ant.design/components/schema#valuetype
  **/
 console.log('原始的valueType');
-console.log('password  密码输入框\n money  金额输入框\n textarea  文本域\n date  日期\n dateTime  日期时间\n dateWeek  周\n dateMonth  月\n dateQuarter  季度输入\n dateYear  年份输入\n dateRange  日期区间\n dateTimeRange  日期时间区间\n time  时间\n timeRange  时间区间\n text  文本框\n select  下拉框\n checkbox  多选框\n rate  星级组件\n radio  单选框\n radioButton  按钮单选框\n progress  进度条\n percent  百分比组件\n digit  数字输入框\n second  秒格式化\n avatar  头像\n code  代码框\n switch  开关\n fromNow  相对于当前时间\n image  图片\n jsonCode  代码框，但是带了 json 格式化\n color  颜色选择器',);
 
 const dictSelect = {
   render(text:any, props:any) {
