@@ -59,7 +59,9 @@ public class Subject implements Serializable {
     }
 
 
-    public boolean isPermitted(String perm) {
+
+
+    public boolean hasPermission(String perm) {
         if (StringUtils.isEmpty(perm) || CollectionUtils.isEmpty(permissions)) {
             return false;
         }
@@ -74,12 +76,7 @@ public class Subject implements Serializable {
             perm = StringUtils.replace(perm, "/", ":");
         }
 
-
         return permissions.contains(perm);
-    }
-
-    public boolean hasPermission(String code) {
-        return isPermitted(code);
     }
 
 

@@ -5,10 +5,10 @@ package io.tmgg.system;
 import io.tmgg.flowable.assignment.AssignmentTypeProvider;
 import io.tmgg.flowable.assignment.Identity;
 import io.tmgg.lang.dao.BaseEntity;
+import io.tmgg.sys.entity.SysUser;
 import io.tmgg.sys.role.entity.SysRole;
 import io.tmgg.sys.role.service.SysRoleService;
-import io.tmgg.sys.user.entity.SysUser;
-import io.tmgg.sys.user.service.SysUserService;
+import io.tmgg.sys.service.SysUserService;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Component;
 

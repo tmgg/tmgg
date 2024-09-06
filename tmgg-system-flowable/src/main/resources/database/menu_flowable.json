@@ -1,16 +1,13 @@
 {
-  "SysMenu": [
+  "SysPerm": [
 
     {
       "id": "flowable",
-      "type": "MENU",
-      "application": "system",
+      "pid": "sys",
       "name": "流程管理",
-      "code": "flowable",
-      "router": "/flowable/index.html",
-      "iframe": true,
-      "seq": 102
+      "perm": "flowable",
+      "path": "/flowable/index.html",
+      "seq": 300
     }
-
   ]
 }

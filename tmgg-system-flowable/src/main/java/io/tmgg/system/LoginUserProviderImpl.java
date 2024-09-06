@@ -17,7 +17,7 @@ public class LoginUserProviderImpl implements FlowableLoginUserProvider {
         FlowableLoginUser user = new FlowableLoginUser();
         user.setId(current.getId());
         user.setName(current.getName());
-        user.setSuperAdmin(current.isSuperAdmin());
+        user.setSuperAdmin(current.hasPermission("*"));
 
         return user;
     }
