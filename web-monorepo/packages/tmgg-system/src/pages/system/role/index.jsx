@@ -47,14 +47,14 @@ export default class extends React.Component {
 
   handleSave = value => {
     HttpUtil.post(baseApi + 'save', value).then(rs => {
-      this.setState({formOpen:false,curRecord:rs.data})
+      this.setState({formOpen:false,curRecord:rs})
       this.loadData()
     })
   }
 
 
   handleDelete = (id) => {
-    HttpUtil.get(baseApi + 'delete', {id}).then(rs => {
+    HttpUtil.post(baseApi + 'delete', null,{id}).then(rs => {
       this.loadData()
     })
   }

@@ -134,7 +134,7 @@ export default class extends React.Component {
 
     componentDidMount() {
         HttpUtil.get('sysOrg/tree').then(rs => {
-            this.setState({treeData: rs.data})
+            this.setState({treeData: rs})
         })
     }
 

@@ -2,7 +2,7 @@ package io.tmgg.flowable;
 
 import io.tmgg.flowable.bean.TaskVo;
 import io.tmgg.flowable.entity.ConditionVariable;
-import io.tmgg.flowable.entity.FlowModel;
+import io.tmgg.flowable.entity.SysFlowableModel;
 import io.tmgg.flowable.service.MyFlowModelService;
 import io.tmgg.flowable.service.MyTaskService;
 
@@ -82,7 +82,7 @@ public class FlowableManager {
 
         // 判断必填流程变量
         {
-            FlowModel model = modelService.findByCode(processDefinitionKey);
+            SysFlowableModel model = modelService.findByCode(processDefinitionKey);
             List<ConditionVariable> conditionVariable = model.getConditionVariableList();
             if (!CollectionUtils.isEmpty(conditionVariable)) {
                 for (ConditionVariable formItem : conditionVariable) {

@@ -7,6 +7,7 @@ import { Button, message } from 'antd';
 
 import './index.less';
 import {http} from "../../../system";
+import {HttpUtil} from "../../../utils";
 
 /*
 interface FlatMultipleSelectProps {
@@ -51,19 +52,15 @@ export class FlatMultipleSelect extends React.Component {
 
     this.setState({ fetching: true });
 
-    HttpUtil.get(url, { searchText }).then((rs) => {
+    HttpUtil.get(url, { searchText }).then(rs => {
       this.setState({ fetching: false });
 
-      if (rs.success == false) {
-        message.error(rs.message);
-        return;
-      }
-      if (!(rs.data instanceof Array)) {
+      if (!(rs instanceof Array)) {
         message.error('返回结果的data字段应该为数组');
         return;
       }
 
-      this.setState({ data: rs.data });
+      this.setState({ data: rs });
     });
   };
   onBtnClick = (v) => {

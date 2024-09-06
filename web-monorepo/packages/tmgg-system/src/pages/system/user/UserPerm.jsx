@@ -101,9 +101,8 @@ class FieldTree extends React.Component {
     }
 
     componentDidMount() {
-        HttpUtil.get('/sysOrg/tree').then(rs => {
-            const list = rs.data;
-            this.setState({treeData: list, treeLoading: false})
+        HttpUtil.get('/sysOrg/tree').then(treeData => {
+            this.setState({treeData, treeLoading: false})
         })
     }
 

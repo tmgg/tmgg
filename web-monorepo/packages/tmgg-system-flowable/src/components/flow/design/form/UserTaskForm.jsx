@@ -1,7 +1,7 @@
 import React from 'react';
 import {Card, Form, Select, Switch} from 'antd';
 import BpmnUtils from '../../BpmnUtils';
-import {http} from "@tmgg/tmgg-base";
+import {http, HttpUtil} from "@tmgg/tmgg-base";
 
 const PREFIX = 'flowable:';
 /**
@@ -43,12 +43,11 @@ export default class extends React.Component {
 
   componentDidMount() {
     const {initData} = this.state;
-    HttpUtil.get('/flowable/model/assignmentTypeList').then((rs) => {
+    HttpUtil.get('/flowable/model/assignmentTypeList').then(assignmentTypeList => {
       if (this.destroyed) {
         return;
       }
 
-      const assignmentTypeList = rs.data;
       const assignmentTypeMap = {};
 
       assignmentTypeList.forEach((a) => {
@@ -80,7 +79,7 @@ export default class extends React.Component {
   loadAssignmentObjectTree = (assignmentTypeCode) => {
     const url = '/flowable/model/assignmentObjectTree?code=' + assignmentTypeCode;
     HttpUtil.get(url).then((rs) => {
-      this.setState({assignmentObjectList: rs.data});
+      this.setState({assignmentObjectList: rs});
     });
   };
 

@@ -1,5 +1,5 @@
 import React from "react";
-import {ProTable} from "@ant-design/pro-components"
+import {ProTable} from "@tmgg/pro-table"
 
 export default class extends React.Component {
 

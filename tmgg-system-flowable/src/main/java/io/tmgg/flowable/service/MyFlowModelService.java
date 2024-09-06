@@ -1,11 +1,12 @@
 
 package io.tmgg.flowable.service;
 
-import io.tmgg.flowable.dao.ModelDao;
+import io.tmgg.flowable.dao.SysFlowableModelDao;
 import io.tmgg.flowable.entity.ConditionVariable;
-import io.tmgg.flowable.entity.FlowModel;
+import io.tmgg.flowable.entity.SysFlowableModel;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import io.tmgg.lang.dao.specification.JpaQuery;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.flowable.bpmn.converter.BpmnXMLConverter;
@@ -41,7 +42,7 @@ public class MyFlowModelService {
 
 
     @Resource
-    ModelDao dao;
+    SysFlowableModelDao sysFlowableModelDao;
 
 
     @Resource
@@ -52,20 +53,20 @@ public class MyFlowModelService {
     protected ProcessEngineConfigurationImpl processEngineConfiguration;
 
 
-    public FlowModel findByCode(String code) {
-        return dao.findByCode(code);
+    public SysFlowableModel findByCode(String code) {
+        return sysFlowableModelDao.findByCode(code);
     }
 
     @Transactional
-    public FlowModel saveContent(FlowModel param) throws InvocationTargetException, IllegalAccessException, JsonProcessingException {
+    public SysFlowableModel saveContent(SysFlowableModel param) {
         String xml = param.getContent();
         String id = param.getId();
 
-        FlowModel db = dao.findOne(id);
+        SysFlowableModel db = sysFlowableModelDao.findOne(id);
 
 
         db.setContent(xml);
-        db = dao.save(db);
+        db = sysFlowableModelDao.save(db);
 
         return db;
     }
@@ -222,7 +223,7 @@ public class MyFlowModelService {
         return null;
     }
 
-    public void save(FlowModel model) throws InvocationTargetException, IllegalAccessException, JsonProcessingException {
+    public void save(SysFlowableModel model) {
         String code = model.getCode();
         Assert.hasText(code, "编码不能为空");
         Assert.state(!isNumeric(code), "编码不能是纯数字");
@@ -236,7 +237,7 @@ public class MyFlowModelService {
         }
 
 
-        dao.save(model);
+        sysFlowableModelDao.save(model);
     }
 
     private static boolean isNumeric(String str) {
@@ -253,15 +254,25 @@ public class MyFlowModelService {
     }
 
 
-    public void deleteById(String id) throws SQLException {
-        dao.deleteById(id);
+    public void deleteById(String id) {
+        sysFlowableModelDao.deleteById(id);
     }
 
-    public Page<FlowModel> findAll(String keyword, Pageable pageable) {
-        return dao.findAll(keyword, pageable);
+    public Page<SysFlowableModel> findAll(final String keyword, Pageable pageable) {
+        JpaQuery<SysFlowableModel> q = new JpaQuery<>();
+        if(StringUtils.isNotBlank(keyword)){
+           String  keywordTrim = keyword.trim();
+            q.or(sq->{
+                sq.like(SysFlowableModel.Fields.name, keywordTrim);
+                sq.like(SysFlowableModel.Fields.code, keywordTrim);
+            });
+        }
+
+
+        return sysFlowableModelDao.findAll(q, pageable);
     }
 
-    public FlowModel findOne(String id) {
-        return dao.findOne(id);
+    public SysFlowableModel findOne(String id) {
+        return sysFlowableModelDao.findOne(id);
     }
 }

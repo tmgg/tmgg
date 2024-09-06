@@ -41,15 +41,10 @@ export class FieldRemoteSelect extends React.Component {
     const selected = this.props.value;
     const { url } = this.state;
 
-    HttpUtil.get(url, { searchText, selected: selected }).then((rs) => {
+    HttpUtil.get(url, { searchText, selected: selected }).then(data => {
       this.setState({ loading: false });
-      if (rs.success === false) {
-        message.error(rs.message);
 
-        return;
-      }
 
-      let data = rs.data;
       if (!(data instanceof Array)) {
         message.error('返回结果的data字段应该为数组');
         return;

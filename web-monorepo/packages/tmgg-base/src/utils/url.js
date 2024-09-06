@@ -1,3 +1,4 @@
+import {StrUtil} from "./str";
 
 export const UrlUtil = {
     /**
@@ -9,8 +10,14 @@ export const UrlUtil = {
             url = location.href
         }
 
-        const urlObj = new URL(url);
-        const params = new URLSearchParams(urlObj.search);
+        if(!StrUtil.contains(url,'?')){
+            return {}
+        }
+
+        const search = StrUtil.subAfter(url, '?')
+
+
+        const params = new URLSearchParams(search);
 
         const result = {}
         for (const [key, value] of params.entries()) {

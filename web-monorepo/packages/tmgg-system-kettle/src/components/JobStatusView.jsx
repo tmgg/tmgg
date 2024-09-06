@@ -23,7 +23,7 @@ export default class extends React.Component {
       let jobImageErrorMessage = null;
       let jobImageUrl = null;
 
-        jobImageUrl = 'data:image/png;base64,' + rs.data;
+        jobImageUrl = 'data:image/png;base64,' + rs;
       this.setState({jobImageUrl})
       this.setState({jobImageErrorMessage})
     })

@@ -1,6 +1,7 @@
 import {message, Spin, TreeSelect} from 'antd';
 
 import React from 'react';
+import {HttpUtil} from "../../utils";
 
 /**
  * props : url
@@ -40,7 +41,7 @@ export class FieldRemoteTreeMultipleSelect extends React.Component {
         return;
       }
 
-      this.setState({data: rs.data, fetching: false});
+      this.setState({data: rs, fetching: false});
     });
   };
 

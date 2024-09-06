@@ -6,7 +6,7 @@ import io.tmgg.flowable.bean.CommentResult;
 import io.tmgg.flowable.bean.HandleTaskParam;
 import io.tmgg.flowable.bean.TaskVo;
 import io.tmgg.flowable.entity.ConditionVariable;
-import io.tmgg.flowable.entity.FlowModel;
+import io.tmgg.flowable.entity.SysFlowableModel;
 import io.tmgg.flowable.FlowableLoginUser;
 import io.tmgg.flowable.FlowableLoginUserProvider;
 import io.tmgg.flowable.FlowableMasterDataProvider;
@@ -189,7 +189,7 @@ public class UserSideController {
 
             data.put("instanceCommentList", commentResults);
 
-            FlowModel model = myFlowModelService.findByCode(instance.getProcessDefinitionKey());
+            SysFlowableModel model = myFlowModelService.findByCode(instance.getProcessDefinitionKey());
 
 
             List<ConditionVariable> conditionVariableList = model.getConditionVariableList();
@@ -205,13 +205,13 @@ public class UserSideController {
             }
 
 
-            String formLink = model.getFormLink();
-            if (StringUtils.isNotEmpty(formLink)) {
+            String formUrl = model.getFormUrl();
+            if (StringUtils.isNotEmpty(formUrl)) {
                 // 替换 businessKey变量
                 if (instance.getBusinessKey() != null) {
-                    formLink = formLink.replace("${businessKey}", instance.getBusinessKey());
+                    formUrl = formUrl.replace("${businessKey}", instance.getBusinessKey());
                 }
-                data.put("formLink", formLink);
+                data.put("formLink", formUrl);
             }
         }
 

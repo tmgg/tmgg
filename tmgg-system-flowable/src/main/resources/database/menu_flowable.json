@@ -2,12 +2,38 @@
   "SysPerm": [
 
     {
-      "id": "flowable",
+      "id": "flowableMgr",
       "pid": "sys",
-      "name": "流程管理",
-      "perm": "flowable",
-      "path": "/flowable/index.html",
+      "type": "DIR",
+      "name": "流程引擎",
       "seq": 300
+    },
+    {
+      "id": "flowableModel",
+      "pid": "flowableMgr",
+      "name": "模型管理",
+      "perm": "flowableModel",
+      "path": "/flowable",
+      "seq": 301
+    },
+
+    {
+      "id": "flowableTask",
+      "pid": "flowableMgr",
+      "name": "我的任务",
+      "perm": "flowableTask",
+      "path": "/flowable/task",
+      "seq": 302
+    },
+
+    {
+      "id": "flowableMonitor",
+      "pid": "flowableMgr",
+      "name": "流程监控",
+      "perm": "flowableMonitor",
+      "path": "/flowable/monitor",
+      "seq": 303
     }
+
   ]
 }

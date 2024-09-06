@@ -1,6 +1,6 @@
 package io.tmgg.flowable;
 
-import io.tmgg.flowable.entity.FlowModel;
+import io.tmgg.flowable.entity.SysFlowableModel;
 import io.tmgg.flowable.service.MyFlowModelService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import io.tmgg.lang.JsonTool;
@@ -44,11 +44,11 @@ public class AutoCreateFlowModelRunnerJson implements ApplicationRunner {
     }
 
     private void handleFile(String json) throws JsonProcessingException, InvocationTargetException, IllegalAccessException {
-        FlowModel model = JsonTool.jsonToBeanQuietly(json, FlowModel.class);
+        SysFlowableModel model = JsonTool.jsonToBeanQuietly(json, SysFlowableModel.class);
 
         model.setId(model.getCode());
 
-        FlowModel old = myFlowModelService.findByCode(model.getCode());
+        SysFlowableModel old = myFlowModelService.findByCode(model.getCode());
 
         if(old != null){
             model.setContent(old.getContent());

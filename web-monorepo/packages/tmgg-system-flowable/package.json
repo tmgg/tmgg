@@ -1,5 +1,5 @@
 {
-  "private" : true,
+  "private" : false,
   "devDependencies" : {
     "@types/react" : "^18.0.0",
     "@types/react-dom" : "^18.0.0",
@@ -8,13 +8,10 @@
   "name" : "tmgg-system-flowable",
   "scripts" : {
     "flowable-start" : "umi dev",
-    "flowable-start-legacy" : "SET NODE_OPTIONS=--openssl-legacy-provider && umi dev",
-    "build" : "umi build",
-    "cn" : "npm config set registry https://registry.npmmirror.com"
+    "build" : "umi build"
   },
   "version" : "0.1.20",
   "dependencies" : {
-    "@ant-design/pro-components" : "^2.0.0",
     "@tmgg/tmgg-system" : "0.1.20",
     "@tmgg/tmgg-base" : "0.1.20",
     "axios" : "^1.6.7",

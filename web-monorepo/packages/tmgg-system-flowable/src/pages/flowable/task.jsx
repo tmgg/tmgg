@@ -1,9 +1,9 @@
 import React from "react";
 import {Tabs} from "antd";
-import {PageLoading} from "@ant-design/pro-components";
-import MyInstance from "../components/MyInstance";
-import DoneTask from "../components/doneTask";
-import TodoTask from "../components/todoTask";
+import MyInstance from "../../components/MyInstance";
+import DoneTask from "../../components/doneTask";
+import TodoTask from "../../components/todoTask";
+import {PageLoading} from "@tmgg/tmgg-base";
 
 
 export default class extends React.Component {

@@ -7,17 +7,18 @@ import {getBusinessObject} from "bpmn-js/lib/util/ModelUtil";
 import BpmnModeler from 'bpmn-js/lib/Modeler'
 
 import './index.css'
-import customTranslate from "../../components/flow/customTranslate/customTranslate";
-import TimerEventDefinitionForm from "../../components/flow/design/form/TimerEventDefinitionForm";
-import ServiceTaskForm from "../../components/flow/design/form/ServiceTaskForm";
-import ConditionForm from "../../components/flow/design/form/ConditionForm";
-import UserTaskForm from "../../components/flow/design/form/UserTaskForm";
-import palette from "../../components/flow/design/palette";
+import customTranslate from "../../../components/flow/customTranslate/customTranslate";
+import TimerEventDefinitionForm from "../../../components/flow/design/form/TimerEventDefinitionForm";
+import ServiceTaskForm from "../../../components/flow/design/form/ServiceTaskForm";
+import ConditionForm from "../../../components/flow/design/form/ConditionForm";
+import UserTaskForm from "../../../components/flow/design/form/UserTaskForm";
+import palette from "../../../components/flow/design/palette";
 import OriginModule from 'diagram-js-origin';
-import contextPad from "../../components/flow/design/contextPad";
+import contextPad from "../../../components/flow/design/contextPad";
 import {CloudUploadOutlined, EditOutlined, SaveOutlined} from "@ant-design/icons";
 import qs from "qs";
-import {http, HttpUtil} from "@tmgg/tmgg-base";
+import {HttpUtil, UrlUtil} from "@tmgg/tmgg-base";
+import * as Url from "url";
 
 export default class extends React.Component {
 
@@ -43,7 +44,7 @@ export default class extends React.Component {
   preXmlRef = React.createRef()
 
   componentDidMount() {
-    let params = qs.parse(window.location.search.substring(1));
+    let params = UrlUtil.params();
 
     this.state.id = params.id
 
@@ -68,7 +69,7 @@ export default class extends React.Component {
 
 
     HttpUtil.get('flowable/model/detail', {id: this.state.id}).then(rs => {
-      let {conditionVariable, model} = rs.data;
+      let {conditionVariable, model} = rs;
       this.setState({model, conditionVariable})
       this.initBpmn(model.content)
     })

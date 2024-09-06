@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldNameConstants;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.SerializationUtils;
 import org.springframework.session.Session;
 
@@ -23,6 +24,7 @@ import java.util.Set;
 @Setter
 @Entity
 @FieldNameConstants
+@Slf4j
 public class SysHttpSession extends BaseEntity implements Session, Serializable {
 
 
@@ -106,17 +108,6 @@ public class SysHttpSession extends BaseEntity implements Session, Serializable 
 
 
 
-    public static class SessionAttrConverter implements AttributeConverter<HashMap<String, Object>, byte[]> {
 
-        @Override
-        public byte[] convertToDatabaseColumn(HashMap<String, Object> attribute) {
-            return SerializationUtils.serialize(attribute);
-        }
-
-        @Override
-        public HashMap<String, Object> convertToEntityAttribute(byte[] dbData) {
-            return SerializationUtils.deserialize(dbData);
-        }
-    }
 
 }

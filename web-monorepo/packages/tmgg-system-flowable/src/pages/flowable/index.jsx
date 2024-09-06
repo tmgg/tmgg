@@ -1,8 +1,9 @@
 import {Button, Form, Input, message, Modal, Popconfirm, Select, Space} from 'antd';
 import React from 'react';
-import {ProTable} from "@ant-design/pro-components";
+import {ProTable} from "@tmgg/pro-table";
 import {MinusCircleOutlined, PlusOutlined} from "@ant-design/icons";
-import {http, HttpUtil} from "@tmgg/tmgg-base";
+import { HttpUtil} from "@tmgg/tmgg-base";
+import {Link} from "umi";
 
 const baseTitle = "流程模型";
 const baseApi = 'flowable/model/';
@@ -41,7 +42,7 @@ export default class extends React.Component {
     },
     {
       title: '表单链接',
-      dataIndex: 'formLink'
+      dataIndex: 'formUrl'
     },
     {
       title: '更新时间',
@@ -57,8 +58,8 @@ export default class extends React.Component {
       valueType: 'option',
       render: (_, record) => (
         <Space>
-          <a href={'design.html?id=' + record.id}> 设计 </a>
-          <a href={'test.html?id=' + record.id}> 测试 </a>
+          <Link to={'/flowable/design?id=' + record.id}> 设计 </Link>
+          <Link to={'/flowable/test?id=' + record.id}> 测试 </Link>
           <a onClick={()=>this.handleEdit(record)}> 修改 </a>
           <Popconfirm perm={delPerm} title={'是否确定' + deleteTitle} onConfirm={() => this.handleDelete(record)}>
             <a>删除</a>
@@ -102,7 +103,7 @@ export default class extends React.Component {
         search={false}
         actionRef={this.actionRef}
         toolBarRender={() => <Button icon={<PlusOutlined/>} type='primary' onClick={this.handleAdd}>新建</Button>}
-        request={(params, sort) => HttpUtil.getPageable(pageApi, params, sort)}
+        request={(params, sort) => HttpUtil.pageData(pageApi, params, sort)}
         columns={this.columns}
         rowSelection={false}
         rowKey="id"
@@ -129,7 +130,7 @@ export default class extends React.Component {
             <Input/>
           </Form.Item>
 
-          <Form.Item label='表单地址' name='formLink' rules={[{required: true}]} help={"支持变量， 如 /user/form?id=${businessKey}"}>
+          <Form.Item label='表单地址' name='formUrl' rules={[{required: true}]} help={"支持变量， 如 /user/form?id=${businessKey}"}>
             <Input/>
           </Form.Item>
 

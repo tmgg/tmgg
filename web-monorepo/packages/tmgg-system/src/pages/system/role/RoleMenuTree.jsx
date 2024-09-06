@@ -28,8 +28,7 @@ export default class extends React.Component {
 
     // 加载关联关系
     const hide = message.loading('加载中...', 0)
-    HttpUtil.get('/sysRole/ownMenu', {id: id}).then(rs => {
-      const ids = rs.data;
+    HttpUtil.get('/sysRole/ownMenu', {id: id}).then(ids => {
       this.setState({checked: ids})
       hide()
     })

@@ -1,7 +1,7 @@
 package io.tmgg.flowable.controller;
 
 import io.tmgg.flowable.FlowableManager;
-import io.tmgg.flowable.entity.FlowModel;
+import io.tmgg.flowable.entity.SysFlowableModel;
 import io.tmgg.flowable.service.MyFlowModelService;
 
 import io.tmgg.lang.obj.AjaxResult;
@@ -25,7 +25,7 @@ public class TestController {
     @GetMapping("get")
     public AjaxResult get(String id) {
         Assert.hasText(id, "id不能为空");
-        FlowModel model = myFlowModelService.findOne(id);
+        SysFlowableModel model = myFlowModelService.findOne(id);
         return AjaxResult.ok().data(model);
     }
 

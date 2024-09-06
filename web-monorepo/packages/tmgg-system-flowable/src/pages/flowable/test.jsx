@@ -1,7 +1,6 @@
 import React from "react";
 import {Button, Card, Form, Input, message} from "antd";
-import {PageLoading} from "@ant-design/pro-components";
-import {http, HttpUtil, url} from "@tmgg/tmgg-base";
+import {http, HttpUtil, PageLoading, url} from "@tmgg/tmgg-base";
 
 export default class extends React.Component {
 
@@ -15,7 +14,7 @@ export default class extends React.Component {
     const id = this.id = params.id
 
     HttpUtil.get('flowable/test/get', {id}).then(rs=>{
-        this.setState({model: rs.data})
+        this.setState({model: rs})
 
     })
 

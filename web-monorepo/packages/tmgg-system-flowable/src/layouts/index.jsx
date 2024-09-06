@@ -5,7 +5,7 @@ export default class extends React.Component {
 
 
   render() {
-    return <Layouts {...this.props}></Layouts>
+    return <Layouts></Layouts>
   }
 
 

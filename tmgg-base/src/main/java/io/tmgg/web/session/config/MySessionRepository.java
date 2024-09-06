@@ -44,6 +44,11 @@ public class MySessionRepository implements SessionRepository<SysHttpSession> {
             return null;
         }
 
+        if(session.getSessionAttrs() == null){
+            dao.deleteById(session.getId());
+            return null;
+        }
+
         return session;
     }
 

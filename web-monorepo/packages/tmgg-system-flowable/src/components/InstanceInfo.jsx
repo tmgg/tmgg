@@ -1,6 +1,6 @@
 import React from "react";
 import {Card, Descriptions, Empty, Skeleton, Table, Tabs} from "antd";
-import {PageLoading} from "@ant-design/pro-components";
+import {HttpUtil, PageLoading} from "@tmgg/tmgg-base";
 
 
 export default class InstanceInfo extends React.Component {
@@ -13,7 +13,7 @@ export default class InstanceInfo extends React.Component {
     starter: null,
     startTime: null,
     name: null,
-    formLink: null,
+    formUrl: null,
 
     data: {
       commentList: [],
@@ -29,8 +29,8 @@ export default class InstanceInfo extends React.Component {
     const {id, businessKey} = this.props;
 
     HttpUtil.get("flowable/userside/getInstanceInfo", {id, businessKey}).then(rs => {
-      this.setState(rs.data)
-      this.setState({data: rs.data, loading: false})
+      this.setState(rs)
+      this.setState({data: rs, loading: false})
 
     }).catch(e => {
       this.setState({errorMsg: e})
@@ -45,7 +45,7 @@ export default class InstanceInfo extends React.Component {
     }
 
     const {data, loading} = this.state
-    const {formLink} = data
+    const {formUrl} = data
     const {commentList, img, variables} = data
     if (loading) {
       return <Skeleton/>
@@ -67,7 +67,7 @@ export default class InstanceInfo extends React.Component {
           {
             key: '1',
             label: '表单',
-            children: formLink ? <iframe sandbox="allow-scripts allow-same-origin" src={formLink} width='100%' height='300px' frameBorder={0} marginHeight={0}
+            children: formUrl ? <iframe sandbox="allow-scripts allow-same-origin" src={formUrl} width='100%' height='300px' frameBorder={0} marginHeight={0}
                                          marginWidth={0}></iframe> : <Empty description='获取表单页面中..'/>
           },
           {

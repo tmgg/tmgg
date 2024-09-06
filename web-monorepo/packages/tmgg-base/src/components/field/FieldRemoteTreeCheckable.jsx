@@ -30,13 +30,7 @@ export class FieldRemoteTreeCheckable extends React.Component {
     this.setState({fetching: true});
 
     HttpUtil.get(url).then((rs) => {
-      if (rs == null || rs.success == false) {
-        message.error(rs?.message || '异常');
-        this.setState({fetching: false});
-        return;
-      }
-
-      this.setState({data: rs.data, fetching: false});
+      this.setState({data: rs, fetching: false});
     });
   };
 

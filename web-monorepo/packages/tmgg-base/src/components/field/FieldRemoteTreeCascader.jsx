@@ -30,18 +30,7 @@ export class FieldRemoteTreeCascader extends React.Component {
     const { url } = this.props;
     this.setState({ fetching: true });
 
-    HttpUtil.get(url).then((rs) => {
-      if (rs == null) {
-        console.error(url, '未查询到数据');
-        return;
-      }
-      if (rs.success == false) {
-        message.error(rs.message);
-        this.setState({ fetching: false });
-        return;
-      }
-
-      let list = rs.data;
+    HttpUtil.get(url).then(list => {
 
       if (!(list instanceof Array)) {
         message.error('返回结果应该为数组');

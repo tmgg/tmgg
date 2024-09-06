@@ -1,7 +1,7 @@
 import React from "react";
-import {Button, Card, Form, Input, message, Modal, Radio,} from "antd";
-import InstanceInfo from "../components/InstanceInfo";
-import {HttpUtil, url} from "@tmgg/tmgg-base"
+import {Button, Card, Form, Input, Modal, Radio,} from "antd";
+import InstanceInfo from "../../components/InstanceInfo";
+import {HttpUtil, UrlUtil} from "@tmgg/tmgg-base"
 
 export default class extends React.Component {
 
@@ -12,7 +12,7 @@ export default class extends React.Component {
 
   handleTask = value => {
     this.setState({submitLoading: true});
-    const {taskId} = url.params();
+    const {taskId} = UrlUtil.params();
 
 
     value.taskId = taskId
@@ -37,7 +37,7 @@ export default class extends React.Component {
 
   render() {
     const {submitLoading} = this.state
-    let params = url.params()
+    let params = UrlUtil.params()
 
     const {instanceId} = params;
     return <div style={{background: '#f5f5f5'}}>

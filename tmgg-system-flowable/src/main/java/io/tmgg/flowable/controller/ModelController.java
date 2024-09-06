@@ -4,13 +4,15 @@ package io.tmgg.flowable.controller;
 import io.tmgg.flowable.assignment.AssignmentTypeProvider;
 import io.tmgg.flowable.assignment.Identity;
 import io.tmgg.flowable.entity.ConditionVariable;
-import io.tmgg.flowable.entity.FlowModel;
+import io.tmgg.flowable.entity.SysFlowableModel;
 import io.tmgg.flowable.service.MyFlowModelService;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import io.tmgg.lang.SpringTool;
+import io.tmgg.lang.dao.BaseCURDController;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.obj.Option;
+import io.tmgg.web.annotion.HasPermission;
 import org.apache.commons.lang3.StringUtils;
 import org.flowable.engine.delegate.JavaDelegate;
 import org.springframework.data.domain.Pageable;
@@ -35,36 +37,40 @@ public class ModelController {
     private MyFlowModelService service;
 
 
-    @GetMapping("page")
+
+    @HasPermission("flowableModel:page")
+    @PostMapping("page")
     public AjaxResult page(String keyword, Pageable pageable) {
         return AjaxResult.ok().data(service.findAll(keyword, pageable));
     }
 
 
+    @HasPermission("flowableModel:delete")
     @GetMapping("delete")
     public AjaxResult delete(@RequestParam String id) throws SQLException {
         service.deleteById(id);
         return AjaxResult.ok();
     }
 
+    @HasPermission("flowableModel:save")
     @PostMapping("save")
-    public AjaxResult save(@RequestBody FlowModel param) throws InvocationTargetException, IllegalAccessException, JsonProcessingException {
+    public AjaxResult save(@RequestBody SysFlowableModel param) throws InvocationTargetException, IllegalAccessException, JsonProcessingException {
         service.save(param);
         return AjaxResult.ok();
     }
-
+    @HasPermission("flowableModel:design")
     @PostMapping("saveContent")
-    public AjaxResult saveContent(@RequestBody FlowModel param) throws InvocationTargetException, IllegalAccessException, JsonProcessingException {
-        FlowModel save = service.saveContent(param);
+    public AjaxResult saveContent(@RequestBody SysFlowableModel param) throws InvocationTargetException, IllegalAccessException, JsonProcessingException {
+        SysFlowableModel save = service.saveContent(param);
         return AjaxResult.ok().data(save);
     }
 
-
+    @HasPermission("flowableModel:deploy")
     @PostMapping("deploy")
-    public AjaxResult deploy(@RequestBody FlowModel param) throws InvocationTargetException, IllegalAccessException, JsonProcessingException {
-        FlowModel flowModel = service.saveContent(param);
+    public AjaxResult deploy(@RequestBody SysFlowableModel param) throws InvocationTargetException, IllegalAccessException, JsonProcessingException {
+        SysFlowableModel sysFlowableModel = service.saveContent(param);
 
-        service.deploy(flowModel.getCode(), flowModel.getName(), flowModel.getContent());
+        service.deploy(sysFlowableModel.getCode(), sysFlowableModel.getName(), sysFlowableModel.getContent());
 
         return AjaxResult.ok().msg("部署成功");
     }
@@ -72,7 +78,7 @@ public class ModelController {
 
     @GetMapping("detail")
     public AjaxResult detail(String id) {
-        FlowModel model = service.findOne(id);
+        SysFlowableModel model = service.findOne(id);
         if (StringUtils.isBlank(model.getContent())) {
             String xml = service.createDefaultModel(model.getCode(), model.getName());
             model.setContent(xml);

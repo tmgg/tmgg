@@ -31,8 +31,7 @@ export default class extends React.Component {
       this.setState({treeLoading: true})
     }
 
-    http.get('${firstLowerName}/tree').then(rs => {
-      let treeData = rs.data;
+    http.get('${firstLowerName}/tree').then(treeData => {
       const defaultExpandedKeys = this.getAutoExpand(treeData)
       this.setState({treeData, defaultExpandedKeys})
     }).finally(() => {
@@ -60,7 +59,7 @@ export default class extends React.Component {
 
     this.setState({formLoading: true, formEditing: false})
     http.get("${firstLowerName}/detail", {id: key}).then(rs => {
-      this.setState({formValues: rs.data})
+      this.setState({formValues: rs})
     }).finally(() => {
       this.setState({formLoading: false})
     })

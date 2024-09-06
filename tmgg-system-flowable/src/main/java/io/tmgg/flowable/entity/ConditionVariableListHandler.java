@@ -31,7 +31,7 @@ public class ConditionVariableListHandler implements Converter {
         if (dbData == null || dbData.isEmpty()) {
             return null;
         }
-        TypeReference<List<ConditionVariable>> reference = new TypeReference<List<ConditionVariable>>() {
+        TypeReference<List<ConditionVariable>> reference = new TypeReference<>() {
         };
         try {
             return JsonTool.jsonToBean(dbData, reference);
