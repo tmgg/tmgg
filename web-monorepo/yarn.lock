@@ -113,7 +113,7 @@
     rc-resize-observer "^1.0.0"
     rc-util "^5.4.0"
 
-"@ant-design/pro-components@^2.0.0", "@ant-design/pro-components@^2.0.1":
+"@ant-design/pro-components@^2.0.1":
   version "2.7.15"
   resolved "https://registry.npmjs.org/@ant-design/pro-components/-/pro-components-2.7.15.tgz"
   integrity sha512-M30R93pGVvHsaQ65rwmrI4kQqTv8mCAmwxGZNDYIOoZs78syJlLKLNoYSb/eKY0L+h78QfXbXHckQzTXp577mA==

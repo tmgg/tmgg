@@ -1,5 +1,5 @@
 import React, {Fragment} from "react";
-import {ProTable} from "@ant-design/pro-components";
+import {ProTable} from "@tmgg/pro-table";
 import InstanceInfo from "./InstanceInfo";
 import {Modal} from "antd";
 

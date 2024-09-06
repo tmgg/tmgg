@@ -91,7 +91,7 @@ public class SetVersionHandler {
             @Override
             public boolean accept(File file) {
                 String baseName = FilenameUtils.getBaseName(file.getName());
-                return baseName.startsWith("tmgg-") || baseName.equals("apps") || baseName.equals("packages");
+                return baseName.startsWith("tmgg-") || baseName.equals("packages");
             }
 
             @Override
@@ -100,7 +100,6 @@ public class SetVersionHandler {
             }
         });
 
-        System.out.println("开始修改package.json的版本");
 
         for (File pkg : pkgs) {
             System.out.println(pkg);

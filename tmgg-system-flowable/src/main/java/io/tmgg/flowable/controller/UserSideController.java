@@ -69,13 +69,13 @@ public class UserSideController {
     @Resource
     FlowableManager fm;
 
-    @GetMapping("todoTaskPage")
+    @PostMapping("todoTaskPage")
     public AjaxResult todo(Pageable pageable) {
         Page<TaskVo> page = fm.taskTodoList(pageable);
         return AjaxResult.ok().data(page);
     }
 
-    @GetMapping("doneTaskPage")
+    @PostMapping("doneTaskPage")
     public AjaxResult doneTaskPage(Pageable pageable) {
         Page<TaskVo> page = fm.taskDoneList(pageable);
         return AjaxResult.ok().data(page);
@@ -83,7 +83,7 @@ public class UserSideController {
 
 
     // 我发起的
-    @GetMapping("myInstance")
+    @PostMapping("myInstance")
     public AjaxResult myInstance(Pageable pageable) {
         FlowableLoginUser loginUser = flowableLoginUserProvider.currentLoginUser();
 
@@ -120,7 +120,7 @@ public class UserSideController {
     public AjaxResult handle(@RequestBody HandleTaskParam param) {
         FlowableLoginUser subject = flowableLoginUserProvider.currentLoginUser();
         myTaskService.handle(subject.getId(), param.getResult(), param.getTaskId(), param.getComment());
-        return AjaxResult.ok();
+        return AjaxResult.ok().msg("处理成功");
     }
 
 

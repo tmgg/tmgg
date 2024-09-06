@@ -16,9 +16,7 @@ import palette from "../../../components/flow/design/palette";
 import OriginModule from 'diagram-js-origin';
 import contextPad from "../../../components/flow/design/contextPad";
 import {CloudUploadOutlined, EditOutlined, SaveOutlined} from "@ant-design/icons";
-import qs from "qs";
 import {HttpUtil, UrlUtil} from "@tmgg/tmgg-base";
-import * as Url from "url";
 
 export default class extends React.Component {
 
@@ -40,6 +38,8 @@ export default class extends React.Component {
   }
   curBo = null
   curNode = null
+
+  bpmRef = React.createRef()
 
   preXmlRef = React.createRef()
 
@@ -79,15 +79,15 @@ export default class extends React.Component {
     window.modeling = this.modeling;
   }
 
-  initBpmn(xml) {
-    const id = '#flow-canvas-' + this.state.id
-    this.bpmnModeler.attachTo(id);
+  initBpmn = xml => {
+    let parentNode = this.bpmRef.current;
+    this.bpmnModeler.attachTo(parentNode);
     this.bpmnModeler.importXML(xml)
 
     this.bpmnModeler.on('element.contextmenu', e => e.preventDefault()) // 关闭右键，影响操作
     this.bpmnModeler.on('selection.changed', this.onSelectionChanged);
     //this.bpmnModeler.on('element.changed', this.refreshForm);
-  }
+  };
 
 
 
@@ -119,7 +119,7 @@ export default class extends React.Component {
 
   onSelectionChanged = e => {
     const {newSelection} = e;
-    if (newSelection.length != 1) {
+    if (newSelection.length !== 1) {
       this.setState({showForm: false})
       return null
     }
@@ -172,18 +172,19 @@ export default class extends React.Component {
 
 
   render() {
+    console.log('this.bpmRef',this.bpmRef)
 
     return <Card title={'流程设计 - ' + this.state.model?.name}
                  extra={<Space>
                    <Button type='primary' icon={<SaveOutlined />} onClick={this.handleSubmit}>暂存</Button>
-                   <Button type='danger' icon={<CloudUploadOutlined />} onClick={this.handleDeploy}>保存并部署</Button>
+                   <Button type='primary' danger icon={<CloudUploadOutlined />} onClick={this.handleDeploy}>保存并部署</Button>
                    <Button icon={<EditOutlined />} onClick={this.showXML}>编辑文本</Button>
                  </Space>}>
 
 
       <Row gutter={16} wrap={false} style={{height: '90vh'}}>
         <Col flex='auto'>
-          <div id={"flow-canvas-" + this.state.id} style={{width: '100%', height: '100%'}}></div>
+          <div  ref={this.bpmRef} style={{width: '100%', height: '100%'}}></div>
         </Col>
 
         <Col flex='300px'>

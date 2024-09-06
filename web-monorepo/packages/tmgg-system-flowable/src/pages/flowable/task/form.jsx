@@ -1,7 +1,8 @@
 import React from "react";
 import {Button, Card, Form, Input, Modal, Radio,} from "antd";
-import InstanceInfo from "../../components/InstanceInfo";
+import InstanceInfo from "../../../components/InstanceInfo";
 import {HttpUtil, UrlUtil} from "@tmgg/tmgg-base"
+import {history} from "umi";
 
 export default class extends React.Component {
 
@@ -17,17 +18,7 @@ export default class extends React.Component {
 
     value.taskId = taskId
     HttpUtil.post("/flowable/userside/handleTask", value).then(rs => {
-      if(rs.success){
-        Modal.success({
-          title:'操作结果',
-          content: rs.message,
-          closable:false,
-          okText:'查看我的任务',
-          onOk: ()=>{
-            window.location.href= "task.html"
-          }
-        })
-      }
+       history.replace('/flowable/task')
 
     }).finally(() => {
       this.setState({submitLoading: false})

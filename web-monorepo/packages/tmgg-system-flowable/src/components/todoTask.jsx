@@ -1,5 +1,7 @@
 import React from "react";
-import {ProTable} from "@ant-design/pro-components";
+import {ProTable} from "@tmgg/pro-table";
+import {HttpUtil} from "@tmgg/tmgg-base";
+import {Link} from "umi";
 
 export default class extends React.Component {
 
@@ -46,7 +48,7 @@ export default class extends React.Component {
       dataIndex: 'option',
       valueType: 'option',
       render: (_, record) => (
-        <a href={'taskForm.html?taskId=' + record.id + '&instanceId=' + record.instanceId}>处理</a>
+        <Link to={'/flowable/task/form?taskId=' + record.id + '&instanceId=' + record.instanceId}>处理</Link>
       ),
     },
   ];
@@ -56,7 +58,7 @@ export default class extends React.Component {
     return <ProTable
       search={false}
       actionRef={this.actionRef}
-      request={(params, sort) => HttpUtil.getPageable("flowable/userside/todoTaskPage", params, sort)}
+      request={(params, sort) => HttpUtil.pageData("flowable/userside/todoTaskPage", params, sort)}
       columns={this.columns}
       rowSelection={false}
       rowKey="id"

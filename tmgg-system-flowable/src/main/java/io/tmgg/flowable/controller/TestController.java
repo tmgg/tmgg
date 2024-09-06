@@ -36,7 +36,7 @@ public class TestController {
 
         fm.start(modelCode,bizKey, params);
 
-        return AjaxResult.ok();
+        return AjaxResult.ok().msg("提交测试流程成功");
     }
 
 }

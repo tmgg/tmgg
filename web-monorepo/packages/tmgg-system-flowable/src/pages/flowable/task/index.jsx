@@ -1,8 +1,8 @@
 import React from "react";
 import {Tabs} from "antd";
-import MyInstance from "../../components/MyInstance";
-import DoneTask from "../../components/doneTask";
-import TodoTask from "../../components/todoTask";
+import MyInstance from "../../../components/MyInstance";
+import DoneTask from "../../../components/doneTask";
+import TodoTask from "../../../components/todoTask";
 import {PageLoading} from "@tmgg/tmgg-base";
 
 

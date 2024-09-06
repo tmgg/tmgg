@@ -1,6 +1,6 @@
 import React from "react";
 import {Button, Card, Form, Input, message} from "antd";
-import {http, HttpUtil, PageLoading, url} from "@tmgg/tmgg-base";
+import {HttpUtil, PageLoading, UrlUtil} from "@tmgg/tmgg-base";
 
 export default class extends React.Component {
 
@@ -10,7 +10,7 @@ export default class extends React.Component {
 
 
   componentDidMount() {
-    let params = url.params()
+    let params = UrlUtil.params()
     const id = this.id = params.id
 
     HttpUtil.get('flowable/test/get', {id}).then(rs=>{
@@ -47,6 +47,8 @@ export default class extends React.Component {
 
   onFinish = values => {
     values.modelCode = this.state.model.code
-    HttpUtil.post('flowable/test/submit', values)
+    HttpUtil.post('flowable/test/submit', values).then(rs=>{
+
+    })
   };
 }
