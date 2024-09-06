@@ -1,4 +1,4 @@
-import {Badge, Button, Dropdown, Menu, Popover, Spin} from "antd";
+import {Badge, Dropdown} from "antd";
 import {NotificationOutlined, SettingOutlined, UserOutlined} from "@ant-design/icons";
 import React from "react";
 import {history} from "umi";
@@ -69,8 +69,9 @@ export default class HeaderRight extends React.Component {
                     },
                     items: [
                         {key: 'settings', label: '个人设置'},
+                        {key: 'about', label: '关于系统'},
                         {key: 'logout', label: '退出登录'},
-                        {key: 'about', label: '关于'}
+
                     ]
                 }}><SettingOutlined/>
 
