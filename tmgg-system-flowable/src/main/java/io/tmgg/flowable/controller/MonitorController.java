@@ -20,6 +20,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -43,13 +44,11 @@ public class MonitorController {
   @Resource
   private FlowableLoginUserProvider flowableLoginUserProvider;
 
-  @Resource
-  private FlowableManager fm;
 
   @Resource
   private TaskService taskService;
 
-  @GetMapping("processDefinition")
+  @PostMapping("processDefinition")
   public AjaxResult processDefinition(Pageable pageable) {
     ProcessDefinitionQuery query = repositoryService.createProcessDefinitionQuery();
 
@@ -58,7 +57,7 @@ public class MonitorController {
     return AjaxResult.ok().data(page);
   }
 
-  @GetMapping("processInstance")
+  @PostMapping("processInstance")
   public AjaxResult processInstance(Pageable pageable) {
     ProcessInstanceQuery query = runtimeService.createProcessInstanceQuery();
 
@@ -67,7 +66,7 @@ public class MonitorController {
     return AjaxResult.ok().data(page);
   }
 
-  @GetMapping("processInstance/close")
+  @PostMapping("processInstance/close")
   public AjaxResult processInstanceClose(String id) {
     String name = flowableLoginUserProvider.currentLoginUser().getName();
     runtimeService.deleteProcessInstance(id, name + "手动关闭");
@@ -77,7 +76,7 @@ public class MonitorController {
 
 
 
-  @GetMapping("task")
+  @PostMapping("task")
   public AjaxResult task(Pageable pageable) {
     TaskQuery query = taskService.createTaskQuery();
 

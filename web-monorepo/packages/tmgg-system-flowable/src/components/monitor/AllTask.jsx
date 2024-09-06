@@ -1,5 +1,6 @@
 import React from "react";
 import {ProTable} from "@tmgg/pro-table"
+import {HttpUtil} from "@tmgg/tmgg-base";
 
 export default class extends React.Component {
 
@@ -64,7 +65,7 @@ export default class extends React.Component {
 
   render() {
     return <ProTable    search={false} columns={this.columns}
-                     request={(params, sort, filter) => HttpUtil.getPageable('flowable/monitor/task', params, sort)}
+                     request={(params, sort, filter) => HttpUtil.pageData('flowable/monitor/task', params, sort)}
                      rowKey='id'
                      scroll={{
                        x:'max-content'
