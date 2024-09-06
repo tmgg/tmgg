@@ -8,7 +8,9 @@ import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.web.annotion.HasPermission;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,8 +27,8 @@ public class UReportController {
 
 
     @HasPermission
-    @GetMapping("list")
-    public AjaxResult list() {
+    @PostMapping("page")
+    public AjaxResult page() {
         Collection<ReportProvider> list = SpringTool.getBeans(ReportProvider.class);
 
         list = list.stream().filter(t -> !t.disabled()).toList();
@@ -41,11 +43,12 @@ public class UReportController {
                 dict.put("name", file.getName());
                 dict.put("updateDate", file.getUpdateDate());
                 dict.put("previewUrl", "ureport/preview?_u=" + reportProvider.getPrefix() + file.getName());
+                dict.put("designerUrl", "ureport/designer?_u=" + reportProvider.getPrefix() + file.getName());
                 voList.add(dict);
             }
         }
 
-        return AjaxResult.ok().data(voList);
+        return AjaxResult.ok().data(new PageImpl<>(voList));
     }
 
 

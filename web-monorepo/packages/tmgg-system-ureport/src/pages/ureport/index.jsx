@@ -1,6 +1,7 @@
 import React from 'react'
-import {Button, Descriptions} from "antd";
-import {HttpUtil, SysUtil} from "@tmgg/tmgg-base";
+import {Button, Descriptions, Space} from "antd";
+import {ButtonList, HttpUtil} from "@tmgg/tmgg-base";
+import {ProTable} from "@tmgg/pro-table";
 
 const Item = Descriptions.Item
 
@@ -11,18 +12,31 @@ export default class extends React.Component {
         status: {}
     }
 
-    componentDidMount() {
-        HttpUtil.get('ureport/list').then(rs => {
-
-        })
-    }
 
     render() {
-        const status = this.state.status
         return <div>
-            <Button type='primary' target='_blank'
-                    href={SysUtil.getServerUrl() + "ureport/designer"}>打开设计器</Button>
-            ureport
+
+            <ProTable
+                toolBarRender={() => <Button type='primary'
+                                             target='_blank'
+                                             href={"/ureport/designer"}>打开设计器</Button>}
+
+                request={(params, sort, filter) => HttpUtil.pageData('ureport/page', params, sort)}
+                columns={[
+                    {title: "存储器", dataIndex: 'providerName'},
+                    {title: "存储器前缀", dataIndex: 'providerPrefix'},
+                    {title: "文件名称", dataIndex: 'name'},
+                    {title: "更新时间", dataIndex: 'updateDate'},
+                    {title: "-", dataIndex: 'option',
+                        render(_,record){
+                            return <ButtonList >
+                                <a href={record.previewUrl} target='_blank'>预览</a>
+                                <a href={record.designerUrl} target='_blank'>设计</a>
+                            </ButtonList>
+                        }},
+                ]}></ProTable>
+
+
         </div>
     }
 
