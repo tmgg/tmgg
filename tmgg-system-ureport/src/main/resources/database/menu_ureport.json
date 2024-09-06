@@ -1,0 +1,11 @@
+{
+  "SysPerm": [
+    {
+      "id": "ureport",
+      "pid": "sys",
+      "name": "UReport报表",
+      "perm": "ureport",
+      "path": "/ureport"
+    }
+  ]
+}

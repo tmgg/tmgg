@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="utf-8" ?>
-<root>
-    <SysMenu id="sysReport" name="ureport"  code="sysReport" router="/ureport/designer" type="MENU" application="system" status="ENABLE" visible="Y" seq="10" iframe="true" />
-</root>

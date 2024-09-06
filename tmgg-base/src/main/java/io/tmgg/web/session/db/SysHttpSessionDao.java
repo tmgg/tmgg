@@ -3,6 +3,7 @@ package io.tmgg.web.session.db;
 import io.tmgg.lang.dao.BaseDao;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -11,6 +12,7 @@ public class SysHttpSessionDao extends BaseDao<SysHttpSession> {
 
 
     @Async
+    @Transactional
     public void cleanExpired(){
         List<SysHttpSession> sessionList = this.findAll();
 
