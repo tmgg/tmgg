@@ -1,7 +1,7 @@
 import React from "react";
-import {ProTable} from "@ant-design/pro-components";
+import {ProTable} from "@tmgg/pro-table";
 import InstanceInfo from "./InstanceInfo";
-import { ProModal} from "@tmgg/tmgg-base";
+import {HttpUtil, ProModal} from "@tmgg/tmgg-base";
 
 export default class  extends React.Component {
 
@@ -76,7 +76,7 @@ export default class  extends React.Component {
             <ProTable
                 search={false}
                 actionRef={this.actionRef}
-                request={(params, sort) => HttpUtil.getPageable("flowable/userside/doneTaskPage", params, sort)}
+                request={(params, sort) => HttpUtil.pageData("flowable/userside/doneTaskPage", params, sort)}
                 columns={this.columns}
                 rowSelection={false}
                 rowKey="id"

@@ -2,6 +2,7 @@ import React, {Fragment} from "react";
 import {ProTable} from "@tmgg/pro-table";
 import InstanceInfo from "./InstanceInfo";
 import {Modal} from "antd";
+import {HttpUtil} from "@tmgg/tmgg-base";
 
 export default class MyInstance extends React.Component {
 
@@ -78,7 +79,7 @@ export default class MyInstance extends React.Component {
             <ProTable
                 search={false}
                 actionRef={this.actionRef}
-                request={(params, sort) => HttpUtil.getPageable("flowable/userside/myInstance", params, sort)}
+                request={(params, sort) => HttpUtil.pageData("flowable/userside/myInstance", params, sort)}
                 columns={this.columns}
                 rowSelection={false}
                 rowKey="id"

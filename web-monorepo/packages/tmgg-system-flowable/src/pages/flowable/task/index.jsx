@@ -1,5 +1,5 @@
 import React from "react";
-import {Tabs} from "antd";
+import {Card, Table, Tabs} from "antd";
 import MyInstance from "../../../components/MyInstance";
 import DoneTask from "../../../components/doneTask";
 import TodoTask from "../../../components/todoTask";
@@ -24,9 +24,11 @@ export default class extends React.Component {
     ]
 
     return <>
+      <Card>
       <Tabs defaultActiveKey="1" destroyInactiveTabPane items={items}>
 
       </Tabs>
+      </Card>
     </>
   }
 }
