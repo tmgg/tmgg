@@ -16,7 +16,7 @@ import java.util.Map;
 
 public class SetVersionHandler {
 
-    public static final String NEW_VERSION = "0.1.19";
+    public static final String NEW_VERSION = "0.1.20";
 
 
     public static void main(String[] args) throws IOException {
@@ -121,9 +121,12 @@ public class SetVersionHandler {
                     continue;
                 }
 
-                if (depMap.containsKey("@tmgg/tmgg-base")) {
-                    depMap.put("@tmgg/tmgg-base", version);
+                for (String key : depMap.keySet()) {
+                    if(key.startsWith("@tmgg/tmgg-")){
+                        depMap.put(key, version);
+                    }
                 }
+
             }
             json = JsonTool.toPrettyJsonQuietly(map);
 

@@ -4,11 +4,11 @@
     <parent>
         <groupId>io.github.tmgg</groupId>
         <artifactId>tmgg-system-parent</artifactId>
-        <version>0.1.19</version>
+        <version>0.1.20</version>
     </parent>
 
-    <artifactId>tmgg-dev-utils</artifactId>
-    <description>框架开发相关的工具，非模块，请不要依赖该模块</description>
+    <artifactId>tmgg-dev-script</artifactId>
+    <description>开发脚本</description>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

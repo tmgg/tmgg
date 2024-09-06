@@ -12,14 +12,14 @@
   "scripts" : {
     "dev-code" : "umi dev"
   },
-  "version" : "0.1.19",
+  "version" : "0.1.20",
   "dependencies" : {
     "@ant-design/icons" : "^5.4.0",
     "@tmgg/pro-table" : "^5.0.3",
     "antd" : "^5.20.3",
     "@tinymce/tinymce-react" : "^5.0.0",
-    "@tmgg/tmgg-base" : "0.1.19",
-    "@tmgg/tmgg-system" : "0.1.19",
+    "@tmgg/tmgg-base" : "0.1.20",
+    "@tmgg/tmgg-system" : "0.1.20",
     "react" : "^18.2.0",
     "react-dom" : "^18.2.0",
     "umi" : "^4.0.0"
