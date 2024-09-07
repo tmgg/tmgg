@@ -2,7 +2,7 @@
   "private" : "true",
   "peerDependencies" : { },
   "name" : "@tmgg/tmgg-monorepo",
-  "workspaces" : [ "packages/*" ],
+  "workspaces" : [ "packages/*","apps/*" ],
   "scripts" : { },
   "version" : "0.1.20"
 }
