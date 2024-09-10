@@ -1,0 +1,12 @@
+{
+  "name": "@tmgg/tmgg-common",
+  "version": "0.1.20",
+  "main": "src/index.js",
+  "files": ["src/*"],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "pc和mobile端都可依赖的公共代码"
+}
