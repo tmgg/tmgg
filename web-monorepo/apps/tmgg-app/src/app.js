@@ -2,10 +2,8 @@ import './app.scss'
 
 import React from 'react'
 import Taro from "@tarojs/taro";
-import HttpClient from "./util/HttpClient";
-import {setToken} from "./sys";
-import UserUtil from "./util/UserUtil";
-import {InitContext} from "./context/InitProvicer";
+
+
 
 export default class extends React.Component {
   state = {
@@ -32,7 +30,21 @@ export default class extends React.Component {
   }
 
   render() {
-    return <InitContext.Provider value={this.state.initFinish}> {this.props.children}</InitContext.Provider>
+      if (this.state.pathname === '/login') {
+      return <SiteInfoInterceptor>
+        {this.props.children}
+      </SiteInfoInterceptor>
+    }
+
+    return <>
+      <SiteInfoInterceptor>
+        <AuthInterceptor>
+          <LoginInfoInterceptor>
+            {this.props.children}
+          </LoginInfoInterceptor>
+        </AuthInterceptor>
+      </SiteInfoInterceptor>
+    </>
   }
 
   login = () => {
@@ -41,27 +53,6 @@ export default class extends React.Component {
       let code = res.code;
       let appId = Taro.getAccountInfoSync().miniProgram.appId;
       console.log('本地登录成功, appId=', appId)
-
-      HttpClient.postForm('/app/weapp/login', {code, appId}).then(rs => {
-        Taro.showToast({
-          title: rs.message
-        })
-        if (!rs.success) {
-          return
-        }
-
-        const {token, user} = rs.data;
-
-        console.log('登录服务器成功', token)
-
-        setToken(token)
-
-        UserUtil._setUserInfo(user);
-          this.setState({initFinish:true})
-
-        Taro.hideLoading()
-      })
-
     })
   }
 
