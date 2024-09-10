@@ -2,7 +2,7 @@ import './app.scss'
 
 import React from 'react'
 import Taro from "@tarojs/taro";
-
+import {AppAuthInterceptor, AppLoginInfoInterceptor, AppSiteInfoInterceptor} from "@tmgg/tmgg-app-base";
 
 
 export default class extends React.Component {
@@ -31,19 +31,19 @@ export default class extends React.Component {
 
   render() {
       if (this.state.pathname === '/login') {
-      return <SiteInfoInterceptor>
+      return <AppSiteInfoInterceptor>
         {this.props.children}
-      </SiteInfoInterceptor>
+      </AppSiteInfoInterceptor>
     }
 
     return <>
-      <SiteInfoInterceptor>
-        <AuthInterceptor>
-          <LoginInfoInterceptor>
+      <AppSiteInfoInterceptor>
+        <AppAuthInterceptor>
+          <AppLoginInfoInterceptor>
             {this.props.children}
-          </LoginInfoInterceptor>
-        </AuthInterceptor>
-      </SiteInfoInterceptor>
+          </AppLoginInfoInterceptor>
+        </AppAuthInterceptor>
+      </AppSiteInfoInterceptor>
     </>
   }
 

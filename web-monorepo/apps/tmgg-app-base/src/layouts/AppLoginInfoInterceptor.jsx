@@ -3,7 +3,7 @@ import {HttpUtil} from "../utils";
 import {SysUtil} from "@tmgg/tmgg-common";
 import {PageLoading} from "../components";
 
-export  class AuthInterceptor extends React.Component {
+export  class AppLoginInfoInterceptor extends React.Component {
 
     state = {
         loginInfoLoading:true,

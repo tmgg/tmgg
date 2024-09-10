@@ -4,12 +4,13 @@ import {Empty} from "@taroify/core";
 import {PageLoading} from "../components";
 import {HttpUtil} from "../utils";
 
-export  class AuthInterceptor extends React.Component {
+export  class AppAuthInterceptor extends React.Component {
 
     state = {
         tokenValid: undefined,
         errResult: undefined,
     }
+
 
     componentDidMount() {
         console.log("认证拦截器")
@@ -25,7 +26,7 @@ export  class AuthInterceptor extends React.Component {
 
 
     render() {
-        const pathname = PageTool.currentPathname();
+        const pathname = Taro.getCurrentInstance().router.path;
         if(pathname === '/login'){
             return this.props.children
         }

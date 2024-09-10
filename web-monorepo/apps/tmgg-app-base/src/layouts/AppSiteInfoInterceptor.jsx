@@ -1,16 +1,15 @@
 import React from "react";
 import {HttpUtil} from "../utils";
-import {SysUtil} from "@tmgg/tmgg-base";
 import {PageLoading} from "../components";
+import {SysUtil} from "@tmgg/tmgg-common";
 
-export  class AuthInterceptor extends React.Component {
+export  class AppSiteInfoInterceptor extends React.Component {
 
     state = {
         loading:true
     }
 
     componentDidMount() {
-        console.log('SiteInfo拦截器')
         HttpUtil.get("/site-info").then(rs=>{
             SysUtil.setSiteInfo(rs)
             this.setState({loading: false})
