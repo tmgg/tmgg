@@ -51,3 +51,4 @@ node_modules/
 /web-monorepo/apps/tmgg-system-flowable/package-lock.json
 dist/
 /web-monorepo/packages/tmgg-base/types/
+/web-monorepo/apps/tmgg-app-base/lib/

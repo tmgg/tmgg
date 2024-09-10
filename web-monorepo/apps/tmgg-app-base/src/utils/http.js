@@ -1,4 +1,5 @@
 import Taro from "@tarojs/taro";
+import {SysUtil} from "@tmgg/tmgg-common";
 
 
 const defaultRequestConfig = {
@@ -53,12 +54,12 @@ const STATUS_MESSAGE = {
 function send(url, params, config) {
     return new Promise((resolve, reject) => {
         Taro.request({
-            url: getServerUrl() + url,
+            url: SysUtil.getServerUrl() + url,
             method: config.method,
             data: params,
             header: {
-                'Authorization': getToken(),
-                'appId': getAppId()
+              //  'Authorization': getToken(),
+              //  'appId': getAppId()
             },
             success: res => {
                 let ajaxResult = res.data;
