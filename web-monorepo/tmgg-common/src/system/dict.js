@@ -2,7 +2,6 @@
  *
  * @param code
  */
-import {Tag} from 'antd';
 import React from 'react';
 import {StorageUtil, StrUtil} from "../utils";
 import {SysUtil} from "./sys";
@@ -55,23 +54,7 @@ export function dictValue(typeCode, code) {
   }
 }
 
-export function dictValueTag(typeCode, dataCode) {
-  if (dataCode == null) {
-    return '';
-  }
-  const data = dictData(typeCode, dataCode);
-  if (data != null) {
-    const {name, color} = data;
 
-    if (color == null) {
-      return name;
-    }
-
-    // js 方式创建 ，等同于 <Tag color={color}>{name}</Tag>
-    return React.createElement(Tag, {color: color}, name);
-  }
-  return '';
-}
 
 export function dictData(typeCode, code) {
   if (code == null) {

@@ -53,8 +53,11 @@ const STATUS_MESSAGE = {
 
 function send(url, params, config) {
     return new Promise((resolve, reject) => {
+        let url1 = SysUtil.getServerUrl() + url;
+        resolve({})
+        return
         Taro.request({
-            url: SysUtil.getServerUrl() + url,
+            url: url1,
             method: config.method,
             data: params,
             header: {

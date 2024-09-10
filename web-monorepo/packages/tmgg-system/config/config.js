@@ -2,7 +2,7 @@ import {defineConfig} from 'umi';
 
 
 export const config = {
-  npmClient: 'yarn',
+  npmClient: 'pnpm',
 
   define: {
     "process.env.API_BASE_URL": "/",

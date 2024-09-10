@@ -18,8 +18,8 @@
     "@tmgg/pro-table" : "^5.0.3",
     "antd" : "^5.20.3",
     "@tinymce/tinymce-react" : "^5.0.0",
-    "@tmgg/tmgg-base" : "0.1.20",
-    "@tmgg/tmgg-system" : "0.1.20",
+    "@tmgg/tmgg-base" : "workspace:*",
+    "@tmgg/tmgg-system" : "workspace:*",
     "react" : "^18.2.0",
     "react-dom" : "^18.2.0",
     "umi" : "^4.0.0"
