@@ -11,9 +11,18 @@
   "author": "",
   "license": "ISC",
   "description": "",
-  "peerDependencies": {
+  "dependencies": {
+    "@babel/runtime": "^7.21.5",
+    "@taroify/core": "^0.4.0-alpha.0",
+    "@tarojs/components": "3.6.30",
+    "@tarojs/helper": "3.6.30",
+    "@tarojs/react": "3.6.30",
+    "@tarojs/runtime": "3.6.30",
+    "@tarojs/shared": "3.6.30",
     "@tarojs/taro": "3.6.30",
-    "@tmgg/tmgg-common": "0.1.20"
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "@tmgg/tmgg-common": "workspace:*"
   },
   "browserslist": [
     "last 3 versions",

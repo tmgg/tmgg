@@ -62,14 +62,10 @@ jobs:
 
       - name: publish to npm
         run: |
+          npm install pnpm -g
           cd web-monorepo
-          dir=$(pwd)
-          cd $dir/packages/tmgg-base &&   npm publish -r --access public
-          cd $dir/packages/tmgg-system &&   npm publish -r --access public
-          cd $dir/packages/tmgg-system-code-gen &&   npm publish -r --access public
-          cd $dir/packages/tmgg-system-job &&   npm publish -r --access public
-          cd $dir/packages/tmgg-system-kettle &&   npm publish -r --access public
-          cd $dir/packages/tmgg-system-ureport &&   npm publish -r --access public
+          pnpm publish -r
+
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_ACCESS_TOKEN}}
 

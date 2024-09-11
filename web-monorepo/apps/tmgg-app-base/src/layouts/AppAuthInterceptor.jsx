@@ -3,6 +3,7 @@ import Taro from "@tarojs/taro";
 import {Empty} from "@taroify/core";
 import {PageLoading} from "../components";
 import {HttpUtil} from "../utils";
+import {View} from "@tarojs/components";
 
 export  class AppAuthInterceptor extends React.Component {
 
@@ -42,7 +43,9 @@ export  class AppAuthInterceptor extends React.Component {
             return this.props.children
         }
         if (this.state.tokenValid === false) {
-          return Taro.navigateTo({url:'/login'})
+           Taro.navigateTo({url:'/login'})
+
+            return <View>登录凭证失效</View>
         }
 
         return <PageLoading message='登录检查...'/>

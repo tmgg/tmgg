@@ -8,5 +8,8 @@
   },
   "author": "",
   "license": "ISC",
-  "description": "pc和mobile端都可依赖的公共代码"
+  "description": "pc和mobile端都可依赖的公共代码",
+  "dependencies": {
+    "react" : "^18.0.0"
+  }
 }

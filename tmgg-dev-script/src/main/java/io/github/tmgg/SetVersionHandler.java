@@ -113,7 +113,7 @@ public class SetVersionHandler {
 
             // 修改依赖
 
-            String[] deps = {"peerDependencies", "dependencies"};
+           /* String[] deps = {"peerDependencies", "dependencies"};
             for (String dep : deps) {
                 Map<String, Object> depMap = (Map<String, Object>) map.get(dep);
                 if (depMap == null) {
@@ -126,7 +126,7 @@ public class SetVersionHandler {
                     }
                 }
 
-            }
+            }*/
             json = JsonTool.toPrettyJsonQuietly(map);
 
             FileUtils.writeStringToFile(pkg, json, StandardCharsets.UTF_8);

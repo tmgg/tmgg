@@ -12,8 +12,8 @@
   },
   "version" : "0.1.20",
   "dependencies" : {
-    "@tmgg/tmgg-system" : "0.1.20",
-    "@tmgg/tmgg-base" : "0.1.20",
+    "@tmgg/tmgg-system" : "workspace:*",
+    "@tmgg/tmgg-base" : "workspace:*",
     "axios" : "^1.6.7",
     "bpmn-js" : "^9.0.0",
     "dagre-d3" : "^0.6.0",
