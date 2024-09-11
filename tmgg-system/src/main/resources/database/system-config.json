@@ -57,9 +57,9 @@
       "$update": false
     },
     {
-      "id": "siteInfo.footer",
-      "name": "站点页脚",
-      "key": "siteInfo.footer",
+      "id": "siteInfo.copyright",
+      "name": "版权信息",
+      "key": "siteInfo.copyright",
       "defaultValue": "Powered by tmgg",
       "$update": false
     },{
