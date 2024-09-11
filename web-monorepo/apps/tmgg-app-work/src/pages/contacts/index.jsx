@@ -10,9 +10,9 @@ export default class extends Component {
 
   render() {
     return <View>
-      <Text>首页</Text>
+      <Text>通讯录</Text>
 
-      <MainTabs value={'index'}></MainTabs>
+      <MainTabs value={'contacts'}></MainTabs>
     </View>;
 
   }

@@ -2,16 +2,18 @@ import './app.scss'
 
 import React from 'react'
 import Taro from "@tarojs/taro";
-import {AppAuthInterceptor, AppLoginInfoInterceptor, AppSiteInfoInterceptor} from "@tmgg/tmgg-app-base";
+import {SysUtil} from "@tmgg/tmgg-common";
+import {HttpUtil} from "@tmgg/tmgg-app-base";
 
 
 export default class extends React.Component {
-  state = {
-    initFinish:false
-  }
 
   onLaunch() {
     console.log('程序启动.')
+
+    HttpUtil.get("/site-info").then(rs=>{
+      SysUtil.setSiteInfo(rs)
+    })
 
   //  this.login()
   }
@@ -30,21 +32,7 @@ export default class extends React.Component {
   }
 
   render() {
-      if (this.state.pathname === '/login') {
-      return <AppSiteInfoInterceptor>
-        {this.props.children}
-      </AppSiteInfoInterceptor>
-    }
-
-    return <>
-      <AppSiteInfoInterceptor>
-        <AppAuthInterceptor>
-          <AppLoginInfoInterceptor>
-            {this.props.children}
-          </AppLoginInfoInterceptor>
-        </AppAuthInterceptor>
-      </AppSiteInfoInterceptor>
-    </>
+     return this.props.children
   }
 
   login = () => {

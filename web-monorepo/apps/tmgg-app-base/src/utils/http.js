@@ -1,5 +1,6 @@
-import Taro from "@tarojs/taro";
 import {SysUtil} from "@tmgg/tmgg-common";
+import {showToast, request,showModal} from "@tarojs/taro";
+
 
 
 const defaultRequestConfig = {
@@ -18,13 +19,13 @@ const defaultRequestConfig = {
 }
 
 function showSuccessMessage(msg) {
-    Taro.showToast({
+    showToast({
         title: msg
     })
 }
 
 function showErrorMessage(title, msg) {
-    Taro.showModal({
+    showModal({
         title,
         content: msg,
         showCancel:false
@@ -53,11 +54,14 @@ const STATUS_MESSAGE = {
 
 function send(url, params, config) {
     return new Promise((resolve, reject) => {
-        let url1 = SysUtil.getServerUrl() + url;
-        resolve({})
-        return
-        Taro.request({
-            url: url1,
+        const serverUrl = SysUtil.getServerUrl();
+        if(url.startsWith('/')){
+            url  = url.substring(1)
+        }
+        url = SysUtil.getServerUrl() + url;
+        console.log('请求链接', url)
+        request({
+            url: url,
             method: config.method,
             data: params,
             header: {
@@ -65,7 +69,8 @@ function send(url, params, config) {
               //  'appId': getAppId()
             },
             success: res => {
-                let ajaxResult = res.data;
+                console.log('响应结果', res)
+                let ajaxResult = res.data.data;
                 resolve(ajaxResult)
             },
             fail: fail => {

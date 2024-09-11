@@ -5,7 +5,7 @@ const LOGIN_INFO_KEY = "loginInfo"
 const DICT_INFO_KEY = "dictInfo"
 const TOKEN_KEY = "X-Auth-Token"; // 认证token，存储、请求头、响应头保持一致
 
-let  SERVER_URL = "/"
+let  SERVER_URL = "/api/"
 
 //  process?.env?.API_BASE_URL
 export const SysUtil = {

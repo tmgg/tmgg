@@ -121,7 +121,7 @@ export default class extends React.Component {
                         padding: 12
                     }}
                 >
-                    {siteInfo.footer}
+                    {siteInfo.copyright}
                 </Footer>
             </Layout>
         </Layout>
