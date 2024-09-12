@@ -60,6 +60,8 @@ function send(url, params, config) {
         }
         url = SysUtil.getServerUrl() + url;
         console.log('请求链接', url)
+
+
         request({
             url: url,
             method: config.method,
@@ -106,13 +108,13 @@ export const HttpUtil = {
         config = Object.assign(config, defaultRequestConfig)
         url = _replaceUrl(url)
         config.method = 'POST';
-        return send(url, params, config)
+        return send(url, data, config)
     },
 
     postForm(url, data, config = defaultRequestConfig) {
         config = Object.assign(config, defaultRequestConfig)
         url = _replaceUrl(url)
-        return send(url, params, config)
+        return send(url, data, config)
     },
 
     /**

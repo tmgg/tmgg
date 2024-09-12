@@ -55,7 +55,8 @@ export default defineConfig(async (merge, { command, mode }) => {
       }
     },
     h5: {
-      esnextModules: ["@taroify"],
+      esnextModules: [/@antmjs[\/]vantui/],
+
 
       publicPath: '/',
       staticDirectory: 'static',

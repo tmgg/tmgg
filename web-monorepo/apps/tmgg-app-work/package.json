@@ -34,9 +34,8 @@
   },
   "author": "",
   "dependencies": {
+    "@antmjs/vantui": "^3.4.9",
     "@babel/runtime": "^7.21.5",
-    "@taroify/core": "^0.4.0-alpha.0",
-    "@taroify/icons": "0.4.0-alpha.0",
     "@tarojs/components": "3.6.30",
     "@tarojs/helper": "3.6.30",
     "@tarojs/plugin-framework-react": "3.6.30",

@@ -7,8 +7,25 @@ const TOKEN_KEY = "X-Auth-Token"; // 认证token，存储、请求头、响应�
 
 let  SERVER_URL = "/api/"
 
+let loginStatus = -1; // -1 默认， 0 登录中， 1登录成功
+
 //  process?.env?.API_BASE_URL
 export const SysUtil = {
+
+    /**
+     *
+     * @returns {-1 | 0 | 1}
+     */
+    getLoginStatus(){
+        return loginStatus
+    },
+
+    setLoginStatus(v){
+        loginStatus = v;
+    },
+
+
+
 
     /**
      * 服务器端的地址， 以 /结尾

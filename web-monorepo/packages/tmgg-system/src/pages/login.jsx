@@ -43,8 +43,6 @@ export default class login extends React.Component {
   }
 
   submit = values => {
-    localStorage.clear()
-
     this.setState({logining: true})
     HttpUtil.post('/login', values).then(token => {
       SysUtil.setToken(token)

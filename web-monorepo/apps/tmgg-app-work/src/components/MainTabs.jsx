@@ -1,11 +1,13 @@
 import React from "react";
-import {Tabbar} from "@taroify/core";
+import { Tabbar, TabbarItem } from '@antmjs/vantui'
+
 import {AppsOutlined, ChatOutlined, NewspaperOutlined, UserOutlined} from "@taroify/icons";
 import Taro from "@tarojs/taro";
 
 export default class extends React.Component {
 
-  onChange = v => {
+  onChange = e => {
+    const v = e.detail
     let url = '/pages/'+v+'/index';
     Taro.redirectTo({url})
   }
@@ -14,13 +16,13 @@ export default class extends React.Component {
     const value = this.props.value;
 
 
-    return <Tabbar defaultValue={value}
+    return <Tabbar active={value}
                    onChange={this.onChange}
                    style={{position: "fixed", bottom: 0, left: 0, right: 0}}>
-      <Tabbar.TabItem value={'index'} icon={<ChatOutlined/>}>消息</Tabbar.TabItem>
-      <Tabbar.TabItem value={'work'} icon={<AppsOutlined/>}>工作</Tabbar.TabItem>
-      <Tabbar.TabItem value={'contacts'} icon={<NewspaperOutlined/>}>通讯录</Tabbar.TabItem>
-      <Tabbar.TabItem value={'mine'} icon={<UserOutlined/>}>我的</Tabbar.TabItem>
+      <TabbarItem name={'index'} icon='chat-o'>消息</TabbarItem>
+      <TabbarItem name={'work'} icon="apps-o">工作</TabbarItem>
+      <TabbarItem name={'contacts'} icon="label-o">通讯录</TabbarItem>
+      <TabbarItem name={'mine'} icon="user-o">我的</TabbarItem>
     </Tabbar>
   }
 }

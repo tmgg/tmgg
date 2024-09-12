@@ -11,9 +11,14 @@ export default class extends React.Component {
   onLaunch() {
     console.log('程序启动.')
 
-    HttpUtil.get("/site-info").then(rs=>{
-      SysUtil.setSiteInfo(rs)
-    })
+
+    // TODO 检查登录
+
+
+    // HttpUtil.get("/site-info").then(rs=>{
+    //   SysUtil.setSiteInfo(rs)
+    // })
+
 
   //  this.login()
   }
