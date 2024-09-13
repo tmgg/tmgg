@@ -1,4 +1,4 @@
-import {SysUtil} from "@tmgg/tmgg-common";
+import {SysUtil} from "web-monorepo/tmgg-commons-lang";
 import {showToast, request,showModal} from "@tarojs/taro";
 
 

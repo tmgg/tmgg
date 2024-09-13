@@ -1,7 +1,6 @@
 import React from "react";
 import { Tabbar, TabbarItem } from '@antmjs/vantui'
 
-import {AppsOutlined, ChatOutlined, NewspaperOutlined, UserOutlined} from "@taroify/icons";
 import Taro from "@tarojs/taro";
 
 export default class extends React.Component {
@@ -21,7 +20,6 @@ export default class extends React.Component {
                    style={{position: "fixed", bottom: 0, left: 0, right: 0}}>
       <TabbarItem name={'index'} icon='chat-o'>消息</TabbarItem>
       <TabbarItem name={'work'} icon="apps-o">工作</TabbarItem>
-      <TabbarItem name={'contacts'} icon="label-o">通讯录</TabbarItem>
       <TabbarItem name={'mine'} icon="user-o">我的</TabbarItem>
     </Tabbar>
   }

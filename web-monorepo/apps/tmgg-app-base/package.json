@@ -11,7 +11,8 @@
   "author": "",
   "license": "ISC",
   "description": "",
-  "dependencies": {    "@antmjs/vantui": "^3.4.9",
+  "dependencies": {
+    "@antmjs/vantui": "^3.4.9",
     "@babel/runtime": "^7.21.5",
     "@tarojs/components": "3.6.30",
     "@tarojs/helper": "3.6.30",
@@ -21,7 +22,7 @@
     "@tarojs/taro": "3.6.30",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
-    "@tmgg/tmgg-common": "workspace:*"
+    "@tmgg/tmgg-commons-lang": "workspace:*"
   },
   "browserslist": [
     "last 3 versions",

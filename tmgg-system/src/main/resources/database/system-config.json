@@ -27,7 +27,7 @@
       "id": "DEFAULT_PASSWORD",
       "name": "用户默认密码",
       "key": "DEFAULT_PASSWORD",
-      "defaultValue": "9.shuiJiao",
+      "defaultValue": "qetu.1357",
       "remark": "单位秒",
       "$update": false
     },

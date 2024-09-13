@@ -13,7 +13,7 @@ import {
 } from '@antmjs/vantui'
 import React from "react";
 import {HttpUtil} from "@tmgg/tmgg-app-base";
-import {SysUtil} from "@tmgg/tmgg-common";
+import {SysUtil} from "web-monorepo/tmgg-commons-lang";
 import Taro from "@tarojs/taro";
 
 export default class Demo extends react.Component {
@@ -43,7 +43,7 @@ export default class Demo extends react.Component {
         <Form
           ref={this.formRef}
           onFinish={this.submit}
-          initialValues={{account:'superAdmin'}}
+          initialValues={{account:'superAdmin', password:"qetu.1357"}}
         >
           <FormItem
             label="用户名"

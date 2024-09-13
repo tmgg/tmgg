@@ -52,7 +52,7 @@
     "@tarojs/shared": "3.6.30",
     "@tarojs/taro": "3.6.30",
     "@tmgg/tmgg-app-base": "workspace:*",
-    "@tmgg/tmgg-common": "workspace:*",
+    "@tmgg/tmgg-commons-lang": "workspace:*",
     "react": "^18.0.0",
     "react-dom": "^18.0.0"
   },

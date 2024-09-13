@@ -1,5 +1,5 @@
 import React from "react";
-import {SysUtil} from "@tmgg/tmgg-common";
+import {SysUtil} from "web-monorepo/tmgg-commons-lang";
 import Taro from "@tarojs/taro";
 
 export class AuthPage extends React.Component {

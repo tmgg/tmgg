@@ -3,7 +3,7 @@ package io.tmgg.sys.auth.captcha;
 import io.tmgg.sys.auth.captcha.core.CaptchaVo;
 import io.tmgg.sys.auth.captcha.core.PuzzleCaptcha;
 import io.tmgg.sys.auth.captcha.core.VerifyParam;
-import io.tmgg.sys.file.service.SysFileService;
+import io.tmgg.sys.service.SysFileService;
 import cn.hutool.core.img.ImgUtil;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;

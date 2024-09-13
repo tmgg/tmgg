@@ -2,7 +2,7 @@ import './app.scss'
 
 import React from 'react'
 import Taro from "@tarojs/taro";
-import {SysUtil} from "@tmgg/tmgg-common";
+import {SysUtil} from "web-monorepo/tmgg-commons-lang";
 import {HttpUtil} from "@tmgg/tmgg-app-base";
 
 
