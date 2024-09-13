@@ -1,4 +1,3 @@
-/* eslint-disable */
 import react from 'react'
 import {Input} from '@tarojs/components'
 import {
@@ -13,8 +12,8 @@ import {
 } from '@antmjs/vantui'
 import React from "react";
 import {HttpUtil} from "@tmgg/tmgg-app-base";
-import {SysUtil} from "web-monorepo/tmgg-commons-lang";
 import Taro from "@tarojs/taro";
+import {SysUtil} from "@tmgg/tmgg-commons-lang";
 
 export default class Demo extends react.Component {
 

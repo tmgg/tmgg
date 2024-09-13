@@ -2,8 +2,6 @@ import './app.scss'
 
 import React from 'react'
 import Taro from "@tarojs/taro";
-import {SysUtil} from "web-monorepo/tmgg-commons-lang";
-import {HttpUtil} from "@tmgg/tmgg-app-base";
 
 
 export default class extends React.Component {

@@ -1,0 +1,27 @@
+{
+  "devDependencies" : {
+    "@types/lodash" : "^4.14.200",
+    "@types/react" : "^18.0.0",
+    "@types/react-dom" : "^18.0.0",
+    "@types/react-lazylog" : "^4.5.1",
+    "@umijs/plugins" : "^4.3.17",
+    "typescript" : "^4.1.2"
+  },
+  "name" : "@tmgg/tmgg-system-job",
+  "main" : "src/index.js",
+  "scripts" : {
+    "dev-job" : "umi dev"
+  },
+  "version" : "0.1.20",
+  "dependencies" : {
+    "@ant-design/icons" : "^5.4.0",
+    "@tmgg/pro-table" : "^5.0.3",
+    "@tmgg/tmgg-base" : "workspace:*",
+    "@tmgg/tmgg-system" : "workspace:*",
+    "antd" : "^5.20.3",
+    "react" : "^18.2.0",
+    "react-dom" : "^18.2.0",
+    "react-lazylog" : "^4.5.3",
+    "umi" : "^4.0.0"
+  }
+}

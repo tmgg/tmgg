@@ -1,5 +1,5 @@
-import {SysUtil} from "web-monorepo/tmgg-commons-lang";
 import {showToast, request,showModal} from "@tarojs/taro";
+import {SysUtil} from "@tmgg/tmgg-commons-lang";
 
 
 
@@ -51,10 +51,15 @@ const STATUS_MESSAGE = {
     504: '网关超时',
 };
 
-
+/**
+ *
+ * @param url {string}
+ * @param params
+ * @param config
+ * @returns {Promise<unknown>}
+ */
 function send(url, params, config) {
     return new Promise((resolve, reject) => {
-        const serverUrl = SysUtil.getServerUrl();
         if(url.startsWith('/')){
             url  = url.substring(1)
         }
@@ -67,6 +72,8 @@ function send(url, params, config) {
             method: config.method,
             data: params,
             header: {
+                'X-Client-Type':'app',
+                'X-Auth-Token': SysUtil.getToken(),
               //  'Authorization': getToken(),
               //  'appId': getAppId()
             },
@@ -96,10 +103,13 @@ function _replaceUrl(url) {
 }
 
 
+
+
 export const HttpUtil = {
 
     get(url, params = null, config = defaultRequestConfig) {
         config = Object.assign(config, defaultRequestConfig)
+        config.method = 'GET'
         url = _replaceUrl(url)
         return send(url, params, config)
     },
