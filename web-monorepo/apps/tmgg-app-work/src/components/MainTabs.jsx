@@ -7,7 +7,7 @@ export default class extends React.Component {
 
   onChange = e => {
     const v = e.detail
-    let url = '/pages/'+v+'/index';
+    let url = '/pages/main/'+v+'/index';
     Taro.redirectTo({url})
   }
 

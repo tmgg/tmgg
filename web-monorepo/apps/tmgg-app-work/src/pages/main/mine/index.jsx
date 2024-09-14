@@ -2,7 +2,7 @@ import {Text, View} from '@tarojs/components'
 
 import './index.scss'
 import React, {Component} from "react";
-import MainTabs from "../../components/MainTabs";
+import MainTabs from "../../../components/MainTabs";
 import {HttpUtil} from "@tmgg/tmgg-app-base";
 import {Cell, CellGroup, Image} from "@antmjs/vantui";
 

@@ -28,7 +28,7 @@ export default class Demo extends react.Component {
     HttpUtil.post('/login', values).then(token => {
       SysUtil.setLoginStatus(1)
       SysUtil.setToken(token)
-      Taro.redirectTo({url:"/pages/index/index"})
+      Taro.redirectTo({url:"/pages/main/index/index"})
     }).finally(() => {
       this.setState({logining: false})
     })
