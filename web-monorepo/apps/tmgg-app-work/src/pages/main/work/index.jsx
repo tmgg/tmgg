@@ -5,6 +5,7 @@ import React, {Component} from "react";
 import MainTabs from "../../../components/MainTabs";
 import {Grid, GridItem} from "@antmjs/vantui";
 import {HttpUtil} from "@tmgg/tmgg-app-base";
+import Taro from "@tarojs/taro";
 
 
 export default class extends Component {
@@ -19,6 +20,11 @@ export default class extends Component {
     })
   }
 
+  jumpTo(key){
+    Taro.navigateTo({
+      url: '/pages/system/' + key +'/index'
+    })
+  }
   render() {
     return <View className='page page-pa'>
 
@@ -27,7 +33,7 @@ export default class extends Component {
           {menu.label}
         </View>
         <Grid>
-          {menu.children.map(m => <GridItem  icon="photo-o" text={m.label}/>)}
+          {menu.children.map(m => <GridItem onClick={()=>this.jumpTo(m.key)}   icon="photo-o" text={m.label}/>)}
         </Grid>
       </View>)}
 

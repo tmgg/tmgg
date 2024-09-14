@@ -5,6 +5,9 @@ export default defineAppConfig({
     'pages/main/mine/index',
     'pages/login/index',
 
+
+    'pages/system/sysConfig/index',
+
   ],
   window: {
     backgroundTextStyle: 'light',
