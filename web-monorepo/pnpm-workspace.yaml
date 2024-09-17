@@ -1,5 +1,4 @@
 packages:
   - packages/*
-  - taro/*
   - apps/*
   - backend/*

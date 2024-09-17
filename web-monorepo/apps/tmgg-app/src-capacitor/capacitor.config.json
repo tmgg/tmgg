@@ -1,5 +1,5 @@
 {
-  "appId": "io.tmgg",
+  "appId": "org.capacitor.quasar.app",
   "appName": "tmgg-app",
   "webDir": "www"
 }
