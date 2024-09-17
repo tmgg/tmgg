@@ -1,5 +1,5 @@
 {
-  "name": "@tmgg/tmgg-app-base",
+  "name": "@tmgg/tmgg-taro-base",
   "version": "0.1.20",
   "files": [
     "lib/*"
