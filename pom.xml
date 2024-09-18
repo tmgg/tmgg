@@ -37,7 +37,7 @@
 
         <doclint>none</doclint>
     </properties>
-    <description>kettle sdk, such as run job, run trans</description>
+    
     <url>https://github.com/tmgg/tmgg-system</url>
     <licenses>
         <license>
