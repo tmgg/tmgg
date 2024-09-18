@@ -34,7 +34,7 @@ jobs:
         run: |
           npm install pnpm -g
           cd web-monorepo
-          pnpm publish -r
+          pnpm publish -r --access public --no-git-checks
 
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_ACCESS_TOKEN}}
