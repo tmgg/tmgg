@@ -9,6 +9,7 @@
     </parent>
 
     <artifactId>tmgg-commons-jdbc</artifactId>
+    <description>jdbc工具类，集成了的分页相关参数，方便dao层直接使用sql</description>
 
     <dependencies>
         <dependency>

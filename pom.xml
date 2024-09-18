@@ -12,6 +12,7 @@
     <artifactId>tmgg-system-parent</artifactId>
     <version>0.1.23</version>
     <packaging>pom</packaging>
+    <description>web开发框架</description>
     <modules>
         <module>tmgg-system</module>
         <module>tmgg-system-job</module>

@@ -9,7 +9,7 @@
 
     <artifactId>tmgg-system-code-gen</artifactId>
 
-
+    <description>根据实体生成代码</description>
 
     <dependencies>
         <dependency>

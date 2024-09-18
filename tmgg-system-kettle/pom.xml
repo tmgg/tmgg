@@ -8,6 +8,7 @@
     </parent>
 
     <artifactId>tmgg-system-kettle</artifactId>
+    <description>数据抽取工具KETTLE的管理。监控，调度等</description>
 
     <dependencies>
         <dependency>

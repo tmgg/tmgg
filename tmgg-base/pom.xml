@@ -9,7 +9,7 @@
 
     <artifactId>tmgg-base</artifactId>
     <packaging>pom</packaging>
-    <description>一些基础工具类,和业务逻辑无关</description>
+    <description>工具类,业务逻辑无关</description>
     <modules>
         <module>tmgg-commons-jdbc</module>
         <module>tmgg-commons-web</module>

@@ -8,7 +8,7 @@
     </parent>
 
     <artifactId>tmgg-system-weapp</artifactId>
-
+    <description>微信小程序集成，如登录，获取手机号等</description>
 
     <dependencies>
         <dependency>
