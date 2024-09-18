@@ -35,8 +35,6 @@
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <!--发布时，遇到javadoc错误是是否失败-->
-        <maven.javadoc.failOnError>false</maven.javadoc.failOnError>
     </properties>
     <description>kettle sdk, such as run job, run trans</description>
     <url>https://github.com/tmgg/tmgg-system</url>
@@ -151,6 +149,7 @@
                         <goals>
                             <goal>jar</goal>
                         </goals>
+                        <additionalparam>-Xdoclint:none</additionalparam> <!-- 忽略所有警告 -->
                     </execution>
                 </executions>
             </plugin>
