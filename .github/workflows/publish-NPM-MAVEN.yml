@@ -41,11 +41,11 @@ jobs:
           node-version: 18
           registry-url: https://registry.npmjs.org
 
-      - name: Publish MAVEN
-        run: mvn -q deploy
+      - name: publish npm
+        run: npm install pnpm -g &&  cd web-monorepo && pnpm install &&  pnpm publish -r --access public --no-git-checks
+
         env:
-          MAVEN_USERNAME: ${{ secrets.MAVEN_USERNAME }}
-          MAVEN_PASSWORD: ${{ secrets.MAVEN_PASSWORD }}
-          MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE_KEY }}
+          NODE_AUTH_TOKEN: ${{secrets.NPM_ACCESS_TOKEN}}
+
 
 
