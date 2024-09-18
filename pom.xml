@@ -75,6 +75,11 @@
             </dependency>
             <dependency>
                 <groupId>io.github.tmgg</groupId>
+                <artifactId>tmgg-system-code-gen</artifactId>
+                <version>${tmgg.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.tmgg</groupId>
                 <artifactId>tmgg-system</artifactId>
                 <version>${tmgg.version}</version>
             </dependency>
