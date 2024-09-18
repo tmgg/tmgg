@@ -9,27 +9,55 @@ import org.jsoup.parser.Parser;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-public class GenReadmeVersions {
+public class ModifyReadmeVersions {
 
 
-    StringBuilder sb = new StringBuilder();
+    List<String> versionLines = new ArrayList<>();
 
     public static void main(String[] args) throws IOException {
-        GenReadmeVersions sv = new GenReadmeVersions();
+        ModifyReadmeVersions sv = new ModifyReadmeVersions();
         sv.changeMaven();
         sv.changeNpm();
 
-        System.out.println(sv.sb);
+
+        List<String> lines = FileUtils.readLines(new File("README.md"), StandardCharsets.UTF_8);
+
+        List<String> newLines = new ArrayList<>();
+
+        boolean inVersionArea = false;
+        for (String line : lines) {
+            if(inVersionArea){
+                continue;
+            }
+
+            newLines.add(line);
+
+            if(line.equals("# 版本")){
+                newLines.addAll(sv.versionLines);
+                inVersionArea = true;
+                continue;
+            }
+
+            if(line.equals("# 文档")){
+                inVersionArea = false;
+            }
+
+        }
+
+
+
+
     }
 
 
     private void changeMaven() throws IOException {
-        sb.append("## Maven 包\r\n");
-        Collection<File> poms = FileUtil.findByPrefix(".", "pom.xml", "tmgg-" );
+        versionLines.add("## Maven 包");
+        Collection<File> poms = DevFileUtil.findByPrefix(".", "pom.xml", "tmgg-" );
 
 
         for (File pom : poms) {
@@ -38,14 +66,13 @@ public class GenReadmeVersions {
 
             String artifactId = doc.selectFirst("project>artifactId").text();
 
-            sb.append("![Maven Central Version](https://img.shields.io/maven-central/v/io.github.tmgg/"+artifactId+"?label="+artifactId+") ");
-            sb.append("\r\n");
+            versionLines.add("![Maven Central Version](https://img.shields.io/maven-central/v/io.github.tmgg/"+artifactId+"?label="+artifactId+") ");
         }
 
     }
 
     private void changeNpm() throws IOException {
-        sb.append("## NPM 包\r\n");
+        versionLines.add("## NPM 包");
 
         File file = new File("web-monorepo");
 
@@ -55,7 +82,7 @@ public class GenReadmeVersions {
         lines = lines.stream().map(String::trim).map(line -> line.substring(1, line.length() -2).trim()).toList();
 
 
-        Collection<File> pkgs = FileUtil.find(file.getPath(), "package.json", lines);
+        Collection<File> pkgs = DevFileUtil.find(file.getPath(), "package.json", lines);
 
 
         for (File pkg : pkgs) {
@@ -64,8 +91,7 @@ public class GenReadmeVersions {
             Map<String, Object> map = JsonTool.jsonToMap(json);
 
             Object name = map.get("name");
-            sb.append("![NPM Version](https://img.shields.io/npm/v/"+name+"?label="+name+")");
-            sb.append("\r\n");
+            versionLines.add("![NPM Version](https://img.shields.io/npm/v/"+name+"?label="+name+")");
         }
     }
 

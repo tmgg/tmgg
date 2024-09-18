@@ -1,16 +1,13 @@
 package io.github.tmgg;
 
-import cn.hutool.core.util.ArrayUtil;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.filefilter.IOFileFilter;
 
 import java.io.File;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-public class FileUtil {
+public class DevFileUtil {
 
     public static Collection<File> find(String baseDir, String filename, List<String> dirs) {
         File dir = new File(baseDir);

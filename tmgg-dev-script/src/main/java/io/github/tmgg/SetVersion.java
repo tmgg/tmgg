@@ -26,7 +26,7 @@ public class SetVersion {
 
 
     private void changeMaven() throws IOException {
-        Collection<File> poms = FileUtil.findByPrefix(".", "pom.xml", "tmgg-" );
+        Collection<File> poms = DevFileUtil.findByPrefix(".", "pom.xml", "tmgg-" );
 
         System.out.println("开始修改pom.xml的版本");
 
@@ -61,7 +61,7 @@ public class SetVersion {
         System.out.println(lines);
 
 
-        Collection<File> pkgs = FileUtil.find(file.getPath(), "package.json", lines);
+        Collection<File> pkgs = DevFileUtil.find(file.getPath(), "package.json", lines);
 
 
         for (File pkg : pkgs) {
