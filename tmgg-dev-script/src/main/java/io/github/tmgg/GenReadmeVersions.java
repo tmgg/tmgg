@@ -13,14 +13,17 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-public class SetReadme {
+public class GenReadmeVersions {
 
 
+    StringBuilder sb = new StringBuilder();
 
     public static void main(String[] args) throws IOException {
-        SetReadme sv = new SetReadme();
+        GenReadmeVersions sv = new GenReadmeVersions();
         sv.changeMaven();
         sv.changeNpm();
+
+        System.out.println(sv.sb);
     }
 
 
@@ -34,6 +37,9 @@ public class SetReadme {
 
             String artifactId = doc.selectFirst("project>artifactId").text();
             System.out.println(pom + " " +artifactId);
+
+            sb.append("![Maven "+artifactId+"](https://img.shields.io/maven-central/v/io.github.tmgg/"+artifactId+") ");
+            sb.append("\r\n");
         }
 
     }
@@ -57,7 +63,8 @@ public class SetReadme {
 
             Object name = map.get("name");
             System.out.println(pkg + " "+name);
-
+            sb.append("![NPM "+name+"](https://img.shields.io/npm/v/"+name+")");
+            sb.append("\r\n");
         }
     }
 
