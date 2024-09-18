@@ -22,8 +22,6 @@
         <module>tmgg-system-kettle</module>
         <module>tmgg-dev-script</module>
         <module>tmgg-base</module>
-        <module>tmgg-base/tmgg-commons-web</module>
-        <module>tmgg-base/tmgg-commons-jdbc</module>
     </modules>
 
 

@@ -10,17 +10,10 @@
     <artifactId>tmgg-base</artifactId>
     <packaging>pom</packaging>
     <description>一些基础工具类,和业务逻辑无关</description>
+    <modules>
+        <module>tmgg-commons-jdbc</module>
+        <module>tmgg-commons-web</module>
+    </modules>
 
-    <dependencies>
 
-        <dependency>
-            <groupId>io.github.tmgg</groupId>
-            <artifactId>tmgg-commons-web</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.github.tmgg</groupId>
-            <artifactId>tmgg-commons-jdbc</artifactId>
-        </dependency>
-
-    </dependencies>
 </project>
