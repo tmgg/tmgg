@@ -12,6 +12,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 public class SetVersionHandler {
@@ -27,30 +28,7 @@ public class SetVersionHandler {
 
 
     private void changeMaven() throws IOException {
-        File file = new File(".");
-        Collection<File> poms = FileUtils.listFiles(file, new IOFileFilter() {
-            @Override
-            public boolean accept(File file) {
-                String name = file.getName();
-                return name.equals("pom.xml");
-            }
-
-            @Override
-            public boolean accept(File file, String s) {
-                return false;
-            }
-        }, new IOFileFilter() {
-            @Override
-            public boolean accept(File file) {
-                String baseName = FilenameUtils.getBaseName(file.getName());
-                return baseName.startsWith("tmgg");
-            }
-
-            @Override
-            public boolean accept(File file, String s) {
-                return false;
-            }
-        });
+        Collection<File> poms = FileUtil.findByPrefix(".", "pom.xml", "tmgg-" );
 
         System.out.println("开始修改pom.xml的版本");
 
@@ -76,29 +54,16 @@ public class SetVersionHandler {
 
     private void changeNpm() throws IOException {
         File file = new File("web-monorepo");
-        Collection<File> pkgs = FileUtils.listFiles(file, new IOFileFilter() {
-            @Override
-            public boolean accept(File file) {
-                String name = file.getName();
-                return name.equals("package.json");
-            }
 
-            @Override
-            public boolean accept(File file, String s) {
-                return false;
-            }
-        }, new IOFileFilter() {
-            @Override
-            public boolean accept(File file) {
-                String baseName = FilenameUtils.getBaseName(file.getName());
-                return baseName.startsWith("tmgg-") || baseName.equals("packages");
-            }
+        List<String> lines = FileUtils.readLines(new File(file, "pnpm-workspace.yaml"));
 
-            @Override
-            public boolean accept(File file, String s) {
-                return false;
-            }
-        });
+        lines.remove(0);
+        lines = lines.stream().map(String::trim).map(line -> line.substring(1, line.length() -2).trim()).toList();
+
+        System.out.println(lines);
+
+
+        Collection<File> pkgs = FileUtil.find(file.getPath(), "package.json", lines);
 
 
         for (File pkg : pkgs) {
@@ -108,25 +73,6 @@ public class SetVersionHandler {
             Map<String, Object> map = JsonTool.jsonToMap(json);
             map.put("version", version);
 
-
-            // "@tmgg/tmgg-base" : "0.1.13"
-
-            // 修改依赖
-
-           /* String[] deps = {"peerDependencies", "dependencies"};
-            for (String dep : deps) {
-                Map<String, Object> depMap = (Map<String, Object>) map.get(dep);
-                if (depMap == null) {
-                    continue;
-                }
-
-                for (String key : depMap.keySet()) {
-                    if(key.startsWith("@tmgg/tmgg-")){
-                        depMap.put(key, version);
-                    }
-                }
-
-            }*/
             json = JsonTool.toPrettyJsonQuietly(map);
 
             FileUtils.writeStringToFile(pkg, json, StandardCharsets.UTF_8);
