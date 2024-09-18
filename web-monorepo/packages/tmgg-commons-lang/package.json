@@ -1,15 +1,15 @@
 {
-  "name": "@tmgg/tmgg-commons-lang",
-  "version": "0.1.20",
-  "main": "src/index.js",
-  "files": ["src/*"],
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "license" : "ISC",
+  "author" : "",
+  "name" : "@tmgg/tmgg-commons-lang",
+  "files" : [ "src/*" ],
+  "description" : "pc和mobile端都可依赖的公共代码",
+  "main" : "src/index.js",
+  "scripts" : {
+    "test" : "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
-  "license": "ISC",
-  "description": "pc和mobile端都可依赖的公共代码",
-  "dependencies": {
+  "version" : "0.1.20",
+  "dependencies" : {
     "react" : "^18.0.0"
   }
 }
