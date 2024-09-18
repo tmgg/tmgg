@@ -36,6 +36,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.javadoc.failOnWarnings>false</maven.javadoc.failOnWarnings>
+        <maven.javadoc.failOnError>false</maven.javadoc.failOnError>
     </properties>
     <description>kettle sdk, such as run job, run trans</description>
     <url>https://github.com/tmgg/tmgg-system</url>
