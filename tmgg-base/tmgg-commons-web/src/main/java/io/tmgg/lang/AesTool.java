@@ -11,7 +11,7 @@ public class AesTool {
     /**
      * 加密
      * @param text 明文
-     * @return
+     * @return 密文，并使用hex编码
      */
     public static String encryptHex(String text) {
         return SecureUtil.aes(key.getBytes()).encryptHex(text);
@@ -20,7 +20,7 @@ public class AesTool {
     /**
      * 解密
      * @param encryptedText 密文
-     * @return
+     * @return 明文
      */
     public static String decryptHex(String encryptedText) {
         return SecureUtil.aes(key.getBytes()).decryptStr(encryptedText);
