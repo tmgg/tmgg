@@ -2,8 +2,6 @@ package io.github.tmgg;
 
 import cn.moon.lang.json.JsonTool;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.io.filefilter.IOFileFilter;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.parser.Parser;
@@ -15,13 +13,13 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-public class SetVersionHandler {
+public class SetVersion {
 
     public static final String NEW_VERSION = "0.1.23";
 
 
     public static void main(String[] args) throws IOException {
-        SetVersionHandler sv = new SetVersionHandler(NEW_VERSION);
+        SetVersion sv = new SetVersion(NEW_VERSION);
         sv.changeMaven();
         sv.changeNpm();
     }
@@ -79,7 +77,7 @@ public class SetVersionHandler {
         }
     }
 
-    private SetVersionHandler(String version) {
+    private SetVersion(String version) {
         this.version = version;
     }
 
