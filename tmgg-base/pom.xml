@@ -19,7 +19,7 @@
         </dependency>
         <dependency>
             <groupId>io.github.tmgg</groupId>
-            <artifactId>tmgg-commons-db</artifactId>
+            <artifactId>tmgg-commons-jdbc</artifactId>
         </dependency>
 
     </dependencies>

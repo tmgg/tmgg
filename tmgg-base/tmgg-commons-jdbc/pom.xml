@@ -8,7 +8,7 @@
         <relativePath>../../pom.xml</relativePath>
     </parent>
 
-    <artifactId>tmgg-commons-db</artifactId>
+    <artifactId>tmgg-commons-jdbc</artifactId>
 
     <dependencies>
         <dependency>

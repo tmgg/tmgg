@@ -19,12 +19,11 @@
         <module>tmgg-system-flowable</module>
         <module>tmgg-system-weapp</module>
         <module>tmgg-system-code-gen</module>
-        <module>tmgg-base</module>
         <module>tmgg-system-kettle</module>
         <module>tmgg-dev-script</module>
         <module>tmgg-base</module>
         <module>tmgg-base/tmgg-commons-web</module>
-        <module>tmgg-base/tmgg-commons-db</module>
+        <module>tmgg-base/tmgg-commons-jdbc</module>
     </modules>
 
 
@@ -97,7 +96,7 @@
             </dependency>
             <dependency>
                 <groupId>io.github.tmgg</groupId>
-                <artifactId>tmgg-commons-db</artifactId>
+                <artifactId>tmgg-commons-jdbc</artifactId>
                 <version>${tmgg.version}</version>
             </dependency>
             <dependency>
