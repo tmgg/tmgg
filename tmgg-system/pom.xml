@@ -14,7 +14,7 @@
 
         <dependency>
             <groupId>io.github.tmgg</groupId>
-            <artifactId>tmgg-base</artifactId>
+            <artifactId>tmgg-commons-web</artifactId>
         </dependency>
 
         <dependency>
