@@ -5,7 +5,7 @@
     "@types/react-dom" : "^18.0.0",
     "typescript" : "^5.0.3"
   },
-  "name" : "tmgg-system-flowable",
+  "name" : "@tmgg/tmgg-system-flowable",
   "scripts" : {
     "flowable-start" : "umi dev",
     "build" : "umi build"
