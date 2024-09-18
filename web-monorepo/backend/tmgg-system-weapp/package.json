@@ -12,7 +12,7 @@
   "scripts" : {
     "dev-weapp" : "umi dev"
   },
-  "version" : "0.1.21",
+  "version" : "0.1.22",
   "dependencies" : {
     "@ant-design/icons" : "^5.4.0",
     "@tmgg/pro-table" : "^5.0.3",
