@@ -28,6 +28,7 @@ public class GenReadmeVersions {
 
 
     private void changeMaven() throws IOException {
+        sb.append("## Maven 包\r\n");
         Collection<File> poms = FileUtil.findByPrefix(".", "pom.xml", "tmgg-" );
 
 
@@ -36,15 +37,16 @@ public class GenReadmeVersions {
             Document doc = Jsoup.parse(xml, Parser.xmlParser());
 
             String artifactId = doc.selectFirst("project>artifactId").text();
-            System.out.println(pom + " " +artifactId);
 
-            sb.append("![Maven "+artifactId+"](https://img.shields.io/maven-central/v/io.github.tmgg/"+artifactId+") ");
+            sb.append("![Maven Central Version](https://img.shields.io/maven-central/v/io.github.tmgg/"+artifactId+"?label="+artifactId+") ");
             sb.append("\r\n");
         }
 
     }
 
     private void changeNpm() throws IOException {
+        sb.append("## NPM 包\r\n");
+
         File file = new File("web-monorepo");
 
         List<String> lines = FileUtils.readLines(new File(file, "pnpm-workspace.yaml"));
@@ -62,8 +64,7 @@ public class GenReadmeVersions {
             Map<String, Object> map = JsonTool.jsonToMap(json);
 
             Object name = map.get("name");
-            System.out.println(pkg + " "+name);
-            sb.append("![NPM "+name+"](https://img.shields.io/npm/v/"+name+")");
+            sb.append("![NPM Version](https://img.shields.io/npm/v/"+name+"?label="+name+")");
             sb.append("\r\n");
         }
     }
