@@ -10,7 +10,7 @@ public class AesTool {
 
     /**
      * 加密
-     * @param text
+     * @param text 明文
      * @return
      */
     public static String encryptHex(String text) {
@@ -19,10 +19,10 @@ public class AesTool {
 
     /**
      * 解密
-     * @param token
+     * @param encryptedText 密文
      * @return
      */
-    public static String decryptHex(String token) {
-        return SecureUtil.aes(key.getBytes()).decryptStr(token);
+    public static String decryptHex(String encryptedText) {
+        return SecureUtil.aes(key.getBytes()).decryptStr(encryptedText);
     }
 }
