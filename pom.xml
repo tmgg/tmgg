@@ -142,6 +142,7 @@
                     <encoding>utf-8</encoding>
                     <charset>utf-8</charset>
                     <docencoding>utf-8</docencoding>
+                    <additionalparam>-Xdoclint:none</additionalparam> <!-- 忽略所有警告 -->
                 </configuration>
                 <executions>
                     <execution>
@@ -149,7 +150,6 @@
                         <goals>
                             <goal>jar</goal>
                         </goals>
-                        <additionalparam>-Xdoclint:none</additionalparam> <!-- 忽略所有警告 -->
                     </execution>
                 </executions>
             </plugin>
