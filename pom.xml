@@ -22,7 +22,9 @@
         <module>tmgg-base</module>
         <module>tmgg-system-kettle</module>
         <module>tmgg-dev-script</module>
-        <module>tmgg-base/tmgg-base-db-tool</module>
+        <module>tmgg-base</module>
+        <module>tmgg-base/tmgg-commons-web</module>
+        <module>tmgg-base/tmgg-commons-db</module>
     </modules>
 
 
@@ -95,7 +97,12 @@
             </dependency>
             <dependency>
                 <groupId>io.github.tmgg</groupId>
-                <artifactId>tmgg-base-db-tool</artifactId>
+                <artifactId>tmgg-commons-db</artifactId>
+                <version>${tmgg.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.tmgg</groupId>
+                <artifactId>tmgg-commons-web</artifactId>
                 <version>${tmgg.version}</version>
             </dependency>
         </dependencies>
