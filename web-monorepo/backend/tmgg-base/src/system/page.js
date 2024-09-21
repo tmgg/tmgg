@@ -22,7 +22,7 @@ export  class PageUtil {
             rs[k] = v;
         }
 
-        return kvs
+        return rs
     }
 
     //"http://localhost:8000/#/login?id=1"
