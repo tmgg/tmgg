@@ -10,7 +10,7 @@
     "flowable-start" : "umi dev",
     "build" : "umi build"
   },
-  "version" : "0.1.26",
+  "version" : "0.1.27",
   "dependencies" : {
     "@tmgg/tmgg-system" : "workspace:*",
     "@tmgg/tmgg-base" : "workspace:*",

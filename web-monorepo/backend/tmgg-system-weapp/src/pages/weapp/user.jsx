@@ -1,5 +1,5 @@
 import React from 'react'
-import {ProTable} from "@ant-design/pro-table";
+import {ProTable} from "@tmgg/pro-table";
 import {http} from "@tmgg/tmgg-base";
 
 export default class extends React.Component {
