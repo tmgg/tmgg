@@ -198,7 +198,7 @@ export const StrUtil = {
         if (str == null) {
             return str;
         }
-        if (!isStr(str)) {
+        if (!this.isStr(str)) {
             return str;
         }
 
@@ -207,14 +207,14 @@ export const StrUtil = {
             return str
         }
 
-        const fullLength = getWidth(str);
+        const fullLength = this.getWidth(str);
         let isTooLong = fullLength > len;
 
         if (!isTooLong) {
             return str;
         }
 
-        return cutByWidth(str, len) + suffix;
+        return this.cutByWidth(str, len) + suffix;
     },
 
     isStr(value) {
