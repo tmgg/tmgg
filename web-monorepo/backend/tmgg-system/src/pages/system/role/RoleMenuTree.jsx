@@ -1,6 +1,5 @@
 import {Button, Divider, message, Tree} from 'antd';
 import React from 'react';
-import {PageLoading} from "@ant-design/pro-components";
 import {http, HttpUtil} from "@tmgg/tmgg-base";
 
 
@@ -65,7 +64,7 @@ export default class extends React.Component {
   render() {
     let {treeData, confirmLoading, checked} = this.state
     if(treeData == null) {
-      return <PageLoading />
+      return "Loading..."
     }
 
     return <>
