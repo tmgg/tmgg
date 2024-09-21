@@ -14,7 +14,7 @@
   "scripts" : {
     "dev" : "umi dev"
   },
-  "version" : "0.1.27",
+  "version" : "0.1.28",
   "dependencies" : {
     "@ant-design/icons" : "^5.4.0",
     "@tinymce/tinymce-react" : "^5.0.0",

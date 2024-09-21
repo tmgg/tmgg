@@ -17,7 +17,7 @@
   "description" : "函数工具类",
   "files" : [ "src/*" ],
   "main" : "src/index.js",
-  "version" : "0.1.27",
+  "version" : "0.1.28",
   "dependencies" : {
     "@ant-design/icons" : "^5.4.0",
     "@tmgg/pro-table" : "^5.0.4",
