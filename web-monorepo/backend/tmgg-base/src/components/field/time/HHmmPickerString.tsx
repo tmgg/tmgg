@@ -1,6 +1,5 @@
 import React from 'react';
 
-import moment from 'moment';
 import { TimePicker } from 'antd';
 import {valueToDate} from "./TimePickerTool";
 

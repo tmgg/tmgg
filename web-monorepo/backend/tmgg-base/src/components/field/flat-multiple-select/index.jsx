@@ -6,8 +6,7 @@ import React from 'react';
 import { Button, message } from 'antd';
 
 import './index.less';
-import {http} from "../../../system";
-import {HttpUtil} from "../../../utils";
+import {HttpUtil} from "../../../system";
 
 /*
 interface FlatMultipleSelectProps {

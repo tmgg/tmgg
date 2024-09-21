@@ -6,13 +6,14 @@ import {history, Outlet, Link} from 'umi';
 import "./index.less"
 import * as Icons from '@ant-design/icons';
 import logo from '../../asserts/logo.png'
-
+import {theme} from "@tmgg/tmgg-commons-lang";
 
 import HeaderRight from "./HeaderRight";
 
 import TabMenu from "./TabMenu";
 import LeftMenu from "./LeftMenu";
-import {ArrUtil, HttpUtil, SysUtil, theme, TreeUtil} from "@tmgg/tmgg-base";
+import { HttpUtil, SysUtil} from "@tmgg/tmgg-base";
+import {ArrUtil, TreeUtil} from "@tmgg/tmgg-commons-lang";
 
 const {Header, Footer, Sider, Content} = Layout;
 /**

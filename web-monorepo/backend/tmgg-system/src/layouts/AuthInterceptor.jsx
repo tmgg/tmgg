@@ -1,5 +1,5 @@
 import React from "react";
-import { HttpUtil, PageLoading, PageTool} from "@tmgg/tmgg-base";
+import { HttpUtil, PageLoading, PageUtil} from "@tmgg/tmgg-base";
 import {Navigate} from "umi";
 import {Button, Result} from "antd";
 
@@ -24,7 +24,7 @@ export default class extends React.Component {
 
 
     render() {
-        const pathname = PageTool.currentPathname();
+        const pathname = PageUtil.currentPathname();
 
 
         if(pathname === '/login'){

@@ -1,6 +1,6 @@
 import {history} from "umi";
 
-export  class PageTool {
+export  class PageUtil {
 
     static currentLocationQuery(){
         let url = window.location.href

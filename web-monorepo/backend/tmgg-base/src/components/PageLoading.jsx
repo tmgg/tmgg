@@ -1,6 +1,6 @@
 import React from "react";
 import {Alert, Button, Modal, Spin} from "antd";
-import {theme} from "../system/theme";
+import {theme} from "@tmgg/tmgg-commons-lang";
 
 /**
  * 页面加载中的动画

@@ -3,7 +3,7 @@ import {Button, Form, Input, message} from 'antd';
 import {LockOutlined, UserOutlined} from '@ant-design/icons';
 import "./login.less"
 import {history} from 'umi';
-import {FieldCaptcha, HttpUtil, PageTool, StorageUtil, SysUtil} from "@tmgg/tmgg-base";
+import {FieldCaptcha, HttpUtil, PageUtil, StorageUtil, SysUtil} from "@tmgg/tmgg-base";
 
 
 
@@ -18,10 +18,8 @@ export default class login extends React.Component {
   }
 
   componentDidMount() {
-
-
     // 内部系统登录
-    let token = PageTool.currentLocationQuery().token
+    let token = PageUtil.currentLocationQuery().token
     if (token) {
       token = window.location.search
       this.submit({token})

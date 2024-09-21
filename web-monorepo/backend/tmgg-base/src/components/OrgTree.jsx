@@ -1,6 +1,6 @@
 import {Alert, Skeleton, Tree} from 'antd';
 import React from 'react';
-import {HttpUtil} from "../utils";
+import {HttpUtil} from "../system";
 
 
 export  class OrgTree  extends React.Component {

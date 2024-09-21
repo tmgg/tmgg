@@ -2,10 +2,11 @@ import MenuLayout from "./menu"
 import React from "react";
 
 import {ConfigProvider} from "antd";
-import {PageTool, theme} from "@tmgg/tmgg-base";
+import {PageUtil} from "@tmgg/tmgg-base";
 import AuthInterceptor from "./AuthInterceptor";
 import {history, Outlet} from "umi";
 import zhCN from 'antd/locale/zh_CN';
+import {theme} from "@tmgg/tmgg-commons-lang";
 
 import './index.less'
 import SiteInfoInterceptor from "./SiteInfoInterceptor";
@@ -27,7 +28,7 @@ export class Layouts extends React.Component {
             console.log(location.pathname);
             this.setState({pathname: location.pathname})
         });
-        this.setState({pathname: PageTool.currentPathname()})
+        this.setState({pathname: PageUtil.currentPathname()})
     }
 
     render() {

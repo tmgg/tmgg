@@ -1,7 +1,7 @@
 import { message, Select, Spin } from 'antd';
 
 import React from 'react';
-import {HttpUtil} from "../../utils";
+import {HttpUtil} from "../../system";
 
 const { Option } = Select;
 

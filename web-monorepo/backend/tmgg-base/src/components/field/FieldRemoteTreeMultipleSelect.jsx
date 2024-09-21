@@ -1,7 +1,7 @@
 import {message, Spin, TreeSelect} from 'antd';
 
 import React from 'react';
-import {HttpUtil} from "../../utils";
+import {HttpUtil} from "../../system";
 
 /**
  * props : url

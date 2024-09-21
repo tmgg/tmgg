@@ -1,9 +1,10 @@
 import React from 'react';
 import { Button, Modal, Upload } from 'antd';
 import UploadOutlined from '@ant-design/icons/lib/icons/UploadOutlined';
-import http, { getServerUrl } from '../../../utils/http';
+import {HttpUtil, SysUtil} from "../../../system";
 
-let defaultUploadUrl = getServerUrl() + 'sysFile/upload';
+
+let defaultUploadUrl = SysUtil.getServerUrl() + 'sysFile/upload';
 
 /**
  * 多文件上传

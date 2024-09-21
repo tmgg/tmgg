@@ -1,7 +1,9 @@
 import { Cascader, message, Spin } from 'antd';
 
 import React from 'react';
-import {HttpUtil, TreeUtil} from "../../utils";
+import {HttpUtil} from "../../system";
+import {TreeUtil} from "@tmgg/tmgg-commons-lang";
+
 
 /**
  * props : url

@@ -1,7 +1,6 @@
 import axios from "axios";
 import {message, Modal} from "antd";
-import {StorageUtil} from "./storage";
-import {SysUtil} from "../system";
+import {SysUtil} from "./sys";
 
 export const axiosInstance = axios.create({
     withCredentials: true, // 带cookie

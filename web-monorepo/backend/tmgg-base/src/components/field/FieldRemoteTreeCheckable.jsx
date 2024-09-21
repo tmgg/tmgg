@@ -1,8 +1,9 @@
 import {message, Spin, TreeSelect} from 'antd';
 
 import React from 'react';
+import {TreeUtil} from "@tmgg/tmgg-commons-lang";
+import {HttpUtil} from "../../system";
 
-import {HttpUtil, TreeUtil} from "../../utils";
 
 
 

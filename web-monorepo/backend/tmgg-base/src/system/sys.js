@@ -1,4 +1,4 @@
-import {StorageUtil} from "../utils";
+import {StorageUtil} from "@tmgg/tmgg-commons-lang";
 
 const SITE_INFO_KEY = "siteInfo"
 const LOGIN_INFO_KEY = "loginInfo"

@@ -4,8 +4,8 @@
  */
 import {Tag} from 'antd';
 import React from 'react';
-import {StorageUtil, StrUtil} from "../utils";
 import {SysUtil} from "./sys";
+import {StrUtil} from "@tmgg/tmgg-commons-lang";
 
 // 根据字典类型code返回字典数据列表， code 支持 驼峰或下划线（都转为下划线比较）
 export function dictList(code) {

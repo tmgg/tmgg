@@ -1,8 +1,9 @@
 import React from "react";
 import {Badge, Menu, Skeleton} from "antd";
-import {HttpUtil, TreeUtil} from "@tmgg/tmgg-base";
+import {HttpUtil} from "@tmgg/tmgg-base";
 import * as Icons from "@ant-design/icons";
 import {history} from "umi";
+import {TreeUtil} from "@tmgg/tmgg-commons-lang";
 
 export default class extends React.Component {
 

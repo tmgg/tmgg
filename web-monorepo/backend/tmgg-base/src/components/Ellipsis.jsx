@@ -1,6 +1,6 @@
 import React from 'react';
 import {Tooltip} from 'antd';
-import {str} from '@tmgg/tmgg-base'
+import {StrUtil} from "@tmgg/tmgg-commons-lang";
 
 
 export class Ellipsis extends React.Component {
@@ -11,7 +11,7 @@ export class Ellipsis extends React.Component {
 
     let s = children;
 
-    const ellipsis =  str.ellipsis(s, length)
+    const ellipsis =  StrUtil.ellipsis(s, length)
     return (
       <Tooltip title={s}>{ellipsis}</Tooltip>
     );

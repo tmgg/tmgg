@@ -2,7 +2,6 @@
  * 根据时间类型自动渲染时间选择组件
  */
 import React from "react";
-import moment from "moment/moment";
 import {FieldMonthPickerString, FieldYearPickerString, FieldYearQuarterString} from "../time";
 
 
@@ -29,9 +28,9 @@ export  class FieldAutoTime extends React.Component<Props, any> {
   }
 
   static getDefaultValue(type:TypeEum) {
-    let year = moment().format("YYYY");
-    let month = moment().format("YYYY-MM");
-    let quarter = moment().format("YYYY-QQ");
+    let year = dayjs().format("YYYY");
+    let month = dayjs().format("YYYY-MM");
+    let quarter = dayjs().format("YYYY-QQ");
 
     switch (type) {
       case 'YEAR':

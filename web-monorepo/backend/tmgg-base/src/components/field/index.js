@@ -19,7 +19,6 @@ export * from './FieldRemoteTreeCascader';
 export * from './FieldRemoteTreeMultipleSelect';
 export * from './text';
 export * from './FieldProps'
-export * from './FieldCaptcha'
 export * from './FieldOrgTree'
 export * from './FieldUploadFile'
 export * from './FieldAutoTime'
