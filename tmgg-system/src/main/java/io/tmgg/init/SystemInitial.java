@@ -1,7 +1,7 @@
 package io.tmgg.init;
 
 import io.tmgg.lang.PasswordTool;
-import io.tmgg.sys.perm.SysPermService;
+import io.tmgg.sys.perm.SysMenuService;
 import io.tmgg.sys.role.entity.SysRole;
 import io.tmgg.sys.role.service.SysRoleService;
 import io.tmgg.sys.dao.SysUserDao;
@@ -42,13 +42,13 @@ public class SystemInitial implements ApplicationRunner {
     SysConfigService sysConfigService;
 
     @Resource
-    SysPermService sysPermService;
+    SysMenuService sysMenuService;
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
         enumToDictHandler.run();
 
-        sysPermService.init();
+        sysMenuService.init();
 
         jsonToDatabaseHandler.run();
 

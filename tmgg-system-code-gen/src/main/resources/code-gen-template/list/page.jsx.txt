@@ -3,7 +3,7 @@ import {Button, Card,InputNumber, Popconfirm,Modal,Form,Input,message} from 'ant
 import React from 'react'
 
 import {ProTable} from '@tmgg/pro-table'
-import {http} from "@tmgg/tmgg-base"
+import {HttpUtil} from "@tmgg/tmgg-base"
 import {ButtonList,FieldDictSelect,FieldRadioBoolean} from "@tmgg/tmgg-base";
 
 
@@ -76,7 +76,7 @@ export default class extends React.Component {
 
 
   onFinish = values => {
-    http.post( '${firstLowerName}/save', values).then(rs => {
+    HttpUtil.post( '${firstLowerName}/save', values).then(rs => {
       this.setState({formOpen: false})
       this.tableRef.current.reload()
     })
@@ -85,7 +85,7 @@ export default class extends React.Component {
 
 
   handleDelete = record => {
-    http.post( '${firstLowerName}/delete', {id:record.id}).then(rs => {
+    HttpUtil.post( '${firstLowerName}/delete', {id:record.id}).then(rs => {
       this.tableRef.current.reload()
     })
   }
@@ -101,7 +101,7 @@ export default class extends React.Component {
               </Button>
             </ButtonList>
           }}
-          request={(params, sort) => http.pageData('${firstLowerName}/page', params, sort)}
+          request={(params, sort) => HttpUtil.pageData('${firstLowerName}/page', params, sort)}
           columns={this.columns}
           rowKey='id'
       />

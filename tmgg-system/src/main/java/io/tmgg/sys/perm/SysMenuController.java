@@ -19,13 +19,13 @@ import java.util.List;
 public class SysMenuController  {
 
     @Resource
-    private SysPermService sysPermService;
+    private SysMenuService sysMenuService;
 
 
 
     @GetMapping("treeForGrant")
     public AjaxResult treeForGrant() {
-        List<MenuTreeNode> data = sysPermService.treeForGrant();
+        List<MenuTreeNode> data = sysMenuService.treeForGrant();
         return AjaxResult.ok().data(data);
     }
 

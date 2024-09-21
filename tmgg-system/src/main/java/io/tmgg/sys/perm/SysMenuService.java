@@ -19,11 +19,11 @@ import java.util.stream.Collectors;
  */
 @Service
 @Slf4j
-public class SysPermService extends BaseService<SysPerm> {
+public class SysMenuService extends BaseService<SysMenu> {
 
 
     @Resource
-    private SysPermDao sysPermDao;
+    private SysMenuDao sysMenuDao;
 
     @Resource
     private SystemProperties systemProperties;
@@ -33,30 +33,30 @@ public class SysPermService extends BaseService<SysPerm> {
     /**
      * 不含按钮 及 不显示的东西
      */
-    public Map<String, SysPerm> findMenuMap() {
-        List<SysPerm> sysPermList = sysPermDao.findMenuVisible();
+    public Map<String, SysMenu> findMenuMap() {
+        List<SysMenu> sysMenuList = sysMenuDao.findMenuVisible();
 
 
-        return sysPermList.stream().collect(Collectors.toMap(BaseEntity::getId, t->t));
+        return sysMenuList.stream().collect(Collectors.toMap(BaseEntity::getId, t->t));
     }
 
 
     public List<MenuTreeNode> treeForGrant() {
-        List<SysPerm> all = sysPermDao.findAllValid();
+        List<SysMenu> all = sysMenuDao.findAllValid();
 
         Collection<MenuTreeNode> nodes = new ArrayList<>();
 
 
 
 
-        for (SysPerm sysPerm : all) {
+        for (SysMenu sysMenu : all) {
             MenuTreeNode menuTreeNode = new MenuTreeNode();
-            menuTreeNode.setId(sysPerm.getId());
-            menuTreeNode.setPid(sysPerm.getPid());
-            menuTreeNode.setValue(sysPerm.getId());
-            String titleAddon = StrUtil.isEmpty(sysPerm.getPerm()) ? "" : " [" + sysPerm.getPerm() + "]";
-            menuTreeNode.setTitle(sysPerm.getName() + titleAddon);
-            menuTreeNode.setWeight(sysPerm.getSeq());
+            menuTreeNode.setId(sysMenu.getId());
+            menuTreeNode.setPid(sysMenu.getPid());
+            menuTreeNode.setValue(sysMenu.getId());
+            String titleAddon = StrUtil.isEmpty(sysMenu.getPerm()) ? "" : " [" + sysMenu.getPerm() + "]";
+            menuTreeNode.setTitle(sysMenu.getName() + titleAddon);
+            menuTreeNode.setWeight(sysMenu.getSeq());
             nodes.add(menuTreeNode);
         }
 
@@ -78,6 +78,6 @@ public class SysPermService extends BaseService<SysPerm> {
         }
 
         System.err.println("开始清空权限菜单表");
-        sysPermDao.deleteAll();
+        sysMenuDao.deleteAll();
     }
 }

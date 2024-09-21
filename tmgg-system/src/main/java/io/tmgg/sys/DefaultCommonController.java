@@ -12,8 +12,8 @@ import io.tmgg.lang.ann.PublicApi;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.obj.Route;
 import io.tmgg.sys.controller.LoginUserVo;
-import io.tmgg.sys.perm.SysPerm;
-import io.tmgg.sys.perm.SysPermService;
+import io.tmgg.sys.perm.SysMenu;
+import io.tmgg.sys.perm.SysMenuService;
 import io.tmgg.sys.role.entity.SysRole;
 import io.tmgg.sys.role.service.SysRoleService;
 import io.tmgg.sys.service.SysConfigService;
@@ -38,7 +38,7 @@ public class DefaultCommonController {
     SysRoleService roleService;
 
     @Resource
-    SysPermService sysPermService;
+    SysMenuService sysMenuService;
 
 
     @Resource
@@ -146,17 +146,17 @@ public class DefaultCommonController {
     @GetMapping("menuTree")
     public AjaxResult menuTree() {
         Subject subject = SecurityUtils.getSubject();
-        Map<String, SysPerm> map = sysPermService.findMenuMap();
+        Map<String, SysMenu> map = sysMenuService.findMenuMap();
 
 
-        List<SysPerm> list = map.values().stream().filter(r -> subject.hasPermission(r.getPerm())).toList();
+        List<SysMenu> list = map.values().stream().filter(r -> subject.hasPermission(r.getPerm())).toList();
         list = new ArrayList<>(list); // 调整为可变list
 
         // 将父节点（目录）也加入
         {
             Set<String> ids = new HashSet<>();
-            for (SysPerm route : list) {
-                SysPerm parent = map.get(route.getPid());
+            for (SysMenu route : list) {
+                SysMenu parent = map.get(route.getPid());
                 while (parent != null) {
                     ids.add(parent.getId());
                     parent = map.get(parent.getPid());
@@ -168,10 +168,10 @@ public class DefaultCommonController {
 
         }
 
-        list.sort(Comparator.comparing(SysPerm::getSeq));
+        list.sort(Comparator.comparing(SysMenu::getSeq));
 
         List<Route> routes = new LinkedList<>();
-        for (SysPerm m : list) {
+        for (SysMenu m : list) {
             String pid = m.getPid();
             // iframe设置完整url
             String url = m.getPath();

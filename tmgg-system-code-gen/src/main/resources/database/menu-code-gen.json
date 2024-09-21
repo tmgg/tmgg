@@ -1,5 +1,5 @@
 {
-  "SysPerm": [
+  "SysMenu": [
     {
       "id": "sys_code_gen",
       "name": "代码生成",

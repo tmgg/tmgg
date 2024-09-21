@@ -2,8 +2,8 @@ package io.tmgg.init;
 
 import io.tmgg.lang.LongTool;
 import io.tmgg.SystemProperties;
-import io.tmgg.sys.perm.SysPermDao;
-import io.tmgg.sys.perm.SysPerm;
+import io.tmgg.sys.perm.SysMenuDao;
+import io.tmgg.sys.perm.SysMenu;
 import io.tmgg.web.annotion.HasPermission;
 import io.tmgg.web.enums.MenuType;
 import cn.hutool.core.util.StrUtil;
@@ -28,7 +28,7 @@ public class PermissionToDatabaseHandler {
 
 
     @Resource
-    private SysPermDao menuDao;
+    private SysMenuDao menuDao;
 
     @Resource
     private SystemProperties systemProperties;
@@ -91,7 +91,7 @@ public class PermissionToDatabaseHandler {
 
 
     private void addMenu(String perm) {
-        SysPerm byPerm = menuDao.findByPerm(perm);
+        SysMenu byPerm = menuDao.findByPerm(perm);
         if (byPerm != null) {
             return;
         }
@@ -104,9 +104,9 @@ public class PermissionToDatabaseHandler {
         Assert.state(!perm.contains(","), "权限中不能包含逗号" + perm); //  旧版本支持，新版本不支持
 
 
-        SysPerm old = menuDao.findByPerm(perm);
+        SysMenu old = menuDao.findByPerm(perm);
 
-        SysPerm btn = old == null ? new SysPerm() : old;
+        SysMenu btn = old == null ? new SysMenu() : old;
 
 
         btn.setName(perm); // TODO

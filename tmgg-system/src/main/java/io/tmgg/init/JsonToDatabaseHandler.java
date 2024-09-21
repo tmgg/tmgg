@@ -5,7 +5,7 @@ import io.tmgg.lang.SpringTool;
 import io.tmgg.lang.dao.BaseDao;
 import io.tmgg.lang.dao.JpaTool;
 import io.tmgg.SystemProperties;
-import io.tmgg.sys.perm.SysPerm;
+import io.tmgg.sys.perm.SysMenu;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.util.StrUtil;
@@ -88,7 +88,7 @@ public class JsonToDatabaseHandler  {
             throw new IllegalStateException();
         }
 
-        if(!systemProperties.isMenuAutoUpdate() && (entityCls.equals(SysPerm.class)  )){
+        if(!systemProperties.isMenuAutoUpdate() && (entityCls.equals(SysMenu.class)  )){
             log.warn("已关闭菜单更新，不再更新{}", entityCls);
             return;
         }

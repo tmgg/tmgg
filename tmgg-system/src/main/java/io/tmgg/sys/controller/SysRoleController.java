@@ -2,8 +2,8 @@ package io.tmgg.sys.controller;
 
 import io.tmgg.lang.TreeManager;
 import io.tmgg.lang.ann.Remark;
-import io.tmgg.sys.perm.SysPerm;
-import io.tmgg.sys.perm.SysPermService;
+import io.tmgg.sys.perm.SysMenu;
+import io.tmgg.sys.perm.SysMenuService;
 import io.tmgg.web.annotion.HasPermission;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.obj.Option;
@@ -32,7 +32,7 @@ public class SysRoleController {
     private SysRoleService sysRoleService;
 
     @Resource
-    private SysPermService sysPermService;
+    private SysMenuService sysMenuService;
 
     @Resource
     private SecurityManager sm;
@@ -85,8 +85,8 @@ public class SysRoleController {
     @Remark("权限授权")
     public AjaxResult ownMenu(String id) {
         List<String> menuIdList = sysRoleService.ownMenu(id);
-        List<SysPerm> all = sysPermService.findAll();
-        TreeManager<SysPerm> tm = TreeManager.newInstance(all);
+        List<SysMenu> all = sysMenuService.findAll();
+        TreeManager<SysMenu> tm = TreeManager.newInstance(all);
         List<String> allLeafList = tm.getLeafIdList();
 
         List<String> leafList = menuIdList.stream().filter(allLeafList::contains).collect(Collectors.toList());

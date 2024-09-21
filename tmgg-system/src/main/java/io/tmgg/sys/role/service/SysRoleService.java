@@ -7,8 +7,8 @@ import cn.hutool.core.util.ArrayUtil;
 import io.tmgg.lang.dao.BaseEntity;
 import io.tmgg.lang.dao.BaseService;
 import io.tmgg.lang.dao.specification.JpaQuery;
-import io.tmgg.sys.perm.SysPermDao;
-import io.tmgg.sys.perm.SysPerm;
+import io.tmgg.sys.perm.SysMenuDao;
+import io.tmgg.sys.perm.SysMenu;
 import io.tmgg.sys.role.dao.SysRoleDao;
 import io.tmgg.sys.role.entity.SysRole;
 import io.tmgg.sys.dao.SysUserDao;
@@ -37,7 +37,7 @@ public class SysRoleService extends BaseService<SysRole> {
     private SysRoleDao roleDao;
 
     @Resource
-    private SysPermDao sysPermDao;
+    private SysMenuDao sysMenuDao;
 
     @Resource
     private SysUserDao sysUserDao;
@@ -51,9 +51,9 @@ public class SysRoleService extends BaseService<SysRole> {
         SysRole role = roleDao.findOne(roleId);
 
         Assert.state(!role.getBuiltin(), "内置角色不能修改");
-        List<SysPerm> newMenus = sysPermDao.findAllById(ids);
+        List<SysMenu> newMenus = sysMenuDao.findAllById(ids);
 
-        List<String> perms = newMenus.stream().map(SysPerm::getPerm).filter(Objects::nonNull).toList();
+        List<String> perms = newMenus.stream().map(SysMenu::getPerm).filter(Objects::nonNull).toList();
         role.setPerms(perms);
         roleDao.save(role);
     }
@@ -116,9 +116,9 @@ public class SysRoleService extends BaseService<SysRole> {
         SysRole role = this.findOne(roleId);
         List<String> perms = role.getPerms();
 
-        List<SysPerm> list  = sysPermDao.findByPerms(perms);
+        List<SysMenu> list  = sysMenuDao.findByPerms(perms);
 
-        return list.stream().map(SysPerm::getId).collect(Collectors.toList());
+        return list.stream().map(SysMenu::getId).collect(Collectors.toList());
     }
 
 

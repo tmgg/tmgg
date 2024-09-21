@@ -24,7 +24,7 @@ import java.util.List;
 @Setter
 @FieldNameConstants
 @ToString
-public class SysPerm extends BaseEntity implements TreeDefinition<SysPerm> {
+public class SysMenu extends BaseEntity implements TreeDefinition<SysMenu> {
 
 
     @Column(length = DBConstants.LEN_ID)
@@ -66,7 +66,7 @@ public class SysPerm extends BaseEntity implements TreeDefinition<SysPerm> {
      * 子节点（表中不存在，用于构造树）
      */
     @Transient
-    private List<SysPerm> children;
+    private List<SysMenu> children;
 
 
     @Override
