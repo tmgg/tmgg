@@ -9,11 +9,12 @@
   },
   "name" : "@tmgg/tmgg-system",
   "description" : "系统基础功能，如RBAC基于角色的权限管理，组织机构，日志等",
+  "files" : [ "src/*" ],
   "main" : "src/index.js",
   "scripts" : {
     "dev" : "umi dev"
   },
-  "version" : "0.1.24",
+  "version" : "0.1.25",
   "dependencies" : {
     "@ant-design/icons" : "^5.4.0",
     "@tinymce/tinymce-react" : "^5.0.0",

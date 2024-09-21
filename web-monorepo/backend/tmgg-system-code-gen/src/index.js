@@ -5,7 +5,6 @@ export function initCodeGen(){
     registerRoutes({
         'code': require('./pages/code').default,
     })
-
 }
 
 
