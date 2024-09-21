@@ -59,6 +59,7 @@ public class SysMenu extends BaseEntity implements TreeDefinition<SysMenu> {
     private Boolean visible;
 
 
+    @NotNull
     private Integer seq;
 
 
@@ -74,6 +75,7 @@ public class SysMenu extends BaseEntity implements TreeDefinition<SysMenu> {
         perm = StringUtils.defaultIfEmpty(perm, null);
         visible = ObjectUtils.defaultIfNull(visible, true);
         type = ObjectUtils.defaultIfNull(type, MenuType.MENU);
+        seq = ObjectUtils.defaultIfNull(seq, 1);
     }
 
 }
