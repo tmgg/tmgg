@@ -1,7 +1,7 @@
 package ${modulePackageName}.service;
 
 import ${modulePackageName}.entity.${name};
-import cn.crec.lang.dao.BaseService;
+import io.tmgg.lang.dao.BaseService;
 import org.springframework.stereotype.Service;
 
 @Service

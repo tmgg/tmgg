@@ -1,11 +1,11 @@
 package ${modulePackageName}.controller;
 
-import cn.crec.lang.obj.AjaxResult;
-import cn.crec.lang.obj.Option;
+import io.tmgg.lang.obj.AjaxResult;
+import io.tmgg.lang.obj.Option;
 import ${modulePackageName}.entity.${name};
 import ${modulePackageName}.service.${name}Service;
-import cn.crec.lang.dao.BaseCURDController;
-import cn.crec.lang.dao.BaseEntity;
+import io.tmgg.lang.dao.BaseCURDController;
+import io.tmgg.lang.dao.BaseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

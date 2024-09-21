@@ -188,7 +188,7 @@ export default class extends React.Component {
           <Form.Item label='名称' name='name' rules={[{required: true}]}>
             <Input/>
           </Form.Item>
-          <Form.Item label='执行类' name='jobClass' rules={[{required: true}]} help='如 cn.crec.job.DemoJob'>
+          <Form.Item label='执行类' name='jobClass' rules={[{required: true}]} help='如 io.tmgg.job.DemoJob'>
             <Select options={this.state.jobClassOptions}/>
           </Form.Item>
           <Form.Item label='cron表达式' name='cron' rules={[{required: true}]} help='秒 分 时 日 月 周'>

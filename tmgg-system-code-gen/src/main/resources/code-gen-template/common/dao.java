@@ -1,7 +1,7 @@
 package ${modulePackageName}.dao;
 
 import ${modulePackageName}.entity.${name};
-import cn.crec.lang.dao.BaseDao;
+import io.tmgg.lang.dao.BaseDao;
 import org.springframework.stereotype.Repository;
 
 @Repository
