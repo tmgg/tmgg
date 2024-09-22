@@ -3,5 +3,5 @@
   "peerDependencies" : { },
   "name" : "@tmgg/tmgg-monorepo",
   "scripts" : { },
-  "version" : "0.1.32"
+  "version" : "0.1.33"
 }

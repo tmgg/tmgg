@@ -17,7 +17,7 @@ export default class extends React.Component {
         <LazyLog url={url}
                  height={500}
                  follow={follow}
-                 fetchOptions={{headers}}
+                 fetchOptions={{credentials:'include', ...headers}}
                  onScroll={onScroll}/>
       )}
     />
