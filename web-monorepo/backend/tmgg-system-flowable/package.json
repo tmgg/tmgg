@@ -11,16 +11,16 @@
     "build" : "umi build"
   },
   "version" : "0.1.33",
-  "dependencies" : {
+  "peerDependencies" : {
     "@tmgg/tmgg-system" : "workspace:*",
     "@tmgg/tmgg-base" : "workspace:*",
+    "@tmgg/pro-table" : "^5.0.4",
+    "antd" : "^5.20.3",
     "axios" : "^1.6.7",
     "bpmn-js" : "^9.0.0",
     "dagre-d3" : "^0.6.0",
     "diagram-js-origin" : "^1.0.0",
     "lodash" : "^4.17.21",
-    "moment" : "^2.29.4",
-    "qs" : "^6.11.2",
     "react" : "^18.2.0",
     "react-dom" : "^18.2.0",
     "umi" : "^4.0.0"

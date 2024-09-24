@@ -15,7 +15,7 @@
     "dev" : "umi dev"
   },
   "version" : "0.1.33",
-  "dependencies" : {
+  "peerDependencies" : {
     "@ant-design/icons" : "^5.4.0",
     "@tinymce/tinymce-react" : "^5.0.0",
     "@tmgg/pro-table" : "^5.0.4",
