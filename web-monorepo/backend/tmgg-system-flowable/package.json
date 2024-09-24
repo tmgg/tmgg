@@ -16,6 +16,7 @@
     "@tmgg/tmgg-base" : "workspace:*",
     "@tmgg/pro-table" : "^5.0.4",
     "antd" : "^5.20.3",
+    "@ant-design/icons" : "^5.4.0",
     "axios" : "^1.6.7",
     "bpmn-js" : "^9.0.0",
     "dagre-d3" : "^0.6.0",
