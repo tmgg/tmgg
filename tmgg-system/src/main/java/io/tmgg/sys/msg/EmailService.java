@@ -24,8 +24,7 @@ public class EmailService  {
         String from = sysConfigDao.findValueByCode("EMAIL-FROM");
         String pass = sysConfigDao.findValueByCode("EMAIL-PASS");
         if(StrUtil.isEmpty(from) || StrUtil.isEmpty(pass)){
-            log.info("邮箱账号或密码未设置,忽略邮件发送 {}", title );
-            return;
+            throw new IllegalStateException("邮箱账号或密码未设置,忽略邮件发送");
         }
 
 

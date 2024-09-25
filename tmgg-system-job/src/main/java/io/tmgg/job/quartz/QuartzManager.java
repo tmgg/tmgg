@@ -64,7 +64,6 @@ public class QuartzManager {
 
         Map<String, Object> jobDataMap = job.getJobDataMap();
 
-        jobDataMap.put("sysJob.description",job.getDescription());
 
         JobDetail jobDetail = JobBuilder.newJob(cls)
                 .withIdentity(job.getName(),job.getGroup())

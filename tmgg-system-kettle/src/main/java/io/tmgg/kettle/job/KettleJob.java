@@ -31,10 +31,10 @@ public class KettleJob implements Job {
     public void execute(JobExecutionContext ctx) throws JobExecutionException {
         JobDataMap dataMap = ctx.getMergedJobDataMap();
 
-        String description = (String) dataMap.remove("sysJob.description");
-        Assert.hasText(description,"描述不能为空");
+        // TODO 这里获取jobid有问题
+        String jobId = (String) dataMap.remove("jobId");
+        Assert.hasText(jobId,"jobId");
 
-        String jobId = description;
 
         Map<String, Object> param = dataMap.getWrappedMap();
 

@@ -2,9 +2,11 @@ package io.tmgg.job.entity;
 
 import io.tmgg.BasePackage;
 import io.tmgg.lang.Entry;
+import io.tmgg.lang.JsonTool;
 import io.tmgg.lang.dao.BaseEntity;
 import io.tmgg.lang.dao.converter.ToEntryListConverter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.tmgg.lang.dao.converter.ToMapConverter;
 import io.tmgg.lang.dao.converter.ToMapStringObjectConverter;
 import lombok.Getter;
 import lombok.Setter;
@@ -46,28 +48,25 @@ public class SysJob extends BaseEntity {
     @NotNull
     String jobClass;
 
+    @Column(name = "group_")
+    String group;
+
 
     // 参数
     @Column(length = 20000)
-    @Convert(converter = ToEntryListConverter.class)
-    List<Entry> jobData;
+    @Convert(converter = ToMapConverter.class)
+    Map<String,Object> jobData;
 
 
-    @Column(length = 20,name = "_group") // db关键字
-    String group;
-
-    String description;
+    // 扩展字段
+    String extraInfo;
 
 
     @JsonIgnore
     @Transient
     public Map<String, Object> getJobDataMap() {
         if (jobData != null) {
-            Map<String, Object> map = new HashMap<>();
-            for (Entry jobDatum : jobData) {
-                map.put(jobDatum.getKey(), jobDatum.getValue());
-            }
-            return map;
+            return jobData;
         }
 
         return Collections.emptyMap();

@@ -36,10 +36,12 @@ public class DemoJob implements Job {
         log.info("接收邮箱为：{}",email);
 
         StringBuilder sb = new StringBuilder();
-        sb.append("空闲内存:").append(FileUtil.readableFileSize( SystemUtil.getFreeMemory())).append("\n");
-        sb.append("总内存：").append(FileUtil.readableFileSize(SystemUtil.getTotalMemory())).append("\n");
+        sb.append("空闲内存:").append(FileUtil.readableFileSize( SystemUtil.getFreeMemory())).append(" ");
+        sb.append("总内存：").append(FileUtil.readableFileSize(SystemUtil.getTotalMemory())).append(" ");
+        String content = sb.toString();
+        log.info("内容为 {}", content);
 
-        emailService.send(email, "系统状态", sb.toString() );
+        emailService.send(email, "系统状态", content);
 
     }
 }
