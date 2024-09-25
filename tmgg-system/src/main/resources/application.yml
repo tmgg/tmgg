@@ -1,3 +1,39 @@
+db_port: 3306
+db_ip: 127.0.0.1
+db_password: 123456
+db_database: tmgg
+
+tmgg:
+  system:
+    captcha-enable: false
+
+server:
+  port: 8080
+
 spring:
-  profiles:
-    active: dev
+  session:
+    jdbc:
+      initialize-schema: always
+      platform: mysql
+
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+    locale: zh_CN
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${db_ip}:${db_port}/${db_database}?allowPublicKeyRetrieval=true&autoReconnect=true&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=CONVERT_TO_NULL&useSSL=false&nullCatalogMeansCurrent=true
+    username: root
+    password: ${db_password}
+  jpa:
+    hibernate.ddl-auto: update
+    database: MYSQL
+    database-platform: MYSQL
+    show-sql: false
+    properties.hibernate.dialect: org.hibernate.dialect.MySQL8Dialect
+    naming.physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+  data:
+    web:
+      pageable:
+        one-indexed-parameters: true
+

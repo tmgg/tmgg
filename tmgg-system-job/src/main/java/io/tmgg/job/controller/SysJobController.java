@@ -1,19 +1,19 @@
 package io.tmgg.job.controller;
 
-import io.tmgg.BasePackage;
-import io.tmgg.job.JobRemark;
-import io.tmgg.job.Param;
-import io.tmgg.job.entity.SysJob;
-import io.tmgg.job.quartz.QuartzManager;
-import io.tmgg.job.service.SysJobService;
-import io.tmgg.lang.ann.Remark;
-import io.tmgg.lang.ann.RemarkTool;
-import io.tmgg.lang.obj.AjaxResult;
-import io.tmgg.lang.obj.Option;
-import io.tmgg.web.annotion.HasPermission;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.lang.Dict;
 import cn.hutool.core.util.ClassUtil;
+import io.tmgg.BasePackage;
+import io.tmgg.job.entity.SysJob;
+import io.tmgg.job.enums.JobDesc;
+import io.tmgg.job.enums.JobParamDesc;
+import io.tmgg.job.quartz.QuartzManager;
+import io.tmgg.job.service.SysJobService;
+import io.tmgg.lang.ann.Remark;
+import io.tmgg.lang.obj.AjaxResult;
+import io.tmgg.lang.obj.Option;
+import io.tmgg.web.annotion.HasPermission;
+import jakarta.annotation.Resource;
 import org.quartz.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -22,7 +22,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
-import jakarta.annotation.Resource;
 import java.lang.reflect.Modifier;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -73,7 +72,7 @@ public class SysJobController {
         }).collect(Collectors.toList());
 
 
-        return AjaxResult.ok().data( new PageImpl<>(list, pageable, page.getTotalElements()));
+        return AjaxResult.ok().data(new PageImpl<>(list, pageable, page.getTotalElements()));
     }
 
     @HasPermission
@@ -82,7 +81,7 @@ public class SysJobController {
         Class.forName(param.getJobClass());
 
         SysJob result = service.saveOrUpdate(param);
-        return AjaxResult.ok().msg("操作成功").data( result.getId());
+        return AjaxResult.ok().msg("操作成功").data(result.getId());
     }
 
 
@@ -117,17 +116,17 @@ public class SysJobController {
 
                     Option option = new Option();
                     option.setValue(name);
-                    String remark = RemarkTool.getRemark(cls);
+
                     option.setLabel(name);
-                    if (remark != null) {
-                        option.setLabel(name +" "+ remark);
-                    }
+
 
                     List<Dict> fields = new ArrayList<>();
-                    JobRemark jobRemark = cls.getAnnotation(JobRemark.class);
-                    if (jobRemark != null) {
-                        Param[] params = jobRemark.params();
-                        for (Param param : params) {
+                    JobDesc jobDesc = cls.getAnnotation(JobDesc.class);
+                    if (jobDesc != null) {
+                        option.setLabel(option.getLabel() + " " + jobDesc.name());
+
+                        JobParamDesc[] params = jobDesc.params();
+                        for (JobParamDesc param : params) {
                             Dict d = new Dict();
                             d.put("key", param.key());
                             d.put("label", param.label());

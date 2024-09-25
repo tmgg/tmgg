@@ -17,6 +17,7 @@
   "dependencies" : {
     "@ant-design/icons" : "^5.4.0",
     "@tmgg/pro-table" : "^5.0.3",
+    "@tmgg/tmgg-commons-lang" : "workspace:*",
     "@tmgg/tmgg-base" : "workspace:*",
     "@tmgg/tmgg-system" : "workspace:*",
     "antd" : "^5.20.3",

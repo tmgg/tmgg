@@ -1,11 +1,11 @@
-package io.tmgg.job;
+package io.tmgg.job.enums;
 
 import java.lang.annotation.*;
 
 @Inherited
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.ANNOTATION_TYPE})
-public @interface Param {
+public @interface JobParamDesc {
 
     String key();
     String label();

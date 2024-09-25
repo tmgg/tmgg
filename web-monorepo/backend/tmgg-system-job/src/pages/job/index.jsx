@@ -4,6 +4,7 @@ import {MinusCircleOutlined, PlusOutlined} from "@ant-design/icons";
 import StreamLog from "../../components/StreamLog";
 import {HttpUtil, SysUtil} from "@tmgg/tmgg-base";
 import ProTable from "@tmgg/pro-table";
+import {StrUtil} from "@tmgg/tmgg-commons-lang";
 
 
 const cronOptions = [
@@ -175,6 +176,7 @@ export default class extends React.Component {
       <Modal title='定时任务'
              open={this.state.formOpen}
              destroyOnClose
+             width={600}
              onOk={() => this.formRef.current.submit()}
              onCancel={() => this.setState({formOpen: false})}
       >
@@ -188,7 +190,7 @@ export default class extends React.Component {
           <Form.Item label='名称' name='name' rules={[{required: true}]}>
             <Input/>
           </Form.Item>
-          <Form.Item label='执行类' name='jobClass' rules={[{required: true}]} help='如 io.tmgg.job.DemoJob'>
+          <Form.Item label='执行类' name='jobClass' rules={[{required: true}]} tooltip='org.quartz.Job接口，参考io.tmgg.job.builtin.DemoJob'>
             <Select options={this.state.jobClassOptions}/>
           </Form.Item>
           <Form.Item label='cron表达式' name='cron' rules={[{required: true}]} help='秒 分 时 日 月 周'>
@@ -208,13 +210,13 @@ export default class extends React.Component {
                   }}
                   align="baseline"
                 >
-                  <Form.Item label='描述' name={[name, 'label']} {...restField}>
+                  <Form.Item label='label' name={[name, 'label']} {...restField}>
                     <Input/>
                   </Form.Item>
-                  <Form.Item label='参数名' name={[name, 'key']} {...restField}>
+                  <Form.Item label='key' name={[name, 'key']} {...restField}>
                     <Input/>
                   </Form.Item>
-                  <Form.Item label='参数值' name={[name, 'value']} {...restField}>
+                  <Form.Item label='value' name={[name, 'value']} {...restField}>
                     <Input/>
                   </Form.Item>
 
@@ -249,7 +251,10 @@ export default class extends React.Component {
     if (changed.jobClass) {
       const option = this.state.jobClassOptions.find(o => o.value === changed.jobClass)
       if (option) {
-        this.formRef.current.setFieldValue("name", option.label)
+        let {label} = option;
+        if(StrUtil.contains(label, " ")){
+          this.formRef.current.setFieldValue("name", label.split(" ")[1])
+        }
 
         const fields = option.data;
         if(fields){
