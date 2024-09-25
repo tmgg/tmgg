@@ -37,12 +37,12 @@ public class SysJobLoggingController {
 
         Date d = new Date();
         for (SysJobLogging jl  :page){
-            w.println(StringUtils.repeat("*", 80));
+            w.println(StringUtils.repeat("-", 80));
             d.setTime(jl.getTimeStamp());
             w.print(DateUtil.formatDateTime(d));
             w.print("  ");
             w.println(jl.getMessage());
-            w.println(StringUtils.repeat("*", 80));
+            w.println(StringUtils.repeat("-", 80));
         }
 
 
