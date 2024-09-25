@@ -73,10 +73,9 @@ public class ModifyReadmeVersions {
 
             String artifactId = doc.selectFirst("project>artifactId").text();
             Element description = doc.selectFirst("project>description");
-            versionLines.add("### " + artifactId);
-            versionLines.add("![Maven Central Version](https://img.shields.io/maven-central/v/io.github.tmgg/"+artifactId+") ");
+            versionLines.add(" ");
+            versionLines.add(artifactId + " ![Maven Central Version](https://img.shields.io/maven-central/v/io.github.tmgg/"+artifactId+") ");
             if(description != null){
-                versionLines.add("");
                 versionLines.add(description.text().trim());
             }
         }
@@ -103,11 +102,11 @@ public class ModifyReadmeVersions {
             Map<String, Object> map = JsonTool.jsonToMap(json);
 
             Object name = map.get("name");
-            versionLines.add("### " + name);
-            versionLines.add("![NPM Version](https://img.shields.io/npm/v/"+name+")");
+
+            versionLines.add(" ");
+            versionLines.add( name + " ![NPM Version](https://img.shields.io/npm/v/"+name+")");
             Object description = map.get("description");
             if(description != null){
-                versionLines.add("");
                 versionLines.add(description.toString());
             }
         }
