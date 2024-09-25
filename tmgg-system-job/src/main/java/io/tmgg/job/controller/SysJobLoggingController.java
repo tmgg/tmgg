@@ -29,7 +29,6 @@ public class SysJobLoggingController {
         response.setContentType("text/plain; utf-8");
         PrintWriter w = response.getWriter();
 
-        w.println("注：日志使用 LoggerFactory.getLogger(\"job\") 或 Jobs.getLogger()");
         Page<SysJobLogging> page = service.read(name);
 
         if(page.hasNext()){
