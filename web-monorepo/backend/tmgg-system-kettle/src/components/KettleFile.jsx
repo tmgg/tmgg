@@ -98,8 +98,10 @@ export default class extends React.Component {
                 action={'/kettle/file/upload'}
                 multiple={true}
         >
-          <Button type='primary'>上传</Button>
-        </Upload></div>
+          <Button type='primary' >上传作业文件</Button>
+        </Upload>
+      </div>
+
       <Table columns={this.columns} dataSource={this.state.list} rowKey='id'
              indentSize={24}
              pagination={false}
@@ -116,8 +118,6 @@ export default class extends React.Component {
         <div style={{overflow:"auto",maxHeight: 500}}>
           <pre contentEditable={true}>{this.state.xml}</pre>
         </div>
-
-
 
       </Modal>
     </>
