@@ -106,6 +106,7 @@ axiosInstance.interceptors.response.use(
             if (data.success === false && autoHandleErrors) {
                 showErrorMessage('操作失败', data.message)
                 // todo reject
+                return Promise.reject()
             }
             if (transformData) {
                 return data.data

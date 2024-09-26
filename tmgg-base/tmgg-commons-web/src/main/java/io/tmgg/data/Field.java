@@ -3,17 +3,23 @@ package io.tmgg.data;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Getter
 @Setter
 public class Field {
 
     String label;
     String name;
-    String value;
 
     boolean required;
 
-    String valueType;
-    String valueTypeParams;
+    String defaultValue;
+
+    String componentType ;
+
+    Map<String,Object> componentProps ;
+
 
 }

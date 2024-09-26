@@ -83,7 +83,7 @@ public class KettleFileController {
 
 
     @GetMapping("options")
-    public AjaxResult options() throws JsonProcessingException {
+    public AjaxResult options() {
         List<RepTreeItem> list = sdk.getRepositoryObjectTree();
 
         List<Option> options = new ArrayList<>();
@@ -92,25 +92,8 @@ public class KettleFileController {
             if (!f.getId().endsWith(".kjb")) {
                 continue;
             }
-
-            List<Dict> data = new ArrayList<>();
-
-            String xml = sdk.getRepositoryObjectContent(f.getId());
-
-            List<JobXmlInfo.Parameter> jobParameters = getJobParameters(xml);
-
-
-            if (jobParameters != null) {
-                data = jobParameters.stream().map(p -> {
-                    Dict d = new Dict();
-                    d.put("name", p.getName());
-                    d.put("value", p.getDefaultValue());
-                    return d;
-                }).collect(Collectors.toList());
-            }
-
             String name = f.getName();
-            options.add(new Option(name, f.getId(), data));
+            options.add(new Option(name, f.getId()));
         }
 
         return AjaxResult.ok().data(options);
@@ -122,11 +105,5 @@ public class KettleFileController {
         List<MyTreeItem> children = new ArrayList<>();
     }
 
-    private List<JobXmlInfo.Parameter> getJobParameters(String xml) throws JsonProcessingException {
-        JobXmlInfo info = XmlTool.xmlToBean(xml, JobXmlInfo.class);
 
-        List<JobXmlInfo.Parameter> parameters = info.getParameters();
-
-        return parameters;
-    }
 }

@@ -22,12 +22,6 @@ export class FieldRemoteSelect extends React.Component {
     this.loadData({});
   }
 
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    this.setState({ url: this.props.url }, () => {
-      this.loadData({});
-    });
-  }
-
 
 
   handleSearch = (searchText) => {

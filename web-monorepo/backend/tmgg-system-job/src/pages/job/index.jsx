@@ -1,10 +1,11 @@
-import {AutoComplete, Button, Divider, Form, Input, message, Modal, Popconfirm, Select, Space, Switch, Tag} from 'antd'
+import {AutoComplete, Button, Form, Input, message, Modal, Popconfirm, Select, Space, Switch, Tag} from 'antd'
 import React from 'react'
-import {MinusCircleOutlined, PlusOutlined} from "@ant-design/icons";
+import {PlusOutlined} from "@ant-design/icons";
 import StreamLog from "../../components/StreamLog";
 import {HttpUtil, SysUtil} from "@tmgg/tmgg-base";
 import ProTable from "@tmgg/pro-table";
 import {StrUtil} from "@tmgg/tmgg-commons-lang";
+import {FieldComponent} from "@tmgg/tmgg-base/src/components/field/registry";
 
 
 const cronOptions = [
@@ -46,18 +47,19 @@ export default class extends React.Component {
     formRef = React.createRef()
 
     columns = [
+
         {
             title: '名称',
             dataIndex: 'name',
-            render(_, record) {
-                return <>
-                    <div>{record.name}</div>
-                    <div>{record.jobClass}</div>
-                </>
-            }
         },
-
-
+        {
+            title: '执行类',
+            dataIndex: 'jobClass',
+        },
+        {
+            title: '分租',
+            dataIndex: 'group',
+        },
         {
             title: 'cron',
             dataIndex: 'cron',
@@ -75,7 +77,7 @@ export default class extends React.Component {
             dataIndex: 'jobData',
             hideInSearch: true,
             render(list) {
-              return JSON.stringify(list)
+                return JSON.stringify(list)
             }
         },
         {
@@ -119,16 +121,16 @@ export default class extends React.Component {
     ]
 
     handleAdd = () => {
-        this.setState({formOpen: true, formValues: {},paramList:[]})
+        this.setState({formOpen: true, formValues: {}, paramList: []})
     }
     handleEdit = (record) => {
-        this.loadJobParamFields(record.jobClass)
+        this.loadJobParamFields(record.jobClass, record.jobData)
         this.setState({formOpen: true, formValues: record,})
     }
 
-    loadJobParamFields(className){
-        HttpUtil.get("job/getJobParamFields",{className}).then(rs=>{
-            this.setState({paramList:rs})
+    loadJobParamFields(className, jobData) {
+        HttpUtil.post("job/getJobParamFields", jobData || {}, {className}).then(rs => {
+            this.setState({paramList: rs})
         })
     }
 
@@ -136,8 +138,6 @@ export default class extends React.Component {
         HttpUtil.post('job/save', values).then(rs => {
             this.setState({formOpen: false})
             this.tableRef.current.reload();
-        }).catch(err => {
-            alert(err)
         })
     }
 
@@ -189,13 +189,14 @@ export default class extends React.Component {
                       onFinish={this.onFinish}>
                     <Form.Item name='id' noStyle>
                     </Form.Item>
-                    <Form.Item label='名称' name='name' rules={[{required: true}]}>
-                        <Input/>
-                    </Form.Item>
                     <Form.Item label='执行类' name='jobClass' rules={[{required: true}]}
                                tooltip='org.quartz.Job接口，参考io.tmgg.job.builtin.DemoJob'>
                         <Select options={this.state.jobClassOptions}/>
                     </Form.Item>
+                    <Form.Item label='名称' name='name' rules={[{required: true}]}>
+                        <Input/>
+                    </Form.Item>
+
                     <Form.Item label='cron表达式' name='cron' rules={[{required: true}]} help='秒 分 时 日 月 周'>
                         <AutoComplete placeholder='如 0 */1 * * * ?' options={cronOptions}/>
                     </Form.Item>
@@ -203,9 +204,15 @@ export default class extends React.Component {
                         <Switch/>
                     </Form.Item>
 
-                    {this.state.paramList?.map(p=>(
-                        <Form.Item label={p.label} name={['jobData',p.key]} key={p.key} rules={[{required: p.required}]}>
-                            <Input />
+                    {this.state.paramList?.map(p => (
+                        <Form.Item label={p.label}
+                                   name={['jobData', p.name]}
+                                   key={p.name}
+                                   rules={[{required: p.required}]}>
+                            <FieldComponent
+                                componentType={p.componentType}
+                                componentProps={p.componentProps}
+                            ></FieldComponent>
                         </Form.Item>
                     ))}
 
@@ -219,7 +226,7 @@ export default class extends React.Component {
 
     onValuesChange = (changed, values) => {
         if (changed.jobClass) {
-            this.loadJobParamFields(changed.jobClass)
+            this.loadJobParamFields(values.jobClass)
             const option = this.state.jobClassOptions.find(o => o.value === changed.jobClass)
             if (option) {
                 let {label} = option;
@@ -228,6 +235,11 @@ export default class extends React.Component {
                 }
             }
         }
+
+        if (changed.jobData) {
+            this.loadJobParamFields(values.jobClass, values.jobData)
+        }
+
     };
 }
 

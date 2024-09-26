@@ -12,11 +12,11 @@ public @interface JobDesc {
 
     String name();
 
-    String group() default "";
+    String group() default "默认分组";
 
 
 
-    FieldAnn[] params();
+    FieldAnn[] params() default {};
 
     Class<? extends JobParamFieldProvider> paramsProvider() default JobParamFieldProvider.class;
 

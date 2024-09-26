@@ -1,16 +1,17 @@
 package io.tmgg.job.controller;
 
 import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.lang.Dict;
 import cn.hutool.core.util.ClassUtil;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import io.tmgg.BasePackage;
 import io.tmgg.data.Field;
+import io.tmgg.data.FieldAnn;
+import io.tmgg.job.JobDesc;
 import io.tmgg.job.JobParamFieldProvider;
 import io.tmgg.job.entity.SysJob;
-import io.tmgg.job.JobDesc;
-import io.tmgg.data.FieldAnn;
 import io.tmgg.job.quartz.QuartzManager;
 import io.tmgg.job.service.SysJobService;
+import io.tmgg.lang.SpringTool;
 import io.tmgg.lang.ann.Remark;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.obj.Option;
@@ -117,29 +118,16 @@ public class SysJobController {
                 .map(cls -> {
                     String name = cls.getName();
 
+
+
                     Option option = new Option();
                     option.setValue(name);
-
                     option.setLabel(name);
 
-
-                    List<Dict> fields = new ArrayList<>();
                     JobDesc jobDesc = cls.getAnnotation(JobDesc.class);
-                    if (jobDesc != null) {
-                        option.setLabel(option.getLabel() + " " + jobDesc.name());
-
-                        FieldAnn[] params = jobDesc.params();
-                        for (FieldAnn param : params) {
-                            Dict d = new Dict();
-                            d.put("name", param.name());
-                            d.put("label", param.label());
-                            d.put("required", param.required());
-                            fields.add(d);
-                        }
+                    if(jobDesc !=null){
+                        option.setLabel(name + " " + jobDesc.name());
                     }
-
-                    option.setData(fields);
-
 
                     return option;
                 }).sorted(Comparator.comparing(Option::getLabel)).collect(Collectors.toList());
@@ -147,10 +135,10 @@ public class SysJobController {
         return AjaxResult.ok().data(options);
     }
 
-    @GetMapping("getJobParamFields")
-    public AjaxResult jobParamDesc(String className) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
-        Class<?> cls = Class.forName(className);
-        String name = cls.getName();
+    @PostMapping("getJobParamFields")
+    public AjaxResult getJobParamFields(String className, @RequestBody Map<String, Object> jobData) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException, JsonProcessingException {
+        Class<?> jobCls = Class.forName(className);
+        String name = jobCls.getName();
 
         Option option = new Option();
         option.setValue(name);
@@ -159,26 +147,29 @@ public class SysJobController {
 
 
         List<Field> result = new ArrayList<>();
-        JobDesc jobDesc = cls.getAnnotation(JobDesc.class);
+        JobDesc jobDesc = jobCls.getAnnotation(JobDesc.class);
         if (jobDesc != null) {
             option.setLabel(option.getLabel() + " " + jobDesc.name());
 
             FieldAnn[] params = jobDesc.params();
             for (FieldAnn param : params) {
                 Field d = new Field();
-                d.setName( param.name());
-                d.setLabel( param.label());
-                d.setRequired( param.required());
+                d.setName(param.name());
+                d.setLabel(param.label());
+                d.setRequired(param.required());
                 result.add(d);
             }
         }
         Class<? extends JobParamFieldProvider> provider = jobDesc.paramsProvider();
-        if(provider != null && !Modifier.isInterface(provider.getModifiers())){
-            JobParamFieldProvider o = (JobParamFieldProvider) cls.getConstructor().newInstance();
-            List<Field> fields = o.getFields(jobDesc);
-            result.addAll(fields);
+        if (provider != null) {
+            int mod = provider.getModifiers();
+            boolean isInterface = Modifier.isInterface(mod);
+            if (!isInterface) {
+                JobParamFieldProvider bean = SpringTool.getBean(provider);
+                List<Field> fields = bean.getFields(jobDesc, jobData);
+                result.addAll(fields);
+            }
         }
-
 
         return AjaxResult.ok().data(result);
     }
