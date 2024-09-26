@@ -8,6 +8,26 @@ export const axiosInstance = axios.create({
 })
 
 
+class HttpClient {
+
+    // 请求成功结果，返回data那一层（忽略 success,code ）
+    unWrapAjaxResult = true
+
+    // 自动显示成功消息（message)、失败消息(modal)
+    autoShowMessage = true
+
+    callback = success=>{}
+
+
+
+
+
+
+
+}
+
+
+
 const defaultRequestConfig = {
 
     autoHandleErrors: true,
