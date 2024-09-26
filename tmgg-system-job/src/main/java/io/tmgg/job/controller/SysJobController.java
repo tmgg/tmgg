@@ -4,9 +4,11 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.lang.Dict;
 import cn.hutool.core.util.ClassUtil;
 import io.tmgg.BasePackage;
+import io.tmgg.job.JobParamField;
+import io.tmgg.job.JobParamFieldProvider;
 import io.tmgg.job.entity.SysJob;
-import io.tmgg.job.enums.JobDesc;
-import io.tmgg.job.enums.JobParamDesc;
+import io.tmgg.job.JobDesc;
+import io.tmgg.job.JobParamAnn;
 import io.tmgg.job.quartz.QuartzManager;
 import io.tmgg.job.service.SysJobService;
 import io.tmgg.lang.ann.Remark;
@@ -22,6 +24,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -125,10 +128,10 @@ public class SysJobController {
                     if (jobDesc != null) {
                         option.setLabel(option.getLabel() + " " + jobDesc.name());
 
-                        JobParamDesc[] params = jobDesc.params();
-                        for (JobParamDesc param : params) {
+                        JobParamAnn[] params = jobDesc.params();
+                        for (JobParamAnn param : params) {
                             Dict d = new Dict();
-                            d.put("key", param.key());
+                            d.put("name", param.name());
                             d.put("label", param.label());
                             d.put("required", param.required());
                             fields.add(d);
@@ -142,6 +145,42 @@ public class SysJobController {
                 }).sorted(Comparator.comparing(Option::getLabel)).collect(Collectors.toList());
 
         return AjaxResult.ok().data(options);
+    }
+
+    @GetMapping("getJobParamFields")
+    public AjaxResult jobParamDesc(String className) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+        Class<?> cls = Class.forName(className);
+        String name = cls.getName();
+
+        Option option = new Option();
+        option.setValue(name);
+
+        option.setLabel(name);
+
+
+        List<JobParamField> result = new ArrayList<>();
+        JobDesc jobDesc = cls.getAnnotation(JobDesc.class);
+        if (jobDesc != null) {
+            option.setLabel(option.getLabel() + " " + jobDesc.name());
+
+            JobParamAnn[] params = jobDesc.params();
+            for (JobParamAnn param : params) {
+                JobParamField d = new JobParamField();
+                d.setName( param.name());
+                d.setLabel( param.label());
+                d.setRequired( param.required());
+                result.add(d);
+            }
+        }
+        Class<? extends JobParamFieldProvider> provider = jobDesc.paramsProvider();
+        if(provider != null && !Modifier.isInterface(provider.getModifiers())){
+            JobParamFieldProvider o = (JobParamFieldProvider) cls.getConstructor().newInstance();
+            List<JobParamField> jobParamFieldDesc = o.getJobParamDesc();
+            result.addAll(jobParamFieldDesc);
+        }
+
+
+        return AjaxResult.ok().data(result);
     }
 
 

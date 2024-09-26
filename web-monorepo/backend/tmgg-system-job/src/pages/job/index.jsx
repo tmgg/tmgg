@@ -122,9 +122,15 @@ export default class extends React.Component {
         this.setState({formOpen: true, formValues: {},paramList:[]})
     }
     handleEdit = (record) => {
+        this.loadJobParamFields(record.jobClass)
         this.setState({formOpen: true, formValues: record,})
     }
 
+    loadJobParamFields(className){
+        HttpUtil.get("job/getJobParamFields",{className}).then(rs=>{
+            this.setState({paramList:rs})
+        })
+    }
 
     onFinish = (values) => {
         HttpUtil.post('job/save', values).then(rs => {
@@ -213,14 +219,13 @@ export default class extends React.Component {
 
     onValuesChange = (changed, values) => {
         if (changed.jobClass) {
+            this.loadJobParamFields(changed.jobClass)
             const option = this.state.jobClassOptions.find(o => o.value === changed.jobClass)
             if (option) {
                 let {label} = option;
                 if (StrUtil.contains(label, " ")) { // 取中文名部门设置为name
                     this.formRef.current.setFieldValue("name", label.split(" ")[1])
                 }
-                const paramList = option.data;
-                this.setState({paramList})
             }
         }
     };

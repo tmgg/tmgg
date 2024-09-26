@@ -103,7 +103,7 @@ public class KettleFileController {
             if (jobParameters != null) {
                 data = jobParameters.stream().map(p -> {
                     Dict d = new Dict();
-                    d.put("key", p.getName());
+                    d.put("name", p.getName());
                     d.put("value", p.getDefaultValue());
                     return d;
                 }).collect(Collectors.toList());

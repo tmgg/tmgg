@@ -3,9 +3,8 @@ package io.tmgg.kettle.job;
 import io.github.tmgg.kettle.sdk.KettleSdk;
 import io.github.tmgg.kettle.sdk.LogLevel;
 import io.tmgg.job.JobLoggerFactory;
-import io.tmgg.job.enums.JobDesc;
-import io.tmgg.job.enums.JobParamDesc;
-import io.tmgg.lang.ann.Remark;
+import io.tmgg.job.JobDesc;
+import io.tmgg.job.JobParamAnn;
 import org.apache.commons.io.FilenameUtils;
 import org.quartz.*;
 import org.slf4j.Logger;
@@ -19,7 +18,7 @@ import java.util.Map;
  *
  * 注意：这里用sysJob的description字段来存储jobName
  */
-@JobDesc(name = "Kettle作业",params = {@JobParamDesc(key = "name", label = "作业名称")})
+@JobDesc(name = "Kettle作业",params = {@JobParamAnn(name = "name", label = "作业名称")})
 public class KettleJob implements Job {
 
     private static final Logger log = JobLoggerFactory.getLogger();

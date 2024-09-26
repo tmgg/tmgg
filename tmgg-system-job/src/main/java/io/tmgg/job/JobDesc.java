@@ -1,4 +1,4 @@
-package io.tmgg.job.enums;
+package io.tmgg.job;
 
 
 import java.lang.annotation.*;
@@ -12,6 +12,10 @@ public @interface JobDesc {
 
     String group() default "";
 
-    JobParamDesc[] params();
+
+
+    JobParamAnn[] params();
+
+    Class<? extends JobParamFieldProvider> paramsProvider() default JobParamFieldProvider.class;
 
 }
