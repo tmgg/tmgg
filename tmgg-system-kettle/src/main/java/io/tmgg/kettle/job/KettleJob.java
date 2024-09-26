@@ -1,15 +1,9 @@
 package io.tmgg.kettle.job;
 
-import cn.hutool.core.util.StrUtil;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import io.github.tmgg.kettle.sdk.KettleSdk;
 import io.github.tmgg.kettle.sdk.LogLevel;
-import io.tmgg.data.Field;
 import io.tmgg.job.JobDesc;
 import io.tmgg.job.JobLoggerFactory;
-import io.tmgg.job.JobParamFieldProvider;
-import io.tmgg.kettle.KettleFileService;
-import io.tmgg.kettle.controller.JobXmlInfo;
 import jakarta.annotation.Resource;
 import org.apache.commons.io.FilenameUtils;
 import org.quartz.Job;
@@ -19,9 +13,6 @@ import org.quartz.JobExecutionException;
 import org.slf4j.Logger;
 import org.springframework.util.Assert;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -37,7 +28,6 @@ public class KettleJob implements Job {
 
     @Resource
     KettleSdk sdk;
-
 
 
     @Override

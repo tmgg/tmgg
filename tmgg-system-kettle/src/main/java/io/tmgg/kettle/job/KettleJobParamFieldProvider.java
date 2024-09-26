@@ -15,9 +15,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static io.tmgg.kettle.job.KettleJob.JOB_PARAM_FILE;
+
 @Component
 public class KettleJobParamFieldProvider implements JobParamFieldProvider {
-    public static final String JOB_PARAM_FILE = "file";
 
     @Resource
     KettleFileService kettleFileService;
