@@ -1,11 +1,11 @@
-package io.tmgg.job;
+package io.tmgg.data;
 
 import java.lang.annotation.*;
 
 @Inherited
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.ANNOTATION_TYPE})
-public @interface JobParamAnn {
+public @interface FieldAnn {
 
     String name();
     String label();

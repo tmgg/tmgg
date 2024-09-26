@@ -1,6 +1,8 @@
 package io.tmgg.job;
 
 
+import io.tmgg.data.FieldAnn;
+
 import java.lang.annotation.*;
 
 @Inherited
@@ -14,7 +16,7 @@ public @interface JobDesc {
 
 
 
-    JobParamAnn[] params();
+    FieldAnn[] params();
 
     Class<? extends JobParamFieldProvider> paramsProvider() default JobParamFieldProvider.class;
 

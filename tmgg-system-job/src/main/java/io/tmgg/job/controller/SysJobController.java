@@ -4,11 +4,11 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.lang.Dict;
 import cn.hutool.core.util.ClassUtil;
 import io.tmgg.BasePackage;
-import io.tmgg.job.JobParamField;
+import io.tmgg.data.Field;
 import io.tmgg.job.JobParamFieldProvider;
 import io.tmgg.job.entity.SysJob;
 import io.tmgg.job.JobDesc;
-import io.tmgg.job.JobParamAnn;
+import io.tmgg.data.FieldAnn;
 import io.tmgg.job.quartz.QuartzManager;
 import io.tmgg.job.service.SysJobService;
 import io.tmgg.lang.ann.Remark;
@@ -128,8 +128,8 @@ public class SysJobController {
                     if (jobDesc != null) {
                         option.setLabel(option.getLabel() + " " + jobDesc.name());
 
-                        JobParamAnn[] params = jobDesc.params();
-                        for (JobParamAnn param : params) {
+                        FieldAnn[] params = jobDesc.params();
+                        for (FieldAnn param : params) {
                             Dict d = new Dict();
                             d.put("name", param.name());
                             d.put("label", param.label());
@@ -158,14 +158,14 @@ public class SysJobController {
         option.setLabel(name);
 
 
-        List<JobParamField> result = new ArrayList<>();
+        List<Field> result = new ArrayList<>();
         JobDesc jobDesc = cls.getAnnotation(JobDesc.class);
         if (jobDesc != null) {
             option.setLabel(option.getLabel() + " " + jobDesc.name());
 
-            JobParamAnn[] params = jobDesc.params();
-            for (JobParamAnn param : params) {
-                JobParamField d = new JobParamField();
+            FieldAnn[] params = jobDesc.params();
+            for (FieldAnn param : params) {
+                Field d = new Field();
                 d.setName( param.name());
                 d.setLabel( param.label());
                 d.setRequired( param.required());
@@ -175,8 +175,8 @@ public class SysJobController {
         Class<? extends JobParamFieldProvider> provider = jobDesc.paramsProvider();
         if(provider != null && !Modifier.isInterface(provider.getModifiers())){
             JobParamFieldProvider o = (JobParamFieldProvider) cls.getConstructor().newInstance();
-            List<JobParamField> jobParamFieldDesc = o.getJobParamDesc();
-            result.addAll(jobParamFieldDesc);
+            List<Field> fields = o.getFields(jobDesc);
+            result.addAll(fields);
         }
 
 
