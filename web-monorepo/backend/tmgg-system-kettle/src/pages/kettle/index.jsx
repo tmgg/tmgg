@@ -1,9 +1,8 @@
 import React from 'react'
 import {Card, Descriptions, Tabs} from "antd";
 import KettleFile from "../../components/KettleFile";
-import {HttpUtil, theme} from "@tmgg/tmgg-base";
+import {HttpUtil} from "@tmgg/tmgg-base";
 import JobList from "../../components/JobStatus";
-import SysJob from "../../components/SysJob";
 
 const Item = Descriptions.Item
 
@@ -45,21 +44,15 @@ export default class extends React.Component {
 
           <Tabs items={[
             {
-              label: '监控',
+              label: 'Carte服务状态监控',
               key: 'job_monitor',
               children: <JobList/>,
             },
             {
-              label: '文件',
+              label: 'Kettle仓库文件管理',
               key: 'file',
               children: <KettleFile/>,
             },
-            {
-              label: '调度',
-              key: 'job_scheduling',
-              children: <SysJob />,
-            },
-
           ]}
                 destroyInactiveTabPane
           >

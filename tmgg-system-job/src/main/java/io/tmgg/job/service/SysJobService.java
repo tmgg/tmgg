@@ -3,10 +3,12 @@ package io.tmgg.job.service;
 import io.tmgg.job.dao.SysJobLogDao;
 import io.tmgg.job.dao.SysJobLoggingDao;
 import io.tmgg.job.entity.SysJob;
+import io.tmgg.job.enums.JobDesc;
 import io.tmgg.job.quartz.QuartzManager;
 import io.tmgg.lang.dao.BaseService;
 import io.tmgg.lang.dao.specification.JpaQuery;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.AnnotationUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.quartz.SchedulerException;
 import org.springframework.stereotype.Service;
@@ -41,14 +43,17 @@ public class SysJobService extends BaseService<SysJob> {
     @Override
     public SysJob saveOrUpdate(SysJob input) throws Exception {
         String jobClass = input.getJobClass();
+        SysJob db = super.saveOrUpdate(input);
 
         try{
-            Class.forName(jobClass);
+            Class<?> cls = Class.forName(jobClass);
+            JobDesc desc = cls.getAnnotation(JobDesc.class);
+            if(desc!= null ){
+                db.setGroup(desc.group());
+            }
         }catch (Exception e){
             throw new IllegalStateException(jobClass + "不存在，请确认");
         }
-
-        SysJob db = super.saveOrUpdate(input);
 
         quartzManager.deleteJob(db);
         if (db.getEnabled()) {

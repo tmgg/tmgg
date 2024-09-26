@@ -10,6 +10,8 @@ public @interface JobDesc {
 
     String name();
 
+    String group() default "";
+
     JobParamDesc[] params();
 
 }

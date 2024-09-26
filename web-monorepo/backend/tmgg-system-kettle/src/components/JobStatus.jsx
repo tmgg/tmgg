@@ -1,6 +1,6 @@
 import React from "react";
 import {Button, Modal, Table, Tag} from "antd";
-import {HttpUtil, theme} from "@tmgg/tmgg-base";
+import {HttpUtil} from "@tmgg/tmgg-base";
 import JobStatusView from "./JobStatusView";
 import {ReloadOutlined} from "@ant-design/icons";
 
@@ -79,7 +79,7 @@ export default class extends React.Component {
              onCancel={() => this.setState({viewOpen: false})}
               footer={null}
       >
-        <div style={{height:'60vh', overflow:'auto',background:theme["background-color"], padding:12}}>
+        <div style={{height:'60vh', overflow:'auto', padding:12}}>
           <JobStatusView jobId={this.state.jobId} jobName={this.state.jobName}/>
         </div>
       </Modal>
