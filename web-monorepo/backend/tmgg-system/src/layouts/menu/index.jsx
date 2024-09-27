@@ -1,19 +1,17 @@
 // 全局路由
 
 import React from 'react';
-import {Divider, Layout} from 'antd';
-import {history, Outlet, Link} from 'umi';
+import {Divider, Layout, Menu} from 'antd';
+import {history, Link, Outlet} from 'umi';
 import "./index.less"
 import * as Icons from '@ant-design/icons';
 import logo from '../../asserts/logo.png'
-import {theme} from "@tmgg/tmgg-commons-lang";
+import {ArrUtil, theme, TreeUtil} from "@tmgg/tmgg-commons-lang";
 
 import HeaderRight from "./HeaderRight";
 
 import TabMenu from "./TabMenu";
-import LeftMenu from "./LeftMenu";
-import { HttpUtil, SysUtil} from "@tmgg/tmgg-base";
-import {ArrUtil, TreeUtil} from "@tmgg/tmgg-commons-lang";
+import {HttpUtil, PageUtil, SysUtil} from "@tmgg/tmgg-base";
 
 const {Header, Footer, Sider, Content} = Layout;
 /**
@@ -22,12 +20,17 @@ const {Header, Footer, Sider, Content} = Layout;
 export default class extends React.Component {
 
     state = {
-        list: [],
         menus: [],
+        topMenus:[],
+        leftMenus:[],
+        menuMap:{},
+
+
 
         tabs: [],
 
-        selectedTabKey: null,
+        currentTopMenuKey: null,
+        currentMenuKey: null,
 
 
         collapsed: false,
@@ -40,7 +43,6 @@ export default class extends React.Component {
     }
 
     componentDidMount() {
-
         this.initMenu()
         let siteInfo = SysUtil.getSiteInfo();
 
@@ -50,25 +52,33 @@ export default class extends React.Component {
 
 
     initMenu = () => {
-        HttpUtil.get('menuTree').then(rs => {
-            const list = rs;
-            // 设置icon
-            TreeUtil.traverseTree(list, (item) => {
+        HttpUtil.get('menuTree').then(menus => {
+            const menuMap = {}
+            TreeUtil.traverseTree(menus, (item) => {
                 let IconType = Icons[item.icon || 'SmileOutlined'];
                 item.icon = <IconType style={{fontSize: 12}}/>
-
-                if (item.path) {
-                    if (item.iframe) {
-                        item.iframePath = item.path;
-
-                        // pro layout的bug， 如果http开头的，会直接打开新窗口
-                        if (item.path.startsWith('http')) {
-                            item.path = '/' + item.path;
-                        }
-                    }
+                menuMap[item.id] = item
+            })
+            const topMenus = menus.map(item=>{
+                const {key,label} = item
+                return {
+                    key,label
                 }
             })
 
+
+            let currentTopMenuKey = null
+            let leftMenus = []
+
+            let pathname = PageUtil.currentPathname();
+            if(pathname === "" || pathname === "/"){
+                currentTopMenuKey = menus[0]?.key
+                leftMenus = menus[0]?.children
+            }else {
+                // TODO 倒查
+            }
+
+            this.setState({menus,menuMap, topMenus, leftMenus, currentTopMenuKey})
         })
     }
     actionRef = React.createRef()
@@ -76,56 +86,67 @@ export default class extends React.Component {
 
     onMenuSelect = (key, path, label, icon) => {
         const {tabs} = this.state
-
         if (!tabs.some(t => t.key === key)) {
             tabs.push({key, path, label, icon})
         }
     }
 
     render() {
-        const {siteInfo} = this.state
+        const {siteInfo, topMenus} = this.state
         return <Layout className='main-layout'>
             <Header className='header'>
                 <div className='header-left'>
                     <img className='logo-img' src={logo} onClick={() => history.push('/')}/>
-                    <Divider type='vertical' />
-                    <h3 >
+                    <Divider type='vertical'/>
+                    <h3>
                         <Link to="/" style={{color: theme["primary-color"]}}>{siteInfo.title} </Link>
                     </h3>
-                </div>
 
+                    <Menu items={topMenus}  ></Menu>
+                </div>
                 <HeaderRight></HeaderRight>
             </Header>
 
             <Layout style={{height: '100%'}}>
                 <Sider id='left-sider' collapsible collapsed={this.state.collapsed}
                        onCollapse={(value) => this.toggleCollapsed(value)}>
+                    <Menu items={this.state.leftMenus}
+                          theme='dark'
+                          mode="inline"
+                          className='left-menu'
+                          onClick={({key, item}) => {
+                              let {path, id} = item.props;
+                              let menu = this.state.menuMap[id]
+                              this.onMenuSelect(key, path, menu.label, menu.icon)
+                              history.push(path)
+                          }}
+                          selectedKeys={[this.state.currentMenuKey]}
+                    >
+                    </Menu>
 
-                    <LeftMenu pathname={this.props.pathname} onSelect={this.onMenuSelect}/>
                 </Sider>
 
                 <Content id='content'>
                     <TabMenu items={this.state.tabs}
                              pathname={this.props.pathname}
-                             onTabRemove={this.onTabRemove}
-                    >
+                             onTabRemove={this.onTabRemove}                    >
                     </TabMenu>
 
                     <div className='tab-content'>
                         <Outlet/>
                     </div>
-
                 </Content>
-                <Footer
-                    style={{
-                        textAlign: 'center',
-                        margin: 0,
-                        padding: 12
-                    }}
-                >
-                    {siteInfo.copyright}
-                </Footer>
+
             </Layout>
+            <Footer
+                style={{
+                    textAlign: 'center',
+                    margin: 0,
+                    padding: 12
+                }}
+            >
+                {siteInfo.copyright}
+            </Footer>
         </Layout>
     }
 
@@ -137,13 +158,7 @@ export default class extends React.Component {
         history.push(tabs[0]?.path || '/')
     }
 
-    renderIframe() {
-        return <iframe
-            src={sys.appendTokenToUrl(path)}
-            style={{height: 'calc(100vh - 100px)'}}
-            sandbox="allow-scripts allow-same-origin allow-forms"
-        ></iframe>
-    }
+
 }
 
 

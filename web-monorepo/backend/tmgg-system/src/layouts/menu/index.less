@@ -2,7 +2,6 @@
   height: 100vh;
 
 
-
   .header {
     padding: 0 20px;
     height: 48px;
@@ -14,20 +13,23 @@
     .header-left {
       display: flex;
       align-items: center;
+      gap: 8px;
 
-        .logo-img {
-          height: 38px;
-        }
+      .logo-img {
+        height: 38px;
+      }
     }
 
     .header-right {
       line-height: 36px;
       display: flex;
       align-items: center;
+
       .item {
         padding: 0 0.5rem;
         cursor: pointer;
-        &:hover{
+
+        &:hover {
           background: #063A69;
           color: white;
         }
@@ -45,12 +47,14 @@
       scrollbar-color: unset;
     }
   }
+
   #content {
     height: 100%;
     overflow: auto;
     scrollbar-width: thin;
     scrollbar-color: unset;
-    .tab-content{
+
+    .tab-content {
       padding: 8px;
     }
   }

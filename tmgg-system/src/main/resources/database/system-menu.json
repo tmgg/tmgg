@@ -1,9 +1,13 @@
 {
   "SysMenu": [
     {
+      "id": "biz",
+      "name": "业务模块",
+      "seq": 1
+    },
+    {
       "id": "sys",
       "name": "系统管理",
-      "icon": "ApartmentOutlined",
       "seq": 100
     },
     {
