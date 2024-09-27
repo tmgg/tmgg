@@ -1,4 +1,5 @@
 import {history} from "umi";
+import {StrUtil} from "@tmgg/tmgg-commons-lang";
 
 export  class PageUtil {
 
@@ -27,7 +28,8 @@ export  class PageUtil {
 
     //"http://localhost:8000/#/login?id=1"
     static currentPathname(){
-        return window.location.pathname
+        let path = window.location.hash.substring(1);
+        return StrUtil.subBefore(path, '?')
     }
 
 

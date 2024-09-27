@@ -112,7 +112,8 @@ export const TreeUtil = {
         return result;
     }
 
-    , getSimpleList(treeNodeList) {
+    ,
+    getSimpleList(treeNodeList) {
         const buffer = [];
 
         if (treeNodeList != null) {
@@ -157,27 +158,7 @@ export const TreeUtil = {
         return keys.reverse();
     },
 
-    getOnDropData(info, tree) {
-        const dragKey = info.dragNode.key;
-        const dropKey = info.node.key;
-        const {dropPosition, dropToGap} = info;
 
-        const dropNode = this.findByKey(tree, dropKey);
-        const data = {
-            id: dragKey,
-        };
-
-        if (dropToGap) {
-            data.pid = dropNode.parentKey;
-            data.seq = dropPosition;
-        } else {
-            // 缝隙，第一个子节点
-            data.pid = dropKey;
-            data.seq = 0;
-        }
-
-        return data;
-    }
 }
 
 

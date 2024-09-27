@@ -21,11 +21,9 @@ export default class extends React.Component {
 
     state = {
         menus: [],
-        topMenus:[],
-        leftMenus:[],
-        menuMap:{},
-
-
+        topMenus: [],
+        leftMenus: [],
+        menuMap: {},
 
         tabs: [],
 
@@ -51,32 +49,42 @@ export default class extends React.Component {
 
     initMenu = () => {
         HttpUtil.get('menuTree').then(menus => {
+            let pathname = PageUtil.currentPathname();
+            let currentMenuKey = null
             const menuMap = {}
             TreeUtil.traverseTree(menus, (item) => {
                 let IconType = Icons[item.icon || 'SmileOutlined'];
                 item.icon = <IconType style={{fontSize: 12}}/>
                 menuMap[item.id] = item
-            })
-            const topMenus = menus.map(item=>{
-                const {key,label} = item
-                return {
-                    key,label
+                if (item.path === pathname) {
+                    currentMenuKey = item.id
                 }
+
+            })
+            const topMenus = menus.map(item => {
+                const {key, label} = item
+                return {key, label}
             })
 
 
             let currentTopMenuKey = null
             let leftMenus = []
 
-            let pathname = PageUtil.currentPathname();
-            if(pathname === "" || pathname === "/"){
+
+            // 查早顶部菜单的当前key
+            if (pathname === "" || pathname === "/") {
                 currentTopMenuKey = menus[0]?.key
-                leftMenus = menus[0]?.children
-            }else {
-                // TODO 倒查
+            } else {
+                let menu = menuMap[currentMenuKey]
+                while (menu && menu.pid){
+                    menu = menuMap[menu.pid]
+                }
+                currentTopMenuKey = menu.id
             }
 
-            this.setState({menus,menuMap, topMenus, leftMenus, currentTopMenuKey})
+            leftMenus = menuMap[currentTopMenuKey].children
+
+            this.setState({menus, menuMap, topMenus, leftMenus, currentTopMenuKey, currentMenuKey})
         })
     }
     actionRef = React.createRef()
@@ -107,7 +115,16 @@ export default class extends React.Component {
                         <Link to="/" style={{color: theme["primary-color"]}}>{siteInfo.title} </Link>
                     </h3>
 
-                    <Menu items={topMenus}  ></Menu>
+                    <Menu items={topMenus}
+                          mode="horizontal"
+                          selectedKeys={[this.state.currentTopMenuKey]}
+                          onClick={e => {
+                              let currentTopMenuKey = e.key;
+                              const leftMenus = this.state.menuMap[currentTopMenuKey].children
+                              this.setState({currentTopMenuKey, leftMenus})
+                          }}
+                          style={{lineHeight: '42px'}}
+                    ></Menu>
                 </div>
                 <HeaderRight></HeaderRight>
             </Header>
@@ -123,6 +140,7 @@ export default class extends React.Component {
                               let {path, id} = item.props;
                               let menu = this.state.menuMap[id]
                               this.addTab(key, path, menu.label, menu.icon)
+                              this.setState({currentMenuKey: id})
                               history.push(path)
                           }}
                           selectedKeys={[this.state.currentMenuKey]}
@@ -134,7 +152,7 @@ export default class extends React.Component {
                 <Content id='content'>
                     <TabMenu items={this.state.tabs}
                              pathname={this.props.pathname}
-                             onTabRemove={this.removeTab}                    >
+                             onTabRemove={this.removeTab}>
                     </TabMenu>
 
                     <div className='tab-content'>
@@ -154,8 +172,6 @@ export default class extends React.Component {
             </Footer>
         </Layout>
     }
-
-
 
 
 }

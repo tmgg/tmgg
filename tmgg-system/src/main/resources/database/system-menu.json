@@ -12,7 +12,7 @@
     },
     {
       "id": "sysOrg",
-      "pid":"sys",
+      "pid":"biz",
       "name": "机构管理",
       "perm": "sysOrg",
       "path": "/system/org",
