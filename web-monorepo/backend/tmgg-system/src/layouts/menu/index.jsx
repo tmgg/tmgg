@@ -1,7 +1,7 @@
 // 全局路由
 
 import React from 'react';
-import {Divider, Layout, Menu} from 'antd';
+import {Button, Divider, Layout, Menu} from 'antd';
 import {history, Link, Outlet} from 'umi';
 import "./index.less"
 import * as Icons from '@ant-design/icons';
@@ -12,6 +12,7 @@ import HeaderRight from "./HeaderRight";
 
 import TabMenu from "./TabMenu";
 import {HttpUtil, PageUtil, SysUtil} from "@tmgg/tmgg-base";
+import {MenuFoldOutlined, MenuUnfoldOutlined} from "@ant-design/icons";
 
 const {Header, Footer, Sider, Content} = Layout;
 /**
@@ -132,6 +133,12 @@ export default class extends React.Component {
             <Layout style={{height: '100%'}}>
                 <Sider id='left-sider' collapsible collapsed={this.state.collapsed}
                        onCollapse={(value) => this.toggleCollapsed(value)}>
+
+                    <div style={{
+                        color:'white',fontSize:16, cursor:"pointer", margin:12}} title='收起/展开' onClick={()=>this.toggleCollapsed(!this.state.collapsed)}>
+                      {this.state.collapsed ? <MenuUnfoldOutlined/> : <MenuFoldOutlined/>}
+                    </div>
+
                     <Menu items={this.state.leftMenus}
                           theme='dark'
                           mode="inline"
