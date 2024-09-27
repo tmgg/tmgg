@@ -1,39 +1,57 @@
 import React from "react";
 import {history} from "umi";
 import {CloseOutlined} from "@ant-design/icons";
+import {Menu, Tabs} from "antd";
 
 export default class extends React.Component {
 
+    onClick = e=>{
+        const {key} = e;
+        const item = this.findItem(key);
+
+        history.push(item.path)
+    }
+
+    findItem = key => {
+        const {items} = this.props
+
+        const item = items.find(item => item.key === key)
+        return item;
+    };
+
+    remove = e=>{
+        e.preventDefault()
+        e.stopPropagation()
+        const key = e.currentTarget.dataset.key
+        const item = this.findItem(key)
+        this.props.onTabRemove(item)
+        return false
+    }
 
     render() {
         const {items, pathname} = this.props
         if(items.length === 0){
             return
         }
-        return <div className='tabs-nav'>
-            {items.map(item=>{
-                let active = pathname === item.path;
-                let key = item.key;
-                let icon = item.icon;
-                let path = item.path;
-                let label = item.label
 
-                let className = 'tab ' + (active ? 'active':'');
-                return <div className={className}  key={key}>
-                    <div className='icon'  >     {icon}
-                    </div>
-                    <div className='btn'  onClick={() => history.push(path)}>
+        let activeKey = null
 
-                        {label}
-                    </div>
-                    <div className='remove' onClick={()=>this.props.onTabRemove(item)}>
-                        <CloseOutlined />
-                    </div>
-                </div>
+        const menuItems = items.map(item=>{
+            const {label, key, path} = item
+            if(path === pathname){
+                activeKey = key
+            }
 
-            })}
-        </div>
+            return {label,key,path, extra: <CloseOutlined data-key={key} onClick={this.remove} /> }
+        })
+
+
+        return <Menu items={menuItems}   mode="horizontal" onClick={this.onClick}
+                     selectedKeys={[activeKey]}
+        >
+
+        </Menu>
+
     }
-
 
 }

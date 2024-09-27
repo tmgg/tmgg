@@ -27,7 +27,7 @@ public class KettleController {
             SlaveServerStatus status = sdk.status();
             return AjaxResult.ok().data(status);
         } catch (Exception e) {
-            return AjaxResult.err().msg("获取信息失败");
+            return AjaxResult.err().msg("获取Carte服务状态失败，请检查Carte服务是否开启");
         }
     }
 

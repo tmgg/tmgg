@@ -21,6 +21,8 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,.08);
+    z-index: 1030;
 
     .header-right {
       line-height: 36px;
@@ -38,58 +40,8 @@
 
   }
 
-  .tabs-nav {
-    margin-top: 6px;
-    padding: 4px ;
-    display: flex;
-    background: white;
-    flex-wrap: wrap;
-    gap: 4px;
 
-    .tab {
-      border-radius: 8px ;
-      padding: 4px 16px;
-      background: rgba(0, 0, 0, 0.04);
-      border: 1px solid #f0f0f0;
-      display: flex;
-      align-items: center;
-      cursor: pointer;
-
-      &:hover {
-        color: #4990CD;
-      }
-
-      &.active {
-        color: #063A69;
-
-        .btn {
-          font-weight: bold;
-        }
-      }
-
-      .btn {
-      }
-      .icon {
-        margin-right: 4px;
-      }
-
-      .remove {
-        background: transparent;
-        border: none;
-        outline: none;
-        cursor: pointer;
-        transition: all var(--ant-motion-duration-slow);
-        box-sizing: border-box;
-        margin-left: 0.5rem;
-
-        &:hover {
-          color: red;
-        }
-      }
-    }
-  }
   #left-sider {
-
     .left-menu {
       height: calc(100vh - 120px);
       overflow: auto;

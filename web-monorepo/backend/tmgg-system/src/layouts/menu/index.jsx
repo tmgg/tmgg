@@ -50,7 +50,6 @@ export default class extends React.Component {
 
 
     initMenu = () => {
-
         HttpUtil.get('menuTree').then(rs => {
             const list = rs;
             // 设置icon
@@ -68,7 +67,6 @@ export default class extends React.Component {
                         }
                     }
                 }
-
             })
 
         })
@@ -98,7 +96,7 @@ export default class extends React.Component {
                 <Header className='header'>
 
                     <h3 >
-                        <Link to="/" style={{color: theme["primary-color"]}}>                        {siteInfo.title}                    </Link>
+                        <Link to="/" style={{color: theme["primary-color"]}}>{siteInfo.title} </Link>
                     </h3>
                     <HeaderRight></HeaderRight>
                 </Header>
