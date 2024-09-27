@@ -46,7 +46,10 @@ export default class extends React.Component {
         })
 
 
-        return <Menu items={menuItems}   mode="horizontal" onClick={this.onClick}
+        return <Menu items={menuItems}
+                     style={{lineHeight:'36px'}}
+                     mode="horizontal"
+                     onClick={this.onClick}
                      selectedKeys={[activeKey]}
         >
 
