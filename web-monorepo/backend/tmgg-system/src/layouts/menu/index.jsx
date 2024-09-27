@@ -45,9 +45,7 @@ export default class extends React.Component {
     componentDidMount() {
         this.initMenu()
         let siteInfo = SysUtil.getSiteInfo();
-
         this.setState({siteInfo})
-
     }
 
 
@@ -84,12 +82,19 @@ export default class extends React.Component {
     actionRef = React.createRef()
 
 
-    onMenuSelect = (key, path, label, icon) => {
+    addTab = (key, path, label, icon) => {
         const {tabs} = this.state
         if (!tabs.some(t => t.key === key)) {
             tabs.push({key, path, label, icon})
         }
     }
+    removeTab = (item) => {
+        const tabs = this.state.tabs
+        ArrUtil.remove(tabs, item)
+        this.setState({tabs})
+        history.push(tabs[0]?.path || '/')
+    }
+
 
     render() {
         const {siteInfo, topMenus} = this.state
@@ -117,7 +122,7 @@ export default class extends React.Component {
                           onClick={({key, item}) => {
                               let {path, id} = item.props;
                               let menu = this.state.menuMap[id]
-                              this.onMenuSelect(key, path, menu.label, menu.icon)
+                              this.addTab(key, path, menu.label, menu.icon)
                               history.push(path)
                           }}
                           selectedKeys={[this.state.currentMenuKey]}
@@ -129,7 +134,7 @@ export default class extends React.Component {
                 <Content id='content'>
                     <TabMenu items={this.state.tabs}
                              pathname={this.props.pathname}
-                             onTabRemove={this.onTabRemove}                    >
+                             onTabRemove={this.removeTab}                    >
                     </TabMenu>
 
                     <div className='tab-content'>
@@ -151,12 +156,6 @@ export default class extends React.Component {
     }
 
 
-    onTabRemove = (item) => {
-        const tabs = this.state.tabs
-        ArrUtil.remove(tabs, item)
-        this.setState({tabs})
-        history.push(tabs[0]?.path || '/')
-    }
 
 
 }
