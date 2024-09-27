@@ -1,7 +1,7 @@
 // 全局路由
 
 import React from 'react';
-import {Layout} from 'antd';
+import {Divider, Layout} from 'antd';
 import {history, Outlet, Link} from 'umi';
 import "./index.less"
 import * as Icons from '@ant-design/icons';
@@ -85,21 +85,24 @@ export default class extends React.Component {
     render() {
         const {siteInfo} = this.state
         return <Layout className='main-layout'>
-            <Sider id='left-sider' collapsible collapsed={this.state.collapsed}
-                   onCollapse={(value) => this.toggleCollapsed(value)}>
-                <div className='logo' onClick={() => history.push('/')}>
-                    <img src={logo}/>
-                </div>
-                <LeftMenu pathname={this.props.pathname} onSelect={this.onMenuSelect}/>
-            </Sider>
-            <Layout style={{height: '100%'}}>
-                <Header className='header'>
-
+            <Header className='header'>
+                <div className='header-left'>
+                    <img className='logo-img' src={logo} onClick={() => history.push('/')}/>
+                    <Divider type='vertical' />
                     <h3 >
                         <Link to="/" style={{color: theme["primary-color"]}}>{siteInfo.title} </Link>
                     </h3>
-                    <HeaderRight></HeaderRight>
-                </Header>
+                </div>
+
+                <HeaderRight></HeaderRight>
+            </Header>
+
+            <Layout style={{height: '100%'}}>
+                <Sider id='left-sider' collapsible collapsed={this.state.collapsed}
+                       onCollapse={(value) => this.toggleCollapsed(value)}>
+
+                    <LeftMenu pathname={this.props.pathname} onSelect={this.onMenuSelect}/>
+                </Sider>
 
                 <Content id='content'>
                     <TabMenu items={this.state.tabs}

@@ -1,19 +1,7 @@
 .main-layout {
   height: 100vh;
 
-  .logo {
-    height: 3rem;
-    margin: 20px;
-    border-radius: 6px;
-    padding: 12px;
-    background: rgba(255, 255, 255, .3);
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    img {
-      height: 100%;
-    }
-  }
+
 
   .header {
     padding: 0 20px;
@@ -22,7 +10,15 @@
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid rgb(233, 237, 240);
-    z-index: 1030;
+
+    .header-left {
+      display: flex;
+      align-items: center;
+
+        .logo-img {
+          height: 38px;
+        }
+    }
 
     .header-right {
       line-height: 36px;
