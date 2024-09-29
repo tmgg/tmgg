@@ -32,12 +32,13 @@ import static io.tmgg.init.SystemInitial.ORDER;
  * 系统初始化
  */
 @Slf4j
-@Component
+@Component(SystemInitial.BEAN_NAME)
 @Order(ORDER)
 public class SystemInitial implements ApplicationRunner {
 
     // 启动顺序
     public static final int ORDER = 1000;
+    public static final String BEAN_NAME = "sysInit";
 
     @Resource
     SysRoleService sysRoleService;
@@ -94,13 +95,6 @@ public class SystemInitial implements ApplicationRunner {
         }
 
     }
-
-
-    @Resource
-    SysConfigDao sysConfigDao;
-
-
-
 
 
 

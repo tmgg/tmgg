@@ -13,29 +13,11 @@ public class LocalFileOperator implements FileOperator {
 
     public static final String DEFAULT_BUCKET = "defaultBucket";
 
-    private final LocalFileProperties localFileProperties;
+    private String currentSavePath;
 
-    private String currentSavePath = "";
-
-    public LocalFileOperator(LocalFileProperties localFileProperties) {
-        this.localFileProperties = localFileProperties;
-        initClient();
-    }
-
-    public void initClient() {
-        if (SystemUtil.getOsInfo().isWindows()) {
-            String savePathWindows = localFileProperties.getLocalFileSavePathWin();
-            if (!FileUtil.exist(savePathWindows)) {
-                FileUtil.mkdir(savePathWindows);
-            }
-            currentSavePath = savePathWindows;
-        } else {
-            String savePathLinux = localFileProperties.getLocalFileSavePathLinux();
-            if (!FileUtil.exist(savePathLinux)) {
-                FileUtil.mkdir(savePathLinux);
-            }
-            currentSavePath = savePathLinux;
-        }
+    public LocalFileOperator(String path) {
+        this.currentSavePath = path;
+        FileUtil.mkdir(path);
     }
 
     @Override
@@ -73,7 +55,7 @@ public class LocalFileOperator implements FileOperator {
         // 判断文件存在不存在
         String absoluteFile = currentSavePath + File.separator + bucketName + File.separator + key;
         if (!FileUtil.exist(absoluteFile)) {
-            String message = StrUtil.format("文件不存在,bucket={},key={} ,path={}", bucketName, key,absoluteFile);
+            String message = StrUtil.format("文件不存在,bucket={},key={} ,path={}", bucketName, key, absoluteFile);
             throw new FileNotFoundException(message);
         } else {
             return FileUtil.readBytes(absoluteFile);
@@ -86,7 +68,7 @@ public class LocalFileOperator implements FileOperator {
         // 判断文件存在不存在
         String absoluteFile = currentSavePath + File.separator + bucketName + File.separator + key;
         if (!FileUtil.exist(absoluteFile)) {
-            String message = StrUtil.format("文件不存在,bucket={},key={} ,path={}", bucketName, key,absoluteFile);
+            String message = StrUtil.format("文件不存在,bucket={},key={} ,path={}", bucketName, key, absoluteFile);
             throw new FileNotFoundException(message);
         }
         return FileUtil.getInputStream(absoluteFile);
@@ -104,6 +86,5 @@ public class LocalFileOperator implements FileOperator {
 
         // 删除文件
         FileUtil.del(file);
-
     }
 }

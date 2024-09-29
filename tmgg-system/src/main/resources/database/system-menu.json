@@ -3,7 +3,8 @@
     {
       "id": "biz",
       "name": "业务模块",
-      "seq": 1
+      "type": "MENU",
+      "seq": 0
     },
     {
       "id": "sys",
