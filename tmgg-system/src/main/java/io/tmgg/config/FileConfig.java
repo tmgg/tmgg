@@ -22,7 +22,6 @@ import org.springframework.context.annotation.DependsOn;
  * 默认激活本地文件存储
  */
 @Configuration
-@DependsOn(SystemInitial.BEAN_NAME)
 public class FileConfig {
 
 
@@ -36,6 +35,7 @@ public class FileConfig {
      * 本地文件操作客户端
      */
     @Bean
+    @DependsOn(SystemInitial.BEAN_NAME)
     public FileOperator fileOperator() {
         //判断minio
         String minioUrl = SpringUtil.getProperty("file.minio.url");
