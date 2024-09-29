@@ -290,7 +290,7 @@ public abstract class BaseService<T extends Persistable<String>> {
         Set<Map.Entry<String, Object>> entries = param.entrySet();
         for (Map.Entry<String, Object> e : entries) {
             if(e.getValue() != null){
-                query.like(e.getKey(), e.getValue());
+                query.like(e.getKey(), (String) e.getValue());
 
             }
         }

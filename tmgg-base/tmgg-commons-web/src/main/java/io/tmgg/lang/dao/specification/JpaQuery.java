@@ -1,9 +1,6 @@
 package io.tmgg.lang.dao.specification;
 
-import io.tmgg.lang.dao.specification.expression.ExampleExpression;
-import io.tmgg.lang.dao.specification.expression.LogicalExpression;
-import io.tmgg.lang.dao.specification.expression.Operator;
-import io.tmgg.lang.dao.specification.expression.SimpleExpression;
+import io.tmgg.lang.dao.specification.impl.*;
 import jakarta.persistence.criteria.*;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.util.Assert;
@@ -16,22 +13,11 @@ import java.util.function.Consumer;
 
 /**
  * 查询条件
- * or 一般使用 contains anyXX 方法， 复杂点的可
- * LogicalExpression logicalExpression = new LogicalExpression(Operator.AND);
- * logicalExpression.addCriterion(new SimpleExpression(column, val1, Operator.GTE));
- * logicalExpression.addCriterion(new SimpleExpression(column, val2, Operator.LTE));
- * query.add(logicalExpression)
  * 多对多可 可使用 containsAnyMember
- *
  */
 public class JpaQuery<T> implements Specification<T> {
 
     private final List<Specification> specificationList = new ArrayList<>();
-
-
-    public static <X> JpaQuery<X> create() {
-        return new JpaQuery<X>();
-    }
 
 
     @Override
@@ -62,33 +48,20 @@ public class JpaQuery<T> implements Specification<T> {
 
 
     public JpaQuery likeExample(T t) {
-        this.add(new ExampleExpression<>(t));
-        return this;
+        return this.add(new SpecificationExample<>(t));
     }
 
     public JpaQuery likeExample(T t, String... ignores) {
-        this.add(new ExampleExpression<>(t, ignores));
-        return this;
+        return this.add(new SpecificationExample<>(t, ignores));
     }
-
 
 
     public JpaQuery eq(String column, Object value) {
-        //this.add(new SimpleExpression(column, val, Operator.EQ));
-
-        this.add(new Specification<T>() {
-            @Override
-            public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
-                Expression expression = ExpressionTool.getExpression(column, root);
-                return value == null ? builder.isNull(expression) : builder.equal(expression, value);
-            }
-        });
-
-        return this;
+        return this.add(new SpecificationEQ<>(column, value));
     }
 
     public JpaQuery isNull(String column) {
-        this.add(new Specification<T>() {
+        return this.add(new Specification<T>() {
             @Override
             public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
                 Expression expression = ExpressionTool.getExpression(column, root);
@@ -96,11 +69,10 @@ public class JpaQuery<T> implements Specification<T> {
             }
         });
 
-        return this;
     }
 
     public JpaQuery isNotNull(String column) {
-        this.add(new Specification<T>() {
+        return this.add(new Specification<T>() {
             @Override
             public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
                 Expression expression = ExpressionTool.getExpression(column, root);
@@ -108,129 +80,51 @@ public class JpaQuery<T> implements Specification<T> {
             }
         });
 
-        return this;
     }
-
-    /**
-     * key 为列表是， value为普通对象使用 isMember
-     *
-     * @param column
-     * @param val
-     * @return
-     */
-    public JpaQuery isMember(String column, Object val) {
-        this.add(new SimpleExpression(column, val, Operator.IS_MEMBER));
-        return this;
-    }
-
-    public JpaQuery isNotMember(String column, Object val) {
-        this.add(new SimpleExpression(column, val, Operator.IS_NOT_MEMBER));
-        return this;
-    }
-
 
 
     public JpaQuery<T> ne(String column, Object val) {
-        this.add(new SimpleExpression(column, val, Operator.NE));
-        return this;
+        return this.add(new SpecificationNE<>(column, val));
     }
 
 
-
     public JpaQuery<T> gt(String column, Object val) {
-        this.add(new SimpleExpression(column, val, Operator.GT));
-        return this;
+        return this.add(new SpecificationGT<>(column, val));
     }
 
 
     public JpaQuery ge(String column, Object val) {
-        this.add(new SimpleExpression<>(column, val, Operator.GTE));
-        return this;
+        return this.add(new SpecificationGTE<>(column, val));
     }
 
     public JpaQuery<T> lt(String column, Object val) {
-        this.add(new SimpleExpression<>(column, val, Operator.LT));
-        return this;
+        return this.add(new SpecificationLT<>(column, val));
     }
 
     public JpaQuery<T> le(String column, Object val) {
-        this.add(new SimpleExpression<>(column, val, Operator.LTE));
+        return this.add(new SpecificationLTE<>(column, val));
+    }
+
+    public JpaQuery<T> between(String column, Object v1, Object v2) {
+        this.ge(column, v1);
+        this.le(column, v2);
         return this;
     }
 
-    public JpaQuery between(String column, Object val1, Object val2) {
-        LogicalExpression logicalExpression = new LogicalExpression(Operator.AND);
-        logicalExpression.addCriterion(new SimpleExpression(column, val1, Operator.GTE));
-        logicalExpression.addCriterion(new SimpleExpression(column, val2, Operator.LTE));
-        this.add(logicalExpression);
-        return this;
-    }
-
-    /**
-     * ignore
-     */
-    public JpaQuery notBetween(String column, Object val1, Object val2) {
-        LogicalExpression logicalExpression = new LogicalExpression(Operator.AND);
-        logicalExpression.addCriterion(new SimpleExpression(column, val1, Operator.LT));
-        logicalExpression.addCriterion(new SimpleExpression(column, val2, Operator.GT));
-        this.add(logicalExpression);
-        return this;
-    }
-
-    /**
-     * ignore
-     */
-    public JpaQuery like(String column, Object val) {
-        if (val == null) {
-            this.eq(column, null);
-        } else {
-            String str = val.toString();
-
-            val = str.contains("%") ? str : "%" + str + "%";
-            this.add(new SimpleExpression(column, val, Operator.LIKE));
-        }
+    public JpaQuery<T> notBetween(String column, Object v1, Object v2) {
+        this.lt(column, v1);
+        this.gt(column, v2);
         return this;
     }
 
 
-
-    public JpaQuery<T> notLike(String column, Object val) {
-        if (val == null) {
-            this.eq(column, null);
-        } else {
-            String str = val.toString();
-            val = str.contains("%") ? str : "%" + str + "%";
-            this.add(new SimpleExpression<>(column, val, Operator.NOT_LIKE));
-        }
-
-        return this;
+    public JpaQuery<T> like(String column, String val) {
+        return this.add(new SpecificationLike<>(column, val));
     }
 
-    /**
-     * ignore
-     */
-    public JpaQuery likeLeft(String column, Object val) {
-        if (val == null) {
-            this.eq(column, null);
-        } else {
-            String value = '%' + val.toString();
-            this.add(new SimpleExpression(column, value, Operator.LIKE));
-        }
-        return this;
-    }
 
-    /**
-     * ignore
-     */
-    public JpaQuery likeRight(String column, Object val) {
-        if (val == null) {
-            this.eq(column, null);
-        } else {
-            String val2 = val.toString() + '%';
-            this.add(new SimpleExpression(column, val2, Operator.LIKE));
-        }
-
-        return this;
+    public JpaQuery<T> notLike(String column, String val) {
+        return this.add(new SpecificationNotLike<>(column, val));
     }
 
 
@@ -258,14 +152,12 @@ public class JpaQuery<T> implements Specification<T> {
         boolean hasValue = valueList != null && valueList.length > 0;
 
         if (!hasValue) {
-            // in 空值， 相当于 1!=1, 直接没有数据返回了，这里用 is null and is not null
-            this.eq(column, null);
-            this.ne(column, null);
-            return this;
+            // in 空值， 相当于 1!=1, 直接没有数据返回了
+            return this.add(new SpecificationAlwaysFalse<>());
         }
 
 
-        this.add(new Specification<T>() {
+        return this.add(new Specification<T>() {
             @Override
             public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
                 Expression expression = ExpressionTool.getExpression(column, root);
@@ -278,12 +170,15 @@ public class JpaQuery<T> implements Specification<T> {
                 return in;
             }
         });
-        return this;
     }
 
 
     public JpaQuery<T> notIn(String column, Object... valueList) {
-        Assert.state(valueList != null && valueList.length > 0, "notIn 方法的参数应大于0");
+        boolean hasValue = valueList != null && valueList.length > 0;
+        if (!hasValue) {
+            return null;
+        }
+
         this.add(new Specification<T>() {
             @Override
             public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
@@ -314,34 +209,31 @@ public class JpaQuery<T> implements Specification<T> {
      * 或查询
      * 形如： (a =1 or b =2 or c！=5)
      *
-     * @param subQuery 子查询
+     * @param subQueryConsumer 子查询
      * @return 自己
      */
-    public JpaQuery<T> or(Consumer<JpaQuery<T>> subQuery) {
-        JpaQuery<T> wrapper = new JpaQuery<>();
+    public JpaQuery<T> or(Consumer<JpaQuery<T>> subQueryConsumer) {
+        JpaQuery<T> orQuery = new JpaQuery<>();
+        subQueryConsumer.accept(orQuery);
 
-        subQuery.accept(wrapper);
-
-
-        LogicalExpression<T> logicalExpression = new LogicalExpression<>(Operator.OR);
-
-        for (Specification specification : wrapper.specificationList) {
-            logicalExpression.addCriterion(specification);
-        }
-        this.add(logicalExpression);
-
-        return this;
+        return add(new Specification<T>() {
+            @Override
+            public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+                return cb.or(orQuery.toPredicate(root, query, cb));
+            }
+        });
     }
 
     public JpaQuery<T> or(Specification<T>... specifications) {
-        LogicalExpression<T> logicalExpression = new LogicalExpression<>(Operator.OR);
+        return add((Specification<T>) (root, query, cb) -> {
+            Predicate[] predicates = new Predicate[specifications.length];
+            for (int i = 0; i < specifications.length; i++) {
+                predicates[i] = specifications[i].toPredicate(root, query, cb);
+            }
 
-        for (Specification specification : specifications) {
-            logicalExpression.addCriterion(specification);
-        }
-        this.add(logicalExpression);
+            return cb.or(predicates);
+        });
 
-        return this;
     }
 
     public JpaQuery<T> like(Map<String, Object> param) {
@@ -352,7 +244,7 @@ public class JpaQuery<T> implements Specification<T> {
 
             if (value != null) {
                 if (value instanceof String) {
-                    this.like(key, value);
+                    this.like(key, (String) value);
                 } else {
                     this.eq(key, value);
                 }
@@ -364,34 +256,23 @@ public class JpaQuery<T> implements Specification<T> {
 
     // 去重复
     public JpaQuery<T> distinct() {
-        this.add((Specification<T>) (root, criteriaQuery, criteriaBuilder) -> {
-            criteriaQuery.distinct(true);
-            return criteriaBuilder.conjunction();
+        return this.add(new Specification<T>() {
+            @Override
+            public Predicate toPredicate(Root<T> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder cb) {
+                criteriaQuery.distinct(true);
+                return cb.conjunction();
+            }
         });
-        return this;
     }
 
 
-    // 查群关联对象的某个字段
-    public JpaQuery<T> containsAnyMembers(String fieldName, Iterable<?> value) {
-        LogicalExpression logicalExpression = new LogicalExpression(Operator.OR);
-        for (Object obj : value) {
-            logicalExpression.addCriterion(new SimpleExpression(fieldName, obj, Operator.IS_MEMBER));
-        }
-        this.add(logicalExpression);
-        return this;
+    public JpaQuery<T> isMember(String k, Object v) {
+        return this.add(new Specification<T>() {
+            @Override
+            public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+                Path keyPath = root.get(k);
+                return cb.isMember(v, keyPath);
+            }
+        });
     }
-
-
-    public JpaQuery<T> notContainsAnyMembers(String fieldName, Object... value) {
-        LogicalExpression logicalExpression = new LogicalExpression(Operator.OR);
-
-        for (Object obj : value) {
-            logicalExpression.addCriterion(new SimpleExpression(fieldName, obj, Operator.IS_NOT_MEMBER));
-        }
-
-        this.add(logicalExpression);
-        return this;
-    }
-
 }

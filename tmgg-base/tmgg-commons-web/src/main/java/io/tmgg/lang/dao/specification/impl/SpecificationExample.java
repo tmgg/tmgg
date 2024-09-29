@@ -1,4 +1,4 @@
-package io.tmgg.lang.dao.specification.expression;
+package io.tmgg.lang.dao.specification.impl;
 
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
@@ -11,13 +11,13 @@ import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 
-public class ExampleExpression<T> implements Specification<T> {
+public class SpecificationExample<T> implements Specification<T> {
 
 
     private final Example<T> example;
 
 
-    public ExampleExpression(T t) {
+    public SpecificationExample(T t) {
         ExampleMatcher exampleMatcher = ExampleMatcher.matching()
                 .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING)
                 .withIgnoreCase()
@@ -26,7 +26,7 @@ public class ExampleExpression<T> implements Specification<T> {
         this.example = Example.of(t, exampleMatcher);
     }
 
-    public ExampleExpression(T t, String... ignores) {
+    public SpecificationExample(T t, String... ignores) {
         ExampleMatcher exampleMatcher = ExampleMatcher.matching()
                 .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING)
                 .withIgnoreCase()

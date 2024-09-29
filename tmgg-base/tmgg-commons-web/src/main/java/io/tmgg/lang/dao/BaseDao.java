@@ -297,7 +297,7 @@ public abstract class BaseDao<T extends Persistable<String>> {
             String k = e.getKey();
             Object v = e.getValue();
             if(v != null){
-                query.like( k, v);
+                query.like( k, (String) v);
             }
 
         }

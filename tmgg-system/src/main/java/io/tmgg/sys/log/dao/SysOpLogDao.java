@@ -18,10 +18,4 @@ import java.util.List;
 @Repository
 public class SysOpLogDao extends BaseDao<SysOpLog> {
 
-    public List<SysOpLog> findByTimeLessThan(Date date) {
-        JpaQuery<SysOpLog> q = JpaQuery.create();
-        q.le(SysOpLog.FIELD_CREATE_TIME, date);
-        return this.findAll(q);
-    }
-
 }
