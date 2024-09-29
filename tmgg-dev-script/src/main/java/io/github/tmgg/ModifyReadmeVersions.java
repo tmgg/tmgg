@@ -74,7 +74,8 @@ public class ModifyReadmeVersions {
             String artifactId = doc.selectFirst("project>artifactId").text();
             Element description = doc.selectFirst("project>description");
             versionLines.add(" ");
-            versionLines.add(artifactId + " ![Maven Central Version](https://img.shields.io/maven-central/v/io.github.tmgg/"+artifactId+") ");
+            String mvn = "![Maven Central Version](https://img.shields.io/maven-central/v/io.github.tmgg/" + artifactId + ")";
+            versionLines.add(mvn + artifactId);
             if(description != null){
                 versionLines.add(description.text().trim());
             }
@@ -107,7 +108,8 @@ public class ModifyReadmeVersions {
             }
 
             versionLines.add(" ");
-            versionLines.add( name + " ![NPM Version](https://img.shields.io/npm/v/"+name+")");
+            String npm = " ![NPM Version](https://img.shields.io/npm/v/" + name + ")";
+            versionLines.add(npm + name);
             Object description = map.get("description");
             if(description != null){
                 versionLines.add(description.toString());
