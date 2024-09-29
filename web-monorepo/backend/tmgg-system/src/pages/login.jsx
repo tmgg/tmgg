@@ -1,10 +1,11 @@
 import React from 'react';
-import {Button, Form, Input, Space} from 'antd';
+import {Button, Form, Image, Input, Space} from 'antd';
 import {LockOutlined, UserOutlined} from '@ant-design/icons';
 import "./login.less"
 import {history} from 'umi';
 import {HttpUtil, PageUtil, StorageUtil, SysUtil} from "@tmgg/tmgg-base";
-
+import loginBg from '../asserts/login_bg.jpg'
+import dayjs from "dayjs";
 
 export default class login extends React.Component {
 
@@ -22,20 +23,9 @@ export default class login extends React.Component {
             this.submit({token})
         }
 
-        this.fixedBugBackgroundImage();
     }
 
-    /**
-     * 如果讲前端页面部署在非根目录下，请求背景图片使用相对位置
-     * 为什么不在less中直接指定？ 因为编译不通过
-     */
-    fixedBugBackgroundImage() {
-        let el = document.createElement('style');
-        el.innerText = ".login-page {" +
-            "background-image: url('./login_bg.jpg')" +
-            "}"
-        document.head.append(el)
-    }
+
 
     submit = values => {
         this.setState({logging: true})
@@ -52,8 +42,7 @@ export default class login extends React.Component {
         const siteInfo = SysUtil.getSiteInfo()
 
         return (
-            <section className='login-page'>
-
+            <section className='login-page' >
                 <div className="login-content">
                     <h1>{siteInfo.title}</h1>
                     <Form
@@ -92,8 +81,10 @@ export default class login extends React.Component {
 
                         {siteInfo['siteInfo.captcha'] && <Form.Item name='code' label='验证码' rules={[{required: true}]}>
                             <Space>
-                                <Input size='large'/>
-                                <img height={'38px'} src={SysUtil.getServerUrl() + "captchaImage"}></img>
+                                <Input size='large' placeholder='验证码'/>
+                                <img height={36} width={100} src={SysUtil.getServerUrl() + "captchaImage?_r="+this.state.r} onClick={()=>{
+                                    this.setState({r: Math.random()})
+                                }}></img>
                             </Space>
                         </Form.Item>}
 

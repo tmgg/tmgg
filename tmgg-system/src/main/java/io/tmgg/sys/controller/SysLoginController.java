@@ -74,10 +74,11 @@ public class SysLoginController {
 
             String code = (String) session.getAttribute(CAPTCHA_CODE);
             Assert.state(code.equalsIgnoreCase(param.getCode()), "验证码错误");
+
+            session.removeAttribute(CAPTCHA_CODE);
         }
 
         SysUser sysUser = sysUserService.checkLogin(account, password);
-
 
         session.setAttribute("isLogin", true);
         session.setAttribute("subjectId", sysUser.getId());
@@ -105,6 +106,7 @@ public class SysLoginController {
 
         String code = captcha.getCode();
         session.setAttribute(CAPTCHA_CODE, code);
+
 
     }
 
