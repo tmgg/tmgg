@@ -102,6 +102,9 @@ public class ModifyReadmeVersions {
             Map<String, Object> map = JsonTool.jsonToMap(json);
 
             Object name = map.get("name");
+            if("true".equals(map.get("private"))){
+                continue;
+            }
 
             versionLines.add(" ");
             versionLines.add( name + " ![NPM Version](https://img.shields.io/npm/v/"+name+")");

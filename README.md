@@ -59,8 +59,6 @@ tmgg-system-weapp ![Maven Central Version](https://img.shields.io/maven-central/
  
 @tmgg/tmgg-system-weapp ![NPM Version](https://img.shields.io/npm/v/@tmgg/tmgg-system-weapp)
  
-@tmgg/tmgg-monorepo ![NPM Version](https://img.shields.io/npm/v/@tmgg/tmgg-monorepo)
- 
 @tmgg/tmgg-commons-lang ![NPM Version](https://img.shields.io/npm/v/@tmgg/tmgg-commons-lang)
 pc和mobile端都可依赖的公共代码，工具类等
  
