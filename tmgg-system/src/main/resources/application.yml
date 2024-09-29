@@ -26,7 +26,7 @@ spring:
     username: root
     password: ${db_password}
     hikari:
-      register-mbeans: true
+      register-mbeans: true # 用于监控连接池的信息
   jpa:
     hibernate.ddl-auto: update
     database: MYSQL

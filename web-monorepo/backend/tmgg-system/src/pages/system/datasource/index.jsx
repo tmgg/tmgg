@@ -27,8 +27,8 @@ export default class extends React.Component {
         const {loading, info} = this.state
 
         let keys = Object.keys(info);
-        return <Card loading={loading} title='连接池状体'>
-            <Descriptions column={2} >
+        return <Card loading={loading} title='连接池状态'>
+            <Descriptions column={1} >
                 {keys.map(k=>{
                     return <Item label={k} key={k}>{info[k]}</Item>
                 })}
