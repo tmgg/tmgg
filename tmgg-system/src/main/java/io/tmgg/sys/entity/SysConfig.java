@@ -26,11 +26,10 @@ public class SysConfig extends BaseEntity {
 
     @Remark("名称")
     @Column(length = 30, nullable = false, unique = true)
-    private String name;
+    private String label;
 
-    @Remark("键")
-    @Column(unique = true,name = "key_", length = 30)
-    private String key;
+
+
 
     /**
      * 属性值

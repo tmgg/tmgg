@@ -51,12 +51,12 @@ public class FileConfig {
 
         // 默认使用本地文件
         LocalFileProperties localFileProperties = new LocalFileProperties();
-        String fileUploadPathForWindows = sysConfigService.getDefaultFileUploadPathForWindows();
+        String fileUploadPathForWindows = sysConfigService.getFileUploadPathForWindows();
         if (ObjectUtil.isNotEmpty(fileUploadPathForWindows)) {
             localFileProperties.setLocalFileSavePathWin(fileUploadPathForWindows);
         }
 
-        String fileUploadPathForLinux = sysConfigService.getDefaultFileUploadPathForLinux();
+        String fileUploadPathForLinux = sysConfigService.getFileUploadPathForLinux();
         if (ObjectUtil.isNotEmpty(fileUploadPathForLinux)) {
             localFileProperties.setLocalFileSavePathLinux(fileUploadPathForLinux);
         }

@@ -1,73 +1,68 @@
 {
   "SysConfig": [
     {
-      "id": "EMAIL-FROM",
-      "name": "邮件发送账号",
-      "key": "EMAIL-FROM",
+      "id": "email.from",
+      "label": "邮件发送账号",
       "defaultValue": "410518072@qq.com",
       "$update": false
     },
     {
-      "id": "EMAIL-PASS",
-      "name": "邮件发送密码",
-      "key": "EMAIL-PASS",
+      "id": "email.pass",
+      "label": "邮件发送密码",
       "$update": false
     },
-
     {
       "id": "SESSION_EXPIRE",
-      "name": "会话过期时间",
-      "key": "SESSION_EXPIRE",
+      "label": "会话过期时间",
       "defaultValue": "7200",
       "remark": "单位秒",
       "$update": false
     },
-
     {
-      "id": "DEFAULT_PASSWORD",
-      "name": "用户默认密码",
-      "key": "DEFAULT_PASSWORD",
+      "id": "default_password",
+      "label": "用户默认密码",
       "defaultValue": "10.Sleep",
       "remark": "单位秒",
       "$update": false
     },
-
     {
-      "id": "FILE_UPLOAD_PATH_FOR_WINDOWS",
-      "name": "win本地上传文件路径",
-      "key": "FILE_UPLOAD_PATH_FOR_WINDOWS",
+      "id": "file_upload_path_for_windows",
+      "label": "win本地上传文件路径",
       "defaultValue": "d:/tmp",
       "$update": false
     },
-
     {
-      "id": "FILE_UPLOAD_PATH_FOR_LINUX",
-      "name": "linux/mac本地上传文件路径",
-      "key": "FILE_UPLOAD_PATH_FOR_LINUX",
+      "id": "file_upload_path_for_linux",
+      "label": "linux/mac本地上传文件路径",
       "defaultValue": "/home/files",
       "$update": false
     },
-
     {
-      "id": "MULTI_DEVICE_LOGIN",
-      "name": "多端登录",
-      "key": "MULTI_DEVICE_LOGIN",
+      "id": "multi_device_login",
+      "label": "多端登录",
       "defaultValue": "true",
       "remark": "填写true | false, 是否允许账号在多个地方登录",
       "$update": false
     },
     {
       "id": "siteInfo.copyright",
-      "name": "版权信息",
-      "key": "siteInfo.copyright",
+      "label": "版权信息",
       "defaultValue": "Powered by tmgg",
       "$update": false
-    },{
+    },
+    {
       "id": "siteInfo.title",
-      "name": "站点标题",
-      "key": "siteInfo.title",
+      "label": "站点标题",
       "defaultValue": "后台管理系统",
       "$update": false
+    },
+    {
+      "id": "captcha.enable",
+      "label": "开启验证码",
+      "defaultValue": "false",
+      "remark": "登录时显示验证码",
+      "$update": false
     }
+
   ]
 }

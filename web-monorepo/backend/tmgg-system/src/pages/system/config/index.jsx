@@ -21,23 +21,19 @@ export default class extends React.Component {
 
     {
       title: '名称',
-      dataIndex: 'name',
+      dataIndex: 'label',
 
 
     },
 
     {
       title: '键',
-      dataIndex: 'key',
-
-
+      dataIndex: 'id',
     },
 
     {
       title: '值',
       dataIndex: 'value',
-
-
     },
 
     {
@@ -90,6 +86,7 @@ export default class extends React.Component {
           request={(params, sort) => HttpUtil.pageData('sysConfig/page', params, sort)}
           columns={this.columns}
           rowKey='id'
+          bordered
       />
 
       <Modal title='系统配置'

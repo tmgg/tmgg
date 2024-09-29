@@ -1,14 +1,18 @@
 
 package io.tmgg.sys.controller;
 
+import cn.hutool.captcha.AbstractCaptcha;
+import cn.hutool.captcha.CaptchaUtil;
+import cn.hutool.core.thread.ThreadUtil;
 import cn.hutool.core.util.ObjUtil;
-import io.tmgg.SystemProperties;
 import io.tmgg.lang.PasswordTool;
 import io.tmgg.lang.ann.PublicApi;
 import io.tmgg.lang.obj.AjaxResult;
-import io.tmgg.sys.auth.captcha.CaptchaService;
 import io.tmgg.sys.entity.SysUser;
+import io.tmgg.sys.service.SysConfigService;
 import io.tmgg.sys.service.SysUserService;
+import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.Assert;
@@ -17,7 +21,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import jakarta.annotation.Resource;
+import java.io.IOException;
 
 /**
  * 登录控制器
@@ -27,17 +31,16 @@ import jakarta.annotation.Resource;
 public class SysLoginController {
 
 
+    public static final String CAPTCHA_CODE = "captchaCode";
 
 
-    @Resource
-    private SystemProperties systemProperties;
 
-    @Resource
-    private CaptchaService captchaService;
 
     @Resource
     private SysUserService sysUserService;
 
+    @Resource
+    private SysConfigService sysConfigService;
 
 
 
@@ -63,8 +66,17 @@ public class SysLoginController {
         Assert.state(strengthOk, "密码强度不够，请联系管理员重置");
 
 
+        ThreadUtil.sleep(1000); // 防止黑客爆破
+
+
         SysUser sysUser = sysUserService.checkLogin(account, password);
 
+
+        if(sysConfigService.getBoolean("captcha.enable")){
+            String code = (String) session.getAttribute(CAPTCHA_CODE);
+            Assert.hasText(code,"请输入验证码");
+            Assert.state(code.equalsIgnoreCase(param.getCode()), "验证码错误");
+        }
 
 
 
@@ -85,16 +97,17 @@ public class SysLoginController {
     }
 
 
-    /**
-     * 校验验证码
-     */
-    private boolean verificationCaptcha(String client) {
-        if (systemProperties.isCaptchaEnable()) {
-            Assert.hasText(client, "验证码：客户端标识不能为空,请刷新浏览器再试");
-            return captchaService.isClientVerifyOK(client);
-        }
-        return true;
+    @PublicApi
+    @GetMapping("captchaImage")
+    public void captcha(HttpSession session, HttpServletResponse resp) throws IOException {
+        AbstractCaptcha captcha = CaptchaUtil.createLineCaptcha(100, 50,4 ,100);
+
+        captcha.write(resp.getOutputStream());
+
+        session.setAttribute(CAPTCHA_CODE, captcha.getCode());
+
     }
+
 
 }
 

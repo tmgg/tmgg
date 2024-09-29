@@ -25,15 +25,6 @@ public class SystemProperties {
      */
     private boolean menuAutoUpdate = true;
 
-    /**
-     * 登录验证码
-     */
-    private boolean captchaEnable = true;
-
-    /**
-     * 验证码文件
-     */
-    private String captchaFiles = "images/captcha/*";
 
 
 

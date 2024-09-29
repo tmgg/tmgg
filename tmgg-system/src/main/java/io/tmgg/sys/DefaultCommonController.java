@@ -51,11 +51,7 @@ public class DefaultCommonController {
     @PublicApi
     @GetMapping("site-info")
     public AjaxResult siteInfo() {
-//        Integer count = (Integer) session.getAttribute("count");
-//        count = ObjUtil.defaultIfNull(count, 0);
-//        session.setAttribute("count", count + 1);
-//        System.out.println("sessionId:"+ session.getId() + ",count="+session.getAttribute("count"));
-        Map<String, String> siteInfo = sysConfigService.findSiteInfo();
+        Map<String, Object> siteInfo = sysConfigService.findSiteInfo();
         return AjaxResult.ok().data(siteInfo);
     }
 

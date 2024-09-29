@@ -1,27 +1,16 @@
 
 package io.tmgg.sys.service;
 
-import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.bean.copier.CopyOptions;
-import cn.hutool.core.convert.Convert;
-import cn.hutool.core.util.ObjectUtil;
-import cn.hutool.core.util.StrUtil;
-import io.tmgg.lang.dao.BaseEntity;
 import io.tmgg.lang.dao.BaseService;
 import io.tmgg.sys.dao.SysConfigDao;
 import io.tmgg.sys.entity.SysConfig;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 
-// config 比较特殊，为了保证可控（如dao层缓存）， 不继承BaseService
 @Service
 @Slf4j
 public class SysConfigService extends BaseService<SysConfig> {
@@ -36,21 +25,14 @@ public class SysConfigService extends BaseService<SysConfig> {
         return  baseDao.save(old);
     }
 
-    public String get(String code) {
-        return dao.findValueByCode(code);
+    public boolean getBoolean(String key) {
+        String value = dao.findValue(key);
+        return Boolean.valueOf(value);
     }
 
-
-    public void set(String code, String value) {
-        SysConfig config = findByCode(code);
-        Assert.state(config != null, "配置未定义" + code);
-        config.setValue(value);
-        dao.save(config);
-    }
-
-
-    public SysConfig findByCode(String code) {
-        return dao.findByCode(code);
+    public String get(String key) {
+        String value = dao.findValue(key);
+        return value;
     }
 
 
@@ -58,49 +40,31 @@ public class SysConfigService extends BaseService<SysConfig> {
      * 获取默认密码
      */
     public String getDefaultPassWord() {
-        return get("DEFAULT_PASSWORD");
+        return get("default_password");
     }
 
     /**
      * 获取自定义的windows环境本地文件上传路径
      */
-    public String getDefaultFileUploadPathForWindows() {
-        return getSysConfigWithDefault("FILE_UPLOAD_PATH_FOR_WINDOWS", String.class, "");
+    public String getFileUploadPathForWindows() {
+        return get("file_upload_path_for_windows");
     }
 
     /**
      * 获取自定义的linux环境本地文件上传路径
      */
-    public String getDefaultFileUploadPathForLinux() {
-        return getSysConfigWithDefault("FILE_UPLOAD_PATH_FOR_LINUX", String.class, "");
-    }
-
-    /**
-     * 获取是否允许单用户登陆的开关
-     */
-    public boolean getMultiDeviceLogin() {
-        return getSysConfigWithDefault("MULTI_DEVICE_LOGIN", Boolean.class, true);
+    public String getFileUploadPathForLinux() {
+        return get("file_upload_path_for_linux");
     }
 
 
-    /**
-     * 获取config表中的配置，如果为空返回默认值
-     */
-    public <T> T getSysConfigWithDefault(String configCode, Class<T> clazz, T defaultValue) {
-        String configValue = dao.findValueByCode(configCode);
-        if (ObjectUtil.isEmpty(configValue)) {
-            return defaultValue;
-        }
-
-        return Convert.convert(clazz, configValue);
+    public boolean getMultiDeviceLogin(){
+        return getBoolean("multi_device_login");
     }
 
 
-    public Map<String, String> findSiteInfo() {
-        List<SysConfig> list = dao.findAll();
 
-        String prefix = "siteInfo.";
-        return list.stream().filter(s -> s.getKey().startsWith(prefix)).collect(Collectors.toMap(t -> t.getKey().substring(prefix.length()), t->StrUtil.emptyToDefault(t.getValue(), t.getDefaultValue())));
-
+    public Map<String, Object> findSiteInfo() {
+        return dao.findByPrefix("siteInfo");
     }
 }

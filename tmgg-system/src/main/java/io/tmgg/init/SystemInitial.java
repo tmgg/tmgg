@@ -1,6 +1,10 @@
 package io.tmgg.init;
 
+import cn.hutool.core.util.ClassUtil;
+import io.tmgg.BasePackage;
 import io.tmgg.lang.PasswordTool;
+import io.tmgg.sys.dao.SysConfigDao;
+import io.tmgg.sys.entity.SysConfig;
 import io.tmgg.sys.perm.SysMenuService;
 import io.tmgg.sys.entity.SysRole;
 import io.tmgg.sys.service.SysRoleService;
@@ -17,6 +21,10 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import jakarta.annotation.Resource;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 import static io.tmgg.init.SystemInitial.ORDER;
 
@@ -46,7 +54,7 @@ public class SystemInitial implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        enumToDictHandler.run();
+        enumToDictHandler.start();
 
         sysMenuService.init();
 
@@ -88,6 +96,12 @@ public class SystemInitial implements ApplicationRunner {
     }
 
 
+    @Resource
+    SysConfigDao sysConfigDao;
+
+
+
+
 
 
     @Resource
@@ -96,6 +110,7 @@ public class SystemInitial implements ApplicationRunner {
 
     @Resource
     EnumToDictHandler enumToDictHandler;
+
 
 
     @Resource

@@ -27,7 +27,7 @@ import java.util.Set;
 
 @Component
 @Slf4j
-public class EnumToDictHandler implements Runnable {
+public class EnumToDictHandler {
 
     @Resource
     SysDictDao sysDictDao;
@@ -35,8 +35,7 @@ public class EnumToDictHandler implements Runnable {
     @Resource
     SysDictItemDao sysDictItemDao;
 
-    @Override
-    public void run() {
+    public void start() {
         log.info("开始解析枚举，将枚举状态写入数据字典表中");
 
         Class<DictEnum> superClass = DictEnum.class;

@@ -36,8 +36,9 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <doclint>none</doclint>
+        <hutool.version>5.8.32</hutool.version>
     </properties>
-    
+
     <url>https://github.com/tmgg/tmgg-system</url>
     <licenses>
         <license>
