@@ -5,12 +5,6 @@
     "@types/react-dom" : "^18.0.0",
     "typescript" : "^5.0.3"
   },
-  "name" : "@tmgg/tmgg-system-flowable",
-  "scripts" : {
-    "flowable-start" : "umi dev",
-    "build" : "umi build"
-  },
-  "version" : "0.1.33",
   "peerDependencies" : {
     "@tmgg/tmgg-system" : "workspace:*",
     "@tmgg/tmgg-base" : "workspace:*",
@@ -25,5 +19,11 @@
     "react" : "^18.2.0",
     "react-dom" : "^18.2.0",
     "umi" : "^4.0.0"
-  }
+  },
+  "name" : "@tmgg/tmgg-system-flowable",
+  "scripts" : {
+    "flowable-start" : "umi dev",
+    "build" : "umi build"
+  },
+  "version" : "0.1.34"
 }

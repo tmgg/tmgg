@@ -1,36 +1,34 @@
 {
-  "devDependencies": {
-    "@types/lodash": "^4.14.200",
-    "@types/react": "^18.0.0",
-    "@types/react-dom": "^18.0.0",
-    "@types/react-lazylog": "^4.5.1",
-    "@umijs/plugins": "^4.3.17",
-    "typescript": "^4.1.2"
+  "devDependencies" : {
+    "@types/lodash" : "^4.14.200",
+    "@types/react" : "^18.0.0",
+    "@types/react-dom" : "^18.0.0",
+    "@types/react-lazylog" : "^4.5.1",
+    "@umijs/plugins" : "^4.3.17",
+    "typescript" : "^4.1.2"
   },
-  "name": "@tmgg/tmgg-system",
-  "description": "系统基础功能，如RBAC基于角色的权限管理，组织机构，日志等",
-  "files": [
-    "src/*"
-  ],
-  "main": "src/index.js",
-  "scripts": {
-    "dev": "umi dev"
+  "peerDependencies" : {
+    "@ant-design/icons" : "^5.4.0",
+    "@tinymce/tinymce-react" : "^5.0.0",
+    "@tmgg/pro-table" : "^5.0.4",
+    "@tmgg/tmgg-base" : "workspace:*",
+    "@tmgg/tmgg-commons-lang" : "workspace:*",
+    "antd" : "^5.20.3",
+    "rc-slider-captcha" : "^1.1.10",
+    "react" : "^18.2.0",
+    "react-amap" : "^1.2.8",
+    "react-dom" : "^18.2.0",
+    "umi" : "^4.0.0"
   },
-  "version": "0.1.33",
-  "peerDependencies": {
-    "@ant-design/icons": "^5.4.0",
-    "@tinymce/tinymce-react": "^5.0.0",
-    "@tmgg/pro-table": "^5.0.4",
-    "@tmgg/tmgg-base": "workspace:*",
-    "@tmgg/tmgg-commons-lang": "workspace:*",
-    "antd": "^5.20.3",
-    "rc-slider-captcha": "^1.1.10",
-    "react": "^18.2.0",
-    "react-amap": "^1.2.8",
-    "react-dom": "^18.2.0",
-    "umi": "^4.0.0"
+  "name" : "@tmgg/tmgg-system",
+  "description" : "系统基础功能，如RBAC基于角色的权限管理，组织机构，日志等",
+  "files" : [ "src/*" ],
+  "main" : "src/index.js",
+  "scripts" : {
+    "dev" : "umi dev"
   },
-  "dependencies": {
-    "dayjs": "^1.11.13"
+  "version" : "0.1.34",
+  "dependencies" : {
+    "dayjs" : "^1.11.13"
   }
 }
