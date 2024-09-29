@@ -7,12 +7,15 @@ import AuthInterceptor from "./AuthInterceptor";
 import {history, Outlet} from "umi";
 import zhCN from 'antd/locale/zh_CN';
 import {theme} from "@tmgg/tmgg-commons-lang";
+import dayjs from 'dayjs';
+import 'dayjs/locale/zh-cn';
+
 
 import './index.less'
 import SiteInfoInterceptor from "./SiteInfoInterceptor";
 import LoginInfoInterceptor from "./LoginInfoInterceptor";
 
-
+dayjs.locale('zh-cn');
 
 export class Layouts extends React.Component {
 

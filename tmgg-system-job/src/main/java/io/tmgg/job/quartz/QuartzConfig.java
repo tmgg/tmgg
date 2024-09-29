@@ -29,12 +29,6 @@ public class QuartzConfig implements CommandLineRunner {
     @Resource
     private DBAppender dbAppender;
 
-    @Resource
-    private SysJobLoggingDao sysJobLoggingDao;
-
-    @Resource
-    private SysJobLogDao sysJobLogDao;
-
 
     @Resource
     private Scheduler scheduler;

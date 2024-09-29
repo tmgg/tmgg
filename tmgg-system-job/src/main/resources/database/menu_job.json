@@ -20,7 +20,7 @@
       "pid": "jobMgr",
       "name": "任务日志",
       "perm": "jobLog",
-      "path": "/job/log",
+      "path": "/job/logList",
       "seq": 2
     }
 

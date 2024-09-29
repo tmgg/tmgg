@@ -1,8 +1,12 @@
 package io.tmgg.job.controller;
 
+import io.tmgg.job.entity.SysJob;
 import io.tmgg.job.entity.SysJobLog;
 import io.tmgg.job.service.SysJobLogService;
 import io.tmgg.job.service.SysJobService;
+import io.tmgg.lang.dao.BaseEntity;
+import io.tmgg.lang.dao.specification.JpaQuery;
+import io.tmgg.lang.dao.specification.expression.ExampleExpression;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.web.annotion.HasPermission;
 import org.springframework.data.domain.Page;
@@ -29,7 +33,28 @@ public class SysJobLogController {
     @HasPermission
     @PostMapping("jobLog")
     public AjaxResult page(@RequestBody SysJobLog param, @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) {
-        Page<SysJobLog> page = service.findByExampleLike(param, pageable);
+        JpaQuery<SysJobLog> q = new JpaQuery<>();
+
+        SysJob sysJob = param.getSysJob();
+        if(sysJob != null){
+            if(sysJob.getJobClass() != null){
+                q.like(SysJobLog.Fields.sysJob + "." + SysJob.Fields.jobClass, sysJob.getJobClass());
+            }
+            if(sysJob.getName() != null){
+                q.like(SysJobLog.Fields.sysJob + "." + SysJob.Fields.name, sysJob.getName());
+            }
+        }
+
+
+        if(param.getBeginTime() != null){
+            q.gt(SysJobLog.Fields.beginTime, param.getBeginTime());
+        }
+
+        if(param.getEndTime() != null){
+            q.lt(SysJobLog.Fields.endTime, param.getEndTime());
+        }
+
+        Page<SysJobLog> page = service.findAll(q, pageable);
         return AjaxResult.ok().data( page);
     }
 

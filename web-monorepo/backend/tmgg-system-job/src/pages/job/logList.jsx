@@ -2,7 +2,7 @@ import {Button, InputNumber, Modal} from 'antd'
 import React from 'react'
 import StreamLog from "../../components/StreamLog";
 import ProTable from "@tmgg/pro-table";
-import {HttpUtil, SysUtil} from "@tmgg/tmgg-base";
+import {DateTimePickerString, HttpUtil, SysUtil} from "@tmgg/tmgg-base";
 
 
 
@@ -33,13 +33,12 @@ export default class extends React.Component {
     {
       title: '开始时间',
       dataIndex: 'beginTime',
-      hideInSearch:true,
+      valueType: 'datetime'
     },
     {
       title: '结束时间',
       dataIndex: 'endTime',
-      hideInSearch:true,
-
+      valueType: 'datetime'
     },
     {
       title: '耗时',

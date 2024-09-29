@@ -1,4 +1,3 @@
-import {HttpUtil, SysUtil} from "./system";
 import {registerField} from "@tmgg/pro-table";
 import {fieldRegistry} from "./components/field/registry";
 

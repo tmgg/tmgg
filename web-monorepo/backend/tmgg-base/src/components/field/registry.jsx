@@ -3,20 +3,22 @@ import {FieldRemoteSelect} from "./FieldRemoteSelect";
 import {FieldDictRadio} from "./dict";
 import {FieldPassword} from "./FieldPassword";
 import {Input} from "antd";
+import {FieldDateTimePickerString} from "./time";
 
 
 export const fieldRegistry = {
     'remoteSelect': FieldRemoteSelect,
     'dict':FieldDictRadio,
     'dictRadio':FieldDictRadio,
-    'password':FieldPassword
+    'password':FieldPassword,
+    'datetime':FieldDateTimePickerString
 }
 
 
 
 
 /**
- * 我了个取
+ *
  * @typedef {Object} FieldComponentProps
  * @property {componentType} string 组件类型
  * @property {componentProps} string 组件属性

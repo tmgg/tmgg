@@ -18,7 +18,7 @@ import java.util.Date;
 
 @RestController
 @RequestMapping("job/log/{name}")
-public class SysJobLoggingController {
+public class SysJobLogPrinterController {
 
     @Resource
     SysJobLoggingService service;
