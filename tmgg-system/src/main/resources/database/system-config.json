@@ -41,6 +41,7 @@
       "id": "multi_device_login",
       "label": "多端登录",
       "defaultValue": "true",
+      "valueType": "boolean",
       "remark": "填写true | false, 是否允许账号在多个地方登录",
       "$update": false
     },
@@ -57,8 +58,9 @@
       "$update": false
     },
     {
-      "id": "captcha.enable",
+      "id": "siteInfo.captcha",
       "label": "开启验证码",
+      "valueType": "boolean",
       "defaultValue": "false",
       "remark": "登录时显示验证码",
       "$update": false

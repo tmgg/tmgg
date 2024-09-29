@@ -89,12 +89,14 @@ export default class login extends React.Component {
                             />
                         </Form.Item>
 
-                        <Form.Item name='captcha' label='验证码' rules={[{required: true}]}>
+
+                        {siteInfo['siteInfo.captcha'] && <Form.Item name='code' label='验证码' rules={[{required: true}]}>
                             <Space>
                                 <Input size='large'/>
                                 <img height={'38px'} src={SysUtil.getServerUrl() + "captchaImage"}></img>
                             </Space>
-                        </Form.Item>
+                        </Form.Item>}
+
 
 
                         <Form.Item style={{marginTop: 10}} label=' '>

@@ -68,16 +68,15 @@ public class SysLoginController {
 
         ThreadUtil.sleep(1000); // 防止黑客爆破
 
+        // 验证码校验
+        if(sysConfigService.getBoolean("siteInfo.captcha")){
+            Assert.hasText(param.getCode(),"请输入验证码");
 
-        SysUser sysUser = sysUserService.checkLogin(account, password);
-
-
-        if(sysConfigService.getBoolean("captcha.enable")){
             String code = (String) session.getAttribute(CAPTCHA_CODE);
-            Assert.hasText(code,"请输入验证码");
             Assert.state(code.equalsIgnoreCase(param.getCode()), "验证码错误");
         }
 
+        SysUser sysUser = sysUserService.checkLogin(account, password);
 
 
         session.setAttribute("isLogin", true);
@@ -104,7 +103,8 @@ public class SysLoginController {
 
         captcha.write(resp.getOutputStream());
 
-        session.setAttribute(CAPTCHA_CODE, captcha.getCode());
+        String code = captcha.getCode();
+        session.setAttribute(CAPTCHA_CODE, code);
 
     }
 

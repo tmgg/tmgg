@@ -21,8 +21,8 @@ public class EmailService  {
 
 
     public void send(String to,String title, String content) {
-        String from = sysConfigDao.findValue("email.from");
-        String pass = sysConfigDao.findValue("email.pass");
+        String from = sysConfigDao.findValueStr("email.from");
+        String pass = sysConfigDao.findValueStr("email.pass");
         if(StrUtil.isEmpty(from) || StrUtil.isEmpty(pass)){
             throw new IllegalStateException("邮箱账号或密码未设置,忽略邮件发送");
         }

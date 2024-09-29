@@ -7,6 +7,7 @@ import io.tmgg.lang.dao.BaseDao;
 import io.tmgg.lang.dao.specification.JpaQuery;
 import io.tmgg.sys.entity.SysConfig;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.Assert;
 
 import java.util.HashMap;
 import java.util.List;
@@ -33,7 +34,7 @@ public class SysConfigDao extends BaseDao<SysConfig> {
         Map<String, Object> map = new HashMap<>();
         for (SysConfig sysConfig : list) {
             String k = sysConfig.getId();
-            String v = parseValue(sysConfig);
+            Object v = parseValue(sysConfig);
 
             map.put(k, v);
         }
@@ -41,18 +42,26 @@ public class SysConfigDao extends BaseDao<SysConfig> {
         return map;
     }
 
-    private static String parseValue(SysConfig sysConfig) {
-        return StrUtil.emptyToDefault(sysConfig.getValue(), sysConfig.getDefaultValue());
+    private static Object parseValue(SysConfig sysConfig) {
+        String v = StrUtil.emptyToDefault(sysConfig.getValue(), sysConfig.getDefaultValue());
+        if ("boolean".equals(sysConfig.getValueType())) {
+            return Boolean.valueOf(v);
+        }
+        return v;
     }
 
 
-    public String findValue(String key) {
+    public Object findValue(String key) {
+        SysConfig sysConfig = this.findOne(key);
+        Assert.notNull(sysConfig, "系统配置不存在" + key);
+        return parseValue(sysConfig);
+    }
+
+    public String findValueStr(String key) {
         SysConfig sysConfig = this.findOne(key);
         if (sysConfig != null) {
-            return parseValue(sysConfig);
+            return (String) parseValue(sysConfig);
         }
         return null;
     }
-
-
 }

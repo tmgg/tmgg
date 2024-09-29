@@ -26,13 +26,12 @@ public class SysConfigService extends BaseService<SysConfig> {
     }
 
     public boolean getBoolean(String key) {
-        String value = dao.findValue(key);
-        return Boolean.valueOf(value);
+        Object value = dao.findValue(key);
+        return (boolean) value;
     }
 
-    public String get(String key) {
-        String value = dao.findValue(key);
-        return value;
+    public String getStr(String key) {
+        return (String) dao.findValue(key);
     }
 
 
@@ -40,21 +39,21 @@ public class SysConfigService extends BaseService<SysConfig> {
      * 获取默认密码
      */
     public String getDefaultPassWord() {
-        return get("default_password");
+        return getStr("default_password");
     }
 
     /**
      * 获取自定义的windows环境本地文件上传路径
      */
     public String getFileUploadPathForWindows() {
-        return get("file_upload_path_for_windows");
+        return getStr("file_upload_path_for_windows");
     }
 
     /**
      * 获取自定义的linux环境本地文件上传路径
      */
     public String getFileUploadPathForLinux() {
-        return get("file_upload_path_for_linux");
+        return getStr("file_upload_path_for_linux");
     }
 
 

@@ -39,10 +39,11 @@ export default class extends React.Component {
     {
       title: '默认值',
       dataIndex: 'defaultValue',
-
-
     },
-
+    {
+      title: '值类型',
+      dataIndex: 'valueType',
+    },
     {
       title: '备注',
       dataIndex: 'remark',
@@ -101,20 +102,9 @@ export default class extends React.Component {
               onFinish={this.onFinish} >
           <Form.Item  name='id' noStyle></Form.Item>
 
-          <Form.Item label='名称' name='name' >
-            <FieldText/>
-          </Form.Item>
-          <Form.Item label='键' name='key' >
-            <FieldText/>
-          </Form.Item>
+
           <Form.Item label='值' name='value' >
             <Input/>
-          </Form.Item>
-          <Form.Item label='默认值' name='defaultValue' >
-            <FieldText/>
-          </Form.Item>
-          <Form.Item label='备注' name='remark' >
-            <FieldText/>
           </Form.Item>
 
         </Form>
