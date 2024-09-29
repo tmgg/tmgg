@@ -2,11 +2,9 @@
 package io.tmgg.sys.service;
 
 import io.tmgg.sys.entity.SysUser;
-import io.tmgg.sys.role.entity.SysRole;
-import io.tmgg.sys.role.service.SysRoleService;
+import io.tmgg.sys.entity.SysRole;
 import io.tmgg.web.SystemException;
 import io.tmgg.web.perm.AuthorizingRealm;
-import io.tmgg.web.perm.SecurityUtils;
 import io.tmgg.web.perm.Subject;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;

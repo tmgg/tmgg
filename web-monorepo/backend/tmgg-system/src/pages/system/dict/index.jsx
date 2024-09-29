@@ -1,7 +1,7 @@
 import React from "react";
 import Dict from "./Dict";
 import DictItem from "./DictItem";
-import {Col, Row} from "antd";
+import {Col, Row, Splitter} from "antd";
 
 export default class extends React.Component {
 
@@ -11,14 +11,14 @@ export default class extends React.Component {
 
 
     render() {
-        return <Row gutter={12}>
-            <Col>
+        return <Splitter>
+            <Splitter.Panel defaultSize={600}>
                 <Dict onChange={selectedKey => this.setState({selectedKey})}/>
-            </Col>
-            <Col>
+            </Splitter.Panel>
+            <Splitter.Panel>
                 <DictItem sysDictId={this.state.selectedKey}/>
-            </Col>
-        </Row>
+            </Splitter.Panel>
+        </Splitter>
 
 
     }

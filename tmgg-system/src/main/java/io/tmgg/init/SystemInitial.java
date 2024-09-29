@@ -2,8 +2,8 @@ package io.tmgg.init;
 
 import io.tmgg.lang.PasswordTool;
 import io.tmgg.sys.perm.SysMenuService;
-import io.tmgg.sys.role.entity.SysRole;
-import io.tmgg.sys.role.service.SysRoleService;
+import io.tmgg.sys.entity.SysRole;
+import io.tmgg.sys.service.SysRoleService;
 import io.tmgg.sys.dao.SysUserDao;
 import io.tmgg.sys.entity.SysUser;
 import io.tmgg.sys.service.SysConfigService;

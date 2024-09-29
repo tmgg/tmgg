@@ -1,10 +1,10 @@
 
-package io.tmgg.sys.role.dao;
+package io.tmgg.sys.dao;
 
 
 import io.tmgg.lang.dao.BaseDao;
 import io.tmgg.lang.dao.specification.JpaQuery;
-import io.tmgg.sys.role.entity.SysRole;
+import io.tmgg.sys.entity.SysRole;
 import org.springframework.stereotype.Repository;
 
 /**

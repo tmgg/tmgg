@@ -12,7 +12,7 @@
     },
     {
       "id": "sysOrg",
-      "pid":"sys",
+      "pid": "sys",
       "name": "机构管理",
       "perm": "sysOrg",
       "path": "/system/org",
@@ -20,7 +20,8 @@
       "seq": 1
     },
     {
-      "id": "sysUser",      "pid":"sys",
+      "id": "sysUser",
+      "pid": "sys",
       "name": "用户管理",
       "perm": "sysUser",
       "path": "/system/user",
@@ -28,7 +29,8 @@
       "seq": 2
     },
     {
-      "id": "sysRole",      "pid":"sys",
+      "id": "sysRole",
+      "pid": "sys",
       "name": "角色管理",
       "perm": "sysRole",
       "path": "/system/role",
@@ -37,56 +39,75 @@
     },
     {
       "id": "sysConfig",
-      "pid":"sys",
+      "pid": "sys",
       "name": "系统配置",
       "perm": "sysConfig",
       "path": "/system/config",
-
       "icon": "SettingOutlined",
       "seq": 4
     },
     {
-      "id": "sysDict",      "pid":"sys",
+      "id": "sysDict",
+      "pid": "sys",
       "name": "数据字典",
       "perm": "sysDict",
       "path": "/system/dict",
       "seq": 5
     },
     {
-      "id": "sysFile",      "pid":"sys",
+      "id": "sysFile",
+      "pid": "sys",
       "name": "文件管理",
       "perm": "sysFile",
       "path": "/system/file/main",
       "seq": 7
     },
     {
-      "id": "machine",      "pid":"sys",
+      "id": "sysMonitor",
+      "type": "DIR",
+      "pid": "sys",
+      "name": "系统监控",
+      "seq": 199
+    },
+
+    {
+      "id": "machine",
+      "pid": "sysMonitor",
       "name": "环境监控",
       "perm": "machine",
       "path": "/system/machine",
       "seq": 9
     },
     {
-      "id": "sysOnlineUser",      "pid":"sys",
+      "id": "sysDataSource",
+      "pid": "sysMonitor",
+      "name": "数据源监控",
+      "perm": "sysDataSource",
+      "path": "/system/datasource",
+      "seq": 9
+    },
+    {
+      "id": "sysOnlineUser",
+      "pid": "sysMonitor",
       "name": "在线用户",
       "perm": "sysOnlineUser",
       "path": "/system/onlineUser",
       "seq": 10
     },
     {
-      "id": "sysOpLog",      "pid":"sys",
+      "id": "sysOpLog",
+      "pid": "sysMonitor",
       "name": "访问日志",
       "perm": "sysOpLog",
       "path": "/system/log/vislog",
-
       "seq": 11
     },
     {
-      "id": "sysVisLog",      "pid":"sys",
+      "id": "sysVisLog",
+      "pid": "sysMonitor",
       "name": "操作日志",
       "perm": "sysVisLog",
       "path": "/system/log/oplog",
-
       "seq": 12
     }
   ]

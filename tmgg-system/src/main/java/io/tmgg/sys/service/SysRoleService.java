@@ -1,5 +1,5 @@
 
-package io.tmgg.sys.role.service;
+package io.tmgg.sys.service;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
@@ -9,8 +9,8 @@ import io.tmgg.lang.dao.BaseService;
 import io.tmgg.lang.dao.specification.JpaQuery;
 import io.tmgg.sys.perm.SysMenuDao;
 import io.tmgg.sys.perm.SysMenu;
-import io.tmgg.sys.role.dao.SysRoleDao;
-import io.tmgg.sys.role.entity.SysRole;
+import io.tmgg.sys.dao.SysRoleDao;
+import io.tmgg.sys.entity.SysRole;
 import io.tmgg.sys.dao.SysUserDao;
 import io.tmgg.sys.entity.SysUser;
 import io.tmgg.web.enums.CommonStatus;

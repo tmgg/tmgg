@@ -16,6 +16,7 @@ export function initSystem(){
         'system/log/oplog': require('./pages/system/log/oplog/index').default,
         'settings/MsgSubscribe': require('./pages/settings/MsgSubscribe').default,
         'system/machine': require('./pages/system/machine/index').default,
+        'system/datasource': require('./pages/system/datasource/index').default,
         'system/config': require('./pages/system/config/index').default,
         'system/dict': require('./pages/system/dict/index').default,
         'system/role': require('./pages/system/role/index').default,

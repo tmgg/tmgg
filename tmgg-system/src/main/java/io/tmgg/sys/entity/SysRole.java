@@ -1,5 +1,5 @@
 
-package io.tmgg.sys.role.entity;
+package io.tmgg.sys.entity;
 
 import io.tmgg.lang.dao.BaseEntity;
 import io.tmgg.lang.dao.converter.ToListConverter;

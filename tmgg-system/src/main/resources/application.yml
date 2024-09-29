@@ -25,6 +25,8 @@ spring:
     url: jdbc:mysql://${db_ip}:${db_port}/${db_database}?allowPublicKeyRetrieval=true&autoReconnect=true&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=CONVERT_TO_NULL&useSSL=false&nullCatalogMeansCurrent=true
     username: root
     password: ${db_password}
+    hikari:
+      register-mbeans: true
   jpa:
     hibernate.ddl-auto: update
     database: MYSQL

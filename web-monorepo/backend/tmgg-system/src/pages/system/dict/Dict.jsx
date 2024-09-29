@@ -103,7 +103,6 @@ export default class extends React.Component {
               selectedRowKeys: this.state.selectedRowKeys,
               onChange: (selectedRowKeys,selectedRows)=>{
                   this.setState({selectedRowKeys: selectedRowKeys})
-
                   this.props.onChange(selectedRowKeys[0])
               }
           }}

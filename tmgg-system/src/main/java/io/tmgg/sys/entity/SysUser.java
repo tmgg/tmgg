@@ -6,7 +6,6 @@ import io.tmgg.lang.dao.AutoFill;
 import io.tmgg.lang.dao.BaseEntity;
 import io.tmgg.core.jpa.fill.AutoFillOrgLabelStrategy;
 import io.tmgg.sys.org.entity.SysOrg;
-import io.tmgg.sys.role.entity.SysRole;
 import io.tmgg.sys.user.enums.DataPermType;
 import io.tmgg.web.enums.CommonStatus;
 import com.fasterxml.jackson.annotation.JsonIgnore;
