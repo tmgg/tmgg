@@ -7,7 +7,7 @@ import {
     Layout,
     message,
     Modal,
-    Popconfirm,
+    Popconfirm, Splitter,
     Typography
 } from 'antd';
 import React from 'react';
@@ -185,16 +185,13 @@ export default class extends React.Component {
     render() {
 
         return <>
-            <LeftRightLayout>
-                <Card>
-                    <div style={{marginBottom: '1rem'}}
-                    >
-                        <Typography.Text>组织机构</Typography.Text>
-                    </div>
+            <Splitter>
+                <Splitter.Panel defaultSize={300}>
+                <Card title='机构树'>
                     <OrgTree onChange={this.onSelectOrg}/>
                 </Card>
-
-                <>
+                </Splitter.Panel>
+                <Splitter.Panel>
                     <ProTable
                         size={'small'}
                         search={false}
@@ -222,8 +219,8 @@ export default class extends React.Component {
                         columns={this.columns}
                         rowKey="id"
                         scroll={{x:'max-content'}}
-                    /> </>
-            </LeftRightLayout>
+                    /> </Splitter.Panel>
+            </Splitter>
 
 
             <Modal title='系统用户'

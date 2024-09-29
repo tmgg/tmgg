@@ -8,12 +8,12 @@ import {
   Popconfirm,
   Table,
   Button,
-  message
+  message, Splitter
 } from 'antd';
 import React from 'react';
 
 import RoleMenuTree from "./RoleMenuTree";
-import {ButtonList, http, HttpUtil, LeftRightLayout} from "@tmgg/tmgg-base";
+import {ButtonList,  HttpUtil} from "@tmgg/tmgg-base";
 
 const baseApi = 'sysRole/';
 const basePerm = 'sysRole:';
@@ -64,8 +64,9 @@ export default class extends React.Component {
 
   render() {
     return <>
-    <LeftRightLayout leftSize={600}>
-        <Card  extra={
+    <Splitter >
+      <Splitter.Panel defaultSize={600}>
+        <Card  title='角色列表' extra={
           <ButtonList maxNum={3}>
             <Button  type='primary' perm={basePerm + 'save'} onClick={() => {
               this.setState({formOpen:true},()=>{
@@ -118,14 +119,14 @@ export default class extends React.Component {
 
 
         </Card>
-
+      </Splitter.Panel>
+      <Splitter>
         <Card title='角色信息'>
           {this.renderRoleDetail()}
-
         </Card>
+      </Splitter>
 
-
-      </LeftRightLayout>
+      </Splitter>
 
 
       <Modal open={this.state.formOpen}

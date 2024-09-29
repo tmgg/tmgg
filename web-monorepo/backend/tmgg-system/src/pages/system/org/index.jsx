@@ -1,5 +1,18 @@
 import {DeleteOutlined, EditOutlined, PlusOutlined, SyncOutlined} from '@ant-design/icons';
-import {Button, Card, Checkbox, Empty, Form, Input, InputNumber, message, Popconfirm, Space, Tree} from 'antd';
+import {
+    Button,
+    Card,
+    Checkbox,
+    Empty,
+    Form,
+    Input,
+    InputNumber,
+    message,
+    Popconfirm,
+    Space,
+    Splitter,
+    Tree
+} from 'antd';
 import React from 'react';
 import {FieldDictRadio, FieldRemoteTreeSelect, HttpUtil, LeftRightLayout} from "@tmgg/tmgg-base";
 
@@ -104,134 +117,141 @@ export default class extends React.Component {
     render() {
         let disabled = this.state.formValues == null;
         return <div>
-            <LeftRightLayout leftSize={400}>
-                <Card loading={this.state.treeLoading}
-                      extra={<>
-                          <Checkbox
-                              checked={this.state.showAll}
-                              onChange={e => {
-                                  this.setState({showAll: e.target.checked}, this.loadTree);
-                              }}
-                          >包含禁用</Checkbox>
-                          <Button size='small' icon={<SyncOutlined/>} onClick={this.loadTree}></Button>
-                      </>}>
+            <Splitter >
+                <Splitter.Panel defaultSize={300} >
+                    <Card loading={this.state.treeLoading}
+                          title='机构树'
+                          extra={<>
+                              <Checkbox
+                                  checked={this.state.showAll}
+                                  onChange={e => {
+                                      this.setState({showAll: e.target.checked}, this.loadTree);
+                                  }}
+                              >包含禁用</Checkbox>
+                              <Button size='small' icon={<SyncOutlined/>} onClick={this.loadTree}></Button>
+                          </>}>
 
-                    <Tree.DirectoryTree
-                        ref={this.treeRef}
-                        treeData={this.state.treeData}
-                        defaultExpandedKeys={this.state.defaultExpandedKeys}
-                        expandAction='doubleClick'
+                        <Tree.DirectoryTree
+                            ref={this.treeRef}
+                            treeData={this.state.treeData}
+                            defaultExpandedKeys={this.state.defaultExpandedKeys}
+                            expandAction='doubleClick'
 
-                        onSelect={this.onSelect}
+                            onSelect={this.onSelect}
+                        >
+
+                        </Tree.DirectoryTree>
+
+
+                        {this.state.treeData.length === 0 && <Empty/>}
+                    </Card>
+                </Splitter.Panel>
+
+                <Splitter>
+                    <Card
+
+                        loading={this.state.formLoading}
+                        extra={<Space>
+                            <Button type='primary' onClick={() => {
+                                this.setState({
+                                    formLoading: true,
+                                    formEditing: true,
+                                    formValues: {
+                                        pid: this.state.formValues?.id,
+                                    }
+                                }, () => {
+                                    this.setState({formLoading: false})
+                                })
+                            }}>
+                                <PlusOutlined/> 新增
+                            </Button>
+                            <Button disabled={disabled} onClick={() => {
+                                this.setState({
+                                    formEditing: true
+                                })
+                            }}>
+                                <EditOutlined/> 编辑
+                            </Button>
+
+                            <Popconfirm title={'是否确定' + deleteTitle} disabled={disabled}
+                                        onConfirm={() => this.handleDelete(this.state.formValues)}>
+                                <Button icon={<DeleteOutlined/>} disabled={disabled}>删除</Button>
+                            </Popconfirm>
+
+                            <Popconfirm
+                                title='启用本级及子节点'
+                                disabled={disabled}
+                                onConfirm={() => this.handleEnableAll(this.state.formValues?.id)}>
+                                <Button disabled={disabled}>启用本级及子节点</Button>
+                            </Popconfirm>
+
+                            <Popconfirm title='禁用本级及子节点' disabled={disabled}
+                                        onConfirm={() => this.handleDisableAll(this.state.formValues?.id)}>
+                                <Button disabled={disabled}>禁用本级及子节点</Button>
+                            </Popconfirm>
+
+                        </Space>}
                     >
 
-                    </Tree.DirectoryTree>
+                        {this.state.formValues ?
+                            <Form
+                                disabled={!this.state.formEditing}
+                                labelCol={{flex: '150px'}}
+                                wrapperCol={{flex: '400px'}}
+                                initialValues={this.state.formValues}
+                                onFinish={this.onFinish}
+                            >
+                                <Form.Item noStyle name='id'>
+                                </Form.Item>
+                                <Form.Item label='父节点' name='pid'>
+                                    <FieldRemoteTreeSelect url={treeApi}/>
+                                </Form.Item>
+                                <Form.Item label='名称' name='name' rules={[{required: true}]}>
+                                    <Input></Input>
+                                </Form.Item>
 
 
-                    {this.state.treeData.length === 0 && <Empty/>}
-                </Card>
-                <Card
-
-                    loading={this.state.formLoading}
-                    extra={<Space>
-                        <Button type='primary' onClick={() => {
-                            this.setState({
-                                formLoading: true,
-                                formEditing: true,
-                                formValues: {
-                                    pid: this.state.formValues?.id,
-                                }
-                            }, () => {
-                                this.setState({formLoading: false})
-                            })
-                        }}>
-                            <PlusOutlined/> 新增
-                        </Button>
-                        <Button disabled={disabled} onClick={() => {
-                            this.setState({
-                                formEditing: true
-                            })
-                        }}>
-                            <EditOutlined/> 编辑
-                        </Button>
-
-                        <Popconfirm title={'是否确定' + deleteTitle} disabled={disabled}
-                                    onConfirm={() => this.handleDelete(this.state.formValues)}>
-                            <Button icon={<DeleteOutlined/>} disabled={disabled}>删除</Button>
-                        </Popconfirm>
-
-                        <Popconfirm
-                            title='启用本级及子节点'
-                            disabled={disabled}
-                            onConfirm={() => this.handleEnableAll(this.state.formValues?.id)}>
-                            <Button disabled={disabled}>启用本级及子节点</Button>
-                        </Popconfirm>
-
-                        <Popconfirm title='禁用本级及子节点' disabled={disabled}
-                                    onConfirm={() => this.handleDisableAll(this.state.formValues?.id)}>
-                            <Button disabled={disabled}>禁用本级及子节点</Button>
-                        </Popconfirm>
-
-                    </Space>}
-                >
-
-                    {this.state.formValues ?
-                        <Form
-                            disabled={!this.state.formEditing}
-                            labelCol={{flex: '150px'}}
-                            wrapperCol={{flex: '400px'}}
-                            initialValues={this.state.formValues}
-                            onFinish={this.onFinish}
-                        >
-                            <Form.Item noStyle name='id'>
-                            </Form.Item>
-                            <Form.Item label='父节点' name='pid'>
-                                <FieldRemoteTreeSelect url={treeApi}/>
-                            </Form.Item>
-                            <Form.Item label='名称' name='name' rules={[{required: true}]}>
-                                <Input></Input>
-                            </Form.Item>
+                                <Form.Item label='类型' name='type' rules={[{required: true}]}>
+                                    <FieldDictRadio typeCode='orgType'/>
+                                </Form.Item>
 
 
-                            <Form.Item label='类型' name='type' rules={[{required: true}]}>
-                                <FieldDictRadio typeCode='orgType'/>
-                            </Form.Item>
+
+                                <Form.Item label='状态' name='status' rules={[{required: true}]}>
+                                    <FieldDictRadio typeCode='commonStatus'/>
+                                </Form.Item>
+                                <Form.Item label='排序' name='seq'>
+                                    <InputNumber/>
+                                </Form.Item>
+
+                                <Form.Item label='预留字段1' name='reservedField1'>
+                                    <Input />
+                                </Form.Item>
 
 
-                            <Form.Item label='排序' name='seq'>
-                                <InputNumber/>
-                            </Form.Item>
+                                <Form.Item label='预留字段2' name='reservedField2'>
+                                    <Input />
+                                </Form.Item>
 
-                            <Form.Item label='状态' name='status' rules={[{required: true}]}>
-                                <FieldDictRadio typeCode='commonStatus'/>
-                            </Form.Item>
+                                <Form.Item label='预留字段3' name='reservedField3'>
+                                    <Input />
+                                </Form.Item>
 
-                            <Form.Item label='预留字段1' name='reservedField1'>
-                                <Input></Input>
-                            </Form.Item>
+                                <Form.Item label=' ' colon={false}>
+                                    <Button type="primary" htmlType='submit'
+                                            loading={this.state.submitLoading}>保存</Button>
+                                </Form.Item>
 
-
-                            <Form.Item label='预留字段2' name='reservedField2'>
-                                <Input></Input>
-                            </Form.Item>
-
-                            <Form.Item label='预留字段3' name='reservedField3'>
-                                <Input></Input>
-                            </Form.Item>
-
-                            <Form.Item label=' ' colon={false}>
-                                <Button type="primary" htmlType='submit'
-                                        loading={this.state.submitLoading}>保存</Button>
-                            </Form.Item>
-
-                        </Form>
-                        :
-                        <Empty description='未选择机构'/>
-                    }
+                            </Form>
+                            :
+                            <Empty description='未选择机构'/>
+                        }
 
 
-                </Card>
-            </LeftRightLayout>
+                    </Card>
+                </Splitter>
+
+            </Splitter>
 
 
         </div>
