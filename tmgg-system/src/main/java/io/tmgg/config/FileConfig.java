@@ -14,6 +14,7 @@ import jakarta.annotation.Resource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
+import org.springframework.context.annotation.Lazy;
 
 
 /**
@@ -35,7 +36,7 @@ public class FileConfig {
      * 本地文件操作客户端
      */
     @Bean
-    @DependsOn(SystemInitial.BEAN_NAME)
+    @Lazy
     public FileOperator fileOperator() {
         //判断minio
         String minioUrl = SpringUtil.getProperty("file.minio.url");
