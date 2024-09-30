@@ -1,43 +1,32 @@
 package io.tmgg.init;
 
-import cn.hutool.core.util.ClassUtil;
-import io.tmgg.BasePackage;
+import cn.hutool.core.util.StrUtil;
 import io.tmgg.lang.PasswordTool;
-import io.tmgg.sys.dao.SysConfigDao;
-import io.tmgg.sys.entity.SysConfig;
-import io.tmgg.sys.perm.SysMenuService;
-import io.tmgg.sys.entity.SysRole;
-import io.tmgg.sys.service.SysRoleService;
 import io.tmgg.sys.dao.SysUserDao;
+import io.tmgg.sys.entity.SysRole;
 import io.tmgg.sys.entity.SysUser;
+import io.tmgg.sys.perm.SysMenuService;
 import io.tmgg.sys.service.SysConfigService;
+import io.tmgg.sys.service.SysRoleService;
 import io.tmgg.sys.user.enums.DataPermType;
 import io.tmgg.web.enums.CommonStatus;
-import cn.hutool.core.util.StrUtil;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.ApplicationArguments;
-import org.springframework.boot.ApplicationRunner;
-import org.springframework.core.annotation.Order;
-import org.springframework.stereotype.Component;
-
+import jakarta.annotation.PostConstruct;
 import jakarta.annotation.Resource;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-
-import static io.tmgg.init.SystemInitial.ORDER;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.DependsOn;
+import org.springframework.stereotype.Component;
 
 /**
  * 系统初始化
  */
 @Slf4j
-@Component
-@Order(ORDER)
-public class SystemInitial implements ApplicationRunner {
+@Component(SystemInitial.BEAN_NAME)
+public class SystemInitial implements CommandLineRunner {
 
-    // 启动顺序
-    public static final int ORDER = 1000;
+
+
+    public static final String BEAN_NAME = "sysInit";
 
     @Resource
     SysRoleService sysRoleService;
@@ -52,9 +41,21 @@ public class SystemInitial implements ApplicationRunner {
     @Resource
     SysMenuService sysMenuService;
 
+    @Resource
+    JsonToDatabaseHandler jsonToDatabaseHandler;
+
+
+    @Resource
+    DictEnumHandler dictEnumHandler;
+
+
+
+    @Resource
+    PermissionToDatabaseHandler permissionToDatabaseHandler;
+
     @Override
-    public void run(ApplicationArguments args) throws Exception {
-        enumToDictHandler.start();
+    public void run(String... args) throws Exception {
+        dictEnumHandler.start();
 
         sysMenuService.init();
 
@@ -96,24 +97,7 @@ public class SystemInitial implements ApplicationRunner {
     }
 
 
-    @Resource
-    SysConfigDao sysConfigDao;
 
 
-
-
-
-
-    @Resource
-    JsonToDatabaseHandler jsonToDatabaseHandler;
-
-
-    @Resource
-    EnumToDictHandler enumToDictHandler;
-
-
-
-    @Resource
-    PermissionToDatabaseHandler permissionToDatabaseHandler;
 
 }

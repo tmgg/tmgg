@@ -1,9 +1,9 @@
 
 package io.tmgg.config;
 
+import io.tmgg.init.SystemInitial;
 import io.tmgg.sys.file.FileOperator;
 import io.tmgg.sys.file.LocalFileOperator;
-import io.tmgg.sys.file.LocalFileProperties;
 import io.tmgg.sys.file.MinioFileOperator;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.ObjectUtil;
@@ -13,6 +13,8 @@ import io.tmgg.sys.service.SysConfigService;
 import jakarta.annotation.Resource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.DependsOn;
+import org.springframework.context.annotation.Lazy;
 
 
 /**
@@ -27,8 +29,6 @@ public class FileConfig {
     /**
      * 默认文件存储的位置
      */
-
-
     @Resource
     SysConfigService sysConfigService;
 
@@ -36,8 +36,8 @@ public class FileConfig {
      * 本地文件操作客户端
      */
     @Bean
+    @Lazy
     public FileOperator fileOperator() {
-
         //判断minio
         String minioUrl = SpringUtil.getProperty("file.minio.url");
         if (StrUtil.isNotBlank(minioUrl)) {
@@ -48,19 +48,7 @@ public class FileConfig {
             return new MinioFileOperator(minioUrl, accessKey, secretKey, defaultBucketName);
         }
 
-
-        // 默认使用本地文件
-        LocalFileProperties localFileProperties = new LocalFileProperties();
-        String fileUploadPathForWindows = sysConfigService.getFileUploadPathForWindows();
-        if (ObjectUtil.isNotEmpty(fileUploadPathForWindows)) {
-            localFileProperties.setLocalFileSavePathWin(fileUploadPathForWindows);
-        }
-
-        String fileUploadPathForLinux = sysConfigService.getFileUploadPathForLinux();
-        if (ObjectUtil.isNotEmpty(fileUploadPathForLinux)) {
-            localFileProperties.setLocalFileSavePathLinux(fileUploadPathForLinux);
-        }
-        return new LocalFileOperator(localFileProperties);
+        return new LocalFileOperator(sysConfigService.getFileUploadPath());
     }
 
 }

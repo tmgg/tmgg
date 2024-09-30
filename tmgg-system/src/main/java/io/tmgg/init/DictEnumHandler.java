@@ -27,7 +27,7 @@ import java.util.Set;
 
 @Component
 @Slf4j
-public class EnumToDictHandler {
+public class DictEnumHandler {
 
     @Resource
     SysDictDao sysDictDao;
