@@ -26,11 +26,7 @@ import org.springframework.context.annotation.Lazy;
 public class FileConfig {
 
 
-    /**
-     * 默认文件存储的位置
-     */
-    @Resource
-    SysConfigService sysConfigService;
+
 
     /**
      * 本地文件操作客户端
@@ -48,7 +44,7 @@ public class FileConfig {
             return new MinioFileOperator(minioUrl, accessKey, secretKey, defaultBucketName);
         }
 
-        return new LocalFileOperator(sysConfigService.getFileUploadPath());
+        return new LocalFileOperator();
     }
 
 }

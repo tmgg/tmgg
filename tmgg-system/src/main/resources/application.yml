@@ -3,9 +3,6 @@ db_ip: 127.0.0.1
 db_password: 123456
 db_database: tmgg
 
-tmgg:
-  system:
-    captcha-enable: false
 
 server:
   port: 8002

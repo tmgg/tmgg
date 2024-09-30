@@ -28,7 +28,7 @@
     {
       "id": "file_upload_path_for_windows",
       "label": "win本地上传文件路径",
-      "defaultValue": "d:/tmp",
+      "defaultValue": "c:/tmp",
       "$update": false
     },
     {
