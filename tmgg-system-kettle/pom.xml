@@ -4,7 +4,7 @@
     <parent>
         <groupId>io.github.tmgg</groupId>
         <artifactId>tmgg-system-parent</artifactId>
-        <version>0.1.40</version>
+        <version>0.1.41</version>
     </parent>
 
     <artifactId>tmgg-system-kettle</artifactId>
