@@ -1,6 +1,7 @@
 {
   "SysMenu": [
     {
+      "pid": "sys",
       "id": "sys_code_gen",
       "name": "代码生成",
       "perm": "sys_code_gen",

@@ -1,8 +1,8 @@
 {
   "SysMenu": [
     {
-      "id": "etl-kettle",
       "pid": "sys",
+      "id": "etl-kettle",
       "name": "kettle调度",
       "perm": "kettle",
       "path": "/kettle"
