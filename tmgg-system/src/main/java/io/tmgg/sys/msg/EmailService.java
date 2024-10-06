@@ -20,7 +20,7 @@ public class EmailService  {
 
 
 
-    public void send(String to,String title, String content) {
+    public void send(String to,String title, String content, File... files) {
         String from = sysConfigDao.findValueStr("email.from");
         String pass = sysConfigDao.findValueStr("email.pass");
         if(StrUtil.isEmpty(from) || StrUtil.isEmpty(pass)){
@@ -32,6 +32,6 @@ public class EmailService  {
         account.setFrom(from);
         account.setPass(pass);
 
-        MailUtil.send(account,to, title, content, false);
+        MailUtil.send(account,to, title, content, false, files);
     }
 }
