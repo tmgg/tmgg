@@ -21,9 +21,9 @@ public class SystemProperties {
 
 
     /**
-     * 自动更新菜单
+     * 自动更新菜单,枚举，数据库（database目录下的json文件)
      */
-    private boolean menuAutoUpdate = true;
+    private boolean autoUpdateSysData = true;
 
 
 

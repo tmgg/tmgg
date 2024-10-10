@@ -1,6 +1,7 @@
 package io.tmgg.init;
 
 import cn.hutool.core.util.StrUtil;
+import io.tmgg.SystemProperties;
 import io.tmgg.lang.PasswordTool;
 import io.tmgg.sys.dao.SysUserDao;
 import io.tmgg.sys.entity.SysRole;
@@ -53,8 +54,15 @@ public class SystemInitial implements CommandLineRunner {
     @Resource
     PermissionToDatabaseHandler permissionToDatabaseHandler;
 
+    @Resource
+    SystemProperties systemProperties;
+
     @Override
     public void run(String... args) throws Exception {
+        if(!systemProperties.isAutoUpdateSysData()){
+            log.info("自动更新系统数据已关闭，推出更新程序");
+            return;
+        }
         dictEnumHandler.start();
 
         sysMenuService.init();
