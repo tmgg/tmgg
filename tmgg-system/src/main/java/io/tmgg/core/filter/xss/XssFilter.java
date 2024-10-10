@@ -20,7 +20,6 @@ import java.util.Set;
  * xss过滤器
  */
 @Slf4j
-@Component
 public class XssFilter implements Filter {
 
     @Resource

@@ -20,7 +20,6 @@ import jakarta.servlet.http.HttpSession;
  * 认证校验
  */
 @Slf4j
-@Component
 public class SecurityInterceptor implements HandlerInterceptor {
 
 

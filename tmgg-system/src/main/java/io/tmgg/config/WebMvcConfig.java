@@ -7,6 +7,7 @@ import io.tmgg.interceptor.SubjectInterceptor;
 import io.tmgg.SystemProperties;
 import cn.hutool.core.collection.CollUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,14 +25,18 @@ import jakarta.annotation.Resource;
 @Slf4j
 @Configuration
 @EnableScheduling
+@ConditionalOnClass(name = "org.springframework.web.servlet.config.annotation.WebMvcConfigurer")
 public class WebMvcConfig implements WebMvcConfigurer {
 
 
     @Resource
     private SystemProperties systemProperties;
 
-    @Resource
-    private XssFilter xssFilter;
+
+    @Bean
+ public    XssFilter xssFilter() {
+        return new XssFilter();
+    }
 
 
     /**
@@ -54,21 +59,18 @@ public class WebMvcConfig implements WebMvcConfigurer {
     };
 
 
-    @Resource
-    private SecurityInterceptor securityInterceptor;
 
 
 
-    @Resource
-    private SubjectInterceptor subjectInterceptor;
+
 
 
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         // 登录拦截器
-        HandlerInterceptor[] interceptors = new HandlerInterceptor[]{securityInterceptor,
-                subjectInterceptor};
+        HandlerInterceptor[] interceptors = new HandlerInterceptor[]{new SecurityInterceptor(),
+                new SubjectInterceptor()};
         for (HandlerInterceptor interceptor : interceptors) {
             InterceptorRegistration registration = registry.addInterceptor(interceptor)
                     .addPathPatterns("/**")
@@ -97,7 +99,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
      *
      */
     @Bean
-    public FilterRegistrationBean<XssFilter> xssFilterFilterRegistrationBean() {
+    public FilterRegistrationBean<XssFilter> xssFilterFilterRegistrationBean(XssFilter xssFilter) {
         // 忽略流程引擎
         xssFilter.excludePath("/flowable/**");
 

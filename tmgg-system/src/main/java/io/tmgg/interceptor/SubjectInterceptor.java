@@ -22,7 +22,6 @@ import java.util.Collection;
  * 注意：如果是app的客户，非SysUser表，最好另建拦截器, jwt的发布者设为app以区分
  */
 @Slf4j
-@Component
 public class SubjectInterceptor implements HandlerInterceptor {
 
 
