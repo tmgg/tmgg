@@ -72,10 +72,6 @@ public class SysMenuService extends BaseService<SysMenu> {
 
 
     public void init() {
-        System.err.println("自定更新权限菜单：" + systemProperties.isMenuAutoUpdate());
-        if(!systemProperties.isMenuAutoUpdate()){
-            return;
-        }
 
         System.err.println("开始清空权限菜单表");
         sysMenuDao.deleteAll();

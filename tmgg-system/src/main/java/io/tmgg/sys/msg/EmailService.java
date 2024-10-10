@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 
 import jakarta.annotation.Resource;
 
+import java.io.File;
+
 @Slf4j
 @Service
 public class EmailService  {

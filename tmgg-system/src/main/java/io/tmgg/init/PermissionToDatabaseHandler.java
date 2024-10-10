@@ -30,17 +30,10 @@ public class PermissionToDatabaseHandler {
     @Resource
     private SysMenuDao menuDao;
 
-    @Resource
-    private SystemProperties systemProperties;
-
 
 
     public void run() {
         log.info("开始分析代码中的权限码");
-        if (!systemProperties.isMenuAutoUpdate()) {
-            log.info("系统配置不用自动更新菜单，返回");
-            return;
-        }
 
 
         //1.获取所有后端接口
