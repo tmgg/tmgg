@@ -88,12 +88,6 @@ public class JsonToDatabaseHandler  {
             throw new IllegalStateException();
         }
 
-        if((entityCls.equals(SysMenu.class)  )){
-            log.warn("已关闭菜单更新，不再更新{}", entityCls);
-            return;
-        }
-
-
         String daoName = entityCls.getSimpleName() + "Dao";
         daoName = StrUtil.lowerFirst(daoName);
         BaseDao dao = SpringTool.getBean(daoName);
