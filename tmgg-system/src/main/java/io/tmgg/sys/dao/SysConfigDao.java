@@ -34,8 +34,8 @@ public class SysConfigDao extends BaseDao<SysConfig> {
         Map<String, Object> map = new HashMap<>();
         for (SysConfig sysConfig : list) {
             String k = sysConfig.getId();
+            k = k.replace("prefix.", "");
             Object v = parseValue(sysConfig);
-
             map.put(k, v);
         }
 
