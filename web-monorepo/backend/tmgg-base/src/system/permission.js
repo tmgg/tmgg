@@ -27,6 +27,18 @@ export const PermUtil = {
     }
 
     return permissions.indexOf(perm) > -1;
+  },
+
+  /**
+   * 是否授权， 同 hasPermission
+   * @param p
+   * @returns {boolean}
+   */
+    isPermitted(p){
+    return  PermUtil.hasPermission(p)
+  },
+    notPermitted(p){
+      !PermUtil.isPermitted(p)
   }
 
 }
