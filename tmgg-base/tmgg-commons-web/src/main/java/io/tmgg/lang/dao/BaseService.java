@@ -46,6 +46,15 @@ public abstract class BaseService<T extends Persistable<String>> {
         }).collect(Collectors.toList());
     }
 
+    public List<Option> findOptionList(JpaQuery<T> q, Function<T, String> labelFn) {
+        List<T> list = this.findAll(q,Sort.by(Sort.Direction.DESC,"createTime"));
+        return list.stream().map(r -> {
+            String label = labelFn.apply(r);
+            String value = r.getId();
+            return Option.builder().label(label).value(value).build();
+        }).collect(Collectors.toList());
+    }
+
 
 
 
