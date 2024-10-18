@@ -1,7 +1,7 @@
 {
   "SysMenu": [
     {
-      "pid":"sys",
+      "pid":"biz",
       "id": "${firstLowerName}",
       "name": "${label}",
       "perm": "${firstLowerName}",
