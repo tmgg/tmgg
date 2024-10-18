@@ -1,12 +1,16 @@
-package io.tmgg.lang.dao;
+package io.tmgg.lang;
 
 import io.tmgg.BasePackage;
+import io.tmgg.SystemProperties;
+import jakarta.annotation.Resource;
 import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.type.ClassMetadata;
 import org.springframework.core.type.classreading.CachingMetadataReaderFactory;
 import org.springframework.core.type.classreading.MetadataReader;
 import org.springframework.core.type.classreading.MetadataReaderFactory;
+import org.springframework.stereotype.Component;
 import org.springframework.util.ClassUtils;
 
 import jakarta.persistence.Entity;
@@ -14,12 +18,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class JpaTool {
 
+    @Resource
+    SystemProperties sys;
 
 
 
-    public static <T> Class<T> findEntityClass(String name) throws IOException, ClassNotFoundException {
+    public  <T> Class<T> findEntityClass(String name) throws IOException, ClassNotFoundException {
         List<String> list = findAllEntity();
         for (String clsName : list) {
             String simpleName = StringUtils.substringAfterLast(clsName, ".");
@@ -31,12 +38,22 @@ public class JpaTool {
         return null;
     }
 
-    public static List<String> findAllEntity() throws IOException {
-        PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
+    public  List<String> findAllEntity() throws IOException {
+        List<String> entityList = findEntityList(BasePackage.class);
 
-        String base = ClassUtils.convertClassNameToResourcePath(BasePackage.BASE_PACKAGE);
+        if(!BasePackage.class.equals(sys.getBasePackageClass())){
+            List<String> entityList2 = findEntityList(sys.getBasePackageClass());
+            entityList.addAll(entityList2);
+        }
 
+        return entityList;
+    }
+
+    private static List<String> findEntityList(Class baseClas) throws IOException {
+        String base = ClassUtils.convertClassNameToResourcePath(baseClas.getPackage().getName());
         String locationPattern = "classpath*:" + base + "/**/*.class";
+
+        PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
         org.springframework.core.io.Resource[] resources = resolver.getResources(locationPattern);
 
 

@@ -3,9 +3,8 @@ package io.tmgg.init;
 import io.tmgg.lang.JsonTool;
 import io.tmgg.lang.SpringTool;
 import io.tmgg.lang.dao.BaseDao;
-import io.tmgg.lang.dao.JpaTool;
+import io.tmgg.lang.JpaTool;
 import io.tmgg.SystemProperties;
-import io.tmgg.sys.perm.SysMenu;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.util.StrUtil;
@@ -48,6 +47,8 @@ public class JsonToDatabaseHandler  {
     @Resource
     SystemProperties systemProperties;
 
+    @Resource
+    JpaTool jpaTool;
 
     public void run() {
         try {
@@ -82,7 +83,7 @@ public class JsonToDatabaseHandler  {
 
 
     private void handleRecord(String entityName, Map<String, Object> beanMap) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
-        Class entityCls = JpaTool.findEntityClass(entityName);
+        Class entityCls = jpaTool.findEntityClass(entityName);
         if (entityCls == null) {
             System.err.println("实体标签异常 " + entityName);
             throw new IllegalStateException();

@@ -1,10 +1,10 @@
 package io.tmgg.code.controller;
 
-import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
 import io.tmgg.lang.ann.RemarkTool;
-import io.tmgg.lang.dao.JpaTool;
+import io.tmgg.lang.JpaTool;
 import io.tmgg.lang.obj.AjaxResult;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,11 +21,13 @@ import java.util.stream.Collectors;
 @RequestMapping("code/entity")
 public class SysEntityController {
 
+    @Resource
+    JpaTool jpaTool;
 
 
     @RequestMapping("page")
     public AjaxResult page(final String keyword) throws IOException {
-        List<String> list = JpaTool.findAllEntity();
+        List<String> list = jpaTool.findAllEntity();
 
         if(StrUtil.isNotEmpty(keyword)){
             list = list.stream().filter(s->StrUtil.containsIgnoreCase(s, keyword)).collect(Collectors.toList());

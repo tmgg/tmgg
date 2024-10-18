@@ -11,6 +11,7 @@ import java.util.List;
 @Data
 public class SystemProperties {
 
+    private Class  basePackageClass = BasePackage.class;
 
     /**
      * 当异常发生时，是否打印异常
