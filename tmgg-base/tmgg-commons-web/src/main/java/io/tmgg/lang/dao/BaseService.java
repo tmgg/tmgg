@@ -37,27 +37,12 @@ public abstract class BaseService<T extends Persistable<String>> {
         return baseDao.isFieldUnique(id, fieldName, value);
     }
 
-
-    public List<Option> findOptionList(String searchText, String[] selected, Pageable pageable, String searchField, Function<T, String> labelFn) {
-        JpaQuery<T> c = new JpaQuery<>();
-        return findOptionList(c, searchText, selected, pageable, searchField, labelFn);
+    public List<Option> findOptionList( Function<T, String> labelFn) {
+        List<T> list = this.findAll(Sort.by(Sort.Direction.DESC,"createTime"));
+        return list.stream().map(r -> new Option(String.valueOf(r.getId()), labelFn.apply(r))).collect(Collectors.toList());
     }
 
-    public List<Option> findOptionList(JpaQuery<T> query, String searchText, String[] selected, Pageable pageable, String searchField, Function<T, String> labelFn) {
-        query.like(searchField, searchText);
 
-
-        Page<T> all = this.findAll(query, pageable);
-        Collection<T> roles = new LinkedHashSet<>();
-        if (selected != null && selected.length > 0) {
-            List<T> selectedList = this.findAllById(selected);
-            roles.addAll(selectedList);
-            roles.addAll(all.getContent());
-        } else {
-            roles = all.getContent();
-        }
-        return roles.stream().map(r -> new Option(String.valueOf(r.getId()), labelFn.apply(r))).collect(Collectors.toList());
-    }
 
 
     public List<T> findAllById(String[] ids) {
