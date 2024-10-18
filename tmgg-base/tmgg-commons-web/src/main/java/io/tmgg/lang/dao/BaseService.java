@@ -39,7 +39,11 @@ public abstract class BaseService<T extends Persistable<String>> {
 
     public List<Option> findOptionList( Function<T, String> labelFn) {
         List<T> list = this.findAll(Sort.by(Sort.Direction.DESC,"createTime"));
-        return list.stream().map(r -> new Option(String.valueOf(r.getId()), labelFn.apply(r))).collect(Collectors.toList());
+        return list.stream().map(r -> {
+            String label = labelFn.apply(r);
+            String value = r.getId();
+            return Option.builder().label(label).value(value).build();
+        }).collect(Collectors.toList());
     }
 
 

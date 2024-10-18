@@ -1,5 +1,6 @@
 package io.tmgg.lang.obj;
 
+import lombok.Builder;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ import java.util.function.Function;
  * 选项，如下拉多选，单选等
  */
 @Data
+@Builder
 public class Option {
     String label;
     Object value;
@@ -19,11 +21,13 @@ public class Option {
     public Option() {
     }
 
+    @Deprecated
     public Option(String label, Object value) {
         this.label = label;
         this.value = value;
     }
 
+    @Deprecated
     public Option(String label, Object value, Object data) {
         this.label = label;
         this.value = value;
