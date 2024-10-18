@@ -27,14 +27,17 @@ public class SysConfigDao extends BaseDao<SysConfig> {
      * @return
      */
     public Map<String, Object> findByPrefix(String prefix) {
+        if(!prefix.endsWith(".")){
+            prefix = prefix +".";
+        }
         JpaQuery<SysConfig> q = new JpaQuery<>();
-        q.like("id", prefix + ".%");
+        q.like("id", prefix + "%");
         List<SysConfig> list = this.findAll(q);
 
         Map<String, Object> map = new HashMap<>();
         for (SysConfig sysConfig : list) {
             String k = sysConfig.getId();
-            k = k.replace("prefix.", "");
+            k = k.replace(prefix, "");
             Object v = parseValue(sysConfig);
             map.put(k, v);
         }
