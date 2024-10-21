@@ -5,16 +5,20 @@
         <groupId>io.github.tmgg</groupId>
         <artifactId>tmgg-system-parent</artifactId>
         <version>0.1.43</version>
+        <relativePath>../../pom.xml</relativePath>
     </parent>
 
-    <artifactId>tmgg-base</artifactId>
-    <packaging>pom</packaging>
-    <description>工具类,业务逻辑无关</description>
-    <modules>
-        <module>tmgg-commons-jdbc</module>
-        <module>tmgg-commons-web</module>
-        <module>tmgg-commons-log-view</module>
-    </modules>
+    <artifactId>tmgg-commons-log-view</artifactId>
+    <description>实时显示文件日志，使用websocket技术，前端可使用LazyLog组件</description>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+
+
+    </dependencies>
 
 </project>

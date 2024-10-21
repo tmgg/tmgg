@@ -109,6 +109,12 @@
                 <artifactId>tmgg-commons-web</artifactId>
                 <version>${tmgg.version}</version>
             </dependency>
+            <dependency>
+                <groupId>io.github.tmgg</groupId>
+                <artifactId>tmgg-commons-log-view</artifactId>
+                <version>${tmgg.version}</version>
+            </dependency>
+
         </dependencies>
 
     </dependencyManagement>
