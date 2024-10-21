@@ -1,4 +1,4 @@
-package cn.moon.logview;
+package io.tmgg.logview;
 
 import java.io.File;
 import java.io.RandomAccessFile;

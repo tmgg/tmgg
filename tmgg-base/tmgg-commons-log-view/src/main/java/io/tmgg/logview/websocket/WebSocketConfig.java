@@ -13,7 +13,7 @@ import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry
 @Slf4j
 public class WebSocketConfig implements WebSocketConfigurer {
 
-    @Value("${sys.log-view.websocket:/api/log-view}")
+    @Value("${sys.log-view.websocket:/ws-log-view}")
     private String path;
 
     @Override

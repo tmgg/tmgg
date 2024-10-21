@@ -1,12 +1,12 @@
 package io.tmgg.logview.websocket;
 
+import io.tmgg.logview.TailFile;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.StringUtils;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.AbstractWebSocketHandler;
-import cn.moon.logview.TailFile;
 
 import java.io.File;
 import java.io.IOException;

@@ -2,6 +2,13 @@ package io.tmgg.lang.dao;
 
 
 public class DBConstants {
+
+    // 用于存储大量二进制数据，如图片、音频、视频等
+    public static final String TYPE_BLOB = "blob";
+
+    public static final String TYPE_TEXT = "text"; // 65535
+    public static final String TYPE_LONGTEXT = "LONGTEXT"; // 4,294,967,295
+
     public static final int LEN_ID = 32;
     public static final int LEN_NAME = 50;
     public static final int LEN_PASSWORD = 32;
@@ -12,6 +19,7 @@ public class DBConstants {
     public static final int LEN_EMAIL = 50;
 
     public static final int LEN_MAX_VARCHAR = 65535;
+    public static final int LEN_TEXT = 65536;
 
     /**
      * 金额精度，小数点后的位数
@@ -38,4 +46,6 @@ public class DBConstants {
     public static final int LEN_TITLE = 100;
     public static final int LEN_SHORT_NAME = 16;
     public static final int LEN_COLOR = 8;
+
+
 }
