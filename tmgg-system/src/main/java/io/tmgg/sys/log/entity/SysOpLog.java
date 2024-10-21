@@ -41,7 +41,6 @@ public class SysOpLog extends BaseEntity {
     /**
      * 具体消息
      */
-    @Lob
     @Column(length = 10000)
     private String message;
 
@@ -88,7 +87,6 @@ public class SysOpLog extends BaseEntity {
     /**
      * 请求参数
      */
-    @Lob
     @Column(length =10000)
     private String param;
 

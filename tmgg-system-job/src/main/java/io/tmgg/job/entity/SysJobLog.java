@@ -3,6 +3,7 @@ package io.tmgg.job.entity;
 import io.tmgg.lang.dao.BaseEntity;
 import cn.hutool.core.date.BetweenFormatter;
 import cn.hutool.core.date.DateUtil;
+import io.tmgg.lang.dao.DBConstants;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldNameConstants;
@@ -25,8 +26,7 @@ public class SysJobLog extends BaseEntity {
 
     Date endTime;
 
-    @Lob
-    @Column(columnDefinition = "longtext")
+    @Column(length = DBConstants.LEN_MAX_VARCHAR)
     String result;
 
     Long jobRunTime;

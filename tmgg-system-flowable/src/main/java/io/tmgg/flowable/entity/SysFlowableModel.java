@@ -38,7 +38,6 @@ public class SysFlowableModel extends BaseEntity {
     private List<ConditionVariable> conditionVariableList = new ArrayList<>();
 
 
-    @Lob
     @Column(columnDefinition = "blob")
     private String content;
 
