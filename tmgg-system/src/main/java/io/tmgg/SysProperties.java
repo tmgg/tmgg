@@ -7,10 +7,11 @@ import org.springframework.context.annotation.Configuration;
 import java.util.List;
 
 @Configuration
-@ConfigurationProperties(prefix = "sys")
+@ConfigurationProperties(prefix = SysProperties.CONFIG_PREFIX)
 @Data
 public class SysProperties {
 
+    public static final String CONFIG_PREFIX = "sys";
     private Class  basePackageClass = BasePackage.class;
 
     /**
@@ -81,7 +82,14 @@ public class SysProperties {
         BOOLEAN,
     }
 
+    private SiteInfo siteInfo = new SiteInfo();
 
+
+    @Data
+    public static class SiteInfo {
+        String title;
+        String copyright;
+    }
 
 
 }

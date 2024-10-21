@@ -3,6 +3,8 @@ package io.tmgg.sys.dao;
 
 
 import cn.hutool.core.util.StrUtil;
+import io.tmgg.SysProperties;
+import io.tmgg.lang.SpringTool;
 import io.tmgg.lang.dao.BaseDao;
 import io.tmgg.lang.dao.specification.JpaQuery;
 import io.tmgg.sys.entity.SysConfig;
@@ -38,18 +40,34 @@ public class SysConfigDao extends BaseDao<SysConfig> {
         for (SysConfig sysConfig : list) {
             String k = sysConfig.getId();
             k = k.replace(prefix, "");
-            Object v = parseValue(sysConfig);
+            Object v = parseFinalValue(sysConfig);
             map.put(k, v);
         }
 
         return map;
     }
 
-    private static Object parseValue(SysConfig sysConfig) {
-        String v = StrUtil.emptyToDefault(sysConfig.getValue(), sysConfig.getDefaultValue());
+    // 解析最终的值， 优先级 数据库value > spring属性 > 默认值
+    private static Object parseFinalValue(SysConfig sysConfig) {
+        String v = sysConfig.getValue();
+        if(StrUtil.isEmpty(v)){
+            // 环境变量
+            String property = SpringTool.getProperty(SysProperties.CONFIG_PREFIX + "." + sysConfig.getId());
+            if(StrUtil.isNotEmpty(property)){
+                v = property;
+            }
+        }
+
+        if(StrUtil.isEmpty(v)){
+            v =  sysConfig.getDefaultValue();
+        }
+
+
         if ("boolean".equals(sysConfig.getValueType())) {
             return Boolean.valueOf(v);
         }
+
+
         return v;
     }
 
@@ -57,13 +75,13 @@ public class SysConfigDao extends BaseDao<SysConfig> {
     public Object findValue(String key) {
         SysConfig sysConfig = this.findOne(key);
         Assert.notNull(sysConfig, "系统配置不存在" + key);
-        return parseValue(sysConfig);
+        return parseFinalValue(sysConfig);
     }
 
     public String findValueStr(String key) {
         SysConfig sysConfig = this.findOne(key);
         if (sysConfig != null) {
-            return (String) parseValue(sysConfig);
+            return (String) parseFinalValue(sysConfig);
         }
         return null;
     }

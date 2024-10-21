@@ -62,4 +62,5 @@ public class SysConfigService extends BaseService<SysConfig> {
     public Map<String, Object> findSiteInfo() {
         return dao.findByPrefix("siteInfo");
     }
+
 }
