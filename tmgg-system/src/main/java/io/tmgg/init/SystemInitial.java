@@ -1,7 +1,7 @@
 package io.tmgg.init;
 
 import cn.hutool.core.util.StrUtil;
-import io.tmgg.SystemProperties;
+import io.tmgg.SysProperties;
 import io.tmgg.lang.PasswordTool;
 import io.tmgg.sys.dao.SysUserDao;
 import io.tmgg.sys.entity.SysRole;
@@ -11,11 +11,9 @@ import io.tmgg.sys.service.SysConfigService;
 import io.tmgg.sys.service.SysRoleService;
 import io.tmgg.sys.user.enums.DataPermType;
 import io.tmgg.web.enums.CommonStatus;
-import jakarta.annotation.PostConstruct;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
 
 /**
@@ -55,11 +53,11 @@ public class SystemInitial implements CommandLineRunner {
     PermissionToDatabaseHandler permissionToDatabaseHandler;
 
     @Resource
-    SystemProperties systemProperties;
+    SysProperties sysProperties;
 
     @Override
     public void run(String... args) throws Exception {
-        if(!systemProperties.isAutoUpdateSysData()){
+        if(!sysProperties.isAutoUpdateSysData()){
             log.info("自动更新系统数据已关闭，推出更新程序");
             return;
         }

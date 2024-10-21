@@ -1,6 +1,5 @@
 package io.tmgg.sys.controller;
 
-import io.tmgg.SystemProperties;
 import lombok.Data;
 
 import java.util.List;

@@ -4,7 +4,7 @@ import io.tmgg.lang.JsonTool;
 import io.tmgg.lang.SpringTool;
 import io.tmgg.lang.dao.BaseDao;
 import io.tmgg.lang.JpaTool;
-import io.tmgg.SystemProperties;
+import io.tmgg.SysProperties;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.util.StrUtil;
@@ -45,7 +45,7 @@ public class JsonToDatabaseHandler  {
 
 
     @Resource
-    SystemProperties systemProperties;
+    SysProperties sysProperties;
 
     @Resource
     JpaTool jpaTool;

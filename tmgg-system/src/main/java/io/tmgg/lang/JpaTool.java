@@ -1,10 +1,9 @@
 package io.tmgg.lang;
 
 import io.tmgg.BasePackage;
-import io.tmgg.SystemProperties;
+import io.tmgg.SysProperties;
 import jakarta.annotation.Resource;
 import org.apache.commons.lang3.StringUtils;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.type.ClassMetadata;
 import org.springframework.core.type.classreading.CachingMetadataReaderFactory;
@@ -22,7 +21,7 @@ import java.util.List;
 public class JpaTool {
 
     @Resource
-    SystemProperties sys;
+    SysProperties sys;
 
 
 

@@ -1,11 +1,10 @@
 
 package io.tmgg.sys.perm;
 
-import io.tmgg.SystemProperties;
+import io.tmgg.SysProperties;
 import io.tmgg.lang.TreeTool;
 import io.tmgg.lang.dao.BaseEntity;
 import io.tmgg.lang.dao.BaseService;
-import io.tmgg.lang.obj.Route;
 import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -26,7 +25,7 @@ public class SysMenuService extends BaseService<SysMenu> {
     private SysMenuDao sysMenuDao;
 
     @Resource
-    private SystemProperties systemProperties;
+    private SysProperties sysProperties;
 
 
 

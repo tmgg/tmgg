@@ -17,14 +17,6 @@ public class SpecificationExample<T> implements Specification<T> {
     private final Example<T> example;
 
 
-    public SpecificationExample(T t) {
-        ExampleMatcher exampleMatcher = ExampleMatcher.matching()
-                .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING)
-                .withIgnoreCase()
-                .withIgnoreNullValues();
-
-        this.example = Example.of(t, exampleMatcher);
-    }
 
     public SpecificationExample(T t, String... ignores) {
         ExampleMatcher exampleMatcher = ExampleMatcher.matching()

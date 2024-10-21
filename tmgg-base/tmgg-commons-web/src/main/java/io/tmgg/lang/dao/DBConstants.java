@@ -11,6 +11,8 @@ public class DBConstants {
     public static final int LEN_TEL = 14; // 0851-8524990
     public static final int LEN_EMAIL = 50;
 
+    public static final int LEN_MAX_VARCHAR = 65535;
+
     /**
      * 金额精度，小数点后的位数
      */

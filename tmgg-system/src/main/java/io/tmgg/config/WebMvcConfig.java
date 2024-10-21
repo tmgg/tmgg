@@ -4,7 +4,7 @@ package io.tmgg.config;
 import io.tmgg.core.filter.xss.XssFilter;
 import io.tmgg.interceptor.SecurityInterceptor;
 import io.tmgg.interceptor.SubjectInterceptor;
-import io.tmgg.SystemProperties;
+import io.tmgg.SysProperties;
 import cn.hutool.core.collection.CollUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -30,7 +30,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
 
     @Resource
-    private SystemProperties systemProperties;
+    private SysProperties sysProperties;
 
 
     @Bean
@@ -84,8 +84,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
                     .excludePathPatterns("/*.**");
 
 
-            if (CollUtil.isNotEmpty(systemProperties.getLoginExcludePathPatterns())) {
-                registration.excludePathPatterns(systemProperties.getLoginExcludePathPatterns());
+            if (CollUtil.isNotEmpty(sysProperties.getLoginExcludePathPatterns())) {
+                registration.excludePathPatterns(sysProperties.getLoginExcludePathPatterns());
             }
 
             registration.excludePathPatterns(NONE_SECURITY_URL_PATTERNS);

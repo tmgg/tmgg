@@ -7,9 +7,9 @@ import org.springframework.context.annotation.Configuration;
 import java.util.List;
 
 @Configuration
-@ConfigurationProperties(prefix = "tmgg.system")
+@ConfigurationProperties(prefix = "sys")
 @Data
-public class SystemProperties {
+public class SysProperties {
 
     private Class  basePackageClass = BasePackage.class;
 

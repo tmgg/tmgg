@@ -3,6 +3,7 @@ package io.tmgg.web.session.db;
 import cn.hutool.core.util.IdUtil;
 import io.tmgg.lang.ann.Remark;
 import io.tmgg.lang.dao.BaseEntity;
+import io.tmgg.lang.dao.DBConstants;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -30,8 +31,9 @@ public class SysHttpSession extends BaseEntity implements Session, Serializable 
 
     private String originalId;
 
-    @Column(columnDefinition = "blob")
+
     @Convert(converter = SessionAttrConverter.class)
+    @Column(length = DBConstants.LEN_MAX_VARCHAR)
     private HashMap<String, Object> sessionAttrs = new HashMap<>();
 
 

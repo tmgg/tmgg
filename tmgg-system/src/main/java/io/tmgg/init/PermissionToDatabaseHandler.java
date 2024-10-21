@@ -1,7 +1,6 @@
 package io.tmgg.init;
 
 import io.tmgg.lang.LongTool;
-import io.tmgg.SystemProperties;
 import io.tmgg.sys.perm.SysMenuDao;
 import io.tmgg.sys.perm.SysMenu;
 import io.tmgg.web.annotion.HasPermission;
