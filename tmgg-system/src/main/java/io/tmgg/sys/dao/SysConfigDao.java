@@ -29,8 +29,8 @@ public class SysConfigDao extends BaseDao<SysConfig> {
      * @return
      */
     public Map<String, Object> findByPrefix(String prefix) {
-        if(!prefix.endsWith(".")){
-            prefix = prefix +".";
+        if (!prefix.endsWith(".")) {
+            prefix = prefix + ".";
         }
         JpaQuery<SysConfig> q = new JpaQuery<>();
         q.like("id", prefix + "%");
@@ -50,16 +50,19 @@ public class SysConfigDao extends BaseDao<SysConfig> {
     // 解析最终的值， 优先级 数据库value > spring属性 > 默认值
     private static Object parseFinalValue(SysConfig sysConfig) {
         String v = sysConfig.getValue();
-        if(StrUtil.isEmpty(v)){
+        if (StrUtil.isEmpty(v)) {
             // 环境变量
-            String property = SpringTool.getProperty(SysProperties.CONFIG_PREFIX + "." + sysConfig.getId());
-            if(StrUtil.isNotEmpty(property)){
+            String propKey = SysProperties.CONFIG_PREFIX + "." + sysConfig.getId();
+            propKey = StrUtil.toUnderlineCase(propKey).replace("_","-"); // 将大写转换为-
+
+            String property = SpringTool.getProperty(propKey);
+            if (StrUtil.isNotEmpty(property)) {
                 v = property;
             }
         }
 
-        if(StrUtil.isEmpty(v)){
-            v =  sysConfig.getDefaultValue();
+        if (StrUtil.isEmpty(v)) {
+            v = sysConfig.getDefaultValue();
         }
 
 
