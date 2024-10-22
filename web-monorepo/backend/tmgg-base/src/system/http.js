@@ -152,7 +152,7 @@ export const HttpUtil = {
             }
         }
 
-        return this.post(url, data, pageParams).then(convertToProTableData)
+        return this.get(url, {...data,...pageParams}).then(convertToProTableData)
     },
     downloadFile(url, params) {
         let config = {

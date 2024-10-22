@@ -143,7 +143,7 @@ export default class extends React.Component {
 
     handleDelete = row => {
         const hide = message.loading("删除任务中...")
-        HttpUtil.get('job/delete', {id: row.id}).then(rs => {
+        HttpUtil.postForm('job/delete', {id: row.id}).then(rs => {
             this.tableRef.current.reload();
         }).catch(hide)
     }

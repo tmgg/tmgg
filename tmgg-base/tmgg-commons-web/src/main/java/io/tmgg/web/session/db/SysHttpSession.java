@@ -33,13 +33,11 @@ public class SysHttpSession extends BaseEntity implements Session, Serializable 
 
 
     @Convert(converter = SessionAttrConverter.class)
-    @Column(length = DBConstants.LEN_MAX_VARCHAR)
+    @Column(columnDefinition = DBConstants.TYPE_BLOB)
     private HashMap<String, Object> sessionAttrs = new HashMap<>();
 
 
     Instant lastAccessedTime;
-
-
 
 
     Duration maxInactiveInterval;

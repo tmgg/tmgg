@@ -1,7 +1,7 @@
 import {Popconfirm} from 'antd'
 import React from 'react'
 import {ProTable} from "@tmgg/pro-table";
-import {ButtonList, http} from "@tmgg/tmgg-base";
+import {ButtonList, http, HttpUtil} from "@tmgg/tmgg-base";
 
 
 export default class extends React.Component {
@@ -92,7 +92,7 @@ export default class extends React.Component {
 
 
   handleDelete = row => {
-    HttpUtil.post('sysFile/delete', row).then(rs => {
+    HttpUtil.postForm('sysFile/delete', row).then(rs => {
       this.tableRef.current.reload()
     })
   }
