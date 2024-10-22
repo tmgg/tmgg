@@ -1,7 +1,7 @@
 package io.tmgg.lang;
 
 import io.tmgg.BasePackage;
-import io.tmgg.SysProperties;
+import io.tmgg.SysProp;
 import jakarta.annotation.Resource;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
@@ -21,7 +21,7 @@ import java.util.List;
 public class JpaTool {
 
     @Resource
-    SysProperties sys;
+    SysProp sys;
 
 
 

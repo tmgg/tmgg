@@ -1,16 +1,13 @@
-package io.tmgg.web.session.config;
+package io.tmgg.framework.session.config;
 
 import cn.hutool.core.util.IdUtil;
-import io.tmgg.web.session.db.SysHttpSession;
-import io.tmgg.web.session.db.SysHttpSessionDao;
-import jakarta.annotation.PostConstruct;
+import io.tmgg.framework.session.SysHttpSession;
+import io.tmgg.framework.session.SysHttpSessionDao;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
-import org.ehcache.CacheManager;
-import org.ehcache.core.EhcacheManager;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.session.SessionRepository;
 
@@ -27,14 +24,7 @@ public class MySessionRepository implements SessionRepository<SysHttpSession> {
     @Resource
     private SysHttpSessionDao dao;
 
-    @Autowired
-    private EhcacheManager cacheManager;
 
-    @PostConstruct
-    public void init(){
-
-        System.out.println(cacheManager);
-    }
 
     @Override
     public SysHttpSession createSession() {
@@ -46,10 +36,14 @@ public class MySessionRepository implements SessionRepository<SysHttpSession> {
         return session;
     }
 
+
+    @CacheEvict(key = "#session.id")
     @Override
     public void save(SysHttpSession session) {
         log.info("保存session {}", session.getId());
+        System.out.println(session);
         dao.save(session);
+
     }
 
     @Override
@@ -60,7 +54,6 @@ public class MySessionRepository implements SessionRepository<SysHttpSession> {
         if (session == null) {
             return null;
         }
-
 
         if(session.isExpired()){
             return null;

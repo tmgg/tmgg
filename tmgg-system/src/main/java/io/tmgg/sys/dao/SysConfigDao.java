@@ -3,7 +3,7 @@ package io.tmgg.sys.dao;
 
 
 import cn.hutool.core.util.StrUtil;
-import io.tmgg.SysProperties;
+import io.tmgg.SysProp;
 import io.tmgg.lang.SpringTool;
 import io.tmgg.lang.dao.BaseDao;
 import io.tmgg.lang.dao.specification.JpaQuery;
@@ -52,7 +52,7 @@ public class SysConfigDao extends BaseDao<SysConfig> {
         String v = sysConfig.getValue();
         if (StrUtil.isEmpty(v)) {
             // 环境变量
-            String propKey = SysProperties.CONFIG_PREFIX + "." + sysConfig.getId();
+            String propKey = SysProp.CONFIG_PREFIX + "." + sysConfig.getId();
             propKey = StrUtil.toUnderlineCase(propKey).replace("_","-"); // 将大写转换为-
 
             String property = SpringTool.getProperty(propKey);

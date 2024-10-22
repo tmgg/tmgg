@@ -2,29 +2,20 @@
 package io.tmgg.sys.service;
 
 import cn.hutool.core.date.DateUtil;
-import io.tmgg.core.log.LogManager;
-import io.tmgg.lang.DateTool;
-import io.tmgg.lang.DurationTool;
-import io.tmgg.lang.PastTimeFormatTool;
-import io.tmgg.sys.service.SysUserService;
 import io.tmgg.sys.vo.SysOnlineUserVo;
-import io.tmgg.web.perm.SecurityManager;
+import io.tmgg.framework.session.SysHttpSessionService;
 import io.tmgg.web.perm.Subject;
-import io.tmgg.web.session.db.SysHttpSession;
-import io.tmgg.web.session.db.SysHttpSessionDao;
+import io.tmgg.framework.session.SysHttpSession;
+import io.tmgg.framework.session.SysHttpSessionDao;
 import jakarta.annotation.Resource;
 import org.apache.commons.lang3.time.DateUtils;
-import org.apache.commons.lang3.time.DurationUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.session.MapSession;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -35,7 +26,7 @@ public class SysOnlineUserService {
 
 
     @Resource
-    SecurityManager securityManager;
+    SysHttpSessionService sysHttpSessionService;
 
 
     @Resource
@@ -48,7 +39,7 @@ public class SysOnlineUserService {
         List<SysHttpSession> sessionList = sysHttpSessionDao.findAll();
 
         for (SysHttpSession session : sessionList) {
-            Subject subject = session.getAttribute(SecurityManager.SESSION_KEY);
+            Subject subject = session.getAttribute(SysHttpSessionService.SESSION_KEY);
             if( session.isExpired() || subject == null){
                 continue;
             }
@@ -72,6 +63,6 @@ public class SysOnlineUserService {
 
     public void forceExist(String sessionId) {
         Assert.hasText(sessionId, "sessionId不能为空");
-        securityManager.forceExistBySessionId(sessionId);
+        sysHttpSessionService.forceExistBySessionId(sessionId);
     }
 }

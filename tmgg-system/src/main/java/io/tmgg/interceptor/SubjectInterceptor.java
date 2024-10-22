@@ -4,12 +4,11 @@ package io.tmgg.interceptor;
 import io.tmgg.lang.SpringTool;
 import io.tmgg.lang.ann.PublicApi;
 import io.tmgg.web.perm.AuthorizingRealm;
-import io.tmgg.web.perm.SecurityManager;
+import io.tmgg.framework.session.SysHttpSessionService;
 import io.tmgg.web.perm.Subject;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.resource.ResourceHttpRequestHandler;
@@ -55,7 +54,7 @@ public class SubjectInterceptor implements HandlerInterceptor {
             }
             Subject subject = realm.doGetSubject(userId);
             realm.doGetPermissionInfo(subject);
-            request.getSession().setAttribute(SecurityManager.SESSION_KEY, subject);
+            request.getSession().setAttribute(SysHttpSessionService.SESSION_KEY, subject);
             return true;
         }
         return true;

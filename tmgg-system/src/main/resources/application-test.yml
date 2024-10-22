@@ -1,0 +1,4 @@
+db_ip: mysql.sqlpub.com
+db_database: jttest
+db_username: jttest
+

@@ -1,4 +1,4 @@
-package io.tmgg.web.session.db;
+package io.tmgg.framework.session;
 
 import cn.hutool.core.util.IdUtil;
 import io.tmgg.lang.ann.Remark;
@@ -7,9 +7,9 @@ import io.tmgg.lang.dao.DBConstants;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import lombok.experimental.FieldNameConstants;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.SerializationUtils;
 import org.springframework.session.Session;
 
 import java.io.Serializable;
@@ -26,6 +26,7 @@ import java.util.Set;
 @Entity
 @FieldNameConstants
 @Slf4j
+@ToString
 public class SysHttpSession extends BaseEntity implements Session, Serializable {
 
 

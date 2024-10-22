@@ -7,9 +7,9 @@ import org.springframework.context.annotation.Configuration;
 import java.util.List;
 
 @Configuration
-@ConfigurationProperties(prefix = SysProperties.CONFIG_PREFIX)
+@ConfigurationProperties(prefix = SysProp.CONFIG_PREFIX)
 @Data
-public class SysProperties {
+public class SysProp {
 
     public static final String CONFIG_PREFIX = "sys";
     private Class  basePackageClass = BasePackage.class;

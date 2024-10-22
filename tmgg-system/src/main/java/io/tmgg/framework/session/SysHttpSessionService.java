@@ -1,7 +1,6 @@
-package io.tmgg.web.perm;
+package io.tmgg.framework.session;
 
-import io.tmgg.web.session.db.SysHttpSession;
-import io.tmgg.web.session.db.SysHttpSessionDao;
+import io.tmgg.web.perm.Subject;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.session.Session;
@@ -15,25 +14,13 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @Component
-public class SecurityManager {
+public class SysHttpSessionService {
 
     public static final String SESSION_KEY = "SUBJECT";
 
+
     @Resource
     SysHttpSessionDao dao;
-
-
-    /**
-     *
-     * @param subjectId 用户ID
-     * @return
-     */
-    public List<Subject> findById(String subjectId) {
-        List<Subject> list = this.findAll();
-
-        return  list.stream().filter(subject -> subject.getId().equals(subjectId)).collect(Collectors.toList());
-    }
-
 
     public List<Subject> findAll() {
         List<SysHttpSession> list = dao.findAll();

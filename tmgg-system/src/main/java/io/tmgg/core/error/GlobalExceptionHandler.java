@@ -1,7 +1,7 @@
 
 package io.tmgg.core.error;
 
-import io.tmgg.SysProperties;
+import io.tmgg.SysProp;
 import io.tmgg.lang.*;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.web.SystemException;
@@ -47,7 +47,7 @@ public class GlobalExceptionHandler {
 
 
     @Resource
-    SysProperties sysProperties;
+    SysProp sysProp;
 
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
@@ -103,7 +103,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({IllegalArgumentException.class, IllegalStateException.class})
     public AjaxResult assertError(RuntimeException e) {
         log.error(">>> 业务异常，assertError 请求号为：{}，具体信息为：{}", RequestNoContext.get(), e.getMessage());
-        if (sysProperties.isPrintException()) {
+        if (sysProp.isPrintException()) {
             e.printStackTrace();
         }
 

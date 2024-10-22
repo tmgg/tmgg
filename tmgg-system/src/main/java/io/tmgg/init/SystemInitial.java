@@ -1,7 +1,7 @@
 package io.tmgg.init;
 
 import cn.hutool.core.util.StrUtil;
-import io.tmgg.SysProperties;
+import io.tmgg.SysProp;
 import io.tmgg.lang.PasswordTool;
 import io.tmgg.sys.dao.SysUserDao;
 import io.tmgg.sys.entity.SysRole;
@@ -53,11 +53,11 @@ public class SystemInitial implements CommandLineRunner {
     PermissionToDatabaseHandler permissionToDatabaseHandler;
 
     @Resource
-    SysProperties sysProperties;
+    SysProp sysProp;
 
     @Override
     public void run(String... args) throws Exception {
-        if(!sysProperties.isAutoUpdateSysData()){
+        if(!sysProp.isAutoUpdateSysData()){
             log.info("自动更新系统数据已关闭，推出更新程序");
             return;
         }

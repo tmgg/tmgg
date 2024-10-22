@@ -21,7 +21,7 @@ import io.tmgg.sys.service.SysConfigService;
 import io.tmgg.sys.service.SysUserService;
 import io.tmgg.sys.user.param.SysUserParam;
 import io.tmgg.web.annotion.HasPermission;
-import io.tmgg.web.perm.SecurityManager;
+import io.tmgg.framework.session.SysHttpSessionService;
 import io.tmgg.web.perm.SecurityUtils;
 import io.tmgg.web.perm.Subject;
 import org.springframework.data.domain.Page;
@@ -57,7 +57,7 @@ public class SysUserController {
     private SysOrgService sysOrgService;
 
     @Resource
-    private SecurityManager sm;
+    private SysHttpSessionService sm;
 
     @HasPermission
     @PostMapping("page")

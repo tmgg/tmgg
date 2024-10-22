@@ -1,4 +1,4 @@
-package io.tmgg.web.session.db;
+package io.tmgg.framework.session;
 
 import io.tmgg.lang.dao.BaseDao;
 import org.springframework.scheduling.annotation.Async;

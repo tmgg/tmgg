@@ -1,4 +1,4 @@
-package io.tmgg.web.session.config;
+package io.tmgg.framework.session.config;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

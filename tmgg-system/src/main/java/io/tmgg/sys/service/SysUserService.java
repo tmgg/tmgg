@@ -21,8 +21,8 @@ import io.tmgg.sys.dao.SysRoleDao;
 import io.tmgg.sys.entity.SysRole;
 import io.tmgg.sys.user.enums.DataPermType;
 import io.tmgg.web.enums.CommonStatus;
-import io.tmgg.web.perm.SecurityManager;
-import io.tmgg.web.session.db.SysHttpSessionDao;
+import io.tmgg.framework.session.SysHttpSessionService;
+import io.tmgg.framework.session.SysHttpSessionDao;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -64,7 +64,7 @@ public class SysUserService extends BaseService<SysUser> implements UserLabelQue
     private SysHttpSessionDao sysHttpSessionDao;
 
     @Resource
-    private SecurityManager sm;
+    private SysHttpSessionService sm;
 
     public SysUser checkLogin(String account, String password) {
         Assert.hasText(account, "账号不能为空");

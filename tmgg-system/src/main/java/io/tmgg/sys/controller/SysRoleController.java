@@ -11,7 +11,7 @@ import io.tmgg.lang.dao.BaseEntity;
 import io.tmgg.sys.entity.SysRole;
 import io.tmgg.sys.service.SysRoleService;
 import io.tmgg.web.enums.CommonStatus;
-import io.tmgg.web.perm.SecurityManager;
+import io.tmgg.framework.session.SysHttpSessionService;
 import io.tmgg.web.perm.Subject;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
@@ -35,7 +35,7 @@ public class SysRoleController {
     private SysMenuService sysMenuService;
 
     @Resource
-    private SecurityManager sm;
+    private SysHttpSessionService sm;
 
 
     @HasPermission

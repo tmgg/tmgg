@@ -2,7 +2,7 @@
 package io.tmgg.core.filter.xss;
 
 
-import io.tmgg.SysProperties;
+import io.tmgg.SysProp;
 import cn.hutool.core.collection.CollUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.AntPathMatcher;
@@ -22,14 +22,14 @@ import java.util.Set;
 public class XssFilter implements Filter {
 
     @Resource
-    private SysProperties sysProperties;
+    private SysProp sysProp;
 
     private final Set<String> excludePathList = new HashSet<>();
 
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        List<String> list = sysProperties.getXssExcludePathList();
+        List<String> list = sysProp.getXssExcludePathList();
         if (CollUtil.isNotEmpty(list)) {
             excludePathList.addAll(list);
         }

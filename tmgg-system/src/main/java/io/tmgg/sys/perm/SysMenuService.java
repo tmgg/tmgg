@@ -1,7 +1,7 @@
 
 package io.tmgg.sys.perm;
 
-import io.tmgg.SysProperties;
+import io.tmgg.SysProp;
 import io.tmgg.lang.TreeTool;
 import io.tmgg.lang.dao.BaseEntity;
 import io.tmgg.lang.dao.BaseService;
@@ -25,7 +25,7 @@ public class SysMenuService extends BaseService<SysMenu> {
     private SysMenuDao sysMenuDao;
 
     @Resource
-    private SysProperties sysProperties;
+    private SysProp sysProp;
 
 
 
