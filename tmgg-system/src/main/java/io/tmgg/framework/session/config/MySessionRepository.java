@@ -41,7 +41,6 @@ public class MySessionRepository implements SessionRepository<SysHttpSession> {
     @Override
     public void save(SysHttpSession session) {
         log.info("保存session {}", session.getId());
-        System.out.println(session);
         dao.save(session);
 
     }
@@ -60,7 +59,6 @@ public class MySessionRepository implements SessionRepository<SysHttpSession> {
         }
 
         if(session.getSessionAttrs() == null){
-            dao.deleteById(session.getId());
             return null;
         }
 
