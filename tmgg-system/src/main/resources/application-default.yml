@@ -30,4 +30,6 @@ spring:
     web:
       pageable:
         one-indexed-parameters: true
+  cache:
+    type: jcache # 缓存类型不再是EhCache了，EhCache3是实现JCache的一种缓存
 
