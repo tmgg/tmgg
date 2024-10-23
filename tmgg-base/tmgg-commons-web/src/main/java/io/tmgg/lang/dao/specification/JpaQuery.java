@@ -43,21 +43,21 @@ public class JpaQuery<T> implements Specification<T> {
     }
 
 
-    public JpaQuery likeExample(T t) {
-        return this.add(new SpecificationExample<>(t));
+    public void likeExample(T t) {
+         this.add(new SpecificationExample<>(t));
     }
 
-    public JpaQuery likeExample(T t, String... ignores) {
-        return this.add(new SpecificationExample<>(t, ignores));
+    public void likeExample(T t, String... ignores) {
+         this.add(new SpecificationExample<>(t, ignores));
     }
 
 
-    public JpaQuery eq(String column, Object value) {
-        return this.add(new SpecificationEQ<>(column, value));
+    public void eq(String column, Object value) {
+         this.add(new SpecificationEQ<>(column, value));
     }
 
-    public JpaQuery isNull(String column) {
-        return this.add(new Specification<T>() {
+    public void isNull(String column) {
+         this.add(new Specification<T>() {
             @Override
             public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
                 Expression expression = ExpressionTool.getExpression(column, root);
@@ -67,8 +67,8 @@ public class JpaQuery<T> implements Specification<T> {
 
     }
 
-    public JpaQuery isNotNull(String column) {
-        return this.add(new Specification<T>() {
+    public void isNotNull(String column) {
+         this.add(new Specification<T>() {
             @Override
             public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
                 Expression expression = ExpressionTool.getExpression(column, root);
@@ -79,52 +79,50 @@ public class JpaQuery<T> implements Specification<T> {
     }
 
 
-    public JpaQuery<T> ne(String column, Object val) {
-        return this.add(new SpecificationNE<>(column, val));
+    public void ne(String column, Object val) {
+         this.add(new SpecificationNE<>(column, val));
     }
 
 
-    public JpaQuery<T> gt(String column, Object val) {
-        return this.add(new SpecificationGT<>(column, val));
+    public void gt(String column, Object val) {
+         this.add(new SpecificationGT<>(column, val));
     }
 
 
-    public JpaQuery ge(String column, Object val) {
-        return this.add(new SpecificationGTE<>(column, val));
+    public void ge(String column, Object val) {
+        this.add(new SpecificationGTE<>(column, val));
     }
 
-    public JpaQuery<T> lt(String column, Object val) {
-        return this.add(new SpecificationLT<>(column, val));
+    public void lt(String column, Object val) {
+        this.add(new SpecificationLT<>(column, val));
     }
 
-    public JpaQuery<T> le(String column, Object val) {
-        return this.add(new SpecificationLTE<>(column, val));
+    public void le(String column, Object val) {
+        this.add(new SpecificationLTE<>(column, val));
     }
 
-    public JpaQuery<T> between(String column, Object v1, Object v2) {
+    public void between(String column, Object v1, Object v2) {
         this.ge(column, v1);
         this.le(column, v2);
-        return this;
     }
 
-    public JpaQuery<T> notBetween(String column, Object v1, Object v2) {
+    public void notBetween(String column, Object v1, Object v2) {
         this.lt(column, v1);
         this.gt(column, v2);
-        return this;
     }
 
 
-    public JpaQuery<T> like(String column, String val) {
-        return this.add(new SpecificationLike<>(column, val));
+    public void like(String column, String val) {
+        this.add(new SpecificationLike<>(column, val));
     }
 
 
-    public JpaQuery<T> notLike(String column, String val) {
-        return this.add(new SpecificationNotLike<>(column, val));
+    public void notLike(String column, String val) {
+        this.add(new SpecificationNotLike<>(column, val));
     }
 
 
-    public JpaQuery<T> in(String column, Iterable<?> valueList) {
+    public void in(String column, Iterable<?> valueList) {
         List<Object> params = new ArrayList<>();
         if (valueList != null) {
             for (Object obj : valueList) {
@@ -132,28 +130,28 @@ public class JpaQuery<T> implements Specification<T> {
             }
         }
 
-        return this.in(column, params.toArray());
+        this.in(column, params.toArray());
     }
 
-    public JpaQuery<T> notIn(String column, Iterable<?> valueList) {
+    public void notIn(String column, Iterable<?> valueList) {
         List<Object> objs = new ArrayList<>();
         for (Object obj : valueList) {
             objs.add(obj);
         }
-        return this.notIn(column, objs.toArray());
-
+        this.notIn(column, objs.toArray());
     }
 
-    public JpaQuery<T> in(String column, Object... valueList) {
+    public void in(String column, Object... valueList) {
         boolean hasValue = valueList != null && valueList.length > 0;
 
         if (!hasValue) {
             // in 空值， 相当于 1!=1, 直接没有数据返回了
-            return this.add(new SpecificationAlwaysFalse<>());
+            this.add(new SpecificationAlwaysFalse<>());
+            return;
         }
 
 
-        return this.add(new Specification<T>() {
+         this.add(new Specification<T>() {
             @Override
             public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
                 Expression expression = ExpressionTool.getExpression(column, root);
@@ -169,10 +167,10 @@ public class JpaQuery<T> implements Specification<T> {
     }
 
 
-    public JpaQuery<T> notIn(String column, Object... valueList) {
+    public void notIn(String column, Object... valueList) {
         boolean hasValue = valueList != null && valueList.length > 0;
         if (!hasValue) {
-            return null;
+            return ;
         }
 
         this.add(new Specification<T>() {
@@ -189,15 +187,13 @@ public class JpaQuery<T> implements Specification<T> {
                 return cb.or(in.not(), cb.isNull(expression));
             }
         });
-        return this;
     }
 
 
-    public JpaQuery<T> add(Specification<T> e) {
+    public void add(Specification<T> e) {
         if (e != null) {
             specificationList.add(e);
         }
-        return this;
     }
 
 
@@ -206,16 +202,15 @@ public class JpaQuery<T> implements Specification<T> {
      * 形如： (a =1 or b =2 or c！=5)
      *
      * @param subQueryConsumer 子查询
-     * @return 自己
      */
-    public JpaQuery<T> or(Consumer<JpaQuery<T>> subQueryConsumer) {
+    public void or(Consumer<JpaQuery<T>> subQueryConsumer) {
         JpaQuery<T> orQuery = new JpaQuery<>();
         subQueryConsumer.accept(orQuery);
-        return this.or(orQuery.specificationList);
+        this.or(orQuery.specificationList);
     }
 
-    public JpaQuery<T> or(List<Specification<T>> specifications) {
-        return add((Specification<T>) (root, query, cb) -> {
+    public void or(List<Specification<T>> specifications) {
+        add((Specification<T>) (root, query, cb) -> {
             Predicate[] predicates = new Predicate[specifications.size()];
             for (int i = 0; i < specifications.size(); i++) {
                 predicates[i] = specifications.get(i).toPredicate(root, query, cb);
@@ -226,7 +221,7 @@ public class JpaQuery<T> implements Specification<T> {
 
     }
 
-    public JpaQuery<T> like(Map<String, Object> param) {
+    public void like(Map<String, Object> param) {
         Set<Map.Entry<String, Object>> entries = param.entrySet();
         for (Map.Entry<String, Object> e : entries) {
             String key = e.getKey();
@@ -241,12 +236,11 @@ public class JpaQuery<T> implements Specification<T> {
             }
 
         }
-        return this;
     }
 
     // 去重复
-    public JpaQuery<T> distinct() {
-        return this.add(new Specification<T>() {
+    public void distinct() {
+         this.add(new Specification<T>() {
             @Override
             public Predicate toPredicate(Root<T> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder cb) {
                 criteriaQuery.distinct(true);
@@ -256,8 +250,8 @@ public class JpaQuery<T> implements Specification<T> {
     }
 
 
-    public JpaQuery<T> isMember(String k, Object v) {
-        return this.add(new Specification<T>() {
+    public void isMember(String k, Object v) {
+         this.add(new Specification<T>() {
             @Override
             public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
                 Path keyPath = root.get(k);
