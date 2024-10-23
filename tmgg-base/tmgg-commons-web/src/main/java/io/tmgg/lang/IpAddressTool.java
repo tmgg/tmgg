@@ -5,7 +5,6 @@ import cn.hutool.core.net.NetUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.servlet.JakartaServletUtil;
-import cn.hutool.extra.servlet.ServletUtil;
 import cn.hutool.http.HttpRequest;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
@@ -21,6 +20,8 @@ public class IpAddressTool {
     private static final String LOCAL_IP = "127.0.0.1";
 
     private static final String LOCAL_REMOTE_HOST = "0:0:0:0:0:0:0:1";
+
+    public static Cache<String, String> IP_ADDRESS_CACHE = CacheBuilder.newBuilder().maximumSize(500).expireAfterAccess(5, TimeUnit.DAYS).build();
 
 
     public static String getIp(HttpServletRequest request) {
@@ -43,7 +44,6 @@ public class IpAddressTool {
         return getLocation(ip);
     }
 
-    public static Cache<String, String> ipAddressCache = CacheBuilder.newBuilder().maximumSize(500).expireAfterAccess(5, TimeUnit.DAYS).build();
 
     public static String getLocation(String ip) {
         //如果是本地ip或局域网ip，则直接不查询
@@ -52,7 +52,7 @@ public class IpAddressTool {
         }
 
 
-        String cached = ipAddressCache.getIfPresent(ip);
+        String cached = IP_ADDRESS_CACHE.getIfPresent(ip);
         if (cached != null) {
             return cached;
         }
@@ -60,7 +60,7 @@ public class IpAddressTool {
         try {
             String location = _getLocation(ip);
             if (location != null) {
-                ipAddressCache.put(ip, location);
+                IP_ADDRESS_CACHE.put(ip, location);
             }
 
             return location;
@@ -85,7 +85,7 @@ public class IpAddressTool {
                     sb.append(a).append(",");
                 }
             }
-            if (sb.length() > 0) {
+            if (!sb.isEmpty()) {
                 sb.deleteCharAt(sb.length() - 1);
             }
 

@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,7 +41,7 @@ public class SysOpLogService extends BaseService<SysLog> {
         } else {
             sysVisLog.setMessage("登录失败:" + failMessage);
         }
-        dao.save(sysVisLog);
+        dao.saveAsync(sysVisLog);
 
     }
 
@@ -54,12 +55,11 @@ public class SysOpLogService extends BaseService<SysLog> {
         sysVisLog.setSuccess(true);
         sysVisLog.setMessage("登出成功");
         sysVisLog.setAccount(account);
-        dao.save(sysVisLog);
+        dao.saveAsync(sysVisLog);
 
     }
 
 
-    @Transactional
     public void saveOperationLog(final String account, JoinPoint joinPoint, boolean success, final String msg) {
         SysLog sysLog = newSysOpLog(HttpServletTool.getRequest());
 
@@ -67,10 +67,8 @@ public class SysOpLogService extends BaseService<SysLog> {
         fillCommonSysOpLog(sysLog, account, businessLog, joinPoint);
         sysLog.setSuccess(success);
         sysLog.setMessage(msg);
-        dao.save(sysLog);
-
+        dao.saveAsync(sysLog);
     }
-
 
     public void saveExceptionLog(final String account, JoinPoint joinPoint, Exception exception) {
         SysLog sysLog = this.newSysOpLog(HttpServletTool.getRequest());
@@ -79,14 +77,13 @@ public class SysOpLogService extends BaseService<SysLog> {
         fillCommonSysOpLog(sysLog, account, businessLog, joinPoint);
         sysLog.setSuccess(false);
         sysLog.setMessage(Arrays.toString(exception.getStackTrace()));
-        dao.save(sysLog);
+        dao.saveAsync(sysLog);
 
     }
 
 
     private SysLog newSysOpLog(HttpServletRequest request) {
         String ip = IpAddressTool.getIp(request);
-
         String browser = UserAgentTool.getBrowser(request);
         String os = UserAgentTool.getOs(request);
         String url = request.getRequestURI();
