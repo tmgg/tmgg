@@ -7,6 +7,7 @@ import cn.hutool.core.util.StrUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.aspectj.lang.JoinPoint;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 
 
@@ -45,7 +46,7 @@ public class JoinPointTool {
         if(arg instanceof String && StrUtil.isBlank((String) arg)){
             return true;
         }
-        if(arg instanceof MultipartFile ){
+        if(arg instanceof MultipartFile  || arg instanceof Pageable){
             return true;
         }
 
