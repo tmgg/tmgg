@@ -40,7 +40,8 @@ export class Layouts extends React.Component {
             form={{
                 validateMessages: {
                     required: '必填项'
-                }
+                },
+                colon:false
             }}
             locale={zhCN}
             theme={{

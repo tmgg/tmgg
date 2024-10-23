@@ -58,7 +58,7 @@ public class SystemInitial implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         if(!sysProp.isAutoUpdateSysData()){
-            log.info("自动更新系统数据已关闭，推出更新程序");
+            log.info("自动更新系统数据已关闭");
             return;
         }
         dictEnumHandler.start();

@@ -1,4 +1,5 @@
 db_ip: mysql.sqlpub.com
 db_database: jttest
 db_username: jttest
-
+sys:
+  auto-update-sys-data: true

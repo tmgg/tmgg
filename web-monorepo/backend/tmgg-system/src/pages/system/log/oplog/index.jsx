@@ -1,5 +1,5 @@
 import React, {Fragment} from 'react';
-import {Modal} from "antd";
+import {Modal, Tag} from "antd";
 import {ProTable} from "@tmgg/pro-table";
 import {HttpUtil} from "@tmgg/tmgg-base";
 
@@ -17,72 +17,49 @@ export default class extends React.Component {
 
     columns = [
         {
-            title: '日志名称',
+            title: '类型',
             dataIndex: 'name',
+            render(v, record) {
+                if (v) {
+                    return v;
+                }
+                return record.url
+            }
         },
 
 
         {
-            title: '请求地址',
-            dataIndex: 'url',
+            title: '时间',
+            dataIndex: 'createTime',
         },
         {
-            title: '操作时间',
-            dataIndex: 'opTime',
-        },
-        {
-            title: '操作人',
+            title: '账号',
             dataIndex: 'account'
         },
 
         {
-            title: '是否成功',
+            title: '结果',
             dataIndex: 'success',
-            valueType: 'boolean',
+            hideInSearch: true,
+            render(v, record) {
+                return  <>
+                    <Tag color={v ?'green':'red'}>{v ? '成功':'失败'}</Tag>
+                    {record.message}
+                </>
+            }
         },
+
         {
-            title: 'ip',
-            dataIndex: 'ip'
+            title: 'ip定位',
+            dataIndex: 'ip',
+            hideInSearch: true,
+            render(v, record) {
+                return <>
+                {v} {record.location}
+                </>;
+            }
         },
-        {
-            title: '地址',
-            dataIndex: 'location',
-        },
-        {
-            title: '浏览器',
-            dataIndex: 'browser',
-        },
-        {
-            title: '操作系统',
-            dataIndex: 'os',
-        },
-        {
-            title: '类名称',
-            dataIndex: 'className',
-            hideInTable: true
-        },
-        {
-            title: '方法名称',
-            dataIndex: 'methodName',
-            hideInTable: true
-        },
-        {
-            title: '消息',
-            dataIndex: 'message',
-            hideInTable: true
-        },
-        {
-            title: '请求参数',
-            dataIndex: 'param',
-            valueType: "jsonCode",
-            hideInTable: true
-        },
-        {
-            title: '返回结果',
-            dataIndex: 'result',
-            valueType: "jsonCode",
-            hideInTable: true
-        },
+
 
         {
             title: '操作',
@@ -103,7 +80,7 @@ export default class extends React.Component {
     render() {
         return <>
             <ProTable
-                request={(params, sort, filter)=>HttpUtil.pageData(pageApi,params, sort)}
+                request={(params, sort, filter) => HttpUtil.pageData(pageApi, params, sort)}
                 columns={this.columns}
                 rowKey='id'
             />

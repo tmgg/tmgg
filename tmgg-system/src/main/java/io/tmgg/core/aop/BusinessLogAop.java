@@ -2,12 +2,13 @@
 package io.tmgg.core.aop;
 
 import io.tmgg.lang.JsonTool;
+import io.tmgg.sys.log.service.SysOpLogService;
 import io.tmgg.web.consts.AopSortConstant;
 import io.tmgg.web.consts.CommonConstant;
 import io.tmgg.web.perm.SecurityUtils;
 import io.tmgg.web.perm.Subject;
 import io.tmgg.lang.obj.AjaxResult;
-import io.tmgg.core.log.LogManager;
+import jakarta.annotation.Resource;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.AfterThrowing;
@@ -23,13 +24,15 @@ import java.util.HashMap;
  */
 @Component
 @Aspect
-@Order(AopSortConstant.BUSINESS_LOG_AOP)
 public class BusinessLogAop {
+
+    @Resource
+    SysOpLogService sysOpLogService;
 
     /**
      * 日志切入点
      */
-    @Pointcut("@annotation(io.tmgg.web.annotion.BusinessLog)")
+    @Pointcut("@annotation(io.tmgg.web.annotion.HasPermission)")
     private void getLogPointCut() {
     }
 
@@ -54,7 +57,7 @@ public class BusinessLogAop {
             }
         }
         //异步记录日志
-        LogManager.me().saveOperationLog(account, joinPoint, JsonTool.toJsonQuietly(result));
+        sysOpLogService.saveOperationLog(account, joinPoint, JsonTool.toJsonQuietly(result));
     }
 
     /**
@@ -69,7 +72,7 @@ public class BusinessLogAop {
             account = subject.getAccount();
         }
         //异步记录日志
-        LogManager.me().saveExceptionLog(account, joinPoint, exception);
+        sysOpLogService.saveExceptionLog(account, joinPoint, exception);
     }
 
 

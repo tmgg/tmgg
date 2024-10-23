@@ -95,14 +95,7 @@
       "path": "/system/onlineUser",
       "seq": 10
     },
-    {
-      "id": "sysOpLog",
-      "pid": "sysMonitor",
-      "name": "访问日志",
-      "perm": "sysOpLog",
-      "path": "/system/log/vislog",
-      "seq": 11
-    },
+
     {
       "id": "sysVisLog",
       "pid": "sysMonitor",

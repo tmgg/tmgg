@@ -90,9 +90,7 @@ public class RemarkIntegrator implements Integrator {
             if (field.isAnnotationPresent(Remark.class)) {
                 String comment = field.getAnnotation(Remark.class).value();
                 String sqlColumnName= persistentClass.getProperty(columnName).getValue().getColumns().iterator().next().getText();
-                Iterator<org.hibernate.mapping.Column> columnIterator = persistentClass.getTable().getColumns().iterator();
-                while (columnIterator.hasNext()) {
-                    org.hibernate.mapping.Column column = columnIterator.next();
+                for (org.hibernate.mapping.Column column : persistentClass.getTable().getColumns()) {
                     if (sqlColumnName.equalsIgnoreCase(column.getName())) {
                         column.setComment(comment);
                         break;

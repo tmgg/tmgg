@@ -12,11 +12,11 @@ import lombok.experimental.FieldNameConstants;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Lob;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * 系统操作日志表
  *
-
  *
  */
 @Getter
@@ -24,7 +24,6 @@ import java.time.LocalDateTime;
 @Entity
 @FieldNameConstants
 public class SysOpLog extends BaseEntity {
-
 
 
     /**
@@ -97,11 +96,7 @@ public class SysOpLog extends BaseEntity {
     @Column(columnDefinition = DBConstants.TYPE_TEXT)
     private String result;
 
-    /**
-     * 操作时间
-     */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime opTime;
+
 
     /**
      * 操作人
