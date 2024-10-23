@@ -2,6 +2,7 @@ import React, {Fragment} from 'react';
 import {Modal, Tag} from "antd";
 import {ProTable} from "@tmgg/pro-table";
 import {Ellipsis, HttpUtil} from "@tmgg/tmgg-base";
+import {DateUtil} from "@tmgg/tmgg-commons-lang";
 
 
 const baseApi = 'sysOpLog/';
@@ -23,6 +24,9 @@ export default class extends React.Component {
         {
             title: '时间',
             dataIndex: 'createTime',
+            render(v, record) {
+                return DateUtil.friendlyTime(v);
+            }
         },
 
         {
