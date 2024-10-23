@@ -200,7 +200,8 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Throwable.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public AjaxResult serverError(Throwable e) {
-        log.error(">>> 服务器运行异常，：{}", e.getMessage());
+        log.error(">>> 服务器运行异常 {}：{}", e.getClass().getSimpleName(), e.getMessage());
+        e.printStackTrace();
         return renderException(e);
     }
 

@@ -1,7 +1,7 @@
 import React, {Fragment} from 'react';
 import {Modal, Tag} from "antd";
 import {ProTable} from "@tmgg/pro-table";
-import {HttpUtil} from "@tmgg/tmgg-base";
+import {Ellipsis, HttpUtil} from "@tmgg/tmgg-base";
 
 
 const baseApi = 'sysOpLog/';
@@ -47,7 +47,9 @@ export default class extends React.Component {
             title: '消息',
             dataIndex: 'message',
             hideInSearch: true,
-
+            render(v, record) {
+                return <Ellipsis >{v}</Ellipsis>;
+            }
         },
 
         {
@@ -84,6 +86,9 @@ export default class extends React.Component {
             title: '请求参数',
             dataIndex: 'param',
             hideInSearch: true,
+            render(v, record) {
+                return <Ellipsis >{v}</Ellipsis>;
+            }
 
         },
     ];

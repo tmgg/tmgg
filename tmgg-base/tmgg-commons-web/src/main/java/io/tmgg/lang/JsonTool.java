@@ -41,7 +41,6 @@ public class JsonTool {
             return null;
         }
         try {
-
             return om().writerWithDefaultPrettyPrinter().writeValueAsString(o);
         } catch (JsonProcessingException e) {
             e.printStackTrace(); // ignore
