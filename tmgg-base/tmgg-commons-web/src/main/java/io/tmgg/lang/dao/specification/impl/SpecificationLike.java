@@ -1,5 +1,6 @@
 package io.tmgg.lang.dao.specification.impl;
 
+import cn.hutool.core.util.StrUtil;
 import io.tmgg.lang.dao.specification.ExpressionTool;
 import jakarta.persistence.criteria.*;
 import org.jetbrains.annotations.NotNull;
@@ -18,8 +19,8 @@ public class SpecificationLike<T> implements Specification<T> {
     @Override
     public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, @NotNull CriteriaBuilder builder) {
         Expression<T> expression = ExpressionTool.getExpression(fieldName, root);
-        if (value == null) {
-            return builder.isNull(expression);
+        if (StrUtil.isEmpty(value)) {
+            return null;
         }
 
         String likeValue = value.contains("%") ? value : "%" + value + "%";

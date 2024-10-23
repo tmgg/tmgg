@@ -26,10 +26,6 @@ public class JpaQuery<T> implements Specification<T> {
             return builder.conjunction();
         }
 
-        if (specificationList.size() == 1) {
-            return specificationList.get(0).toPredicate(root, query, builder);
-        }
-
         List<Predicate> predicates = new ArrayList<>();
         for (Specification c : specificationList) {
             Predicate predicate = c.toPredicate(root, query, builder);
