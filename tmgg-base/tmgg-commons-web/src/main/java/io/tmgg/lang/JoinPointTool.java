@@ -25,10 +25,11 @@ public class JoinPointTool {
         StringBuilder argsJson = new StringBuilder();
         Object[] args = joinPoint.getArgs();
         for (Object arg : args) {
-            if (!isFilterObject(arg)) {
-                    String jsonStr = JsonTool.toPrettyJsonQuietly(arg);
-                    argsJson.append(jsonStr).append(" ");
+            if (isFilterObject(arg)) {
+                continue;
             }
+            String jsonStr = JsonTool.toPrettyJsonQuietly(arg);
+            argsJson.append(jsonStr).append(" ");
         }
         return argsJson.toString().trim();
     }
@@ -38,11 +39,20 @@ public class JoinPointTool {
      *
      */
     private static boolean isFilterObject(Object arg) {
-        return arg == null ||  arg instanceof MultipartFile
-                || arg instanceof HttpServletRequest
-                || arg instanceof HttpServletResponse
-                || (arg instanceof String && StrUtil.isNotBlank((String) arg))
-                || BeanUtil.isEmpty(arg);
+        if(arg == null){
+            return true;
+        }
+        if(arg instanceof String && StrUtil.isBlank((String) arg)){
+            return true;
+        }
+        if(arg instanceof MultipartFile ){
+            return true;
+        }
+
+        if(BeanUtil.isEmpty(arg)){
+            return true;
+        }
+        return false;
     }
 
 }
