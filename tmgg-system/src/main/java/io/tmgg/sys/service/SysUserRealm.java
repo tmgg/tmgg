@@ -1,6 +1,7 @@
 
 package io.tmgg.sys.service;
 
+import io.tmgg.framework.session.SysHttpSession;
 import io.tmgg.sys.entity.SysUser;
 import io.tmgg.sys.entity.SysRole;
 import io.tmgg.web.SystemException;
@@ -22,7 +23,7 @@ import java.util.Set;
 @Slf4j
 public class SysUserRealm implements AuthorizingRealm {
 
-    public static final String SUBJECT_INFO = "SUBJECT_INFO";
+
     @Resource
     private SysUserService sysUserService;
 
@@ -36,7 +37,7 @@ public class SysUserRealm implements AuthorizingRealm {
      */
     @Override
     public Subject doGetSubject(HttpSession session, String userId) {
-        Subject subject = (Subject) session.getAttribute(SUBJECT_INFO);
+        Subject subject = (Subject) session.getAttribute(SysHttpSession.SUBJECT_KEY);
         if (subject == null) {
             subject = new Subject();
             SysUser user = sysUserService.findOne(userId);
@@ -58,7 +59,6 @@ public class SysUserRealm implements AuthorizingRealm {
 
             fillPermissions(subject);
 
-            session.setAttribute(SUBJECT_INFO,subject);
         }
 
 

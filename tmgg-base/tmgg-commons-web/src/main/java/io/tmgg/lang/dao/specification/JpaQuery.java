@@ -17,7 +17,7 @@ import java.util.function.Consumer;
  */
 public class JpaQuery<T> implements Specification<T> {
 
-    private final List<Specification> specificationList = new ArrayList<>();
+    private final List<Specification<T>> specificationList = new ArrayList<>();
 
 
     @Override
@@ -211,20 +211,14 @@ public class JpaQuery<T> implements Specification<T> {
     public JpaQuery<T> or(Consumer<JpaQuery<T>> subQueryConsumer) {
         JpaQuery<T> orQuery = new JpaQuery<>();
         subQueryConsumer.accept(orQuery);
-
-        return add(new Specification<T>() {
-            @Override
-            public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-                return cb.or(orQuery.toPredicate(root, query, cb));
-            }
-        });
+        return this.or(orQuery.specificationList);
     }
 
-    public JpaQuery<T> or(Specification<T>... specifications) {
+    public JpaQuery<T> or(List<Specification<T>> specifications) {
         return add((Specification<T>) (root, query, cb) -> {
-            Predicate[] predicates = new Predicate[specifications.length];
-            for (int i = 0; i < specifications.length; i++) {
-                predicates[i] = specifications[i].toPredicate(root, query, cb);
+            Predicate[] predicates = new Predicate[specifications.size()];
+            for (int i = 0; i < specifications.size(); i++) {
+                predicates[i] = specifications.get(i).toPredicate(root, query, cb);
             }
 
             return cb.or(predicates);
