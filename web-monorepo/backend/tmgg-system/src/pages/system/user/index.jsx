@@ -17,8 +17,7 @@ import UserPerm from "./UserPerm";
 import {
     ButtonList,
     FieldDictRadio,
-    FieldOrgTreeSelect,
-    LeftRightLayout
+    FieldOrgTreeSelect
 } from "@tmgg/tmgg-base";
 import {OrgTree} from "@tmgg/tmgg-base";
 
