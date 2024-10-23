@@ -39,7 +39,7 @@ public class ModelController {
 
 
     @HasPermission("flowableModel:page")
-    @PostMapping("page")
+    @GetMapping("page")
     public AjaxResult page(String keyword, Pageable pageable) {
         return AjaxResult.ok().data(service.findAll(keyword, pageable));
     }

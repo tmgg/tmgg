@@ -12,13 +12,6 @@
       "$update": false
     },
     {
-      "id": "SESSION_EXPIRE",
-      "label": "会话过期时间",
-      "defaultValue": "7200",
-      "remark": "单位秒",
-      "$update": false
-    },
-    {
       "id": "default_password",
       "label": "用户默认密码",
       "defaultValue": "10.Sleep",

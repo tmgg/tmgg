@@ -3,9 +3,10 @@ package io.tmgg.framework.session;
 import io.tmgg.web.perm.Subject;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.session.Session;
+import org.ehcache.Cache;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,11 +20,13 @@ public class SysHttpSessionService {
     public static final String SESSION_KEY = "SUBJECT";
 
 
-    @Resource
-    SysHttpSessionDao dao;
 
-    public List<Subject> findAll() {
-        List<SysHttpSession> list = dao.findAll();
+    @Resource
+    private Cache<String, SysHttpSession> httpSessionCache;
+
+    public  List<Subject> findAllSubject() {
+        List<SysHttpSession> list = findAllSession();
+
         List<Subject> subjectList = list.stream()
                 .filter(session -> null != session.getAttribute(SESSION_KEY))
                 .map(session -> (Subject) session.getAttribute(SESSION_KEY)).collect(Collectors.toList());
@@ -32,25 +35,30 @@ public class SysHttpSessionService {
     }
 
 
-    public void forceExistBySessionId(String sessionId) {
-        dao.deleteById(sessionId);
+    public  void forceExistBySessionId(String sessionId) {
+            httpSessionCache.remove(sessionId);
     }
 
-    public void forceExistBySubjectId(String subjectId) {
-        List<SysHttpSession> sessionList = dao.findAll();
+    public  void forceExistBySubjectId(String subjectId) {
+        List<SysHttpSession> sessionList = findAllSession();
 
-        List<String> sessionIds = sessionList.stream()
-                .filter(session -> {
-                    Subject subject = session.getAttribute(SESSION_KEY);
-                    return subject != null && subject.getId().equals(subjectId);
-                }).map(Session::getId)
-                .toList();
-
-
-        for (String sessionId : sessionIds) {
-            dao.deleteById(sessionId);
+        for (SysHttpSession session : sessionList) {
+            Subject subject = session.getAttribute(SESSION_KEY);
+            boolean ok = subject != null && subject.getId().equals(subjectId);
+            if(ok){
+                httpSessionCache.remove(session.getId());
+            }
         }
 
+    }
+
+    public  List<SysHttpSession> findAllSession() {
+        List<SysHttpSession> sessionList = new ArrayList<>();
+        httpSessionCache.forEach(e->{
+            SysHttpSession session = e.getValue();
+            sessionList.add(session);
+        });
+        return sessionList;
     }
 
 }

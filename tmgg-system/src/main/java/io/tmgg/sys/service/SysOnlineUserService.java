@@ -6,7 +6,6 @@ import io.tmgg.sys.vo.SysOnlineUserVo;
 import io.tmgg.framework.session.SysHttpSessionService;
 import io.tmgg.web.perm.Subject;
 import io.tmgg.framework.session.SysHttpSession;
-import io.tmgg.framework.session.SysHttpSessionDao;
 import jakarta.annotation.Resource;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.data.domain.Page;
@@ -29,14 +28,13 @@ public class SysOnlineUserService {
     SysHttpSessionService sysHttpSessionService;
 
 
-    @Resource
-    SysHttpSessionDao sysHttpSessionDao;
+
 
 
     public Page<SysOnlineUserVo> findAll(Pageable pageable) {
         List<SysOnlineUserVo> voList = new ArrayList<>();
 
-        List<SysHttpSession> sessionList = sysHttpSessionDao.findAll();
+        List<SysHttpSession> sessionList = sysHttpSessionService.findAllSession();
 
         for (SysHttpSession session : sessionList) {
             Subject subject = session.getAttribute(SysHttpSessionService.SESSION_KEY);

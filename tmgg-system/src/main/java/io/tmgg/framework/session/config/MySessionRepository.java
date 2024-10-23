@@ -2,13 +2,9 @@ package io.tmgg.framework.session.config;
 
 import cn.hutool.core.util.IdUtil;
 import io.tmgg.framework.session.SysHttpSession;
-import io.tmgg.framework.session.SysHttpSessionDao;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
+import org.ehcache.Cache;
 import org.springframework.session.SessionRepository;
 
 import java.time.Duration;
@@ -18,11 +14,11 @@ import java.time.Instant;
  * 参考 MapSessionRepository
  */
 @Slf4j
-@CacheConfig(cacheNames = "sysSession")
 public class MySessionRepository implements SessionRepository<SysHttpSession> {
 
+
     @Resource
-    private SysHttpSessionDao dao;
+    private Cache<String, SysHttpSession> httpSessionCache;
 
 
 
@@ -32,24 +28,21 @@ public class MySessionRepository implements SessionRepository<SysHttpSession> {
         session.setCreationTime(Instant.now());
         session.setMaxInactiveInterval(Duration.ofHours(1));
 
-        log.info("创建session {}", session.getId());
+        log.debug("创建session {}", session.getId());
         return session;
     }
 
 
-    @CacheEvict(key = "#session.id")
     @Override
     public void save(SysHttpSession session) {
-        log.info("保存session {}", session.getId());
-        dao.save(session);
-
+        log.debug("保存session {}", session.getId());
+        httpSessionCache.put(session.getId(), session);
     }
 
     @Override
-    @Cacheable(key = "#id")
     public SysHttpSession findById(String id) {
-        log.info("查询session {}", id);
-        SysHttpSession session = dao.findOne(id);
+        log.debug("查询session {}", id);
+        SysHttpSession session = httpSessionCache.get(id);
         if (session == null) {
             return null;
         }
@@ -66,11 +59,9 @@ public class MySessionRepository implements SessionRepository<SysHttpSession> {
     }
 
     @Override
-    @CacheEvict(key = "#id")
     public void deleteById(String id) {
-        log.info("删除session {}",id);
-        dao.deleteById(id);
-        dao.cleanExpired();
+        log.debug("删除session {}",id);
+        httpSessionCache.remove(id);
     }
 
 

@@ -23,18 +23,15 @@ import java.util.Set;
 @Remark("http会话")
 @Getter
 @Setter
-@Entity
 @FieldNameConstants
 @Slf4j
 @ToString
-public class SysHttpSession extends BaseEntity implements Session, Serializable {
+public class SysHttpSession  implements Session, Serializable {
+    private String id;
 
 
     private String originalId;
 
-
-    @Convert(converter = SessionAttrConverter.class)
-    @Column(columnDefinition = DBConstants.TYPE_BLOB)
     private HashMap<String, Object> sessionAttrs = new HashMap<>();
 
 
@@ -95,19 +92,6 @@ public class SysHttpSession extends BaseEntity implements Session, Serializable 
     public void removeAttribute(String attributeName) {
         this.sessionAttrs.remove(attributeName);
     }
-
-    @Override
-    public void prePersist() {
-        super.prePersist();
-        if (originalId == null) {
-            originalId = id;
-        }
-        creationTime = Instant.now();
-    }
-
-
-
-
 
 
 

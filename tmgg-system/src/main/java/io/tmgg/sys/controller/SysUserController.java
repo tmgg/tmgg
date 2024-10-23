@@ -60,8 +60,8 @@ public class SysUserController {
     private SysHttpSessionService sm;
 
     @HasPermission
-    @PostMapping("page")
-    public AjaxResult page(@RequestBody Dict dict, String keyword, @PageableDefault(sort = SysUser.FIELD_UPDATE_TIME, direction = Sort.Direction.DESC) Pageable pageable) throws SQLException {
+    @GetMapping("page")
+    public AjaxResult page(Dict dict, String keyword, @PageableDefault(sort = SysUser.FIELD_UPDATE_TIME, direction = Sort.Direction.DESC) Pageable pageable) throws SQLException {
         String orgId =dict.getStr("orgId");
         Page<SysUser> page = sysUserService.findAll(orgId, keyword, pageable);
         sysUserService.fillRoleName(page);

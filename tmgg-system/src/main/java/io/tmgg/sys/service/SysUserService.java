@@ -22,7 +22,6 @@ import io.tmgg.sys.entity.SysRole;
 import io.tmgg.sys.user.enums.DataPermType;
 import io.tmgg.web.enums.CommonStatus;
 import io.tmgg.framework.session.SysHttpSessionService;
-import io.tmgg.framework.session.SysHttpSessionDao;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -60,8 +59,7 @@ public class SysUserService extends BaseService<SysUser> implements UserLabelQue
     private SysConfigService sysConfigService;
 
 
-    @Resource
-    private SysHttpSessionDao sysHttpSessionDao;
+
 
     @Resource
     private SysHttpSessionService sm;

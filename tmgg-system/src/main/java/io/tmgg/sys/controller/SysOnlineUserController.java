@@ -6,6 +6,7 @@ import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.sys.service.SysOnlineUserService;
 import io.tmgg.web.annotion.HasPermission;
 import org.springframework.data.domain.Pageable;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,7 +25,7 @@ public class SysOnlineUserController {
      *
      */
     @HasPermission
-    @PostMapping("page")
+    @GetMapping("page")
     public AjaxResult page(Pageable pageable) {
         return AjaxResult.ok().data(sysOnlineUserService.findAll(pageable));
     }

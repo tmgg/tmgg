@@ -101,7 +101,7 @@ public class SysRoleController {
 
         // 刷新 登录用户的权限
         SysRole role = sysRoleService.findOne(id);
-        List<Subject> list = sm.findAll();
+        List<Subject> list = sm.findAllSubject();
         for (Subject subject : list) {
             if(subject.hasRole(role.getCode())){
                 sm.forceExistBySubjectId(subject.getId());

@@ -30,8 +30,8 @@ public class SysConfigController  {
 
 
   @HasPermission
-  @PostMapping("page")
-  public AjaxResult page(@RequestBody SysConfig param, @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) {
+  @GetMapping("page")
+  public AjaxResult page(SysConfig param, @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) {
     Page<SysConfig> page = service.findByExampleLike(param, pageable);
     return AjaxResult.ok().data(page);
   }
