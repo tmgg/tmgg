@@ -14,12 +14,6 @@ public class InnerTokenTool {
         return AesTool.decryptHex(token);
     }
 
-    public static void main(String[] args) {
-        String superAdmin = InnerTokenTool.createToken("superAdmin");
-        System.out.println(superAdmin);
 
-        String account = InnerTokenTool.validateToken(superAdmin);
-        System.out.println(account);
-    }
 
 }

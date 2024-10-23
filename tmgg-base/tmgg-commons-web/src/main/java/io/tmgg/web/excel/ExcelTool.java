@@ -357,9 +357,7 @@ public class ExcelTool {
             Row removingRow = sheet.getRow(rowIndex);
             if (removingRow != null) {
 
-                // to verify that I am dealing with the last row
-                System.out.println(sheet.getRow(lastRowNum).getCell(0).toString());
-                // I created a unique string for the last row so that to make sure everything is ok
+
 
                 sheet.removeRow(removingRow);  // does not always work
             }

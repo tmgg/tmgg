@@ -52,9 +52,7 @@ public class ModifyReadmeVersions {
             newLines.add(e);
         }
 
-        for (String newLine : newLines) {
-            System.out.println(newLine);
-        }
+
 
         FileUtils.writeLines(README, newLines);
 

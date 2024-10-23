@@ -27,7 +27,6 @@ public class StrTool {
         Between between = new Between();
         if (StringUtils.isNotBlank(date)) {
             String[] s = date.split(",");
-            System.out.println(ReflectionToStringBuilder.toString(s));
             if (s.length >= 1) {
                 between.setBegin(s[0]);
             }

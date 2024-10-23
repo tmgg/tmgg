@@ -9,7 +9,6 @@ public interface AuthorizingRealm extends Comparator<AuthorizingRealm> {
 
     Subject doGetSubject(HttpSession session, String userId);
 
-    void doGetPermissionInfo(Subject subject);
 
 
     default String prefix() {

@@ -55,6 +55,9 @@ public class SysUserRealm implements AuthorizingRealm {
             subject.setDeptId(user.getDeptId());
             subject.setDeptName(user.getDeptLabel());
 
+
+            fillPermissions(subject);
+
             session.setAttribute(SUBJECT_INFO,subject);
         }
 
@@ -63,14 +66,7 @@ public class SysUserRealm implements AuthorizingRealm {
         return subject;
     }
 
-    /**
-     * 获取权限信息
-     *
-     * @param subject
-     */
-    @Override
-    @Transactional
-    public void doGetPermissionInfo(Subject subject) {
+    private void fillPermissions(Subject subject) {
         // 角色信息
         Set<SysRole> roles = sysRoleService.getLoginRoles(subject.getId());
         for (SysRole role : roles) {
@@ -83,8 +79,6 @@ public class SysUserRealm implements AuthorizingRealm {
         // 数据权限
         Collection<String> loginDataScope = sysUserService.getLoginDataScope(subject.getId());
         subject.getOrgPermissions().addAll(loginDataScope);
-
-        log.info("原始机构权限 {}", subject.getOrgPermissions());
     }
 
 

@@ -1,6 +1,7 @@
 package io.github.tmgg;
 
 import cn.moon.lang.json.JsonTool;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -28,7 +29,7 @@ public class SetVersion {
     private void changeMaven() throws IOException {
         Collection<File> poms = DevFileUtil.findByPrefix(".", "pom.xml", "tmgg-" );
 
-        System.out.println("开始修改pom.xml的版本");
+
 
         for (File pom : poms) {
             System.out.println(pom);

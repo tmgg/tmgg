@@ -55,7 +55,6 @@ public class SubjectInterceptor implements HandlerInterceptor {
                 continue;
             }
             Subject subject = realm.doGetSubject(session,userId);
-            realm.doGetPermissionInfo(subject);
             session.setAttribute(SysHttpSessionService.SESSION_KEY, subject);
             return true;
         }

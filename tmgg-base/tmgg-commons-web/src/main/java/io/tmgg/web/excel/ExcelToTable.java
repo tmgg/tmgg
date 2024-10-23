@@ -68,7 +68,6 @@ public class ExcelToTable {
                 tr.appendChild(td);
             }
         }
-        System.out.println(toHTML());
 
         Iterator<Row> rowIterator = sheet.rowIterator();
 
