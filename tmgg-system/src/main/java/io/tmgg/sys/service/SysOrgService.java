@@ -1,10 +1,10 @@
-package io.tmgg.sys.org.service;
+package io.tmgg.sys.service;
 
 import io.tmgg.lang.dao.BaseService;
 import io.tmgg.lang.dao.specification.JpaQuery;
-import io.tmgg.sys.org.dao.SysOrgDao;
-import io.tmgg.sys.org.entity.SysOrg;
-import io.tmgg.sys.org.enums.OrgType;
+import io.tmgg.sys.dao.SysOrgDao;
+import io.tmgg.sys.entity.SysOrg;
+import io.tmgg.sys.entity.OrgType;
 import io.tmgg.web.enums.CommonStatus;
 import io.tmgg.web.perm.Subject;
 import lombok.extern.slf4j.Slf4j;

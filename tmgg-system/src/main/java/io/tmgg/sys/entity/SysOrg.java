@@ -1,12 +1,9 @@
 
-package io.tmgg.sys.org.entity;
+package io.tmgg.sys.entity;
 
 import io.tmgg.lang.TreeDefinition;
 import io.tmgg.lang.dao.BaseEntity;
-import io.tmgg.sys.org.enums.OrgType;
 import io.tmgg.web.enums.CommonStatus;
-import cn.hutool.core.util.StrUtil;
-import cn.hutool.extra.pinyin.PinyinUtil;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldNameConstants;

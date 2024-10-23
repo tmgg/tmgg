@@ -1,15 +1,17 @@
 
-package io.tmgg.sys.org.controller;
+package io.tmgg.sys.controller;
 
+import io.tmgg.framework.session.SysHttpSession;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.obj.TreeOption;
-import io.tmgg.sys.org.entity.SysOrg;
-import io.tmgg.sys.org.enums.OrgType;
-import io.tmgg.sys.org.service.SysOrgService;
+import io.tmgg.sys.entity.SysOrg;
+import io.tmgg.sys.entity.OrgType;
+import io.tmgg.sys.service.SysOrgService;
 import io.tmgg.web.annotion.HasPermission;
 import io.tmgg.web.enums.CommonStatus;
 import io.tmgg.web.perm.SecurityUtils;
 import io.tmgg.web.perm.Subject;
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,21 +33,20 @@ public class SysOrgController {
 
     @HasPermission
     @PostMapping("save")
-    public AjaxResult saveOrUpdate(@RequestBody  SysOrg sysOrg) {
+    public AjaxResult saveOrUpdate(@RequestBody  SysOrg sysOrg, HttpSession session) {
         sysOrgService.saveOrUpdate(sysOrg);
-
-
+        session.removeAttribute(SysHttpSession.SUBJECT_KEY);
         return AjaxResult.ok().msg("保存机构成功");
     }
 
     @HasPermission
     @PostMapping("delete")
-    public AjaxResult delete(@RequestBody SysOrg sysOrg) {
+    public AjaxResult delete(@RequestBody SysOrg sysOrg, HttpSession session) {
         sysOrgService.deleteById(sysOrg.getId());
+        session.removeAttribute(SysHttpSession.SUBJECT_KEY);
         return AjaxResult.ok();
     }
 
-    @HasPermission
     @GetMapping("detail")
     public AjaxResult detail(String id) {
         SysOrg org = sysOrgService.findOne(id);

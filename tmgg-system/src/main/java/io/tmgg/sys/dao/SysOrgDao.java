@@ -1,16 +1,14 @@
 
-package io.tmgg.sys.org.dao;
+package io.tmgg.sys.dao;
 
 import io.tmgg.lang.TreeManager;
-import io.tmgg.lang.TreeTool;
 import io.tmgg.lang.dao.BaseDao;
 import io.tmgg.lang.dao.BaseEntity;
 import io.tmgg.lang.dao.specification.JpaQuery;
-import io.tmgg.sys.org.entity.SysOrg;
-import io.tmgg.sys.org.enums.OrgType;
+import io.tmgg.sys.entity.SysOrg;
+import io.tmgg.sys.entity.OrgType;
 import io.tmgg.web.enums.CommonStatus;
 import cn.hutool.core.collection.CollectionUtil;
-import com.google.common.collect.ImmutableList;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;

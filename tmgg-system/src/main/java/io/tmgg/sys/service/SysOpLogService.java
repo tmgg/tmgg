@@ -1,5 +1,5 @@
 
-package io.tmgg.sys.log.service;
+package io.tmgg.sys.service;
 
 import io.tmgg.lang.HttpServletTool;
 import io.tmgg.lang.IpAddressTool;
@@ -7,15 +7,13 @@ import io.tmgg.lang.JoinPointTool;
 import io.tmgg.lang.UserAgentTool;
 import io.tmgg.lang.dao.BaseService;
 import io.tmgg.sys.dao.SysOpLogDao;
-import io.tmgg.sys.log.entity.SysLog;
+import io.tmgg.sys.entity.SysLog;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;

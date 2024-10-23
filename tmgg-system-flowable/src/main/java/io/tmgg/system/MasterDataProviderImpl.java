@@ -2,7 +2,7 @@ package io.tmgg.system;
 
 import io.tmgg.flowable.FlowableMasterDataProvider;
 import io.tmgg.sys.entity.SysUser;
-import io.tmgg.sys.org.service.SysOrgService;
+import io.tmgg.sys.service.SysOrgService;
 import io.tmgg.sys.service.SysUserService;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Component;

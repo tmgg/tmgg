@@ -1,10 +1,10 @@
-package io.tmgg.interceptor;
+package io.tmgg.framework.interceptor;
 
 
+import io.tmgg.framework.session.SysHttpSession;
 import io.tmgg.lang.SpringTool;
 import io.tmgg.lang.ann.PublicApi;
 import io.tmgg.web.perm.AuthorizingRealm;
-import io.tmgg.framework.session.SysHttpSessionService;
 import io.tmgg.web.perm.Subject;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -55,7 +55,7 @@ public class SubjectInterceptor implements HandlerInterceptor {
                 continue;
             }
             Subject subject = realm.doGetSubject(session,userId);
-            session.setAttribute(SysHttpSessionService.SESSION_KEY, subject);
+            session.setAttribute(SysHttpSession.SUBJECT_KEY, subject);
             return true;
         }
         return true;

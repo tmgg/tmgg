@@ -37,7 +37,7 @@ public class SysOnlineUserService {
         List<SysHttpSession> sessionList = sysHttpSessionService.findAllSession();
 
         for (SysHttpSession session : sessionList) {
-            Subject subject = session.getAttribute(SysHttpSessionService.SESSION_KEY);
+            Subject subject = session.getAttribute(SysHttpSession.SUBJECT_KEY);
             if( session.isExpired() || subject == null){
                 continue;
             }

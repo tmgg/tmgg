@@ -1,5 +1,5 @@
 
-package io.tmgg.sys.log.entity;
+package io.tmgg.sys.entity;
 
 import io.tmgg.lang.dao.BaseEntity;
 import io.tmgg.lang.dao.DBConstants;

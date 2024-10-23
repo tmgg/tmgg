@@ -2,7 +2,6 @@
 package io.tmgg.sys.controller;
 
 import cn.hutool.core.collection.CollUtil;
-import cn.hutool.core.lang.Dict;
 import cn.hutool.core.text.PasswdStrength;
 import cn.hutool.core.util.StrUtil;
 import io.tmgg.lang.ExcelExportTool;
@@ -14,9 +13,9 @@ import io.tmgg.lang.obj.Option;
 import io.tmgg.lang.obj.TreeOption;
 import io.tmgg.sys.dto.GrantPermDto;
 import io.tmgg.sys.entity.SysUser;
-import io.tmgg.sys.org.entity.SysOrg;
-import io.tmgg.sys.org.enums.OrgType;
-import io.tmgg.sys.org.service.SysOrgService;
+import io.tmgg.sys.entity.SysOrg;
+import io.tmgg.sys.entity.OrgType;
+import io.tmgg.sys.service.SysOrgService;
 import io.tmgg.sys.service.SysConfigService;
 import io.tmgg.sys.service.SysUserService;
 import io.tmgg.sys.user.param.SysUserParam;

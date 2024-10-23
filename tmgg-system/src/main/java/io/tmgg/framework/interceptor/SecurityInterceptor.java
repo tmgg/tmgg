@@ -1,4 +1,4 @@
-package io.tmgg.interceptor;
+package io.tmgg.framework.interceptor;
 
 
 import cn.hutool.core.util.ObjUtil;

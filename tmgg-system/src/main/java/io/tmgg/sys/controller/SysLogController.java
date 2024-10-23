@@ -1,10 +1,10 @@
 
 package io.tmgg.sys.controller;
 
-import io.tmgg.sys.log.service.SysOpLogService;
+import io.tmgg.sys.service.SysOpLogService;
 import io.tmgg.web.annotion.HasPermission;
 import io.tmgg.lang.obj.AjaxResult;
-import io.tmgg.sys.log.entity.SysLog;
+import io.tmgg.sys.entity.SysLog;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;

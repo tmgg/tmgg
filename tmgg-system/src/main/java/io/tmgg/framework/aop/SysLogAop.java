@@ -1,8 +1,7 @@
 
 package io.tmgg.framework.aop;
 
-import io.tmgg.lang.JsonTool;
-import io.tmgg.sys.log.service.SysOpLogService;
+import io.tmgg.sys.service.SysOpLogService;
 import io.tmgg.web.consts.CommonConstant;
 import io.tmgg.web.perm.SecurityUtils;
 import io.tmgg.web.perm.Subject;

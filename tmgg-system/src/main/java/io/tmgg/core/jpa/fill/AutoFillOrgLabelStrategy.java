@@ -1,8 +1,8 @@
 package io.tmgg.core.jpa.fill;
 
 import io.tmgg.lang.dao.AutoFillStrategy;
-import io.tmgg.sys.org.entity.SysOrg;
-import io.tmgg.sys.org.service.SysOrgService;
+import io.tmgg.sys.entity.SysOrg;
+import io.tmgg.sys.service.SysOrgService;
 import cn.hutool.cache.Cache;
 import cn.hutool.cache.CacheUtil;
 import org.springframework.stereotype.Component;

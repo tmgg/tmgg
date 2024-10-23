@@ -2,8 +2,8 @@
 package io.tmgg.config;
 
 import io.tmgg.core.filter.xss.XssFilter;
-import io.tmgg.interceptor.SecurityInterceptor;
-import io.tmgg.interceptor.SubjectInterceptor;
+import io.tmgg.framework.interceptor.SecurityInterceptor;
+import io.tmgg.framework.interceptor.SubjectInterceptor;
 import io.tmgg.SysProp;
 import cn.hutool.core.collection.CollUtil;
 import lombok.extern.slf4j.Slf4j;

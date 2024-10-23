@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 @Component
 public class SysHttpSessionService {
 
-    public static final String SESSION_KEY = "SUBJECT";
+
 
 
 
@@ -28,8 +28,8 @@ public class SysHttpSessionService {
         List<SysHttpSession> list = findAllSession();
 
         List<Subject> subjectList = list.stream()
-                .filter(session -> null != session.getAttribute(SESSION_KEY))
-                .map(session -> (Subject) session.getAttribute(SESSION_KEY)).collect(Collectors.toList());
+                .filter(session -> null != session.getAttribute(SysHttpSession.SUBJECT_KEY))
+                .map(session -> (Subject) session.getAttribute(SysHttpSession.SUBJECT_KEY)).collect(Collectors.toList());
 
         return subjectList;
     }
@@ -43,7 +43,7 @@ public class SysHttpSessionService {
         List<SysHttpSession> sessionList = findAllSession();
 
         for (SysHttpSession session : sessionList) {
-            Subject subject = session.getAttribute(SESSION_KEY);
+            Subject subject = session.getAttribute(SysHttpSession.SUBJECT_KEY);
             boolean ok = subject != null && subject.getId().equals(subjectId);
             if(ok){
                 httpSessionCache.remove(session.getId());

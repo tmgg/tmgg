@@ -2,8 +2,6 @@ package io.tmgg.framework.session;
 
 import cn.hutool.core.util.IdUtil;
 import io.tmgg.lang.ann.Remark;
-import io.tmgg.lang.dao.BaseEntity;
-import io.tmgg.lang.dao.DBConstants;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -27,6 +25,9 @@ import java.util.Set;
 @Slf4j
 @ToString
 public class SysHttpSession  implements Session, Serializable {
+    public static final String SUBJECT_KEY = "SUBJECT";
+
+
     private String id;
 
 

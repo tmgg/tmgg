@@ -3,13 +3,9 @@ package io.tmgg.sys.dao;
 
 import io.tmgg.lang.SpringTool;
 import io.tmgg.lang.dao.BaseDao;
-import io.tmgg.sys.log.entity.SysLog;
-import org.springframework.scheduling.annotation.Async;
+import io.tmgg.sys.entity.SysLog;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.TimerTask;
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
