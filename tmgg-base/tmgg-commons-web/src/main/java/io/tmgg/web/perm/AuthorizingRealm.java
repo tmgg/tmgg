@@ -1,11 +1,13 @@
 package io.tmgg.web.perm;
 
 
+import jakarta.servlet.http.HttpSession;
+
 import java.util.Comparator;
 
 public interface AuthorizingRealm extends Comparator<AuthorizingRealm> {
 
-    Subject doGetSubject(String userId);
+    Subject doGetSubject(HttpSession session, String userId);
 
     void doGetPermissionInfo(Subject subject);
 

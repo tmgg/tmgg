@@ -8,6 +8,7 @@ import io.tmgg.framework.session.SysHttpSessionService;
 import io.tmgg.web.perm.Subject;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -45,16 +46,17 @@ public class SubjectInterceptor implements HandlerInterceptor {
         }
 
 
-        String userId = (String) request.getSession().getAttribute("subjectId");
+        HttpSession session = request.getSession();
+        String userId = (String) session.getAttribute("subjectId");
 
 
         for (AuthorizingRealm realm : realmList) {
             if (!uri.startsWith(realm.prefix())) {
                 continue;
             }
-            Subject subject = realm.doGetSubject(userId);
+            Subject subject = realm.doGetSubject(session,userId);
             realm.doGetPermissionInfo(subject);
-            request.getSession().setAttribute(SysHttpSessionService.SESSION_KEY, subject);
+            session.setAttribute(SysHttpSessionService.SESSION_KEY, subject);
             return true;
         }
         return true;

@@ -7,6 +7,7 @@ import io.tmgg.web.SystemException;
 import io.tmgg.web.perm.AuthorizingRealm;
 import io.tmgg.web.perm.Subject;
 import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -17,44 +18,48 @@ import java.util.List;
 import java.util.Set;
 
 
-
 @Service
 @Slf4j
 public class SysUserRealm implements AuthorizingRealm {
 
+    public static final String SUBJECT_INFO = "SUBJECT_INFO";
     @Resource
     private SysUserService sysUserService;
-
 
 
     @Resource
     private SysRoleService sysRoleService;
 
 
-
     /**
      * 获取用户信息
-     *
      */
     @Override
-    public Subject doGetSubject(String userId) {
-        SysUser user = sysUserService.findOne(userId);
-        if (user == null) {
-            throw new SystemException(401, "用户不存在,请退出重试");
+    public Subject doGetSubject(HttpSession session, String userId) {
+        Subject subject = (Subject) session.getAttribute(SUBJECT_INFO);
+        if (subject == null) {
+            subject = new Subject();
+            SysUser user = sysUserService.findOne(userId);
+            log.debug("查询用户  {}", user);
+            if (user == null) {
+                throw new SystemException(401, "用户不存在,请退出重试");
+            }
+
+            BeanUtils.copyProperties(user, subject);
+
+            subject.setId(user.getId());
+            subject.setName(user.getName());
+            subject.setAccount(user.getAccount());
+            subject.setUnitId(user.getUnitId());
+            subject.setUnitName(user.getUnitLabel());
+            subject.setDeptId(user.getDeptId());
+            subject.setDeptName(user.getDeptLabel());
+
+            session.setAttribute(SUBJECT_INFO,subject);
         }
 
-        Subject subject = new Subject();
-        BeanUtils.copyProperties(user, subject);
 
-        subject.setId(user.getId());
-        subject.setName(user.getName());
-        subject.setAccount(user.getAccount());
-        subject.setUnitId(user.getUnitId());
-        subject.setUnitName(user.getUnitLabel());
-        subject.setDeptId(user.getDeptId());
-        subject.setDeptName(user.getDeptLabel());
 
-        log.info("获得subject成功 {}", subject);
         return subject;
     }
 
