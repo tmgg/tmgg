@@ -97,10 +97,10 @@
     },
 
     {
-      "id": "sysVisLog",
+      "id": "sysOpLog",
       "pid": "sysMonitor",
       "name": "操作日志",
-      "perm": "sysVisLog",
+      "perm": "sysOpLog",
       "path": "/system/log/oplog",
       "seq": 12
     }
