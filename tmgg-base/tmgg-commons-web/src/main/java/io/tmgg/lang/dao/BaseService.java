@@ -27,7 +27,6 @@ public abstract class BaseService<T extends Persistable<String>> {
     protected BaseDao<T> baseDao;
 
 
-
     public Object[] findAggregate(Specification<T> spec, Selector selector) {
         return baseDao.findAggregate(spec, selector);
     }
@@ -37,8 +36,8 @@ public abstract class BaseService<T extends Persistable<String>> {
         return baseDao.isFieldUnique(id, fieldName, value);
     }
 
-    public List<Option> findOptionList( Function<T, String> labelFn) {
-        List<T> list = this.findAll(Sort.by(Sort.Direction.DESC,"createTime"));
+    public List<Option> findOptionList(Function<T, String> labelFn) {
+        List<T> list = this.findAll(Sort.by(Sort.Direction.DESC, "createTime"));
         return list.stream().map(r -> {
             String label = labelFn.apply(r);
             String value = r.getId();
@@ -47,15 +46,13 @@ public abstract class BaseService<T extends Persistable<String>> {
     }
 
     public List<Option> findOptionList(JpaQuery<T> q, Function<T, String> labelFn) {
-        List<T> list = this.findAll(q,Sort.by(Sort.Direction.DESC,"createTime"));
+        List<T> list = this.findAll(q, Sort.by(Sort.Direction.DESC, "createTime"));
         return list.stream().map(r -> {
             String label = labelFn.apply(r);
             String value = r.getId();
             return Option.builder().label(label).value(value).build();
         }).collect(Collectors.toList());
     }
-
-
 
 
     public List<T> findAllById(String[] ids) {
@@ -131,12 +128,15 @@ public abstract class BaseService<T extends Persistable<String>> {
 
 
     public Page<T> findByExampleLike(T example, Pageable pageable) {
-        JpaQuery query = new JpaQuery<>().likeExample(example);
+        JpaQuery<T> query = new JpaQuery<>();
+        query.likeExample(example);
         return baseDao.findAll(query, pageable);
     }
 
     public JpaQuery<T> getQueryByExampleLike(T example) {
-        return new JpaQuery<>().likeExample(example);
+        JpaQuery<T> q = new JpaQuery<>();
+        q.likeExample(example);
+        return q;
     }
 
     public Page<T> findAll(Map<String, Object> map, Pageable pageable) {
@@ -210,7 +210,7 @@ public abstract class BaseService<T extends Persistable<String>> {
 
         T old = baseDao.findOne(input);
         BeanUtil.copyProperties(input, old, CopyOptions.create().setIgnoreProperties(BaseEntity.BASE_ENTITY_FIELDS));
-        return  baseDao.save(old);
+        return baseDao.save(old);
     }
 
 
@@ -287,7 +287,7 @@ public abstract class BaseService<T extends Persistable<String>> {
 
         Set<Map.Entry<String, Object>> entries = param.entrySet();
         for (Map.Entry<String, Object> e : entries) {
-            if(e.getValue() != null){
+            if (e.getValue() != null) {
                 query.like(e.getKey(), (String) e.getValue());
 
             }
