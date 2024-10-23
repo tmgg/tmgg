@@ -2,17 +2,14 @@
 package io.tmgg.sys.log.entity;
 
 import io.tmgg.lang.dao.BaseEntity;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import io.tmgg.lang.dao.DBConstants;
 import jakarta.persistence.Column;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldNameConstants;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.Lob;
-import java.time.LocalDateTime;
-import java.util.Date;
 
 /**
  * 系统操作日志表
@@ -23,30 +20,28 @@ import java.util.Date;
 @Setter
 @Entity
 @FieldNameConstants
-public class SysOpLog extends BaseEntity {
+public class SysLog extends BaseEntity {
+
 
 
     /**
-     * 名称
+     * 操作人
      */
+    @NotNull
+    private String account;
+
+    @NotNull
     private String name;
 
 
+    @NotNull
+    private Boolean success;
 
-    /**
-     * 是否执行成功（Y-是，N-否）
-     */
-    private String success;
 
-    /**
-     * 具体消息
-     */
     @Column(length = 10000)
     private String message;
 
-    /**
-     * ip
-     */
+
     private String ip;
 
     /**
@@ -69,20 +64,7 @@ public class SysOpLog extends BaseEntity {
      */
     private String url;
 
-    /**
-     * 类名称
-     */
-    private String className;
 
-    /**
-     * 方法名称
-     */
-    private String methodName;
-
-    /**
-     * 请求方式（GET POST PUT DELETE)
-     */
-    private String reqMethod;
 
     /**
      * 请求参数
@@ -90,16 +72,5 @@ public class SysOpLog extends BaseEntity {
     @Column(columnDefinition = DBConstants.TYPE_TEXT)
     private String param;
 
-    /**
-     * 返回结果
-     */
-    @Column(columnDefinition = DBConstants.TYPE_TEXT)
-    private String result;
 
-
-
-    /**
-     * 操作人
-     */
-    private String account;
 }

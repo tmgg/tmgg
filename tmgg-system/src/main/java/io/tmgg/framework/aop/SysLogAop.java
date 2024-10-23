@@ -1,9 +1,8 @@
 
-package io.tmgg.core.aop;
+package io.tmgg.framework.aop;
 
 import io.tmgg.lang.JsonTool;
 import io.tmgg.sys.log.service.SysOpLogService;
-import io.tmgg.web.consts.AopSortConstant;
 import io.tmgg.web.consts.CommonConstant;
 import io.tmgg.web.perm.SecurityUtils;
 import io.tmgg.web.perm.Subject;
@@ -14,17 +13,14 @@ import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
-import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
-
-import java.util.HashMap;
 
 /**
  * 业务日志aop切面
  */
 @Component
 @Aspect
-public class BusinessLogAop {
+public class SysLogAop {
 
     @Resource
     SysOpLogService sysOpLogService;
@@ -46,18 +42,14 @@ public class BusinessLogAop {
         if (subject != null ) {
             account = subject.getAccount() + " " + subject.getName();
         }
-        if (result instanceof AjaxResult) {
-            // 如果是列表这种，日志就太长了
-            AjaxResult as = (AjaxResult) result;
-            Object data = as.getData();
-
-            //  清空data字段，
-            if (data != null) {
-                as.setData(null);
-            }
+        String msg = "操作成功";
+        boolean success = true;
+        if (result instanceof AjaxResult r) {
+            success = r.isSuccess();
+            msg = r.getMessage();
         }
         //异步记录日志
-        sysOpLogService.saveOperationLog(account, joinPoint, JsonTool.toJsonQuietly(result));
+        sysOpLogService.saveOperationLog(account, joinPoint, success, msg);
     }
 
     /**

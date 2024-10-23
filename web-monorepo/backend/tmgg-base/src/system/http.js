@@ -74,9 +74,18 @@ function request(config) {
 
 
         }).catch(e => {
+            let msg = e;
+            if(e.response && e.response.data){
+                const rs = e.response.data
+                msg = rs.message
+            }
+            if(msg == null && e.message){
+                msg = e.message
+            }
+
             Modal.error({
                 title: '捕获到服务出错',
-                content: e
+                content: msg
             })
             reject(e)
         }).finally(() => {

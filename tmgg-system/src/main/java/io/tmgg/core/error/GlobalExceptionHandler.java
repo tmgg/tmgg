@@ -6,13 +6,13 @@ import io.tmgg.lang.*;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.web.SystemException;
 import io.tmgg.web.consts.AopSortConstant;
-import io.tmgg.web.context.requestno.RequestNoContext;
 import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.annotation.Order;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.transaction.TransactionSystemException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -63,7 +63,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(MissingServletRequestParameterException.class)
     public AjaxResult missParamException(MissingServletRequestParameterException e) {
-        log.error(">>> 请求参数异常，请求号为：{}，具体信息为：{}", RequestNoContext.get(), e.getMessage());
+        log.error(">>> 请求参数异常，具体信息为：{}", e.getMessage());
         String parameterType = e.getParameterType();
         String parameterName = e.getParameterName();
         String message = StrUtil.format(">>> 缺少请求的参数{}，类型为{}", parameterName, parameterType);
@@ -82,7 +82,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(NoHandlerFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public AjaxResult notFound(NoHandlerFoundException e) {
-        log.error(">>> 资源不存在异常，请求号为：{}，具体信息为：{}", RequestNoContext.get(), e.getMessage() + "，请求地址为:" + HttpServletTool.getRequest().getRequestURI());
+        log.error(">>> 资源不存在异常，具体信息为：{}",  e.getMessage() + "，请求地址为:" + HttpServletTool.getRequest().getRequestURI());
         return AjaxResult.err().code(404).msg( "资源路径不存在，请检查请求地址，请求地址为:" + HttpServletTool.getRequest().getRequestURI());
     }
 
@@ -102,7 +102,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler({IllegalArgumentException.class, IllegalStateException.class})
     public AjaxResult assertError(RuntimeException e) {
-        log.error(">>> 业务异常，assertError 请求号为：{}，具体信息为：{}", RequestNoContext.get(), e.getMessage());
+        log.error(">>> 业务异常，assertError ，具体信息为：{}",  e.getMessage());
         if (sysProp.isPrintException()) {
             e.printStackTrace();
         }
@@ -200,11 +200,14 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Throwable.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public AjaxResult serverError(Throwable e) {
-        log.error(">>> 服务器运行异常，请求号为：{}", RequestNoContext.get());
-        e.printStackTrace();
-
-        log.error(e.getMessage());
+        log.error(">>> 服务器运行异常，：{}", e.getMessage());
         return renderException(e);
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public AjaxResult httpMessageNotReadableException(HttpMessageNotReadableException e) {
+        return AjaxResult.err().msg("请求体不能为空" );
     }
 
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)

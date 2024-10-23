@@ -4,12 +4,12 @@ package io.tmgg.sys.controller;
 import io.tmgg.sys.log.service.SysOpLogService;
 import io.tmgg.web.annotion.HasPermission;
 import io.tmgg.lang.obj.AjaxResult;
-import io.tmgg.sys.log.entity.SysOpLog;
+import io.tmgg.sys.log.entity.SysLog;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.annotation.Resource;
@@ -30,8 +30,9 @@ public class SysLogController {
 
     @HasPermission
     @GetMapping("/sysOpLog/page")
-    public AjaxResult opLogPage(@RequestBody SysOpLog sysOpLogParam, @PageableDefault(sort = "opTime", direction = Sort.Direction.DESC) Pageable pageable) {
-        return AjaxResult.ok().data(sysOpLogService.findByExampleLike(sysOpLogParam, pageable));
+    public AjaxResult opLogPage(SysLog sysLogParam, @PageableDefault(sort = "createTime", direction = Sort.Direction.DESC) Pageable pageable) {
+        Page<SysLog> page = sysOpLogService.findByExampleLike(sysLogParam, pageable);
+        return AjaxResult.ok().data(page).msg("查询操作日志成功");
     }
 
 

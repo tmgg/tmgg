@@ -1,7 +1,6 @@
 
 package io.tmgg.lang;
 
-import io.tmgg.web.context.requestno.RequestNoContext;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.util.URLUtil;
@@ -27,7 +26,7 @@ public class DownloadTool {
             setDownloadParam(fileName, "" + fileBytes.length, response);
             IoUtil.write(response.getOutputStream(), true, fileBytes);
         } catch (IOException e) {
-            log.error(">>> 下载文件异常，请求号为：{}，具体信息为：{}", RequestNoContext.get(), e.getMessage());
+            log.error(">>> 下载文件异常，具体信息为：{}", e.getMessage());
             throw new IllegalStateException("下载文件错误");
         }
     }

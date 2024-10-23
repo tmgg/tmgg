@@ -1,7 +1,9 @@
 
 package io.tmgg.lang;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.StrUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.aspectj.lang.JoinPoint;
@@ -24,10 +26,8 @@ public class JoinPointTool {
         Object[] args = joinPoint.getArgs();
         for (Object arg : args) {
             if (!isFilterObject(arg)) {
-                if (ObjectUtil.isNotNull(arg)) {
                     String jsonStr = JsonTool.toPrettyJsonQuietly(arg);
                     argsJson.append(jsonStr).append(" ");
-                }
             }
         }
         return argsJson.toString().trim();
@@ -38,7 +38,11 @@ public class JoinPointTool {
      *
      */
     private static boolean isFilterObject(Object arg) {
-        return arg instanceof MultipartFile || arg instanceof HttpServletRequest || arg instanceof HttpServletResponse;
+        return arg == null ||  arg instanceof MultipartFile
+                || arg instanceof HttpServletRequest
+                || arg instanceof HttpServletResponse
+                || (arg instanceof String && StrUtil.isNotBlank((String) arg))
+                || BeanUtil.isEmpty(arg);
     }
 
 }

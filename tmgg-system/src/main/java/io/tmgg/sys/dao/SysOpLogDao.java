@@ -2,7 +2,7 @@
 package io.tmgg.sys.dao;
 
 import io.tmgg.lang.dao.BaseDao;
-import io.tmgg.sys.log.entity.SysOpLog;
+import io.tmgg.sys.log.entity.SysLog;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -12,6 +12,6 @@ import org.springframework.stereotype.Repository;
  *
  */
 @Repository
-public class SysOpLogDao extends BaseDao<SysOpLog> {
+public class SysOpLogDao extends BaseDao<SysLog> {
 
 }
