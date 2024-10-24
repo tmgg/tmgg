@@ -1,6 +1,7 @@
 package io.tmgg.job.controller;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ClassUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import io.tmgg.BasePackage;
@@ -112,9 +113,11 @@ public class SysJobController {
 
     @GetMapping("jobClassOptions")
     public AjaxResult jobClassList() {
-        Set<Class<?>> list = ClassUtil.scanPackageBySuper(BasePackage.BASE_PACKAGE, Job.class);
-
+        Set<Class<?>> list1 = ClassUtil.scanPackageBySuper(BasePackage.BASE_PACKAGE, Job.class);
         Set<Class<?>> list2 = ClassUtil.scanPackageBySuper(sysProp.getBasePackageClass().getPackageName(), Job.class);
+
+        Set<Class<?>> list = new HashSet<>();
+        list.addAll(list1);
         list.addAll(list2);
 
         List<Option> options = list.stream()
@@ -135,7 +138,7 @@ public class SysJobController {
                     }
 
                     return option;
-                }).sorted(Comparator.comparing(Option::getLabel)).collect(Collectors.toList());
+                }).collect(Collectors.toList());
 
         return AjaxResult.ok().data(options);
     }
