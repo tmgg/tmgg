@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -20,7 +21,7 @@ public class JsonTool {
         if(o == null){
             return null;
         }
-        return om().writeValueAsString(o);
+        return getObjectMapper().writeValueAsString(o);
     }
 
 
@@ -41,7 +42,7 @@ public class JsonTool {
             return null;
         }
         try {
-            return om().writerWithDefaultPrettyPrinter().writeValueAsString(o);
+            return getObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(o);
         } catch (JsonProcessingException e) {
             e.printStackTrace(); // ignore
         }
@@ -54,7 +55,7 @@ public class JsonTool {
 
         }
 
-        return om().readValue(json, cls);
+        return getObjectMapper().readValue(json, cls);
 
     }
 
@@ -66,7 +67,7 @@ public class JsonTool {
 
         }
 
-        return om().readValue(json, valueTypeRef);
+        return getObjectMapper().readValue(json, valueTypeRef);
     }
 
     public static <T> T jsonToBeanQuietly(String json, Class<T> cls) {
@@ -87,7 +88,7 @@ public class JsonTool {
             return null;
         }
         try {
-            ObjectMapper mapper = om();
+            ObjectMapper mapper = getObjectMapper();
             JavaType javaType = mapper.getTypeFactory().constructParametricType(ArrayList.class, cls);
             return mapper.readValue(json, javaType);
         } catch (Exception e) {
@@ -102,7 +103,7 @@ public class JsonTool {
             return null;
         }
         try {
-            ObjectMapper mapper = om();
+            ObjectMapper mapper = getObjectMapper();
             return mapper.readValue(json, List.class);
         } catch (Exception e) {
             e.printStackTrace(); // ignore
@@ -123,7 +124,7 @@ public class JsonTool {
     public static Map<String, Object> jsonToMapQuietly(String json) {
         if (json != null && !json.isEmpty()) {
             try {
-                return om().readValue(json, new TypeReference<HashMap<String, Object>>() {
+                return getObjectMapper().readValue(json, new TypeReference<HashMap<String, Object>>() {
                 });
             } catch (Exception e) {
                 e.printStackTrace(); // ignore
@@ -136,7 +137,7 @@ public class JsonTool {
     public static Map<String, Object> jsonToMap(String json)
             throws IOException {
         if (json != null && !json.isEmpty()) {
-            return om().readValue(json, new TypeReference<HashMap<String, Object>>() {
+            return getObjectMapper().readValue(json, new TypeReference<HashMap<String, Object>>() {
             });
         }
         return new HashMap<>();
@@ -147,7 +148,7 @@ public class JsonTool {
             return null;
         }
         try {
-            return om().readValue(json, new TypeReference<HashMap<String, String>>() {
+            return getObjectMapper().readValue(json, new TypeReference<HashMap<String, String>>() {
             });
         } catch (IOException e) {
             e.printStackTrace();
@@ -157,17 +158,18 @@ public class JsonTool {
 
 
     // delay Initialize
-    private static ObjectMapper om() {
-        if (om == null) {
-            om = new ObjectMapper();
-            om.configure(DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES,false);
-            om.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,false);
-            om.setDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
+    public static ObjectMapper getObjectMapper() {
+        if (objectMapper == null) {
+            objectMapper = new ObjectMapper();
+            objectMapper.configure(DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES,false);
+            objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,false);
+            objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS,false);
+            objectMapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
         }
-        return om;
+        return objectMapper;
     }
 
     // singleton ,as to initialize need much TIME
-    private static ObjectMapper om;
+    private static ObjectMapper objectMapper;
 
 }

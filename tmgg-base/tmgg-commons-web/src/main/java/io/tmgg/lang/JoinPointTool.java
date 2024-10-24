@@ -14,11 +14,9 @@ import org.springframework.web.multipart.MultipartFile;
  * Spring切面工具类
  */
 public class JoinPointTool {
-    private static final ObjectMapper om = new ObjectMapper();
 
-    static {
-        om.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-    }
+    private static final ObjectMapper OBJECT_MAPPER =      JsonTool.getObjectMapper().copy().setSerializationInclusion(JsonInclude.Include.NON_NULL);
+
 
     /**
      * 获取切面的参数json
@@ -42,7 +40,8 @@ public class JoinPointTool {
     private static String getString(Object arg) {
 
         try {
-            return om.writeValueAsString(arg);
+
+            return OBJECT_MAPPER.writeValueAsString(arg);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
