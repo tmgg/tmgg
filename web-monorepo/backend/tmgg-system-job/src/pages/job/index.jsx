@@ -2,10 +2,9 @@ import {AutoComplete, Button, Form, Input, message, Modal, Popconfirm, Select, S
 import React from 'react'
 import {PlusOutlined} from "@ant-design/icons";
 import StreamLog from "../../components/StreamLog";
-import {HttpUtil, SysUtil} from "@tmgg/tmgg-base";
+import {FieldComponent, HttpUtil, SysUtil} from "@tmgg/tmgg-base";
 import ProTable from "@tmgg/pro-table";
 import {StrUtil} from "@tmgg/tmgg-commons-lang";
-import {FieldComponent} from "@tmgg/tmgg-base/src/components/field/registry";
 
 
 const cronOptions = [
@@ -210,8 +209,8 @@ export default class extends React.Component {
                                    key={p.name}
                                    rules={[{required: p.required}]}>
                             <FieldComponent
-                                componentType={p.componentType}
-                                componentProps={p.componentProps}
+                                type={p.valueType}
+                                {...p.componentProps}
                             ></FieldComponent>
                         </Form.Item>
                     ))}

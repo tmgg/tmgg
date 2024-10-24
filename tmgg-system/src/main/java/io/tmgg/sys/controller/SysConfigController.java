@@ -33,7 +33,7 @@ public class SysConfigController  {
 
   @HasPermission
   @GetMapping("page")
-  public AjaxResult page(String keyword, @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) {
+  public AjaxResult page(String keyword, @PageableDefault(direction = Sort.Direction.DESC, sort = "id") Pageable pageable) {
     JpaQuery<SysConfig> q= new JpaQuery<>();
     if(StrUtil.isNotEmpty(keyword)){
       q.eq(SysConfig.Fields.label, keyword);

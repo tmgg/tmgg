@@ -13,8 +13,9 @@
     },
     {
       "id": "default.password",
-      "label": "用户默认密码",
+      "label": "默认密码",
       "defaultValue": "10.Sleep",
+      "valueType": "password",
       "remark": "单位秒",
       "$update": false
     },
@@ -35,7 +36,7 @@
       "label": "多端登录",
       "defaultValue": "true",
       "valueType": "boolean",
-      "remark": "填写true | false, 是否允许账号在多个地方登录",
+      "remark": "是否允许账号在多个地方登录",
       "$update": false
     },
     {
