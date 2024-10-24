@@ -87,7 +87,8 @@ export default class extends React.Component {
           request={(params, sort) => HttpUtil.pageData('sysConfig/page', params, sort)}
           columns={this.columns}
           rowKey='id'
-          bordered
+          search={false}
+          options={{search:true}}
       />
 
       <Modal title='系统配置'

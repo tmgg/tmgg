@@ -12,26 +12,26 @@
       "$update": false
     },
     {
-      "id": "default_password",
+      "id": "default.password",
       "label": "用户默认密码",
       "defaultValue": "10.Sleep",
       "remark": "单位秒",
       "$update": false
     },
     {
-      "id": "file_upload_path_for_windows",
+      "id": "fileUploadPath.windows",
       "label": "win本地上传文件路径",
       "defaultValue": "c:/tmp",
       "$update": false
     },
     {
-      "id": "file_upload_path_for_linux",
+      "id": "fileUploadPath.linux",
       "label": "linux/mac本地上传文件路径",
       "defaultValue": "/home/files",
       "$update": false
     },
     {
-      "id": "multi_device_login",
+      "id": "multiDeviceLogin",
       "label": "多端登录",
       "defaultValue": "true",
       "valueType": "boolean",

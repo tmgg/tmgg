@@ -40,7 +40,7 @@ public class SysConfigService extends BaseService<SysConfig> {
      * 获取默认密码
      */
     public String getDefaultPassWord() {
-        return getStr("default_password");
+        return getStr("default.password");
     }
 
     /**
@@ -48,14 +48,14 @@ public class SysConfigService extends BaseService<SysConfig> {
      */
     public String getFileUploadPath() {
         boolean isWin = SystemUtil.getOsInfo().isWindows();
-        String key = isWin ? "file_upload_path_for_windows" : "file_upload_path_for_linux";
+        String key = isWin ? "fileUploadPath.windows" : "fileUploadPath.linux";
 
         return getStr(key);
     }
 
 
     public boolean getMultiDeviceLogin() {
-        return getBoolean("multi_device_login");
+        return getBoolean("multiDeviceLogin");
     }
 
 

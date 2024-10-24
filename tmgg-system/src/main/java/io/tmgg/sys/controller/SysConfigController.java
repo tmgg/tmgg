@@ -2,7 +2,9 @@
 package io.tmgg.sys.controller;
 
 
+import cn.hutool.core.util.StrUtil;
 import io.tmgg.lang.dao.BaseCURDController;
+import io.tmgg.lang.dao.specification.JpaQuery;
 import io.tmgg.sys.service.SysConfigService;
 import io.tmgg.web.annotion.HasPermission;
 import io.tmgg.lang.obj.AjaxResult;
@@ -31,8 +33,12 @@ public class SysConfigController  {
 
   @HasPermission
   @GetMapping("page")
-  public AjaxResult page(SysConfig param, @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) {
-    Page<SysConfig> page = service.findByExampleLike(param, pageable);
+  public AjaxResult page(String keyword, @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) {
+    JpaQuery<SysConfig> q= new JpaQuery<>();
+    if(StrUtil.isNotEmpty(keyword)){
+      q.eq(SysConfig.Fields.label, keyword);
+    }
+    Page<SysConfig> page = service.findAll(q, pageable);
     return AjaxResult.ok().data(page);
   }
 
