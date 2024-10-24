@@ -4,7 +4,7 @@ package io.tmgg.sys.service;
 import io.tmgg.framework.session.SysHttpSession;
 import io.tmgg.sys.entity.SysUser;
 import io.tmgg.sys.entity.SysRole;
-import io.tmgg.web.SystemException;
+import io.tmgg.web.BizException;
 import io.tmgg.web.perm.AuthorizingRealm;
 import io.tmgg.web.perm.Subject;
 import jakarta.annotation.Resource;
@@ -12,7 +12,6 @@ import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 import java.util.List;
@@ -43,7 +42,7 @@ public class SysUserRealm implements AuthorizingRealm {
             SysUser user = sysUserService.findOne(userId);
             log.debug("查询用户  {}", user);
             if (user == null) {
-                throw new SystemException(401, "用户不存在,请退出重试");
+                throw new BizException("用户或密码错误"); // 不直接提示用户不存在，防止暴力遍历
             }
 
             BeanUtils.copyProperties(user, subject);
@@ -60,7 +59,6 @@ public class SysUserRealm implements AuthorizingRealm {
             fillPermissions(subject);
 
         }
-
 
 
         return subject;

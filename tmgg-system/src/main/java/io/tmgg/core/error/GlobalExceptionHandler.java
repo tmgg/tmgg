@@ -4,7 +4,7 @@ package io.tmgg.core.error;
 import io.tmgg.SysProp;
 import io.tmgg.lang.*;
 import io.tmgg.lang.obj.AjaxResult;
-import io.tmgg.web.SystemException;
+import io.tmgg.web.BizException;
 import io.tmgg.web.consts.AopSortConstant;
 import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -94,9 +94,9 @@ public class GlobalExceptionHandler {
      *
  *
      */
-    @ExceptionHandler(SystemException.class)
-    public AjaxResult systemException(SystemException e) {
-        return AjaxResult.err().code(e.getCode()).msg( e.getMessage() + "，请求地址为:" + HttpServletTool.getRequest().getRequestURI());
+    @ExceptionHandler(BizException.class)
+    public AjaxResult systemException(BizException e) {
+        return AjaxResult.err().msg( e.getMessage() + "，请求地址为:" + HttpServletTool.getRequest().getRequestURI());
     }
 
 
