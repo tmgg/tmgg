@@ -1,7 +1,7 @@
 import React from "react";
 import {Button, Card, Tabs, Tag} from "antd";
 import {ProTable} from "@tmgg/pro-table";
-import {http} from "@tmgg/tmgg-base";
+import { HttpUtil} from "@tmgg/tmgg-base";
 
 export default class  extends React.Component {
 

@@ -1,6 +1,7 @@
 import React from "react";
-import {arr, http, HttpUtil} from "@tmgg/tmgg-base";
+import { HttpUtil} from "@tmgg/tmgg-base";
 import {List, message, Switch} from "antd";
+import {ArrUtil} from "@tmgg/tmgg-commons-lang";
 
 export default class extends React.Component {
 
@@ -24,7 +25,7 @@ export default class extends React.Component {
       myTopicList.push(topic)
       HttpUtil.get('/sysMsgSubscribe/subscribe', {topic})
     } else {
-      arr.remove(myTopicList, topic)
+      ArrUtil.remove(myTopicList, topic)
       HttpUtil.get('/sysMsgSubscribe/unsubscribe', {topic})
     }
     this.setState({myTopicList})
@@ -39,7 +40,7 @@ export default class extends React.Component {
         renderItem={(item) => (
           <List.Item actions={[
             <Switch
-              checked={arr.contains(this.state.myTopicList, item.code)}
+              checked={ArrUtil.contains(this.state.myTopicList, item.code)}
               onChange={(v) => this.toggleSub(v, item.code)}
             />]}
 

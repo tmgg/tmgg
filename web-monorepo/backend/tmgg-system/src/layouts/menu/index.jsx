@@ -73,14 +73,16 @@ export default class extends React.Component {
 
 
             // 查早顶部菜单的当前key
-            if (pathname === "" || pathname === "/") {
-                currentTopMenuKey = menus[0]?.key
-            } else {
+            currentTopMenuKey = menus[0]?.key
+
+            if (pathname !== "" && pathname !== "/") {
                 let menu = menuMap[currentMenuKey]
-                while (menu && menu.pid){
+                while (menu && menu.pid) {
                     menu = menuMap[menu.pid]
                 }
-                currentTopMenuKey = menu.id
+                if (menu) {
+                    currentTopMenuKey = menu.id
+                }
             }
 
             leftMenus = menuMap[currentTopMenuKey].children
