@@ -96,7 +96,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(BizException.class)
     public AjaxResult systemException(BizException e) {
-        return AjaxResult.err().msg( e.getMessage() + "，请求地址为:" + HttpServletTool.getRequest().getRequestURI());
+        return AjaxResult.err().msg( e.getMessage());
     }
 
 

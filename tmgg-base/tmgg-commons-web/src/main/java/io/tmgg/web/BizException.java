@@ -1,22 +1,21 @@
 package io.tmgg.web;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+public class BizException extends RuntimeException {
 
-@Getter
-@Setter
-public class BizException extends RuntimeException{
-
-
-
-    String message;
 
     public BizException() {
+        super();
     }
 
     public BizException(String message) {
         super(message);
-        this.message = message;
+    }
+
+    public BizException(Throwable e) {
+        this("服务异常", e);
+    }
+
+    public BizException(String prefixMessage, Throwable e) {
+        super(prefixMessage + ": " + e.getMessage());
     }
 }
