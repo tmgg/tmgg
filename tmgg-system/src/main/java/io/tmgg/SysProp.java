@@ -14,6 +14,7 @@ public class SysProp {
     public static final String CONFIG_PREFIX = "sys";
     private Class  basePackageClass = BasePackage.class;
 
+
     /**
      * 当异常发生时，是否打印异常
      */

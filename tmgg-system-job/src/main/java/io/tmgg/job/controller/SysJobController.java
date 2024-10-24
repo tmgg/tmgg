@@ -4,6 +4,7 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.ClassUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import io.tmgg.BasePackage;
+import io.tmgg.SysProp;
 import io.tmgg.data.Field;
 import io.tmgg.data.FieldAnn;
 import io.tmgg.job.JobDesc;
@@ -42,6 +43,9 @@ public class SysJobController {
 
     @Resource
     private QuartzManager quartzManager;
+
+    @Resource
+    private SysProp sysProp;
 
 
     @HasPermission
@@ -110,6 +114,9 @@ public class SysJobController {
     public AjaxResult jobClassList() {
         Set<Class<?>> list = ClassUtil.scanPackageBySuper(BasePackage.BASE_PACKAGE, Job.class);
 
+        Set<Class<?>> list2 = ClassUtil.scanPackageBySuper(sysProp.getBasePackageClass().getPackageName(), Job.class);
+        list.addAll(list2);
+
         List<Option> options = list.stream()
                 .filter(cls -> {
                     int mod = cls.getModifiers();
@@ -117,8 +124,6 @@ public class SysJobController {
                 })
                 .map(cls -> {
                     String name = cls.getName();
-
-
 
                     Option option = new Option();
                     option.setValue(name);
