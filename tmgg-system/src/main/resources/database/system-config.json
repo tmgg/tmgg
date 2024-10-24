@@ -9,6 +9,7 @@
     {
       "id": "email.pass",
       "label": "邮件发送密码",
+      "valueType": "password",
       "$update": false
     },
     {
@@ -16,7 +17,6 @@
       "label": "默认密码",
       "defaultValue": "10.Sleep",
       "valueType": "password",
-      "remark": "单位秒",
       "$update": false
     },
     {

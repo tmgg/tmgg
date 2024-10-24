@@ -5,13 +5,25 @@ import {Radio} from 'antd';
 export class FieldRadioBoolean extends React.Component {
     render() {
         let {mode, value, onChange} = this.props;
+        debugger
 
-        value = Boolean(value) // 转换一下，以免一些字符串格式出现
+
+        if(value != null){
+            // 转换一下，以免一些字符串格式出现
+            if(value === 'true'){
+                value = true
+            }else if(value === 'false'){
+                value = false
+            }
+        }
+
 
         if (mode === 'read') {
             if (value == null) {
                 return
             }
+
+
 
 
             return value ? '是' : '否'

@@ -43,6 +43,7 @@ export class Layouts extends React.Component {
                 },
                 colon:false
             }}
+
             locale={zhCN}
             theme={{
                 token: {

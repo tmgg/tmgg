@@ -90,21 +90,23 @@ export default class extends React.Component {
                 options={{search: true}}
             />
 
-            <Modal title='系统配置'
+            <Modal title='修改配置'
                    open={this.state.formOpen}
                    onOk={() => this.formRef.current.submit()}
                    onCancel={() => this.setState({formOpen: false})}
                    destroyOnClose
+                   maskClosable={false}
+                   width={400}
             >
 
                 <Form ref={this.formRef}
-                      labelCol={{flex: '100px'}}
+                      layout='vertical'
                       initialValues={this.state.formValues}
                       onFinish={this.onFinish}>
 
                     <Form.Item name='id' noStyle/>
 
-                    <Form.Item  name='value'>
+                    <Form.Item  name='value' label={this.state.formValues.label}>
                         <FieldComponent valueType={this.state.formValues.valueType || 'input'} />
                     </Form.Item>
 
