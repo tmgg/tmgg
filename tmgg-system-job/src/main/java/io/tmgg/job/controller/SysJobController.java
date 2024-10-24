@@ -167,17 +167,19 @@ public class SysJobController {
                 d.setRequired(param.required());
                 result.add(d);
             }
-        }
-        Class<? extends JobParamFieldProvider> provider = jobDesc.paramsProvider();
-        if (provider != null) {
-            int mod = provider.getModifiers();
-            boolean isInterface = Modifier.isInterface(mod);
-            if (!isInterface) {
-                JobParamFieldProvider bean = SpringTool.getBean(provider);
-                List<Field> fields = bean.getFields(jobDesc, jobData);
-                result.addAll(fields);
+
+            Class<? extends JobParamFieldProvider> provider = jobDesc.paramsProvider();
+            if (provider != null) {
+                int mod = provider.getModifiers();
+                boolean isInterface = Modifier.isInterface(mod);
+                if (!isInterface) {
+                    JobParamFieldProvider bean = SpringTool.getBean(provider);
+                    List<Field> fields = bean.getFields(jobDesc, jobData);
+                    result.addAll(fields);
+                }
             }
         }
+
 
         return AjaxResult.ok().data(result);
     }
