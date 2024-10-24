@@ -19,6 +19,7 @@ import lombok.experimental.FieldNameConstants;
 public class SysDictItem extends BaseEntity {
 
 
+    @NotNull
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @ManyToOne
     SysDict sysDict;

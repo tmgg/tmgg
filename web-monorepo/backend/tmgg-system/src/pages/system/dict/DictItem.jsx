@@ -1,10 +1,9 @@
 import {PlusOutlined} from '@ant-design/icons'
-import {Button, Card, InputNumber, Popconfirm, Modal, Form, Input, message, Tag} from 'antd'
+import {Button, Form, Input, InputNumber, Modal, Popconfirm, Tag} from 'antd'
 import React from 'react'
 
 import {ProTable} from '@tmgg/pro-table'
-import {http, HttpUtil} from "@tmgg/tmgg-base"
-import {ButtonList, FieldDictSelect, FieldRadioBoolean} from "@tmgg/tmgg-base";
+import {ButtonList, FieldDictSelect, FieldRadioBoolean, http, HttpUtil} from "@tmgg/tmgg-base"
 
 
 export default class extends React.Component {
@@ -18,10 +17,9 @@ export default class extends React.Component {
     tableRef = React.createRef()
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if(prevProps.sysDictId !== this.props.sysDictId){
+        if (prevProps.sysDictId !== this.props.sysDictId) {
             this.tableRef.current.reload()
         }
-
     }
 
     columns = [
@@ -43,7 +41,7 @@ export default class extends React.Component {
         {
             title: '显示颜色',
             dataIndex: 'color',
-            render(v){
+            render(v) {
                 return <Tag color={v}>COLOR</Tag>
             }
         },
@@ -83,6 +81,7 @@ export default class extends React.Component {
 
 
     onFinish = values => {
+        values.sysDict = {id: this.props.sysDictId}
         HttpUtil.post('sysDictItem/save', values).then(rs => {
             this.setState({formOpen: false})
             this.tableRef.current.reload()
@@ -109,7 +108,7 @@ export default class extends React.Component {
                     </ButtonList>
                 }}
                 request={(params, sort) => {
-                    params.sysDict = {id:this.props.sysDictId}
+                    params.sysDictId = this.props.sysDictId
                     return HttpUtil.pageData('sysDictItem/page', params, sort);
                 }}
                 columns={this.columns}
@@ -118,10 +117,11 @@ export default class extends React.Component {
             />
 
             <Modal
-                   open={this.state.formOpen}
-                   onOk={() => this.formRef.current.submit()}
-                   onCancel={() => this.setState({formOpen: false})}
-                   destroyOnClose
+                title='编辑数据字典项'
+                open={this.state.formOpen}
+                onOk={() => this.formRef.current.submit()}
+                onCancel={() => this.setState({formOpen: false})}
+                destroyOnClose
             >
 
                 <Form ref={this.formRef} labelCol={{flex: '100px'}}
@@ -129,9 +129,7 @@ export default class extends React.Component {
                       onFinish={this.onFinish}>
                     <Form.Item name='id' noStyle></Form.Item>
 
-                    <Form.Item label='sysDict' name='sysDict' rules={[{required: true}]}>
-                        <Input/>
-                    </Form.Item>
+
                     <Form.Item label='键' name='key' rules={[{required: true}]}>
                         <Input/>
                     </Form.Item>
@@ -139,7 +137,7 @@ export default class extends React.Component {
                         <Input/>
                     </Form.Item>
                     <Form.Item label='状态' name='status' rules={[{required: true}]}>
-                        <FieldDictSelect typeCode="status"/>
+                        <FieldDictSelect typeCode="commonStatus"/>
                     </Form.Item>
                     <Form.Item label='颜色' name='color' rules={[{required: true}]}>
                         <Input/>

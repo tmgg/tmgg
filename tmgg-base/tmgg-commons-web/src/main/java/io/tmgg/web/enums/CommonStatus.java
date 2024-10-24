@@ -12,14 +12,8 @@ import lombok.Getter;
 @Getter
 public enum CommonStatus implements DictEnum {
 
-
-    ENABLE("正常"),
-    DISABLE("停用");
-
-
-
-
-
+    DISABLE("停用"),
+    ENABLE("正常");
 
     private final String message;
 
