@@ -44,6 +44,14 @@ public class Array2D extends LinkedList<List<Object>> {
         return this;
     }
 
+    public void addRow(Object[] data) {
+        List<Object> rowData = new ArrayList<>();
+        for (Object cellData : data) {
+            rowData.add(cellData);
+        }
+        this.add(rowData);
+    }
+
 
     @JsonIgnore
     public Object getValue(int row, int col) {
