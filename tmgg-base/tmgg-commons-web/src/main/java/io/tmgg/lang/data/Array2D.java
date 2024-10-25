@@ -37,20 +37,42 @@ public class Array2D extends LinkedList<List<Object>> {
     }
 
 
-    public Array2D addRows(Array2D data) {
+    /**
+     * 添加一个二维数组
+     * @param data
+     * @return
+     */
+    public Array2D add(Array2D data) {
         if (!data.isEmpty()) {
             this.addAll(data);
         }
         return this;
     }
 
-    public void addRow(Object[] data) {
+    /**
+     *  添加一行
+     * @param data
+     */
+    public void add(Object[] data) {
         List<Object> rowData = new ArrayList<>();
         for (Object cellData : data) {
             rowData.add(cellData);
         }
         this.add(rowData);
     }
+
+    /**
+     *  添加一行
+     * @param data
+     */
+    public void add(Iterable<Object> data) {
+        List<Object> rowData = new ArrayList<>();
+        for (Object cellData : data) {
+            rowData.add(cellData);
+        }
+        this.add(rowData);
+    }
+
 
 
     @JsonIgnore

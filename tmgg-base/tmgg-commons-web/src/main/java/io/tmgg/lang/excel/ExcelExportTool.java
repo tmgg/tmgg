@@ -28,7 +28,6 @@ import java.util.function.Function;
 @Slf4j
 public class ExcelExportTool {
 
-
     public static void exportBeanList(String filename, Class<?> pojoClass, Collection<?> list, HttpServletResponse response) throws IOException {
         Field[] declaredFields = pojoClass.getDeclaredFields();
         List<Field> titleFields = new ArrayList<>(declaredFields.length);
@@ -40,13 +39,10 @@ public class ExcelExportTool {
             }
         }
 
-
         Workbook workbook = new XSSFWorkbook();
         Sheet sheet = workbook.createSheet();
 
-
         int rowIndex = 0;
-
 
         // 表头
         {
@@ -80,13 +76,13 @@ public class ExcelExportTool {
 
 
     /**
-     * 导出表格（二位数组）
+     * 导出表格
      *
      * @param filename
      * @param response
      * @throws IOException
      */
-    public static <T> void exportTable(String filename, Map<String, Function<T, Object>> columns, List<T> dataList, HttpServletResponse response) throws IOException {
+    public static <T> void exportTable(String filename,List<T> dataList,  Map<String, Function<T, Object>> columnInfo, HttpServletResponse response) throws IOException {
         Workbook workbook = new XSSFWorkbook();
         Sheet sheet = workbook.createSheet();
 
@@ -94,7 +90,7 @@ public class ExcelExportTool {
         // 表头
         {
             Row row = sheet.createRow(0);
-            for (String col : columns.keySet()) {
+            for (String col : columnInfo.keySet()) {
                 row.createCell(row.getLastCellNum()).setCellValue(col);
             }
         }
@@ -103,7 +99,7 @@ public class ExcelExportTool {
         // 表体
         for (T bean : dataList) {
             Row row = sheet.createRow(sheet.getLastRowNum() + 1);
-            for (Map.Entry<String, Function<T, Object>> e : columns.entrySet()) {
+            for (Map.Entry<String, Function<T, Object>> e : columnInfo.entrySet()) {
                 Function<T, Object> fn = e.getValue();
                 Object value = fn.apply(bean);
                 value = ObjUtil.defaultIfNull(value, "");
@@ -117,7 +113,13 @@ public class ExcelExportTool {
         exportWorkbook(filename, workbook, response);
     }
 
-
+    /**
+     * 导出表格（二维数组）
+     *
+     * @param filename
+     * @param response
+     * @throws IOException
+     */
     public static void exportArray2D(String filename, Array2D array2D, HttpServletResponse response) throws IOException {
         Workbook workbook = new XSSFWorkbook();
         Sheet sheet = workbook.createSheet();
@@ -137,7 +139,6 @@ public class ExcelExportTool {
 
 
     public static void exportWorkbook(String filename, Workbook workbook, HttpServletResponse response) throws IOException {
-
         ResponseTool.setDownloadHeader(filename, ResponseTool.CONTENT_TYPE_EXCEL, response);
 
         workbook.write(response.getOutputStream());
