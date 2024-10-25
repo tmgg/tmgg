@@ -1,8 +1,10 @@
 
-package io.tmgg.lang;
+package io.tmgg.lang.excel;
 
 import cn.hutool.core.util.ObjUtil;
 import com.google.common.collect.Table;
+import io.tmgg.lang.ResponseTool;
+import io.tmgg.lang.data.Array2D;
 import io.tmgg.web.excel.Excel;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.StrUtil;
@@ -81,7 +83,6 @@ public class ExcelExportTool {
      * 导出表格（二位数组）
      *
      * @param filename
-     * @param table
      * @param response
      * @throws IOException
      */
@@ -115,6 +116,24 @@ public class ExcelExportTool {
 
         exportWorkbook(filename, workbook, response);
     }
+
+
+    public static void exportArray2D(String filename, Array2D array2D, HttpServletResponse response) throws IOException {
+        Workbook workbook = new XSSFWorkbook();
+        Sheet sheet = workbook.createSheet();
+
+        for (List<Object> rows : array2D) {
+            Row row = sheet.createRow(sheet.getLastRowNum() + 1);
+
+            for (Object value : rows) {
+                value = ObjUtil.defaultIfNull(value, "");
+                row.createCell(row.getLastCellNum()).setCellValue(value.toString());
+            }
+        }
+
+        exportWorkbook(filename, workbook, response);
+    }
+
 
 
     public static void exportWorkbook(String filename, Workbook workbook, HttpServletResponse response) throws IOException {

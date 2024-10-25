@@ -1,13 +1,8 @@
 package io.tmgg.job.entity;
 
-import io.tmgg.BasePackage;
-import io.tmgg.lang.Entry;
-import io.tmgg.lang.JsonTool;
 import io.tmgg.lang.dao.BaseEntity;
-import io.tmgg.lang.dao.converter.ToEntryListConverter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.tmgg.lang.dao.converter.ToMapConverter;
-import io.tmgg.lang.dao.converter.ToMapStringObjectConverter;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldNameConstants;

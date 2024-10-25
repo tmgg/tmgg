@@ -1,4 +1,4 @@
-package io.tmgg.lang;
+package io.tmgg.lang.data;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -8,7 +8,4 @@ import lombok.Setter;
 public class Entry {
     String key;
     Object value;
-
-
-
 }
