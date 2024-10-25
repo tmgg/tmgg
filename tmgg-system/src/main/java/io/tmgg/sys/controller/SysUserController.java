@@ -164,7 +164,7 @@ public class SysUserController {
         columns.put("单位",SysUser::getUnitLabel);
         columns.put("角色", SysUser::getRoleNames);
 
-        ExcelExportTool.exportTable("用户列表.xlsx", columns, list, response);
+        ExcelExportTool.exportBeanList("用户列表.xlsx",  list,columns, response);
     }
 
 

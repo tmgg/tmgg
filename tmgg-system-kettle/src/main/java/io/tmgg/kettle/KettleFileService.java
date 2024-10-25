@@ -3,7 +3,7 @@ package io.tmgg.kettle;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import io.github.tmgg.kettle.sdk.KettleSdk;
 import io.tmgg.kettle.controller.JobXmlInfo;
-import io.tmgg.lang.XmlTool;
+import io.tmgg.jackson.XmlTool;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 

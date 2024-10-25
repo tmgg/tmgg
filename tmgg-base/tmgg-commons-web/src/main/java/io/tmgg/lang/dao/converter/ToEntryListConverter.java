@@ -1,8 +1,8 @@
 package io.tmgg.lang.dao.converter;
 
 
+import io.tmgg.jackson.JsonTool;
 import io.tmgg.lang.data.Entry;
-import io.tmgg.lang.JsonTool;
 import jakarta.persistence.AttributeConverter;
 
 import java.io.Serializable;

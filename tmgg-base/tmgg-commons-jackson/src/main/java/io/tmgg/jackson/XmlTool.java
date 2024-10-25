@@ -1,4 +1,4 @@
-package io.tmgg.lang;
+package io.tmgg.jackson;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;

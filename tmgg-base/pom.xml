@@ -14,6 +14,7 @@
         <module>tmgg-commons-jdbc</module>
         <module>tmgg-commons-web</module>
         <module>tmgg-commons-log-view</module>
+        <module>tmgg-commons-jackson</module>
     </modules>
 
 

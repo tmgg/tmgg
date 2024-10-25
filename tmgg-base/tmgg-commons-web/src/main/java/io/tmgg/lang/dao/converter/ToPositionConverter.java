@@ -1,6 +1,6 @@
 package io.tmgg.lang.dao.converter;
 
-import io.tmgg.lang.JsonTool;
+import io.tmgg.jackson.JsonTool;
 import io.tmgg.lang.obj.Position;
 
 import java.io.IOException;

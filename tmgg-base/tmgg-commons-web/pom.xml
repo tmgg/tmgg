@@ -19,6 +19,12 @@
             <groupId>io.github.tmgg</groupId>
             <artifactId>tmgg-commons-jdbc</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>io.github.tmgg</groupId>
+            <artifactId>tmgg-commons-jackson</artifactId>
+        </dependency>
+
         <!-- web -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

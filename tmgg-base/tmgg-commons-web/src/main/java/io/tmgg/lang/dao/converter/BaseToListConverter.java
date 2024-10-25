@@ -1,7 +1,7 @@
 package io.tmgg.lang.dao.converter;
 
 
-import io.tmgg.lang.JsonTool;
+import io.tmgg.jackson.JsonTool;
 import io.tmgg.lang.dao.ReflectTool;
 import jakarta.persistence.AttributeConverter;
 

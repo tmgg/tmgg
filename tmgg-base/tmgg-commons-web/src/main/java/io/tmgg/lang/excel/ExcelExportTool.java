@@ -2,22 +2,18 @@
 package io.tmgg.lang.excel;
 
 import cn.hutool.core.util.ObjUtil;
-import com.google.common.collect.Table;
 import io.tmgg.lang.ResponseTool;
 import io.tmgg.lang.data.Array2D;
 import io.tmgg.web.excel.Excel;
 import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.util.StrUtil;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.IOException;
-import java.io.OutputStream;
 import java.lang.reflect.Field;
 import java.util.*;
 import java.util.function.Function;
@@ -28,7 +24,7 @@ import java.util.function.Function;
 @Slf4j
 public class ExcelExportTool {
 
-    public static void exportBeanList(String filename, Class<?> pojoClass, Collection<?> list, HttpServletResponse response) throws IOException {
+    public static void exportBeanListByAnn(String filename, Class<?> pojoClass, Collection<?> list, HttpServletResponse response) throws IOException {
         Field[] declaredFields = pojoClass.getDeclaredFields();
         List<Field> titleFields = new ArrayList<>(declaredFields.length);
         for (int i = 0; i < declaredFields.length; i++) {
@@ -77,12 +73,25 @@ public class ExcelExportTool {
 
     /**
      * 导出表格
-     *
+
+     List<SysUser> list = sysUserService.findAll();
+
+
+     Map<String, Function<SysUser,Object>> columns = new LinkedHashMap<>();
+     columns.put("姓名", SysUser::getName);
+     columns.put("账号", SysUser::getAccount);
+     columns.put("手机号", SysUser::getPhone);
+     columns.put("部门", SysUser::getDeptLabel);
+     columns.put("单位",SysUser::getUnitLabel);
+     columns.put("角色", SysUser::getRoleNames);
+
+     ExcelExportTool.exportBeanList("用户列表.xlsx",  list,columns, response);
+
      * @param filename
      * @param response
      * @throws IOException
      */
-    public static <T> void exportTable(String filename,List<T> dataList,  Map<String, Function<T, Object>> columnInfo, HttpServletResponse response) throws IOException {
+    public static <T> void exportBeanList(String filename, List<T> dataList, Map<String, Function<T, Object>> columnInfo, HttpServletResponse response) throws IOException {
         Workbook workbook = new XSSFWorkbook();
         Sheet sheet = workbook.createSheet();
 

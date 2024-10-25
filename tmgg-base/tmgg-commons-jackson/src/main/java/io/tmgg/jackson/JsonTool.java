@@ -1,4 +1,4 @@
-package io.tmgg.lang;
+package io.tmgg.jackson;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;

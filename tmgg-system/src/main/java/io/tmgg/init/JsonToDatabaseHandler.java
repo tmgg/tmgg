@@ -1,6 +1,6 @@
 package io.tmgg.init;
 
-import io.tmgg.lang.JsonTool;
+import io.tmgg.jackson.JsonTool;
 import io.tmgg.lang.SpringTool;
 import io.tmgg.lang.dao.BaseDao;
 import io.tmgg.lang.JpaTool;
