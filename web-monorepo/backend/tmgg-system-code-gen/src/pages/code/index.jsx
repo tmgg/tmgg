@@ -66,7 +66,7 @@ export default class extends React.Component {
             </>
           }}
           request={(params, sort) => {
-            return HttpUtil.pageData('code/entity/page', params, sort).catch(err => alert("错误" + err));
+            return HttpUtil.pageData('code/entity/page', params, sort)
           }}
           columns={this.columns}
           rowSelection={{
@@ -74,9 +74,8 @@ export default class extends React.Component {
           rowKey='id'
           search={false}
           options={{
-            search:true
+            search:true,
           }}
-
       />
 
 
@@ -100,8 +99,7 @@ export default class extends React.Component {
           <Form.Item label='生成目录' name='genType' rules={[{required: true}]} initialValue='project'>
             <Radio.Group>
               <Radio value='project'>项目源码</Radio>
-              <Radio value='disk' >D盘（D:/代码生成结果）</Radio>
-              <Radio value='diskFlat' >D盘（同一个目录）</Radio>
+              <Radio value='diskFlat' >D盘（D:/tmgg代码生成结果）</Radio>
             </Radio.Group>
           </Form.Item>
 

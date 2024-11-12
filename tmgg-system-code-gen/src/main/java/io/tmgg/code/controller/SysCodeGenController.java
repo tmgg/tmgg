@@ -46,20 +46,7 @@ public class SysCodeGenController {
             }
             return AjaxResult.ok().msg("生成成功");
         }
-        if (param.getGenType() == GenType.disk) {
-            for (Map.Entry<String, String> e : map.entrySet()) {
-                String file = e.getKey();
-                String content = e.getValue();
 
-                File projectRoot = codeGenService.getProjectRoot();
-
-                String absolutePath = projectRoot.getAbsolutePath();
-                file = "D:/代码生成结果" + file.replace(absolutePath, "");
-                FileUtil.writeUtf8String(content, file);
-            }
-
-            return AjaxResult.ok().msg("生成成功");
-        }
 
         if (param.getGenType() == GenType.diskFlat) {
             for (Map.Entry<String, String> e : map.entrySet()) {
@@ -67,7 +54,7 @@ public class SysCodeGenController {
                 String content = e.getValue();
 
 
-                file = "D:/代码生成结果/" + FileUtil.getName(file);
+                file = "D:/tmgg/代码生成结果/" + FileUtil.getName(file);
                 FileUtil.writeUtf8String(content, file);
             }
 
@@ -127,7 +114,6 @@ public class SysCodeGenController {
 
     public enum GenType {
         project,
-        disk,
         diskFlat
     }
 }
