@@ -15,6 +15,7 @@ import org.springframework.util.ClassUtils;
 import jakarta.persistence.Entity;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Component
@@ -44,6 +45,7 @@ public class JpaTool {
             List<String> entityList2 = findEntityList(sys.getBasePackageClass());
             entityList.addAll(entityList2);
         }
+        Collections.sort(entityList);
 
         return entityList;
     }
