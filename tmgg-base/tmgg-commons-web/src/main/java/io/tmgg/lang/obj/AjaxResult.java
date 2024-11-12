@@ -43,6 +43,13 @@ public class AjaxResult  {
         return new AjaxResult(false);
     }
 
+    public static AjaxResult ok(String msg,Object data) {
+      return ok().msg(msg).data(data);
+    }
+
+    public static AjaxResult err(String msg) {
+        return err().msg(msg);
+    }
     public  AjaxResult code(int code){
         this.code = code;
         return this;
