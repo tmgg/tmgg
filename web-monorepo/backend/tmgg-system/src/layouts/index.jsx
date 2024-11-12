@@ -89,7 +89,7 @@ export class Layouts extends React.Component {
             <SiteInfoInterceptor>
                 <AuthInterceptor>
                     <LoginInfoInterceptor>
-                        <MenuLayout pathname={this.state.pathname}/>
+                        <MenuLayout pathname={this.state.pathname} {...this.props}/>
                     </LoginInfoInterceptor>
                 </AuthInterceptor>
             </SiteInfoInterceptor>

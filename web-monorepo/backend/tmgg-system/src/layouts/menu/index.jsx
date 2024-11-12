@@ -5,7 +5,7 @@ import {Button, Divider, Layout, Menu} from 'antd';
 import {history, Link, Outlet} from 'umi';
 import "./index.less"
 import * as Icons from '@ant-design/icons';
-import logo from '../../asserts/logo.png'
+import defaultLogo from '../../asserts/logo.png'
 import {ArrUtil, theme, TreeUtil} from "@tmgg/tmgg-commons-lang";
 
 import HeaderRight from "./HeaderRight";
@@ -108,6 +108,7 @@ export default class extends React.Component {
 
 
     render() {
+        let logo = this.props.logo || defaultLogo
         const {siteInfo, topMenus} = this.state
         return <Layout className='main-layout'>
             <Header className='header'>
