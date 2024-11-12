@@ -22,9 +22,16 @@ public class BaseConverter<T> implements AttributeConverter<T, String>, Serializ
 
     @Override
     public T convertToEntityAttribute(String dbData) {
-        if (dbData == null || dbData.length() == 0) {
+        if (dbData == null || dbData.isEmpty()) {
             return null;
         }
+
+        // 兼容性处理
+        if(dbData.equals("[]")){
+            return null;
+        }
+
+
         TypeReference<T> reference = new TypeReference<T>() {
         };
         try {
