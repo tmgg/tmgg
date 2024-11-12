@@ -2,9 +2,8 @@
 package io.tmgg.sys.entity;
 
 import io.tmgg.lang.dao.BaseEntity;
+import io.tmgg.lang.dao.DBConstants;
 import io.tmgg.lang.dao.converter.ToListConverter;
-import io.tmgg.lang.dao.converter.ToMapStringObjectConverter;
-import io.tmgg.web.enums.CommonStatus;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -48,14 +47,8 @@ public class SysRole extends BaseEntity {
      */
     private String remark;
 
-    /**
-     * 状态（字典 0正常 1停用 2删除）
-     */
-    @NotNull
-    @Enumerated(EnumType.STRING)
-    @Column(length = 10)
-    private CommonStatus status;
-
+    @Column(nullable = false, columnDefinition = DBConstants.COLUMN_DEFINITION_BOOLEAN_DEFAULT_TRUE)
+    private Boolean enabled;
 
     /**
      * 权限码列表

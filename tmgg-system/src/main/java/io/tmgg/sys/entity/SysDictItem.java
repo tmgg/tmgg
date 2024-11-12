@@ -3,8 +3,8 @@ package io.tmgg.sys.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.tmgg.lang.ann.Remark;
-import io.tmgg.web.enums.CommonStatus;
 import io.tmgg.lang.dao.BaseEntity;
+import io.tmgg.lang.dao.DBConstants;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -34,9 +34,8 @@ public class SysDictItem extends BaseEntity {
 
 
 
-    @Remark("状态")
-    @Enumerated(EnumType.STRING)
-    private CommonStatus status;
+    @Column(nullable = false, columnDefinition = DBConstants.COLUMN_DEFINITION_BOOLEAN_DEFAULT_TRUE)
+    private Boolean enabled;
 
     @Remark("颜色")
     @Column(length = 10)
@@ -55,11 +54,11 @@ public class SysDictItem extends BaseEntity {
 
     @Override
     public void prePersistOrUpdate() {
-        if (status == null) {
-            status = CommonStatus.ENABLE;
-        }
         if(seq == null){
             seq = 0;
+        }
+        if(enabled == null){
+            enabled = true;
         }
     }
 

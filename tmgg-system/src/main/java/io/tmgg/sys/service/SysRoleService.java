@@ -13,7 +13,6 @@ import io.tmgg.sys.dao.SysRoleDao;
 import io.tmgg.sys.entity.SysRole;
 import io.tmgg.sys.dao.SysUserDao;
 import io.tmgg.sys.entity.SysUser;
-import io.tmgg.web.enums.CommonStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -75,7 +74,7 @@ public class SysRoleService extends BaseService<SysRole> {
         Collection<SysRole> roles = user.getRoles();
 
 
-        return roles.stream().filter(r -> r.getStatus() == CommonStatus.ENABLE).collect(Collectors.toSet());
+        return roles.stream().filter(SysRole::getEnabled).collect(Collectors.toSet());
     }
 
 
@@ -108,7 +107,7 @@ public class SysRoleService extends BaseService<SysRole> {
 
     public List<SysRole> findValid() {
         JpaQuery<SysRole> q = new JpaQuery<>();
-        q.eq(SysRole.Fields.status, CommonStatus.ENABLE);
+        q.eq(SysRole.Fields.enabled, true);
         return this.findAll(q);
     }
 
@@ -140,7 +139,6 @@ public class SysRoleService extends BaseService<SysRole> {
         sysRole.setId(roleCode);
         sysRole.setCode(roleCode);
         sysRole.setName("管理员");
-        sysRole.setStatus(CommonStatus.ENABLE);
         sysRole.setPerms(List.of("*"));
         sysRole.setBuiltin(true);
         sysRole.setRemark("内置管理员");

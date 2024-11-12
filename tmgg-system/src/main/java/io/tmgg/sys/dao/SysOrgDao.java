@@ -7,7 +7,6 @@ import io.tmgg.lang.dao.BaseEntity;
 import io.tmgg.lang.dao.specification.JpaQuery;
 import io.tmgg.sys.entity.SysOrg;
 import io.tmgg.sys.entity.OrgType;
-import io.tmgg.web.enums.CommonStatus;
 import cn.hutool.core.collection.CollectionUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Sort;
@@ -64,12 +63,12 @@ public class SysOrgDao extends BaseDao<SysOrg> {
      * @param id
      *
      */
-    public List<SysOrg> findDirectChildUnit(String id, CommonStatus status) {
+    public List<SysOrg> findDirectChildUnit(String id, Boolean enabled) {
         JpaQuery<SysOrg> query = new JpaQuery<>();
         query.eq(SysOrg.Fields.type, OrgType.UNIT);
         query.eq(SysOrg.Fields.pid, id);
-        if (status != null) {
-            query.eq(SysOrg.Fields.status, status);
+        if (enabled != null) {
+            query.eq(SysOrg.Fields.enabled, enabled);
         }
 
         return this.findAll(query);
@@ -160,7 +159,7 @@ public class SysOrgDao extends BaseDao<SysOrg> {
      */
     public List<SysOrg> findAllValid() {
         JpaQuery<SysOrg> q = new JpaQuery<>();
-        q.eq(SysOrg.Fields.status, CommonStatus.ENABLE);
+        q.eq(SysOrg.Fields.enabled, true);
 
         return this.findAll(q, Sort.by(SysOrg.Fields.seq));
     }

@@ -1,22 +1,25 @@
 
 package io.tmgg.sys.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import io.tmgg.core.jpa.fill.AutoFillOrgLabelStrategy;
 import io.tmgg.lang.ann.Remark;
 import io.tmgg.lang.dao.AutoFill;
 import io.tmgg.lang.dao.BaseEntity;
-import io.tmgg.core.jpa.fill.AutoFillOrgLabelStrategy;
+import io.tmgg.lang.dao.DBConstants;
 import io.tmgg.sys.user.enums.DataPermType;
-import io.tmgg.web.enums.CommonStatus;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldNameConstants;
 import org.springframework.context.annotation.Lazy;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -24,7 +27,6 @@ import java.util.*;
 @FieldNameConstants
 @Remark("系统用户")
 public class SysUser extends BaseEntity {
-
 
 
     public static SysUser of(String id) {
@@ -78,7 +80,6 @@ public class SysUser extends BaseEntity {
     private String name;
 
 
-
     @Remark("电话")
     @Column(length = 11)
     private String phone;
@@ -88,18 +89,8 @@ public class SysUser extends BaseEntity {
     @Column(length = 30)
     private String email;
 
-
-
-
-
-    /**
-     * 状态（字典 0正常 1停用 2删除）
-     */
-    @Remark("状态")
-    @NotNull
-    @Column(length = 10)
-    private CommonStatus status;
-
+    @Column(nullable = false, columnDefinition = DBConstants.COLUMN_DEFINITION_BOOLEAN_DEFAULT_TRUE)
+    private Boolean enabled;
 
 
     @JsonIgnore
@@ -129,7 +120,7 @@ public class SysUser extends BaseEntity {
     @Override
     public void prePersistOrUpdate() {
         super.prePersistOrUpdate();
-        if(dataPermType == null ){
+        if (dataPermType == null) {
             dataPermType = DataPermType.CHILDREN;
         }
     }

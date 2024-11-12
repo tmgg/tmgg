@@ -5,7 +5,6 @@ import io.tmgg.dbtool.DbTool;
 import io.tmgg.lang.dao.BaseDao;
 import io.tmgg.sys.entity.SysUser;
 import io.tmgg.sys.entity.SysRole;
-import io.tmgg.web.enums.CommonStatus;
 import io.tmgg.lang.dao.specification.JpaQuery;
 import org.springframework.stereotype.Repository;
 
@@ -35,7 +34,7 @@ public class SysUserDao extends BaseDao<SysUser> {
     public List<SysUser> findValid(Iterable<String> ids){
 
         JpaQuery<SysUser> jpaQuery = new JpaQuery<>();
-        jpaQuery.eq(SysUser.Fields.status, CommonStatus.ENABLE);
+        jpaQuery.eq(SysUser.Fields.enabled, true);
         jpaQuery.in("id", ids);
 
         return this.findAll(jpaQuery);
@@ -46,10 +45,10 @@ public class SysUserDao extends BaseDao<SysUser> {
      *
      */
     public List<SysUser> findValid(){
-        JpaQuery<SysUser> jpaQuery = new JpaQuery<>();
-        jpaQuery.eq(SysUser.Fields.status, CommonStatus.ENABLE);
+        JpaQuery<SysUser> q = new JpaQuery<>();
+        q.eq(SysUser.Fields.enabled, true);
 
-        return this.findAll(jpaQuery);
+        return this.findAll(q);
     }
 
     private final Map<String,String> cache = new HashMap();

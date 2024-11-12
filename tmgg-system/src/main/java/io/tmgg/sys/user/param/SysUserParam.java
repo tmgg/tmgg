@@ -1,7 +1,6 @@
 
 package io.tmgg.sys.user.param;
 
-import io.tmgg.web.enums.CommonStatus;
 import io.tmgg.web.validation.group.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -74,11 +73,6 @@ public class SysUserParam  {
 
 
 
-    /**
-     * 状态（字典 0正常 1停用 2删除）
-     */
-    @NotNull(message = "状态不能为空，请检查status参数", groups = ChangeStatus.class)
-    private CommonStatus status;
 
 
     private String orgId;

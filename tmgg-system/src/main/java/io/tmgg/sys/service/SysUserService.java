@@ -7,21 +7,20 @@ import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
+import io.tmgg.framework.session.SysHttpSessionService;
 import io.tmgg.lang.PasswordTool;
 import io.tmgg.lang.dao.BaseEntity;
 import io.tmgg.lang.dao.BaseService;
 import io.tmgg.lang.dao.exports.UserLabelQuery;
 import io.tmgg.lang.dao.specification.JpaQuery;
+import io.tmgg.sys.dao.SysOrgDao;
+import io.tmgg.sys.dao.SysRoleDao;
 import io.tmgg.sys.dao.SysUserDao;
 import io.tmgg.sys.dto.GrantPermDto;
-import io.tmgg.sys.entity.SysUser;
-import io.tmgg.sys.dao.SysOrgDao;
 import io.tmgg.sys.entity.SysOrg;
-import io.tmgg.sys.dao.SysRoleDao;
 import io.tmgg.sys.entity.SysRole;
+import io.tmgg.sys.entity.SysUser;
 import io.tmgg.sys.user.enums.DataPermType;
-import io.tmgg.web.enums.CommonStatus;
-import io.tmgg.framework.session.SysHttpSessionService;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -59,8 +58,6 @@ public class SysUserService extends BaseService<SysUser> implements UserLabelQue
     private SysConfigService sysConfigService;
 
 
-
-
     @Resource
     private SysHttpSessionService sm;
 
@@ -71,7 +68,7 @@ public class SysUserService extends BaseService<SysUser> implements UserLabelQue
 
         Assert.notNull(sysUser, "账号不存在");
 
-        Assert.state(sysUser.getStatus() == CommonStatus.ENABLE, "账号状态异常" + sysUser.getStatus());
+        Assert.state(sysUser.getEnabled(), "账号已禁用");
         String passwordBcrypt = sysUser.getPassword();
 
         Assert.hasText(passwordBcrypt, "账号未设置密码");
@@ -247,11 +244,7 @@ public class SysUserService extends BaseService<SysUser> implements UserLabelQue
 
 
     public List<SysUser> findValid() {
-        JpaQuery<SysUser> q = new JpaQuery<>();
-
-        q.eq(SysUser.Fields.status, CommonStatus.ENABLE);
-
-        return sysUserDao.findAll(q);
+        return sysUserDao.findValid();
     }
 
 

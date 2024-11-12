@@ -10,7 +10,6 @@ import io.tmgg.lang.obj.Option;
 import io.tmgg.lang.dao.BaseEntity;
 import io.tmgg.sys.entity.SysRole;
 import io.tmgg.sys.service.SysRoleService;
-import io.tmgg.web.enums.CommonStatus;
 import io.tmgg.framework.session.SysHttpSessionService;
 import io.tmgg.web.perm.Subject;
 import org.springframework.data.domain.Sort;
@@ -62,7 +61,6 @@ public class SysRoleController {
     @PostMapping("save")
     public AjaxResult save(@RequestBody SysRole role) throws Exception {
         role.setBuiltin(false);
-        role.setStatus(CommonStatus.ENABLE);
 
 
         role= sysRoleService.saveOrUpdate(role);

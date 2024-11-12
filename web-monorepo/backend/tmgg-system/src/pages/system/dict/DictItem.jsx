@@ -34,9 +34,8 @@ export default class extends React.Component {
         },
         {
             title: '状态',
-            dataIndex: 'status',
-            valueType: 'dict',
-            params: 'commonStatus'
+            dataIndex: 'enabled',
+            valueType: 'boolean',
         },
         {
             title: '显示颜色',
@@ -136,8 +135,8 @@ export default class extends React.Component {
                     <Form.Item label='文本' name='text' rules={[{required: true}]}>
                         <Input/>
                     </Form.Item>
-                    <Form.Item label='状态' name='status' rules={[{required: true}]}>
-                        <FieldDictSelect typeCode="commonStatus"/>
+                    <Form.Item label='状态' name='enabled' rules={[{required: true}]}>
+                        <FieldRadioBoolean />
                     </Form.Item>
                     <Form.Item label='颜色' name='color' rules={[{required: true}]}>
                         <Input/>

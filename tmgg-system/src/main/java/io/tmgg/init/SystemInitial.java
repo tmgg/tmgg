@@ -10,7 +10,6 @@ import io.tmgg.sys.perm.SysMenuService;
 import io.tmgg.sys.service.SysConfigService;
 import io.tmgg.sys.service.SysRoleService;
 import io.tmgg.sys.user.enums.DataPermType;
-import io.tmgg.web.enums.CommonStatus;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
@@ -84,7 +83,7 @@ public class SystemInitial implements CommandLineRunner {
             admin.setId("superAdmin");
             admin.setAccount("superAdmin");
             admin.setName("管理员");
-            admin.setStatus(CommonStatus.ENABLE);
+            admin.setEnabled(true);
             admin.getRoles().add(adminRole);
             admin.setDataPermType(DataPermType.ALL);
 

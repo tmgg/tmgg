@@ -14,7 +14,7 @@ import {
     Tree
 } from 'antd';
 import React from 'react';
-import {FieldDictRadio, FieldRemoteTreeSelect, HttpUtil, LeftRightLayout} from "@tmgg/tmgg-base";
+import {FieldDictRadio, FieldRadioBoolean, FieldRemoteTreeSelect, HttpUtil, LeftRightLayout} from "@tmgg/tmgg-base";
 
 const baseTitle = "组织机构";
 const baseApi = 'sysOrg/';
@@ -217,8 +217,8 @@ export default class extends React.Component {
 
 
 
-                                <Form.Item label='状态' name='status' rules={[{required: true}]}>
-                                    <FieldDictRadio typeCode='commonStatus'/>
+                                <Form.Item label='状态' name='enabled' rules={[{required: true}]}>
+                                    <FieldRadioBoolean />
                                 </Form.Item>
                                 <Form.Item label='排序' name='seq'>
                                     <InputNumber/>

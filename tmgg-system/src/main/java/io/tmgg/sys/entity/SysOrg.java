@@ -3,7 +3,7 @@ package io.tmgg.sys.entity;
 
 import io.tmgg.lang.TreeDefinition;
 import io.tmgg.lang.dao.BaseEntity;
-import io.tmgg.web.enums.CommonStatus;
+import io.tmgg.lang.dao.DBConstants;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldNameConstants;
@@ -48,11 +48,8 @@ public class SysOrg extends BaseEntity implements TreeDefinition<SysOrg> {
     private Integer seq;
 
 
-    /**
-     * 状态（字典 0正常 1停用 2删除）
-     */
-    @NotNull
-    private CommonStatus status;
+    @Column(nullable = false, columnDefinition = DBConstants.COLUMN_DEFINITION_BOOLEAN_DEFAULT_TRUE)
+    private Boolean enabled;
 
 
     @NotNull

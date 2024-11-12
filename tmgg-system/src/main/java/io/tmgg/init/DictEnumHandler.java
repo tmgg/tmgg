@@ -10,7 +10,6 @@ import io.tmgg.sys.entity.SysDict;
 import cn.hutool.core.util.ClassUtil;
 import cn.hutool.core.util.StrUtil;
 import com.google.common.hash.Hashing;
-import io.tmgg.web.enums.CommonStatus;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
@@ -82,7 +81,6 @@ public class DictEnumHandler {
                 data.setId(md5(simpleTypeName + name));
                 data.setColor(color);
                 data.setBuiltin(true);
-                data.setStatus(CommonStatus.ENABLE);
 
                 log.trace("{} {}={}", data.getId(), name, msg);
                 dataList.add(data);

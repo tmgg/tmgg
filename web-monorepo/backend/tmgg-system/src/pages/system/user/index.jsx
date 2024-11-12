@@ -12,7 +12,7 @@ import {
 } from 'antd';
 import React from 'react';
 import {ProTable} from "@tmgg/pro-table";
-import { HttpUtil} from "@tmgg/tmgg-base";
+import {FieldRadioBoolean, HttpUtil} from "@tmgg/tmgg-base";
 import UserPerm from "./UserPerm";
 import {
     ButtonList,
@@ -88,9 +88,8 @@ export default class extends React.Component {
         },
         {
             title: '状态',
-            dataIndex: 'status',
-            valueType: 'dictRadio',
-            params: 'commonStatus',
+            dataIndex: 'enabled',
+            valueType: 'boolean',
         },
         {
             title: '数据权限',
@@ -253,10 +252,9 @@ export default class extends React.Component {
                         <Input/>
                     </Form.Item>
 
-                    <Form.Item label='状态' name='status' rules={[{required: true}]}>
-                        <FieldDictRadio typeCode='commonStatus'/>
+                    <Form.Item label='状态' name='enabled' rules={[{required: true}]}>
+                        <FieldRadioBoolean />
                     </Form.Item>
-
 
                 </Form>
             </Modal>

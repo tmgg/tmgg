@@ -8,7 +8,6 @@ import io.tmgg.sys.entity.SysOrg;
 import io.tmgg.sys.entity.OrgType;
 import io.tmgg.sys.service.SysOrgService;
 import io.tmgg.web.annotion.HasPermission;
-import io.tmgg.web.enums.CommonStatus;
 import io.tmgg.web.perm.SecurityUtils;
 import io.tmgg.web.perm.Subject;
 import jakarta.servlet.http.HttpSession;
@@ -89,8 +88,8 @@ public class SysOrgController {
             treeOption.setKey(o.getId());
             treeOption.setParentKey(o.getPid());
 
-            if(o.getStatus() != CommonStatus.ENABLE){
-                treeOption.setTitle(treeOption.getTitle() +" ["+ o.getStatus().getMessage() +"]");
+            if(!o.getEnabled()){
+                treeOption.setTitle(treeOption.getTitle() +" [禁用]");
             }
 
             return treeOption;

@@ -5,7 +5,6 @@ import io.tmgg.lang.dao.specification.JpaQuery;
 import io.tmgg.sys.dao.SysOrgDao;
 import io.tmgg.sys.entity.SysOrg;
 import io.tmgg.sys.entity.OrgType;
-import io.tmgg.web.enums.CommonStatus;
 import io.tmgg.web.perm.Subject;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheConfig;
@@ -61,7 +60,7 @@ public class SysOrgService extends BaseService<SysOrg> {
 
         // 如果不显示全部，则只显示启用的
         if (!showAll) {
-            q.eq(SysOrg.Fields.status, CommonStatus.ENABLE);
+            q.eq(SysOrg.Fields.enabled, true);
         }
 
         List<SysOrg> list = dao.findAll(q, Sort.by(SysOrg.Fields.type, SysOrg.Fields.seq));
@@ -150,8 +149,8 @@ public class SysOrgService extends BaseService<SysOrg> {
      * @param id
      *
      */
-    public List<SysOrg> findDirectChildUnit(String id, CommonStatus commonStatus) {
-        return dao.findDirectChildUnit(id, commonStatus);
+    public List<SysOrg> findDirectChildUnit(String id, Boolean enabled) {
+        return dao.findDirectChildUnit(id, enabled);
     }
 
 
@@ -163,7 +162,7 @@ public class SysOrgService extends BaseService<SysOrg> {
     public List<SysOrg> findByType(OrgType type) {
         JpaQuery<SysOrg> q = new JpaQuery<>();
 
-        q.eq(SysOrg.Fields.status, CommonStatus.ENABLE);
+        q.eq(SysOrg.Fields.enabled, true);
         q.eq(SysOrg.Fields.type, type);
 
         return this.findAll(q, Sort.by(SysOrg.Fields.seq));
@@ -172,7 +171,7 @@ public class SysOrgService extends BaseService<SysOrg> {
 
     public List<SysOrg> findByTypeAndLevel(OrgType orgType, int orgLevel) {
         JpaQuery<SysOrg> q = new JpaQuery<>();
-        q.eq(SysOrg.Fields.status, CommonStatus.ENABLE);
+        q.eq(SysOrg.Fields.enabled, true);
         q.eq(SysOrg.Fields.type, orgType);
 
         List<SysOrg> all = this.findAll(q, Sort.by(SysOrg.Fields.seq));
@@ -199,7 +198,7 @@ public class SysOrgService extends BaseService<SysOrg> {
         List<String> ids = dao.findChildIdListWithSelfById(id);
         List<SysOrg> all = dao.findAllById(ids);
         for (SysOrg sysOrg : all) {
-            sysOrg.setStatus(enabled ? CommonStatus.ENABLE : CommonStatus.DISABLE);
+            sysOrg.setEnabled(enabled );
             dao.save(sysOrg);
         }
     }
