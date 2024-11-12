@@ -17,6 +17,12 @@ import LoginInfoInterceptor from "./LoginInfoInterceptor";
 
 dayjs.locale('zh-cn');
 
+/**
+ * 属性列表：
+ *
+ * logo: 自定义的logo图片
+ *
+ */
 export class Layouts extends React.Component {
 
     state = {
