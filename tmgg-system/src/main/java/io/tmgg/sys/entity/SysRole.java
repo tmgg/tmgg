@@ -72,4 +72,12 @@ public class SysRole extends BaseEntity {
     public SysRole() {
 
     }
+
+    @Override
+    public void prePersist() {
+        super.prePersist();
+        if(enabled == null){
+            enabled = true;
+        }
+    }
 }

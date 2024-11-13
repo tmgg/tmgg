@@ -81,7 +81,7 @@ public class SysMenuService extends BaseService<SysMenu> {
                 SET FOREIGN_KEY_CHECKS=0;
                 truncate table  sys_menu;
                 SET FOREIGN_KEY_CHECKS=1;""";
-        int[] batchResult = db.batch(sql, null);
+        int[] batchResult = db.batch(sql);
         log.info("清空结果 {}",batchResult);
     }
 }
