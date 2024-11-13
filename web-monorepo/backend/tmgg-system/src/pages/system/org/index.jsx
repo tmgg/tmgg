@@ -7,14 +7,13 @@ import {
     Form,
     Input,
     InputNumber,
-    message,
     Popconfirm,
     Space,
     Splitter,
     Tree
 } from 'antd';
 import React from 'react';
-import {FieldDictRadio, FieldRadioBoolean, FieldRemoteTreeSelect, HttpUtil, LeftRightLayout} from "@tmgg/tmgg-base";
+import {FieldDictRadio, FieldRadioBoolean, FieldRemoteTreeSelect, HttpUtil} from "@tmgg/tmgg-base";
 
 const baseTitle = "组织机构";
 const baseApi = 'sysOrg/';
