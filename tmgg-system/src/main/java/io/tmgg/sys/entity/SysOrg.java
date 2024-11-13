@@ -86,4 +86,13 @@ public class SysOrg extends BaseEntity implements TreeDefinition<SysOrg> {
     public String toString() {
         return name;
     }
+
+
+    @Override
+    public void prePersist() {
+        super.prePersist();
+        if(enabled == null){
+            enabled = true;
+        }
+    }
 }

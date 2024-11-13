@@ -323,8 +323,19 @@ public class DbTool {
 
 
     public int[] batch(String sql, Object[][] params) {
+        if(params == null){
+            params = new Object[0][0];
+        }
         try {
             return getRunner().batch(sql, params);
+        } catch (SQLException e) {
+            throw new JdbcException(e);
+        }
+    }
+
+    public int[] batch(String sql) {
+        try {
+            return getRunner().batch(sql, new Object[0][0]);
         } catch (SQLException e) {
             throw new JdbcException(e);
         }
