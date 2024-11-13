@@ -339,7 +339,6 @@ public class DbTool {
         }
     }
 
-
     public String[] getKeys(String sql) {
         sql = sql.replace("?", "''");
         Connection conn = null;

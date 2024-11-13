@@ -2,6 +2,7 @@
 package io.tmgg.sys.perm;
 
 import io.tmgg.SysProp;
+import io.tmgg.dbtool.DbTool;
 import io.tmgg.lang.TreeTool;
 import io.tmgg.lang.dao.BaseEntity;
 import io.tmgg.lang.dao.BaseService;
@@ -26,6 +27,9 @@ public class SysMenuService extends BaseService<SysMenu> {
 
     @Resource
     private SysProp sysProp;
+
+    @Resource
+    private DbTool db;
 
 
 
@@ -71,8 +75,13 @@ public class SysMenuService extends BaseService<SysMenu> {
 
 
     public void init() {
+        log.info("开始清空权限菜单表");
 
-        System.err.println("开始清空权限菜单表");
-        sysMenuDao.deleteAll();
+        String sql = """
+                SET FOREIGN_KEY_CHECKS=0;
+                truncate table  sys_menu;
+                SET FOREIGN_KEY_CHECKS=1;""";
+        int[] batchResult = db.batch(sql, null);
+        log.info("清空结果 {}",batchResult);
     }
 }
