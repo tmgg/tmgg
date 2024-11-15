@@ -35,7 +35,7 @@ export default class extends React.Component {
     </#if>
     <#if (f.dict)>
       valueType: 'dictSelect',
-      jobParamDescs: '${f.dictTypeCode}'
+      params: '${f.dictTypeCode}'
     </#if>
 
     <#if (f.type == 'java.lang.Boolean')>
@@ -101,7 +101,7 @@ export default class extends React.Component {
               </Button>
             </ButtonList>
           }}
-          request={(jobParamDescs, sort) => HttpUtil.pageData('${firstLowerName}/page', jobParamDescs, sort)}
+          request={(params, sort) => HttpUtil.pageData('${firstLowerName}/page', params, sort)}
           columns={this.columns}
           rowKey='id'
       />
