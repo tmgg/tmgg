@@ -51,7 +51,7 @@ public class SysUserDao extends BaseDao<SysUser> {
         return this.findAll(q);
     }
 
-    private final Map<String,String> cache = new HashMap();
+    private final Map<String,Object> cache = new HashMap<>();
 
     public synchronized String getNameById(String userId) {
         if(userId == null ) {
@@ -59,11 +59,11 @@ public class SysUserDao extends BaseDao<SysUser> {
         }
 
         if(cache.isEmpty()) {
-            Map<String, String> list = this.findUserNameMap();
+            Map<String, Object> list = this.findUserNameMap();
             cache.putAll(list);
         }
 
-        return cache.get(userId);
+        return (String) cache.get(userId);
     }
 
     @Override
@@ -78,7 +78,7 @@ public class SysUserDao extends BaseDao<SysUser> {
         super.delete(entity);
     }
 
-    public Map<String,String> findUserNameMap(){
+    public Map<String,Object> findUserNameMap(){
         String sql = "select id, name from sys_user";
 
         return dbTool.findDict(sql);

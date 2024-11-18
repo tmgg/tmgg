@@ -186,15 +186,16 @@
             <optional>true</optional>
         </dependency>
 
+        <!-- poi 处理 xml部分-->
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi-ooxml</artifactId>
-            <version>5.2.3</version>
+            <version>${poi.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi-scratchpad</artifactId>
-            <version>5.2.3</version>
+            <version>${poi.version}</version>
         </dependency>
 
 

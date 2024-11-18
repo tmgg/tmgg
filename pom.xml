@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
@@ -37,6 +38,7 @@
 
         <doclint>none</doclint>
         <hutool.version>5.8.32</hutool.version>
+        <poi.version>5.2.3</poi.version>
     </properties>
 
     <url>https://github.com/tmgg/tmgg-system</url>
@@ -124,10 +126,14 @@
                 <artifactId>tmgg-commons-jackson</artifactId>
                 <version>${tmgg.version}</version>
             </dependency>
+            <dependency>
+                <groupId>io.github.tmgg</groupId>
+                <artifactId>tmgg-commons-poi</artifactId>
+                <version>${tmgg.version}</version>
+            </dependency>
         </dependencies>
 
     </dependencyManagement>
-
 
 
     <profiles>

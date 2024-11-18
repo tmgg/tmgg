@@ -145,10 +145,10 @@ public class DbTool {
      * @param <V>
      * @return
      */
-    public <K, V> Map<K, V> findDict(String sql, Object... params) {
+    public  Map<String, Object> findDict(String sql, Object... params) {
         List<Map<String, Object>> list = this.findAll(sql, params);
 
-        LinkedHashMap<K, V> dict = new LinkedHashMap<>();
+        LinkedHashMap<String, Object> dict = new LinkedHashMap<>();
 
         for (Map<String, Object> row : list) {
             if (row.size() < 2) {
@@ -161,7 +161,7 @@ public class DbTool {
 
             Object v1 = row.get(k1);
             Object v2 = row.get(k2);
-            dict.put((K) v1, (V) v2);
+            dict.put((String) v1,  v2);
         }
         return dict;
     }
