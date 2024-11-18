@@ -234,17 +234,7 @@ public class CsvImportService extends ImportBaseService {
     private boolean verifyingDataValidity(Object object, CsvImportParams params, Class<?> pojoClass, StringBuilder fieldErrorMsg) {
         boolean isAdd = true;
         Cell cell = null;
-        if (params.isNeedVerify()) {
-            String errorMsg = PoiValidationUtil.validation(object, params.getVerifyGroup());
-            if (StringUtils.isNotEmpty(errorMsg)) {
-                if (object instanceof IExcelModel) {
-                    IExcelModel model = (IExcelModel) object;
-                    model.setErrorMsg(errorMsg);
-                }
-                isAdd = false;
-                verifyFail = true;
-            }
-        }
+
         if (params.getVerifyHandler() != null) {
             ExcelVerifyHandlerResult result = params.getVerifyHandler().verifyHandler(object);
             if (!result.isSuccess()) {
