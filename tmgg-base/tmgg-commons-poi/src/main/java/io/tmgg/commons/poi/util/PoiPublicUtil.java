@@ -553,9 +553,9 @@ public final class PoiPublicUtil {
             }
             if (tmpR.getCTR() != null) {
                 if (tmpR.getCTR().isSetRPr()) {
-                    CTRPr tmpRPr = tmpR.getCTR().getRPr();
+                  /*  CTRPr tmpRPr = tmpR.getCTR().getRPr();
                     if (tmpRPr.isSetRFonts()) {
-                        CTFonts tmpFonts = tmpRPr.getRFonts();
+                        CTFonts tmpFonts = tmpRPr.getfont();
                         CTRPr cellRPr = cellR.getCTR().isSetRPr() ? cellR.getCTR().getRPr() : cellR.getCTR().addNewRPr();
                         CTFonts cellFonts = cellRPr.isSetRFonts() ? cellRPr.getRFonts() : cellRPr.addNewRFonts();
                         cellFonts.setAscii(tmpFonts.getAscii());
@@ -566,7 +566,7 @@ public final class PoiPublicUtil {
                         cellFonts.setEastAsiaTheme(tmpFonts.getEastAsiaTheme());
                         cellFonts.setHAnsi(tmpFonts.getHAnsi());
                         cellFonts.setHAnsiTheme(tmpFonts.getHAnsiTheme());
-                    }
+                    }*/
                 }
             }
         }
