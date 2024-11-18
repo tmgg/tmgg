@@ -82,7 +82,6 @@ public final class ExcelExportOfTemplateUtil extends BaseExportService {
 
         // 获取表头数据
         Map<String, Integer> titlemap  = getTitleMap(sheet);
-        Drawing              patriarch = PoiExcelGraphDataUtil.getDrawingPatriarch(sheet);
         // 得到所有字段
         Field[]     fileds   = PoiPublicUtil.getClassFields(pojoClass);
         ExcelTarget etarget  = pojoClass.getAnnotation(ExcelTarget.class);
@@ -112,7 +111,7 @@ public final class ExcelExportOfTemplateUtil extends BaseExportService {
         Iterator<?> its = dataSet.iterator();
         while (its.hasNext()) {
             Object t = its.next();
-            index += createCells(patriarch, index, t, excelParams, sheet, workbook, rowHeight, 0)[0];
+            index += createCells(index, t, excelParams, sheet, workbook, rowHeight, 0)[0];
         }
         // 合并同类项
         mergeCells(sheet, excelParams, titleHeight);
