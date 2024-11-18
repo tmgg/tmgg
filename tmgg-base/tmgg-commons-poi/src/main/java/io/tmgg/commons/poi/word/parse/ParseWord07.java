@@ -273,59 +273,18 @@ public class ParseWord07 {
         }
     }
 
+
+
+
     /**
      * 解析07版的Word并且进行赋值
      *
      * @return
      * @throws Exception
-     * @author JueYue
-     * 2013-11-16
      */
-    public XWPFDocument parseWord(String url, Map<String, Object> map) throws Exception {
-        MyXWPFDocument doc = WordCache.getXWPFDocument(url);
-        parseWordSetValue(doc, map);
-        return doc;
-    }
-
-    /**
-     * 解析07版的Work并且进行赋值但是进行多页拼接
-     *
-     * @param url
-     * @param list
-     * @return
-     */
-    public XWPFDocument parseWord(String url, List<Map<String, Object>> list) throws Exception {
-        if (list == null || list.size() == 0) {
-            return null;
-        } else if (list.size() == 1) {
-            return parseWord(url, list.get(0));
-        } else {
-            MyXWPFDocument doc = WordCache.getXWPFDocument(url);
-            parseWordSetValue(doc, list.get(0));
-            //插入分页(推荐这种分页方式，每页上方不会产生留白)
-            doc.createParagraph().createRun().addBreak(BreakType.PAGE);
-            for (int i = 1; i < list.size(); i++) {
-                MyXWPFDocument tempDoc = WordCache.getXWPFDocument(url);
-                parseWordSetValue(tempDoc, list.get(i));
-                //最后一页不插入分页
-                if (i < list.size() - 1) {
-                    tempDoc.createParagraph().createRun().addBreak(BreakType.PAGE);
-                }
-                doc.getDocument().addNewBody().set(tempDoc.getDocument().getBody());
-
-            }
-            return doc;
-        }
-
-    }
-
-    /**
-     * 解析07版的Word并且进行赋值
-     *
-     * @throws Exception
-     */
-    public void parseWord(XWPFDocument document, Map<String, Object> map) throws Exception {
+    public XWPFDocument parseWord(XWPFDocument document, Map<String, Object> map) throws Exception {
         parseWordSetValue((MyXWPFDocument) document, map);
+        return document;
     }
 
     private void parseWordSetValue(MyXWPFDocument doc, Map<String, Object> map) throws Exception {

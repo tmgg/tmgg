@@ -108,7 +108,7 @@ function _replaceUrl(url) {
 export const HttpUtil = {
 
     get(url, params = null, config = defaultRequestConfig) {
-        config = Object.assign(config, defaultRequestConfig)
+        config = Object.assign({},defaultRequestConfig, config)
         config.method = 'GET'
         url = _replaceUrl(url)
         return send(url, params, config)

@@ -24,7 +24,8 @@ function request(config) {
 
 
 
-    let finalConfig = Object.assign(config, defaultConfig);
+
+    let finalConfig = Object.assign({},defaultConfig, config);
 
     const {transformData, showMessage, loadingCallback, ...axiosConfig} = finalConfig
 

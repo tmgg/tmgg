@@ -32,7 +32,7 @@ public class ExcelTool {
     public static AjaxResult reposeDownloadOrHtml(XSSFWorkbook wb, Boolean download, HttpServletResponse response) throws Exception {
         if (download != null && download) {
             String fileName = wb.getSheetName(0) + "-" + DateUtil.today() + ".xlsx";
-            DownloadTool.setDownloadParam(fileName, null, response);
+            DownloadTool.setDownloadParam(fileName, 0, response);
             wb.write(response.getOutputStream());
             return null;
         } else {
