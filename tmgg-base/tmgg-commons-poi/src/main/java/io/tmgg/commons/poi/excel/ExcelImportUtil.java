@@ -18,7 +18,6 @@ package io.tmgg.commons.poi.excel;
 import io.tmgg.commons.poi.excel.entity.ImportParams;
 import io.tmgg.commons.poi.excel.entity.result.ExcelImportResult;
 import io.tmgg.commons.poi.excel.imports.ExcelImportService;
-import io.tmgg.commons.poi.excel.imports.sax.SaxReadExcel;
 import io.tmgg.commons.poi.exception.excel.ExcelImportException;
 import io.tmgg.commons.poi.handler.inter.IReadHandler;
 import org.apache.poi.util.IOUtils;
@@ -122,18 +121,6 @@ public class ExcelImportUtil {
         }
     }
 
-    /**
-     * Excel 通过SAX解析方法,适合大数据导入,不支持图片
-     * 导入 数据源本地文件,不返回校验结果 导入 字 段类型 Integer,Long,Double,Date,String,Boolean
-     *
-     * @param inputstream
-     * @param pojoClass
-     * @param params
-     * @param handler
-     */
-    public static void importExcelBySax(InputStream inputstream, Class<?> pojoClass,
-                                        ImportParams params, IReadHandler handler) {
-        new SaxReadExcel().readExcel(inputstream, pojoClass, params, handler);
-    }
+
 
 }

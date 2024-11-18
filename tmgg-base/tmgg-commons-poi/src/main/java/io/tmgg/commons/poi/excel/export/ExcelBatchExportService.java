@@ -9,7 +9,6 @@ import io.tmgg.commons.poi.exception.excel.ExcelExportException;
 import io.tmgg.commons.poi.exception.excel.enums.ExcelExportEnum;
 import io.tmgg.commons.poi.handler.inter.IExcelExportServer;
 import io.tmgg.commons.poi.handler.inter.IWriter;
-import io.tmgg.commons.poi.util.PoiExcelGraphDataUtil;
 import io.tmgg.commons.poi.util.PoiPublicUtil;
 import org.apache.poi.ss.usermodel.Drawing;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -34,7 +33,6 @@ public class ExcelBatchExportService extends ExcelExportService implements IWrit
     private List<ExcelExportEntity> excelParams;
     private ExportParams            entity;
     private int                     titleHeight;
-    private Drawing                 patriarch;
     private short                   rowHeight;
     private int                     index;
 
@@ -112,7 +110,6 @@ public class ExcelBatchExportService extends ExcelExportService implements IWrit
             // 创建表格样式
             setExcelExportStyler((IExcelExportStyler) entity.getStyle()
                     .getConstructor(Workbook.class).newInstance(workbook));
-            patriarch = PoiExcelGraphDataUtil.getDrawingPatriarch(sheet);
             List<ExcelExportEntity> excelParams = new ArrayList<ExcelExportEntity>();
             if (entity.isAddIndex()) {
                 excelParams.add(indexExcelEntity(entity));

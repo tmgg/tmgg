@@ -22,7 +22,6 @@ import io.tmgg.commons.poi.excel.entity.params.ExcelExportEntity;
 import io.tmgg.commons.poi.excel.export.styler.IExcelExportStyler;
 import io.tmgg.commons.poi.exception.excel.ExcelExportException;
 import io.tmgg.commons.poi.exception.excel.enums.ExcelExportEnum;
-import io.tmgg.commons.poi.util.PoiExcelGraphDataUtil;
 import io.tmgg.commons.poi.util.PoiMergeCellUtil;
 import io.tmgg.commons.poi.util.PoiPublicUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -60,7 +59,7 @@ public abstract class BaseExportService extends ExportCommonService {
     /**
      * 创建 最主要的 Cells
      */
-    public int[] createCells(Drawing patriarch, int index, Object t,
+    public int[] createCells( int index, Object t,
                              List<ExcelExportEntity> excelParams, Sheet sheet, Workbook workbook,
                              short rowHeight, int cellNum) {
         try {
@@ -86,7 +85,7 @@ public abstract class BaseExportService extends ExportCommonService {
                     if (list != null && list.size() > 0) {
                         int tempCellNum = 0;
                         for (Object obj : list) {
-                            int[] temp = createCells(patriarch, index + tmpListHeight, obj, entity.getList(), sheet, workbook, rowHeight, cellNum);
+                            int[] temp = createCells( index + tmpListHeight, obj, entity.getList(), sheet, workbook, rowHeight, cellNum);
                             tempCellNum = temp[1];
                             tmpListHeight += temp[0];
                         }
@@ -112,7 +111,7 @@ public abstract class BaseExportService extends ExportCommonService {
                                 getStyles(null, index, entity, t, value),
                                 entity);
                     } else {
-                        createImageCell(patriarch, entity, row, cellNum++,
+                        createImageCell( entity, row, cellNum++,
                                 value == null ? "" : value.toString(), t);
                     }
                     if (entity.isHyperlink()) {
@@ -200,7 +199,7 @@ public abstract class BaseExportService extends ExportCommonService {
     /**
      * 图片类型的Cell
      */
-    public void createImageCell(Drawing patriarch, ExcelExportEntity entity, Row row, int i,
+    public void createImageCell( ExcelExportEntity entity, Row row, int i,
                                 String imagePath, Object obj) throws Exception {
         Cell cell = row.createCell(i);
         byte[] value = null;
@@ -237,10 +236,7 @@ public abstract class BaseExportService extends ExportCommonService {
         if (StringUtils.isNotEmpty(imagePath)) {
             data = ImageCache.getImage(imagePath);
         }
-        if (data != null) {
-            PoiExcelGraphDataUtil.getDrawingPatriarch(cell.getSheet()).createPicture(anchor,
-                    cell.getSheet().getWorkbook().addPicture(data, getImageType(data)));
-        }
+
 
     }
 
@@ -263,10 +259,7 @@ public abstract class BaseExportService extends ExportCommonService {
         if (StringUtils.isNotEmpty(imagePath)) {
             data = ImageCache.getImage(imagePath);
         }
-        if (data != null) {
-            PoiExcelGraphDataUtil.getDrawingPatriarch(cell.getSheet()).createPicture(anchor,
-                    cell.getSheet().getWorkbook().addPicture(data, getImageType(data)));
-        }
+
 
     }
 
@@ -283,7 +276,7 @@ public abstract class BaseExportService extends ExportCommonService {
     /**
      * 创建List之后的各个Cells
      */
-    public void createListCells(Drawing patriarch, int index, int cellNum, Object obj,
+    public void createListCells( int index, int cellNum, Object obj,
                                 List<ExcelExportEntity> excelParams, Sheet sheet,
                                 Workbook workbook, short rowHeight) throws Exception {
         ExcelExportEntity entity;
@@ -322,7 +315,7 @@ public abstract class BaseExportService extends ExportCommonService {
                                     value));
                 }
             } else {
-                createImageCell(patriarch, entity, row, cellNum++,
+                createImageCell( entity, row, cellNum++,
                         value == null ? "" : value.toString(), obj);
             }
         }

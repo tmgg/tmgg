@@ -23,7 +23,6 @@ import io.tmgg.commons.poi.excel.export.base.BaseExportService;
 import io.tmgg.commons.poi.excel.export.styler.IExcelExportStyler;
 import io.tmgg.commons.poi.exception.excel.ExcelExportException;
 import io.tmgg.commons.poi.exception.excel.enums.ExcelExportEnum;
-import io.tmgg.commons.poi.util.PoiExcelGraphDataUtil;
 import io.tmgg.commons.poi.util.PoiMergeCellUtil;
 import io.tmgg.commons.poi.util.PoiPublicUtil;
 import org.apache.commons.collections4.CollectionUtils;
@@ -255,7 +254,7 @@ public class ExcelExportService extends BaseExportService {
             // 创建表格样式
             setExcelExportStyler((IExcelExportStyler) entity.getStyle()
                     .getConstructor(Workbook.class).newInstance(workbook));
-            Drawing                 patriarch   = PoiExcelGraphDataUtil.getDrawingPatriarch(sheet);
+
             List<ExcelExportEntity> excelParams = new ArrayList<ExcelExportEntity>();
             if (entity.isAddIndex()) {
                 excelParams.add(indexExcelEntity(entity));
@@ -274,7 +273,7 @@ public class ExcelExportService extends BaseExportService {
             List<Object> tempList = new ArrayList<Object>();
             while (its.hasNext()) {
                 Object t = its.next();
-                index += createCells(patriarch, index, t, excelParams, sheet, workbook, rowHeight, 0)[0];
+                index += createCells( index, t, excelParams, sheet, workbook, rowHeight, 0)[0];
                 tempList.add(t);
                 if (index >= MAX_NUM) {
                     break;
