@@ -1,13 +1,12 @@
 package io.tmgg.lang.dao;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.*;
 import io.tmgg.lang.SpringTool;
 import io.tmgg.lang.ann.Remark;
 import io.tmgg.lang.dao.exports.UserLabelQuery;
 import io.tmgg.web.perm.SecurityUtils;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldNameConstants;
@@ -17,6 +16,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
 @Getter
@@ -92,6 +93,23 @@ public abstract class BaseEntity implements PersistId, Serializable {
     public void setId(String id) {
         this.id = id;
     }
+
+
+    /**
+     * additionalFields
+     *  动态字段，处理实体中不包含的字段
+     *  例如状态字段 status, 转成json希望动态增加字段 statusLabel
+      */
+    @Setter(AccessLevel.NONE) // 不生成setter
+    @Transient
+    @JsonAnySetter
+    private Map<String, Object> addFields = new HashMap<>();
+    @JsonAnyGetter
+    public Map<String,Object> getAddFields(){
+        return addFields;
+    }
+
+
 
     @PrePersist
     public void prePersist() {
