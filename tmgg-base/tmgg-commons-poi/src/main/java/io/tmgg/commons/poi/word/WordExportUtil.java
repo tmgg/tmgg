@@ -15,9 +15,11 @@
  */
 package io.tmgg.commons.poi.word;
 
+import io.tmgg.commons.poi.word.entity.MyXWPFDocument;
 import io.tmgg.commons.poi.word.parse.ParseWord07;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 
+import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 
@@ -57,6 +59,12 @@ public class WordExportUtil {
      */
     public static void exportWord07(XWPFDocument document, Map<String, Object> map) throws Exception {
         new ParseWord07().parseWord(document, map);
+    }
+
+    public static XWPFDocument exportWord07(InputStream is, Map<String, Object> map) throws Exception {
+        MyXWPFDocument doc = new MyXWPFDocument(is);
+        new ParseWord07().parseWord(doc, map);
+        return doc;
     }
 
     /**
