@@ -283,19 +283,7 @@ public class ExcelImportService extends ImportBaseService {
                                          boolean isMap, StringBuilder fieldErrorMsg) {
         boolean isAdd = true;
         Cell    cell  = null;
-        if (params.isNeedVerify()) {
-            String errorMsg = PoiValidationUtil.validation(object, params.getVerifyGroup());
-            if (StringUtils.isNotEmpty(errorMsg)) {
-                cell = row.createCell(row.getLastCellNum());
-                cell.setCellValue(errorMsg);
-                if (object instanceof IExcelModel) {
-                    IExcelModel model = (IExcelModel) object;
-                    model.setErrorMsg(errorMsg);
-                }
-                isAdd = false;
-                verifyFail = true;
-            }
-        }
+
         if (params.getVerifyHandler() != null) {
             ExcelVerifyHandlerResult result = params.getVerifyHandler().verifyHandler(object);
             if (!result.isSuccess()) {
