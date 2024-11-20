@@ -91,7 +91,7 @@ public class ExcelExportTool {
      * @param response
      * @throws IOException
      */
-    public static <T> void exportBeanList(String filename, List<T> dataList, Map<String, Function<T, Object>> columnInfo, HttpServletResponse response) throws IOException {
+    public static <T> void exportBeanList(String filename, List<T> dataList, LinkedHashMap<String, Function<T, Object>> columns, HttpServletResponse response) throws IOException {
         Workbook workbook = new XSSFWorkbook();
         Sheet sheet = workbook.createSheet();
 
@@ -99,8 +99,12 @@ public class ExcelExportTool {
         // 表头
         {
             Row row = sheet.createRow(0);
-            for (String col : columnInfo.keySet()) {
-                row.createCell(row.getLastCellNum()).setCellValue(col);
+
+            Set<String> keys = columns.keySet();
+            int i = 0;
+            for (String col : keys) {
+                row.createCell(i).setCellValue(col);
+                i++;
             }
         }
 
@@ -108,7 +112,7 @@ public class ExcelExportTool {
         // 表体
         for (T bean : dataList) {
             Row row = sheet.createRow(sheet.getLastRowNum() + 1);
-            for (Map.Entry<String, Function<T, Object>> e : columnInfo.entrySet()) {
+            for (Map.Entry<String, Function<T, Object>> e : columns.entrySet()) {
                 Function<T, Object> fn = e.getValue();
                 Object value = fn.apply(bean);
                 value = ObjUtil.defaultIfNull(value, "");

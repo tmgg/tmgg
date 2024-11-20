@@ -7,8 +7,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.tmgg.jackson.JsonTool;
 import org.aspectj.lang.JoinPoint;
-import org.springframework.data.domain.Pageable;
-import org.springframework.web.multipart.MultipartFile;
 
 
 /**
@@ -16,7 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
  */
 public class JoinPointTool {
 
-    private static final ObjectMapper OBJECT_MAPPER =      JsonTool.getObjectMapper().copy().setSerializationInclusion(JsonInclude.Include.NON_NULL);
+    private static final ObjectMapper OBJECT_MAPPER =  JsonTool.getObjectMapper().copy().setSerializationInclusion(JsonInclude.Include.NON_NULL);
 
 
     /**
@@ -39,9 +37,7 @@ public class JoinPointTool {
     }
 
     private static String getString(Object arg) {
-
         try {
-
             return OBJECT_MAPPER.writeValueAsString(arg);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
@@ -56,13 +52,10 @@ public class JoinPointTool {
         if (arg == null) {
             return true;
         }
-        if (arg instanceof String && StrUtil.isBlank((String) arg)) {
-            return true;
-        }
-        if (arg instanceof MultipartFile || arg instanceof Pageable) {
-            return true;
-        }
 
+        if (arg instanceof String && StrUtil.isBlank((String) arg) || arg instanceof Number) {
+            return true;
+        }
 
         return false;
     }

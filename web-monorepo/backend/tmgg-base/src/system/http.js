@@ -151,10 +151,10 @@ export const HttpUtil = {
                 const reader = new FileReader();
                 reader.readAsText(blob, 'utf-8');
                 reader.onload = function (e) {
-                    console.info(reader.result);
+                    let rs = JSON.parse( reader.result);
                     Modal.error({
                         title: '下载文件失败',
-                        content: reader.result
+                        content: rs.message
                     })
                 }
                 return;

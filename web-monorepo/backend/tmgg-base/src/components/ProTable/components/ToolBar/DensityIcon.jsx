@@ -12,7 +12,7 @@ export class DensityIcon extends React.Component {
                     <Menu
                         selectedKeys={[this.props.tableSize]}
                         onClick={({key}) => {
-                            counter.setTableSize?.(key);
+                            this.props.onTableSizeChange(key);
                         }}
                         style={{
                             width: 120,

@@ -156,7 +156,7 @@ public class SysUserController {
         sysUserService.fillRoleName(list);
 
 
-        Map<String, Function<SysUser,Object>> columns = new LinkedHashMap<>();
+        LinkedHashMap<String, Function<SysUser,Object>> columns = new LinkedHashMap<>();
         columns.put("姓名", SysUser::getName);
         columns.put("账号", SysUser::getAccount);
         columns.put("手机号", SysUser::getPhone);

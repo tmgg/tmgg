@@ -10,7 +10,7 @@ import {
     Splitter
 } from 'antd';
 import React from 'react';
-import {FieldRadioBoolean,ProTable, HttpUtil} from "@tmgg/tmgg-base";
+import {FieldRadioBoolean, ProTable, HttpUtil, dictValueTag} from "@tmgg/tmgg-base";
 import UserPerm from "./UserPerm";
 import {
     ButtonList,
@@ -93,15 +93,16 @@ export default class extends React.Component {
         {
             title: '数据权限',
             dataIndex: 'dataPermType',
-            valueType: 'dictRadio',
-            params: 'dataPermType',
+            render(v){
+                return dictValueTag('dataPermType',v)
+            }
         },
         {
-            title: 'id',
+            title: '唯一标识',
             dataIndex: 'id',
         },
         {
-            title: '修改时间',
+            title: '更新时间',
             dataIndex: 'updateTime',
         },
         {
@@ -152,9 +153,7 @@ export default class extends React.Component {
     }
 
     handleExport = () => {
-        HttpUtil.downloadFile("sysUser/export").then(rs => {
-            message.success('下载成功')
-        })
+        HttpUtil.downloadFile("sysUser/export")
     }
 
     onSelectOrg = key => {
@@ -207,9 +206,9 @@ export default class extends React.Component {
                                     onClick={this.handleExport}>导出</Button>
                             </ButtonList>
                         }}
-                        request={(params, sort) => {
+                        request={(params) => {
                             params.orgId = this.state.currentOrgId
-                            return HttpUtil.pageData(pageApi, params, sort)
+                            return HttpUtil.pageData(pageApi, params)
                         }
                         }
                         columns={this.columns}

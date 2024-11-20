@@ -39,9 +39,10 @@ export default class Toolbar extends React.Component {
             <Tooltip title='刷新'><ReloadOutlined/></Tooltip>
           </span>
 
-                <span onClick={onTableSizeChange}>
+                <span >
                     <Tooltip title='表格密度'>
-                        <DensityIcon tableSize={tableSize} onTableSizeChange={onTableSizeChange}/></Tooltip>
+                        <DensityIcon tableSize={tableSize} onTableSizeChange={onTableSizeChange}/>
+                    </Tooltip>
                  </span>
             </div>
 
