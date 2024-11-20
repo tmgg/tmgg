@@ -117,7 +117,7 @@ export default class extends React.Component {
         let disabled = this.state.formValues == null;
         return <div>
             <Splitter >
-                <Splitter.Panel defaultSize={500} >
+                <Splitter.Panel defaultSize={400} >
                     <Card loading={this.state.treeLoading}
                           title='机构树'
                           extra={<>

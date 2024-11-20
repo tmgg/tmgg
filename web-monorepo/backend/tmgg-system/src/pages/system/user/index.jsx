@@ -182,7 +182,7 @@ export default class extends React.Component {
 
         return <>
             <Splitter>
-                <Splitter.Panel defaultSize={300}>
+                <Splitter.Panel defaultSize={400}>
                 <Card title='机构树'>
                     <OrgTree onChange={this.onSelectOrg}/>
                 </Card>
