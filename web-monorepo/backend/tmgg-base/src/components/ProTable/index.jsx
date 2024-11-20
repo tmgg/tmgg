@@ -41,7 +41,7 @@ export class ProTable extends React.Component {
             for (let column of this.props.columns) {
                 for (let key in disabledKeys) {
                     if (column[key] != null) {
-                        console.log('组件不再支持' + key)
+                        console.error('组件不再支持' + key)
                     }
                 }
             }
