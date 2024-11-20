@@ -14,7 +14,7 @@
   "scripts" : {
     "build" : "babel src -d lib --copy-files"
   },
-  "version" : "0.1.55",
+  "version" : "0.1.56",
   "dependencies" : {
     "@antmjs/vantui" : "^3.4.9",
     "@babel/runtime" : "^7.21.5",
