@@ -3,8 +3,7 @@ import {Button, Card,InputNumber, Popconfirm,Modal,Form,Input,message} from 'ant
 import React from 'react'
 
 import {ProTable} from '@tmgg/pro-table'
-import {HttpUtil} from "@tmgg/tmgg-base"
-import {ButtonList,FieldDictSelect,FieldRadioBoolean} from "@tmgg/tmgg-base";
+import {ButtonList,FieldDictSelect,FieldRadioBoolean, ProTable} from "@tmgg/tmgg-base";
 
 
 
@@ -24,28 +23,18 @@ export default class extends React.Component {
     {
       title: '${f.title}',
       dataIndex: '${f.name}',
-    <#if (f.hideInSearch)>
-      hideInSearch: true,
-    </#if>
-    <#if (f.hideInForm)>
-        hideInForm: true,
-    </#if>
-    <#if (f.hideInTable)>
-        hideInTable: true,
-    </#if>
+
     <#if (f.dict)>
-      valueType: 'dictSelect',
-      params: '${f.dictTypeCode}'
+      render: (v){
+        return dictValueTag(${f.dictTypeCode}, v)
+      },
     </#if>
 
     <#if (f.type == 'java.lang.Boolean')>
-       valueType: 'boolean',
-    </#if>
-    <#if (f.type == 'java.lang.Float')>
-       valueType: 'digit',
-    </#if>
-    <#if (f.type == 'java.lang.Integer')>
-       valueType: 'digit',
+         render: (v){
+            return v == null ? null : ( v ? '是': '否'）
+          },
+
     </#if>
 
     },
@@ -101,9 +90,8 @@ export default class extends React.Component {
               </Button>
             </ButtonList>
           }}
-          request={(params, sort) => HttpUtil.pageData('${firstLowerName}/page', params, sort)}
+          request={(params, sort) => HttpUtil.pageData('${firstLowerName}/page', params)}
           columns={this.columns}
-          rowKey='id'
       />
 
   <Modal title='${label}'
