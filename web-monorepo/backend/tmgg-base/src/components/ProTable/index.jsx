@@ -35,15 +35,17 @@ export class ProTable extends React.Component {
             }
         }
 
-        const disabledKeys = ['hideTable', 'hideInForm', 'hideInSearch']
-        for (let column of this.props.columns) {
-            for (let key in disabledKeys) {
-                if (column[key] != null) {
-                    console.log('组件不再支持' + key)
+        {
+            // 兼容提示代码
+            const disabledKeys = ['hideTable', 'hideInForm', 'hideInSearch', 'valueType']
+            for (let column of this.props.columns) {
+                for (let key in disabledKeys) {
+                    if (column[key] != null) {
+                        console.log('组件不再支持' + key)
+                    }
                 }
             }
         }
-
     }
 
 
