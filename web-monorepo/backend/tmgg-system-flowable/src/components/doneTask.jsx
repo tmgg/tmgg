@@ -1,5 +1,5 @@
 import React from "react";
-import {ProTable} from "@tmgg/pro-table";
+import {ProTable} from "@tmgg/tmgg-base";
 import InstanceInfo from "./InstanceInfo";
 import {HttpUtil, ProModal} from "@tmgg/tmgg-base";
 

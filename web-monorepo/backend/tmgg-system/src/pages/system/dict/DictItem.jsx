@@ -2,7 +2,7 @@ import {PlusOutlined} from '@ant-design/icons'
 import {Button, Form, Input, InputNumber, Modal, Popconfirm, Tag} from 'antd'
 import React from 'react'
 
-import {ProTable} from '@tmgg/pro-table'
+import {ProTable} from '@tmgg/tmgg-base'
 import {ButtonList, FieldDictSelect, FieldRadioBoolean, http, HttpUtil} from "@tmgg/tmgg-base"
 
 

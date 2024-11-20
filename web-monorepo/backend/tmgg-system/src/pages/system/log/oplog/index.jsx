@@ -1,6 +1,6 @@
 import React, {Fragment} from 'react';
-import {Modal, Tag} from "antd";
-import {ProTable} from "@tmgg/pro-table";
+import {Tag} from "antd";
+import {ProTable} from "@tmgg/tmgg-base";
 import {Ellipsis, HttpUtil} from "@tmgg/tmgg-base";
 import {DateUtil} from "@tmgg/tmgg-commons-lang";
 

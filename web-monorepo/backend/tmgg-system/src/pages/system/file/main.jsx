@@ -1,6 +1,6 @@
 import {Popconfirm} from 'antd'
 import React from 'react'
-import {ProTable} from "@tmgg/pro-table";
+import {ProTable} from "@tmgg/tmgg-base";
 import {ButtonList, http, HttpUtil} from "@tmgg/tmgg-base";
 
 

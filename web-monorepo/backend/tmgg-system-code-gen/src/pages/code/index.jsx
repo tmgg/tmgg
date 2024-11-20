@@ -1,7 +1,7 @@
 import {Button, Form, message, Modal, Radio, Row, Select, Tabs} from 'antd'
 import React from 'react'
 import {http, HttpUtil} from "@tmgg/tmgg-base";
-import {ProTable} from "@tmgg/pro-table";
+import {ProTable} from "@tmgg/tmgg-base";
 
 
 export default class extends React.Component {

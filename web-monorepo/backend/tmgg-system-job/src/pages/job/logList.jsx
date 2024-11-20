@@ -1,7 +1,7 @@
 import {Button, InputNumber, Modal} from 'antd'
 import React from 'react'
 import StreamLog from "../../components/StreamLog";
-import ProTable from "@tmgg/pro-table";
+import ProTable from "@tmgg/tmgg-base";
 import {DateTimePickerString, HttpUtil, SysUtil} from "@tmgg/tmgg-base";
 
 

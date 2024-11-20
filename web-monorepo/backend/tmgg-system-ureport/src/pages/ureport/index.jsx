@@ -1,7 +1,7 @@
 import React from 'react'
 import {Button, Descriptions, Space} from "antd";
 import {ButtonList, HttpUtil} from "@tmgg/tmgg-base";
-import {ProTable} from "@tmgg/pro-table";
+import {ProTable} from "@tmgg/tmgg-base";
 
 const Item = Descriptions.Item
 

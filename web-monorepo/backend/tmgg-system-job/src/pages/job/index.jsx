@@ -3,7 +3,7 @@ import React from 'react'
 import {PlusOutlined} from "@ant-design/icons";
 import StreamLog from "../../components/StreamLog";
 import {FieldComponent, HttpUtil, SysUtil} from "@tmgg/tmgg-base";
-import ProTable from "@tmgg/pro-table";
+import ProTable from "@tmgg/tmgg-base";
 import {StrUtil} from "@tmgg/tmgg-commons-lang";
 
 

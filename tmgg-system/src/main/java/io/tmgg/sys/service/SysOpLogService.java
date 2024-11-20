@@ -8,6 +8,7 @@ import io.tmgg.lang.UserAgentTool;
 import io.tmgg.lang.dao.BaseService;
 import io.tmgg.sys.dao.SysOpLogDao;
 import io.tmgg.sys.entity.SysLog;
+import io.tmgg.web.annotion.HasPermission;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -61,7 +62,7 @@ public class SysOpLogService extends BaseService<SysLog> {
     public void saveOperationLog(final String account, JoinPoint joinPoint, boolean success, final String msg) {
         SysLog sysLog = newSysOpLog(HttpServletTool.getRequest());
 
-        String businessLog = parseLogLabel(joinPoint);
+        String businessLog = parseLogName(joinPoint);
         fillCommonSysOpLog(sysLog, account, businessLog, joinPoint);
         sysLog.setSuccess(success);
         sysLog.setMessage(msg);
@@ -70,7 +71,7 @@ public class SysOpLogService extends BaseService<SysLog> {
 
     public void saveExceptionLog(final String account, JoinPoint joinPoint, Exception exception) {
         SysLog sysLog = this.newSysOpLog(HttpServletTool.getRequest());
-        String businessLog = parseLogLabel(joinPoint);
+        String businessLog = parseLogName(joinPoint);
 
         fillCommonSysOpLog(sysLog, account, businessLog, joinPoint);
         sysLog.setSuccess(false);
@@ -97,10 +98,11 @@ public class SysOpLogService extends BaseService<SysLog> {
     }
 
 
-    private String parseLogLabel(JoinPoint joinPoint) {
+    private String parseLogName(JoinPoint joinPoint) {
         MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
         Method method = methodSignature.getMethod();
         Object controller = joinPoint.getTarget();
+
 
         return controller.getClass().getSimpleName() + "." + method.getName();
 

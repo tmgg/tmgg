@@ -1,6 +1,6 @@
 import {Button, Form, Input, message, Modal, Popconfirm, Select, Space} from 'antd';
 import React from 'react';
-import {ProTable} from "@tmgg/pro-table";
+import {ProTable} from "@tmgg/tmgg-base";
 import {MinusCircleOutlined, PlusOutlined} from "@ant-design/icons";
 import { HttpUtil} from "@tmgg/tmgg-base";
 import {Link} from "umi";

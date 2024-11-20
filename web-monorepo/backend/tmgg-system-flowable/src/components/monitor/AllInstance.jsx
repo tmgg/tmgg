@@ -1,5 +1,5 @@
 import React from "react";
-import {ProTable} from "@tmgg/pro-table"
+import {ProTable} from "@tmgg/tmgg-base"
 import {Popconfirm} from "antd";
 import {HttpUtil} from "@tmgg/tmgg-base";
 

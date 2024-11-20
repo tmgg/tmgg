@@ -1,5 +1,5 @@
 import React from "react";
-import {ProTable} from "@tmgg/pro-table"
+import {ProTable} from "@tmgg/tmgg-base"
 import {HttpUtil} from "@tmgg/tmgg-base";
 
 export default class extends React.Component {
