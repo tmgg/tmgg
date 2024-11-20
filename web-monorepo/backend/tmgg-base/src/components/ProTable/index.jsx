@@ -52,7 +52,6 @@ export class ProTable extends React.Component {
         const params = {...this.state.params}
         params.size = this.state.pageSize
         params.page = this.state.current
-        params.keyword = this.state.keyword
 
         const {sorter} = this.state
 
@@ -81,21 +80,22 @@ export class ProTable extends React.Component {
             rowSelection,
             rowKey = "id",
             headerTitle,
-            searchInput = false,
-            searchFormItemsRender
+            showSearch,
+            searchFormItemsRender,
+            formRef
         } = this.props
 
         let searchFormNode = null
 
         if (searchFormItemsRender) {
             searchFormNode = <SearchForm
+                formRef={formRef}
                 loading={this.state.loading}
                 searchFormItemsRender={searchFormItemsRender}
                 onSearch={this.onSearch}
             >
             </SearchForm>
         }
-
 
         return <div>
             {searchFormNode}
@@ -110,7 +110,7 @@ export class ProTable extends React.Component {
                     toolBarRender={this.getToolBarRenderNode(toolBarRender)}
                     onTableSizeChange={tableSize => this.setState({tableSize})}
                     onRefresh={() => this.loadData()}
-                    searchInput={searchInput}
+                    showSearch={showSearch == null ? (searchFormNode == null) : showSearch} // 未设置搜索表单的情况下，默认显示搜索Input
                     onSearch={this.onSearch}
                 />
 

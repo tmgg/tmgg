@@ -48,7 +48,13 @@ export default class SearchForm extends React.Component {
                     layout="inline"
                     onFinish={(values) => this.props.onSearch(values)}
                     onReset={() => this.onReset({})}
-                    ref={this.formRef}
+                    ref={(instance)=>{
+                        this.formRef.current = instance
+                        if(this.props.formRef) {
+                            this.props.formRef.current = instance
+
+                        }
+                    }}
                 >
                     {this.props.searchFormItemsRender(this.formRef.current)}
                     <Space>

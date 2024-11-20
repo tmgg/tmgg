@@ -189,11 +189,8 @@ export default class extends React.Component {
                 </Splitter.Panel>
                 <Splitter.Panel>
                     <ProTable
-                        searchForm={false}
-                        searchInput={true}
                         actionRef={this.tableRef}
                         toolBarRender={(action, {selectedRows}) => {
-
                             return <ButtonList>
                                 <Button
                                     perm={addPerm}
