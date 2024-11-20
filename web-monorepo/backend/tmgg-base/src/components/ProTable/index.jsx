@@ -28,6 +28,13 @@ export class ProTable extends React.Component {
 
     componentDidMount() {
         this.loadData()
+
+        if (this.props.actionRef) {
+            this.props.actionRef.current = {
+                reload: () => this.loadData()
+            }
+        }
+
     }
 
 
@@ -41,20 +48,19 @@ export class ProTable extends React.Component {
         const {sorter} = this.state
 
         const {field, order} = sorter
-        if(field){
+        if (field) {
             params.sort = field + "," + (order === 'ascend' ? 'asc' : 'desc')
         }
 
 
-        this.setState({loading:true})
+        this.setState({loading: true})
         request(params).then(rs => {
             const {content, totalElements} = rs;
             this.setState({dataSource: content, total: parseInt(totalElements)})
-        }).finally(()=>{
-            this.setState({loading:false})
+        }).finally(() => {
+            this.setState({loading: false})
         })
     }
-
 
 
     render() {
@@ -106,7 +112,11 @@ export class ProTable extends React.Component {
                     }}
 
                     onChange={(pagination, filters, sorter, extra) => {
-                        this.setState({current: pagination.current, pageSize: pagination.pageSize, sorter}, this.loadData)
+                        this.setState({
+                            current: pagination.current,
+                            pageSize: pagination.pageSize,
+                            sorter
+                        }, this.loadData)
                     }}
 
 
@@ -151,8 +161,8 @@ export class ProTable extends React.Component {
         };
     };
 
-    onSearch = (value)=>{
-        this.setState({keyword:value}, this.loadData)
+    onSearch = (value) => {
+        this.setState({keyword: value}, this.loadData)
     }
 
 }
