@@ -172,14 +172,25 @@ export const HttpUtil = {
             transformData: false
         };
         request(config).then(res => {
-            const {data, headers} = res
-
+            const {data: blob, headers} = res
+            if(blob.type === 'application/json'){// 可能是错误了，否则不应该返回json
+                const reader = new FileReader();
+                reader.readAsText(blob, 'utf-8');
+                reader.onload = function (e) {
+                    console.info(reader.result);
+                    Modal.error({
+                        title: '下载文件失败',
+                        content: reader.result
+                    })
+                }
+                return;
+            }
 
             // 获取文件名称
-            var contentDisposition = headers.get('content-disposition');
+            const contentDisposition = headers.get('content-disposition');
             if (contentDisposition == null) {
                 Modal.error({
-                    title: '获取文件信息失败',
+                    title: '获取文件名称失败',
                     content: "缺少content-disposition响应头"
                 })
                 return
@@ -195,7 +206,7 @@ export const HttpUtil = {
             filename = filename.replace(/^["](.*)["]$/g, '$1')
 
 
-            const url = window.URL.createObjectURL(new Blob([data]));
+            const url = window.URL.createObjectURL(new Blob([blob]));
             const link = document.createElement('a');
             link.style.display = 'none';
 

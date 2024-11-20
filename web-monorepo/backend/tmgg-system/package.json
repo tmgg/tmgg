@@ -27,7 +27,7 @@
   "scripts" : {
     "dev" : "umi dev"
   },
-  "version" : "0.1.54",
+  "version" : "0.1.55",
   "dependencies" : {
     "dayjs" : "^1.11.13"
   }
