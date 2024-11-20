@@ -43,13 +43,11 @@ export default class extends React.Component {
     {
       title: '耗时',
       dataIndex: 'jobRunTimeLabel',
-      hideInSearch:true,
 
     },
     {
       title: '结果',
       dataIndex: 'result',
-      hideInSearch:true,
     },
 
     {

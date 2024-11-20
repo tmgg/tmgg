@@ -11,10 +11,6 @@ const pageApi = baseApi + 'page'
 
 export default class extends React.Component {
 
-    state = {
-        showDetail: false,
-        formValues: {}
-    }
 
     columns = [
         {
@@ -28,15 +24,10 @@ export default class extends React.Component {
                 return DateUtil.friendlyTime(v);
             }
         },
-
         {
             title: '操作',
             dataIndex: 'name',
-
         },
-
-
-
         {
             title: '结果',
             dataIndex: 'success',
@@ -59,14 +50,10 @@ export default class extends React.Component {
         {
             title: 'ip',
             dataIndex: 'ip',
-            hideInSearch: true,
-
         },
         {
             title: '定位',
             dataIndex: 'location',
-            hideInSearch: true,
-
         },
         {
             title: '浏览器',
@@ -101,12 +88,12 @@ export default class extends React.Component {
     render() {
         return <>
             <ProTable
-                request={(params, sort, filter) => HttpUtil.pageData(pageApi, params, sort)}
+                request={(params) => HttpUtil.pageData(pageApi, params)}
                 columns={this.columns}
-                rowKey='id'
-                scroll={{x:'max-content'}}
+                renderSearchFormItems={()=>{
+                    return <></>
+                }}
             />
-
 
         </>
     }

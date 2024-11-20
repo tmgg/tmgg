@@ -41,14 +41,11 @@ export default class extends React.Component {
     {
       title: '大小kb',
       dataIndex: 'fileSizeKb',
-
-      hideInSearch: false
     },
 
     {
       title: '大小信息',
       dataIndex: 'fileSizeInfo',
-      hideInSearch: false
     },
 
     {
@@ -72,9 +69,6 @@ export default class extends React.Component {
     {
       title: '创建时间',
       dataIndex: 'createTime',
-      hideInSearch: true,
-      hideInForm: true,
-      hideInTable: true,
     },
     {
       title: '操作',
@@ -102,7 +96,7 @@ export default class extends React.Component {
     return <>
       <ProTable
         ref={this.tableRef}
-        request={(params, sort) => HttpUtil.getPageableData('sysFile/page', params, sort)}
+        request={(params) => HttpUtil.pageData('sysFile/page', params)}
         columns={this.columns}
       />
     </>

@@ -1,6 +1,7 @@
 import {Card, Table} from 'antd';
 import Toolbar from './components/ToolBar';
 import React from "react";
+import SearchForm from "./components/SearchForm";
 
 
 export class ProTable extends React.Component {
@@ -35,7 +36,14 @@ export class ProTable extends React.Component {
             }
         }
 
-
+        const disabledKeys = ['hideTable','hideInForm','hideInSearch']
+        for (let column of this.props.columns) {
+            for(let key in disabledKeys){
+                if(column[key] != null){
+                    console.log('组件不再支持' + key)
+                }
+            }
+        }
 
     }
 
@@ -74,10 +82,22 @@ export class ProTable extends React.Component {
             rowSelection,
             rowKey = "id",
             headerTitle,
-            searchInput = false
+            searchInput = false,
+            renderSearchFormItems
         } = this.props
 
+        let searchFormNode = null
+
+        if (renderSearchFormItems) {
+            searchFormNode = <SearchForm>
+                {renderSearchFormItems}
+            </SearchForm>
+        }
+
+
         return <div>
+            {searchFormNode}
+
             <Card styles={{
                 body: {paddingTop: 0}
             }}
@@ -164,7 +184,7 @@ export class ProTable extends React.Component {
     };
 
     onSearch = (value) => {
-        this.setState({keyword: value}, this.loadData)
+        this.setState({keyword: value, current:1}, this.loadData)
     }
 
 }

@@ -1,18 +1,13 @@
 import {Button, Card, Form, Space} from 'antd';
-import omit from 'omit.js';
 import React from 'react';
 import './index.less';
-import {getField} from "../../fields/valueType";
-import {omitUndefined} from "../../proutils";
 
 
 export default class SearchForm extends React.Component {
-    /** 查询表单相关的配置 */
 
     onSubmit = (value, firstLoad) => {
         const {
             pagination,
-            beforeSearchSubmit = (searchParams) => searchParams,
             action,
             onSubmit,
             onFormSearchSubmit,
@@ -38,8 +33,6 @@ export default class SearchForm extends React.Component {
                 current: 1,
             });
         }
-        // 不是第一次提交就不触发，第一次提交是 js 触发的
-        // 为了解决 https://github.com/ant-design/pro-components/issues/579
         if (onSubmit && !firstLoad) {
             onSubmit?.(value);
         }
