@@ -19,9 +19,8 @@ public class JoinPointTool {
 
     /**
      * 获取切面的参数json
-     *
      * @param joinPoint 切点
-     * @return json
+     * @return json *
      */
     public static String getArgsJsonString(JoinPoint joinPoint) {
         StringBuilder argsJson = new StringBuilder();
@@ -53,11 +52,9 @@ public class JoinPointTool {
             return true;
         }
 
-        if (arg instanceof String && StrUtil.isBlank((String) arg) || arg instanceof Number) {
-            return true;
-        }
+        boolean isSimpleObj = arg instanceof String && StrUtil.isBlank((String) arg) || arg instanceof Number;
 
-        return false;
+        return !isSimpleObj;
     }
 
 }
