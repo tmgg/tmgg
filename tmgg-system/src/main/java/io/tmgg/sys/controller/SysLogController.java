@@ -1,6 +1,8 @@
 
 package io.tmgg.sys.controller;
 
+import cn.hutool.core.date.DateUtil;
+import io.tmgg.lang.dao.specification.JpaQuery;
 import io.tmgg.sys.service.SysOpLogService;
 import io.tmgg.web.annotion.HasPermission;
 import io.tmgg.lang.obj.AjaxResult;
@@ -14,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.annotation.Resource;
 
+import java.util.Date;
+
 /**
  * 系统日志
  */
@@ -26,18 +30,21 @@ public class SysLogController {
 
 
 
-
-
     @HasPermission
     @GetMapping("/sysOpLog/page")
-    public AjaxResult opLogPage(SysLog sysLogParam, @PageableDefault(sort = "createTime", direction = Sort.Direction.DESC) Pageable pageable) {
-        Page<SysLog> page = sysOpLogService.findByExampleLike(sysLogParam, pageable);
+    public AjaxResult opLogPage(String date, @PageableDefault(sort = "createTime", direction = Sort.Direction.DESC) Pageable pageable) {
+
+        JpaQuery<SysLog> q = new JpaQuery<>();
+        if(date!= null){
+            Date d = DateUtil.parseDate(date);
+            q.between("createTime", d,DateUtil.offsetDay(d,1));
+        }
+
+
+
+        Page<SysLog> page = sysOpLogService.findAll(q, pageable);
         return AjaxResult.ok().data(page).msg("查询操作日志成功");
     }
-
-
-
-
 
 
 

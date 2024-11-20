@@ -15,7 +15,6 @@ export class ProTable extends React.Component {
         params: {},
         dataSource: [],
 
-        keyword: null, // 搜索input的值
 
         total: 0,
         current: 1, // 当前页
@@ -36,10 +35,10 @@ export class ProTable extends React.Component {
             }
         }
 
-        const disabledKeys = ['hideTable','hideInForm','hideInSearch']
+        const disabledKeys = ['hideTable', 'hideInForm', 'hideInSearch']
         for (let column of this.props.columns) {
-            for(let key in disabledKeys){
-                if(column[key] != null){
+            for (let key in disabledKeys) {
+                if (column[key] != null) {
                     console.log('组件不再支持' + key)
                 }
             }
@@ -83,14 +82,17 @@ export class ProTable extends React.Component {
             rowKey = "id",
             headerTitle,
             searchInput = false,
-            renderSearchFormItems
+            searchFormItemsRender
         } = this.props
 
         let searchFormNode = null
 
-        if (renderSearchFormItems) {
-            searchFormNode = <SearchForm>
-                {renderSearchFormItems}
+        if (searchFormItemsRender) {
+            searchFormNode = <SearchForm
+                loading={this.state.loading}
+                searchFormItemsRender={searchFormItemsRender}
+                onSearch={this.onSearch}
+            >
             </SearchForm>
         }
 
@@ -104,14 +106,10 @@ export class ProTable extends React.Component {
             >
                 <Toolbar
                     headerTitle={headerTitle}
-
                     actionRef={actionRef}
-
                     toolBarRender={this.getToolBarRenderNode(toolBarRender)}
-
                     onTableSizeChange={tableSize => this.setState({tableSize})}
                     onRefresh={() => this.loadData()}
-
                     searchInput={searchInput}
                     onSearch={this.onSearch}
                 />
@@ -130,7 +128,8 @@ export class ProTable extends React.Component {
                         total: this.state.total,
                         pageSize: this.state.pageSize,
                         current: this.state.current,
-                        pageSizeOptions: [10, 20, 50, 100, 500, 1000, 5000]
+                        pageSizeOptions: [10, 20, 50, 100, 500, 1000, 5000],
+                        showTotal: (total) => `共 ${total} 条`
                     }}
 
                     onChange={(pagination, filters, sorter, extra) => {
@@ -183,8 +182,8 @@ export class ProTable extends React.Component {
         };
     };
 
-    onSearch = (value) => {
-        this.setState({keyword: value, current:1}, this.loadData)
+    onSearch = (values) => {
+        this.setState({params:values, current: 1}, this.loadData)
     }
 
 }

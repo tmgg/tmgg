@@ -1,6 +1,6 @@
 import React, {Fragment} from 'react';
-import {Tag} from "antd";
-import {ProTable} from "@tmgg/tmgg-base";
+import {Form, Tag} from "antd";
+import {FieldDatePickerString, ProTable} from "@tmgg/tmgg-base";
 import {Ellipsis, HttpUtil} from "@tmgg/tmgg-base";
 import {DateUtil} from "@tmgg/tmgg-commons-lang";
 
@@ -58,20 +58,16 @@ export default class extends React.Component {
         {
             title: '浏览器',
             dataIndex: 'browser',
-            hideInSearch: true,
         },
 
         {
             title: '操作系统',
             dataIndex: 'os',
-            hideInSearch: true,
         },
 
         {
             title: 'url',
             dataIndex: 'url',
-            hideInSearch: true,
-
         },
         {
             title: '请求参数',
@@ -90,8 +86,12 @@ export default class extends React.Component {
             <ProTable
                 request={(params) => HttpUtil.pageData(pageApi, params)}
                 columns={this.columns}
-                renderSearchFormItems={()=>{
-                    return <></>
+                searchFormItemsRender={(formInstance)=>{
+                    return <>
+                        <Form.Item label='时间' name='date'>
+                            <FieldDatePickerString />
+                        </Form.Item>
+                    </>
                 }}
             />
 
