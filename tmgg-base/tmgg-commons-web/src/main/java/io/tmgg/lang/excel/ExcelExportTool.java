@@ -112,12 +112,14 @@ public class ExcelExportTool {
         // 表体
         for (T bean : dataList) {
             Row row = sheet.createRow(sheet.getLastRowNum() + 1);
+            int i = 0;
             for (Map.Entry<String, Function<T, Object>> e : columns.entrySet()) {
                 Function<T, Object> fn = e.getValue();
                 Object value = fn.apply(bean);
                 value = ObjUtil.defaultIfNull(value, "");
 
-                row.createCell(row.getLastCellNum()).setCellValue(value.toString());
+                row.createCell(i).setCellValue(value.toString());
+                i++;
             }
 
         }
