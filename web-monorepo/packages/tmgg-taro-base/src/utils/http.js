@@ -153,15 +153,7 @@ export const HttpUtil = {
         }
 
 
-        function convertToProTableData(data) {
-            return {
-                data: data.content,
-                success: true,
-                total: parseInt(data.totalElements)
-            }
-        }
-
-        return this.post(url, data, pageParams).then(convertToProTableData)
+        return this.post(url, data, pageParams)
     },
 
 }

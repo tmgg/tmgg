@@ -135,34 +135,8 @@ export const HttpUtil = {
      * @param sort
      * @returns {Promise<unknown>}
      */
-    pageData(url, params, sort) {
-        const {current, pageSize, keyword, ...data} = params;
-
-        const pageParams = {
-            page: current,
-            size: pageSize,
-            keyword
-        }
-
-        if (sort) {
-            let keys = Object.keys(sort);
-            if (keys.length > 0) {
-                let key = keys[0];
-                let dir = sort[key] === 'ascend' ? 'asc' : 'desc';
-                pageParams.sort = key + "," + dir
-            }
-        }
-
-
-        function convertToProTableData(data) {
-            return {
-                data: data.content,
-                success: true,
-                total: parseInt(data.totalElements)
-            }
-        }
-
-        return this.get(url, {...data,...pageParams}).then(convertToProTableData)
+    pageData(url, params) {
+        return this.get(url, params)
     },
     downloadFile(url, params) {
         let config = {

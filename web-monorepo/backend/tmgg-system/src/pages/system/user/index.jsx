@@ -4,19 +4,16 @@ import {
     Card,
     Form,
     Input,
-    Layout,
     message,
     Modal,
-    Popconfirm, Splitter,
-    Typography
+    Popconfirm,
+    Splitter
 } from 'antd';
 import React from 'react';
-import {ProTable} from "@tmgg/pro-table";
-import {FieldRadioBoolean, HttpUtil} from "@tmgg/tmgg-base";
+import {FieldRadioBoolean,ProTable, HttpUtil} from "@tmgg/tmgg-base";
 import UserPerm from "./UserPerm";
 import {
     ButtonList,
-    FieldDictRadio,
     FieldOrgTreeSelect
 } from "@tmgg/tmgg-base";
 import {OrgTree} from "@tmgg/tmgg-base";
@@ -62,10 +59,12 @@ export default class extends React.Component {
         {
             title: '姓名',
             dataIndex: 'name',
+            sorter:true
         },
         {
             title: '登录账号',
             dataIndex: 'account',
+            sorter:true
         },
 
 
@@ -191,9 +190,8 @@ export default class extends React.Component {
                 </Splitter.Panel>
                 <Splitter.Panel>
                     <ProTable
-                        size={'small'}
-                        search={false}
-                        options={{search: true}}
+                        searchForm={false}
+                        searchInput={true}
                         actionRef={this.tableRef}
                         toolBarRender={(action, {selectedRows}) => {
 
