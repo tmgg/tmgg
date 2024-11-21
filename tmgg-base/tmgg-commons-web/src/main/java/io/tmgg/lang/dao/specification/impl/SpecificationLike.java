@@ -15,7 +15,7 @@ public class SpecificationLike<T> implements Specification<T> {
     public SpecificationLike(String fieldName, String value) {
         this.fieldName = fieldName;
         this.value = value;
-        Assert.hasText(value,"值不能为空");
+        Assert.hasText(value,"查询内容不能为空");
     }
 
     @Override
