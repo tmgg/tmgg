@@ -2,8 +2,7 @@ import {AutoComplete, Button, Form, Input, message, Modal, Popconfirm, Select, S
 import React from 'react'
 import {PlusOutlined} from "@ant-design/icons";
 import StreamLog from "../../components/StreamLog";
-import {FieldComponent, HttpUtil, SysUtil} from "@tmgg/tmgg-base";
-import ProTable from "@tmgg/tmgg-base";
+import {FieldComponent, HttpUtil,ProTable, SysUtil} from "@tmgg/tmgg-base";
 import {StrUtil} from "@tmgg/tmgg-commons-lang";
 
 
