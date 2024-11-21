@@ -13,7 +13,7 @@ import {
 import React from 'react';
 
 import RoleMenuTree from "./RoleMenuTree";
-import {ButtonList,  HttpUtil} from "@tmgg/tmgg-base";
+import {ButtonList, FieldRadioBoolean, HttpUtil} from "@tmgg/tmgg-base";
 
 const baseApi = 'sysRole/';
 const basePerm = 'sysRole:';
@@ -141,6 +141,9 @@ export default class extends React.Component {
           </Form.Item>
           <Form.Item label='编码' name='code' rules={[{required: true}]}>
             <Input/>
+          </Form.Item>
+          <Form.Item label='启用' name='enabled' rules={[{required: true}]}>
+            <FieldRadioBoolean />
           </Form.Item>
           <Form.Item label='备注' name='remark' >
             <Input/>

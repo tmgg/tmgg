@@ -57,14 +57,10 @@ public class SysOrg extends BaseEntity implements TreeDefinition<SysOrg> {
     private OrgType type;
 
 
-    // 预留字段1
-    private String reservedField1;
-
-    // 预留字段2
-    private String reservedField2;
-
-    // 预留字段3
-    private String reservedField3;
+    // 扩展字段1
+    private String extra1;
+    private String extra2;
+    private String extra3;
 
 
     @Transient

@@ -192,58 +192,42 @@ export default class extends React.Component {
                         </Space>}
                     >
 
-                        {this.state.formValues ?
-                            <Form
-                                disabled={!this.state.formEditing}
-                                labelCol={{flex: '150px'}}
-                                wrapperCol={{flex: '400px'}}
-                                initialValues={this.state.formValues}
-                                onFinish={this.onFinish}
-                            >
-                                <Form.Item noStyle name='id'>
-                                </Form.Item>
-                                <Form.Item label='父节点' name='pid'>
-                                    <FieldRemoteTreeSelect url={treeApi}/>
-                                </Form.Item>
-                                <Form.Item label='名称' name='name' rules={[{required: true}]}>
-                                    <Input></Input>
-                                </Form.Item>
+                        {this.state.formValues = null ? <Empty description='未选择机构'/> : <Form
+                            disabled={!this.state.formEditing}
+                            labelCol={{flex: '150px'}}
+                            wrapperCol={{flex: '400px'}}
+                            initialValues={this.state.formValues}
+                            onFinish={this.onFinish}
+                        >
+                            <Form.Item noStyle name='id'>
+                            </Form.Item>
+                            <Form.Item label='父节点' name='pid'>
+                                <FieldRemoteTreeSelect url={treeApi}/>
+                            </Form.Item>
+                            <Form.Item label='名称' name='name' rules={[{required: true}]}>
+                                <Input></Input>
+                            </Form.Item>
 
 
-                                <Form.Item label='类型' name='type' rules={[{required: true}]}>
-                                    <FieldDictRadio typeCode='orgType'/>
-                                </Form.Item>
+                            <Form.Item label='类型' name='type' rules={[{required: true}]}>
+                                <FieldDictRadio typeCode='orgType'/>
+                            </Form.Item>
 
 
-
-                                <Form.Item label='状态' name='enabled' rules={[{required: true}]}>
-                                    <FieldRadioBoolean />
-                                </Form.Item>
-                                <Form.Item label='排序' name='seq'>
-                                    <InputNumber/>
-                                </Form.Item>
-
-                                <Form.Item label='预留字段1' name='reservedField1'>
-                                    <Input />
-                                </Form.Item>
+                            <Form.Item label='状态' name='enabled' rules={[{required: true}]}>
+                                <FieldRadioBoolean/>
+                            </Form.Item>
+                            <Form.Item label='排序' name='seq'>
+                                <InputNumber/>
+                            </Form.Item>
 
 
-                                <Form.Item label='预留字段2' name='reservedField2'>
-                                    <Input />
-                                </Form.Item>
+                            <Form.Item label=' ' colon={false}>
+                                <Button type="primary" htmlType='submit'
+                                        loading={this.state.submitLoading}>保存</Button>
+                            </Form.Item>
 
-                                <Form.Item label='预留字段3' name='reservedField3'>
-                                    <Input />
-                                </Form.Item>
-
-                                <Form.Item label=' ' colon={false}>
-                                    <Button type="primary" htmlType='submit'
-                                            loading={this.state.submitLoading}>保存</Button>
-                                </Form.Item>
-
-                            </Form>
-                            :
-                            <Empty description='未选择机构'/>
+                        </Form>
                         }
 
 

@@ -92,6 +92,10 @@ public class SysUser extends BaseEntity {
     @Column(nullable = false, columnDefinition = DBConstants.COLUMN_DEFINITION_BOOLEAN_DEFAULT_TRUE)
     private Boolean enabled;
 
+    // 扩展字段1
+    private String extra1;
+    private String extra2;
+    private String extra3;
 
     @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY)
