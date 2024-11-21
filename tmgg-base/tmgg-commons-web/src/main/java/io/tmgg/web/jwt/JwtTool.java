@@ -1,13 +1,11 @@
 package io.tmgg.web.jwt;
 
-import cn.crec.lang.RequestTool;
 import cn.hutool.core.net.url.UrlQuery;
-import cn.hutool.core.util.URLUtil;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpHeaders;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.nio.charset.StandardCharsets;
 
 public class JwtTool {
