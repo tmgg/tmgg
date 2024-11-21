@@ -23,6 +23,7 @@ import java.util.stream.Collectors;
 
 public abstract class BaseService<T extends Persistable<String>> {
 
+
     @Autowired
     protected BaseDao<T> baseDao;
 
@@ -84,13 +85,10 @@ public abstract class BaseService<T extends Persistable<String>> {
         return baseDao.findOne(id);
     }
 
-    public T findOne(Specification<T> filter) {
-        return baseDao.findOne(filter);
+    public T findOne(Specification<T> specification) {
+        return baseDao.findOne(specification);
     }
 
-    public T findOne(T t) {
-        return baseDao.findOne(t);
-    }
 
     public T findTop1(Specification<T> spec, Sort sort) {
         return baseDao.findTop1(spec, sort);
