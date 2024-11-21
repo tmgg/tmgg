@@ -5,7 +5,6 @@ import {Radio} from 'antd';
 export class FieldRadioBoolean extends React.Component {
     render() {
         let {mode, value, onChange} = this.props;
-        debugger
 
 
         if(value != null){

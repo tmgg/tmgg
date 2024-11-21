@@ -155,10 +155,8 @@ export class ProTable extends React.Component {
             return
         }
         return toolBarRender(null, {
-            rows: {
                 selectedRows: this.state.selectedRows,
                 selectedRowKeys: this.state.selectedRowKeys
-            }
         });
     }
 
