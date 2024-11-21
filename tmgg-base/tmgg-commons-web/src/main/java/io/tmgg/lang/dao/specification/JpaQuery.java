@@ -56,6 +56,12 @@ public class JpaQuery<T> implements Specification<T> {
          this.add(new SpecificationEQ<>(column, value));
     }
 
+    public void eqIf(boolean state,String column, Object value) {
+        if(state){
+            this.add(new SpecificationEQ<>(column, value));
+        }
+    }
+
     public void isNull(String column) {
          this.add(new Specification<T>() {
             @Override
@@ -115,7 +121,11 @@ public class JpaQuery<T> implements Specification<T> {
     public void like(String column, String val) {
         this.add(new SpecificationLike<>(column, val));
     }
-
+    public void likeIf(boolean state,String column, String val) {
+        if(state){
+            this.add(new SpecificationLike<>(column, val));
+        }
+    }
 
     public void notLike(String column, String val) {
         this.add(new SpecificationNotLike<>(column, val));
