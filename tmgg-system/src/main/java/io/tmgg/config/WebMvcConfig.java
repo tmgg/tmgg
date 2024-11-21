@@ -19,6 +19,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import jakarta.annotation.Resource;
 
+import java.util.List;
+
 /**
  * web配置
  */
@@ -84,8 +86,10 @@ public class WebMvcConfig implements WebMvcConfigurer {
                     .excludePathPatterns("/*.**");
 
 
-            if (CollUtil.isNotEmpty(sysProp.getLoginExcludePathPatterns())) {
-                registration.excludePathPatterns(sysProp.getLoginExcludePathPatterns());
+            List<String> loginExcludePathPatterns = sysProp.getLoginExcludePathPatterns();
+            if (CollUtil.isNotEmpty(loginExcludePathPatterns)) {
+                log.info("忽略鉴权的地址: {}",loginExcludePathPatterns);
+                registration.excludePathPatterns(loginExcludePathPatterns);
             }
 
             registration.excludePathPatterns(NONE_SECURITY_URL_PATTERNS);
