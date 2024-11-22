@@ -51,7 +51,7 @@ public class SysUser extends BaseEntity {
 
 
     @Transient
-    @AutoFill(value = AutoFillOrgLabelStrategy.class, sourceField = "unitId")
+    @AutoFill(value = AutoFillOrgLabelStrategy.class)
     private String unitLabel;
 
 
@@ -59,7 +59,7 @@ public class SysUser extends BaseEntity {
     private String deptId;
 
     @Transient
-    @AutoFill(value = AutoFillOrgLabelStrategy.class, sourceField = "deptId")
+    @AutoFill(value = AutoFillOrgLabelStrategy.class)
     private String deptLabel;
 
 

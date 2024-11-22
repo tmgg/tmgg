@@ -5,6 +5,7 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 
 import java.lang.reflect.Field;
 
@@ -20,6 +21,12 @@ public class BeanPropertyFillUtil {
         fillPropertiesByAnn(obj);
     }
 
+
+    /**
+     *
+     * @param obj
+     */
+
     private static void fillPropertiesByAnn(Object obj) {
         Field[] declaredFields = obj.getClass().getDeclaredFields();
 
@@ -32,14 +39,17 @@ public class BeanPropertyFillUtil {
                     AutoFillStrategy strategy = SpringUtil.getBean(strategyClass);
 
 
-                    String sourceField = autoFill.sourceField();
+                    // 获取原始字段
+                    // 规则1. 默认去掉Label， 例如 userLabel -> user
+                    String sourceField1 = StrUtil.replace(f.getName(), "Label", "");
 
-                    // 默认去掉Label， 例如 confirmedUserLabel, 去掉后变为 confirmedUser
-                    if (sourceField == null || sourceField.isEmpty()) {
-                        sourceField = StrUtil.replace(sourceField, "Label", "");
+
+                    Object sourceValue = BeanUtil.getFieldValue(obj, sourceField1);
+                    if(sourceValue == null){
+                        // 规则2.  如 userLabel->userId
+                        String sourceField2 = sourceField1 + "Id";
+                        sourceValue =  BeanUtil.getFieldValue(obj, sourceField2);
                     }
-
-                    Object sourceValue = BeanUtil.getFieldValue(obj, sourceField);
 
                     Object value = strategy.getValue(obj, sourceValue, autoFill.param());
 
