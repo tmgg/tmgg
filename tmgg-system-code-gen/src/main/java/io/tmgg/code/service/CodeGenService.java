@@ -138,7 +138,7 @@ public class CodeGenService {
             // 数据字典(enum)
             if (field.isAnnotationPresent(Enumerated.class)) {
                 f.setDict(true);
-                String presentableText = field.getName();
+                String presentableText = field.getType().getSimpleName();
                 String dictTypeCode = this.toUnderlineCase(presentableText);
                 f.setDictTypeCode(dictTypeCode);
             }
