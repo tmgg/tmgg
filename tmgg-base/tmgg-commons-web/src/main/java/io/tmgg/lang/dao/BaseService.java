@@ -8,6 +8,8 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
+import io.tmgg.lang.poi.ExcelExportTool;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,6 +19,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import java.io.IOException;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -26,6 +29,7 @@ public abstract class BaseService<T extends Persistable<String>> {
 
     @Autowired
     protected BaseDao<T> baseDao;
+
 
 
     public Object[] findAggregate(Specification<T> spec, Selector selector) {
@@ -103,13 +107,18 @@ public abstract class BaseService<T extends Persistable<String>> {
     }
 
 
-    public Page<T> findAll(Specification<T> filter, Pageable pageable) {
-        return baseDao.findAll(filter, pageable);
+    public Page<T> findAll(Specification<T> specification, Pageable pageable) {
+        return baseDao.findAll(specification, pageable);
+    }
+
+    public void exportExcel(Specification<T> specification, String filename, HttpServletResponse response) throws IOException {
+        List<T> list = baseDao.findAll(specification);
+        ExcelExportTool.exportBeanList(filename, getEntityClass(), list, response);
     }
 
 
-    public Page<T> findAll(Specification<T> filter, Pageable pageable, Sort sort) {
-        return baseDao.findAll(filter, pageable, sort);
+    public Page<T> findAll(Specification<T> specification, Pageable pageable, Sort sort) {
+        return baseDao.findAll(specification, pageable, sort);
     }
 
 

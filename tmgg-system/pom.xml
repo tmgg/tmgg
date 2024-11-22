@@ -23,10 +23,7 @@
             <artifactId>tmgg-commons-jackson</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>io.github.tmgg</groupId>
-            <artifactId>tmgg-commons-poi</artifactId>
-        </dependency>
+
         <dependency>
             <groupId>io.github.tmgg</groupId>
             <artifactId>tmgg-commons-web</artifactId>
