@@ -1,5 +1,6 @@
 package io.tmgg.code.controller;
 
+import cn.hutool.core.lang.Dict;
 import cn.hutool.core.util.StrUtil;
 import io.tmgg.lang.ann.RemarkTool;
 import io.tmgg.lang.JpaTool;
@@ -29,13 +30,10 @@ public class SysEntityController {
     public AjaxResult page(final String keyword) throws IOException {
         List<String> list = jpaTool.findAllEntity();
 
-        if(StrUtil.isNotEmpty(keyword)){
-            list = list.stream().filter(s->StrUtil.containsIgnoreCase(s, keyword)).collect(Collectors.toList());
-        }
 
 
-        List<Map<String, Object>> voList = list.stream().map(clsName -> {
-            Map<String, Object> map = new HashMap<>();
+        List<Dict> voList = list.stream().map(clsName -> {
+            Dict map = new Dict();
 
             try {
                 Class<?> cls = Class.forName(clsName);
@@ -51,6 +49,11 @@ public class SysEntityController {
 
             return map;
         }).collect(Collectors.toList());
+
+        if(StrUtil.isNotEmpty(keyword)){
+            voList = voList.stream().filter(s->StrUtil.containsIgnoreCase(s.getStr("name"), keyword) || StrUtil.containsIgnoreCase(s.getStr("remark"),keyword)).collect(Collectors.toList());
+        }
+
 
         return AjaxResult.ok().data(new PageImpl<>(voList));
     }
