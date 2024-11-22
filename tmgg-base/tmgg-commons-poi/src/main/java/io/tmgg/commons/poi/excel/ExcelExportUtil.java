@@ -157,21 +157,7 @@ public final class ExcelExportUtil {
         return workbook;
     }
 
-    /**
-     * 导出文件通过模板解析,不推荐这个了,推荐全部通过模板来执行处理
-     *
-     * @param params    导出参数类
-     * @param pojoClass 对应实体
-     * @param dataSet   实体集合
-     * @param map       模板集合
-     * @return
-     */
-    @Deprecated
-    public static Workbook exportExcel(TemplateExportParams params, Class<?> pojoClass,
-                                       Collection<?> dataSet, Map<String, Object> map) {
-        return new ExcelExportOfTemplateUtil().createExcelByTemplate(params, pojoClass, dataSet,
-                map);
-    }
+
 
     /**
      * 导出文件通过模板解析只有模板,没有集合

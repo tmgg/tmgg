@@ -1,10 +1,11 @@
 
-package io.tmgg.lang.excel;
+package io.tmgg.lang;
 
 import cn.hutool.core.util.ObjUtil;
+import io.tmgg.commons.poi.excel.ExcelExportUtil;
+import io.tmgg.commons.poi.excel.entity.ExportParams;
 import io.tmgg.lang.ResponseTool;
 import io.tmgg.lang.data.Array2D;
-import io.tmgg.web.excel.Excel;
 import cn.hutool.core.bean.BeanUtil;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -24,48 +25,19 @@ import java.util.function.Function;
 @Slf4j
 public class ExcelExportTool {
 
-    public static void exportBeanListByAnn(String filename, Class<?> pojoClass, Collection<?> list, HttpServletResponse response) throws IOException {
-        Field[] declaredFields = pojoClass.getDeclaredFields();
-        List<Field> titleFields = new ArrayList<>(declaredFields.length);
-        for (int i = 0; i < declaredFields.length; i++) {
-            Field field = declaredFields[i];
-            Excel ann = field.getAnnotation(Excel.class);
-            if (ann != null) {
-                titleFields.add(field);
-            }
-        }
+    /**
+     *  通过Excel 注解导出
+     * @param filename
+     * @param pojoClass
+     * @param list
+     * @param response
+     * @throws IOException
+     */
+    public static void exportBeanList(String filename, Class<?> pojoClass, Collection<?> list, HttpServletResponse response) throws IOException {
 
-        Workbook workbook = new XSSFWorkbook();
-        Sheet sheet = workbook.createSheet();
+        ExportParams param = new ExportParams();
 
-        int rowIndex = 0;
-
-        // 表头
-        {
-            Row row = sheet.createRow(rowIndex++);
-            for (int i = 0; i < titleFields.size(); i++) {
-                Field field = titleFields.get(i);
-                String title = field.getAnnotation(Excel.class).name();
-                row.createCell(i).setCellValue(title);
-            }
-        }
-
-        // 表体
-        for (Object bean : list) {
-            Row row = sheet.createRow(rowIndex++);
-
-            for (int i = 0; i < titleFields.size(); i++) {
-                Field field = titleFields.get(i);
-                Object value = BeanUtil.getFieldValue(bean, field.getName());
-
-                if (value == null) {
-                    continue;
-                }
-                row.createCell(i).setCellValue(value.toString());
-            }
-
-        }
-
+        Workbook workbook = ExcelExportUtil.exportExcel(param, pojoClass, list);
 
         exportWorkbook(filename, workbook, response);
     }
