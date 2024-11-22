@@ -11,7 +11,6 @@ import lombok.Getter;
  *
  *
  */
-@Deprecated
 @Getter
 @Remark("是否")
 public enum YesNo implements DictEnum {
