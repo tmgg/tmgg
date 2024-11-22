@@ -91,7 +91,6 @@ export default class extends React.Component {
             <Radio.Group>
               <Radio value='list'>列表</Radio>
               <Radio value='tree' >树(左数右表单)</Radio>
-              <Radio value='tree-list' disabled>左树右表格(只选两个)</Radio>
             </Radio.Group>
           </Form.Item>
 

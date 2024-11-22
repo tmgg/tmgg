@@ -26,6 +26,8 @@ import java.util.List;
 public class CodeGenService {
 
 
+    public static final CharSequence[] IGNORE_FIELDS = {"createTime", "updateTime", "updateUser", "createUser",
+            "updateUserLabel", "createTimeLabel", "addFields"};
 
     public BeanInfo getBeanInfo(Class<?> cls) {
 
@@ -110,8 +112,7 @@ public class CodeGenService {
             String fieldName = field.getName();
 
 
-            if (StringUtils.equalsAny(fieldName, "id","createTime", "updateTime", "updateUser", "createUser",
-                    "updateUserLabel", "createTimeLabel")) {
+            if (StringUtils.equalsAny(fieldName, IGNORE_FIELDS)) {
                 continue;
             }
 

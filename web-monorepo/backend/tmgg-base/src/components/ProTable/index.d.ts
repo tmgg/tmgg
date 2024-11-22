@@ -1,12 +1,13 @@
 // @ts-ignore
 import React from "react";
+import {ColumnsType} from "antd/es/table";
+import {FormInstance} from "antd";
 
-declare type FieldProps = {
-    mode: 'read' | 'edit';
-    value: any;
-    onChange: any;
-    fieldProps: any;
+declare type ProTableProps = {
+    columns:  ColumnsType,
+    showSearch?: boolean,
+    searchFormItemsRender:(formInstance: FormInstance)=>{},
 };
 
-export class ProTable extends React.Component<FieldProps, any> {
+export class ProTable extends React.Component<ProTableProps, any> {
 }
