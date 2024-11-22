@@ -4,6 +4,7 @@ package io.tmgg.lang.poi;
 import cn.hutool.core.util.ObjUtil;
 import io.tmgg.commons.poi.excel.ExcelExportUtil;
 import io.tmgg.commons.poi.excel.entity.ExportParams;
+import io.tmgg.commons.poi.excel.entity.enmus.ExcelType;
 import io.tmgg.lang.ResponseTool;
 import io.tmgg.lang.data.Array2D;
 import cn.hutool.core.bean.BeanUtil;
@@ -34,9 +35,8 @@ public class ExcelExportTool {
      * @throws IOException
      */
     public static void exportBeanList(String filename, Class<?> pojoClass, Collection<?> list, HttpServletResponse response) throws IOException {
-
         ExportParams param = new ExportParams();
-
+        param.setType(ExcelType.XSSF);
         Workbook workbook = ExcelExportUtil.exportExcel(param, pojoClass, list);
 
         exportWorkbook(filename, workbook, response);
