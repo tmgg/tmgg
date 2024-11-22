@@ -55,4 +55,10 @@ public class SysDictItemDao extends BaseDao<SysDictItem> {
         }
         return null;
     }
+
+    public List<SysDictItem> findAllByDictCode(String code) {
+        JpaQuery<SysDictItem> q = new JpaQuery<>();
+        q.eq(SysDictItem.Fields.sysDict + "." + SysDict.Fields.code, code);
+        return this.findAll(q);
+    }
 }

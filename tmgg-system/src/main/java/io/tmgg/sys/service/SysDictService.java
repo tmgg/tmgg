@@ -1,6 +1,8 @@
 
 package io.tmgg.sys.service;
 
+import io.tmgg.lang.dao.BaseEntity;
+import io.tmgg.lang.obj.Option;
 import io.tmgg.sys.SysDictTreeNode;
 import io.tmgg.sys.dao.SysDictDao;
 import io.tmgg.sys.dao.SysDictItemDao;
@@ -29,6 +31,12 @@ public class SysDictService extends BaseService<SysDict> {
 
     public String findTextByDictCodeAndKey(String code, String key){
        return sysDictItemDao.findTextByDictCodeAndKey(code, key);
+    }
+
+    public List<Option> findOptions(String code){
+        List<SysDictItem> list = sysDictItemDao.findAllByDictCode(code);
+
+        return Option.convertList(list, BaseEntity::getId, SysDictItem::getText);
     }
 
 
