@@ -28,6 +28,7 @@ public class CodeGenService {
 
     public static final CharSequence[] IGNORE_FIELDS = {"createTime", "updateTime", "updateUser", "createUser",
             "updateUserLabel", "createTimeLabel", "addFields"};
+    public static final CharSequence[] HIDE_IN_FORM = {"id","createUser", "createTime", "updateUser", "updateTime"};
 
     public BeanInfo getBeanInfo(Class<?> cls) {
 
@@ -119,7 +120,7 @@ public class CodeGenService {
 
             FieldInfo f = new FieldInfo();
 
-            if (StringUtils.startsWithAny(fieldName,"createUser", "createTime", "updateUser", "updateTime")) {
+            if (StringUtils.startsWithAny(fieldName, HIDE_IN_FORM)) {
                 f.setHideInForm(true);
                 f.setHideInSearch(true);
             }
