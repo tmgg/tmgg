@@ -2,6 +2,7 @@ import { Button, Modal, Upload } from 'antd';
 
 import React, {Component} from 'react';
 import UploadOutlined from '@ant-design/icons/lib/icons/UploadOutlined';
+import {SysUtil} from "../../system";
 
 
 
@@ -98,7 +99,7 @@ export class FieldUploadFile extends Component{
           fileList={fileList}
           listType="text"
           onChange={this.handleChange}
-          headers={HttpUtil.getHeader()}
+          headers={SysUtil.getHeaders()}
           accept={this.props.accept}
         >
           <Button>

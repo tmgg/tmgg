@@ -22,7 +22,6 @@ interface MapProps extends FieldProps {
 }
 
 
-export {FieldSelectPosition as SelectPosition};
 
 
 /**

@@ -3,6 +3,7 @@ import { Modal, Upload } from 'antd';
 import React from 'react';
 import ImgCrop from 'antd-img-crop';
 import { PlusOutlined } from '@ant-design/icons';
+import {SysUtil} from "../../system";
 
 const serverUrl = process.env.API_BASE_URL;
 const fileUrl = serverUrl;
@@ -96,7 +97,7 @@ export class FieldUploadImage extends React.Component {
               fileList={fileList}
               onPreview={this.handlePreview}
               onChange={this.handleChange}
-              headers={SysConfig.getHeader()}
+              headers={SysUtil.getHeaders()}
             >
               {fileList.length >= maxNum ? null : uploadButton}
             </Upload>
@@ -117,7 +118,7 @@ export class FieldUploadImage extends React.Component {
           onPreview={this.handlePreview}
           onChange={this.handleChange}
           multiple={multiple}
-          headers={ sys.getHeader() }
+          headers={ SysUtil.getHeader() }
         >
           {fileList.length >= maxNum ? null : uploadButton}
         </Upload>
