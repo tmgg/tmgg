@@ -4,7 +4,7 @@ export * from './Ellipsis'
 export * from './ButtonList'
 export * from './HasPerm'
 export * from './system'
-export * from './RemoteImageView';
+export * from './ImageView';
 
 
 export * from './PageLoading.jsx'

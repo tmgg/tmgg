@@ -6,7 +6,7 @@ import {FormInstance} from "antd";
 declare type ProTableProps = {
     columns:  ColumnsType,
     showSearch?: boolean,
-    searchFormItemsRender:(formInstance: FormInstance)=>{},
+    searchFormItemsRender?:(formInstance: FormInstance)=>{},
 };
 
 export class ProTable extends React.Component<ProTableProps, any> {

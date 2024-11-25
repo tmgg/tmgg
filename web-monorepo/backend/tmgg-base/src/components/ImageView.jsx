@@ -1,5 +1,6 @@
 import React from 'react';
 import { Modal } from 'antd';
+import {SysUtil} from "../system";
 
 
 /**
@@ -10,7 +11,7 @@ import { Modal } from 'antd';
  *
  *
  */
-export class RemoteImageView extends React.Component {
+export class ImageView extends React.Component {
   preview = (url) => {
     Modal.info({
       title: '预览图片',
@@ -20,17 +21,19 @@ export class RemoteImageView extends React.Component {
   };
 
   render() {
-    let vs = this.props.fileId || this.props.url || this.props.value;
-    if (vs == null || vs == '' || vs.length == 0) {
+    let vs = this.props.id
+
+    if (!vs) {
       return;
     }
+
     if (typeof vs === 'string') {
       vs = vs.split(',');
     }
 
     let urlList = [];
     for (let v of vs) {
-      let isId = v.indexOf('/') == -1;
+      let isId = v.indexOf('/') === -1;
       let isAbsUrl = v.startsWith('http');
       if (isAbsUrl) {
         urlList.push(v);
@@ -38,11 +41,11 @@ export class RemoteImageView extends React.Component {
       }
 
       if (isId) {
-        urlList.push(SysConfig.getServerUrl() + 'sysFile/preview/' + v);
+        urlList.push(SysUtil.getServerUrl() + 'sysFile/preview/' + v);
         continue;
       }
 
-      urlList.push(SysConfig.getServerUrl() + v);
+      urlList.push(SysUtil.getServerUrl() + v);
     }
 
     const imgs = urlList.map((url) => (
