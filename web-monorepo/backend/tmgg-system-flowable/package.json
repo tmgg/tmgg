@@ -27,5 +27,5 @@
     "flowable-start" : "umi dev",
     "build" : "umi build"
   },
-  "version" : "0.1.62"
+  "version" : "0.1.63"
 }
