@@ -75,11 +75,11 @@ export class FieldUploadFile extends Component{
   render() {
     const { fileList } = this.state;
     const { businessKey, mode } = this.props;
-    const defaultURL = SysConfig.getServerUrl() + 'sysFile/upload';
+    const defaultURL = SysUtil.getServerUrl() + 'sysFile/upload';
     let url = defaultURL;
 
     if (this.props.url != null) {
-      url = SysConfig.getServerUrl() + this.props.url;
+      url = SysUtil.getServerUrl() + this.props.url;
     }
 
     if (businessKey != null) {
