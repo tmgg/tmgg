@@ -12,9 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -23,18 +21,15 @@ import java.util.stream.Collectors;
 public class SysEntityController {
 
     @Resource
-    JpaTool jpaTool;
+    JpaTool tool;
 
 
     @RequestMapping("page")
     public AjaxResult page(final String keyword) throws IOException {
-        List<String> list = jpaTool.findAllEntity();
-
-
+        List<String> list = tool.findAllEntity();
 
         List<Dict> voList = list.stream().map(clsName -> {
             Dict map = new Dict();
-
             try {
                 Class<?> cls = Class.forName(clsName);
                 map.put("id",cls.getName());
@@ -53,7 +48,6 @@ public class SysEntityController {
         if(StrUtil.isNotEmpty(keyword)){
             voList = voList.stream().filter(s->StrUtil.containsIgnoreCase(s.getStr("name"), keyword) || StrUtil.containsIgnoreCase(s.getStr("remark"),keyword)).collect(Collectors.toList());
         }
-
 
         return AjaxResult.ok().data(new PageImpl<>(voList));
     }
