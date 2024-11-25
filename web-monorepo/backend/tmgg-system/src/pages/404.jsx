@@ -9,7 +9,8 @@ export default class extends React.Component {
     render() {
 
             return  <Result
-                status="404"
+                status={404}
+                title='页面未找到'
             />
 
     }
