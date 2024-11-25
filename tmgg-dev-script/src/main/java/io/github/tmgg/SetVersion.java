@@ -20,7 +20,7 @@ public class SetVersion {
 
 
     public static void main(String[] args) throws IOException {
-        SetVersion sv = new SetVersion(NEW_VERSION);
+        SetVersion sv = new SetVersion();
         sv.changeMaven();
         sv.changeNpm();
     }
@@ -38,10 +38,10 @@ public class SetVersion {
 
             boolean parent = pom.getPath().equals("pom.xml");
             if (parent) {
-                doc.selectFirst("project>version").text(version);
-                doc.selectFirst("tmgg\\.version").text(version);
+                doc.selectFirst("project>version").text(NEW_VERSION);
+                doc.selectFirst("tmgg\\.version").text(NEW_VERSION);
             } else {
-                doc.selectFirst("parent>version").text(version);
+                doc.selectFirst("parent>version").text(NEW_VERSION);
             }
 
             xml = doc.toString();
@@ -70,7 +70,7 @@ public class SetVersion {
             String json = FileUtils.readFileToString(pkg, StandardCharsets.UTF_8);
 
             Map<String, Object> map = JsonTool.jsonToMap(json);
-            map.put("version", version);
+            map.put("version", NEW_VERSION);
 
             json = JsonTool.toPrettyJsonQuietly(map);
 
@@ -78,11 +78,6 @@ public class SetVersion {
         }
     }
 
-    private SetVersion(String version) {
-        this.version = version;
-    }
-
-    private String version;
 
 
 }
