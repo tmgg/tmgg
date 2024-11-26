@@ -1,12 +1,19 @@
 
 package io.tmgg.core.error;
 
+import cn.hutool.core.util.StrUtil;
 import io.tmgg.SysProp;
-import io.tmgg.lang.*;
+import io.tmgg.lang.HttpServletTool;
+import io.tmgg.lang.RegexTool;
+import io.tmgg.lang.StrTool;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.web.BizException;
 import io.tmgg.web.consts.AopSortConstant;
-import cn.hutool.core.util.StrUtil;
+import jakarta.annotation.Resource;
+import jakarta.persistence.RollbackException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.annotation.Order;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -23,12 +30,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.NoHandlerFoundException;
-
-import jakarta.annotation.Resource;
-import jakarta.persistence.RollbackException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.validation.ConstraintViolation;
-import jakarta.validation.ConstraintViolationException;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import java.sql.SQLException;
@@ -38,7 +39,6 @@ import java.util.Set;
 
 /**
  * 全局异常处理器
- *
  */
 @Order(AopSortConstant.GLOBAL_EXP_HANDLER_AOP)
 @RestControllerAdvice
@@ -53,13 +53,11 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(NoResourceFoundException.class)
     public AjaxResult noResourceFoundException(NoResourceFoundException e) {
-        return AjaxResult.err().code(404).msg("接口或资源不存在"+ e.getMessage());
+        return AjaxResult.err().code(404).msg("接口或资源不存在" + e.getMessage());
     }
 
     /**
      * 请求参数缺失异常
-     *
- *
      */
     @ExceptionHandler(MissingServletRequestParameterException.class)
     public AjaxResult missParamException(MissingServletRequestParameterException e) {
@@ -67,47 +65,38 @@ public class GlobalExceptionHandler {
         String parameterType = e.getParameterType();
         String parameterName = e.getParameterName();
         String message = StrUtil.format(">>> 缺少请求的参数{}，类型为{}", parameterName, parameterType);
-        return AjaxResult.err().code(500).msg( message);
+        return AjaxResult.err().code(500).msg(message);
     }
-
-
-
 
 
     /**
      * 拦截资源找不到的运行时异常
-     *
- *
      */
     @ExceptionHandler(NoHandlerFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public AjaxResult notFound(NoHandlerFoundException e) {
-        log.error(">>> 资源不存在异常，具体信息为：{}",  e.getMessage() + "，请求地址为:" + HttpServletTool.getRequest().getRequestURI());
-        return AjaxResult.err().code(404).msg( "资源路径不存在，请检查请求地址，请求地址为:" + HttpServletTool.getRequest().getRequestURI());
+        log.error(">>> 资源不存在异常，具体信息为：{}", e.getMessage() + "，请求地址为:" + HttpServletTool.getRequest().getRequestURI());
+        return AjaxResult.err().code(404).msg("资源路径不存在，请检查请求地址，请求地址为:" + HttpServletTool.getRequest().getRequestURI());
     }
-
-
 
 
     /**
      * 拦截权限异常
-     *
- *
      */
     @ExceptionHandler(BizException.class)
     public AjaxResult systemException(BizException e) {
-        return AjaxResult.err().msg( e.getMessage());
+        return AjaxResult.err().msg(e.getMessage());
     }
 
 
     @ExceptionHandler({IllegalArgumentException.class, IllegalStateException.class})
     public AjaxResult assertError(RuntimeException e) {
-        log.error(">>> 业务异常，assertError ，具体信息为：{}",  e.getMessage());
+        log.error(">>> 业务异常，assertError ，具体信息为：{}", e.getMessage());
         if (sysProp.isPrintException()) {
             e.printStackTrace();
         }
 
-        return AjaxResult.err().code(500).msg( e.getMessage());
+        return AjaxResult.err().code(500).msg(e.getMessage());
     }
 
 
@@ -155,8 +144,6 @@ public class GlobalExceptionHandler {
     }
 
 
-
-
     @ExceptionHandler(TransactionSystemException.class)
     public AjaxResult TransactionSystemException(TransactionSystemException e, HttpServletRequest request) {
         log.error("事务异常", e);
@@ -183,8 +170,6 @@ public class GlobalExceptionHandler {
 
     /**
      * 拦截未知的运行时异常
-     *
- *
      */
     @ExceptionHandler(SQLException.class)
     public AjaxResult sQLException(SQLException e) {
@@ -194,8 +179,6 @@ public class GlobalExceptionHandler {
 
     /**
      * 拦截未知的运行时异常
-     *
- *
      */
     @ExceptionHandler(Throwable.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -208,7 +191,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(HttpMessageNotReadableException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public AjaxResult httpMessageNotReadableException(HttpMessageNotReadableException e) {
-        return AjaxResult.err().msg("请求体不能为空" );
+        return AjaxResult.err().msg("请求体内容不可完整读取" + e.getMessage());
     }
 
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
@@ -228,7 +211,7 @@ public class GlobalExceptionHandler {
             message = "服务异常";
         }
 
-        return AjaxResult.err().code(500).msg( message);
+        return AjaxResult.err().code(500).msg(message);
     }
 
 
@@ -236,8 +219,6 @@ public class GlobalExceptionHandler {
      * 获取请求参数不正确的提示信息
      * <p>
      * 多个信息，拼接成用逗号分隔的形式
-     *
- *
      */
     private String getArgNotValidMessage(BindingResult bindingResult) {
         if (bindingResult == null) {
