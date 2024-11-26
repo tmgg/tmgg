@@ -30,8 +30,8 @@ export default class extends React.Component {
     </#if>
 
     <#if (f.type == 'java.lang.Boolean')>
-         render: (v){
-            return v == null ? null : ( v ? '是': '否'）
+         render(v){
+            return v == null ? null : ( v ? '是': '否')
           },
 
     </#if>
