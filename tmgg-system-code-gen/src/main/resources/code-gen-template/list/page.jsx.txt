@@ -2,7 +2,7 @@ import {PlusOutlined} from '@ant-design/icons'
 import {Button, Card,InputNumber, Popconfirm,Modal,Form,Input,message} from 'antd'
 import React from 'react'
 
-import {ButtonList,dictValueTag, FieldDictSelect,FieldRadioBoolean, FieldDatePickerString,HttpUtil, ProTable} from "@tmgg/tmgg-base";
+import {ButtonList,dictValueTag, FieldDictSelect,FieldRadioBoolean, FieldDatePickerString, FieldDateTimePickerString, HttpUtil, ProTable} from "@tmgg/tmgg-base";
 
 
 
@@ -118,7 +118,7 @@ export default class extends React.Component {
                 <#elseif (f.type == 'java.lang.Float' || f.type == 'java.lang.Integer' || f.type == 'java.lang.Long')>
                     <InputNumber />
                 <#elseif (f.type == 'java.util.Date')>
-                     <FieldDatePickerString />
+                     <FieldDateTimePickerString />
                 <#else>
                     <Input/>
                 </#if>
