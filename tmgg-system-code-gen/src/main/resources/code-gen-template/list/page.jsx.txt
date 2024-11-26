@@ -2,7 +2,7 @@ import {PlusOutlined} from '@ant-design/icons'
 import {Button, Card,InputNumber, Popconfirm,Modal,Form,Input,message} from 'antd'
 import React from 'react'
 
-import {ButtonList,dictValueTag, FieldDictSelect,FieldRadioBoolean, HttpUtil, ProTable} from "@tmgg/tmgg-base";
+import {ButtonList,dictValueTag, FieldDictSelect,FieldRadioBoolean, FieldDatePickerString,HttpUtil, ProTable} from "@tmgg/tmgg-base";
 
 
 
@@ -35,6 +35,7 @@ export default class extends React.Component {
           },
 
     </#if>
+
 
     },
     </#list>
@@ -104,7 +105,6 @@ export default class extends React.Component {
     <Form ref={this.formRef} labelCol={{flex: '100px'}}
         initialValues={this.state.formValues}
         onFinish={this.onFinish}
-
         >
         <Form.Item  name='id' noStyle></Form.Item>
 
@@ -115,8 +115,10 @@ export default class extends React.Component {
                  <FieldDictSelect typeCode="${f.dictTypeCode}" />
                 <#elseif (f.type == 'java.lang.Boolean')>
                    <FieldRadioBoolean />
-                <#elseif (f.type == 'java.lang.Float' || f.type == 'java.lang.Integer')>
+                <#elseif (f.type == 'java.lang.Float' || f.type == 'java.lang.Integer' || f.type == 'java.lang.Long')>
                     <InputNumber />
+                <#elseif (f.type == 'java.util.Date')>
+                     <FieldDatePickerString />
                 <#else>
                     <Input/>
                 </#if>
@@ -131,6 +133,5 @@ export default class extends React.Component {
 
   }
 }
-
 
 
