@@ -48,6 +48,10 @@ public abstract class BaseDao<T extends Persistable<String>> {
     protected DbTool jdbc;
 
 
+
+
+
+
     @PostConstruct
     void init() {
         Type type = getClass().getGenericSuperclass();
