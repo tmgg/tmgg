@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
  * 系统参数配置 Mapper 接口
  */
 @Repository
-@CacheConfig(cacheNames = "sys.config")
+@CacheConfig(cacheNames = "sys-config")
 public class SysConfigDao extends BaseDao<SysConfig> {
 
 
