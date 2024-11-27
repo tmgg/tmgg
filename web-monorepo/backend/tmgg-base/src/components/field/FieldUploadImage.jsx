@@ -60,16 +60,19 @@ export class FieldUploadImage extends React.Component {
   handleChange = (e) => {
     const { fileList } = e;
     this.setState({ fileList });
-    if (this.props.onChange) {
-      let fileIds = [];
-      fileList.forEach((f) => {
-        if (f.status === 'done' && f.response && f.response.code == 200) {
-          fileIds.push(f.response.data);
-        }
-      });
-      let files = fileIds.join(',');
-      this.props.onChange(files);
+    if (!this.props.onChange) {
+      return;
     }
+    let fileIds = [];
+    fileList.forEach((f) => {
+      let ajaxResult = f.response;
+      const {id, location} = ajaxResult
+      if (f.status === 'done' && ajaxResult && id) {
+        fileIds.push(id);
+      }
+    });
+    let files = fileIds.join(',');
+    this.props.onChange(files);
   };
 
   render() {

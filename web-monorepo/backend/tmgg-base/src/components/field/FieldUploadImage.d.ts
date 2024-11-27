@@ -7,7 +7,9 @@ declare type FieldUploadImageProps = {
     /**
      * 是否支持裁切
      */
-    crop?: boolean
+    crop?: boolean,
+     maxNum?:Number;
+     multiple?:boolean;
 };
 
 export class FieldUploadImage extends React.Component<FieldUploadImageProps, any> {
