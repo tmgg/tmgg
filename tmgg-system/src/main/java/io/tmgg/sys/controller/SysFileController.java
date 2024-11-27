@@ -2,6 +2,7 @@
 package io.tmgg.sys.controller;
 
 import cn.hutool.core.lang.Dict;
+import io.tmgg.lang.ann.PublicApi;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.sys.entity.SysFile;
 import io.tmgg.sys.service.SysFileService;
@@ -63,18 +64,14 @@ public class SysFileController {
 
 
 
-    @GetMapping("preview")
-    public void preview(String id, HttpServletResponse response) throws Exception {
-        service.preview(id, response);
-    }
 
+    @PublicApi
     @GetMapping("preview/{id}")
     public void previewByPath(@PathVariable String id, HttpServletResponse response) throws Exception {
         service.preview(id, response);
     }
 
 
-    @HasPermission
     @GetMapping("detail")
     public AjaxResult detail(String id) {
         return AjaxResult.ok().data(service.findOne(id));
