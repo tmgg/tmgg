@@ -16,7 +16,7 @@ import java.util.Map;
 
 public class SetVersion {
 
-    public static final String NEW_VERSION = "0.1.66";
+    public static final String NEW_VERSION = "0.1.67";
 
 
     public static void main(String[] args) throws IOException {
@@ -28,8 +28,6 @@ public class SetVersion {
 
     private void changeMaven() throws IOException {
         Collection<File> poms = DevFileUtil.findByPrefix(".", "pom.xml", "tmgg-" );
-
-
 
         for (File pom : poms) {
             System.out.println(pom);

@@ -5,8 +5,6 @@ import ImgCrop from 'antd-img-crop';
 import { PlusOutlined } from '@ant-design/icons';
 import {SysUtil} from "../../system";
 
-const serverUrl = process.env.API_BASE_URL;
-const fileUrl = serverUrl;
 
 /**
  * crop: 带裁切
@@ -34,7 +32,7 @@ export class FieldUploadImage extends React.Component {
         if (f.startsWith('http')) {
           file.url = f;
         } else {
-          file.url = fileUrl + 'sysFile/preview?id=' + f;
+          file.url = SysUtil.getServerUrl() + 'sysFile/preview?id=' + f;
         }
         file.uid = index;
         file.name = 'image.png';
@@ -92,7 +90,7 @@ export class FieldUploadImage extends React.Component {
         <div className="clearfix">
           <ImgCrop {...this.props}>
             <Upload
-              action={serverUrl + 'common/upload'}
+              action={SysUtil.getServerUrl() + 'common/upload'}
               listType="picture-card"
               fileList={fileList}
               onPreview={this.handlePreview}
@@ -111,14 +109,14 @@ export class FieldUploadImage extends React.Component {
     return (
       <div className="clearfix">
         <Upload
-          action={serverUrl + 'sysFile/upload'}
+          action={SysUtil.getServerUrl() + 'sysFile/upload'}
           accept="image/*"
           listType="picture-card"
           fileList={fileList}
           onPreview={this.handlePreview}
           onChange={this.handleChange}
           multiple={multiple}
-          headers={ SysUtil.getHeader() }
+          headers={ SysUtil.getHeaders() }
         >
           {fileList.length >= maxNum ? null : uploadButton}
         </Upload>
