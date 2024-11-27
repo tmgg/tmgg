@@ -1,14 +1,16 @@
 
 package io.tmgg.config;
 
+import cn.hutool.core.collection.CollUtil;
+import io.tmgg.SysProp;
 import io.tmgg.core.filter.xss.XssFilter;
 import io.tmgg.framework.interceptor.SecurityInterceptor;
 import io.tmgg.framework.interceptor.SubjectInterceptor;
-import io.tmgg.SysProp;
-import cn.hutool.core.collection.CollUtil;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -16,8 +18,6 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-
-import jakarta.annotation.Resource;
 
 import java.util.List;
 
@@ -27,6 +27,7 @@ import java.util.List;
 @Slf4j
 @Configuration
 @EnableScheduling
+@EnableCaching
 @ConditionalOnClass(name = "org.springframework.web.servlet.config.annotation.WebMvcConfigurer")
 public class WebMvcConfig implements WebMvcConfigurer {
 
@@ -36,7 +37,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
 
     @Bean
- public    XssFilter xssFilter() {
+    public XssFilter xssFilter() {
         return new XssFilter();
     }
 
@@ -61,13 +62,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
     };
 
 
-
-
-
-
-
-
-
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         // 登录拦截器
@@ -88,7 +82,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
             List<String> loginExcludePathPatterns = sysProp.getLoginExcludePathPatterns();
             if (CollUtil.isNotEmpty(loginExcludePathPatterns)) {
-                log.info("忽略鉴权的地址: {}",loginExcludePathPatterns);
+                log.info("忽略鉴权的地址: {}", loginExcludePathPatterns);
                 registration.excludePathPatterns(loginExcludePathPatterns);
             }
 
@@ -100,7 +94,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     /**
      * xss过滤器
-     *
      */
     @Bean
     public FilterRegistrationBean<XssFilter> xssFilterFilterRegistrationBean(XssFilter xssFilter) {
@@ -112,8 +105,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registration.addUrlPatterns("/*");
         return registration;
     }
-
-
 
 
 }
