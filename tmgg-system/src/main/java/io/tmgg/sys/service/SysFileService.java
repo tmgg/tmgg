@@ -1,14 +1,6 @@
 
 package io.tmgg.sys.service;
 
-import io.tmgg.lang.DownloadTool;
-import io.tmgg.lang.dao.specification.JpaQuery;
-import io.tmgg.sys.file.FileOperator;
-import io.tmgg.sys.dao.SysFileDao;
-import io.tmgg.sys.entity.SysFile;
-import io.tmgg.sys.file.enums.FileLocationEnum;
-import io.tmgg.sys.file.result.SysFileResult;
-import io.tmgg.web.consts.SymbolConstant;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.io.FileUtil;
@@ -16,14 +8,23 @@ import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.NumberUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
+import io.tmgg.lang.DownloadTool;
+import io.tmgg.lang.RequestTool;
+import io.tmgg.lang.dao.specification.JpaQuery;
+import io.tmgg.sys.dao.SysFileDao;
+import io.tmgg.sys.entity.SysFile;
+import io.tmgg.sys.file.FileOperator;
+import io.tmgg.sys.file.enums.FileLocationEnum;
+import io.tmgg.sys.file.result.SysFileResult;
+import io.tmgg.web.consts.SymbolConstant;
+import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.web.multipart.MultipartFile;
-
-import jakarta.annotation.Resource;
-import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.InputStream;
 import java.math.BigDecimal;
@@ -36,6 +37,8 @@ import java.math.RoundingMode;
 @Slf4j
 public class SysFileService {
 
+    public static final String previewUrl = "/sysFile/preview/{id}";
+
     public static final String[] PREVIEW_TYPES = new String[]{
             "jpg", "jpeg", "png", "gif", "pdf",
     };
@@ -43,10 +46,15 @@ public class SysFileService {
     @Resource
     private FileOperator fileOperator;
 
-
-
     @Resource
-    SysFileDao sysFileDao;
+    private SysFileDao sysFileDao;
+
+
+    public String getPreviewUrl(String fileId, HttpServletRequest request) {
+        String baseUrl = RequestTool.getBaseUrl(request);
+        String url = baseUrl + previewUrl.replace("{id}", fileId);
+        return url;
+    }
 
 
     public void deleteById(String id) throws Exception {
@@ -56,7 +64,6 @@ public class SysFileService {
         // 删除具体文件
         this.fileOperator.deleteFile(sysFile.getFileBucket(), sysFile.getFileObjectName());
     }
-
 
 
     public SysFile uploadFile(MultipartFile file) throws Exception {
@@ -122,9 +129,6 @@ public class SysFileService {
 
         return fileOperator.getFileStream(sysFile.getFileBucket(), sysFile.getFileObjectName());
     }
-
-
-
 
 
     public void preview(String id, HttpServletResponse response) throws Exception {
