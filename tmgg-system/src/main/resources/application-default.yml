@@ -34,5 +34,6 @@ spring:
     type: jcache # 缓存类型不再是EhCache了，EhCache3是实现JCache的一种缓存
     cache-names: sysconfig
 
+
   session:
     timeout: 1H
