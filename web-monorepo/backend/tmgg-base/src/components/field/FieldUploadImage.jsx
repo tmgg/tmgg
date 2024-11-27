@@ -65,10 +65,10 @@ export class FieldUploadImage extends React.Component {
     }
     let fileIds = [];
     fileList.forEach((f) => {
-      let ajaxResult = f.response;
-      const {id, location} = ajaxResult
-      if (f.status === 'done' && ajaxResult && id) {
-        fileIds.push(id);
+      if (f.status === 'done' ) {
+        if( f.response && f.response.id){
+          fileIds.push(f.response.id);
+        }
       }
     });
     let files = fileIds.join(',');
