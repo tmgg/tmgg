@@ -4,32 +4,32 @@
       "id": "email.from",
       "label": "邮件发送账号",
       "defaultValue": "410518072@qq.com",
-      "$update": false
+      "_update": false
     },
     {
       "id": "email.pass",
       "label": "邮件发送密码",
       "valueType": "password",
-      "$update": false
+      "_update": false
     },
     {
       "id": "default.password",
       "label": "默认密码",
       "defaultValue": "10.Sleep",
       "valueType": "password",
-      "$update": false
+      "_update": false
     },
     {
       "id": "fileUploadPath.windows",
       "label": "win本地上传文件路径",
       "defaultValue": "c:/tmp",
-      "$update": false
+      "_update": false
     },
     {
       "id": "fileUploadPath.linux",
       "label": "linux/mac本地上传文件路径",
       "defaultValue": "/home/files",
-      "$update": false
+      "_update": false
     },
     {
       "id": "multiDeviceLogin",
@@ -37,19 +37,19 @@
       "defaultValue": "true",
       "valueType": "boolean",
       "remark": "是否允许账号在多个地方登录",
-      "$update": false
+      "_update": false
     },
     {
       "id": "siteInfo.copyright",
       "label": "版权信息",
       "defaultValue": "Powered by tmgg",
-      "$update": false
+      "_update": false
     },
     {
       "id": "siteInfo.title",
       "label": "站点标题",
       "defaultValue": "后台管理系统",
-      "$update": false
+      "_update": false
     },
     {
       "id": "siteInfo.captcha",
@@ -57,7 +57,7 @@
       "valueType": "boolean",
       "defaultValue": "false",
       "remark": "登录时显示验证码",
-      "$update": false
+      "_update": false
     }
 
   ]

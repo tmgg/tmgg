@@ -41,7 +41,7 @@ public class JsonToDatabaseHandler  {
     /**
      * 预留关键字: 是否更新: true,false
      **/
-    private static final String ATTR_UPDATE = "$update";
+    private static final String ATTR_UPDATE = "_update";
 
 
     @Resource
