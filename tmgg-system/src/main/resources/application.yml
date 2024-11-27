@@ -1,0 +1,8 @@
+db_ip: dev.com
+db_port: 3306
+db_database: tmgg
+db_password: 123456
+db_username: root
+spring:
+  profiles:
+    active: default
