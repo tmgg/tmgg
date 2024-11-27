@@ -24,14 +24,13 @@ import java.util.Map;
 
 @Service
 @Slf4j
-@CacheConfig(cacheNames = "sys.config")
+
 public class SysConfigService extends BaseService<SysConfig> {
 
     @Resource
     private SysConfigDao dao;
 
 
-    @CacheEvict(allEntries = true)
     @Override
     public SysConfig saveOrUpdate(SysConfig input) throws Exception {
         SysConfig old = dao.findOne(input);
@@ -39,25 +38,19 @@ public class SysConfigService extends BaseService<SysConfig> {
         return dao.save(old);
     }
 
-    @Cacheable
     public boolean getBoolean(String key) {
         Object value = this.findValue(key);
         return (boolean) value;
     }
 
-    @Cacheable
-    public String getStr(String key) {
-        return this.findValueStr(key);
-    }
 
-    @Cacheable
+
     public Object findValue(String key) {
         SysConfig sysConfig = this.findOne(key);
         Assert.notNull(sysConfig, "系统配置不存在" + key);
         return parseFinalValue(sysConfig);
     }
-    @Cacheable
-    public String findValueStr(String key) {
+    public String getStr(String key) {
         SysConfig sysConfig = this.findOne(key);
         if (sysConfig != null) {
             return (String) parseFinalValue(sysConfig);
@@ -68,7 +61,6 @@ public class SysConfigService extends BaseService<SysConfig> {
     /**
      * 获取默认密码
      */
-    @Cacheable
     public String getDefaultPassWord() {
         return getStr("default.password");
     }
@@ -76,7 +68,6 @@ public class SysConfigService extends BaseService<SysConfig> {
     /**
      * 获取自定义的windows或linux环境本地文件上传路径
      */
-    @Cacheable
     public String getFileUploadPath() {
         boolean isWin = SystemUtil.getOsInfo().isWindows();
         String key = isWin ? "fileUploadPath.windows" : "fileUploadPath.linux";
@@ -84,7 +75,6 @@ public class SysConfigService extends BaseService<SysConfig> {
         return getStr(key);
     }
 
-    @Cacheable
     public boolean getMultiDeviceLogin() {
         return getBoolean("multiDeviceLogin");
     }
