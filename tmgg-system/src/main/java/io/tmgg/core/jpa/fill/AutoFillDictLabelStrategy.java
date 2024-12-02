@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 @Component
-public class AutoFillDictLabelAutoFillStrategy implements AutoFillStrategy {
+public class AutoFillDictLabelStrategy implements AutoFillStrategy {
 
     @Resource
     SysDictService service;
@@ -18,10 +18,11 @@ public class AutoFillDictLabelAutoFillStrategy implements AutoFillStrategy {
     public Object getValue(Object bean, Object sourceValue, String typeCode) {
         Assert.state(typeCode != null, "数字字典的typeCode不能为空，请设置 param参数");
 
-        String key = String.valueOf(sourceValue);
-        if(key == null){
+        if(sourceValue == null){
             return null;
         }
+        String key = String.valueOf(sourceValue);
+
 
         return service.findTextByDictCodeAndKey(typeCode, key);
     }

@@ -6,12 +6,12 @@ import io.tmgg.lang.dao.AutoFill;
 import java.lang.annotation.*;
 
 /**
- * 自动填充字段数据字典
+ * 自动填充文件url
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.FIELD})
-@AutoFill(value = AutoFillDictLabelStrategy.class)
-public @interface AutoFillDictLabel {
+@AutoFill(value = AutoFillUserLabelStrategy.class)
+public @interface AutoFillFileUrl {
 
 }

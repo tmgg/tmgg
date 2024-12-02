@@ -21,8 +21,11 @@ public class HttpServletTool {
      */
     public static HttpServletRequest getRequest() {
         ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        if(requestAttributes == null){
+            return null;
+        }
 
-            return requestAttributes.getRequest();
+        return requestAttributes.getRequest();
     }
 
     /**

@@ -4,6 +4,7 @@ package io.tmgg.lang.dao;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
+import io.tmgg.lang.StrTool;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 
@@ -38,10 +39,9 @@ public class BeanPropertyFillUtil {
                 try {
                     AutoFillStrategy strategy = SpringUtil.getBean(strategyClass);
 
-
                     // 获取原始字段
-                    // 规则1. 默认去掉Label， 例如 userLabel -> user
-                    String sourceField1 = StrUtil.replace(f.getName(), "Label", "");
+                    // 规则1. 默认去掉最后一个单词， 例如 userLabel -> user
+                    String sourceField1 = removeLastWords(f.getName());
 
 
                     Object sourceValue = BeanUtil.getFieldValue(obj, sourceField1);
@@ -69,5 +69,21 @@ public class BeanPropertyFillUtil {
         }
 
     }
+
+    /**
+     * 去掉最后一个单词
+     * @param str
+     * @return
+     */
+    public static String removeLastWords(String str){
+        int i = StrTool.lastUpperLetter(str);
+        if(i == -1){
+            return str;
+        }
+
+    return     StrUtil.sub(str,0, i);
+    }
+
+
 
 }

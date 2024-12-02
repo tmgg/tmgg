@@ -1,5 +1,6 @@
 package io.tmgg.lang;
 
+import cn.hutool.core.util.CharUtil;
 import io.tmgg.lang.obj.Between;
 import com.google.common.base.CaseFormat;
 import lombok.Data;
@@ -12,6 +13,23 @@ import java.util.UUID;
 public class StrTool {
 
     private static final String CHINESE_REGEX = ".*[\\u4e00-\\u9fa5].*";
+
+    /**
+     * 最后一个大写字母
+     * @param str
+     * @return -1 表示没有
+     */
+    public static int lastUpperLetter(String str){
+        int len = str.length();
+
+        for(int i = len-1; i>=0; i--){
+            char c = str.charAt(i);
+            if(CharUtil.isLetterUpper(c)){
+                return  i;
+            }
+        }
+        return -1;
+    }
 
 
 
