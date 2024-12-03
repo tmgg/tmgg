@@ -4,25 +4,27 @@ package io.tmgg.sys.controller;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.text.PasswdStrength;
 import cn.hutool.core.util.StrUtil;
-import io.tmgg.lang.poi.ExcelExportTool;
+import io.tmgg.framework.session.SysHttpSessionService;
 import io.tmgg.lang.ann.Remark;
 import io.tmgg.lang.dao.BaseEntity;
 import io.tmgg.lang.dao.specification.JpaQuery;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.obj.Option;
 import io.tmgg.lang.obj.TreeOption;
+import io.tmgg.lang.poi.ExcelExportTool;
 import io.tmgg.sys.dto.GrantPermDto;
-import io.tmgg.sys.entity.SysUser;
-import io.tmgg.sys.entity.SysOrg;
 import io.tmgg.sys.entity.OrgType;
-import io.tmgg.sys.service.SysOrgService;
+import io.tmgg.sys.entity.SysOrg;
+import io.tmgg.sys.entity.SysUser;
 import io.tmgg.sys.service.SysConfigService;
+import io.tmgg.sys.service.SysOrgService;
 import io.tmgg.sys.service.SysUserService;
-import io.tmgg.sys.user.param.SysUserParam;
 import io.tmgg.web.annotion.HasPermission;
-import io.tmgg.framework.session.SysHttpSessionService;
 import io.tmgg.web.perm.SecurityUtils;
 import io.tmgg.web.perm.Subject;
+import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -31,13 +33,12 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
-import jakarta.annotation.Resource;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.validation.Valid;
-
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -141,9 +142,9 @@ public class SysUserController {
      */
     @HasPermission
     @PostMapping("resetPwd")
-    public AjaxResult resetPwd(@RequestBody SysUserParam sysUserParam) {
-        sysUserService.resetPwd(sysUserParam.getId());
-        sm.forceExistBySubjectId(sysUserParam.getId());
+    public AjaxResult resetPwd(@RequestBody SysUser user) {
+        sysUserService.resetPwd(user.getId());
+        sm.forceExistBySubjectId(user.getId());
         return AjaxResult.ok().msg("重置成功,新密码为：" + configService.getDefaultPassWord());
     }
 

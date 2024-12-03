@@ -1,4 +1,4 @@
-package io.tmgg.sys.user.enums;
+package io.tmgg.sys.entity;
 
 import io.tmgg.lang.ann.Remark;
 import io.tmgg.web.base.DictEnum;

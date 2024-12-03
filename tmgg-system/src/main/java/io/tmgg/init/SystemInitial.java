@@ -9,7 +9,7 @@ import io.tmgg.sys.entity.SysUser;
 import io.tmgg.sys.perm.SysMenuService;
 import io.tmgg.sys.service.SysConfigService;
 import io.tmgg.sys.service.SysRoleService;
-import io.tmgg.sys.user.enums.DataPermType;
+import io.tmgg.sys.entity.DataPermType;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;

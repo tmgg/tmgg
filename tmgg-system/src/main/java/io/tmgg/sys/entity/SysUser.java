@@ -8,7 +8,6 @@ import io.tmgg.lang.ann.Remark;
 import io.tmgg.lang.dao.AutoFill;
 import io.tmgg.lang.dao.BaseEntity;
 import io.tmgg.lang.dao.DBConstants;
-import io.tmgg.sys.user.enums.DataPermType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;

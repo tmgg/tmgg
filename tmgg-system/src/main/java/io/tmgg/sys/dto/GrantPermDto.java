@@ -1,6 +1,6 @@
 package io.tmgg.sys.dto;
 
-import io.tmgg.sys.user.enums.DataPermType;
+import io.tmgg.sys.entity.DataPermType;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
