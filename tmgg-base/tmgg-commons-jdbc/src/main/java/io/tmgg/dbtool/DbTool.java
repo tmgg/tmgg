@@ -2,6 +2,7 @@ package io.tmgg.dbtool;
 
 
 import io.tmgg.dbtool.dbutil.MyBeanProcessor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.dbutils.*;
 import org.apache.commons.dbutils.handlers.*;
 import org.springframework.data.domain.Page;
@@ -13,6 +14,7 @@ import java.sql.*;
 import java.util.*;
 
 
+@Slf4j
 public class DbTool {
 
     private QueryRunner runner;
@@ -337,6 +339,7 @@ public class DbTool {
         try {
             return getRunner().batch(sql, new Object[0][0]);
         } catch (SQLException e) {
+            log.info("批量执行sql异常：{}",e.getMessage());
             throw new JdbcException(e);
         }
     }
