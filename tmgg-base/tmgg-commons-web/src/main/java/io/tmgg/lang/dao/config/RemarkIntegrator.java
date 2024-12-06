@@ -1,17 +1,22 @@
 package io.tmgg.lang.dao.config;
 
+import cn.hutool.core.collection.CollUtil;
 import io.tmgg.lang.ann.Remark;
+import lombok.extern.slf4j.Slf4j;
 import org.hibernate.boot.Metadata;
 import org.hibernate.engine.spi.SessionFactoryImplementor;
 import org.hibernate.integrator.spi.Integrator;
+import org.hibernate.mapping.Column;
 import org.hibernate.mapping.PersistentClass;
 import org.hibernate.mapping.Property;
 import org.hibernate.service.spi.SessionFactoryServiceRegistry;
 
 import java.lang.reflect.Field;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
+@Slf4j
 public class RemarkIntegrator implements Integrator {
     public static final RemarkIntegrator INSTANCE = new RemarkIntegrator();
 
@@ -73,6 +78,7 @@ public class RemarkIntegrator implements Integrator {
             //noinspection unchecked
             List<Property> properties = persistentClass.getProperties();
             for (Property property : properties) {
+                log.debug("设置数据库表的注释 {}.{}", persistentClass.getTable().getName(), property.getName());
                 fieldComment(persistentClass, property.getName());
             }
         }
@@ -82,15 +88,20 @@ public class RemarkIntegrator implements Integrator {
      * Process @{code comment} annotation of field.
      *
      * @param persistentClass Hibernate {@code PersistentClass}
-     * @param columnName            name of field
+     * @param columnName      name of field
      */
     private void fieldComment(PersistentClass persistentClass, String columnName) {
+
         try {
             Field field = persistentClass.getMappedClass().getDeclaredField(columnName);
             if (field.isAnnotationPresent(Remark.class)) {
                 String comment = field.getAnnotation(Remark.class).value();
-                String sqlColumnName= persistentClass.getProperty(columnName).getValue().getColumns().iterator().next().getText();
-                for (org.hibernate.mapping.Column column : persistentClass.getTable().getColumns()) {
+                String sqlColumnName = persistentClass.getProperty(columnName).getValue().getColumns().iterator().next().getText();
+                Collection<Column> columns = persistentClass.getTable().getColumns();
+                if (CollUtil.isEmpty(columns)) {
+                    return;
+                }
+                for (org.hibernate.mapping.Column column : columns) {
                     if (sqlColumnName.equalsIgnoreCase(column.getName())) {
                         column.setComment(comment);
                         break;
@@ -98,6 +109,7 @@ public class RemarkIntegrator implements Integrator {
                 }
             }
         } catch (NoSuchFieldException | SecurityException ignored) {
+            ignored.printStackTrace();
         }
     }
 }

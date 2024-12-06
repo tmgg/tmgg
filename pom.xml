@@ -10,7 +10,7 @@
 
     <groupId>io.github.tmgg</groupId>
     <artifactId>tmgg-system-parent</artifactId>
-    <version>0.1.72</version>
+    <version>0.1.73</version>
     <packaging>pom</packaging>
     <description>web开发框架</description>
     <modules>
