@@ -17,6 +17,7 @@ import org.springframework.util.Assert;
 import jakarta.annotation.Resource;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -34,11 +35,14 @@ public class DictEnumHandler {
     @Resource
     SysDictItemDao sysDictItemDao;
 
-    public void start() {
+    public void run() {
         log.info("开始解析枚举，将枚举状态写入数据字典表中");
 
         Class<DictEnum> superClass = DictEnum.class;
-        Set<Class<?>> classes = ClassUtil.scanPackageBySuper(BasePackage.BASE_PACKAGE, superClass);
+        Set<Class<?>> classes = new HashSet<>();
+        for (String basePackage : BasePackage.getBasePackages()) {
+            classes.addAll( ClassUtil.scanPackageBySuper(basePackage, superClass));
+        }
 
         List<SysDictItem> dataList = new ArrayList<>();
         for (Class cls : classes) {

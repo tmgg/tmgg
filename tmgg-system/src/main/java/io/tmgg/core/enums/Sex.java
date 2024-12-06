@@ -1,38 +1,24 @@
 
 package io.tmgg.core.enums;
 
+import io.tmgg.framework.dict.Dict;
 import io.tmgg.lang.ann.Remark;
-import io.tmgg.web.base.DictEnum;
-import lombok.Getter;
 
 /**
- * 性别枚举
+ * 性别常量
  */
-@Getter
+@Dict(code = "SEX")
 @Remark("性别")
-public enum Sex implements DictEnum {
+public interface Sex {
 
-    /**
-     * 男
-     */
-    MAN(1, "男"),
+    @Remark("保密")
+    int NONE = 0;
 
-    /**
-     * 女
-     */
-    WOMAN(2, "女"),
+    @Remark("男")
+    int MAN = 1;
 
-    /**
-     * 未知
-     */
-    NONE(3, "保密");
+    @Remark("女")
+    int WOMAN = 2;
 
-    private final Integer code;
 
-    private final String message;
-
-    Sex(Integer code, String message) {
-        this.code = code;
-        this.message = message;
-    }
 }

@@ -4,6 +4,17 @@ import java.lang.reflect.Field;
 
 public class RemarkTool {
 
+    public static String getRemark(Field field) {
+        if (field == null) {
+            return null;
+        }
+        Remark annotation = field.getAnnotation(Remark.class);
+        if (annotation != null) {
+            return annotation.value();
+        }
+        return null;
+    }
+
     public static String getRemark(Class<?> t) {
         if (t == null) {
             return null;

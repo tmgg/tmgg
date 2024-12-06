@@ -2,6 +2,7 @@ package io.tmgg.init;
 
 import cn.hutool.core.util.StrUtil;
 import io.tmgg.SysProp;
+import io.tmgg.framework.dict.DictAnnHandler;
 import io.tmgg.lang.PasswordTool;
 import io.tmgg.sys.dao.SysUserDao;
 import io.tmgg.sys.entity.SysRole;
@@ -46,6 +47,9 @@ public class SystemInitial implements CommandLineRunner {
     @Resource
     DictEnumHandler dictEnumHandler;
 
+    @Resource
+    DictAnnHandler dictAnnHandler;
+
 
 
     @Resource
@@ -60,13 +64,16 @@ public class SystemInitial implements CommandLineRunner {
             log.info("自动更新系统数据已关闭");
             return;
         }
-        dictEnumHandler.start();
+        dictEnumHandler.run();
+        dictAnnHandler.run();
 
         sysMenuService.init();
 
         jsonToDatabaseHandler.run();
 
         permissionToDatabaseHandler.run();
+
+
 
         SysRole adminRole = sysRoleService.initDefaultAdmin();
         initUser(adminRole);
