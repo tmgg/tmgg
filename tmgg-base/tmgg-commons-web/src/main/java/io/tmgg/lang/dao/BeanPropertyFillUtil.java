@@ -40,7 +40,7 @@ public class BeanPropertyFillUtil {
             }
 
             // 必须是非持久化字段
-            if (f.isAnnotationPresent(Transient.class)) {
+            if (!f.isAnnotationPresent(Transient.class)) {
                 continue;
             }
 
