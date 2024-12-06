@@ -1,6 +1,7 @@
 package io.tmgg.lang.dao.config;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.ClassUtil;
 import io.tmgg.lang.ann.Remark;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.boot.Metadata;
@@ -78,7 +79,7 @@ public class RemarkIntegrator implements Integrator {
             //noinspection unchecked
             List<Property> properties = persistentClass.getProperties();
             for (Property property : properties) {
-                log.debug("设置数据库表的注释 {}.{}", persistentClass.getTable().getName(), property.getName());
+
                 fieldComment(persistentClass, property.getName());
             }
         }
@@ -93,9 +94,16 @@ public class RemarkIntegrator implements Integrator {
     private void fieldComment(PersistentClass persistentClass, String columnName) {
 
         try {
-            Field field = persistentClass.getMappedClass().getDeclaredField(columnName);
+            Class<?> cls = persistentClass.getMappedClass();
+            Field field = ClassUtil.getDeclaredField(cls, columnName);
+            if(field == null){
+                return;
+            }
             if (field.isAnnotationPresent(Remark.class)) {
                 String comment = field.getAnnotation(Remark.class).value();
+
+                log.debug("设置数据库表的注释 {}.{}：{}", persistentClass.getTable().getName(), columnName, comment);
+
                 String sqlColumnName = persistentClass.getProperty(columnName).getValue().getColumns().iterator().next().getText();
                 Collection<Column> columns = persistentClass.getTable().getColumns();
                 if (CollUtil.isEmpty(columns)) {
@@ -108,8 +116,11 @@ public class RemarkIntegrator implements Integrator {
                     }
                 }
             }
-        } catch (NoSuchFieldException | SecurityException ignored) {
+        } catch (SecurityException ignored) {
             ignored.printStackTrace();
         }
     }
+
+
+
 }
