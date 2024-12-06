@@ -16,6 +16,7 @@
         <module>tmgg-commons-log-view</module>
         <module>tmgg-commons-jackson</module>
         <module>tmgg-commons-poi</module>
+        <module>tmgg-commons-lang</module>
     </modules>
 
 

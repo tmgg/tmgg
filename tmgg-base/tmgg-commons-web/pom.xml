@@ -19,6 +19,11 @@
             <groupId>io.github.tmgg</groupId>
             <artifactId>tmgg-commons-jdbc</artifactId>
         </dependency>
+        <dependency>
+            <groupId>io.github.tmgg</groupId>
+            <artifactId>tmgg-commons-lang</artifactId>
+        </dependency>
+
 
         <dependency>
             <groupId>io.github.tmgg</groupId>
@@ -122,10 +127,7 @@
             <version>9.0.0</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-        </dependency>
+
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
@@ -136,19 +138,11 @@
             <artifactId>commons-beanutils</artifactId>
             <version>1.9.4</version>
         </dependency>
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>33.0.0-jre</version>
-        </dependency>
+
 
 
         <!-- hutool -->
-        <dependency>
-            <groupId>cn.hutool</groupId>
-            <artifactId>hutool-core</artifactId>
-            <version>${hutool.version}</version>
-        </dependency>
+
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-cache</artifactId>

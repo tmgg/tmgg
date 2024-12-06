@@ -107,6 +107,12 @@
             </dependency>
             <dependency>
                 <groupId>io.github.tmgg</groupId>
+                <artifactId>tmgg-commons-lang</artifactId>
+                <version>${tmgg.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.github.tmgg</groupId>
                 <artifactId>tmgg-commons-jdbc</artifactId>
                 <version>${tmgg.version}</version>
             </dependency>
