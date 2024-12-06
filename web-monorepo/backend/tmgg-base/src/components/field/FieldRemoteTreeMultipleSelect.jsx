@@ -24,11 +24,7 @@ export class FieldRemoteTreeMultipleSelect extends React.Component {
     this.loadData();
   }
 
-  componentWillReceiveProps(nextProps, nextContext) {
-    if (nextProps.url !== this.props.url) {
-      this.setState({url: nextProps.url}, this.loadData);
-    }
-  }
+
 
   loadData = () => {
     const {url} = this.state;
