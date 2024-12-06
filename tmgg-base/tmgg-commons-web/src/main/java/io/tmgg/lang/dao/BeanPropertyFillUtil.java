@@ -75,7 +75,7 @@ public class BeanPropertyFillUtil {
                  sourceField = sourceField + "Id";
             }
 
-            if(ReflectUtil.hasField(obj.getClass(), sourceField)){
+            if(!ReflectUtil.hasField(obj.getClass(), sourceField)){
                 return;
             }
 
