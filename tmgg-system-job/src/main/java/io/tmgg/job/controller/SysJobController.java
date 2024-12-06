@@ -113,12 +113,13 @@ public class SysJobController {
 
     @GetMapping("jobClassOptions")
     public AjaxResult jobClassList() {
-        Set<Class<?>> list1 = ClassUtil.scanPackageBySuper(BasePackage.BASE_PACKAGE, Job.class);
-        Set<Class<?>> list2 = ClassUtil.scanPackageBySuper(sysProp.getBasePackageClass().getPackageName(), Job.class);
+        Collection<String> basePackages = BasePackage.getBasePackages();
 
         Set<Class<?>> list = new HashSet<>();
-        list.addAll(list1);
-        list.addAll(list2);
+        for (String basePackage : basePackages) {
+            Set<Class<?>> list1 = ClassUtil.scanPackageBySuper(basePackage, Job.class);
+            list.addAll(list1);
+        }
 
         List<Option> options = list.stream()
                 .filter(cls -> {
