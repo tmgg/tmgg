@@ -9,8 +9,19 @@ web开发框架
 ![Maven Central Version](https://img.shields.io/maven-central/v/io.github.tmgg/tmgg-base)tmgg-base
 工具类,业务逻辑无关
  
+![Maven Central Version](https://img.shields.io/maven-central/v/io.github.tmgg/tmgg-commons-jackson)tmgg-commons-jackson
+ 
 ![Maven Central Version](https://img.shields.io/maven-central/v/io.github.tmgg/tmgg-commons-jdbc)tmgg-commons-jdbc
 jdbc工具类，集成了的分页相关参数，方便dao层直接使用sql
+ 
+![Maven Central Version](https://img.shields.io/maven-central/v/io.github.tmgg/tmgg-commons-lang)tmgg-commons-lang
+工具类，方便其他非web项目也可以用，同时也尽量少依赖过重的库
+ 
+![Maven Central Version](https://img.shields.io/maven-central/v/io.github.tmgg/tmgg-commons-log-view)tmgg-commons-log-view
+实时显示文件日志，使用websocket技术，前端可使用LazyLog组件
+ 
+![Maven Central Version](https://img.shields.io/maven-central/v/io.github.tmgg/tmgg-commons-poi)tmgg-commons-poi
+word，excel等的工具类,参考了easy poi,但项目用的版本是5.x,easypoi 用的4.x
  
 ![Maven Central Version](https://img.shields.io/maven-central/v/io.github.tmgg/tmgg-commons-web)tmgg-commons-web
  
