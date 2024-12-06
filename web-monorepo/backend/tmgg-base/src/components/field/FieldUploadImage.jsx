@@ -27,17 +27,18 @@ export class FieldUploadImage extends React.Component {
       } else {
         value = value.split(',');
       }
-      value.forEach((f, index) => {
+      value.forEach((item, index) => {
         let file = {};
-        if (f.startsWith('http')) {
-          file.url = f;
+        if (item.startsWith('http')) {
+          file.url = item;
         } else {
-          file.url = SysUtil.getServerUrl() + 'sysFile/preview?id=' + f;
+          const id = item // f 相当于id了
+          file.url = SysUtil.getServerUrl() + 'sysFile/preview/' + id;
         }
         file.uid = index;
         file.name = 'image.png';
         file.status = 'done';
-        file.fileName = f;
+        file.fileName = item;
         list.push(file);
       });
       this.setState({ fileList: list });
