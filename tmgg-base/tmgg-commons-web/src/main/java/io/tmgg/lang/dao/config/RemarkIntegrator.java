@@ -116,8 +116,8 @@ public class RemarkIntegrator implements Integrator {
                     }
                 }
             }
-        } catch (SecurityException ignored) {
-            ignored.printStackTrace();
+        } catch (SecurityException e) {
+            e.printStackTrace();
         }
     }
 
