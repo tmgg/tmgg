@@ -60,6 +60,7 @@ public class SystemInitial implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+        log.info("开支执行系统初始化程序： {}", getClass().getName());
         if(!sysProp.isAutoUpdateSysData()){
             log.info("自动更新系统数据已关闭");
             return;

@@ -24,8 +24,12 @@ public class DbTool {
 
     private Config cfg = null;
 
+    public DbTool(){
+        log.info("执行构造函数：{}", getClass().getName());
+    }
 
     public DbTool(DataSource dataSource) {
+        this();
         this.ds = dataSource;
         this.runner = new QueryRunner(dataSource);
         this.cfg = new Config();
