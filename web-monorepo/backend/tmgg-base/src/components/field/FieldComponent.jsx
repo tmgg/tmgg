@@ -13,7 +13,7 @@ export  class FieldComponent extends React.Component{
     render() {
         const {type, ...rest} = this.props
         if(!type){
-            return <Alert type='error' message='未设置组件FieldComponent的type属性' />
+            return <Input {...rest}></Input>
         }
 
         const ComponentClass = fieldRegistry[type] || Input
