@@ -208,7 +208,7 @@ export default class extends React.Component {
                                    key={p.name}
                                    rules={[{required: p.required}]}>
                             <FieldComponent
-                                type={p.valueType}
+                                type={p.componentType}
                                 {...p.componentProps}
                             ></FieldComponent>
                         </Form.Item>

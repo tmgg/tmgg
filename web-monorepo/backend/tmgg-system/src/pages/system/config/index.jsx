@@ -29,7 +29,7 @@ export default class extends React.Component {
             title: '自定义值',
             dataIndex: 'value',
             render(v,record){
-                return <FieldComponent valueType={record.valueType || 'input'} mode='read' value={v} />
+                return <FieldComponent type={record.valueType || 'input'} mode='read' value={v} />
             }
         },
 
@@ -37,7 +37,7 @@ export default class extends React.Component {
             title: '默认值',
             dataIndex: 'defaultValue',
             render(v,record){
-                return <FieldComponent valueType={record.valueType || 'input'} mode='read' value={v}/>
+                return <FieldComponent type={record.valueType || 'input'} mode='read' value={v}/>
             }
         },
         {
@@ -107,7 +107,7 @@ export default class extends React.Component {
                     <Form.Item name='id' noStyle/>
 
                     <Form.Item  name='value' label={this.state.formValues.label}>
-                        <FieldComponent valueType={this.state.formValues.valueType || 'input'} />
+                        <FieldComponent type={this.state.formValues.valueType || 'input'} />
                     </Form.Item>
 
                 </Form>
