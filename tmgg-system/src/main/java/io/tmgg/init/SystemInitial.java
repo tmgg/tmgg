@@ -58,6 +58,9 @@ public class SystemInitial implements CommandLineRunner {
     @Resource
     SysProp sysProp;
 
+    @Resource
+    SystemUpgradeInit systemUpgradeInit;
+
     @Override
     public void run(String... args) throws Exception {
         log.info("开支执行系统初始化程序： {}", getClass().getName());
@@ -65,6 +68,9 @@ public class SystemInitial implements CommandLineRunner {
             log.info("自动更新系统数据已关闭");
             return;
         }
+
+        systemUpgradeInit.init();;
+
         dictEnumHandler.run();
         dictAnnHandler.run();
 
