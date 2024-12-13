@@ -4,7 +4,7 @@
     <parent>
         <groupId>io.github.tmgg</groupId>
         <artifactId>tmgg-system-parent</artifactId>
-        <version>0.1.75</version>
+        <version>0.1.76</version>
     </parent>
 
     <artifactId>tmgg-system</artifactId>
@@ -70,7 +70,6 @@
         <dependency>
             <groupId>com.mysql</groupId>
             <artifactId>mysql-connector-j</artifactId>
-            <version>8.4.0</version>
         </dependency>
 
 

@@ -24,7 +24,7 @@ public class DbTool {
 
     private Config cfg = null;
 
-    public DbTool(){
+    public DbTool() {
         log.info("执行构造函数：{}", getClass().getName());
     }
 
@@ -151,7 +151,7 @@ public class DbTool {
      * @param <V>
      * @return
      */
-    public  Map<String, Object> findDict(String sql, Object... params) {
+    public Map<String, Object> findDict(String sql, Object... params) {
         List<Map<String, Object>> list = this.findAll(sql, params);
 
         LinkedHashMap<String, Object> dict = new LinkedHashMap<>();
@@ -167,7 +167,7 @@ public class DbTool {
 
             Object v1 = row.get(k1);
             Object v2 = row.get(k2);
-            dict.put((String) v1,  v2);
+            dict.put((String) v1, v2);
         }
         return dict;
     }
@@ -329,7 +329,7 @@ public class DbTool {
 
 
     public int[] batch(String sql, Object[][] params) {
-        if(params == null){
+        if (params == null) {
             params = new Object[0][0];
         }
         try {
@@ -343,7 +343,7 @@ public class DbTool {
         try {
             return getRunner().batch(sql, new Object[0][0]);
         } catch (SQLException e) {
-            log.info("批量执行sql异常：{}",e.getMessage());
+            log.info("批量执行sql异常：{}", e.getMessage());
             throw new JdbcException(e);
         }
     }
@@ -354,6 +354,16 @@ public class DbTool {
             return getRunner().execute(sql, params);
         } catch (SQLException e) {
             throw new JdbcException(e);
+        }
+    }
+
+    public void executeQuietly(String sql, Object... params) {
+        try {
+             getRunner().execute(sql, params);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            log.error("执行sql错误 {}", e.getMessage());
+            log.error(sql);
         }
     }
 
@@ -460,7 +470,7 @@ public class DbTool {
 
     // ------------------------------------元数据部分------------------------------
 
-    public  List<Column> getColumns(String sql) throws SQLException {
+    public List<Column> getColumns(String sql) throws SQLException {
         List<Column> columns = new ArrayList<>();
         try (Connection conn = this.getRunner().getDataSource().getConnection()) {
             try (PreparedStatement st = conn.prepareStatement(sql)) {
