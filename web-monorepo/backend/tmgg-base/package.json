@@ -7,7 +7,7 @@
     "jsdoc" : "^4.0.3"
   },
   "author" : "jiangtao",
-  "peerDependencies" : {
+  "dependencies" : {
     "@ant-design/icons" : "^5.4.0",
     "@tinymce/tinymce-react" : "^5.0.0",
     "@tmgg/pro-table" : "^5.0.4",
