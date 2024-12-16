@@ -124,8 +124,11 @@ export default class extends React.Component {
                           selectedKeys={[this.state.currentTopMenuKey]}
                           onClick={e => {
                               let currentTopMenuKey = e.key;
-                              const leftMenus = this.state.menuMap[currentTopMenuKey].children
-                              this.setState({currentTopMenuKey, leftMenus})
+                              let topMenu = this.state.menuMap[currentTopMenuKey];
+                              const leftMenus = topMenu.children
+                              if(topMenu) {
+                                  this.setState({currentTopMenuKey, leftMenus})
+                              }
                           }}
                           style={{lineHeight: '42px'}}
                     ></Menu>
