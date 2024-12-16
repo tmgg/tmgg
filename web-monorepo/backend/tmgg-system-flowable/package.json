@@ -8,7 +8,6 @@
   "peerDependencies" : {
     "@tmgg/tmgg-system" : "workspace:*",
     "@tmgg/tmgg-base" : "workspace:*",
-    "@tmgg/pro-table" : "^5.0.4",
     "antd" : "^5.20.3",
     "@ant-design/icons" : "^5.4.0",
     "axios" : "^1.6.7",

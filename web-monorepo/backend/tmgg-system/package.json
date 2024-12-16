@@ -10,7 +10,6 @@
   "peerDependencies" : {
     "@ant-design/icons" : "^5.4.0",
     "@tinymce/tinymce-react" : "^5.0.0",
-    "@tmgg/pro-table" : "^5.0.4",
     "@tmgg/tmgg-base" : "workspace:*",
     "@tmgg/tmgg-commons-lang" : "workspace:*",
     "antd" : "^5.20.3",

@@ -16,7 +16,6 @@
   "version" : "0.1.76",
   "dependencies" : {
     "@ant-design/icons" : "^5.4.0",
-    "@tmgg/pro-table" : "^5.0.3",
     "@tmgg/tmgg-base" : "workspace:*",
     "@tmgg/tmgg-system" : "workspace:*",
     "@tmgg/tmgg-system-job" : "workspace:*",

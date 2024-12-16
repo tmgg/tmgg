@@ -1,4 +1,4 @@
-import {registerField} from "@tmgg/pro-table";
+//import {registerField} from "@tmgg/pro-table";
 import {fieldRegistry} from "./components";
 
 export * from './components'
@@ -8,7 +8,7 @@ export function initBase(){
 
     for (let componentType in fieldRegistry){
         const componentClass = fieldRegistry[componentType]
-        registerField(componentType, componentClass)
+  //      registerField(componentType, componentClass)
     }
 
 }
