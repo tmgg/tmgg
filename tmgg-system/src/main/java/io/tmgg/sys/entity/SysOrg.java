@@ -53,8 +53,7 @@ public class SysOrg extends BaseEntity implements TreeDefinition<SysOrg> {
 
 
     @NotNull
-    @Enumerated(EnumType.STRING)
-    private OrgType type;
+    private Integer type;
 
 
     // 扩展字段1
@@ -74,7 +73,7 @@ public class SysOrg extends BaseEntity implements TreeDefinition<SysOrg> {
         if (type == null) {
             return false;
         }
-        return type.isDept();
+        return type == OrgType.DEPT;
     }
 
 

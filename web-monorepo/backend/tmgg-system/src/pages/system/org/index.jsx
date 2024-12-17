@@ -210,7 +210,7 @@ export default class extends React.Component {
 
 
                             <Form.Item label='类型' name='type' rules={[{required: true}]}>
-                                <FieldDictRadio typeCode='orgType'/>
+                                <FieldDictRadio typeCode='ORG_TYPE'/>
                             </Form.Item>
 
 

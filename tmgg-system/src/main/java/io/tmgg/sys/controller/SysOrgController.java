@@ -74,7 +74,7 @@ public class SysOrgController {
      *
      */
     @GetMapping("tree")
-    public AjaxResult tree(OrgType type, Boolean filterDept, @RequestParam(defaultValue = "false") boolean showAll) {
+    public AjaxResult tree(Integer type, Boolean filterDept, @RequestParam(defaultValue = "false") boolean showAll) {
         Subject subject = SecurityUtils.getSubject();
         List<SysOrg> list = sysOrgService.findByLoginUser(subject, type,showAll);
 

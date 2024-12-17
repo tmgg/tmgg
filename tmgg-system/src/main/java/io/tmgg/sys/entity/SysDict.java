@@ -33,4 +33,8 @@ public class SysDict extends BaseEntity {
     @NotNull
     private Boolean builtin;
 
+    // 是否数字类型，如1，2，3
+    @Remark("是否数字类型")
+    private Boolean isNumber;
+
 }

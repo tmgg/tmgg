@@ -17,28 +17,30 @@ export interface DictProps {
  * @returns {JSX.Element|string|*}
  * @constructor
  */
-export function DictSelect(props: DictProps) {
-  let { typeCode, params, mode, value, onChange, placeholder = '请选择', ...restProps } = props;
+export class DictSelect extends React.Component<DictProps> {
+  render() {
+    let {typeCode, params, mode, value, onChange, placeholder = '请选择', ...restProps} = this.props;
 
-  if(typeCode == null){
-    typeCode = params;
+    if (typeCode == null) {
+      typeCode = params;
+    }
+
+
+    if (mode === 'read') {
+      return dictValueTag(typeCode, value);
+    }
+
+    let list = dictList(typeCode);
+    return (
+        <Select value={value} onChange={onChange} placeholder={placeholder} allowClear {...restProps}>
+          {list.map((o: any) => (
+              <Select.Option value={o.code} key={o.code}>
+                {o.name}
+              </Select.Option>
+          ))}
+        </Select>
+    );
   }
-
-
-  if (mode === 'read') {
-    return dictValueTag(typeCode, value);
-  }
-
-  let list = dictList(typeCode);
-  return (
-    <Select value={value} onChange={onChange} placeholder={placeholder} allowClear {...restProps}>
-      {list.map((o: any) => (
-        <Select.Option value={o.code} key={o.code}>
-          {o.name}
-        </Select.Option>
-      ))}
-    </Select>
-  );
 }
 
 export function DictRadio(props: DictProps) {

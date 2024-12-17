@@ -16,4 +16,11 @@ public @interface Dict {
 
     String code();
 
+
+    /**
+     * 字典值是否数字， 如1，2，3
+     * @return
+     */
+    boolean isNumber() default true;
+
 }

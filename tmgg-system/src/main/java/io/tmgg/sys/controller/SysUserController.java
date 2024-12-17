@@ -234,7 +234,7 @@ public class SysUserController {
         Collection<String> orgPermissions = subject.getOrgPermissions();
         List<SysUser> userList = sysUserService.findByUnit(orgPermissions);
 
-        List<TreeOption> tree = orgList.stream().map(o -> new TreeOption("[" + o.getType().getMessage() + "] " + o.getName(), o.getId(), o.getPid())).collect(Collectors.toList());
+        List<TreeOption> tree = orgList.stream().map(o -> new TreeOption( o.getName(), o.getId(), o.getPid())).collect(Collectors.toList());
 
         List<TreeOption> userTree = userList.stream().map(u -> new TreeOption(u.getName(), u.getId(), StrUtil.emptyToDefault(u.getDeptId(), u.getUnitId()))).collect(Collectors.toList());
 

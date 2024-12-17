@@ -55,7 +55,7 @@ public class SysOrgService extends BaseService<SysOrg> {
      * @param type
      *
      */
-    public List<SysOrg> findByLoginUser(Subject subject, OrgType type, boolean showAll) {
+    public List<SysOrg> findByLoginUser(Subject subject, Integer type, boolean showAll) {
         JpaQuery<SysOrg> q = new JpaQuery<>();
 
         // 如果不显示全部，则只显示启用的
@@ -71,7 +71,7 @@ public class SysOrgService extends BaseService<SysOrg> {
 
         if (type != null) {
             // 过滤掉子分支， 例如查询公司，则显示公司，不显示部门
-            list = list.stream().filter(o -> o.getType().ordinal() <= type.ordinal()).collect(Collectors.toList());
+            list = list.stream().filter(o -> o.getType() <= type).collect(Collectors.toList());
 
 
             // 如果只有一个父节点， 则隐藏该父节点（方便选择）

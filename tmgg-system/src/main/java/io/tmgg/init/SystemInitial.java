@@ -59,7 +59,7 @@ public class SystemInitial implements CommandLineRunner {
     SysProp sysProp;
 
     @Resource
-    SystemUpgradeInit systemUpgradeInit;
+    UpgradeInit upgradeInit;
 
     @Override
     public void run(String... args) throws Exception {
@@ -69,7 +69,7 @@ public class SystemInitial implements CommandLineRunner {
             return;
         }
 
-        systemUpgradeInit.init();;
+        upgradeInit.init();;
 
         dictEnumHandler.run();
         dictAnnHandler.run();

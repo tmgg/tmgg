@@ -359,10 +359,9 @@ public class DbTool {
 
     public void executeQuietly(String sql, Object... params) {
         try {
-             getRunner().execute(sql, params);
+            getRunner().execute(sql, params);
         } catch (SQLException e) {
-            e.printStackTrace();
-            log.error("执行sql错误 {}", e.getMessage());
+            log.error("可忽略的sql异常 {}", e.getMessage());
             log.error(sql);
         }
     }
@@ -469,6 +468,27 @@ public class DbTool {
     }
 
     // ------------------------------------元数据部分------------------------------
+
+    public Set<String> getTableNames() throws SQLException {
+        try (Connection conn = this.getRunner().getDataSource().getConnection()) {
+            DatabaseMetaData metaData = conn.getMetaData();
+
+            Set<String> tables;
+            try (ResultSet resultSet = metaData.getTables(null, null, null, new String[]{"TABLE"})) {
+
+                tables = new HashSet<>();
+                while (resultSet.next()) {
+                    String tableName = resultSet.getString("TABLE_NAME");
+                    tables.add(tableName);
+                }
+            }
+
+            return tables;
+        }
+
+    }
+
+
 
     public List<Column> getColumns(String sql) throws SQLException {
         List<Column> columns = new ArrayList<>();

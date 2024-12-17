@@ -1,46 +1,25 @@
 package io.tmgg.sys.entity;
 
+import io.tmgg.framework.dict.Dict;
 import io.tmgg.lang.ann.Remark;
-import io.tmgg.web.base.DictEnum;
-import io.tmgg.web.base.StatusColor;
-import lombok.Getter;
 
 
-// 组织类型
-@Remark("组织类型")
-@Getter
-public enum OrgType implements DictEnum {
 
-  UNIT("单位", false), // 单位
-  DEPT("部门", true); // 部门
+@Dict(code = "ORG_TYPE")
+@Remark("机构类型")
+public interface OrgType {
 
-   /* DANG_WEI( "党委"),
-    DANG_GONG_WEI( "党工委"),
-    DANG_ZONG_ZHI( "党总支"),
-    DANG_ZHI_BU( "党支部");*/
+  @Remark("单位")
+  int UNIT = 10;
 
-  private final String message;
-
-  /**
-   * 标志是否一个单位
-   */
-  private final boolean dept;
-
-  OrgType(String message, boolean isDept) {
-    this.message = message;
-    this.dept = isDept;
-  }
-
-  @Override
-  public StatusColor getColor() {
-    if (this == DEPT) {
-      return StatusColor.WARNING;
-    }
-    return StatusColor.SUCCESS;
-  }
+  @Remark("部门")
+  int DEPT = 20;
 
 
-  public boolean isDept() {
-    return dept;
-  }
+  // 可在数据字典中添加更多
+
+
+
 }
+
+
