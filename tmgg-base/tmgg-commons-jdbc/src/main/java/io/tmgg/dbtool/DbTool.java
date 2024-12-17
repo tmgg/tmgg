@@ -489,32 +489,46 @@ public class DbTool {
     }
 
 
-
-    public List<Column> getColumns(String sql) throws SQLException {
-        List<Column> columns = new ArrayList<>();
+    public Set<String> getTableColumns(String tableName) throws SQLException {
         try (Connection conn = this.getRunner().getDataSource().getConnection()) {
-            try (PreparedStatement st = conn.prepareStatement(sql)) {
-                ResultSetMetaData metaData = st.getMetaData();
+            DatabaseMetaData metaData = conn.getMetaData();
 
-                int columnCount = metaData.getColumnCount();
 
-                for (int i = 1; i <= columnCount; i++) {
-                    Column column = new Column();
+            Set<String> set;
+            try (ResultSet rs = metaData.getColumns(null, null, tableName, null)) {
 
-                    column.setLabel(metaData.getColumnLabel(i));
-                    column.setName(metaData.getColumnName(i));
-                    column.setType(metaData.getColumnType(i));
-                    column.setTypeName(metaData.getColumnTypeName(i));
-                    column.setClassName(metaData.getColumnClassName(i));
-
-                    columns.add(column);
+                set = new HashSet<>();
+                while (rs.next()) {
+                    String columnName = rs.getString("COLUMN_NAME");
+                    String columnType = rs.getString("TYPE_NAME");
+                    System.out.println("Column Name: " + columnName + ", Type: " + columnType);
+                    set.add(columnName);
                 }
+            }
+            return set;
+        }
+    }
 
+    public String getTableColumnType(String tableName, String columnName) throws SQLException {
+        try (Connection conn = this.getRunner().getDataSource().getConnection()) {
+            DatabaseMetaData metaData = conn.getMetaData();
+
+
+            Set<String> set;
+            try (ResultSet rs = metaData.getColumns(null, null, tableName, null)) {
+
+                set = new HashSet<>();
+                while (rs.next()) {
+                    String n = rs.getString("COLUMN_NAME");
+
+                    if(n.equals(columnName)){
+                        String columnType = rs.getString("TYPE_NAME");
+                        return columnType;
+                    }
+                }
             }
         }
-
-
-        return columns;
+        return null;
     }
 
 

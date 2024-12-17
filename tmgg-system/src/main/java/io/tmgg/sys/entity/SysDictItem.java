@@ -26,8 +26,8 @@ public class SysDictItem extends BaseEntity {
 
 
     @Remark("键")
-    @Column(name = "key_",length = 50)
-    String key;
+    @Column(length = 50)
+    String code;
 
 
 

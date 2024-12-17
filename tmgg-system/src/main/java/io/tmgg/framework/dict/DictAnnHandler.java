@@ -66,7 +66,7 @@ public class DictAnnHandler {
 
 
                 SysDictItem data = new SysDictItem();
-                data.setKey(key);
+                data.setCode(key);
                 data.setText(text);
                 data.setSeq(i);
                 data.setSysDict(sysDict);

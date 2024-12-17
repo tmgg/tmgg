@@ -45,7 +45,7 @@ public class SysDictItemDao extends BaseDao<SysDictItem> {
 
         JpaQuery<SysDictItem> q = new JpaQuery<>();
         q.eq(SysDictItem.Fields.sysDict + "." + SysDict.Fields.code, code);
-        q.eq(SysDictItem.Fields.key, key);
+        q.eq(SysDictItem.Fields.code, key);
 
         SysDictItem item = this.findOne(q);
         if(item != null){

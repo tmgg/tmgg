@@ -78,7 +78,7 @@ public class DictEnumHandler {
                 String color = me.getColor().name().toLowerCase();
 
                 SysDictItem data = new SysDictItem();
-                data.setKey(name);
+                data.setCode(name);
                 data.setText(msg);
                 data.setSeq(i);
                 data.setSysDict(sysDict);

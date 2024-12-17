@@ -69,10 +69,11 @@ public class SysDictService extends BaseService<SysDict> {
     }
 
     public Object getFinalKey(SysDict dict, SysDictItem item){
-        if(dict.getIsNumber()!= null && dict.getIsNumber()){
-            return Integer.parseInt( item.getKey());
+        String code = item.getCode();
+        if(dict.getIsNumber() != null && dict.getIsNumber()){
+            return Integer.parseInt(code);
         }
-        return item.getKey();
+        return code;
     }
 
 }
