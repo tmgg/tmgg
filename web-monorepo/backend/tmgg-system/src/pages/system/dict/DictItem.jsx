@@ -25,7 +25,7 @@ export default class extends React.Component {
 
         {
             title: '键',
-            dataIndex: 'key',
+            dataIndex: 'code',
         },
         {
             title: '文本',
