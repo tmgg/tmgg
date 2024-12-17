@@ -3,7 +3,7 @@ package io.tmgg.sys.service;
 
 import io.tmgg.lang.dao.BaseEntity;
 import io.tmgg.lang.obj.Option;
-import io.tmgg.sys.SysDictTreeNode;
+import io.tmgg.sys.controller.SysDictTreeNode;
 import io.tmgg.sys.dao.SysDictDao;
 import io.tmgg.sys.dao.SysDictItemDao;
 import io.tmgg.sys.entity.SysDict;
@@ -56,17 +56,23 @@ public class SysDictService extends BaseService<SysDict> {
         JpaQuery<SysDictItem> dictQueryWrapper = new JpaQuery<>();
 
         List<SysDictItem> dictData = sysDictItemDao.findAll(dictQueryWrapper, Sort.by(SysDictItem.Fields.seq));
-        for (SysDictItem sysDictItem : dictData) {
-            SysDictTreeNode sysDictTreeNode = new SysDictTreeNode();
-            sysDictTreeNode.setId(sysDictItem.getId());
-            sysDictTreeNode.setPid(sysDictItem.getSysDict().getId());
-            sysDictTreeNode.setCode(sysDictItem.getKey());
-            sysDictTreeNode.setName(sysDictItem.getText());
-            sysDictTreeNode.setColor(sysDictItem.getColor());
-            resultList.add(sysDictTreeNode);
+        for (SysDictItem item : dictData) {
+            SysDictTreeNode node = new SysDictTreeNode();
+            node.setId(item.getId());
+            node.setPid(item.getSysDict().getId());
+            node.setCode(getFinalKey(item.getSysDict(), item));
+            node.setName(item.getText());
+            node.setColor(item.getColor());
+            resultList.add(node);
         }
         return  TreeTool.buildTree(resultList);
     }
 
+    public Object getFinalKey(SysDict dict, SysDictItem item){
+        if(dict.getIsNumber()!= null && dict.getIsNumber()){
+            return Integer.parseInt( item.getKey());
+        }
+        return item.getKey();
+    }
 
 }

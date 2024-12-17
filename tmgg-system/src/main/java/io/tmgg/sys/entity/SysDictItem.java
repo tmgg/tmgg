@@ -29,6 +29,9 @@ public class SysDictItem extends BaseEntity {
     @Column(name = "key_",length = 50)
     String key;
 
+
+
+
     @Remark("文本")
     private String text;
 

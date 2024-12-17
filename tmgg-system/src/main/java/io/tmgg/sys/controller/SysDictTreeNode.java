@@ -1,5 +1,5 @@
 
-package io.tmgg.sys;
+package io.tmgg.sys.controller;
 
 import io.tmgg.lang.TreeDefinition;
 import lombok.Data;
@@ -18,7 +18,7 @@ public class SysDictTreeNode implements TreeDefinition<SysDictTreeNode> {
 
     private String pid;
 
-    private String code;
+    private Object code;
     private String name;
     private String color;
 
