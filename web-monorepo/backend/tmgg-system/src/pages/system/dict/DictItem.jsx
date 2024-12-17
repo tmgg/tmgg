@@ -2,8 +2,7 @@ import {PlusOutlined} from '@ant-design/icons'
 import {Button, Form, Input, InputNumber, Modal, Popconfirm, Tag} from 'antd'
 import React from 'react'
 
-import {ProTable} from '@tmgg/tmgg-base'
-import {ButtonList, FieldDictSelect, FieldRadioBoolean, http, HttpUtil} from "@tmgg/tmgg-base"
+import {ButtonList, FieldRadioBoolean, http, HttpUtil, ProTable} from '@tmgg/tmgg-base'
 
 
 export default class extends React.Component {
@@ -33,9 +32,12 @@ export default class extends React.Component {
             dataIndex: 'text',
         },
         {
-            title: '状态',
+            title: '启用',
             dataIndex: 'enabled',
-            valueType: 'boolean',
+            render(v) {
+                return v ? '是' : '否'
+            }
+
         },
         {
             title: '显示颜色',
@@ -47,12 +49,14 @@ export default class extends React.Component {
         {
             title: '系统内置',
             dataIndex: 'builtin',
-            valueType: 'boolean',
+            render(v) {
+                return v ? '是' : '否'
+            }
+
         },
         {
             title: '序号',
             dataIndex: 'seq',
-            valueType: 'digit',
         },
         {
             title: '操作',
@@ -136,7 +140,7 @@ export default class extends React.Component {
                         <Input/>
                     </Form.Item>
                     <Form.Item label='状态' name='enabled' rules={[{required: true}]}>
-                        <FieldRadioBoolean />
+                        <FieldRadioBoolean/>
                     </Form.Item>
                     <Form.Item label='颜色' name='color' rules={[{required: true}]}>
                         <Input/>
