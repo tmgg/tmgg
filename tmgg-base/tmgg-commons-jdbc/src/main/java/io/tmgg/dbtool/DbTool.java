@@ -357,13 +357,14 @@ public class DbTool {
         }
     }
 
-    public void executeQuietly(String sql, Object... params) {
+    public int executeQuietly(String sql, Object... params) {
         try {
-            getRunner().execute(sql, params);
+            return getRunner().execute(sql, params);
         } catch (SQLException e) {
             log.error("可忽略的sql异常 {}", e.getMessage());
             log.error(sql);
         }
+        return 0;
     }
 
     public String[] getKeys(String sql) {
@@ -521,7 +522,7 @@ public class DbTool {
                 while (rs.next()) {
                     String n = rs.getString("COLUMN_NAME");
 
-                    if(n.equals(columnName)){
+                    if (n.equals(columnName)) {
                         String columnType = rs.getString("TYPE_NAME");
                         return columnType;
                     }

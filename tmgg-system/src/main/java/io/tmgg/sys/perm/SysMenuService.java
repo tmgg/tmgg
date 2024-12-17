@@ -76,12 +76,7 @@ public class SysMenuService extends BaseService<SysMenu> {
 
     public void init() {
         log.warn("开始清空权限菜单表");
-
-        String sql = """
-                SET FOREIGN_KEY_CHECKS=0;
-                delete from sys_menu;
-                SET FOREIGN_KEY_CHECKS=1;""";
-        int[] batchResult = db.batch(sql);
-        log.warn("清空结果 {}",batchResult);
+        int result = db.executeQuietly("delete from sys_menu");
+        log.warn("清空结果 {}",result);
     }
 }
