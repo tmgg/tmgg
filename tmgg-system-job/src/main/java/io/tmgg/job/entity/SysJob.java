@@ -32,7 +32,6 @@ public class SysJob extends BaseEntity {
     @NotNull
     String name;
 
-    @NotNull
     String cron;
 
 
