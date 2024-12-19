@@ -1,5 +1,7 @@
 package io.tmgg.lang.dao;
 
+import cn.hutool.core.util.StrUtil;
+import io.tmgg.lang.dao.specification.JpaQuery;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.web.annotion.HasPermission;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +25,14 @@ public abstract class BaseCURDController<T extends Persistable<String>> {
 
     @HasPermission
     @GetMapping("page")
-    public AjaxResult page(T param, @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) {
-        Page<T> page = service.findByExampleLike(param, pageable);
+    public AjaxResult page(T param, String keyword, @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) {
+        JpaQuery<T> q = new JpaQuery<>();
+        q.likeExample(param);
+        if(StrUtil.isNotEmpty(keyword)){
+            // 多字段like查询，由业务自己决定
+        }
+
+        Page<T> page = service.findAll(q, pageable);
         return AjaxResult.ok().data(page);
     }
 
