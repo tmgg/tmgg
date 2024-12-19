@@ -8,16 +8,20 @@ import {StrUtil} from "@tmgg/tmgg-commons-lang";
 
 const cronOptions = [
     {
-        label: '0 */1 * * * ? 每隔1分钟执行一次',
+        label: '0 */5 * * * ? 每隔5分钟',
         value: '0 */1 * * * ?'
     },
     {
-        label: '0 0 22 * * ? 每天22点执行一次',
+        label: '0 0 22 * * ? 每天22点',
         value: '0 0 22 * * ?'
     },
     {
-        label: '0 0 1 1 * ? 每月1号凌晨1点执行一次',
+        label: '0 0 1 1 * ? 每月1号凌晨1点',
         value: '0 0 1 1 * ?'
+    },
+    {
+        label: '0 1 2 3 4 * 1949 1949年4月3号2点1分',
+        value: '0 1 2 3 4 * 1949'
     }
 ]
 
