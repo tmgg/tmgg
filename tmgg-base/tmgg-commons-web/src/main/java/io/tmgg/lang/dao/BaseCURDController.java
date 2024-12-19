@@ -28,9 +28,8 @@ public abstract class BaseCURDController<T extends Persistable<String>> {
     public AjaxResult page(T param, String keyword, @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) {
         JpaQuery<T> q = new JpaQuery<>();
         q.likeExample(param);
-        if(StrUtil.isNotEmpty(keyword)){
-            // 多字段like查询，由业务自己决定
-        }
+
+//        q.searchText(keyword, "name", "phone");
 
         Page<T> page = service.findAll(q, pageable);
         return AjaxResult.ok().data(page);

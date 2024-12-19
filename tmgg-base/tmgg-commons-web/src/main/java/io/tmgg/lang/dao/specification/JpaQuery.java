@@ -1,5 +1,6 @@
 package io.tmgg.lang.dao.specification;
 
+import cn.hutool.core.util.StrUtil;
 import io.tmgg.lang.dao.specification.impl.*;
 import jakarta.persistence.criteria.*;
 import org.springframework.data.jpa.domain.Specification;
@@ -44,26 +45,41 @@ public class JpaQuery<T> implements Specification<T> {
 
 
     public void likeExample(T t) {
-         this.add(new SpecificationExample<>(t));
+        this.add(new SpecificationExample<>(t));
     }
 
     public void likeExample(T t, String... ignores) {
-         this.add(new SpecificationExample<>(t, ignores));
+        this.add(new SpecificationExample<>(t, ignores));
     }
 
+    /**
+     * 常见的搜索，会模糊匹配多个字段
+     *
+     * @param searchText 待搜索的文本
+     */
+    public void searchText(String searchText, String... columns) {
+        if (StrUtil.isBlank(searchText)) {
+            return;
+        }
+        this.or(qq -> {
+            for (String column : columns) {
+                qq.like(column, searchText);
+            }
+        });
+    }
 
     public void eq(String column, Object value) {
-         this.add(new SpecificationEQ<>(column, value));
+        this.add(new SpecificationEQ<>(column, value));
     }
 
-    public void eqIf(boolean state,String column, Object value) {
-        if(state){
+    public void eqIf(boolean state, String column, Object value) {
+        if (state) {
             this.add(new SpecificationEQ<>(column, value));
         }
     }
 
     public void isNull(String column) {
-         this.add(new Specification<T>() {
+        this.add(new Specification<T>() {
             @Override
             public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
                 Expression expression = ExpressionTool.getExpression(column, root);
@@ -74,7 +90,7 @@ public class JpaQuery<T> implements Specification<T> {
     }
 
     public void isNotNull(String column) {
-         this.add(new Specification<T>() {
+        this.add(new Specification<T>() {
             @Override
             public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
                 Expression expression = ExpressionTool.getExpression(column, root);
@@ -86,12 +102,12 @@ public class JpaQuery<T> implements Specification<T> {
 
 
     public void ne(String column, Object val) {
-         this.add(new SpecificationNE<>(column, val));
+        this.add(new SpecificationNE<>(column, val));
     }
 
 
     public void gt(String column, Object val) {
-         this.add(new SpecificationGT<>(column, val));
+        this.add(new SpecificationGT<>(column, val));
     }
 
 
@@ -121,8 +137,9 @@ public class JpaQuery<T> implements Specification<T> {
     public void like(String column, String val) {
         this.add(new SpecificationLike<>(column, val));
     }
-    public void likeIf(boolean state,String column, String val) {
-        if(state){
+
+    public void likeIf(boolean state, String column, String val) {
+        if (state) {
             this.add(new SpecificationLike<>(column, val));
         }
     }
@@ -161,7 +178,7 @@ public class JpaQuery<T> implements Specification<T> {
         }
 
 
-         this.add(new Specification<T>() {
+        this.add(new Specification<T>() {
             @Override
             public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
                 Expression expression = ExpressionTool.getExpression(column, root);
@@ -180,7 +197,7 @@ public class JpaQuery<T> implements Specification<T> {
     public void notIn(String column, Object... valueList) {
         boolean hasValue = valueList != null && valueList.length > 0;
         if (!hasValue) {
-            return ;
+            return;
         }
 
         this.add(new Specification<T>() {
@@ -250,7 +267,7 @@ public class JpaQuery<T> implements Specification<T> {
 
     // 去重复
     public void distinct() {
-         this.add(new Specification<T>() {
+        this.add(new Specification<T>() {
             @Override
             public Predicate toPredicate(Root<T> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder cb) {
                 criteriaQuery.distinct(true);
@@ -261,7 +278,7 @@ public class JpaQuery<T> implements Specification<T> {
 
 
     public void isMember(String k, Object v) {
-         this.add(new Specification<T>() {
+        this.add(new Specification<T>() {
             @Override
             public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
                 Path keyPath = root.get(k);
