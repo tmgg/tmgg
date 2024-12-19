@@ -1,13 +1,12 @@
 package io.tmgg.job.controller;
 
 import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ClassUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import io.tmgg.BasePackage;
 import io.tmgg.SysProp;
 import io.tmgg.data.Field;
-import io.tmgg.data.FieldAnn;
+import io.tmgg.data.FieldDesc;
 import io.tmgg.job.JobDesc;
 import io.tmgg.job.JobParamFieldProvider;
 import io.tmgg.job.entity.SysJob;
@@ -160,8 +159,8 @@ public class SysJobController {
         if (jobDesc != null) {
             option.setLabel(option.getLabel() + " " + jobDesc.name());
 
-            FieldAnn[] params = jobDesc.params();
-            for (FieldAnn param : params) {
+            FieldDesc[] params = jobDesc.params();
+            for (FieldDesc param : params) {
                 Field d = new Field();
                 d.setName(param.name());
                 d.setLabel(param.label());

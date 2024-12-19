@@ -5,7 +5,7 @@ import java.lang.annotation.*;
 @Inherited
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.ANNOTATION_TYPE})
-public @interface FieldAnn {
+public @interface FieldDesc {
 
     String name();
     String label();
