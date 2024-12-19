@@ -4,6 +4,7 @@ name: Publish NPM, Maven
 
 on:
   workflow_dispatch:
+  push:
 
 jobs:
   maven:
