@@ -107,7 +107,7 @@ export default class extends React.Component {
                                 icon: null,
                                 width: 1024,
                                 closable: true,
-                                content: <StreamLog url={SysUtil.getServerUrl() + 'job/log/print?jobId' + record.id}/>
+                                content: <StreamLog url={SysUtil.getServerUrl() + 'job/log/print?jobId=' + record.id}/>
                             })
                         }}>日志</Button>
                         <Button size='small' onClick={() => this.handleTriggerJob(record)}>执行一次</Button>
