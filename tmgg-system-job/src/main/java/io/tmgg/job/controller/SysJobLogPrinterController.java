@@ -36,7 +36,7 @@ public class SysJobLogPrinterController {
         PrintWriter w = response.getWriter();
 
         if(StringUtils.isNotEmpty(jobId)){
-            SysJobLog latest = sysJobLogService.findLatest();
+            SysJobLog latest = sysJobLogService.findLatest(jobId);
             if(latest != null){
                 jobLogId = latest.getId();
             }else {
