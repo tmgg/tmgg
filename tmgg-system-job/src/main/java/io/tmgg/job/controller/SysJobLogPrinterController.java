@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletResponse;
+
 import java.io.PrintWriter;
 import java.util.Date;
 
@@ -35,30 +36,27 @@ public class SysJobLogPrinterController {
         response.setContentType("text/plain; utf-8");
         PrintWriter w = response.getWriter();
 
-        if(StringUtils.isNotEmpty(jobId)){
+        if (StringUtils.isNotEmpty(jobId)) {
             SysJobLog latest = sysJobLogService.findLatest(jobId);
-            if(latest != null){
+            if (latest != null) {
                 jobLogId = latest.getId();
-            }else {
+                w.println("任务名称：" + latest.getSysJob().getName());
+            } else {
                 w.println("任务尚未执行");
             }
         }
 
 
-        Page<SysJobLogging> page = service.read( jobLogId);
+        Page<SysJobLogging> page = service.read(jobLogId);
 
-        if(page.hasNext()){
-            w.println("日志未显示全，只显示" + page.getPageable().getPageSize() +"条");
+        if (page.hasNext()) {
+            w.println("日志未显示全，只显示" + page.getPageable().getPageSize() + "条");
         }
 
-        Date d = new Date();
-        for (SysJobLogging jl  :page){
-            w.println(StringUtils.repeat("-", 80));
-            d.setTime(jl.getTimeStamp());
-            w.print(DateUtil.formatDateTime(d));
-            w.print("  ");
-            w.println(jl.getMessage());
-            w.println(StringUtils.repeat("-", 80));
+
+        for (SysJobLogging jl : page) {
+            String line = "%s %s".formatted(DateUtil.formatDateTime(jl.getCreateTime()), jl.getMessage());
+            w.println(line);
         }
 
 
