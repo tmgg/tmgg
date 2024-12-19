@@ -1,6 +1,8 @@
 package io.tmgg.job.controller;
 
+import io.tmgg.job.entity.SysJobLog;
 import io.tmgg.job.entity.SysJobLogging;
+import io.tmgg.job.service.SysJobLogService;
 import io.tmgg.job.service.SysJobLoggingService;
 import cn.hutool.core.date.DateUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -17,19 +19,33 @@ import java.util.Date;
 
 
 @RestController
-@RequestMapping("job/log/{name}")
+@RequestMapping("job/log/print")
 public class SysJobLogPrinterController {
 
     @Resource
     SysJobLoggingService service;
 
+    @Resource
+    SysJobLogService sysJobLogService;
+
+
     @GetMapping
-    public void log(@PathVariable("name") String name, HttpServletResponse response) throws Exception {
+    public void log(String jobId, String jobLogId, HttpServletResponse response) throws Exception {
         response.setCharacterEncoding("utf-8");
         response.setContentType("text/plain; utf-8");
         PrintWriter w = response.getWriter();
 
-        Page<SysJobLogging> page = service.read(name);
+        if(StringUtils.isNotEmpty(jobId)){
+            SysJobLog latest = sysJobLogService.findLatest();
+            if(latest != null){
+                jobLogId = latest.getId();
+            }else {
+                w.println("任务尚未执行");
+            }
+        }
+
+
+        Page<SysJobLogging> page = service.read( jobLogId);
 
         if(page.hasNext()){
             w.println("日志未显示全，只显示" + page.getPageable().getPageSize() +"条");

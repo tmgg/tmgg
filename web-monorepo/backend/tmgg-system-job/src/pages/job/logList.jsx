@@ -62,7 +62,7 @@ export default class extends React.Component {
                 icon:null,
                 width:1024,
                 closable:true,
-                content:<StreamLog url={SysUtil.getServerUrl() + 'job/log/'+ record.id } />
+                content:<StreamLog url={SysUtil.getServerUrl() + 'job/log/print?jobLogId'+ record.id } />
               })
             }}>日志</a>
         );
