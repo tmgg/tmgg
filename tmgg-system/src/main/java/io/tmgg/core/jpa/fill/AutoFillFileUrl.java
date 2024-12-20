@@ -11,7 +11,7 @@ import java.lang.annotation.*;
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.FIELD})
-@AutoFill(value = AutoFillUserLabelStrategy.class)
+@AutoFill(value = AutoFillFileUrlStrategy.class)
 public @interface AutoFillFileUrl {
 
 }
