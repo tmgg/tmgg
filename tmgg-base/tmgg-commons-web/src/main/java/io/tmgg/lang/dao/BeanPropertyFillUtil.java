@@ -40,7 +40,8 @@ public class BeanPropertyFillUtil {
             }
 
             // 必须是非持久化字段
-            if (!f.isAnnotationPresent(Transient.class)) {
+            if (!f.isAnnotationPresent(Transient.class) &&
+                !f.isAnnotationPresent(org.springframework.data.annotation.Transient.class)) {
                 continue;
             }
 
@@ -71,16 +72,16 @@ public class BeanPropertyFillUtil {
             // 规则1. 默认去掉最后一个单词， 例如 userLabel -> user
             String sourceField = removeLastWords(f.getName());
 
-            if(!ReflectUtil.hasField(obj.getClass(), sourceField)){
-                 sourceField = sourceField + "Id";
+            if (!ReflectUtil.hasField(obj.getClass(), sourceField)) {
+                sourceField = sourceField + "Id";
             }
 
-            if(!ReflectUtil.hasField(obj.getClass(), sourceField)){
+            if (!ReflectUtil.hasField(obj.getClass(), sourceField)) {
                 return;
             }
 
             Object sourceValue = BeanUtil.getFieldValue(obj, sourceField);
-            if(sourceValue == null){
+            if (sourceValue == null) {
                 return;
             }
 
@@ -107,17 +108,16 @@ public class BeanPropertyFillUtil {
     }
 
 
-
-    private static AutoFill getAutoFill(Field f){
+    private static AutoFill getAutoFill(Field f) {
         AutoFill autoFill = f.getAnnotation(AutoFill.class);
-        if(autoFill != null){
+        if (autoFill != null) {
             return autoFill;
         }
 
         Annotation[] as = f.getAnnotations();
         for (Annotation methodAnn : as) {
             AutoFill annAnn = methodAnn.annotationType().getAnnotation(AutoFill.class); // 注解的注解
-            if(annAnn != null){
+            if (annAnn != null) {
                 return annAnn;
             }
         }
