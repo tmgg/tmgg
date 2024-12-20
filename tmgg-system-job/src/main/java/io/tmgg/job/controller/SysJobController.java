@@ -4,7 +4,7 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.ClassUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import io.tmgg.BasePackage;
-import io.tmgg.SysProp;
+import io.tmgg.JobProp;
 import io.tmgg.data.Field;
 import io.tmgg.data.FieldDesc;
 import io.tmgg.job.JobDesc;
@@ -45,7 +45,7 @@ public class SysJobController {
     private QuartzManager quartzManager;
 
     @Resource
-    private SysProp sysProp;
+    private JobProp jobProp;
 
 
     @HasPermission

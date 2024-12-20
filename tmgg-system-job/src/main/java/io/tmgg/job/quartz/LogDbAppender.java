@@ -11,7 +11,7 @@ import jakarta.annotation.Resource;
 import java.util.Map;
 
 @Component
-public class DBAppender extends AppenderBase<ILoggingEvent> {
+public class LogDbAppender extends AppenderBase<ILoggingEvent> {
 
     @Resource
     private SysJobLoggingDao sysJobLoggingDao;
