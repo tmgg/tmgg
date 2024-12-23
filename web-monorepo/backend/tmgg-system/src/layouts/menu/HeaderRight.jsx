@@ -3,6 +3,7 @@ import {NotificationOutlined, SettingOutlined, UserOutlined} from "@ant-design/i
 import React from "react";
 import {history} from "umi";
 import {HttpUtil, SysUtil} from "@tmgg/tmgg-base";
+import {isMobileDevice} from "@tmgg/tmgg-commons-lang";
 
 
 const ID = 'header-right';
@@ -10,12 +11,15 @@ export default class HeaderRight extends React.Component {
 
     state = {
         messageCount: 0,
+        isMobileDevice: false
     };
 
     componentDidMount() {
         this.initMessage()
-
         document.dispatchEvent(new CustomEvent('componentDidMount', {detail: ID}))
+        if(isMobileDevice()){
+            this.setState({isMobileDevice:true})
+        }
     }
 
     initMessage = () => {
@@ -37,6 +41,12 @@ export default class HeaderRight extends React.Component {
 
     render() {
         const info = SysUtil.getLoginInfo()
+
+        if(this.state.isMobileDevice){
+            return <div className='header-right'>
+                <a onClick={this.logout}>退出</a>
+            </div>
+        }
 
         return <div className='header-right'>
 

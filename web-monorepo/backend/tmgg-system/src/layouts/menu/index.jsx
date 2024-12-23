@@ -6,7 +6,7 @@ import {history, Link, Outlet} from 'umi';
 import "./index.less"
 import * as Icons from '@ant-design/icons';
 import defaultLogo from '../../asserts/logo.png'
-import {ArrUtil, theme, TreeUtil} from "@tmgg/tmgg-commons-lang";
+import {ArrUtil, isMobileDevice, theme, TreeUtil} from "@tmgg/tmgg-commons-lang";
 
 import HeaderRight from "./HeaderRight";
 
@@ -45,6 +45,12 @@ export default class extends React.Component {
         this.initMenu()
         let siteInfo = SysUtil.getSiteInfo();
         this.setState({siteInfo})
+
+        // 判断是否手机端，自动收起菜单
+        if(isMobileDevice()){
+            this.setState({collapsed:true})
+        }
+
     }
 
 

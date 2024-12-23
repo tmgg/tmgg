@@ -4,8 +4,6 @@ import {LockOutlined, UserOutlined} from '@ant-design/icons';
 import "./login.less"
 import {history} from 'umi';
 import {HttpUtil, PageUtil, StorageUtil, SysUtil} from "@tmgg/tmgg-base";
-import loginBg from '../asserts/login_bg.jpg'
-import dayjs from "dayjs";
 
 export default class login extends React.Component {
 
@@ -50,13 +48,11 @@ export default class login extends React.Component {
                         className="login-form"
                         initialValues={{remember: true}}
                         onFinish={this.submit}
-                        labelCol={{flex: '80px'}}
                         requiredMark={false}
                         colon={false}
                     >
 
                         <Form.Item
-                            label='账号'
                             name="account"
                             rules={[{required: true, message: '请输入用户名!'}]}
                         >
@@ -65,7 +61,6 @@ export default class login extends React.Component {
                                    autoComplete="off"/>
                         </Form.Item>
                         <Form.Item
-                            label='密码'
                             name="password"
                             rules={[{required: true, message: '请输入密码!'}]}
                         >
