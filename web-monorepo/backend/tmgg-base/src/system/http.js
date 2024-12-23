@@ -61,7 +61,7 @@ function request(config) {
                     }
                 }else {
                     Modal.error({
-                        title: '服务出错',
+                        title: '操作失败',
                         content: message
                     })
                 }
@@ -85,7 +85,7 @@ function request(config) {
             }
 
             Modal.error({
-                title: '捕获到服务出错',
+                title: '操作失败',
                 content: msg
             })
             reject(e)
