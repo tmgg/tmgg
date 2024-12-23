@@ -33,7 +33,9 @@ export default class extends React.Component {
 
 
         collapsed: false,
-        siteInfo: {}
+        siteInfo: {},
+
+        isMobileDevice:false
     }
 
 
@@ -48,7 +50,7 @@ export default class extends React.Component {
 
         // 判断是否手机端，自动收起菜单
         if(isMobileDevice()){
-            this.setState({collapsed:true})
+            this.setState({collapsed:true,isMobileDevice:true})
         }
 
     }
@@ -119,11 +121,15 @@ export default class extends React.Component {
         return <Layout className='main-layout'>
             <Header className='header'>
                 <div className='header-left'>
+
                     <img className='logo-img' src={logo} onClick={() => history.push('/')}/>
-                    <Divider type='vertical'/>
-                    <h3>
-                        <Link to="/" style={{color: theme["primary-color"]}}>{siteInfo.title} </Link>
-                    </h3>
+                    {!this.state.isMobileDevice && <>
+                        <Divider type='vertical'/>
+                        <h3>
+                            <Link to="/" style={{color: theme["primary-color"]}}>{siteInfo.title} </Link>
+                        </h3>
+                    </>}
+
 
                     <Menu items={topMenus}
                           mode="horizontal"
@@ -180,7 +186,8 @@ export default class extends React.Component {
                 </Content>
 
             </Layout>
-            <Footer
+
+            {!this.state.isMobileDevice &&  <Footer
                 style={{
                     textAlign: 'center',
                     margin: 0,
@@ -188,7 +195,8 @@ export default class extends React.Component {
                 }}
             >
                 {siteInfo.copyright}
-            </Footer>
+            </Footer>}
+
         </Layout>
     }
 
