@@ -28,20 +28,20 @@ public class MySessionRepository implements SessionRepository<SysHttpSession> {
         session.setCreationTime(Instant.now());
         session.setMaxInactiveInterval(Duration.ofHours(1));
 
-        log.debug("创建session {}", session.getId());
+        log.trace("创建session {}", session.getId());
         return session;
     }
 
 
     @Override
     public void save(SysHttpSession session) {
-        log.debug("保存session {}", session.getId());
+        log.trace("保存session {}", session.getId());
         httpSessionCache.put(session.getId(), session);
     }
 
     @Override
     public SysHttpSession findById(String id) {
-        log.debug("查询session {}", id);
+        log.trace("查询session {}", id);
         SysHttpSession session = httpSessionCache.get(id);
         if (session == null) {
             return null;
