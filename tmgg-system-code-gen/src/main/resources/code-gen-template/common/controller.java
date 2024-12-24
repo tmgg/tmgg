@@ -34,7 +34,7 @@ public class ${name}Controller extends BaseCURDController<${name}> {
 
         Page<${name}> page = service.findAll(q, pageable);
         return AjaxResult.ok().data(page);
-        }
+    }
 
 }
 
