@@ -6,6 +6,9 @@ import ${modulePackageName}.entity.${name};
 import ${modulePackageName}.service.${name}Service;
 import io.tmgg.lang.dao.BaseCURDController;
 import io.tmgg.lang.dao.BaseEntity;
+import io.tmgg.web.annotion.HasPermission;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,7 +24,17 @@ public class ${name}Controller extends BaseCURDController<${name}> {
     @Resource
     ${name}Service service;
 
+    @HasPermission
+    @GetMapping("page")
+    public AjaxResult page(${name} param, String keyword, @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) {
+        JpaQuery<${name}> q = new JpaQuery<>();
+        q.likeExample(param);
 
+        //  q.searchText(keyword, "name", "phone");
+
+        Page<${name}> page = service.findAll(q, pageable);
+        return AjaxResult.ok().data(page);
+        }
 
 }
 
