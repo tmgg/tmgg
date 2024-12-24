@@ -26,7 +26,7 @@ public class ${name}Controller extends BaseCURDController<${name}> {
 
     @HasPermission
     @GetMapping("page")
-    public AjaxResult page(${name} param, String keyword, @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) {
+    public AjaxResult page(${name} param, String keyword, @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) throws Exception {
         JpaQuery<${name}> q = new JpaQuery<>();
         q.likeExample(param);
 

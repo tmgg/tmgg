@@ -1,6 +1,5 @@
 package io.tmgg.lang.dao;
 
-import cn.hutool.core.util.StrUtil;
 import io.tmgg.lang.dao.specification.JpaQuery;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.web.annotion.HasPermission;
@@ -25,7 +24,7 @@ public abstract class BaseCURDController<T extends Persistable<String>> {
 
     @HasPermission
     @GetMapping("page")
-    public AjaxResult page(T param, String keyword, @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) {
+    public AjaxResult page(T param, String keyword, @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) throws Exception {
         JpaQuery<T> q = new JpaQuery<>();
         q.likeExample(param);
 
