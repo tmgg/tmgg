@@ -31,7 +31,12 @@ public abstract class BaseService<T extends Persistable<String>> {
     protected BaseDao<T> baseDao;
 
 
-
+    /**
+     * 聚合统计 参见 @see BaseDao.findAggregate
+     * @param spec
+     * @param selector
+     * @return
+     */
     public Object[] findAggregate(Specification<T> spec, Selector selector) {
         return baseDao.findAggregate(spec, selector);
     }
