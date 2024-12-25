@@ -79,6 +79,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
                     .excludePathPatterns("/**login**/**")
                     .excludePathPatterns("/public/**")
 
+
                     // 静态资源, 乐观模式，认为包含符号 “.”的就是静态资源， 如果后端请求写了url 包含 . ,则会存在漏洞
                     .excludePathPatterns("/**/*.*")
                     .excludePathPatterns("/")

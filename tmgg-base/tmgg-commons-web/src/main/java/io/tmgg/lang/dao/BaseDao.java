@@ -333,7 +333,24 @@ public abstract class BaseDao<T extends Persistable<String>> {
      * @param spec : 查询条件， 可简单通过JpaQuery
      * @param selector 选择器
      *
+     *
+     *
      * @return 结果
+     *
+     *
+     * 使用方式：
+     *        Object[] rs = this.service.findAggregate(q, new Selector() {
+     *
+     *             public List<Selection<?>> select(CriteriaBuilder builder, Root root) {
+     *                 return Arrays.asList(
+     *                         builder.sum(root.get("points")),
+     *                         builder.count(root)
+     *                 );
+     *             }
+     *         });
+     *         String msg = "合计积分：" + rs[0] + ",合计人数：" + rs[1];
+     *
+     *
      */
     public Object[] findAggregate(Specification<T> spec, Selector selector) {
         CriteriaBuilder builder = em.getCriteriaBuilder();
