@@ -5,6 +5,16 @@ import "./login.less"
 import {history} from 'umi';
 import {HttpUtil, PageUtil, StorageUtil, SysUtil} from "@tmgg/tmgg-base";
 
+// 登录页的自定义样式
+const loginPageStyle = {}
+const bg = process.env.LOGIN_BACKGROUND
+console.log('登录页支持自定义背景，配置项为：process.env.LOGIN_BACKGROUND')
+if(bg){
+    console.log('登录背景', bg)
+    loginPageStyle.backgroundImage='url('+bg+')'
+}
+
+
 export default class login extends React.Component {
 
 
@@ -40,7 +50,7 @@ export default class login extends React.Component {
         const siteInfo = SysUtil.getSiteInfo()
 
         return (
-            <section className='login-page' >
+            <section className='login-page' style={loginPageStyle}>
                 <div className="login-content">
                     <h1>{siteInfo.title}</h1>
                     <Form
