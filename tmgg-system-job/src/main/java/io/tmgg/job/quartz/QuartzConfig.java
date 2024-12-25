@@ -47,6 +47,11 @@ public class QuartzConfig implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+        if(!jobProp.isEnable()){
+            log.warn("定时任务模块已设置全局关闭");
+            return;
+        }
+
         // 0. 设置logback 配置, 曲波
         this.addLogbackConfig();
 

@@ -11,6 +11,10 @@ import java.util.List;
 @Data
 public class JobProp {
 
+    /**
+     * 定时任务，全局开关 , 某些情况如开发时，可按需关闭
+     */
+    private boolean enable = true;
 
     /**
      * job日志是否透传。设置为false只存数据库

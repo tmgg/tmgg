@@ -5,13 +5,17 @@ import cn.hutool.system.SystemUtil;
 import io.tmgg.job.JobLoggerFactory;
 import io.tmgg.job.JobDesc;
 import io.tmgg.data.FieldDesc;
+import io.tmgg.job.JobTool;
 import io.tmgg.sys.msg.EmailService;
 import jakarta.annotation.Resource;
 import org.quartz.Job;
+import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.slf4j.Logger;
 import org.springframework.util.Assert;
+
+import java.util.Map;
 
 /**
  * 示例任务
@@ -19,7 +23,7 @@ import org.springframework.util.Assert;
 @JobDesc(name = "示例任务-发送系统状态", params = {@FieldDesc(name = "email", label = "接收邮箱", required = true)})
 public class DemoJob implements Job {
 
-    private static final Logger log = JobLoggerFactory.getLogger();
+    private static final Logger log = JobTool.getLogger();
 
     @Resource
     EmailService emailService;
@@ -29,7 +33,8 @@ public class DemoJob implements Job {
         log.info("开始执行任务-邮件发送系统状态");
 
         // 获取参数
-        String email = e.getJobDetail().getJobDataMap().getString("email");
+        JobDataMap data = JobTool.getData(e);
+        String email = data.getString("email");
         Assert.hasText(email,"请填写邮箱"); // 抛出异常
 
         log.info("接收邮箱为：{}",email);
