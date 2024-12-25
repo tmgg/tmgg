@@ -7,8 +7,8 @@ import {HttpUtil, PageUtil, StorageUtil, SysUtil} from "@tmgg/tmgg-base";
 
 // 登录页的自定义样式
 const loginPageStyle = {}
-const bg = process.env.LOGIN_BACKGROUND
-console.log('登录页支持自定义背景，配置项为：process.env.LOGIN_BACKGROUND')
+const bg = process.env.LOGIN_BACKGROUND_IMAGE_URL
+console.log('登录页支持自定义背景，配置项为：process.env.LOGIN_BACKGROUND_IMAGE_URL')
 if(bg){
     console.log('登录背景', bg)
     loginPageStyle.backgroundImage='url('+bg+')'
