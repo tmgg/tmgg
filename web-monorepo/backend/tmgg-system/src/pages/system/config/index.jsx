@@ -85,9 +85,7 @@ export default class extends React.Component {
                 actionRef={this.tableRef}
                 request={(params, sort) => HttpUtil.pageData('sysConfig/page', params, sort)}
                 columns={this.columns}
-                rowKey='id'
                 search={false}
-                options={{search: true}}
             />
 
             <Modal title='修改配置'

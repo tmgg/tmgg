@@ -1,5 +1,7 @@
 package io.tmgg.data.domain;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -12,14 +14,16 @@ import java.util.stream.Collectors;
  *
  * （包名参考 org.springframework.data.domain.Page）
  */
+@Getter
+@Setter
 public class PageExt<T> extends org.springframework.data.domain.PageImpl<T> {
 
-    String title;
+  private   String title;
 
     /**
-     * 通常存放一些汇总数据，如excel的合计
+     * 通常存放一些汇总数据，有点像excel的合计
      */
-    String footer;
+    private  String totalInfo;
 
     public PageExt(List<T> content, Pageable pageable, long total) {
         super(content, pageable, total);
@@ -36,19 +40,5 @@ public class PageExt<T> extends org.springframework.data.domain.PageImpl<T> {
 
 
 
-    public String getTitle() {
-        return title;
-    }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getFooter() {
-        return footer;
-    }
-
-    public void setFooter(String footer) {
-        this.footer = footer;
-    }
 }

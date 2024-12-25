@@ -7,6 +7,8 @@ declare type ProTableProps = {
     columns:  ColumnsType,
     showSearch?: boolean,
     searchFormItemsRender?:(formInstance: FormInstance)=>{},
+    // 总结兰
+    summary: (pageData:any)=>{}
 };
 
 export class ProTable extends React.Component<ProTableProps, any> {

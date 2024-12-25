@@ -3,7 +3,7 @@ package io.tmgg.sys.controller;
 
 
 import cn.hutool.core.util.StrUtil;
-import io.tmgg.lang.dao.BaseCURDController;
+import io.tmgg.data.domain.PageExt;
 import io.tmgg.lang.dao.specification.JpaQuery;
 import io.tmgg.sys.service.SysConfigService;
 import io.tmgg.web.annotion.HasPermission;
@@ -17,7 +17,6 @@ import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.annotation.Resource;
-import java.util.List;
 
 
 /**
@@ -39,7 +38,13 @@ public class SysConfigController  {
       q.eq(SysConfig.Fields.label, keyword);
     }
     Page<SysConfig> page = service.findAll(q, pageable);
-    return AjaxResult.ok().data(page);
+
+    // 总结栏示例
+    PageExt<SysConfig> pageExt = new PageExt<>(page);
+    pageExt.setTotalInfo("合计：" + page.getTotalElements());
+
+
+    return AjaxResult.ok().data(pageExt);
   }
 
   @HasPermission
