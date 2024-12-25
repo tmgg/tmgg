@@ -141,7 +141,9 @@ export class ProTable extends React.Component {
                             sorter
                         }, this.loadData)
                     }}
-                    footer={()=>this.state.totalInfo}
+                    summary={(data)=>{
+                        return this.state.totalInfo
+                    }}
                 />
             </Card>
         </div>
