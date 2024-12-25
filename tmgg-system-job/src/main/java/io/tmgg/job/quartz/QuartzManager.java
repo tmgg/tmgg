@@ -6,6 +6,8 @@ import org.quartz.*;
 import org.springframework.stereotype.Component;
 
 import jakarta.annotation.Resource;
+
+import java.util.List;
 import java.util.Map;
 
 @Slf4j
@@ -20,8 +22,11 @@ public class QuartzManager {
     public void deleteJob(SysJob job) throws SchedulerException {
         JobKey jobKey = JobKey.jobKey(job.getName(),job.getGroup());
         if (scheduler.checkExists(jobKey)) {
-            scheduler.pauseTrigger(TriggerKey.triggerKey(job.getTriggerKey()));
-            scheduler.deleteJob(jobKey);
+            List<? extends Trigger> triggers = scheduler.getTriggersOfJob(jobKey);
+            for (Trigger trigger : triggers) {
+                scheduler.pauseTrigger(trigger.getKey());
+                scheduler.deleteJob(jobKey);
+            }
         }
     }
 
@@ -29,7 +34,7 @@ public class QuartzManager {
         JobDetail jobDetail = getJobDetail(job);
 
         Trigger trigger = TriggerBuilder.newTrigger()
-                .withIdentity(job.getTriggerKey(), job.getGroup())
+                .withIdentity(job.getName(), job.getGroup())
                 .withSchedule(CronScheduleBuilder.cronSchedule(job.getCron()))
                 .build();
 
@@ -48,7 +53,7 @@ public class QuartzManager {
             JobDetail jobDetail = getJobDetail(job);
 
             Trigger trigger = TriggerBuilder.newTrigger()
-                    .withIdentity(job.getTriggerKey(), job.getGroup())
+                    .withIdentity(job.getName(), job.getGroup())
                     .startNow()
                     .withSchedule(SimpleScheduleBuilder.simpleSchedule()
                             .withRepeatCount(0)) // 不重复

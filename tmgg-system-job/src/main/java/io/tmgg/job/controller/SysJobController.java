@@ -1,5 +1,6 @@
 package io.tmgg.job.controller;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ClassUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import io.tmgg.BasePackage;
@@ -44,9 +45,6 @@ public class SysJobController {
     @Resource
     private QuartzManager quartzManager;
 
-    @Resource
-    private JobProp jobProp;
-
 
     @HasPermission
     @GetMapping("page")
@@ -63,14 +61,15 @@ public class SysJobController {
             if (job.getEnabled()) {
                 JobKey jobKey = JobKey.jobKey(job.getName(), job.getGroup());
                 JobExecutionContext ctx = currentlyExecutingJobsMap.get(jobKey);
-                if(ctx != null){
+                if (ctx != null) {
                     job.putExtField("executing", true);
                     job.putExtField("fireTime", ctx.getFireTime());
                 }
 
-                TriggerKey triggerKey = TriggerKey.triggerKey(job.getTriggerKey());
-                Trigger trigger = scheduler.getTrigger(triggerKey);
-                if (trigger != null) {
+                List<? extends Trigger> triggersOfJob = scheduler.getTriggersOfJob(jobKey);
+
+                if (CollUtil.isNotEmpty(triggersOfJob)) {
+                    Trigger trigger = triggersOfJob.get(0);
                     job.putExtField("previousFireTime", trigger.getPreviousFireTime());
                     job.putExtField("nextFireTime", trigger.getNextFireTime());
                 }

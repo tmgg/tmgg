@@ -1,4 +1,4 @@
-import {Button, InputNumber, Modal} from 'antd'
+import {Button, Input, InputNumber, Modal} from 'antd'
 import React from 'react'
 import StreamLog from "../../components/StreamLog";
 import {ProTable} from "@tmgg/tmgg-base";
@@ -15,7 +15,7 @@ export default class extends React.Component {
 
     selectedRowKeys: [],
 
-    cleanDate: 10,
+    cleanDate: 1,
   }
 
   tableRef = React.createRef()
@@ -74,7 +74,7 @@ export default class extends React.Component {
     return <>
       <ProTable
         toolBarRender={()=><>
-          清理 <InputNumber style={{width:50}} value={this.state.cleanDate} onChange={v=>this.setState({cleanDate:v})}  /> 天前的日志
+          清理 <Input style={{width:50}} value={this.state.cleanDate} onChange={e=>this.setState({cleanDate:e.target.value})}  /> 天前的日志
           <Button onClick={this.clean}>清理</Button>
         </>}
         actionRef={this.tableRef}

@@ -67,11 +67,7 @@ public class SysJob extends BaseEntity {
     }
 
 
-    @JsonIgnore
-    @Transient
-    public String getTriggerKey() {
-        return name + "Trigger";
-    }
+
 
 
     @Override

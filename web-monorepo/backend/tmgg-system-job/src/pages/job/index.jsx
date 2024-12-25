@@ -2,7 +2,7 @@ import {AutoComplete, Button, Form, Input, message, Modal, Popconfirm, Select, S
 import React from 'react'
 import {PlusOutlined} from "@ant-design/icons";
 import {FieldComponent, HttpUtil, ProTable, SysUtil} from "@tmgg/tmgg-base";
-import {StrUtil} from "@tmgg/tmgg-commons-lang";
+import {DateUtil, StrUtil} from "@tmgg/tmgg-commons-lang";
 
 
 const cronOptions = [
@@ -67,10 +67,7 @@ export default class extends React.Component {
         },
 
 
-        {
-            title: '下次执行时间',
-            dataIndex: 'nextFireTime',
-        },
+
         {
             title: '参数',
             dataIndex: 'jobData',
@@ -91,6 +88,15 @@ export default class extends React.Component {
             title: '触发时间',
             dataIndex: 'fireTime',
         },
+
+        {
+            title: '上次',
+            dataIndex: 'previousFireTime',
+        },
+        {
+            title: '下次',
+            dataIndex: 'nextFireTime',
+        },
         {
             title: '启用状态',
             dataIndex: 'enabled',
@@ -108,7 +114,7 @@ export default class extends React.Component {
 
                 return (
                     <Space>
-                        <a href={url} target='_blank'>日志</a>
+                        <a href={url} target='_blank'>最新日志</a>
                         <Button size='small' onClick={() => this.handleTriggerJob(record)}>执行一次</Button>
                         <Button size='small' onClick={() => this.handleEdit(record)}> 修改 </Button>
                         <Popconfirm title='是否确定删除?' onConfirm={() => this.handleDelete(record)}>
