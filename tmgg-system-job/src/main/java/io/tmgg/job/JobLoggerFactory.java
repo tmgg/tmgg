@@ -5,7 +5,8 @@ import io.tmgg.lang.SpringTool;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Deprecated
+
+@Deprecated(since = "某个版本移除，请使用JobTool")
 public class JobLoggerFactory {
 
 

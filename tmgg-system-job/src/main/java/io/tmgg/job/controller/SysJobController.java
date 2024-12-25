@@ -1,6 +1,5 @@
 package io.tmgg.job.controller;
 
-import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.ClassUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import io.tmgg.BasePackage;
@@ -14,6 +13,7 @@ import io.tmgg.job.quartz.QuartzManager;
 import io.tmgg.job.service.SysJobService;
 import io.tmgg.lang.SpringTool;
 import io.tmgg.lang.ann.Remark;
+import io.tmgg.lang.dao.specification.JpaQuery;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.obj.Option;
 import io.tmgg.web.annotion.HasPermission;
@@ -50,37 +50,36 @@ public class SysJobController {
 
     @HasPermission
     @GetMapping("page")
-    public AjaxResult page(SysJob param, @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) {
-        Page<SysJob> page = service.findByExampleLike(param, pageable);
+    public AjaxResult page(String keyword, @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) throws SchedulerException {
+        JpaQuery<SysJob> q = new JpaQuery<>();
+        q.searchText(keyword, SysJob.Fields.name, SysJob.Fields.jobClass);
+        Page<SysJob> page = service.findAll(q, pageable);
+
+        List<JobExecutionContext> currentlyExecutingJobs = scheduler.getCurrentlyExecutingJobs();
+        Map<JobKey, JobExecutionContext> currentlyExecutingJobsMap = currentlyExecutingJobs.stream().collect(Collectors.toMap(ctx -> ctx.getJobDetail().getKey(), ctx -> ctx));
 
 
-        List<Map<String, Object>> list = page.stream().map(job -> {
-            Map<String, Object> map = new HashMap<>();
-            BeanUtil.copyProperties(job, map);
-
+        for (SysJob job : page) {
             if (job.getEnabled()) {
-                try {
-                    TriggerKey triggerKey = TriggerKey.triggerKey(job.getTriggerKey());
-
-
-                    Trigger trigger = scheduler.getTrigger(triggerKey);
-                    if (trigger != null) {
-                        map.put("previousFireTime", trigger.getPreviousFireTime());
-                        map.put("nextFireTime", trigger.getNextFireTime());
-                    }
-
-
-                } catch (SchedulerException e) {
-                    e.printStackTrace();
+                JobKey jobKey = JobKey.jobKey(job.getName(), job.getGroup());
+                JobExecutionContext ctx = currentlyExecutingJobsMap.get(jobKey);
+                if(ctx != null){
+                    job.putExtField("executing", true);
+                    job.putExtField("fireTime", ctx.getFireTime());
                 }
+
+                TriggerKey triggerKey = TriggerKey.triggerKey(job.getTriggerKey());
+                Trigger trigger = scheduler.getTrigger(triggerKey);
+                if (trigger != null) {
+                    job.putExtField("previousFireTime", trigger.getPreviousFireTime());
+                    job.putExtField("nextFireTime", trigger.getNextFireTime());
+                }
+
             }
+        }
 
 
-            return map;
-        }).collect(Collectors.toList());
-
-
-        return AjaxResult.ok().data(new PageImpl<>(list, pageable, page.getTotalElements()));
+        return AjaxResult.ok().data(page);
     }
 
     @HasPermission
@@ -133,7 +132,7 @@ public class SysJobController {
                     option.setLabel(name);
 
                     JobDesc jobDesc = cls.getAnnotation(JobDesc.class);
-                    if(jobDesc !=null){
+                    if (jobDesc != null) {
                         option.setLabel(name + " " + jobDesc.name());
                     }
 

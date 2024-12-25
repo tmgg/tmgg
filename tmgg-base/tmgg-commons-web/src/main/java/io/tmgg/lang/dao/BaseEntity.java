@@ -111,6 +111,14 @@ public abstract class BaseEntity implements PersistId, Serializable {
         return extFields;
     }
 
+    /**
+     * 加入额外字段
+     * @param key
+     * @param value
+     */
+    public void putExtField(String key, Object value){
+            extFields.put(key,value);
+    }
 
 
     @PrePersist

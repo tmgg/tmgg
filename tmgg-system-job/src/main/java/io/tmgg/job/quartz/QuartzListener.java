@@ -1,11 +1,12 @@
 package io.tmgg.job.quartz;
 
-import io.tmgg.job.JobLoggerFactory;
+import io.tmgg.job.JobTool;
 import io.tmgg.job.dao.SysJobDao;
 import io.tmgg.job.dao.SysJobLogDao;
 import io.tmgg.job.entity.SysJob;
 import io.tmgg.job.entity.SysJobLog;
 import io.tmgg.sys.msg.IMessagePublishService;
+import jakarta.annotation.Resource;
 import org.apache.commons.io.IOUtils;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
@@ -14,7 +15,6 @@ import org.slf4j.Logger;
 import org.slf4j.MDC;
 import org.springframework.stereotype.Component;
 
-import jakarta.annotation.Resource;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Date;
@@ -22,8 +22,6 @@ import java.util.Date;
 @Component
 public class QuartzListener implements JobListener {
 
-
-    private static final Logger log = JobLoggerFactory.getLogger();
 
     @Resource
     private SysJobLogDao sysJobLogDao;
@@ -45,7 +43,6 @@ public class QuartzListener implements JobListener {
         String jobName = context.getJobDetail().getKey().getName();
 
         // 1. 数据库保存记录
-
         SysJob job = sysJobDao.findByName(jobName);
 
         SysJobLog sysJobLog = new SysJobLog();
@@ -73,28 +70,11 @@ public class QuartzListener implements JobListener {
 
         if (jobException != null) {
             result = jobException.getMessage();
+            Logger log = JobTool.getLogger();
             log.error("任务执行异常", jobException);
 
             if (messagePublishService != null) {
-                StringWriter out = new StringWriter();
-                out.write("任务key：" + context.getJobDetail().getKey());
-                out.write("\r\n");
-                out.write("任务名称:" + jobName);
-                out.write("\r\n");
-                out.write("任务类名:" + context.getJobDetail().getJobClass().getName());
-                out.write("\r\n");
-
-                out.write("任务触发时间：" + context.getFireTime());
-                out.write("\r\n");
-
-                out.write("异常：" + jobException.getMessage());
-                out.write("\r\n");
-                out.write("\r\n");
-
-                PrintWriter pw = new PrintWriter(out);
-                jobException.printStackTrace(pw);
-                messagePublishService.publish("JOB_EXCEPTION", "定时任务执行异常:" + jobName, out.toString());
-                IOUtils.closeQuietly(out, pw);
+                messagePublishService.publish("JOB_EXCEPTION", "定时任务执行异常:" + jobName, getStacktrace(context, jobException));
             }
         }
 
@@ -113,6 +93,28 @@ public class QuartzListener implements JobListener {
         sysJobLogDao.save(jobLog);
 
         MDC.clear();
+
+    }
+
+    private static String getStacktrace(JobExecutionContext context, JobExecutionException jobException) {
+        StringWriter out = new StringWriter();
+        out.write("任务key：" + context.getJobDetail().getKey());
+        out.write("\r\n");
+        out.write("任务类名:" + context.getJobDetail().getJobClass().getName());
+        out.write("\r\n");
+
+        out.write("任务触发时间：" + context.getFireTime());
+        out.write("\r\n");
+
+        out.write("异常：" + jobException.getMessage());
+        out.write("\r\n");
+        out.write("\r\n");
+
+        PrintWriter pw = new PrintWriter(out);
+        jobException.printStackTrace(pw);
+        String msg = out.toString();
+        IOUtils.closeQuietly(out, pw);
+        return msg;
 
     }
 

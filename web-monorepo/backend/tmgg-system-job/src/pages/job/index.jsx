@@ -1,8 +1,7 @@
 import {AutoComplete, Button, Form, Input, message, Modal, Popconfirm, Select, Space, Switch, Tag} from 'antd'
 import React from 'react'
 import {PlusOutlined} from "@ant-design/icons";
-import StreamLog from "../../components/StreamLog";
-import {FieldComponent, HttpUtil,ProTable, SysUtil} from "@tmgg/tmgg-base";
+import {FieldComponent, HttpUtil, ProTable, SysUtil} from "@tmgg/tmgg-base";
 import {StrUtil} from "@tmgg/tmgg-commons-lang";
 
 
@@ -14,6 +13,10 @@ const cronOptions = [
     {
         label: '0 0 22 * * ? 每天22点',
         value: '0 0 22 * * ?'
+    },
+    {
+        label: '0 0 1 * * ? 每天1点',
+        value: '0 0 1 * * ?'
     },
     {
         label: '0 0 1 1 * ? 每月1号凌晨1点',
@@ -61,32 +64,38 @@ export default class extends React.Component {
         {
             title: 'cron',
             dataIndex: 'cron',
-            hideInSearch: true,
-            render(v, record) {
-                return <>
-                    <div>{v}</div>
-                    <div>上次触发：{record.previousFireTime}</div>
-                    <div>下次触发：{record.nextFireTime}</div>
-                </>;
-            }
+        },
+
+
+        {
+            title: '下次执行时间',
+            dataIndex: 'nextFireTime',
         },
         {
             title: '参数',
             dataIndex: 'jobData',
             hideInSearch: true,
             render(list) {
-                return JSON.stringify(list)
+                if (list)
+                    return JSON.stringify(list)
             }
+        },
+        {
+            title: '运行状态',
+            dataIndex: 'executing',
+            render: (v, record) => {
+                return record.executing ? <Tag color='green'>运行中</Tag> : <Tag>空闲</Tag>
+            },
+        },
+        {
+            title: '触发时间',
+            dataIndex: 'fireTime',
         },
         {
             title: '启用状态',
             dataIndex: 'enabled',
             render: (v, record) => {
                 return record.enabled ? <Tag color='green'>启用</Tag> : <Tag color='red'>停用</Tag>
-            },
-            valueEnum: {
-                'true': '是',
-                'false': '否'
             },
         },
 
@@ -95,18 +104,11 @@ export default class extends React.Component {
             dataIndex: 'option',
             valueType: 'option',
             render: (_, record) => {
+                let url = SysUtil.getServerUrl() + 'job/log/print?jobId=' + record.id;
+
                 return (
                     <Space>
-                        <Button size='small' onClick={() => {
-                            Modal.info({
-                                title: '任务日志',
-                                icon: null,
-                                width: 1024,
-                                closable: true,
-                                footer:null,
-                                content: <StreamLog url={SysUtil.getServerUrl() + 'job/log/print?jobId=' + record.id}/>
-                            })
-                        }}>日志</Button>
+                        <a href={url} target='_blank'>日志</a>
                         <Button size='small' onClick={() => this.handleTriggerJob(record)}>执行一次</Button>
                         <Button size='small' onClick={() => this.handleEdit(record)}> 修改 </Button>
                         <Popconfirm title='是否确定删除?' onConfirm={() => this.handleDelete(record)}>
@@ -196,9 +198,10 @@ export default class extends React.Component {
                         <Input/>
                     </Form.Item>
 
-                    <Form.Item label='cron表达式' name='cron'  help='格式：秒分时日月周,留空表示手动执行'>
-                        <AutoComplete placeholder='如 0 */1 * * * ?' options={cronOptions}/>
+                    <Form.Item label='cron表达式' name='cron' help='格式：秒分时日月周,留空表示手动执行'>
+                        <AutoComplete placeholder='如 0 */5 * * * ?' options={cronOptions}/>
                     </Form.Item>
+
                     <Form.Item label='启用' name='enabled' valuePropName='checked' rules={[{required: true}]}>
                         <Switch/>
                     </Form.Item>
