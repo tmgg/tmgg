@@ -27,7 +27,7 @@ public class CodeGenService {
 
 
     public static final CharSequence[] IGNORE_FIELDS = {"createTime", "updateTime", "updateUser", "createUser",
-            "updateUserLabel", "createTimeLabel", "addFields"};
+            "updateUserLabel", "createTimeLabel", "extFields"};
     public static final CharSequence[] HIDE_IN_FORM = {"id","createUser", "createTime", "updateUser", "updateTime"};
 
     public BeanInfo getBeanInfo(Class<?> cls) {

@@ -9,7 +9,6 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.experimental.FieldNameConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -102,10 +101,14 @@ public abstract class BaseEntity implements PersistId, Serializable {
     @Setter(AccessLevel.NONE) // 不生成setter
     @Transient
     @JsonAnySetter
-    private Map<String, Object> addFields = new HashMap<>();
+    private Map<String, Object> extFields = new HashMap<>();
+
+    /**
+     * @return
+     */
     @JsonAnyGetter
-    public Map<String,Object> getAddFields(){
-        return addFields;
+    public Map<String,Object> getExtFields(){
+        return extFields;
     }
 
 
