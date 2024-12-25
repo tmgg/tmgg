@@ -23,6 +23,7 @@ jobs:
           gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
 
       - name: Publish MAVEN
+        # -rf :tmgg-dev-script
         run: mvn -DskipTests=true deploy -P publishMavenCentral
         env:
           MAVEN_USERNAME: ${{ secrets.MAVEN_USERNAME }}

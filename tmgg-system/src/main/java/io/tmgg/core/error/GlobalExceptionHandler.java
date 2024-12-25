@@ -53,7 +53,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(NoResourceFoundException.class)
     public AjaxResult noResourceFoundException(NoResourceFoundException e) {
-        return AjaxResult.err().code(404).msg("接口或资源不存在" + e.getMessage());
+        return AjaxResult.err().code(404).msg("接口或资源不存在 " + e.getMessage());
     }
 
     /**

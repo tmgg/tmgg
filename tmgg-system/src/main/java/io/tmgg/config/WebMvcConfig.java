@@ -46,12 +46,14 @@ public class WebMvcConfig implements WebMvcConfigurer {
      * 放开权限校验的接口
      */
     private static final String[] NONE_SECURITY_URL_PATTERNS = {
-            "/wx/**",
-            "/app/weapp/**",
-            "/**/**.jpg",
+            // 前端静态文件
+            "/**.jpg",
+            "/**.png",
+            "/static/**.jpg",
+            "/static/**.png",
+            "/favicon.ico",
             "/web/**",
 
-            "/favicon.ico",
 
             //后端的
             "/",
@@ -59,6 +61,10 @@ public class WebMvcConfig implements WebMvcConfigurer {
             "/logout",
             "/oauth/**",
             "/error",
+
+            // 移动端
+            "/wx/**",
+            "/app/weapp/**",
     };
 
 
