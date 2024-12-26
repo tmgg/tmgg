@@ -14,6 +14,9 @@ public class JobTool {
 
     public static  Logger getLogger(){
         JobProp jobProp = SpringTool.getBean(JobProp.class);
+        if(jobProp == null){
+            return  null;
+        }
 
         return LoggerFactory.getLogger(jobProp.getLoggerName());
     }
