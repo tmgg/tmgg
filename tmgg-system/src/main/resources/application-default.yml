@@ -32,6 +32,9 @@ spring:
     type: jcache # 缓存类型不再是EhCache了，EhCache3是实现JCache的一种缓存
     cache-names: sys-config
 
-
   session:
     timeout: 1H
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 20MB
