@@ -1,5 +1,6 @@
 package ${modulePackageName}.controller;
 
+import io.tmgg.lang.dao.specification.JpaQuery;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.obj.Option;
 import ${modulePackageName}.entity.${name};
