@@ -7,6 +7,7 @@ export * from './system'
 export * from './ImageView';
 
 
-export * from './PageLoading.jsx'
+export * from './PageLoading'
 export * from './OrgTree'
 export  * from './ProTable'
+export * from './DownloadFileButton'
