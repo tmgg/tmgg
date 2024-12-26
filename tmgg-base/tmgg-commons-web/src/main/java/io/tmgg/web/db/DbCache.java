@@ -16,8 +16,8 @@ import jakarta.persistence.Table;
 @Setter
 @FieldNameConstants
 @Entity
-@Table(name = "sys_db_record")
-public class DbRecord extends BaseEntity {
+@Table(name = "sys_db_cache")
+public class DbCache extends BaseEntity {
 
     @NotNull
     @Column(unique = true)

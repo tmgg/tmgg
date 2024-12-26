@@ -1,7 +1,6 @@
 package io.github.tmgg;
 
-import cn.moon.lang.json.JsonTool;
-import lombok.extern.slf4j.Slf4j;
+import io.tmgg.jackson.JsonTool;
 import org.apache.commons.io.FileUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -16,7 +15,7 @@ import java.util.Map;
 
 public class SetVersion {
 
-    public static final String NEW_VERSION = "0.1.90";
+    public static final String NEW_VERSION = "0.1.91";
 
 
     public static void main(String[] args) throws IOException {

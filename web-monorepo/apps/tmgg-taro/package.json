@@ -52,7 +52,7 @@
     "dev:harmony-hybrid" : "npm run build:harmony-hybrid -- --watch",
     "test" : "jest"
   },
-  "version" : "0.1.90",
+  "version" : "0.1.91",
   "dependencies" : {
     "@antmjs/vantui" : "^3.4.9",
     "@babel/runtime" : "^7.21.5",
