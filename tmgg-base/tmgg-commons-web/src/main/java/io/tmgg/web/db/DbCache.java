@@ -20,7 +20,7 @@ import jakarta.persistence.Table;
 public class DbCache extends BaseEntity {
 
     @NotNull
-    @Column(unique = true)
+    @Column(unique = true, length = 50)
     String code;
 
     @Column(length = 5000)
