@@ -78,8 +78,6 @@ public class JsonToDatabaseHandler {
                         log.info("文件内容md5相同，忽略 {}", resource.getFilename());
                         continue;
                     }
-                    dbCacheDao.save(cacheKey, md5);
-
                     Map<String, Object> map = JsonTool.jsonToMap(json);
 
                     for (Map.Entry<String, Object> e : map.entrySet()) {
@@ -89,6 +87,7 @@ public class JsonToDatabaseHandler {
                             handleRecord(className, beanData);
                         }
                     }
+                    dbCacheDao.save(cacheKey, md5);
                 }
             }
         } catch (Exception e) {
