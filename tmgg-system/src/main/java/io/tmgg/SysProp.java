@@ -28,7 +28,10 @@ public class SysProp {
      */
     private boolean autoUpdateSysData = true;
 
-
+    /**
+     * 强制更新database目录下的json文件到数据库
+     */
+    private boolean foreUpdateJsonDatabase = false;
 
 
     /**

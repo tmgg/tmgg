@@ -1,13 +1,16 @@
 package io.tmgg.init;
 
-import io.tmgg.jackson.JsonTool;
-import io.tmgg.lang.SpringTool;
-import io.tmgg.lang.dao.BaseDao;
-import io.tmgg.lang.JpaTool;
-import io.tmgg.SysProp;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.crypto.digest.MD5;
+import io.tmgg.SysProp;
+import io.tmgg.jackson.JsonTool;
+import io.tmgg.lang.JpaTool;
+import io.tmgg.lang.SpringTool;
+import io.tmgg.lang.dao.BaseDao;
+import io.tmgg.web.db.DbCacheDao;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
@@ -15,7 +18,6 @@ import org.springframework.data.domain.Persistable;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
-import jakarta.annotation.Resource;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
@@ -27,11 +29,11 @@ import java.util.Map;
  */
 @Slf4j
 @Component
-public class JsonToDatabaseHandler  {
+public class JsonToDatabaseHandler {
 
     public static final String CLASSPATH_DATABASE_XML = "classpath*:database/*.json";
 
-
+    String CACHE_PREFIX = "DATABASE_JSON_FILE_";
 
     /**
      * 预留关键字: 查找主键, 如账号名
@@ -50,19 +52,34 @@ public class JsonToDatabaseHandler  {
     @Resource
     JpaTool jpaTool;
 
+    @Resource
+    DbCacheDao dbCacheDao;
+
     public void run() {
         try {
             log.info("开始解析并初始化默认数据");
-            log.info("开始初始化默认数据，扫描路径为 {}" , CLASSPATH_DATABASE_XML);
+            log.info("开始初始化默认数据，扫描路径为 {}", CLASSPATH_DATABASE_XML);
 
             PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
             org.springframework.core.io.Resource[] resources = resolver.getResources(CLASSPATH_DATABASE_XML);
 
             // 遍历文件内容
+
+            Map<String, String> oldMd5Dict = dbCacheDao.findDictByCodePrefix(CACHE_PREFIX);
             for (org.springframework.core.io.Resource resource : resources) {
                 log.info("解析文件 {}", resource.getFilename());
                 try (InputStream is = resource.getInputStream()) {
                     String json = IoUtil.readUtf8(is);
+
+                    String cacheKey = CACHE_PREFIX + resource.getFilename();
+                    String md5 = MD5.create().digestHex(json);
+                    String oldMd5 = oldMd5Dict.get(cacheKey);
+                    if (md5.equals(oldMd5)) {
+                        log.info("文件内容md5相同，忽略 {}", resource.getFilename());
+                        continue;
+                    }
+                    dbCacheDao.save(cacheKey, md5);
+
                     Map<String, Object> map = JsonTool.jsonToMap(json);
 
                     for (Map.Entry<String, Object> e : map.entrySet()) {
@@ -74,12 +91,11 @@ public class JsonToDatabaseHandler  {
                     }
                 }
             }
-        }catch (Exception e){
-            throw  new IllegalStateException(e);
+        } catch (Exception e) {
+            throw new IllegalStateException(e);
         }
 
     }
-
 
 
     private void handleRecord(String entityName, Map<String, Object> beanMap) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
