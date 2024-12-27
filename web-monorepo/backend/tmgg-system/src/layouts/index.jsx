@@ -37,7 +37,8 @@ export class Layouts extends React.Component {
             console.log(location.pathname);
             this.setState({pathname: location.pathname})
         });
-        this.setState({pathname: PageUtil.currentPathname()})
+        let pathname = PageUtil.currentPathname();
+        this.setState({pathname: pathname})
     }
 
     render() {

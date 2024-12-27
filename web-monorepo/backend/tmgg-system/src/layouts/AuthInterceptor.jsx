@@ -15,7 +15,13 @@ export default class extends React.Component {
         HttpUtil.get('/check-token', null, {autoHandleErrors:false}).then(rs => {
             console.log("认证结果", rs)
             let tokenValid = rs;
+
             this.setState({tokenValid})
+
+            if(!tokenValid){ // 缓存路径
+                let pathname = PageUtil.currentPathname();
+                localStorage.setItem("login_redirect_path", pathname)
+            }
         }).catch((err)=>{
             this.setState({errResult: err})
         })
