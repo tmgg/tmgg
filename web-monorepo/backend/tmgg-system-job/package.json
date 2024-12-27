@@ -12,7 +12,7 @@
   "scripts" : {
     "dev-job" : "umi dev"
   },
-  "version" : "0.1.91",
+  "version" : "0.1.92",
   "dependencies" : {
     "@ant-design/icons" : "^5.4.0",
     "@tmgg/tmgg-commons-lang" : "workspace:*",

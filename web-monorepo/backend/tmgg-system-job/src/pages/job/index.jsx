@@ -108,7 +108,7 @@ export default class extends React.Component {
         {
             title: '操作',
             dataIndex: 'option',
-            valueType: 'option',
+            fixed: 'right',
             render: (_, record) => {
                 let url = SysUtil.getServerUrl() + 'job/log/print?jobId=' + record.id;
 

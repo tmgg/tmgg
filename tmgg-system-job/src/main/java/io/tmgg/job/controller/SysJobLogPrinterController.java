@@ -7,6 +7,9 @@ import io.tmgg.job.service.SysJobLoggingService;
 import cn.hutool.core.date.DateUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +26,7 @@ import java.util.Date;
 @RequestMapping("job/log/print")
 public class SysJobLogPrinterController {
 
+    public static final int PAGE_SIZE = 1000;
     @Resource
     SysJobLoggingService service;
 
@@ -46,20 +50,21 @@ public class SysJobLogPrinterController {
             }
         }
 
+        Sort sort = Sort.by(Sort.Direction.ASC, SysJobLogging.Fields.timeStamp);
+        Pageable pageable = PageRequest.of(0, PAGE_SIZE,sort);
 
-        Page<SysJobLogging> page = service.read(jobLogId);
-
-        if (page.hasNext()) {
-            w.println("日志未显示全，只显示" + page.getPageable().getPageSize() + "条");
-        }
-
-
-        for (SysJobLogging jl : page) {
-            String line = "%s %s".formatted(DateUtil.formatDateTime(jl.getCreateTime()), jl.getMessage());
-            w.println(line);
-        }
-
-
+        Page<SysJobLogging> page = null;
+        do {
+            page = service.read(jobLogId,pageable);
+            if(page.isFirst()){
+                w.println("预计日志行数: " + page.getTotalElements());
+            }
+            for (SysJobLogging jl : page) {
+                String line = "%s %s".formatted(DateUtil.formatDateTime(jl.getCreateTime()), jl.getMessage());
+                w.println(line);
+            }
+            pageable = page.nextPageable();
+        }while (page.hasNext());
     }
 
 
