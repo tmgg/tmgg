@@ -63,7 +63,7 @@ public class JpaQuery<T> implements Specification<T> {
         }
         this.or(qq -> {
             for (String column : columns) {
-                qq.like(column, searchText);
+                qq.like(column, searchText.trim());
             }
         });
     }
