@@ -61,9 +61,10 @@ public class JpaQuery<T> implements Specification<T> {
         if (StrUtil.isBlank(searchText)) {
             return;
         }
+        final String trimText = searchText.trim();
         this.or(qq -> {
             for (String column : columns) {
-                qq.like(column, searchText.trim());
+                qq.like(column, trimText);
             }
         });
     }
