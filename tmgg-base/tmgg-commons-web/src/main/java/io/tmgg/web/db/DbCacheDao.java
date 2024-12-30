@@ -14,20 +14,25 @@ import java.util.Map;
 public class DbCacheDao extends BaseDao<DbCache> {
 
     @Transactional
-    public String findStrByCode(String code){
-        DbCache cache = this.findOneByField(DbCache.Fields.code, code);
-        if(cache != null){
+    public String findStrByCode(String code) {
+        DbCache cache = findByCode(code);
+        if (cache != null) {
             return cache.getValue();
         }
         return null;
     }
 
-    public Map<String,String> findDictByCodePrefix(String code){
+    private DbCache findByCode(String code) {
+        DbCache cache = this.findOneByField(DbCache.Fields.code, code);
+        return cache;
+    }
+
+    public Map<String, String> findDictByCodePrefix(String code) {
         JpaQuery<DbCache> q = new JpaQuery<>();
         q.like(DbCache.Fields.code, code + "%");
 
         List<DbCache> list = this.findAll();
-        Map<String,String> map = new HashMap<>();
+        Map<String, String> map = new HashMap<>();
         for (DbCache dbCache : list) {
             map.put(dbCache.getCode(), dbCache.getValue());
         }
@@ -36,19 +41,25 @@ public class DbCacheDao extends BaseDao<DbCache> {
 
 
     @Transactional
-    public DbCache save(String code, String value){
-        Assert.notNull(value,"值不能为空，如需删除，请使用delete方法");
-        DbCache dbCache = new DbCache();
-        dbCache.setCode(code);
-        dbCache.setValue(value);
-        return this.save(dbCache);
+    public DbCache save(String code, String value) {
+        Assert.notNull(value, "值不能为空，如需删除，请使用delete方法");
+        DbCache old = this.findByCode(code);
+        if (old != null) {
+            old.setValue(value);
+            return this.save(old);
+        } else {
+            DbCache dbCache = new DbCache();
+            dbCache.setCode(code);
+            dbCache.setValue(value);
+            return this.save(dbCache);
+        }
     }
 
     @Transactional
-    public void deleteByCode(String code){
-        DbCache cache = this.findOneByField(DbCache.Fields.code, code);
-        if(cache != null){
-           this.delete(cache);
+    public void deleteByCode(String code) {
+        DbCache cache = findByCode(code);
+        if (cache != null) {
+            this.delete(cache);
         }
     }
 }

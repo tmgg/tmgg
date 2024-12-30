@@ -51,6 +51,7 @@ public class SysConfigService extends BaseService<SysConfig> {
         return parseFinalValue(sysConfig);
     }
     public String getStr(String key) {
+        Assert.state(key.startsWith("sys."), "键必须已sys.开头");
         SysConfig sysConfig = this.findOne(key);
         if (sysConfig != null) {
             return (String) parseFinalValue(sysConfig);
@@ -62,7 +63,7 @@ public class SysConfigService extends BaseService<SysConfig> {
      * 获取默认密码
      */
     public String getDefaultPassWord() {
-        return getStr("default.password");
+        return getStr("sys.default.password");
     }
 
     /**
@@ -70,18 +71,18 @@ public class SysConfigService extends BaseService<SysConfig> {
      */
     public String getFileUploadPath() {
         boolean isWin = SystemUtil.getOsInfo().isWindows();
-        String key = isWin ? "fileUploadPath.windows" : "fileUploadPath.linux";
+        String key = isWin ? "sys.fileUploadPath.windows" : "sys.fileUploadPath.linux";
 
         return getStr(key);
     }
 
     public boolean getMultiDeviceLogin() {
-        return getBoolean("multiDeviceLogin");
+        return getBoolean("sys.multiDeviceLogin");
     }
 
 
     public Map<String, Object> findSiteInfo() {
-        return this.findByPrefix("siteInfo");
+        return this.findByPrefix("sys.siteInfo");
     }
 
 
@@ -115,7 +116,7 @@ public class SysConfigService extends BaseService<SysConfig> {
         String v = sysConfig.getValue();
         if (StrUtil.isEmpty(v)) {
             // 环境变量
-            String propKey = SysProp.CONFIG_PREFIX + "." + sysConfig.getId();
+            String propKey =  sysConfig.getId();
             propKey = StrUtil.toUnderlineCase(propKey).replace("_","-"); // 将大写转换为-
 
             String property = SpringTool.getProperty(propKey);

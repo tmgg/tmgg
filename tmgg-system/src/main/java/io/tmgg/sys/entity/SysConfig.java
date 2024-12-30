@@ -10,6 +10,7 @@ import lombok.experimental.FieldNameConstants;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import org.springframework.util.Assert;
 
 
 /**
@@ -25,7 +26,7 @@ import jakarta.persistence.Entity;
 public class SysConfig extends BaseEntity {
 
     @Remark("名称")
-    @Column(length = 30, nullable = false, unique = true)
+    @Column(length = 30, nullable = false)
     private String label;
 
 
@@ -48,6 +49,9 @@ public class SysConfig extends BaseEntity {
     private String remark;
 
 
-
-
+    @Override
+    public void prePersist() {
+        super.prePersist();
+        Assert.state(id.startsWith("sys."),"主键必须以sys.开头"); // 为了和配置文件保持一致
+    }
 }
