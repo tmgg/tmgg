@@ -74,9 +74,11 @@ public class JsonToDatabaseHandler {
                     String cacheKey = CACHE_PREFIX + resource.getFilename();
                     String md5 = MD5.create().digestHex(json);
                     String oldMd5 = oldMd5Dict.get(cacheKey);
-                    if (md5.equals(oldMd5)) {
-                        log.info("文件内容md5相同，忽略 {}", resource.getFilename());
-                        continue;
+                    if (!sysProp.isForeUpdateJsonDatabase()) {
+                        if (md5.equals(oldMd5)) {
+                            log.info("文件内容md5相同，忽略 {}", resource.getFilename());
+                            continue;
+                        }
                     }
                     Map<String, Object> map = JsonTool.jsonToMap(json);
 
