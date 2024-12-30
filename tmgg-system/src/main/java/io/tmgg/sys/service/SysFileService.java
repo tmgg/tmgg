@@ -8,6 +8,7 @@ import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.NumberUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
+import io.tmgg.SysProp;
 import io.tmgg.lang.DownloadTool;
 import io.tmgg.lang.RequestTool;
 import io.tmgg.lang.dao.specification.JpaQuery;
@@ -49,9 +50,17 @@ public class SysFileService {
     @Resource
     private SysFileDao sysFileDao;
 
+    @Resource
+    private SysProp sysProp;
 
     public String getPreviewUrl(String fileId, HttpServletRequest request) {
-        String baseUrl = RequestTool.getBaseUrl(request);
+        String baseUrl = sysProp.getSiteInfo().getUrl();
+        if(StrUtil.isBlank(baseUrl)){
+            baseUrl = RequestTool.getBaseUrl(request);
+        }
+
+        baseUrl = baseUrl.trim();
+
         String url = baseUrl + previewUrl.replace("{id}", fileId);
         return url;
     }
