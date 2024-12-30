@@ -13,7 +13,7 @@
   "scripts" : {
     "dev-code" : "umi dev"
   },
-  "version" : "0.1.93",
+  "version" : "0.1.94",
   "dependencies" : {
     "@ant-design/icons" : "^5.4.0",
     "antd" : "^5.20.3",

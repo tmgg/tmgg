@@ -54,4 +54,10 @@ public class SysConfig extends BaseEntity {
         super.prePersist();
         Assert.state(id.startsWith("sys."),"主键必须以sys.开头"); // 为了和配置文件保持一致
     }
+
+    @Override
+    public void preUpdate() {
+        super.preUpdate();
+        Assert.state(id.startsWith("sys."),"主键必须以sys.开头"); // 为了和配置文件保持一致
+    }
 }
