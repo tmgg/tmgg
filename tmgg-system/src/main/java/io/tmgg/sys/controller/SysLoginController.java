@@ -69,7 +69,7 @@ public class SysLoginController {
         ThreadUtil.sleep(1000); // 防止黑客爆破
 
         // 验证码校验
-        if(sysConfigService.getBoolean("siteInfo.captcha")){
+        if(sysConfigService.getBoolean("sys.siteInfo.captcha")){
             Assert.hasText(param.getCode(),"请输入验证码");
 
             String code = (String) session.getAttribute(CAPTCHA_CODE);

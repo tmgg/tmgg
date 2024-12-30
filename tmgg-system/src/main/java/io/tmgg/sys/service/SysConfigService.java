@@ -3,7 +3,6 @@ package io.tmgg.sys.service;
 
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.system.SystemUtil;
-import io.tmgg.SysProp;
 import io.tmgg.lang.SpringTool;
 import io.tmgg.lang.dao.BaseService;
 import io.tmgg.lang.dao.specification.JpaQuery;
@@ -11,9 +10,6 @@ import io.tmgg.sys.dao.SysConfigDao;
 import io.tmgg.sys.entity.SysConfig;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -39,6 +35,7 @@ public class SysConfigService extends BaseService<SysConfig> {
     }
 
     public boolean getBoolean(String key) {
+        validateKey(key);
         Object value = this.findValue(key);
         return (boolean) value;
     }
@@ -46,17 +43,22 @@ public class SysConfigService extends BaseService<SysConfig> {
 
 
     public Object findValue(String key) {
+        validateKey(key);
         SysConfig sysConfig = this.findOne(key);
         Assert.notNull(sysConfig, "系统配置不存在" + key);
         return parseFinalValue(sysConfig);
     }
     public String getStr(String key) {
-        Assert.state(key.startsWith("sys."), "键必须已sys.开头");
+        validateKey(key);
         SysConfig sysConfig = this.findOne(key);
         if (sysConfig != null) {
             return (String) parseFinalValue(sysConfig);
         }
         return null;
+    }
+
+    private static void validateKey(String key) {
+        Assert.state(key.startsWith("sys."), "键必须已sys.开头");
     }
 
     /**
