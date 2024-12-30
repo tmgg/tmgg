@@ -10,13 +10,13 @@ import lombok.experimental.FieldNameConstants;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import org.springframework.util.Assert;
+import lombok.extern.slf4j.Slf4j;
 
 
 /**
  * 参数配置
  */
-
+@Slf4j
 @Remark("系统配置")
 @Getter
 @Setter
@@ -30,8 +30,6 @@ public class SysConfig extends BaseEntity {
     private String label;
 
 
-
-
     /**
      * 属性值
      */
@@ -41,7 +39,7 @@ public class SysConfig extends BaseEntity {
     @Remark("默认值")
     private String defaultValue;
 
-    @Column(length =  20)
+    @Column(length = 20)
     private String valueType;
 
 
@@ -52,12 +50,21 @@ public class SysConfig extends BaseEntity {
     @Override
     public void prePersist() {
         super.prePersist();
-        Assert.state(id.startsWith("sys."),"主键必须以sys.开头"); // 为了和配置文件保持一致
+        validateId();
+    }
+
+    private void validateId() {
+        boolean ok = id.startsWith("sys.");
+        if (ok) {
+            log.info("主键:{}", id);
+            // 为了和配置文件保持一致
+            throw new IllegalArgumentException("主键必须以sys.开头。" + id);
+        }
     }
 
     @Override
     public void preUpdate() {
         super.preUpdate();
-        Assert.state(id.startsWith("sys."),"主键必须以sys.开头"); // 为了和配置文件保持一致
+        validateId();
     }
 }
