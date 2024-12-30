@@ -95,7 +95,7 @@ public class SysProp {
         String copyright;
 
         /**
-         * 这个地址主要用来拼接图片等资源的全路径
+         * 这个地址主要用来拼接图片等资源的全路径, 如https://baidu.com
          * 实践中发现经过多层waf或ningx等的转发，如果管理员不熟悉，则会引起获取请求路径失败的情况
           */
         String url;
