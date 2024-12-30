@@ -55,7 +55,7 @@ public class SysConfig extends BaseEntity {
 
     private void validateId() {
         boolean ok = id.startsWith("sys.");
-        if (ok) {
+        if (!ok) {
             log.info("主键:{}", id);
             // 为了和配置文件保持一致
             throw new IllegalArgumentException("主键必须以sys.开头。" + id);
