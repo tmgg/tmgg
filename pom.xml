@@ -21,7 +21,7 @@
         <module>tmgg-system-weapp</module>
         <module>tmgg-system-code-gen</module>
         <module>tmgg-system-kettle</module>
-        <module>tmgg-dev-script</module>
+        <module>tmgg-script</module>
         <module>tmgg-base</module>
     </modules>
 

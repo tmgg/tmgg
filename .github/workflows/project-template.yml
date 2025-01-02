@@ -1,0 +1,27 @@
+name: 项目模板
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - "v*.*.*"
+
+jobs:
+  maven:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          server-id: central
+
+      - name: 发布模板压缩包
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            app/build/outputs/apk/ci/**/*.*
+
+
