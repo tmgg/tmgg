@@ -27,6 +27,8 @@ public class SetVersion {
 
     private void changeMaven() throws IOException {
         Collection<File> poms = DevFileUtil.findByPrefix(".", "pom.xml", "tmgg-" );
+        poms.add(new File("./doc/project-template/pom.xml"));
+
 
         for (File pom : poms) {
             System.out.println(pom);
@@ -60,14 +62,18 @@ public class SetVersion {
 
 
         Collection<File> pkgs = DevFileUtil.find(file.getPath(), "package.json", lines);
+        pkgs.add(new File("./doc/project-template/web/package.json"));
 
 
         for (File pkg : pkgs) {
+
             System.out.println(pkg);
             String json = FileUtils.readFileToString(pkg, StandardCharsets.UTF_8);
 
             Map<String, Object> map = JsonTool.jsonToMap(json);
             map.put("version", NEW_VERSION);
+
+            replaceProjectTemplate(pkg, map);
 
             json = JsonTool.toPrettyJsonQuietly(map);
 
@@ -75,6 +81,17 @@ public class SetVersion {
         }
     }
 
+    private static void replaceProjectTemplate(File pkg, Map<String, Object> map) {
+        if(pkg.getAbsolutePath().contains("project-template")){
+            Map<String,Object> dependencies = (Map<String, Object>) map.get("dependencies");
+            for (String key : dependencies.keySet()) {
+                if(key.startsWith("@tmgg/tmgg-")){
+                    dependencies.put(key, NEW_VERSION);
+                }
+            }
+            System.out.println("处理模板中...");
+        }
+    }
 
 
 }

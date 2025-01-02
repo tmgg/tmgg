@@ -1,34 +1,35 @@
 {
-  "devDependencies": {
-    "@types/lodash": "^4.14.200",
-    "@types/react": "^18.0.0",
-    "@types/react-dom": "^18.0.0",
-    "@types/react-lazylog": "^4.5.1",
-    "@umijs/plugins": "^4.3.17",
-    "typescript": "^4.1.2"
+  "devDependencies" : {
+    "@types/lodash" : "^4.14.200",
+    "@types/react" : "^18.0.0",
+    "@types/react-dom" : "^18.0.0",
+    "@types/react-lazylog" : "^4.5.1",
+    "@umijs/plugins" : "^4.3.17",
+    "typescript" : "^4.1.2"
   },
-  "scripts": {
-    "dev": "umi dev",
-    "build": "umi build"
+  "scripts" : {
+    "dev" : "umi dev",
+    "build" : "umi build"
   },
-  "dependencies": {
-    "@ant-design/icons": "^5.4.0",
-    "@tinymce/tinymce-react": "^5.0.0",
-    "@tmgg/pro-table": "^5.0.6",
-    "@tmgg/tmgg-base": "0.1.100",
-    "@tmgg/tmgg-commons-lang": "0.1.100",
-    "@tmgg/tmgg-system": "0.1.100",
-    "@tmgg/tmgg-system-job": "0.1.100",
-    "@tmgg/tmgg-system-code-gen": "0.1.100",
-    "antd": "^5.20.3",
-    "antd-img-crop": "^4.23.0",
-    "axios": "^1.6.8",
-    "codemirror": "^5.0.0",
-    "dayjs": "^1.11.13",
-    "react": "^18.2.0",
-    "react-amap": "^1.2.8",
-    "react-dom": "^18.2.0",
-    "react-lazylog": "^4.5.3",
-    "umi": "^4.0.0"
+  "version" : "0.2.1",
+  "dependencies" : {
+    "@ant-design/icons" : "^5.4.0",
+    "@tinymce/tinymce-react" : "^5.0.0",
+    "@tmgg/pro-table" : "0.2.1",
+    "@tmgg/tmgg-base" : "0.2.1",
+    "@tmgg/tmgg-commons-lang" : "0.2.1",
+    "@tmgg/tmgg-system" : "0.2.1",
+    "@tmgg/tmgg-system-job" : "0.2.1",
+    "@tmgg/tmgg-system-code-gen" : "0.2.1",
+    "antd" : "^5.20.3",
+    "antd-img-crop" : "^4.23.0",
+    "axios" : "^1.6.8",
+    "codemirror" : "^5.0.0",
+    "dayjs" : "^1.11.13",
+    "react" : "^18.2.0",
+    "react-amap" : "^1.2.8",
+    "react-dom" : "^18.2.0",
+    "react-lazylog" : "^4.5.3",
+    "umi" : "^4.0.0"
   }
 }
