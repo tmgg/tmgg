@@ -56,7 +56,7 @@ public class PublishToAliyun {
 
         File templateProject = new File(root, "doc/project-template");
         File dockerfile = new File(templateProject, "dockerfiles/base-java-image/Dockerfile");
-        log.info("Dockerfile路径：" + dockerfile.getAbsolutePath());
+        log.info("Dockerfile路径 {}", dockerfile.getAbsolutePath());
         log.info("是否存在 {}", dockerfile.exists());
 
         DockerClient client = getClient();
@@ -64,19 +64,18 @@ public class PublishToAliyun {
                 .withForcerm(true)
                 .withBaseDirectory(templateProject)
                 .withDockerfile(dockerfile)
-                .exec(new BuildImageResultCallback(){
+                .exec(new BuildImageResultCallback() {
                     @Override
                     public void onNext(BuildResponseItem item) {
                         super.onNext(item);
                         String stream = item.getStream();
-                        if(StrUtil.isNotEmpty(stream)){
+                        if (StrUtil.isNotEmpty(stream)) {
                             System.out.println(stream);
                         }
                     }
                 }).awaitImageId();
 
         log.info("构建完成,imageId {}", imageId);
-
         for (String tag : tags) {
             log.info("推送镜像:" + tag);
             client.pushImageCmd(tag).exec(new PushImageResultCallback()).awaitCompletion();
