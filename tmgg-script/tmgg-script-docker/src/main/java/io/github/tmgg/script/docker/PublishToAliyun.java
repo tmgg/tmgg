@@ -55,8 +55,8 @@ public class PublishToAliyun {
     }
 
     private static void buildAndPush(String projectVersion, File root, String type) throws InterruptedException {
-        String image1 = url + "/" + namespace + "/tmgg-base-" + type + "-image:" + projectVersion;
-        String image2 = url + "/" + namespace + "/tmgg-base-" + type + "-image:latest";
+        String image1 = url + "/" + namespace + "/tmgg-base-" + type + ":" + projectVersion;
+        String image2 = url + "/" + namespace + "/tmgg-base-" + type + ":latest";
         Set<String> tags = new HashSet<>();
         tags.add(image1);
         tags.add(image2);
