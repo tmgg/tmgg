@@ -6,6 +6,7 @@ import cn.hutool.system.SystemUtil;
 import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.api.command.BuildImageResultCallback;
 import com.github.dockerjava.api.model.BuildResponseItem;
+import com.github.dockerjava.api.model.PushResponseItem;
 import com.github.dockerjava.core.DefaultDockerClientConfig;
 import com.github.dockerjava.core.DockerClientConfig;
 import com.github.dockerjava.core.DockerClientImpl;
@@ -48,14 +49,20 @@ public class PublishToAliyun {
         String projectVersion = getProjectVersion(root);
         log.info("项目版本为 {}", projectVersion);
 
-        String image1 = url + "/" + namespace + "/tmgg-base-java-image:" + projectVersion;
-        String image2 = url + "/" + namespace + "/tmgg-base-java-image:latest";
+        buildAndPush(projectVersion, root, "java");
+        buildAndPush(projectVersion, root, "node");
+        buildAndPush(projectVersion, root, "jdk");
+    }
+
+    private static void buildAndPush(String projectVersion, File root, String type) throws InterruptedException {
+        String image1 = url + "/" + namespace + "/tmgg-base-" + type + "-image:" + projectVersion;
+        String image2 = url + "/" + namespace + "/tmgg-base-" + type + "-image:latest";
         Set<String> tags = new HashSet<>();
         tags.add(image1);
         tags.add(image2);
 
         File templateProject = new File(root, "doc/project-template");
-        File dockerfile = new File(templateProject, "dockerfiles/base-java-image/Dockerfile");
+        File dockerfile = new File(templateProject, "dockerfiles/base-" + type + "-image/Dockerfile");
         log.info("Dockerfile路径 {}", dockerfile.getAbsolutePath());
         log.info("是否存在 {}", dockerfile.exists());
 
@@ -78,12 +85,20 @@ public class PublishToAliyun {
         log.info("构建完成,imageId {}", imageId);
         for (String tag : tags) {
             log.info("推送镜像:" + tag);
-            client.pushImageCmd(tag).exec(new PushImageResultCallback()).awaitCompletion();
+            client.pushImageCmd(tag).exec(new PushImageResultCallback(){
+                @Override
+                public void onNext(PushResponseItem item) {
+                    super.onNext(item);
+                    String stream = item.getStream();
+                    if (StrUtil.isNotEmpty(stream)) {
+                        System.out.println(stream);
+                    }
+                }
+            }).awaitCompletion();
             log.info("推送镜像结束");
         }
 
         log.info("任务结束");
-
     }
 
     private static String getProjectVersion(File root) throws IOException {
@@ -109,7 +124,6 @@ public class PublishToAliyun {
                 .withRegistryUrl(url)
                 .withRegistryUsername(username)
                 .withRegistryPassword(password);
-
 
         DockerClientConfig config = builder.build();
         DockerHttpClient httpClient = new ApacheDockerHttpClient.Builder().dockerHost(config.getDockerHost()).sslConfig(config.getSSLConfig()).build();
