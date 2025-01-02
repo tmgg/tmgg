@@ -7,6 +7,7 @@ import com.github.dockerjava.api.command.BuildImageResultCallback;
 import com.github.dockerjava.core.DefaultDockerClientConfig;
 import com.github.dockerjava.core.DockerClientConfig;
 import com.github.dockerjava.core.DockerClientImpl;
+import com.github.dockerjava.core.command.PushImageResultCallback;
 import com.github.dockerjava.httpclient5.ApacheDockerHttpClient;
 import com.github.dockerjava.transport.DockerHttpClient;
 import org.apache.commons.io.FileUtils;
@@ -28,7 +29,7 @@ public class PublishToAliyun {
 
     static String password = "xxx";
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, InterruptedException {
         if (args.length > 0) {
             password = args[0];
         }
@@ -58,6 +59,14 @@ public class PublishToAliyun {
                 .exec(resultCallback).awaitImageId();
 
         System.out.println("构建完成,imageId: " + imageId);
+
+        for (String tag : tags) {
+            System.out.println("推送镜像:" + tag);
+            client.pushImageCmd(tag).exec(new PushImageResultCallback()).awaitCompletion();
+            System.out.println("推送镜像结束");
+        }
+
+        System.out.println("任务结束");
 
     }
 
@@ -91,9 +100,9 @@ public class PublishToAliyun {
 
         DockerClientConfig config = builder.build();
 
-        DockerHttpClient httpClient = new  ApacheDockerHttpClient.Builder().dockerHost(config.getDockerHost()).sslConfig(config.getSSLConfig()).build();
+        DockerHttpClient httpClient = new ApacheDockerHttpClient.Builder().dockerHost(config.getDockerHost()).sslConfig(config.getSSLConfig()).build();
 
-        DockerClient dockerClient = DockerClientImpl.getInstance(config,httpClient);
+        DockerClient dockerClient = DockerClientImpl.getInstance(config, httpClient);
 
 
         return dockerClient;
