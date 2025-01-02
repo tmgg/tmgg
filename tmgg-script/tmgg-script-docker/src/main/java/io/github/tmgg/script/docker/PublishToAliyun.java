@@ -46,10 +46,8 @@ public class PublishToAliyun {
         String projectVersion = getProjectVersion(root);
         System.out.println("项目版本为：" + projectVersion);
 
-        File dockerfile = new File(root, "tmgg-script/tmgg-script-docker/dockerfile/base-java-image/Dockerfile");
 
-        System.out.println("Dockerfile路径：" + dockerfile.getAbsolutePath());
-        System.out.println("是否存在：" + dockerfile.exists());
+
 
         String image1 = url + "/" + namespace + "/tmgg-base-java-image:" + projectVersion;
         String image2 = url + "/" + namespace + "/tmgg-base-java-image:latest";
@@ -59,9 +57,14 @@ public class PublishToAliyun {
 
         DockerClient client = getClient();
         BuildImageResultCallback resultCallback = new BuildImageResultCallback();
+
+        File templateProject = new File(root, "doc/project-template");
+        File dockerfile = new File(templateProject, "dockerfiles/base-java-image/Dockerfile");
+        System.out.println("Dockerfile路径：" + dockerfile.getAbsolutePath());
+        System.out.println("是否存在：" + dockerfile.exists());
         String imageId = client.buildImageCmd(dockerfile).withTags(tags)
                 .withForcerm(true)
-                .withBaseDirectory(new File(root, "doc/project-template"))
+                .withBaseDirectory(templateProject)
                 .exec(resultCallback).awaitImageId();
 
         System.out.println("构建完成,imageId: " + imageId);
