@@ -69,8 +69,8 @@ jobs:
 
       - name: Build And Publish
         run: |
-          cd tmgg-script/tmgg-script-dev
-          mvn -q exec:java -Dexec.mainClass="io.github.tmgg.script.docker.PublishToAliyun" -Dexec.args="${{ secrets.ALIYUN_REGISTRY_PASSWORD }}" 
+          cd tmgg-script/tmgg-script-docker
+          mvn -X -q exec:java -Dexec.mainClass="io.github.tmgg.script.docker.PublishToAliyun" -Dexec.args="${{ secrets.ALIYUN_REGISTRY_PASSWORD }}" 
 
 
 
