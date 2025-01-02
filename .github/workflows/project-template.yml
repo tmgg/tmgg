@@ -19,6 +19,10 @@ jobs:
           files: |
             ./project-template
           outPath: project-template.tar.gz
+      - name: 查看结果
+        run: |
+          pwd
+          ls
       - name: 发布模板压缩包
         uses: softprops/action-gh-release@v2
         with:
