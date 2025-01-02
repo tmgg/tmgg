@@ -27,4 +27,4 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            app/build/**/project-template.tar.gz
+            /home/runner/work/tmgg/tmgg/project-template.tar.gz
