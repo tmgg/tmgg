@@ -23,5 +23,3 @@ jobs:
         with:
           files: |
             app/build/outputs/apk/ci/**/*.*
-
-

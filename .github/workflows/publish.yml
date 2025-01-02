@@ -1,5 +1,3 @@
-# https://github.com/actions/setup-java/blob/main/docs/advanced-usage.md#apache-maven-with-a-settings-path
-
 name: Publish NPM, Maven
 
 on:
@@ -23,7 +21,6 @@ jobs:
           gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
 
       - name: Publish MAVEN
-        # -rf :tmgg-dev-script
         run: mvn -q -DskipTests=true deploy -P publishMavenCentral
         env:
           MAVEN_USERNAME: ${{ secrets.MAVEN_USERNAME }}
