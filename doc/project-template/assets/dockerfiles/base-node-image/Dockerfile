@@ -1,4 +1,4 @@
-FROM registry.cn-hangzhou.aliyuncs.com/mxvc/node:18 as web
+FROM node:18 as web
 
 WORKDIR build-node
 

@@ -1,4 +1,4 @@
-FROM registry.cn-hangzhou.aliyuncs.com/mxvc/openjdk:17-alpine
+FROM openjdk:17-alpine
 
 # 黑体， 宋体等字体文件
 ADD assets/fonts/ /usr/share/fonts/chinese/
