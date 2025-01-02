@@ -66,6 +66,7 @@ public class PublishToAliyun {
         String imageId = client.buildImageCmd(dockerfile).withTags(tags)
                 .withForcerm(true)
                 .withBaseDirectory(templateProject)
+                .withDockerfile(dockerfile)
                 .exec(new BuildImageResultCallback()).awaitImageId();
 
         System.out.println("构建完成,imageId: " + imageId);
