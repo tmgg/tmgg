@@ -63,7 +63,10 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
+
+      - name: compile
         run: mvn compile -q
+
       - name: Build And Publish
         run: |
           cd tmgg-script/tmgg-script-dev
