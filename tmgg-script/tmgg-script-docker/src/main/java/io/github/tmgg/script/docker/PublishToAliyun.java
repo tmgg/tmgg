@@ -55,17 +55,18 @@ public class PublishToAliyun {
         tags.add(image1);
         tags.add(image2);
 
-        DockerClient client = getClient();
-        BuildImageResultCallback resultCallback = new BuildImageResultCallback();
+
 
         File templateProject = new File(root, "doc/project-template");
         File dockerfile = new File(templateProject, "dockerfiles/base-java-image/Dockerfile");
         System.out.println("Dockerfile路径：" + dockerfile.getAbsolutePath());
         System.out.println("是否存在：" + dockerfile.exists());
+
+        DockerClient client = getClient();
         String imageId = client.buildImageCmd(dockerfile).withTags(tags)
                 .withForcerm(true)
                 .withBaseDirectory(templateProject)
-                .exec(resultCallback).awaitImageId();
+                .exec(new BuildImageResultCallback()).awaitImageId();
 
         System.out.println("构建完成,imageId: " + imageId);
 
