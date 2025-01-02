@@ -36,12 +36,14 @@ public class PublishToAliyun {
         System.out.println("部署密码为：" + password);
 
 
-        DockerClient client = getClient();
-
         File root = new File(".");
-        System.out.println("构建目录为:" + root.getAbsolutePath());
+        System.out.println("首次判断根目录：" + root.getAbsolutePath());
+        if(root.getAbsolutePath().contains("tmgg-script-docker")){
+            root = new File(root.getAbsolutePath()).getParentFile().getParentFile().getParentFile();
+        }
+        System.out.println("二次判断根目录为:" + root.getAbsolutePath());
 
-        String projectVersion = getProjectVersion();
+        String projectVersion = getProjectVersion(root);
         System.out.println("项目版本为：" + projectVersion);
 
         File dockerfile = new File(root, "tmgg-script/tmgg-script-docker/dockerfile/base-java-image/Dockerfile");
@@ -52,6 +54,7 @@ public class PublishToAliyun {
         tags.add(image1);
         tags.add(image2);
 
+        DockerClient client = getClient();
         BuildImageResultCallback resultCallback = new BuildImageResultCallback();
         String imageId = client.buildImageCmd(dockerfile).withTags(tags)
                 .withForcerm(true)
@@ -70,8 +73,8 @@ public class PublishToAliyun {
 
     }
 
-    private static String getProjectVersion() throws IOException {
-        File pom = new File(".", "pom.xml");
+    private static String getProjectVersion(File root) throws IOException {
+        File pom = new File(root, "pom.xml");
         String xml = FileUtils.readFileToString(pom, StandardCharsets.UTF_8);
         Document doc = Jsoup.parse(xml, Parser.xmlParser());
 
