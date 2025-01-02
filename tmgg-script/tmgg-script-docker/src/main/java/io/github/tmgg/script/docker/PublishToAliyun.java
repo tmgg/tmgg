@@ -49,8 +49,8 @@ public class PublishToAliyun {
         String projectVersion = getProjectVersion(root);
         log.info("项目版本为 {}", projectVersion);
 
-        buildAndPush(projectVersion, root, "java");
         buildAndPush(projectVersion, root, "node");
+        buildAndPush(projectVersion, root, "java");
         buildAndPush(projectVersion, root, "jdk");
     }
 
@@ -62,7 +62,7 @@ public class PublishToAliyun {
         tags.add(image2);
 
         File templateProject = new File(root, "doc/project-template");
-        File dockerfile = new File(templateProject, "dockerfiles/base-" + type + "-image/Dockerfile");
+        File dockerfile = new File(templateProject, "assets/dockerfiles/base-" + type + "-image/Dockerfile");
         log.info("Dockerfile路径 {}", dockerfile.getAbsolutePath());
         log.info("是否存在 {}", dockerfile.exists());
 
@@ -98,7 +98,7 @@ public class PublishToAliyun {
             log.info("推送镜像结束");
         }
 
-        log.info("任务结束");
+        log.info("小任务结束");
     }
 
     private static String getProjectVersion(File root) throws IOException {
