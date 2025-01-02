@@ -48,6 +48,9 @@ public class PublishToAliyun {
 
         File dockerfile = new File(root, "tmgg-script/tmgg-script-docker/dockerfile/base-java-image/Dockerfile");
 
+        System.out.println("Dockerfile路径：" + dockerfile.getAbsolutePath());
+        System.out.println("是否存在：" + dockerfile.exists());
+
         String image1 = url + "/" + namespace + "/tmgg-base-java-image:" + projectVersion;
         String image2 = url + "/" + namespace + "/tmgg-base-java-image:latest";
         Set<String> tags = new HashSet<>();
