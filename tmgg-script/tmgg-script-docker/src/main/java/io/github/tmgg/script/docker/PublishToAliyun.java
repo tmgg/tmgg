@@ -26,7 +26,7 @@ import java.util.Set;
 @Slf4j
 public class PublishToAliyun {
     static String url = "registry.cn-hangzhou.aliyuncs.com";
-    static String namespace = "tmgg";
+    static String namespace = "mxvc";
     static String username = "hustme";
 
     static String password = "xxx";
