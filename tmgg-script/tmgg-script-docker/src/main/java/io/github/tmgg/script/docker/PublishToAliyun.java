@@ -25,31 +25,26 @@ import java.util.Set;
 
 @Slf4j
 public class PublishToAliyun {
-    static String url = "registry.cn-hangzhou.aliyuncs.com";
-    static String namespace = "mxvc";
-    static String username = "hustme";
-
-    static String password = "xxx";
+    private static String url = "registry.cn-hangzhou.aliyuncs.com";
+    private static String namespace = "mxvc";
+    private static String username = "hustme";
+    private static String password = "password";
 
     public static void main(String[] args) throws IOException, InterruptedException {
         if (args.length > 0) {
             password = args[0];
         }
-        log.info("部署密码为：" + password);
-
+        log.info("部署密码为 {}", password);
 
         File root = new File(".");
-        log.info("首次判断根目录：" + root.getAbsolutePath());
-        if(root.getAbsolutePath().contains("tmgg-script-docker")){
+        log.info("首次判断根目录 {}", root.getAbsolutePath());
+        if (root.getAbsolutePath().contains("tmgg-script-docker")) {
             root = new File(root.getAbsolutePath()).getParentFile().getParentFile().getParentFile();
         }
-        log.info("二次判断根目录为:" + root.getAbsolutePath());
+        log.info("二次判断根目录为 {}", root.getAbsolutePath());
 
         String projectVersion = getProjectVersion(root);
-        log.info("项目版本为：" + projectVersion);
-
-
-
+        log.info("项目版本为 {}", projectVersion);
 
         String image1 = url + "/" + namespace + "/tmgg-base-java-image:" + projectVersion;
         String image2 = url + "/" + namespace + "/tmgg-base-java-image:latest";
@@ -57,12 +52,10 @@ public class PublishToAliyun {
         tags.add(image1);
         tags.add(image2);
 
-
-
         File templateProject = new File(root, "doc/project-template");
         File dockerfile = new File(templateProject, "dockerfiles/base-java-image/Dockerfile");
         log.info("Dockerfile路径：" + dockerfile.getAbsolutePath());
-        log.info("是否存在：" + dockerfile.exists());
+        log.info("是否存在 {}", dockerfile.exists());
 
         DockerClient client = getClient();
         String imageId = client.buildImageCmd(dockerfile).withTags(tags)
@@ -71,7 +64,7 @@ public class PublishToAliyun {
                 .withDockerfile(dockerfile)
                 .exec(new BuildImageResultCallback()).awaitImageId();
 
-        log.info("构建完成,imageId: " + imageId);
+        log.info("构建完成,imageId {}", imageId);
 
         for (String tag : tags) {
             log.info("推送镜像:" + tag);
@@ -90,9 +83,7 @@ public class PublishToAliyun {
 
         Element el = doc.selectFirst("project>version");
 
-
         return el.text();
-
     }
 
     public static String getLocalDockerHost() {
@@ -103,7 +94,6 @@ public class PublishToAliyun {
     public static DockerClient getClient() {
         String dockerHost = getLocalDockerHost();
 
-
         DefaultDockerClientConfig.Builder builder = DefaultDockerClientConfig.createDefaultConfigBuilder()
                 .withDockerHost(dockerHost)
                 .withRegistryUrl(url)
@@ -112,11 +102,8 @@ public class PublishToAliyun {
 
 
         DockerClientConfig config = builder.build();
-
         DockerHttpClient httpClient = new ApacheDockerHttpClient.Builder().dockerHost(config.getDockerHost()).sslConfig(config.getSSLConfig()).build();
-
         DockerClient dockerClient = DockerClientImpl.getInstance(config, httpClient);
-
 
         return dockerClient;
     }
