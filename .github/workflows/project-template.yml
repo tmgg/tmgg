@@ -22,7 +22,7 @@ jobs:
           cwd: ./doc
           files: |
             ./project-template
-          outPath: 项目模板.tar.gz
+          outPath: project-template.tar.gz
       - name: 查看结果
         run: |
           pwd
@@ -31,4 +31,4 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            /home/runner/work/tmgg/tmgg/项目模板.tar.gz
+            /home/runner/work/tmgg/tmgg/project-template.tar.gz
