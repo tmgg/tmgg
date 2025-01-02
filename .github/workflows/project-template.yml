@@ -7,20 +7,18 @@ on:
       - "v*.*.*"
 
 jobs:
-  maven:
+  template:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Set up JDK
-        uses: actions/setup-java@v4
-        with:
-          java-version: '17'
-          distribution: 'temurin'
-          server-id: central
       - name: 压缩模板
-        run: |
-          tar -zcvf doc/project-template
-          pwd
+        uses: a7ul/tar-action@v1.1.0
+        with:
+          command: c
+          cwd: ./doc
+          files: |
+            ./project-template
+          outPath: project-template.tar.gz
       - name: 发布模板压缩包
         uses: softprops/action-gh-release@v2
         with:
