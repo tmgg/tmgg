@@ -4,6 +4,7 @@ package io.github.tmgg.script.docker;
 import cn.hutool.system.SystemUtil;
 import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.api.command.BuildImageResultCallback;
+import com.github.dockerjava.api.model.BuildResponseItem;
 import com.github.dockerjava.core.DefaultDockerClientConfig;
 import com.github.dockerjava.core.DockerClientConfig;
 import com.github.dockerjava.core.DockerClientImpl;
@@ -62,7 +63,13 @@ public class PublishToAliyun {
                 .withForcerm(true)
                 .withBaseDirectory(templateProject)
                 .withDockerfile(dockerfile)
-                .exec(new BuildImageResultCallback()).awaitImageId();
+                .exec(new BuildImageResultCallback(){
+                    @Override
+                    public void onNext(BuildResponseItem item) {
+                        super.onNext(item);
+                        System.out.println(item.getStream());
+                    }
+                }).awaitImageId();
 
         log.info("构建完成,imageId {}", imageId);
 
