@@ -55,7 +55,7 @@ jobs:
           cnpm sync @tmgg/tmgg-system-flowable
   aliyun-docker:
     runs-on: ubuntu-latest
-    needs: [maven,npm]
+ #   needs: [maven,npm]
     steps:
       - uses: actions/checkout@v4
       - name: Set up JDK
