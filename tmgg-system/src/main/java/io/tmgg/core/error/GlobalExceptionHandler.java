@@ -172,7 +172,7 @@ public class GlobalExceptionHandler {
      * 拦截未知的运行时异常
      */
     @ExceptionHandler(SQLException.class)
-    public AjaxResult sQLException(SQLException e) {
+    public AjaxResult sqlException(SQLException e) {
         log.error("SQL异常", e);
         return renderException(e);
     }
@@ -183,8 +183,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Throwable.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public AjaxResult serverError(Throwable e) {
-        log.error(">>> 服务器运行异常 {}：{}", e.getClass().getSimpleName(), e.getMessage());
-        e.printStackTrace();
+        log.error(">>> 服务器运行异常 ", e);
         return renderException(e);
     }
 
