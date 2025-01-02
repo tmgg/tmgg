@@ -63,8 +63,11 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
+        run: mvn compile -q
       - name: Build And Publish
-        run: mvn -q exec:java -Dexec.mainClass="io.github.tmgg.script.docker.PublishToAliyun" -Dexec.args="${{ secrets.ALIYUN_REGISTRY_PASSWORD }}" -pl tmgg-script/tmgg-script-dev
+        run: |
+          cd tmgg-script/tmgg-script-dev
+          mvn -q exec:java -Dexec.mainClass="io.github.tmgg.script.docker.PublishToAliyun" -Dexec.args="${{ secrets.ALIYUN_REGISTRY_PASSWORD }}" 
 
 
 
