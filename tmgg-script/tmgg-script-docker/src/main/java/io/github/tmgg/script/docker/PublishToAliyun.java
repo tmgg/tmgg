@@ -1,6 +1,7 @@
 package io.github.tmgg.script.docker;
 
 
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.system.SystemUtil;
 import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.api.command.BuildImageResultCallback;
@@ -67,7 +68,10 @@ public class PublishToAliyun {
                     @Override
                     public void onNext(BuildResponseItem item) {
                         super.onNext(item);
-                        System.out.println(item.getStream());
+                        String stream = item.getStream();
+                        if(StrUtil.isNotEmpty(stream)){
+                            System.out.println(stream);
+                        }
                     }
                 }).awaitImageId();
 
