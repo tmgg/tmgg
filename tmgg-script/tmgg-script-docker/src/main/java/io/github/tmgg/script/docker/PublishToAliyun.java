@@ -10,6 +10,7 @@ import com.github.dockerjava.core.DockerClientImpl;
 import com.github.dockerjava.core.command.PushImageResultCallback;
 import com.github.dockerjava.httpclient5.ApacheDockerHttpClient;
 import com.github.dockerjava.transport.DockerHttpClient;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -22,6 +23,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashSet;
 import java.util.Set;
 
+@Slf4j
 public class PublishToAliyun {
     static String url = "registry.cn-hangzhou.aliyuncs.com";
     static String namespace = "tmgg";
@@ -33,18 +35,18 @@ public class PublishToAliyun {
         if (args.length > 0) {
             password = args[0];
         }
-        System.out.println("部署密码为：" + password);
+        log.info("部署密码为：" + password);
 
 
         File root = new File(".");
-        System.out.println("首次判断根目录：" + root.getAbsolutePath());
+        log.info("首次判断根目录：" + root.getAbsolutePath());
         if(root.getAbsolutePath().contains("tmgg-script-docker")){
             root = new File(root.getAbsolutePath()).getParentFile().getParentFile().getParentFile();
         }
-        System.out.println("二次判断根目录为:" + root.getAbsolutePath());
+        log.info("二次判断根目录为:" + root.getAbsolutePath());
 
         String projectVersion = getProjectVersion(root);
-        System.out.println("项目版本为：" + projectVersion);
+        log.info("项目版本为：" + projectVersion);
 
 
 
@@ -59,8 +61,8 @@ public class PublishToAliyun {
 
         File templateProject = new File(root, "doc/project-template");
         File dockerfile = new File(templateProject, "dockerfiles/base-java-image/Dockerfile");
-        System.out.println("Dockerfile路径：" + dockerfile.getAbsolutePath());
-        System.out.println("是否存在：" + dockerfile.exists());
+        log.info("Dockerfile路径：" + dockerfile.getAbsolutePath());
+        log.info("是否存在：" + dockerfile.exists());
 
         DockerClient client = getClient();
         String imageId = client.buildImageCmd(dockerfile).withTags(tags)
@@ -69,15 +71,15 @@ public class PublishToAliyun {
                 .withDockerfile(dockerfile)
                 .exec(new BuildImageResultCallback()).awaitImageId();
 
-        System.out.println("构建完成,imageId: " + imageId);
+        log.info("构建完成,imageId: " + imageId);
 
         for (String tag : tags) {
-            System.out.println("推送镜像:" + tag);
+            log.info("推送镜像:" + tag);
             client.pushImageCmd(tag).exec(new PushImageResultCallback()).awaitCompletion();
-            System.out.println("推送镜像结束");
+            log.info("推送镜像结束");
         }
 
-        System.out.println("任务结束");
+        log.info("任务结束");
 
     }
 
