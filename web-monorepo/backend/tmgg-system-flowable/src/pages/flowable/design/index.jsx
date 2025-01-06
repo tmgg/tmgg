@@ -16,7 +16,7 @@ import palette from "../../../components/flow/design/palette";
 import OriginModule from 'diagram-js-origin';
 import contextPad from "../../../components/flow/design/contextPad";
 import {CloudUploadOutlined, EditOutlined, SaveOutlined} from "@ant-design/icons";
-import {HttpUtil, UrlUtil} from "@tmgg/tmgg-base";
+import {HttpUtil, PageUtil} from "@tmgg/tmgg-base";
 
 export default class extends React.Component {
 
@@ -44,7 +44,7 @@ export default class extends React.Component {
   preXmlRef = React.createRef()
 
   componentDidMount() {
-    let params = UrlUtil.params();
+    let params = PageUtil.currentLocationQuery();
 
     this.state.id = params.id
 

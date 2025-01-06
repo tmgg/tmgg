@@ -1,7 +1,7 @@
 import React from "react";
 import {Button, Card, Form, Input, Modal, Radio,} from "antd";
 import InstanceInfo from "../../../components/InstanceInfo";
-import {HttpUtil, UrlUtil} from "@tmgg/tmgg-base"
+import {HttpUtil, PageUtil} from "@tmgg/tmgg-base"
 import {history} from "umi";
 
 export default class extends React.Component {
@@ -13,7 +13,7 @@ export default class extends React.Component {
 
   handleTask = value => {
     this.setState({submitLoading: true});
-    const {taskId} = UrlUtil.params();
+    const {taskId} = PageUtil.currentLocationQuery()
 
 
     value.taskId = taskId
@@ -28,7 +28,7 @@ export default class extends React.Component {
 
   render() {
     const {submitLoading} = this.state
-    let params = UrlUtil.params()
+    let params = PageUtil.currentLocationQuery()
 
     const {instanceId} = params;
     return <div style={{background: '#f5f5f5'}}>

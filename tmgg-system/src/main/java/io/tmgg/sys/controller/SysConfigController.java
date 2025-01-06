@@ -6,6 +6,7 @@ import cn.hutool.core.util.StrUtil;
 import io.tmgg.data.domain.PageExt;
 import io.tmgg.lang.dao.specification.JpaQuery;
 import io.tmgg.sys.service.SysConfigService;
+import io.tmgg.web.CommonQueryParam;
 import io.tmgg.web.annotion.HasPermission;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.sys.entity.SysConfig;
@@ -30,26 +31,17 @@ public class SysConfigController  {
   @Resource
   private SysConfigService service;
 
-  @Data
-  public static class QueryParam{
-    String keyword;
-  }
+
   @HasPermission
   @RequestMapping("page")
-  public AjaxResult page(@RequestBody QueryParam queryParam, @PageableDefault(direction = Sort.Direction.DESC, sort = "id") Pageable pageable) {
-    String keyword = queryParam.getKeyword();
+  public AjaxResult page(@RequestBody CommonQueryParam queryParam, @PageableDefault(direction = Sort.Direction.DESC, sort = "id") Pageable pageable) {
     JpaQuery<SysConfig> q= new JpaQuery<>();
-    if(StrUtil.isNotEmpty(keyword)){
-      q.eq(SysConfig.Fields.label, keyword);
-    }
+    q.searchText(queryParam.getKeyword(), SysConfig.Fields.label, "id");
     Page<SysConfig> page = service.findAll(q, pageable);
 
-    // 总结栏示例
-    PageExt<SysConfig> pageExt = new PageExt<>(page);
-    pageExt.setTotalInfo("合计：" + page.getTotalElements());
 
 
-    return AjaxResult.ok().data(pageExt);
+    return AjaxResult.ok().data(page);
   }
 
   @HasPermission

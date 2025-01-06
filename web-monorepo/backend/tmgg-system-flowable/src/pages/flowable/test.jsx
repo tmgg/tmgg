@@ -1,6 +1,6 @@
 import React from "react";
 import {Button, Card, Form, Input, message} from "antd";
-import {HttpUtil, PageLoading, UrlUtil} from "@tmgg/tmgg-base";
+import {HttpUtil, PageLoading, PageUtil} from "@tmgg/tmgg-base";
 
 export default class extends React.Component {
 
@@ -10,7 +10,7 @@ export default class extends React.Component {
 
 
   componentDidMount() {
-    let params = UrlUtil.params()
+    let params = PageUtil.currentLocationQuery()
     const id = this.id = params.id
 
     HttpUtil.get('flowable/test/get', {id}).then(rs=>{
