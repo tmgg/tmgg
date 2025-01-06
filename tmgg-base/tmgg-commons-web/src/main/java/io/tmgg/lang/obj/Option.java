@@ -63,7 +63,14 @@ public class Option {
 
         return result;
     }
+    public static  List<Option> convertList(String[] list){
+        List<Option> result = new ArrayList<>();
+        for(String t : list){
+            result.add(new Option(t, t));
+        }
 
+        return result;
+    }
 
     public static <T> List<Option> convertListWithSelf(Iterable<T> list, Function<T, Object> valueFn, Function<T, String> labelFn){
         List<Option> result = new ArrayList<>();
