@@ -79,6 +79,10 @@ public class SysCodeGenController {
 
         for (Map.Entry<String, String> e : map.entrySet()) {
             String file = e.getKey();
+            if(!param.getFiles().contains(file)){
+                continue;
+            }
+
             String content = e.getValue();
             FileUtil.writeUtf8String(content, file);
         }
@@ -132,6 +136,7 @@ public class SysCodeGenController {
     public static class GenParam {
         String id;
         String template;
+        List<String> files;
     }
 
 
