@@ -12,6 +12,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
  * 简单的增删查改
@@ -26,8 +27,8 @@ public abstract class BaseCURDController<T extends Persistable<String>> {
 
 
     @HasPermission
-    @GetMapping("page")
-    public AjaxResult page(T param, String keyword, @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) throws Exception {
+    @RequestMapping("page")
+    public AjaxResult page(@RequestBody T param, String keyword, @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) throws Exception {
         JpaQuery<T> q = new JpaQuery<>();
         q.likeExample(param);
 

@@ -136,7 +136,7 @@ export const HttpUtil = {
      * @returns {Promise<unknown>}
      */
     pageData(url, params) {
-        return this.get(url, params)
+        return this.post(url, params)
     },
     downloadFile(url, params) {
         let config = {

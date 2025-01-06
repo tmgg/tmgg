@@ -2,7 +2,7 @@ import {PlusOutlined} from '@ant-design/icons'
 import {Button, Card,InputNumber, Popconfirm,Modal,Form,Input,message} from 'antd'
 import React from 'react'
 
-import {ButtonList,dictValueTag, FieldDictSelect,FieldRadioBoolean, FieldDatePickerString, FieldDateTimePickerString, HttpUtil, ProTable} from "@tmgg/tmgg-base";
+import {ButtonList,dictValueTag, FieldDateRange,FieldDictSelect,FieldRadioBoolean, FieldDatePickerString, FieldDateTimePickerString, HttpUtil, ProTable} from "@tmgg/tmgg-base";
 
 
 
@@ -17,7 +17,7 @@ export default class extends React.Component {
   tableRef = React.createRef()
 
   columns = [
-    <#list fieldInfoList as f>
+    <#list listFields as f>
 
     {
       title: '${f.title}',
@@ -94,9 +94,19 @@ export default class extends React.Component {
           columns={this.columns}
           searchFormItemsRender={() => {
               return <>
-               <#list fieldInfoList as f>
+               <#list queryFields as f>
                   <Form.Item label='${f.title}' name='${f.name}'>
-                     <Input />
+                     <#if (f.dict)>
+                          <FieldDictSelect typeCode="${f.dictTypeCode}" />
+                     <#elseif (f.type == 'java.lang.Boolean')>
+                        <FieldRadioBoolean />
+                     <#elseif (f.type == 'java.lang.Float' || f.type == 'java.lang.Integer' || f.type == 'java.lang.Long')>
+                         <InputNumber />
+                     <#elseif (f.type == 'java.util.Date')>
+                          <FieldDateRange />
+                     <#else>
+                         <Input/>
+                     </#if>
                   </Form.Item>
                </#list>
               </>

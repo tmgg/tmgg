@@ -1,6 +1,6 @@
 import {Button, Card, Checkbox, Empty, Form, Modal, Radio, Select, Space, Tabs} from 'antd'
 import React from 'react'
-import {FieldText, http, HttpUtil, ProTable} from "@tmgg/tmgg-base";
+import {FieldDateRange, FieldText, http, HttpUtil, ProTable} from "@tmgg/tmgg-base";
 
 
 export default class extends React.Component {
@@ -114,13 +114,14 @@ export default class extends React.Component {
                 options={{
                     search: true,
                 }}
+
             />
 
 
             <Modal title='代码生成' open={this.state.formOpen} onOk={() => this.formRef.current.submit()}
                    onCancel={() => this.setState({formOpen: false})}
                    destroyOnClose={true}
-                   width={700}
+                   width={900}
                    maskClosable={false}
                    okText='生成到项目中'
 

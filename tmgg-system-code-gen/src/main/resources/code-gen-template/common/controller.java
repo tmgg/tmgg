@@ -8,6 +8,8 @@ import ${modulePackageName}.entity.${name};
 import ${modulePackageName}.service.${name}Service;
 import io.tmgg.lang.dao.BaseCURDController;
 import io.tmgg.lang.dao.BaseEntity;
+import io.tmgg.lang.DateRange;
+
 import io.tmgg.web.annotion.HasPermission;
 import lombok.Getter;
 import lombok.Setter;
@@ -34,15 +36,25 @@ public class ${name}Controller  {
     public static class QueryParam {
         private  String keyword; // 仅有一个搜索框时的搜索文本
 
+        <#list queryFields as f>
+
+         <#if (f.type == 'java.util.Date')>
+            private DateRange ${f.name}Range;
+         <#else>
+            private ${f.type} ${f.name};
+         </#if>
+        </#list>
+
     }
 
     @HasPermission
-    @GetMapping("page")
-    public AjaxResult page(QueryParam param,  @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) throws Exception {
+    @PostMapping("page")
+    public AjaxResult page(@RequestBody  QueryParam param,  @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) throws Exception {
         ${name} example = new ${name}();
         BeanUtil.copyProperties(param, example);
 
         JpaQuery<${name}> q = new JpaQuery<>();
+
         q.likeExample(example);
 
         // 构造查询条件

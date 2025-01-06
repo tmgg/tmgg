@@ -41,4 +41,9 @@ public class BeanInfo {
     List<FieldInfo> fieldInfoList = new ArrayList<>();
 
 
+    List<FieldInfo> queryFields = new ArrayList<>();
+
+    List<FieldInfo> formFields = new ArrayList<>();
+
+    List<FieldInfo> listFields = new ArrayList<>();
 }

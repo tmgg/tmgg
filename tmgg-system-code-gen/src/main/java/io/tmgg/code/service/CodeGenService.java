@@ -4,6 +4,7 @@ import io.tmgg.code.bean.BeanInfo;
 import io.tmgg.code.bean.FieldInfo;
 import cn.hutool.core.text.StrBuilder;
 import cn.hutool.core.util.StrUtil;
+import io.tmgg.lang.AnnTool;
 import io.tmgg.lang.ann.Remark;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
@@ -29,7 +30,9 @@ public class CodeGenService {
     public static final CharSequence[] IGNORE_FIELDS = {"createTime", "updateTime", "updateUser", "createUser",
             "updateUserLabel", "createTimeLabel", "extFields"};
     public static final CharSequence[] HIDE_IN_FORM = {"id","createUser", "createTime", "updateUser", "updateTime"};
+    public static final CharSequence[] HIDE_IN_QUERY = {"id","createUser", "createTime", "updateUser", "updateTime"};
 
+    public static final CharSequence[] HIDE_IN_LIST = {"id","createUser", "createTime", "updateUser"};
     public BeanInfo getBeanInfo(Class<?> cls) {
 
         BeanInfo bean = new BeanInfo();
@@ -119,8 +122,22 @@ public class CodeGenService {
 
 
             FieldInfo f = new FieldInfo();
+            boolean isTransient = AnnTool.hasAnn(field, "Transient");
 
-            if (StringUtils.startsWithAny(fieldName, HIDE_IN_FORM)) {
+            if(!StrUtil.equalsAny(fieldName, HIDE_IN_QUERY)){
+                if(!isTransient){
+                    bean.getQueryFields().add(f);
+                }
+            }
+            if(!StrUtil.equalsAny(fieldName, HIDE_IN_FORM)){
+                if(!isTransient){
+                    bean.getFormFields().add(f);
+                }
+            }
+
+
+            boolean hideInForm = StringUtils.startsWithAny(fieldName, HIDE_IN_FORM);
+            if (hideInForm) {
                 f.setHideInForm(true);
                 f.setHideInSearch(true);
             }
@@ -139,7 +156,7 @@ public class CodeGenService {
             if (field.isAnnotationPresent(Enumerated.class)) {
                 f.setDict(true);
                 String presentableText = field.getType().getSimpleName();
-                String dictTypeCode = this.toUnderlineCase(presentableText);
+                String dictTypeCode = StrUtil.toUnderlineCase(presentableText);
                 f.setDictTypeCode(dictTypeCode);
             }
 
@@ -151,8 +168,12 @@ public class CodeGenService {
                 f.setTitle(f.getAnnRemark());
             }
 
-
+            if(!StrUtil.equalsAny(fieldName, HIDE_IN_LIST)){
+                bean.getListFields().add(f);
+            }
             bean.getFieldInfoList().add(f);
+
+
 
         }
 
@@ -170,61 +191,5 @@ public class CodeGenService {
     }
 
 
-    private String toUnderlineCase(CharSequence str) {
-        return toSymbolCase(str, '_');
-    }
 
-
-    private String toSymbolCase(CharSequence str, char symbol) {
-        if (str == null) {
-            return null;
-        }
-
-        final int length = str.length();
-        final StrBuilder sb = new StrBuilder();
-        char c;
-        for (int i = 0; i < length; i++) {
-            c = str.charAt(i);
-            if (Character.isUpperCase(c)) {
-                final Character preChar = (i > 0) ? str.charAt(i - 1) : null;
-                final Character nextChar = (i < str.length() - 1) ? str.charAt(i + 1) : null;
-
-                if (null != preChar) {
-                    if (symbol == preChar) {
-                        // 前一个为分隔符
-                        if (null == nextChar || Character.isLowerCase(nextChar)) {
-                            //普通首字母大写，如_Abb -> _abb
-                            c = Character.toLowerCase(c);
-                        }
-                        //后一个为大写，按照专有名词对待，如_AB -> _AB
-                    } else if (Character.isLowerCase(preChar)) {
-                        // 前一个为小写
-                        sb.append(symbol);
-                        if (null == nextChar || Character.isLowerCase(nextChar)) {
-                            //普通首字母大写，如aBcc -> a_bcc
-                            c = Character.toLowerCase(c);
-                        }
-                        // 后一个为大写，按照专有名词对待，如aBC -> a_BC
-                    } else {
-                        //前一个为大写
-                        if (null == nextChar || Character.isLowerCase(nextChar)) {
-                            // 普通首字母大写，如ABcc -> A_bcc
-                            sb.append(symbol);
-                            c = Character.toLowerCase(c);
-                        }
-                        // 后一个为大写，按照专有名词对待，如ABC -> ABC
-                    }
-                } else {
-                    // 首字母，需要根据后一个判断是否转为小写
-                    if (null == nextChar || Character.isLowerCase(nextChar)) {
-                        // 普通首字母大写，如Abc -> abc
-                        c = Character.toLowerCase(c);
-                    }
-                    // 后一个为大写，按照专有名词对待，如ABC -> ABC
-                }
-            }
-            sb.append(c);
-        }
-        return sb.toString();
-    }
 }
