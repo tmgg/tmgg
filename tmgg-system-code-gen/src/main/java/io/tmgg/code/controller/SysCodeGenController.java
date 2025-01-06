@@ -47,11 +47,11 @@ public class SysCodeGenController {
             String key = e.getKey();
             String value = e.getValue();
 
-            // antd tab的属性
+            // antd 的属性
             HashMap<String, String> item = new HashMap<>();
             item.put("key",key);
             item.put("value",key);
-            item.put("label",FileUtil.mainName(key));
+            item.put("label",FileUtil.getName(key));
             item.put("children",value);
 
 

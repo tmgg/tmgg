@@ -63,7 +63,7 @@ export default class extends React.Component {
 
     onValuesChange = (changeValues, values) => {
         if (changeValues.template) {
-            HttpUtil.get('code/gen/genDetail', values).then(genItemsDetails => {
+            HttpUtil.get('code/gen/genDetail', {id: values.id, template: values.template}).then(genItemsDetails => {
                 for (let item of genItemsDetails) {
                     item.children = <pre style={{height: 300, overflowY: 'scroll',fontSize:'xx-small'}}>{item.children}</pre>
                 }
