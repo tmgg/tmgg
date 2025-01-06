@@ -85,8 +85,6 @@ export default class extends React.Component {
 
 
     onFinish = (values) => {
-        values.id = this.state.id
-        values.template = this.state.template
         HttpUtil.post('code/gen', values).then(rs => {
             this.setState({formOpen: false})
         }).catch(err => {
@@ -134,8 +132,8 @@ export default class extends React.Component {
                     <Form.Item label='实体类' name='id' rules={[{required: true}]} initialValue={this.state.id}>
                         <FieldText/>
                     </Form.Item>
-                    <Form.Item label='模板' name='template' rules={[{required: true}]}>
-                        <Radio.Group options={this.state.templateOptions}/>
+                    <Form.Item label='模板' name='template' rules={[{required: true}]} >
+                        <Radio.Group options={this.state.templateOptions} />
                     </Form.Item>
                     <Form.Item label='选择文件' name='files' rules={[{required: true}]}>
                         <Checkbox.Group options={this.state.genItemsDetails}></Checkbox.Group>
