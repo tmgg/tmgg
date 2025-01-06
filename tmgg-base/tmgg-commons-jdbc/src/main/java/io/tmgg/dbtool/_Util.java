@@ -4,19 +4,16 @@ import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class _Util {
 
     public static List<Map<String, Object>> camel(List<Map<String,Object>> list) {
-        for (int i = 0; i < list.size(); i++) {
-            Map<String, Object> map = list.get(i);
-            list.set(i, _Util.camel(map));
+        List<Map<String,Object>> newList = new ArrayList<>(list.size());
+        for (Map<String, Object> map : list) {
+            newList.add(_Util.camel(map));
         }
-        return list;
+        return newList;
     }
     public static Map<String,Object> camel(Map<String,Object> map){
         Map<String,Object> newMap = new LinkedHashMap<>();
