@@ -11,7 +11,10 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 
-@Remark("数据记录（用于临时存储，存储杂项等）")
+/**
+ * 用于临时存储，存储杂项等
+ */
+@Remark("临时数据")
 @Getter
 @Setter
 @FieldNameConstants
@@ -19,10 +22,12 @@ import jakarta.persistence.Table;
 @Table(name = "sys_db_cache")
 public class DbCache extends BaseEntity {
 
+    @Remark("编码")
     @NotNull
     @Column(unique = true, length = 100)
     String code;
 
+    @Remark("内容")
     @Column(length = 5000)
     @NotNull
     String value;

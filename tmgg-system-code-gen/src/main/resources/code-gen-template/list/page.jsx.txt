@@ -92,6 +92,15 @@ export default class extends React.Component {
           }}
           request={(params, sort) => HttpUtil.pageData('${firstLowerName}/page', params)}
           columns={this.columns}
+          searchFormItemsRender={() => {
+              return <>
+               <#list fieldInfoList as f>
+                  <Form.Item label='客户' name='nickName'>
+                     <Input />
+                  </Form.Item>
+               </#list>
+              </>
+          }}
       />
 
   <Modal title='${label}'

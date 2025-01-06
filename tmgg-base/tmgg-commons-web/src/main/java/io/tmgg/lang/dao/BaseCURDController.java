@@ -15,7 +15,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 /**
  * 简单的增删查改
+ *
+ * 已弃用，为了保证稳定性，请直接将增删查改代码放到业务Controller中
  **/
+@Deprecated
 public abstract class BaseCURDController<T extends Persistable<String>> {
 
     @Autowired
