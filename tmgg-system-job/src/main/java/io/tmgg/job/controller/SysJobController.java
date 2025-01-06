@@ -19,6 +19,7 @@ import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.obj.Option;
 import io.tmgg.web.annotion.HasPermission;
 import jakarta.annotation.Resource;
+import lombok.Data;
 import org.quartz.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -45,12 +46,15 @@ public class SysJobController {
     @Resource
     private QuartzManager quartzManager;
 
-
+    @Data
+    public static class QueryParam{
+        String keyword;
+    }
     @HasPermission
-    @GetMapping("page")
-    public AjaxResult page(String keyword, @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) throws SchedulerException {
+    @RequestMapping("page")
+    public AjaxResult page(@RequestBody QueryParam param, @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) throws SchedulerException {
         JpaQuery<SysJob> q = new JpaQuery<>();
-        q.searchText(keyword, SysJob.Fields.name, SysJob.Fields.jobClass);
+        q.searchText(param.getKeyword(), SysJob.Fields.name, SysJob.Fields.jobClass);
         Page<SysJob> page = service.findAll(q, pageable);
 
         List<JobExecutionContext> currentlyExecutingJobs = scheduler.getCurrentlyExecutingJobs();

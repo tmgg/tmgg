@@ -9,6 +9,7 @@ import io.tmgg.sys.service.SysConfigService;
 import io.tmgg.web.annotion.HasPermission;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.sys.entity.SysConfig;
+import lombok.Data;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -29,10 +30,14 @@ public class SysConfigController  {
   @Resource
   private SysConfigService service;
 
-
+  @Data
+  public static class QueryParam{
+    String keyword;
+  }
   @HasPermission
-  @GetMapping("page")
-  public AjaxResult page(String keyword, @PageableDefault(direction = Sort.Direction.DESC, sort = "id") Pageable pageable) {
+  @RequestMapping("page")
+  public AjaxResult page(@RequestBody QueryParam queryParam, @PageableDefault(direction = Sort.Direction.DESC, sort = "id") Pageable pageable) {
+    String keyword = queryParam.getKeyword();
     JpaQuery<SysConfig> q= new JpaQuery<>();
     if(StrUtil.isNotEmpty(keyword)){
       q.eq(SysConfig.Fields.label, keyword);

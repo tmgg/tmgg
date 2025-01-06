@@ -25,7 +25,7 @@ public class SysOnlineUserController {
      *
      */
     @HasPermission
-    @GetMapping("page")
+    @RequestMapping("page")
     public AjaxResult page(Pageable pageable) {
         return AjaxResult.ok().data(sysOnlineUserService.findAll(pageable));
     }

@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,8 +24,8 @@ public class WeappUserController  {
 
 
     @HasPermission("weapp:userList")
-    @GetMapping("page")
-    public AjaxResult page(WeappUser param, @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) {
+    @RequestMapping("page")
+    public AjaxResult page(@RequestBody WeappUser param, @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) {
         Page<WeappUser> page = service.findByExampleLike(param, pageable);
         return AjaxResult.ok().data( page);
     }

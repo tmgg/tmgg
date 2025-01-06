@@ -8,6 +8,7 @@ import io.tmgg.sys.entity.SysDictItem;
 import io.tmgg.sys.service.SysDictItemService;
 import io.tmgg.web.annotion.HasPermission;
 import io.tmgg.lang.obj.AjaxResult;
+import lombok.Data;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -24,9 +25,16 @@ public class SysDictItemController  {
     private SysDictItemService service;
 
 
+    @Data
+    public static class QueryParam{
+        String keyword;
+        String sysDictId;
+    }
+
     @HasPermission
-    @GetMapping("page")
-    public AjaxResult page(String sysDictId, @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) {
+    @RequestMapping("page")
+    public AjaxResult page(@RequestBody QueryParam param, @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) {
+        String sysDictId = param.getSysDictId();
         JpaQuery<SysDictItem> q = new JpaQuery<>();
         if(StrUtil.isNotEmpty(sysDictId)){
             q.eq(SysDictItem.Fields.sysDict + ".id",  sysDictId);

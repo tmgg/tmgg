@@ -38,7 +38,7 @@ public class SysRoleController {
 
 
     @HasPermission
-    @GetMapping("page")
+    @RequestMapping("page")
     public AjaxResult page() {
         List<SysRole> list = sysRoleService.findAll(Sort.by(Sort.Direction.DESC, "updateTime"));
         return AjaxResult.ok().data(list);

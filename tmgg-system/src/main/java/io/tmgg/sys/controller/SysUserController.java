@@ -25,6 +25,7 @@ import io.tmgg.web.perm.Subject;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
+import lombok.Data;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -59,10 +60,16 @@ public class SysUserController {
     @Resource
     private SysHttpSessionService sm;
 
+    @Data
+    public static class QueryParam{
+        String keyword;
+        String orgId;
+    }
+
     @HasPermission
-    @GetMapping("page")
-    public AjaxResult page(String orgId, String keyword, @PageableDefault(sort = SysUser.FIELD_UPDATE_TIME, direction = Sort.Direction.DESC) Pageable pageable) throws SQLException {
-        Page<SysUser> page = sysUserService.findAll(orgId, keyword, pageable);
+    @RequestMapping("page")
+    public AjaxResult page(@RequestBody QueryParam queryParam, @PageableDefault(sort = SysUser.FIELD_UPDATE_TIME, direction = Sort.Direction.DESC) Pageable pageable) throws SQLException {
+        Page<SysUser> page = sysUserService.findAll(queryParam.getOrgId(), queryParam.getKeyword(), pageable);
         sysUserService.fillRoleName(page);
         return AjaxResult.ok().data(page);
     }

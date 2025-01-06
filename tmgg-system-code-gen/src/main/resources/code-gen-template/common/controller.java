@@ -31,8 +31,7 @@ public class ${name}Controller  {
     ${name}Service service;
 
 
-    @Getter
-    @Setter
+    @Data
     public static class QueryParam {
         private  String keyword; // 仅有一个搜索框时的搜索文本
 

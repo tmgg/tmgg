@@ -7,6 +7,7 @@ import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.sys.entity.SysFile;
 import io.tmgg.sys.service.SysFileService;
 import io.tmgg.web.annotion.HasPermission;
+import lombok.Data;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -26,9 +27,10 @@ public class SysFileController {
     @Resource
     private SysFileService service;
 
+
     @HasPermission
-    @GetMapping("page")
-    public AjaxResult page(SysFile param, @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) {
+    @RequestMapping("page")
+    public AjaxResult page(@RequestBody SysFile param, @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) {
         return AjaxResult.ok().data(service.findByExampleLike(param, pageable));
     }
 

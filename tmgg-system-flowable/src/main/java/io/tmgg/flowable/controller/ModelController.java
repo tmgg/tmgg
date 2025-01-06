@@ -13,6 +13,9 @@ import io.tmgg.lang.dao.BaseCURDController;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.obj.Option;
 import io.tmgg.web.annotion.HasPermission;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 import org.flowable.engine.delegate.JavaDelegate;
 import org.springframework.data.domain.Pageable;
@@ -37,10 +40,15 @@ public class ModelController {
     private MyFlowModelService service;
 
 
+    @Data
+    public static class QueryParam{
+        String keyword;
+    }
 
     @HasPermission("flowableModel:page")
-    @GetMapping("page")
-    public AjaxResult page(String keyword, Pageable pageable) {
+    @RequestMapping("page")
+    public AjaxResult page(@RequestBody QueryParam queryParam, Pageable pageable) {
+        String keyword = queryParam.getKeyword();
         return AjaxResult.ok().data(service.findAll(keyword, pageable));
     }
 
