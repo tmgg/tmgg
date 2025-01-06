@@ -61,8 +61,8 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: compile
-        run: mvn compile -q
+      - name: mvn
+        run: mvn install -q
 
       - name: Build And Publish
         run: |
