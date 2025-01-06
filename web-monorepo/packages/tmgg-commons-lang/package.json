@@ -8,7 +8,7 @@
   "scripts" : {
     "test" : "echo \"Error: no test specified\" && exit 1"
   },
-  "version" : "0.2.4",
+  "version" : "0.2.5",
   "dependencies" : {
     "react" : "^18.0.0"
   }

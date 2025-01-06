@@ -66,8 +66,8 @@ export default class extends React.Component {
         },
         {
             title: '时间',
-            dataIndex: 'createTime'
-
+            dataIndex: 'createTime',
+            sorter:true,
         },
     ];
 

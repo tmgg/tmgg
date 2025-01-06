@@ -3,7 +3,6 @@ import {message as Message, Modal} from "antd";
 import {SysUtil} from "./sys";
 
 
-
 function request(config) {
 
     const defaultConfig = {
@@ -23,13 +22,11 @@ function request(config) {
     }
 
 
-
-
-    let finalConfig = Object.assign({},defaultConfig, config);
+    let finalConfig = Object.assign({}, defaultConfig, config);
 
     const {transformData, showMessage, loadingCallback, ...axiosConfig} = finalConfig
 
-    if(loadingCallback){
+    if (loadingCallback) {
         loadingCallback(true)
     }
 
@@ -40,26 +37,26 @@ function request(config) {
 
     return new Promise((resolve, reject) => {
         axios(axiosConfig).then(response => {
-            if(!transformData){
-                resolve(  response);
-                return ;
+            if (!transformData) {
+                resolve(response);
+                return;
             }
 
             const body = response.data;
-            const {success,message, data} = body;
+            const {success, message, data} = body;
 
-            if(success == null){ // 返回结果没有success标志，则原样
-                resolve(  body);
+            if (success == null) { // 返回结果没有success标志，则原样
+                resolve(body);
                 return
             }
 
 
-            if(showMessage){
-                if(success){
-                    if(message){
+            if (showMessage) {
+                if (success) {
+                    if (message) {
                         Message.success(message)
                     }
-                }else {
+                } else {
                     Modal.error({
                         title: '操作失败',
                         content: message
@@ -67,20 +64,20 @@ function request(config) {
                 }
             }
 
-            if(success){
+            if (success) {
                 resolve(data)
-            }else {
+            } else {
                 reject(message)
             }
 
 
         }).catch(e => {
             let msg = e;
-            if(e.response && e.response.data){
+            if (e.response && e.response.data) {
                 const rs = e.response.data
                 msg = rs.message
             }
-            if(msg == null && e.message){
+            if (msg == null && e.message) {
                 msg = e.message
             }
 
@@ -90,7 +87,7 @@ function request(config) {
             })
             reject(e)
         }).finally(() => {
-            if(loadingCallback){
+            if (loadingCallback) {
                 loadingCallback(false)
             }
         })
@@ -105,25 +102,27 @@ export const HttpUtil = {
     get(url, params = null) {
         return request({
             url,
-            method:'GET',
+            method: 'GET',
             params,
         })
     },
 
     post(url, data, params = null) {
-        return request({  url,
-            method:'POST',
+        return request({
+            url,
+            method: 'POST',
             params,
             data
         })
     },
 
     postForm(url, data) {
-        return request({  url,
-            method:'POST',
+        return request({
+            url,
+            method: 'POST',
             data,
-            headers:{
-               'Content-Type': 'application/x-www-form-urlencoded'
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
             }
         })
     },
@@ -135,8 +134,9 @@ export const HttpUtil = {
      * @param sort
      * @returns {Promise<unknown>}
      */
-    pageData(url, params) {
-        return this.post(url, params)
+    pageData(url,  params) {
+        const {page,size, sort, ...data} = params;
+        return this.post(url, data, {page,size,sort})
     },
     downloadFile(url, params) {
         let config = {
@@ -147,11 +147,11 @@ export const HttpUtil = {
         };
         request(config).then(res => {
             const {data: blob, headers} = res
-            if(blob.type === 'application/json'){// 可能是错误了，否则不应该返回json
+            if (blob.type === 'application/json') {// 可能是错误了，否则不应该返回json
                 const reader = new FileReader();
                 reader.readAsText(blob, 'utf-8');
                 reader.onload = function (e) {
-                    let rs = JSON.parse( reader.result);
+                    let rs = JSON.parse(reader.result);
                     Modal.error({
                         title: '下载文件失败',
                         content: rs.message
