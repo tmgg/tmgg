@@ -67,16 +67,4 @@ public class SysMenuService extends BaseService<SysMenu> {
         return tree;
     }
 
-
-
-
-
-
-
-
-    public void init() {
-        log.warn("开始清空权限菜单表");
-        int result = db.executeQuietly("delete from sys_menu");
-        log.warn("清空结果 {}",result);
-    }
 }

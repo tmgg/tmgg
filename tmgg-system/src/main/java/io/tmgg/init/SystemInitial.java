@@ -74,7 +74,6 @@ public class SystemInitial implements CommandLineRunner {
         dictEnumHandler.run();
         dictAnnHandler.run();
 
-        sysMenuService.init();
 
         jsonToDatabaseHandler.run();
 
