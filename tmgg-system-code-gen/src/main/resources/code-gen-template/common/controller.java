@@ -43,7 +43,7 @@ public class ${name}Controller  {
         BeanUtil.copyProperties(param, example);
 
         JpaQuery<${name}> q = new JpaQuery<>();
-        q.likeExample(param);
+        q.likeExample(example);
 
         // 构造查询条件
 

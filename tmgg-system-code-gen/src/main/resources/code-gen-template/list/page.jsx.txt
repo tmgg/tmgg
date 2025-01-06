@@ -95,7 +95,7 @@ export default class extends React.Component {
           searchFormItemsRender={() => {
               return <>
                <#list fieldInfoList as f>
-                  <Form.Item label='客户' name='nickName'>
+                  <Form.Item label='${f.title}' name='${f.name}'>
                      <Input />
                   </Form.Item>
                </#list>
