@@ -50,24 +50,3 @@ jobs:
           cnpm sync @tmgg/tmgg-system-job
           cnpm sync @tmgg/tmgg-system-code-gen
           cnpm sync @tmgg/tmgg-system-flowable
-  aliyun-docker:
-    runs-on: ubuntu-latest
-    needs: [maven,npm]
-    steps:
-      - uses: actions/checkout@v4
-      - name: Set up JDK
-        uses: actions/setup-java@v4
-        with:
-          java-version: '17'
-          distribution: 'temurin'
-
-      - name: mvn
-        run: mvn install -q
-
-      - name: Build And Publish
-        run: |
-          cd tmgg-script/tmgg-script-docker
-          mvn  exec:java -Dexec.mainClass="io.github.tmgg.script.docker.PublishToAliyun" -Dexec.args="${{ secrets.ALIYUN_REGISTRY_PASSWORD }}" 
-
-
-
