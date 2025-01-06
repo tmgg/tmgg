@@ -1,10 +1,12 @@
 
 package io.tmgg.sys.service;
 
+import cn.hutool.core.util.StrUtil;
 import io.tmgg.lang.HttpServletTool;
 import io.tmgg.lang.IpAddressTool;
 import io.tmgg.lang.JoinPointTool;
 import io.tmgg.lang.UserAgentTool;
+import io.tmgg.lang.ann.Remark;
 import io.tmgg.lang.dao.BaseService;
 import io.tmgg.sys.dao.SysOpLogDao;
 import io.tmgg.sys.entity.SysLog;
@@ -26,37 +28,6 @@ public class SysOpLogService extends BaseService<SysLog> {
 
     @Resource
     SysOpLogDao dao;
-
-    public void saveLoginLog(final String account, final boolean success, final String failMessage) {
-        HttpServletRequest request = HttpServletTool.getRequest();
-        SysLog sysVisLog = newSysOpLog(request);
-
-
-        sysVisLog.setName("登录");
-        sysVisLog.setSuccess(success);
-        sysVisLog.setAccount(account);
-        if (success) {
-            sysVisLog.setMessage("登录成功");
-        } else {
-            sysVisLog.setMessage("登录失败:" + failMessage);
-        }
-        dao.saveAsync(sysVisLog);
-
-    }
-
-    /**
-     * 登出日志
-     */
-    public void saveLogoutLog(final String account) {
-        HttpServletRequest request = HttpServletTool.getRequest();
-        SysLog sysVisLog = newSysOpLog(request);
-        sysVisLog.setName("登出");
-        sysVisLog.setSuccess(true);
-        sysVisLog.setMessage("登出成功");
-        sysVisLog.setAccount(account);
-        dao.saveAsync(sysVisLog);
-
-    }
 
 
     public void saveOperationLog(final String account, JoinPoint joinPoint, boolean success, final String msg) {
@@ -103,9 +74,20 @@ public class SysOpLogService extends BaseService<SysLog> {
         Method method = methodSignature.getMethod();
         Object controller = joinPoint.getTarget();
 
+        String baseName = StrUtil.removeSuffix( controller.getClass().getSimpleName(), "Controller");
+        String methodName = method.getName();
 
-        return controller.getClass().getSimpleName() + "." + method.getName();
+        Remark controllerRemark = controller.getClass().getAnnotation(Remark.class);
+        if(controllerRemark != null){
+            baseName = controllerRemark.value();
+        }
 
+        Remark methodRemark = method.getAnnotation(Remark.class);
+        if(methodRemark != null){
+            methodName = methodRemark.value();
+        }
+
+        return baseName + "-" + methodName;
     }
 
 

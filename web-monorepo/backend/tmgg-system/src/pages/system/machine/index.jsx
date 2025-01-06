@@ -31,7 +31,7 @@ export default class extends React.Component {
 
     return <Space size={12} direction='vertical'>
           <Card loading={loading}  >
-            <Descriptions column={2} title='系统信息'>
+            <Descriptions column={2} title='系统信息' labelStyle={{width:'200px'}} colon={false}>
               <Item label='系统名称'>{sysOsInfo.osName}</Item>
               <Item label='系统架构'>{sysOsInfo.osArch}</Item>
               <Item label='系统版本'>{sysOsInfo.osVersion}</Item>
@@ -41,7 +41,7 @@ export default class extends React.Component {
 
           </Card>
           <Card loading={loading} >
-            <Descriptions column={2} title='Java信息'>
+            <Descriptions column={2} title='Java信息' labelStyle={{width:'200px'}} colon={false}>
               <Item label='虚拟机名称'>{sysJavaInfo.jvmName}</Item>
               <Item label='虚拟机版本'>{sysJavaInfo.jvmVersion}</Item>
               <Item label='虚拟机供应商'>{sysJavaInfo.jvmVendor}</Item>
@@ -51,7 +51,7 @@ export default class extends React.Component {
           </Card>
 
           <Card loading={loading}>
-            <Descriptions column={1} title='JVM内存信息'>
+            <Descriptions column={1} title='JVM内存信息' labelStyle={{width:'200px'}} colon={false}>
               <Item label='最大内存'>{sysJvmMemInfo.jvmMaxMemory}</Item>
               <Item label='可用内存'>{sysJvmMemInfo.jvmUsableMemory}</Item>
               <Item label='总内存'>{sysJvmMemInfo.jvmTotalMemory}</Item>

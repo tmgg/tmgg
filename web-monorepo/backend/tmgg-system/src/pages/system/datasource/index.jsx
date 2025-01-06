@@ -28,7 +28,7 @@ export default class extends React.Component {
 
         let keys = Object.keys(info);
         return <Card loading={loading} title='连接池状态'>
-            <Descriptions column={1} >
+            <Descriptions column={1} labelStyle={{width:'200px'}} colon={false} >
                 {keys.map(k=>{
                     return <Item label={k} key={k}>{info[k]}</Item>
                 })}

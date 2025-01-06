@@ -1,6 +1,6 @@
 import React, {Fragment} from 'react';
 import {Form, Tag} from "antd";
-import {FieldDatePickerString, ProTable} from "@tmgg/tmgg-base";
+import {FieldDatePickerString, FieldDateRange, ProTable} from "@tmgg/tmgg-base";
 import {Ellipsis, HttpUtil} from "@tmgg/tmgg-base";
 import {DateUtil} from "@tmgg/tmgg-commons-lang";
 
@@ -13,17 +13,8 @@ export default class extends React.Component {
 
 
     columns = [
-        {
-            title: '账号',
-            dataIndex: 'account'
-        },
-        {
-            title: '时间',
-            dataIndex: 'createTime',
-            render(v, record) {
-                return DateUtil.friendlyTime(v);
-            }
-        },
+
+
         {
             title: '操作',
             dataIndex: 'name',
@@ -55,15 +46,6 @@ export default class extends React.Component {
             title: '定位',
             dataIndex: 'location',
         },
-        {
-            title: '浏览器',
-            dataIndex: 'browser',
-        },
-
-        {
-            title: '操作系统',
-            dataIndex: 'os',
-        },
 
         {
             title: 'url',
@@ -78,6 +60,15 @@ export default class extends React.Component {
             }
 
         },
+        {
+            title: '账号',
+            dataIndex: 'account'
+        },
+        {
+            title: '时间',
+            dataIndex: 'createTime'
+
+        },
     ];
 
 
@@ -88,8 +79,8 @@ export default class extends React.Component {
                 columns={this.columns}
                 searchFormItemsRender={(formInstance)=>{
                     return <>
-                        <Form.Item label='时间' name='date'>
-                            <FieldDatePickerString />
+                        <Form.Item label='时间' name='dateRange'>
+                            <FieldDateRange />
                         </Form.Item>
                     </>
                 }}

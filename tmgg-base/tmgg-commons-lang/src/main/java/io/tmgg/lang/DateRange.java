@@ -23,5 +23,10 @@ public class DateRange {
         this.end = end;
     }
 
-
+    public boolean isEmpty(){
+        return begin == null && end == null;
+    }
+    public boolean isNotEmpty(){
+        return !isEmpty();
+    }
 }
