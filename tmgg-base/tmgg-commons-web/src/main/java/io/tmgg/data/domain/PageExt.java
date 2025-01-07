@@ -23,7 +23,7 @@ public class PageExt<T> extends org.springframework.data.domain.PageImpl<T> {
     /**
      * 通常存放一些汇总数据，有点像excel的合计
      */
-    private  String totalInfo;
+    private  String extInfo;
 
     private PageExt(List<T> content, Pageable pageable, long total) {
         super(content, pageable, total);
@@ -35,24 +35,19 @@ public class PageExt<T> extends org.springframework.data.domain.PageImpl<T> {
 
     /**
      * 调整 Page的内容为另外一个类型
-     * @param page
-     * @param fn
-     * @return
-     * @param <T>
-     * @param <R>
      */
-    public static  <T,R> PageExt<R>  convert(Page<T> page, Function<T,R> fn){
-        List<R> content = page.getContent().stream().map(fn).collect(Collectors.toList());
-        return new PageExt<>(content, page.getPageable(), page.getTotalElements());
+    public <R> PageExt<R>  convert( Function<T,R> fn){
+        List<R> content = this.getContent().stream().map(fn).collect(Collectors.toList());
+        return new PageExt<>(content, this.getPageable(), this.getTotalElements());
     }
 
 
     public static  <T> PageExt<T>  of(Page<T> page){
         return new PageExt<>(page);
     }
-    public static  <T> PageExt<T>  of(Page<T> page,String totalInfo){
+    public static  <T> PageExt<T>  of(Page<T> page,String extInfo){
         PageExt<T> pageExt = of(page);
-        pageExt.setTotalInfo(totalInfo);
+        pageExt.setExtInfo(extInfo);
         return pageExt;
     }
 

@@ -65,8 +65,8 @@ export class ProTable extends React.Component {
 
         this.setState({loading: true})
         request(params).then(rs => {
-            const {content, totalElements, totalInfo} = rs;
-            this.setState({dataSource: content, total: parseInt(totalElements), totalInfo})
+            const {content, totalElements, extInfo} = rs;
+            this.setState({dataSource: content, total: parseInt(totalElements), extInfo})
         }).finally(() => {
             this.setState({loading: false})
         })
@@ -142,7 +142,7 @@ export class ProTable extends React.Component {
                         }, this.loadData)
                     }}
                     summary={(data)=>{
-                        return this.state.totalInfo
+                        return this.state.extInfo
                     }}
                 />
             </Card>
