@@ -1,4 +1,4 @@
-name: Publish NPM, Maven
+name: Docker Image to Aliyun
 
 on:
   workflow_dispatch:
