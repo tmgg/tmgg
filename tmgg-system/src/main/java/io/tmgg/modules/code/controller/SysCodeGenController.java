@@ -1,13 +1,13 @@
-package io.tmgg.code.controller;
+package io.tmgg.modules.code.controller;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.io.resource.ResourceUtil;
-import io.tmgg.code.bean.BeanInfo;
-import io.tmgg.code.service.CodeGenService;
 import io.tmgg.lang.FreemarkerTool;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.obj.Option;
+import io.tmgg.modules.code.bean.BeanInfo;
+import io.tmgg.modules.code.service.CodeGenService;
 import jakarta.annotation.Resource;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;

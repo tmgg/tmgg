@@ -15,7 +15,6 @@ export default class extends React.Component {
 
     selectedRowKeys: [],
 
-    cleanDate: 1,
   }
 
   tableRef = React.createRef()
@@ -62,8 +61,8 @@ export default class extends React.Component {
 
   ]
 
-  clean = ()=>{
-    HttpUtil.postForm('/job/jobLogClean', {cleanDate: this.state.cleanDate} ).then(rs=>{
+  clean = (cleanDate)=>{
+    HttpUtil.postForm('/job/jobLogClean', {cleanDate} ).then(rs=>{
       this.tableRef.current.reload()
     })
   }
@@ -74,8 +73,7 @@ export default class extends React.Component {
     return <>
       <ProTable
         toolBarRender={()=><>
-          清理 <Input style={{width:50}} value={this.state.cleanDate} onChange={e=>this.setState({cleanDate:e.target.value})}  /> 天前的日志
-          <Button onClick={this.clean}>清理</Button>
+          <Button onClick={()=>this.clean(1)}>清理</Button>
         </>}
         actionRef={this.tableRef}
         request={(params, sort) => {

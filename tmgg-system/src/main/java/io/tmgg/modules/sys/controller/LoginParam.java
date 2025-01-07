@@ -1,4 +1,4 @@
-package io.tmgg.sys.controller;
+package io.tmgg.modules.sys.controller;
 
 import lombok.Data;
 

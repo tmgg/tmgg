@@ -1,11 +1,11 @@
 
-package io.tmgg.sys.controller;
+package io.tmgg.modules.sys.controller;
 
 import io.tmgg.lang.ann.PublicApi;
 import io.tmgg.lang.dao.BaseCURDController;
 import io.tmgg.lang.obj.AjaxResult;
-import io.tmgg.sys.entity.SysDict;
-import io.tmgg.sys.service.SysDictService;
+import io.tmgg.modules.sys.entity.SysDict;
+import io.tmgg.modules.sys.service.SysDictService;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.annotation.Resource;

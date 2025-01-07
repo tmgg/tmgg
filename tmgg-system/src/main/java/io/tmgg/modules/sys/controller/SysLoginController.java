@@ -1,5 +1,5 @@
 
-package io.tmgg.sys.controller;
+package io.tmgg.modules.sys.controller;
 
 import cn.hutool.captcha.AbstractCaptcha;
 import cn.hutool.captcha.CaptchaUtil;
@@ -8,9 +8,9 @@ import cn.hutool.core.util.ObjUtil;
 import io.tmgg.lang.PasswordTool;
 import io.tmgg.lang.ann.PublicApi;
 import io.tmgg.lang.obj.AjaxResult;
-import io.tmgg.sys.entity.SysUser;
-import io.tmgg.sys.service.SysConfigService;
-import io.tmgg.sys.service.SysUserService;
+import io.tmgg.modules.sys.entity.SysUser;
+import io.tmgg.modules.sys.service.SysConfigService;
+import io.tmgg.modules.sys.service.SysUserService;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;

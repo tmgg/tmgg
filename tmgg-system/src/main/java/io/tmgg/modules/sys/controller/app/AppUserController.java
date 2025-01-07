@@ -1,9 +1,9 @@
-package io.tmgg.sys.controller.app;
+package io.tmgg.modules.sys.controller.app;
 
 
 import io.tmgg.lang.obj.AjaxResult;
-import io.tmgg.sys.entity.SysUser;
-import io.tmgg.sys.service.SysUserService;
+import io.tmgg.modules.sys.entity.SysUser;
+import io.tmgg.modules.sys.service.SysUserService;
 import io.tmgg.web.perm.SecurityUtils;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.GetMapping;

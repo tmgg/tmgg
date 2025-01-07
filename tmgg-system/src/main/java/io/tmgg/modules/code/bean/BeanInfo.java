@@ -1,4 +1,4 @@
-package io.tmgg.code.bean;
+package io.tmgg.modules.code.bean;
 
 import lombok.Data;
 
