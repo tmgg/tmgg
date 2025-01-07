@@ -39,6 +39,15 @@
       "seq": 3
     },
     {
+      "id": "sysMenu",
+      "pid": "sys",
+      "name": "菜单管理",
+      "perm": "sysMenu",
+      "path": "/system/menu",
+      "icon": "SafetyCertificateOutlined",
+      "seq": 3
+    },
+    {
       "id": "sysConfig",
       "pid": "sys",
       "name": "系统配置",
@@ -80,10 +89,10 @@
       "seq": 9
     },
     {
-      "id": "sysDataSource",
+      "id": "sysDatasource",
       "pid": "sysMonitor",
       "name": "数据源监控",
-      "perm": "sysDataSource",
+      "perm": "sysDatasource",
       "path": "/system/datasource",
       "seq": 9
     },

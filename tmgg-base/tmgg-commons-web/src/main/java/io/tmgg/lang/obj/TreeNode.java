@@ -1,7 +1,7 @@
 
-package io.tmgg.sys.perm;
+package io.tmgg.lang.obj;
 
-import io.tmgg.lang.TreeDefinition;
+import io.tmgg.lang.Tree;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -15,7 +15,7 @@ import java.util.List;
  */
 @Getter
 @Setter
-public class MenuTreeNode implements TreeDefinition<MenuTreeNode> {
+public class TreeNode implements Tree<TreeNode> {
 
     /**
      * 主键
@@ -44,7 +44,7 @@ public class MenuTreeNode implements TreeDefinition<MenuTreeNode> {
     /**
      * 子节点
      */
-    private List<MenuTreeNode> children;
+    private List<TreeNode> children;
 
 
     private Boolean isLeaf;
@@ -62,7 +62,7 @@ public class MenuTreeNode implements TreeDefinition<MenuTreeNode> {
 
     if (o == null || getClass() != o.getClass()) return false;
 
-    MenuTreeNode that = (MenuTreeNode) o;
+    TreeNode that = (TreeNode) o;
 
     return new EqualsBuilder().append(id, that.id).isEquals();
   }

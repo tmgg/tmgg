@@ -1,7 +1,7 @@
 
-package io.tmgg.sys.perm;
+package io.tmgg.sys.entity;
 
-import io.tmgg.lang.TreeDefinition;
+import io.tmgg.lang.Tree;
 import io.tmgg.lang.ann.Remark;
 import io.tmgg.lang.dao.BaseEntity;
 import io.tmgg.lang.dao.DBConstants;
@@ -24,7 +24,7 @@ import java.util.List;
 @Setter
 @FieldNameConstants
 @ToString
-public class SysMenu extends BaseEntity implements TreeDefinition<SysMenu> {
+public class SysMenu extends BaseEntity implements Tree<SysMenu> {
 
 
     @Column(length = DBConstants.LEN_ID)

@@ -93,7 +93,7 @@ export default class extends React.Component {
                 }
             }
 
-            leftMenus = menuMap[currentTopMenuKey].children
+            leftMenus = menuMap[currentTopMenuKey]?.children
 
             this.setState({menus, menuMap, topMenus, leftMenus, currentTopMenuKey, currentMenuKey})
         })

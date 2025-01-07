@@ -2,8 +2,8 @@ package io.tmgg.sys.controller;
 
 import io.tmgg.lang.TreeManager;
 import io.tmgg.lang.ann.Remark;
-import io.tmgg.sys.perm.SysMenu;
-import io.tmgg.sys.perm.SysMenuService;
+import io.tmgg.sys.entity.SysMenu;
+import io.tmgg.sys.service.SysMenuService;
 import io.tmgg.web.annotion.HasPermission;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.obj.Option;

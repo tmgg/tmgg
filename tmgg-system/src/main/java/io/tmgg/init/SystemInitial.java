@@ -7,7 +7,9 @@ import io.tmgg.lang.PasswordTool;
 import io.tmgg.sys.dao.SysUserDao;
 import io.tmgg.sys.entity.SysRole;
 import io.tmgg.sys.entity.SysUser;
-import io.tmgg.sys.perm.SysMenuService;
+import io.tmgg.sys.service.SysMenuService;
+import io.tmgg.sys.service.JsonToDatabaseService;
+import io.tmgg.sys.service.PermissionToDatabaseService;
 import io.tmgg.sys.service.SysConfigService;
 import io.tmgg.sys.service.SysRoleService;
 import io.tmgg.sys.entity.DataPermType;
@@ -41,7 +43,7 @@ public class SystemInitial implements CommandLineRunner {
     SysMenuService sysMenuService;
 
     @Resource
-    JsonToDatabaseHandler jsonToDatabaseHandler;
+    JsonToDatabaseService jsonToDatabaseService;
 
 
     @Resource
@@ -53,7 +55,7 @@ public class SystemInitial implements CommandLineRunner {
 
 
     @Resource
-    PermissionToDatabaseHandler permissionToDatabaseHandler;
+    PermissionToDatabaseService permissionToDatabaseService;
 
     @Resource
     SysProp sysProp;
@@ -75,9 +77,8 @@ public class SystemInitial implements CommandLineRunner {
         dictAnnHandler.run();
 
 
-        jsonToDatabaseHandler.run();
-
-        permissionToDatabaseHandler.run();
+        jsonToDatabaseService.parseAndSave(null);
+        permissionToDatabaseService.run();
 
 
 

@@ -1,6 +1,6 @@
 package io.tmgg.lang.obj;
 
-import io.tmgg.lang.TreeDefinition;
+import io.tmgg.lang.Tree;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,7 +12,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class Route implements TreeDefinition<Route> {
+public class Route implements Tree<Route> {
 
   String id;
 

@@ -1,7 +1,7 @@
 
 package io.tmgg.sys.entity;
 
-import io.tmgg.lang.TreeDefinition;
+import io.tmgg.lang.Tree;
 import io.tmgg.lang.dao.BaseEntity;
 import io.tmgg.lang.dao.DBConstants;
 import lombok.Getter;
@@ -19,7 +19,7 @@ import java.util.List;
 @Setter
 @Entity
 @FieldNameConstants
-public class SysOrg extends BaseEntity implements TreeDefinition<SysOrg> {
+public class SysOrg extends BaseEntity implements Tree<SysOrg> {
 
     public SysOrg() {
     }

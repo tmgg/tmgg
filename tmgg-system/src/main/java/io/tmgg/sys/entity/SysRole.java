@@ -1,6 +1,7 @@
 
 package io.tmgg.sys.entity;
 
+import io.tmgg.lang.ann.Remark;
 import io.tmgg.lang.dao.BaseEntity;
 import io.tmgg.lang.dao.DBConstants;
 import io.tmgg.lang.dao.converter.ToListConverter;
@@ -16,6 +17,7 @@ import java.util.List;
 /**
  * 系统角色表
  */
+@Remark("系统角色")
 @Entity
 @Getter
 @Setter

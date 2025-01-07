@@ -1,4 +1,4 @@
-package io.tmgg.init;
+package io.tmgg.sys.service;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.io.IoUtil;
@@ -6,7 +6,6 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.digest.MD5;
 import io.tmgg.SysProp;
 import io.tmgg.jackson.JsonTool;
-import io.tmgg.lang.JpaTool;
 import io.tmgg.lang.SpringTool;
 import io.tmgg.lang.dao.BaseDao;
 import io.tmgg.web.db.DbCacheDao;
@@ -29,11 +28,11 @@ import java.util.Map;
  */
 @Slf4j
 @Component
-public class JsonToDatabaseHandler {
+public class JsonToDatabaseService {
 
     public static final String CLASSPATH_DATABASE_XML = "classpath*:database/*.json";
 
-    String CACHE_PREFIX = "DATABASE_JSON_FILE_";
+    public static final String CACHE_PREFIX = "DATABASE_JSON_FILE_";
 
     /**
      * 预留关键字: 查找主键, 如账号名
@@ -50,12 +49,16 @@ public class JsonToDatabaseHandler {
     SysProp sysProp;
 
     @Resource
-    JpaTool jpaTool;
+    JpaService jpaService;
 
     @Resource
     DbCacheDao dbCacheDao;
 
-    public void run() {
+
+    /**
+     *
+     */
+    public void parseAndSave(Class<?> cls) {
         try {
             log.info("开始解析并初始化默认数据");
             log.info("开始初始化默认数据，扫描路径为 {}", CLASSPATH_DATABASE_XML);
@@ -65,7 +68,7 @@ public class JsonToDatabaseHandler {
 
             // 遍历文件内容
 
-            Map<String, String> oldMd5Dict = dbCacheDao.findDictByCodePrefix(CACHE_PREFIX);
+            Map<String, String> oldMd5Dict = dbCacheDao.findDictByPrefix(CACHE_PREFIX);
             for (org.springframework.core.io.Resource resource : resources) {
                 log.info("解析文件 {}", resource.getFilename());
                 try (InputStream is = resource.getInputStream()) {
@@ -83,10 +86,12 @@ public class JsonToDatabaseHandler {
                     Map<String, Object> map = JsonTool.jsonToMap(json);
 
                     for (Map.Entry<String, Object> e : map.entrySet()) {
-                        String className = e.getKey();
+                        String entityName = e.getKey();
                         List<Map<String, Object>> beanDataList = (List<Map<String, Object>>) e.getValue();
                         for (Map<String, Object> beanData : beanDataList) {
-                            handleRecord(className, beanData);
+                            if(cls == null || cls.getSimpleName().equals(entityName)){
+                                handleRecord(entityName, beanData);
+                            }
                         }
                     }
                     dbCacheDao.save(cacheKey, md5);
@@ -98,9 +103,12 @@ public class JsonToDatabaseHandler {
 
     }
 
+    public void  cleanCache(){
+        dbCacheDao.cleanByPrefix(CACHE_PREFIX);
+    }
 
     private void handleRecord(String entityName, Map<String, Object> beanMap) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
-        Class entityCls = jpaTool.findEntityClass(entityName);
+        Class entityCls = jpaService.findOne(entityName);
         if (entityCls == null) {
             System.err.println("实体标签异常 " + entityName);
             throw new IllegalStateException();

@@ -3,7 +3,7 @@ package io.tmgg.code.controller;
 import cn.hutool.core.lang.Dict;
 import cn.hutool.core.util.StrUtil;
 import io.tmgg.lang.ann.RemarkTool;
-import io.tmgg.lang.JpaTool;
+import io.tmgg.sys.service.JpaService;
 import io.tmgg.lang.obj.AjaxResult;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
@@ -21,12 +21,12 @@ import java.util.stream.Collectors;
 public class SysEntityController {
 
     @Resource
-    JpaTool tool;
+    JpaService tool;
 
 
     @RequestMapping("page")
     public AjaxResult page(final String keyword) throws IOException {
-        List<String> list = tool.findAllEntity();
+        List<String> list = tool.findAllNames();
 
         List<Dict> voList = list.stream().map(clsName -> {
             Dict map = new Dict();

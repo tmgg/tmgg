@@ -1,7 +1,7 @@
 
 package io.tmgg.sys.controller;
 
-import io.tmgg.lang.TreeDefinition;
+import io.tmgg.lang.Tree;
 import lombok.Data;
 
 import java.util.List;
@@ -12,7 +12,7 @@ import java.util.List;
  *
  */
 @Data
-public class SysDictTreeNode implements TreeDefinition<SysDictTreeNode> {
+public class SysDictTreeNode implements Tree<SysDictTreeNode> {
 
     private String id;
 

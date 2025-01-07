@@ -23,8 +23,7 @@ import java.util.Map;
 @RequestMapping("sysDatasource")
 public class SysDatasourceController {
 
-    @Resource
-    private SysMachineService sysMachineService;
+
 
     @Resource
     private DataSource dataSource;

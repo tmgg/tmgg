@@ -27,7 +27,7 @@ public class DbCacheDao extends BaseDao<DbCache> {
         return cache;
     }
 
-    public Map<String, String> findDictByCodePrefix(String code) {
+    public Map<String, String> findDictByPrefix(String code) {
         JpaQuery<DbCache> q = new JpaQuery<>();
         q.like(DbCache.Fields.code, code + "%");
 
@@ -38,6 +38,17 @@ public class DbCacheDao extends BaseDao<DbCache> {
         }
         return map;
     }
+
+    @Transactional
+    public  void cleanByPrefix(String code) {
+        JpaQuery<DbCache> q = new JpaQuery<>();
+        q.like(DbCache.Fields.code, code + "%");
+
+        List<DbCache> list = this.findAll();
+
+        this.deleteAll(list);
+    }
+
 
 
     @Transactional

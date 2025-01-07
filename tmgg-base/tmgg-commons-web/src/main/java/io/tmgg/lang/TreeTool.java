@@ -9,7 +9,7 @@ import java.util.*;
 public class TreeTool {
 
 
-    public static <T extends TreeDefinition> List<T> buildTree(Collection<T> list) {
+    public static <T extends Tree> List<T> buildTree(Collection<T> list) {
         // 构建 map，方便快查询
         Map<Object, T> map = new LinkedHashMap();
         for (T t : list) {
@@ -26,7 +26,7 @@ public class TreeTool {
                 continue;
             }
 
-            TreeDefinition parent = map.get(pid);
+            Tree parent = map.get(pid);
             if(parent.getChildren() == null){
                 parent.setChildren(new ArrayList());
             }
@@ -37,7 +37,7 @@ public class TreeTool {
         return root;
     }
 
-    public <T extends TreeDefinition> List<T> treeToList(Collection<T> tree) {
+    public <T extends Tree> List<T> treeToList(Collection<T> tree) {
         List<T> result = new ArrayList<>();
 
         treeToList(tree, result);
@@ -46,7 +46,7 @@ public class TreeTool {
     }
 
 
-    public static <T extends TreeDefinition> void findAllChildren(T node, Collection<T> result) {
+    public static <T extends Tree> void findAllChildren(T node, Collection<T> result) {
         List<T> children = node.getChildren();
 
         if (children == null || children.isEmpty()) {
@@ -60,14 +60,14 @@ public class TreeTool {
 
     }
 
-    private <T extends TreeDefinition> void treeToList(Collection<T> tree, List<T> result) {
+    private <T extends Tree> void treeToList(Collection<T> tree, List<T> result) {
         for (T t : tree) {
             result.add(t);
             treeToList(t.getChildren(), result);
         }
     }
 
-    private static <T extends TreeDefinition> void checkAndSetLeaf(Collection<T> values) {
+    private static <T extends Tree> void checkAndSetLeaf(Collection<T> values) {
         for (T v : values) {
             List<T> children = v.getChildren();
             boolean isLeaf = children == null || children.isEmpty();

@@ -1,9 +1,10 @@
 
-package io.tmgg.sys.perm;
+package io.tmgg.sys.dao;
 
 
 import io.tmgg.lang.dao.BaseDao;
 import io.tmgg.lang.dao.specification.JpaQuery;
+import io.tmgg.sys.entity.SysMenu;
 import io.tmgg.web.enums.MenuType;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
