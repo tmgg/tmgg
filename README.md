@@ -25,8 +25,13 @@ word，excel等的工具类,参考了easy poi,但项目用的版本是5.x,easypo
  
 ![Maven Central Version](https://img.shields.io/maven-central/v/io.github.tmgg/tmgg-commons-web)tmgg-commons-web
  
-![Maven Central Version](https://img.shields.io/maven-central/v/io.github.tmgg/tmgg-dev-script)tmgg-dev-script
+![Maven Central Version](https://img.shields.io/maven-central/v/io.github.tmgg/tmgg-script)tmgg-script
 开发脚本
+ 
+![Maven Central Version](https://img.shields.io/maven-central/v/io.github.tmgg/tmgg-script-dev)tmgg-script-dev
+ 
+![Maven Central Version](https://img.shields.io/maven-central/v/io.github.tmgg/tmgg-script-docker)tmgg-script-docker
+用于发布docker相关镜像
  
 ![Maven Central Version](https://img.shields.io/maven-central/v/io.github.tmgg/tmgg-system)tmgg-system
  
@@ -40,7 +45,7 @@ word，excel等的工具类,参考了easy poi,但项目用的版本是5.x,easypo
 任务调度
  
 ![Maven Central Version](https://img.shields.io/maven-central/v/io.github.tmgg/tmgg-system-kettle)tmgg-system-kettle
-数据抽取工具KETTLE的管理。监控，调度等
+数据抽取工具KETTLE的管理。监控，调度等， 注意kettle需要安装一个插件 https://github.com/tmgg/kettle-carte-plugin
  
 ![Maven Central Version](https://img.shields.io/maven-central/v/io.github.tmgg/tmgg-system-ureport)tmgg-system-ureport
 基于ureport的报表工具
