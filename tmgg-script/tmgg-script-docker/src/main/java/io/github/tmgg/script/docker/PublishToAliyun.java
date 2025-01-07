@@ -13,6 +13,7 @@ import com.github.dockerjava.core.DockerClientImpl;
 import com.github.dockerjava.core.command.PushImageResultCallback;
 import com.github.dockerjava.httpclient5.ApacheDockerHttpClient;
 import com.github.dockerjava.transport.DockerHttpClient;
+import io.tmgg.lang.FileTool;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.jsoup.Jsoup;
@@ -40,18 +41,13 @@ public class PublishToAliyun {
         log.info("部署密码为 {}", password);
 
         File root = new File(".");
-        log.info("首次判断根目录 {}", root.getAbsolutePath());
+        log.info("根目录 {}", root.getAbsolutePath());
         root = new File(root.getAbsolutePath());
-        if(root.getAbsolutePath().contains("target")){
-            log.info("包含target,向上一级");
-            root = root.getParentFile();
-            log.info("根目录为：{}",root);
-        }
 
         if (root.getAbsolutePath().contains("tmgg-script-docker")) {
-            root = root.getParentFile().getParentFile().getParentFile();
+            root = FileTool.findParentByName(root, "tmgg-script").getParentFile();
         }
-        log.info("根目录为 {}", root.getAbsolutePath());
+        log.info("根目录 {}", root.getAbsolutePath());
 
         String projectVersion = getProjectVersion(root);
         log.info("项目版本为 {}", projectVersion);
@@ -92,7 +88,7 @@ public class PublishToAliyun {
         log.info("构建完成,imageId {}", imageId);
         for (String tag : tags) {
             log.info("推送镜像:" + tag);
-            client.pushImageCmd(tag).exec(new PushImageResultCallback(){
+            client.pushImageCmd(tag).exec(new PushImageResultCallback() {
                 @Override
                 public void onNext(PushResponseItem item) {
                     super.onNext(item);

@@ -41,7 +41,10 @@
             <groupId>io.github.tmgg</groupId>
             <artifactId>tmgg-commons-jackson</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>io.github.tmgg</groupId>
+            <artifactId>tmgg-commons-lang</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>org.slf4j</groupId>
