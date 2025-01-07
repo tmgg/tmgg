@@ -28,5 +28,7 @@ export function initSystem(){
         'ssoLogin': require('./pages/ssoLogin').default,
         'login': require('./pages/login').default,
         'about': require('./pages/about').default,
+
+        'code': require('./pages/code').default,
     })
 }

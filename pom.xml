@@ -19,7 +19,6 @@
         <module>tmgg-system-ureport</module>
         <module>tmgg-system-flowable</module>
         <module>tmgg-system-weapp</module>
-        <module>tmgg-system-code-gen</module>
         <module>tmgg-system-kettle</module>
         <module>tmgg-script</module>
         <module>tmgg-base</module>
@@ -73,11 +72,6 @@
             <dependency>
                 <groupId>io.github.tmgg</groupId>
                 <artifactId>tmgg-base</artifactId>
-                <version>${tmgg.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.github.tmgg</groupId>
-                <artifactId>tmgg-system-code-gen</artifactId>
                 <version>${tmgg.version}</version>
             </dependency>
             <dependency>

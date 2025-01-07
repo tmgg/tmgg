@@ -1,19 +1,18 @@
 package io.tmgg.code.service;
 
+import cn.hutool.core.util.StrUtil;
 import io.tmgg.code.bean.BeanInfo;
 import io.tmgg.code.bean.FieldInfo;
-import cn.hutool.core.text.StrBuilder;
-import cn.hutool.core.util.StrUtil;
 import io.tmgg.lang.AnnTool;
 import io.tmgg.lang.ann.Remark;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
 
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotNull;
 import java.io.File;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
