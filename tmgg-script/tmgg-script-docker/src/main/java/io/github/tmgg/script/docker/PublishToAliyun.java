@@ -41,6 +41,7 @@ public class PublishToAliyun {
 
         File root = new File(".");
         log.info("首次判断根目录 {}", root.getAbsolutePath());
+        root = new File(root.getAbsolutePath());
         if(root.getAbsolutePath().contains("target")){
             log.info("包含target,向上一级");
             root = root.getParentFile();
@@ -48,7 +49,7 @@ public class PublishToAliyun {
         }
 
         if (root.getAbsolutePath().contains("tmgg-script-docker")) {
-            root = new File(root.getAbsolutePath()).getParentFile().getParentFile().getParentFile();
+            root = root.getParentFile().getParentFile().getParentFile();
         }
         log.info("根目录为 {}", root.getAbsolutePath());
 
