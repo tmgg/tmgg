@@ -15,13 +15,13 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: mvn
-        run: mvn compile -q
+      - name: mvn build
+        run: mvn package -q
 
-      - name: Build And Publish
+      - name:  Publish
         run: |
-          cd tmgg-script/tmgg-script-docker
-          mvn  exec:java -Dexec.mainClass="io.github.tmgg.script.docker.PublishToAliyun" -Dexec.args="${{ secrets.ALIYUN_REGISTRY_PASSWORD }}" 
+          cd tmgg-script/tmgg-script-docker/target
+          java -jar app.jar ${{ secrets.ALIYUN_REGISTRY_PASSWORD }} 
 
 
 
