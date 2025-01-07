@@ -1,10 +1,12 @@
 package io.tmgg.job.dao;
 
+import io.tmgg.JobProp;
 import io.tmgg.job.entity.SysJob;
 import io.tmgg.job.entity.SysJobLog;
 import io.tmgg.lang.dao.BaseDao;
 import io.tmgg.lang.dao.specification.JpaQuery;
-import org.apache.commons.lang3.time.DateUtils;
+import jakarta.annotation.Resource;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,4 +30,8 @@ public class SysJobLogDao extends BaseDao<SysJobLog> {
         q.setParameter("time", date);
         q.executeUpdate();
     }
+
+
+
+
 }

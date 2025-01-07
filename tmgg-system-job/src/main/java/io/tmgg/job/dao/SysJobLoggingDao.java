@@ -1,13 +1,18 @@
 package io.tmgg.job.dao;
 
+import cn.hutool.core.date.DateUtil;
+import io.tmgg.JobProp;
 import io.tmgg.job.entity.SysJobLogging;
 import io.tmgg.lang.dao.BaseDao;
 import io.tmgg.lang.dao.specification.JpaQuery;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import jakarta.persistence.Query;
+
 import java.util.Date;
 import java.util.List;
 
@@ -32,5 +37,21 @@ public class SysJobLoggingDao extends BaseDao<SysJobLogging> {
     public void clean(Date date) {
         Query q = em.createQuery("delete from SysJobLogging where timeStamp  <= " + date.getTime());
         q.executeUpdate();
+    }
+
+
+    @Resource
+    private JobProp jobProp;
+
+    @Async
+    @Transactional
+    public void cleanByConfig() {
+        int days = jobProp.getMaxHistoryDays();
+        int records = jobProp.getMaxHistoryRecords();
+
+        this.clean(DateUtil.offsetDay(new Date(), -days));
+
+
+
     }
 }

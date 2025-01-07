@@ -29,6 +29,11 @@
             <artifactId>tmgg-commons-web</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>io.github.tmgg</groupId>
+            <artifactId>tmgg-system-code-gen</artifactId>
+        </dependency>
+
 
         <dependency>
             <groupId>cn.hutool</groupId>

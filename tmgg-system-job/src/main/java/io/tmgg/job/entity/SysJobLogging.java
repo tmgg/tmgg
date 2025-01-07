@@ -33,4 +33,7 @@ public class SysJobLogging extends BaseEntity {
 
     Long timeStamp;
 
+
+
+
 }
