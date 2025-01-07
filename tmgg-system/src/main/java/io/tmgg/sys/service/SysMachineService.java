@@ -2,7 +2,7 @@
 package io.tmgg.sys.service;
 
 import io.tmgg.web.consts.SymbolConstant;
-import io.tmgg.sys.monitor.result.SysMachineResult;
+import io.tmgg.sys.vo.SysMachineResult;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.NumberUtil;
 import cn.hutool.system.*;

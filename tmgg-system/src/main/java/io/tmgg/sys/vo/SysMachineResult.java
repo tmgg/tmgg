@@ -1,5 +1,5 @@
 
-package io.tmgg.sys.monitor.result;
+package io.tmgg.sys.vo;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
