@@ -44,6 +44,7 @@ public class PermissionToDatabaseService {
         {
             // 添加常见翻译
             dict.put("delete","删除");
+            dict.put("batchDelete","批量删除");
             dict.put("page","列表");
             dict.put("list","列表");
             dict.put("save","增改");
@@ -57,8 +58,9 @@ public class PermissionToDatabaseService {
             dict.put("sync","同步");
             dict.put("batchSave","批量增改");
             dict.put("reset","重置");
-
-
+            dict.put("status","查看状态");
+            dict.put("detail","查看");
+            dict.put("get","查看");
         }
 
 
