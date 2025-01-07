@@ -52,6 +52,13 @@ public class PermissionToDatabaseService {
             dict.put("enable","启用");
             dict.put("enableAll","启用所有");
             dict.put("export","导出");
+            dict.put("exportExcel","导出Excel");
+
+            dict.put("sync","同步");
+            dict.put("batchSave","批量增改");
+            dict.put("reset","重置");
+
+
         }
 
 

@@ -34,19 +34,7 @@ public class SysMenuService extends BaseService<SysMenu> {
     private SysMenuDao sysMenuDao;
 
     @Resource
-    private SysProp sysProp;
-
-    @Resource
-    private DbTool db;
-
-    @Resource
-    private SysRoleDao sysRoleDao;
-
-    @Resource
     private JsonToDatabaseService jsonToDatabaseService;
-
-    @Resource
-    private DbCacheDao dbCacheDao;
 
     @Resource
     private PermissionToDatabaseService permissionToDatabaseService;
