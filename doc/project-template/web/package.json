@@ -15,7 +15,7 @@
   "dependencies" : {
     "@ant-design/icons" : "^5.4.0",
     "@tinymce/tinymce-react" : "^5.0.0",
-    "@tmgg/pro-table" : "0.2.1",
+    "@tmgg/pro-table" : "^5.0.6",
     "@tmgg/tmgg-base" : "0.2.9",
     "@tmgg/tmgg-commons-lang" : "0.2.9",
     "@tmgg/tmgg-system" : "0.2.9",
