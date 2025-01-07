@@ -101,7 +101,7 @@ public class PublishToAliyun {
             log.info("推送镜像结束");
         }
 
-        log.info("小任务结束");
+        log.info("阶段结束");
     }
 
     private static String getProjectVersion(File root) throws IOException {
