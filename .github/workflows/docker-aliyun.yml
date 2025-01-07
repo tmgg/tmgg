@@ -3,7 +3,9 @@ name: Docker Image to Aliyun
 on:
   workflow_dispatch:
   push:
-
+  schedule:
+    # 定时任务，在每天的5点 (时差）
+    - cron: '0 21 * * *'
 jobs:
   aliyun-docker:
     runs-on: ubuntu-latest
