@@ -19,6 +19,7 @@ export function initSystem(){
         'system/config': require('./pages/system/config/index').default,
         'system/dict': require('./pages/system/dict/index').default,
         'system/role': require('./pages/system/role/index').default,
+        'system/menu': require('./pages/system/menu/index').default,
         'system/user': require( "./pages/system/user").default,
         'system/file/main': require('./pages/system/file/main').default,
         'system/msg': require('./pages/system/msg/index').default,
