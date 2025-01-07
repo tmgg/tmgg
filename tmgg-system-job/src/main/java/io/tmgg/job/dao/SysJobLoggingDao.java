@@ -26,6 +26,13 @@ public class SysJobLoggingDao extends BaseDao<SysJobLogging> {
         this.deleteAll(list);
     }
 
+    public void deleteByJobId(List<String> jobIds) {
+        JpaQuery<SysJobLogging> q = new JpaQuery<>();
+        q.in(SysJobLogging.Fields.jobId, jobIds);
+        List<SysJobLogging> list = findAll(q);
+        this.deleteAll(list);
+    }
+
 
     /**
      * 清理日志
@@ -40,18 +47,5 @@ public class SysJobLoggingDao extends BaseDao<SysJobLogging> {
     }
 
 
-    @Resource
-    private JobProp jobProp;
 
-    @Async
-    @Transactional
-    public void cleanByConfig() {
-        int days = jobProp.getMaxHistoryDays();
-        int records = jobProp.getMaxHistoryRecords();
-
-        this.clean(DateUtil.offsetDay(new Date(), -days));
-
-
-
-    }
 }

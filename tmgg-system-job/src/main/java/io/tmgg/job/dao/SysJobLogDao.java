@@ -1,12 +1,10 @@
 package io.tmgg.job.dao;
 
-import io.tmgg.JobProp;
 import io.tmgg.job.entity.SysJob;
 import io.tmgg.job.entity.SysJobLog;
 import io.tmgg.lang.dao.BaseDao;
 import io.tmgg.lang.dao.specification.JpaQuery;
-import jakarta.annotation.Resource;
-import org.springframework.scheduling.annotation.Async;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,6 +30,14 @@ public class SysJobLogDao extends BaseDao<SysJobLog> {
     }
 
 
-
-
+    /**
+     * 查询执行记录，倒叙
+     * @param job
+     * @return
+     */
+    public List<SysJobLog> findByJobDesc(SysJob job) {
+        JpaQuery<SysJobLog> q = new JpaQuery<>();
+        q.eq(SysJobLog.Fields.sysJob, job);
+        return this.findAll(q, Sort.by(Sort.Direction.DESC,"createTime"));
+    }
 }

@@ -5,6 +5,8 @@ import io.tmgg.job.dao.SysJobDao;
 import io.tmgg.job.dao.SysJobLogDao;
 import io.tmgg.job.entity.SysJob;
 import io.tmgg.job.entity.SysJobLog;
+import io.tmgg.job.service.SysJobLogService;
+import io.tmgg.job.service.SysJobLoggingService;
 import io.tmgg.sys.msg.IMessagePublishService;
 import jakarta.annotation.Resource;
 import org.apache.commons.io.IOUtils;
@@ -31,6 +33,9 @@ public class QuartzListener implements JobListener {
 
     @Resource
     private IMessagePublishService messagePublishService;
+
+    @Resource
+    private SysJobLoggingService sysJobLoggingService;
 
     @Override
     public String getName() {
@@ -82,7 +87,6 @@ public class QuartzListener implements JobListener {
         Date now = new Date();
 
         SysJob job = sysJobDao.findByName(jobName);
-        sysJobDao.save(job);
 
         String jobLogId = MDC.get("job_log_id");
         SysJobLog jobLog = sysJobLogDao.findOne(jobLogId);
@@ -94,6 +98,8 @@ public class QuartzListener implements JobListener {
 
         MDC.clear();
 
+        // 清理日志
+        sysJobLoggingService.cleanByConfig(job);
     }
 
     private static String getStacktrace(JobExecutionContext context, JobExecutionException jobException) {
