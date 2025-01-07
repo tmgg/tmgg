@@ -1,4 +1,4 @@
-package io.tmgg.sys.entity;
+package io.tmgg.api.entity;
 
 import io.tmgg.lang.ann.Remark;
 import io.tmgg.lang.dao.BaseEntity;
