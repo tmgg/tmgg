@@ -1,9 +1,9 @@
-package io.tmgg.system;
+package io.tmgg.modules.system;
 
 import io.tmgg.flowable.FlowableMasterDataProvider;
-import io.tmgg.sys.entity.SysUser;
-import io.tmgg.sys.service.SysOrgService;
-import io.tmgg.sys.service.SysUserService;
+import io.tmgg.modules.sys.entity.SysUser;
+import io.tmgg.modules.sys.service.SysOrgService;
+import io.tmgg.modules.sys.service.SysUserService;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Component;
 

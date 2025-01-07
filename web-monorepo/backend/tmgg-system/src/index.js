@@ -30,5 +30,8 @@ export function initSystem(){
         'about': require('./pages/about').default,
 
         'code': require('./pages/code').default,
+
+        'job': require('./pages/job').default,
+        'job/logList': require('./pages/job/logList').default,
     })
 }

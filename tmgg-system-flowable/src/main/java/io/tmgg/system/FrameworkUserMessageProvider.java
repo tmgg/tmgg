@@ -1,4 +1,4 @@
-package io.tmgg.system;
+package io.tmgg.modules.system;
 
 import cn.hutool.core.date.DateUtil;
 import io.tmgg.config.external.UserMessageProvider;

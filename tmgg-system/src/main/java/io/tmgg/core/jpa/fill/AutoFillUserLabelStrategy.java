@@ -1,7 +1,7 @@
 package io.tmgg.core.jpa.fill;
 
 import io.tmgg.lang.dao.AutoFillStrategy;
-import io.tmgg.sys.dao.SysUserDao;
+import io.tmgg.modules.sys.dao.SysUserDao;
 import org.springframework.stereotype.Component;
 
 import jakarta.annotation.Resource;

@@ -5,7 +5,7 @@ package io.tmgg.core.jpa.fill;
 
 import io.tmgg.lang.HttpServletTool;
 import io.tmgg.lang.dao.AutoFillStrategy;
-import io.tmgg.sys.service.SysFileService;
+import io.tmgg.modules.sys.service.SysFileService;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Component;

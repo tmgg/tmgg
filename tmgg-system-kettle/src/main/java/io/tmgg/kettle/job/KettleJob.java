@@ -2,8 +2,8 @@ package io.tmgg.kettle.job;
 
 import io.github.tmgg.kettle.sdk.KettleSdk;
 import io.github.tmgg.kettle.sdk.LogLevel;
-import io.tmgg.job.JobDesc;
-import io.tmgg.job.JobLoggerFactory;
+import io.tmgg.modules.job.JobDesc;
+import io.tmgg.modules.job.JobLoggerFactory;
 import jakarta.annotation.Resource;
 import org.apache.commons.io.FilenameUtils;
 import org.quartz.Job;

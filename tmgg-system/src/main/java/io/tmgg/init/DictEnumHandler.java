@@ -2,11 +2,11 @@ package io.tmgg.init;
 
 import io.tmgg.BasePackage;
 import io.tmgg.lang.ann.Remark;
-import io.tmgg.sys.entity.SysDictItem;
+import io.tmgg.modules.sys.entity.SysDictItem;
 import io.tmgg.web.base.DictEnum;
-import io.tmgg.sys.dao.SysDictItemDao;
-import io.tmgg.sys.dao.SysDictDao;
-import io.tmgg.sys.entity.SysDict;
+import io.tmgg.modules.sys.dao.SysDictItemDao;
+import io.tmgg.modules.sys.dao.SysDictDao;
+import io.tmgg.modules.sys.entity.SysDict;
 import cn.hutool.core.util.ClassUtil;
 import cn.hutool.core.util.StrUtil;
 import com.google.common.hash.Hashing;

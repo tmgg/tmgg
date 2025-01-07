@@ -2,8 +2,8 @@
 package io.tmgg.core.filter.xss;
 
 
-import io.tmgg.SysProp;
 import cn.hutool.core.collection.CollUtil;
+import io.tmgg.SysProp;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.AntPathMatcher;
 

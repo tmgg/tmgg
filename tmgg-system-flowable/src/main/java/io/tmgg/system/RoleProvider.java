@@ -1,14 +1,14 @@
-package io.tmgg.system;
+package io.tmgg.modules.system;
 
 
 
 import io.tmgg.flowable.assignment.AssignmentTypeProvider;
 import io.tmgg.flowable.assignment.Identity;
 import io.tmgg.lang.dao.BaseEntity;
-import io.tmgg.sys.entity.SysUser;
-import io.tmgg.sys.entity.SysRole;
-import io.tmgg.sys.service.SysRoleService;
-import io.tmgg.sys.service.SysUserService;
+import io.tmgg.modules.sys.entity.SysUser;
+import io.tmgg.modules.sys.entity.SysRole;
+import io.tmgg.modules.sys.service.SysRoleService;
+import io.tmgg.modules.sys.service.SysUserService;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Component;
 

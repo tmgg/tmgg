@@ -18,7 +18,6 @@
     "@ant-design/icons" : "^5.4.0",
     "@tmgg/tmgg-base" : "workspace:*",
     "@tmgg/tmgg-system" : "workspace:*",
-    "@tmgg/tmgg-system-job" : "workspace:*",
     "antd" : "^5.20.3",
     "react" : "^18.2.0",
     "react-dom" : "^18.2.0",

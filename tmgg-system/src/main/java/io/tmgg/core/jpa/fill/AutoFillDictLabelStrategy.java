@@ -4,7 +4,7 @@ package io.tmgg.core.jpa.fill;
 
 
 import io.tmgg.lang.dao.AutoFillStrategy;
-import io.tmgg.sys.service.SysDictService;
+import io.tmgg.modules.sys.service.SysDictService;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
