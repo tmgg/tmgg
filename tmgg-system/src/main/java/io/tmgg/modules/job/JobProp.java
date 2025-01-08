@@ -9,6 +9,8 @@ import org.springframework.context.annotation.Configuration;
 @Data
 public class JobProp {
 
+    public static final String DEFAULT_JOB_NAME = "job";
+
     /**
      * 定时任务，全局开关 , 某些情况如开发时，可按需关闭
      */
@@ -22,7 +24,7 @@ public class JobProp {
     /**
      * job日志名称，匹配到的logger打印的日志会存数据库
      */
-    private String loggerName = "job";
+    private String loggerName = DEFAULT_JOB_NAME;
 
 
     /**

@@ -35,14 +35,8 @@ word，excel等的工具类,参考了easy poi,但项目用的版本是5.x,easypo
  
 ![Maven Central Version](https://img.shields.io/maven-central/v/io.github.tmgg/tmgg-system)tmgg-system
  
-![Maven Central Version](https://img.shields.io/maven-central/v/io.github.tmgg/tmgg-system-code-gen)tmgg-system-code-gen
-根据实体生成代码
- 
 ![Maven Central Version](https://img.shields.io/maven-central/v/io.github.tmgg/tmgg-system-flowable)tmgg-system-flowable
 流程引擎
- 
-![Maven Central Version](https://img.shields.io/maven-central/v/io.github.tmgg/tmgg-system-job)tmgg-system-job
-任务调度
  
 ![Maven Central Version](https://img.shields.io/maven-central/v/io.github.tmgg/tmgg-system-kettle)tmgg-system-kettle
 数据抽取工具KETTLE的管理。监控，调度等， 注意kettle需要安装一个插件 https://github.com/tmgg/kettle-carte-plugin
@@ -63,11 +57,7 @@ word，excel等的工具类,参考了easy poi,但项目用的版本是5.x,easypo
  ![NPM Version](https://img.shields.io/npm/v/@tmgg/tmgg-system)@tmgg/tmgg-system
 系统基础功能，如RBAC基于角色的权限管理，组织机构，日志等
  
- ![NPM Version](https://img.shields.io/npm/v/@tmgg/tmgg-system-code-gen)@tmgg/tmgg-system-code-gen
- 
  ![NPM Version](https://img.shields.io/npm/v/@tmgg/tmgg-system-flowable)@tmgg/tmgg-system-flowable
- 
- ![NPM Version](https://img.shields.io/npm/v/@tmgg/tmgg-system-job)@tmgg/tmgg-system-job
  
  ![NPM Version](https://img.shields.io/npm/v/@tmgg/tmgg-system-kettle)@tmgg/tmgg-system-kettle
  

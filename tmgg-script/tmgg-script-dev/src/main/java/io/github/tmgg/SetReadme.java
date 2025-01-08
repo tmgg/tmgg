@@ -15,14 +15,14 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-public class ModifyReadmeVersions {
+public class SetReadme {
 
 
     public static final File README = new File("README.md");
     List<String> versionLines = new ArrayList<>();
 
     public static void main(String[] args) throws IOException {
-        ModifyReadmeVersions sv = new ModifyReadmeVersions();
+        SetReadme sv = new SetReadme();
         sv.changeMaven();
         sv.changeNpm();
 

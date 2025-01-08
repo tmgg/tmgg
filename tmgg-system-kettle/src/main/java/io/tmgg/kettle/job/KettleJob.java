@@ -3,7 +3,7 @@ package io.tmgg.kettle.job;
 import io.github.tmgg.kettle.sdk.KettleSdk;
 import io.github.tmgg.kettle.sdk.LogLevel;
 import io.tmgg.modules.job.JobDesc;
-import io.tmgg.modules.job.JobLoggerFactory;
+import io.tmgg.modules.job.JobTool;
 import jakarta.annotation.Resource;
 import org.apache.commons.io.FilenameUtils;
 import org.quartz.Job;
@@ -23,7 +23,7 @@ import java.util.Map;
 @JobDesc(name = "Kettle作业", group = "kettle", paramsProvider = KettleJobParamFieldProvider.class)
 public class KettleJob implements Job {
 
-    private static final Logger log = JobLoggerFactory.getLogger();
+    private static final Logger log = JobTool.getLogger();
     public static final String JOB_PARAM_FILE = "file";
 
     @Resource

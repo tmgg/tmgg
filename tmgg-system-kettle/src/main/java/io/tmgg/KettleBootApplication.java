@@ -10,7 +10,7 @@ public class KettleBootApplication {
 
 
     public static void main(String[] args) {
-        SpringApplication.run(JobBootApplication.class, args);
+        SpringApplication.run(KettleBootApplication.class, args);
     }
 
 }
