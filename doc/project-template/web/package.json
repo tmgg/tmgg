@@ -19,8 +19,6 @@
     "@tmgg/tmgg-base" : "0.2.10",
     "@tmgg/tmgg-commons-lang" : "0.2.10",
     "@tmgg/tmgg-system" : "0.2.10",
-    "@tmgg/tmgg-system-job" : "0.2.10",
-    "@tmgg/tmgg-system-code-gen" : "0.2.10",
     "antd" : "^5.20.3",
     "antd-img-crop" : "^4.23.0",
     "axios" : "^1.6.8",

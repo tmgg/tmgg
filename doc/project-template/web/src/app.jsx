@@ -8,8 +8,6 @@ import {initCodeGen} from "@tmgg/tmgg-system-code-gen";
 
 initBase()
 initSystem()
-initJob()
-initCodeGen()
 export function patchClientRoutes({ routes }) {
   patchClientRoutesRegistered(routes)
 }
