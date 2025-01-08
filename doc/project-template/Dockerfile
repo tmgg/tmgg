@@ -10,7 +10,7 @@ RUN mvn clean  package -q  -DskipTests   &&    mv target/*.jar /app.jar && rm -r
 
 
 # 阶段3 运行环境, 减少镜像大小
-FROM registry.cn-hangzhou.aliyuncs.com/tmgg/tmgg-base-runtime
+FROM registry.cn-hangzhou.aliyuncs.com/tmgg/tmgg-base-jdk
 
 COPY --from=java /home/app.jar /home/app.jar
 EXPOSE 80
