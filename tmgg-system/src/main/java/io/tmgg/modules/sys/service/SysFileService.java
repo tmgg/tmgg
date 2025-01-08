@@ -116,7 +116,8 @@ public class SysFileService {
     }
 
 
-    public SysFileResult getFileInfoResult(String fileId) throws Exception {
+    public SysFileResult getFileResult(String fileId) throws Exception {
+        Assert.hasText(fileId,"文件id不存在");
         byte[] fileBytes;
         // 获取文件名
         SysFile sysFile = sysFileDao.findOne(fileId);
@@ -143,7 +144,7 @@ public class SysFileService {
     public void preview(String id, HttpServletResponse response) throws Exception {
         byte[] fileBytes;
         //根据文件id获取文件信息结果集
-        SysFileResult fileResult = this.getFileInfoResult(id);
+        SysFileResult fileResult = this.getFileResult(id);
         //获取文件后缀
         String fileSuffix = fileResult.getFileSuffix().toLowerCase();
 
@@ -162,7 +163,7 @@ public class SysFileService {
 
     public void download(String id, HttpServletResponse response) throws Exception {
         // 获取文件信息结果集
-        SysFileResult sysFileResult = this.getFileInfoResult(id);
+        SysFileResult sysFileResult = this.getFileResult(id);
         String fileName = sysFileResult.getFileOriginName();
         byte[] fileBytes = sysFileResult.getFileBytes();
         DownloadTool.download(fileName, fileBytes, response);
