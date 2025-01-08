@@ -4,7 +4,7 @@
     <parent>
         <groupId>io.github.tmgg</groupId>
         <artifactId>tmgg-system-parent</artifactId>
-        <version>0.2.9</version>
+        <version>0.2.10</version>
     </parent>
 
     <artifactId>tmgg-system-kettle</artifactId>
@@ -13,7 +13,7 @@
     <dependencies>
         <dependency>
             <groupId>io.github.tmgg</groupId>
-            <artifactId>tmgg-system-job</artifactId>
+            <artifactId>tmgg-system</artifactId>
         </dependency>
         <dependency>
             <groupId>io.github.tmgg</groupId>

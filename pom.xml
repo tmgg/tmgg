@@ -10,7 +10,7 @@
 
     <groupId>io.github.tmgg</groupId>
     <artifactId>tmgg-system-parent</artifactId>
-    <version>0.2.9</version>
+    <version>0.2.10</version>
     <packaging>pom</packaging>
     <description>web开发框架</description>
     <modules>
@@ -25,7 +25,7 @@
 
 
     <properties>
-        <tmgg.version>0.2.9</tmgg.version>
+        <tmgg.version>0.2.10</tmgg.version>
         <java.version>17</java.version>
         <compile.version>17</compile.version>
         <maven.compiler.source>17</maven.compiler.source>
