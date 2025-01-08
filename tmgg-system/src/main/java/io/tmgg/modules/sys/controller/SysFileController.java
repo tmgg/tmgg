@@ -7,19 +7,19 @@ import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.modules.sys.entity.SysFile;
 import io.tmgg.modules.sys.service.SysFileService;
 import io.tmgg.web.annotion.HasPermission;
-import lombok.Data;
+import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import jakarta.annotation.Resource;
-import jakarta.servlet.http.HttpServletResponse;
-
 /**
  * 文件
  */
+@Slf4j
 @RestController
 @RequestMapping("sysFile")
 public class SysFileController {
@@ -65,12 +65,16 @@ public class SysFileController {
     }
 
 
-
-
     @PublicApi
     @GetMapping("preview/{id}")
     public void previewByPath(@PathVariable String id, HttpServletResponse response) throws Exception {
-        service.preview(id, response);
+        try {
+            service.preview(id, response);
+        } catch (Exception e) {
+            log.error("预览文件失败:{}", e.getMessage());
+            // TODO 裂开的图片
+        }
+
     }
 
 
