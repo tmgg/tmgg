@@ -17,6 +17,8 @@ spring:
     password: ${db_password}
     hikari:
       register-mbeans: true # 用于监控连接池的信息
+      minimum-idle: 20 # 最小空闲数
+      maximum-pool-size: 100 # 最大
   jpa:
     hibernate.ddl-auto: update
     database: MYSQL
