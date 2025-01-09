@@ -42,6 +42,12 @@ public abstract class BaseService<T extends Persistable<String>> {
         return baseDao.findAggregate(spec, selector);
     }
 
+    /**
+     *
+     * @param spec
+     * @param pageable
+     * @return
+     */
     public PageExt<T> page(Specification<T> spec,Pageable pageable){
         Page<T> page = baseDao.findAll(spec, pageable);
         return PageExt.of(page);
