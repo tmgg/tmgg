@@ -6,9 +6,10 @@ import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.obj.Option;
 import ${modulePackageName}.entity.${name};
 import ${modulePackageName}.service.${name}Service;
-import io.tmgg.lang.dao.BaseCURDController;
+import io.tmgg.lang.dao.BaseController;
 import io.tmgg.lang.dao.BaseEntity;
 import io.tmgg.lang.DateRange;
+
 
 import io.tmgg.web.annotion.HasPermission;
 import lombok.Getter;
@@ -25,7 +26,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("${firstLowerName}")
-public class ${name}Controller  {
+public class ${name}Controller  extends BaseController{
 
     @Resource
     ${name}Service service;
@@ -65,21 +66,6 @@ public class ${name}Controller  {
     }
 
 
-    @HasPermission
-    @PostMapping("save")
-    public AjaxResult save(@RequestBody ${name} param) throws Exception {
-        ${name} result = service.saveOrUpdate(param);
-        return AjaxResult.ok().data( result.getId()).msg("保存成功");
-    }
-
-
-
-    @HasPermission
-    @PostMapping("delete")
-    public AjaxResult delete(String id) {
-        service.deleteById(id);
-        return AjaxResult.ok().msg("删除成功");
-    }
 
 
 

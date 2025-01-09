@@ -18,10 +18,10 @@ import java.util.stream.Collectors;
 @Setter
 public class PageExt<T> extends org.springframework.data.domain.PageImpl<T> {
 
-  private   String title;
+    private   String title;
 
     /**
-     * 通常存放一些汇总数据，有点像excel的合计
+     * 通常存放一些汇总数据，有点像excel的合计, pc端会自动显示在表格最下面。
      */
     private  String extInfo;
 

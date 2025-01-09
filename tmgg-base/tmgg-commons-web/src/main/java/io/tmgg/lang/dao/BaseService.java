@@ -1,6 +1,7 @@
 package io.tmgg.lang.dao;
 
 
+import io.tmgg.data.domain.PageExt;
 import io.tmgg.lang.dao.specification.JpaQuery;
 import io.tmgg.lang.dao.specification.Selector;
 import io.tmgg.lang.obj.Option;
@@ -39,6 +40,16 @@ public abstract class BaseService<T extends Persistable<String>> {
      */
     public Object[] findAggregate(Specification<T> spec, Selector selector) {
         return baseDao.findAggregate(spec, selector);
+    }
+
+    public PageExt<T> page(Specification<T> spec,Pageable pageable){
+        Page<T> page = baseDao.findAll(spec, pageable);
+        return PageExt.of(page);
+    }
+
+    public void exportExcel(Specification<T> spec, String filename, HttpServletResponse response) throws IOException {
+        List<T> list = baseDao.findAll(spec);
+        ExcelExportTool.exportBeanList(filename, getEntityClass(), list, response);
     }
 
 
@@ -116,10 +127,7 @@ public abstract class BaseService<T extends Persistable<String>> {
         return baseDao.findAll(specification, pageable);
     }
 
-    public void exportExcel(Specification<T> specification, String filename, HttpServletResponse response) throws IOException {
-        List<T> list = baseDao.findAll(specification);
-        ExcelExportTool.exportBeanList(filename, getEntityClass(), list, response);
-    }
+
 
 
     public Page<T> findAll(Specification<T> specification, Pageable pageable, Sort sort) {
