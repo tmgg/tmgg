@@ -49,7 +49,7 @@ public class DictEnumHandler {
             Object[] enumConstants = cls.getEnumConstants();
 
             String simpleTypeName = cls.getSimpleName();
-            Assert.state(cls.isAnnotationPresent(Remark.class), "枚举" + simpleTypeName + "保存为字典时失败，必须使用Comment注解描述");
+            Assert.state(cls.isAnnotationPresent(Remark.class), "枚举" + simpleTypeName + "保存为字典时失败，必须使用"+Remark.class.getSimpleName()+"注解描述");
 
             Remark annotation = (Remark) cls.getAnnotation(Remark.class);
             String label = annotation.value();
