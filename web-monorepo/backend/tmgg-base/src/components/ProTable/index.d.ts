@@ -7,11 +7,11 @@ declare type ProTableProps = {
     columns:  ColumnsType,
     showSearch?: boolean,
     searchFormItemsRender?:(formInstance: FormInstance)=>{},
-    // 总结兰
-    summary: (pageData:any)=>{},
 
     // 选择行，通ant table
-    rowSelection: any
+    rowSelection: any,
+
+    toolBarRender: (params:any, {selectedRows:[],selectedRowKeys:[]})=>{}
 };
 
 export class ProTable extends React.Component<ProTableProps, any> {
