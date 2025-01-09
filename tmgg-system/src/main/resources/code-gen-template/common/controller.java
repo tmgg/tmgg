@@ -47,28 +47,44 @@ public class ${name}Controller  extends BaseController{
 
     }
 
+    private  JpaQuery<${name}> buildQuery(QueryParam param) {
+        JpaQuery<${name}> q = new JpaQuery<>();
+      /*  DateRange dateRange = param.getDateRange();
+        if(dateRange != null && dateRange.isNotEmpty()){
+            q.between(PointsItemRecord.Fields.redeemTime, dateRange.getBegin(), dateRange.getEnd());
+        }*/
+        return q;
+    }
+
     @HasPermission
     @PostMapping("page")
     public AjaxResult page(@RequestBody  QueryParam param,  @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) throws Exception {
-        ${name} example = new ${name}();
-        BeanUtil.copyProperties(param, example);
-
-        JpaQuery<${name}> q = new JpaQuery<>();
-
-        q.likeExample(example);
-
-        // 构造查询条件
-
-        //  q.searchText(keyword, "name", "phone");
+        JpaQuery<${name}> q = buildQuery(param);
 
         Page<${name}> page = service.findAll(q, pageable);
         return AjaxResult.ok().data(page);
     }
 
 
+        @HasPermission
+        @GetMapping({"exportExcel"})
+        public void exportExcel(@RequestBody QueryParam param, HttpServletResponse resp) throws IOException {
+            JpaQuery<${name}> q = buildQuery(param);
 
+            // 使用Excel注解
+            this.service.exportExcel(q, "${name}.xlsx",resp);
 
-
+            /** 自定义列
+            LinkedHashMap<String, Function<PointsRecord, Object>> columns = new LinkedHashMap<>();
+            columns.put("姓名", t -> t.getPointsAccount().getRealName());
+            columns.put("手机", t -> t.getPointsAccount().getPhone());
+            columns.put("积分方向", t -> t.getDirection() == 1 ? "增加" : "减少");
+            columns.put("获得积分", t -> t.getPoints());
+            columns.put("时间", t -> DateUtil.formatDateTime(t.getTime()));
+            columns.put("原因", t -> t.getReason());
+             this.service.exportExcel(q, "${name}.xlsx", columns,resp);
+             **/
+        }
 
 }
 

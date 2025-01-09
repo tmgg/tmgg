@@ -55,7 +55,11 @@ public abstract class BaseService<T extends Persistable<String>> {
 
     public void exportExcel(Specification<T> spec, String filename, HttpServletResponse response) throws IOException {
         List<T> list = baseDao.findAll(spec);
-        ExcelExportTool.exportBeanList(filename, getEntityClass(), list, response);
+        ExcelExportTool.exportBeanList(filename, list, getEntityClass(), response);
+    }
+    public void exportExcel(Specification<T> spec, String filename, LinkedHashMap<String, Function<T, Object>> columns, HttpServletResponse response) throws IOException {
+        List<T> list = baseDao.findAll(spec);
+        ExcelExportTool.exportBeanList(filename,  list, columns, response);
     }
 
 

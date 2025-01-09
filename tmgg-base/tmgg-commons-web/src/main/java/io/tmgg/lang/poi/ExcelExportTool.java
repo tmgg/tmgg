@@ -34,7 +34,7 @@ public class ExcelExportTool {
      * @param response
      * @throws IOException
      */
-    public static void exportBeanList(String filename, Class<?> pojoClass, Collection<?> list, HttpServletResponse response) throws IOException {
+    public static void exportBeanList(String filename, Collection<?> list, Class<?> pojoClass, HttpServletResponse response) throws IOException {
         ExportParams param = new ExportParams();
         param.setType(ExcelType.XSSF);
         Workbook workbook = ExcelExportUtil.exportExcel(param, pojoClass, list);
