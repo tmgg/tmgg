@@ -5,6 +5,7 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.system.SystemUtil;
 import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.api.command.BuildImageResultCallback;
+import com.github.dockerjava.api.command.PullImageResultCallback;
 import com.github.dockerjava.api.model.BuildResponseItem;
 import com.github.dockerjava.api.model.PushResponseItem;
 import com.github.dockerjava.core.DefaultDockerClientConfig;
@@ -70,6 +71,8 @@ public class PublishToAliyun {
         log.info("是否存在 {}", dockerfile.exists());
 
         DockerClient client = getClient();
+
+
         String imageId = client.buildImageCmd(dockerfile).withTags(tags)
                 .withForcerm(true)
                 .withBaseDirectory(templateProject)
