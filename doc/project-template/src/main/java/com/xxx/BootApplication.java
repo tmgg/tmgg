@@ -1,6 +1,5 @@
 package com.xxx;
 
-import cn.moon.validation.Password;
 import io.tmgg.BasePackage;
 import io.tmgg.lang.PasswordTool;
 import org.springframework.boot.SpringApplication;
