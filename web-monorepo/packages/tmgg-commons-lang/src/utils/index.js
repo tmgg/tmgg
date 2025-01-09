@@ -13,4 +13,4 @@ export * from './validate'
 export * from "./str"
 export * from "./tree";
 export * from './storage'
-export * from './device'
+export * from './browser'

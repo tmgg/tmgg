@@ -15,7 +15,10 @@ export function isMobileDevice() {
     if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
         return true;
     }
-
     return false;
 }
 
+export function getWebsocketBaseUrl() {
+    const protocol = location.protocol === 'http:' ? 'ws:' : 'wss:'
+    return protocol + "//" + location.host
+}
