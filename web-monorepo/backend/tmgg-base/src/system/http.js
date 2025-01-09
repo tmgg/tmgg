@@ -138,13 +138,21 @@ export const HttpUtil = {
         const {page,size, sort, ...data} = params;
         return this.post(url, data, {page,size,sort})
     },
-    downloadFile(url, params) {
+
+    downloadFile(url, params, method='GET') {
         let config = {
             url,
             params,
+            method,
             responseType: 'blob',
             transformData: false
         };
+        if(method === 'GET'){
+            config.params = params
+        }else if(method === 'POST'){
+            config.data = params;
+        }
+
         request(config).then(res => {
             const {data: blob, headers} = res
             if (blob.type === 'application/json') {// 可能是错误了，否则不应该返回json
