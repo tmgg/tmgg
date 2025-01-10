@@ -23,14 +23,13 @@ import jakarta.servlet.http.HttpSession;
 public class SecurityInterceptor implements HandlerInterceptor {
 
 
-
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         boolean canAccess = canAccess(request, response, handler);
         if (!canAccess) {
             log.warn("尝试访问未授权资源 {}  {}", request.getMethod(), request.getRequestURI());
             response.setStatus(HttpStatus.UNAUTHORIZED.value());
-            ResponseTool.responseExceptionError(response, HttpStatus.UNAUTHORIZED.value(), "未认证");
+            ResponseTool.responseExceptionError(response, HttpStatus.UNAUTHORIZED.value(), "未登录或登录过期，请重新登录");
             return false;
         }
 
@@ -47,14 +46,14 @@ public class SecurityInterceptor implements HandlerInterceptor {
             return true;
         }
 
-        if(handler instanceof ResourceHttpRequestHandler ){
-            ResourceHttpRequestHandler rh =  ((ResourceHttpRequestHandler) handler);
-            log.info("访问静态资源 {} {}" , request.getMethod(), url);
+        if (handler instanceof ResourceHttpRequestHandler) {
+            ResourceHttpRequestHandler rh = ((ResourceHttpRequestHandler) handler);
+            log.info("访问静态资源 {} {}", request.getMethod(), url);
             return true;
         }
-        if(handler instanceof HandlerMethod){
-            HandlerMethod hm =((HandlerMethod) handler);
-            if(hm.hasMethodAnnotation(PublicApi.class)){
+        if (handler instanceof HandlerMethod) {
+            HandlerMethod hm = ((HandlerMethod) handler);
+            if (hm.hasMethodAnnotation(PublicApi.class)) {
                 return true;
             }
         }
@@ -62,9 +61,8 @@ public class SecurityInterceptor implements HandlerInterceptor {
         Boolean isLogin = (Boolean) request.getSession().getAttribute("isLogin");
         isLogin = ObjUtil.defaultIfNull(isLogin, false);
 
-        return  isLogin;
+        return isLogin;
     }
-
 
 
 }
