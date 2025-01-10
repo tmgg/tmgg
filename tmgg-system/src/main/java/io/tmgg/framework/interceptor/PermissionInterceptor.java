@@ -50,9 +50,7 @@ public class PermissionInterceptor implements HandlerInterceptor {
 
     }
 
-    private boolean canAccess(HttpServletRequest request, Object handler) {
 
-    }
 
 
 }

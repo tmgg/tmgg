@@ -19,6 +19,9 @@ spring:
       register-mbeans: true # 用于监控连接池的信息
       minimum-idle: 20 # 最小空闲数
       maximum-pool-size: 100 # 最大
+      max-lifetime: 600000   # 控制池中连接的最长生存期, 默认30分钟， 这里缩小为10分钟，即 10 * 60 * 1000 毫秒
+      idle-timeout: 300000 # 空闲连接的时间，超过这个时间则移除 （数据库会主动断开长连接连接）
+      keepalive-time: 60000 # 保活时间，会测试空闲连接是否正常  1分钟
   jpa:
     hibernate.ddl-auto: update
     database: MYSQL
