@@ -89,9 +89,17 @@ public class ResponseTool {
         } catch (Exception e) {
             log.error(e.getClass().getName() + ":" + e.getMessage());
         }
-
     }
-
+    public static void responseJson(HttpServletResponse response, Object data) {
+        response.setCharacterEncoding(CharsetUtil.UTF_8);
+        response.setContentType(ContentType.JSON.toString());
+        String errorResponseJsonData = JsonTool.toPrettyJsonQuietly(data);
+        try {
+            response.getWriter().write(errorResponseJsonData);
+        } catch (Exception e) {
+            log.error(e.getClass().getName() + ":" + e.getMessage());
+        }
+    }
 
     public static AjaxResult responseDataError(Integer code, String message) {
         AjaxResult ajaxResult = AjaxResult.err().code(code).msg(message);

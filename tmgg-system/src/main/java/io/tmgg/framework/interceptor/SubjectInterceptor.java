@@ -6,6 +6,7 @@ import io.tmgg.lang.SpringTool;
 import io.tmgg.lang.ann.PublicApi;
 import io.tmgg.web.perm.AuthorizingRealm;
 import io.tmgg.web.perm.Subject;
+import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;

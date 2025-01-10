@@ -10,6 +10,7 @@ import io.tmgg.modules.sys.dao.SysMenuDao;
 import io.tmgg.modules.sys.entity.SysMenu;
 import io.tmgg.web.annotion.HasPermission;
 import io.tmgg.web.enums.MenuType;
+import io.tmgg.web.perm.PermissionService;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -35,6 +36,9 @@ public class PermissionToDatabaseService {
 
     @Resource
     private JpaService jpaService;
+
+    @Resource
+    private PermissionService permissionService;
 
 
 
@@ -90,15 +94,12 @@ public class PermissionToDatabaseService {
                     continue;
                 }
 
-                HasPermission hasPermission = handlerMethod.getMethodAnnotation(HasPermission.class);
+
                 Remark remark = handlerMethod.getMethodAnnotation(Remark.class);
 
+                String perm = permissionService.parsePerm(handlerMethod, info);
 
-                String perm = hasPermission.value();
 
-                if (StrUtil.isEmpty(perm)) {
-                    perm = getPermByRequestMapping(info);
-                }
 
 
                 String permLabel = perm; // 权限显示名称
@@ -120,22 +121,6 @@ public class PermissionToDatabaseService {
     }
 
 
-    @NotNull
-    private static String getPermByRequestMapping(RequestMappingInfo info) {
-        String perm;
-        Set<String> patterns = info.getPathPatternsCondition().getPatterns().stream().map(PathPattern::getPatternString).collect(Collectors.toSet());
-        Assert.state(patterns.size() == 1, "未指定 " + HasPermission.class.getSimpleName() + "的value时，url只能设置一个");
-
-        perm = patterns.iterator().next();
-
-
-        // 将url 的斜杠转为冒号
-        String removePrefix = StrUtil.removePrefix(perm, "/");
-        perm = removePrefix.replaceAll("/", ":");
-
-
-        return perm;
-    }
 
 
     private void addMenu(String perm, String permLabel) {

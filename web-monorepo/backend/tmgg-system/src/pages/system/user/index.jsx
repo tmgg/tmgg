@@ -97,10 +97,7 @@ export default class extends React.Component {
                 return dictValueTag('dataPermType',v)
             }
         },
-        {
-            title: '唯一标识',
-            dataIndex: 'id',
-        },
+
         {
             title: '更新时间',
             dataIndex: 'updateTime',

@@ -4,7 +4,8 @@ package io.tmgg.config;
 import cn.hutool.core.collection.CollUtil;
 import io.tmgg.SysProp;
 import io.tmgg.core.filter.xss.XssFilter;
-import io.tmgg.framework.interceptor.SecurityInterceptor;
+import io.tmgg.framework.interceptor.LoginInterceptor;
+import io.tmgg.framework.interceptor.PermissionInterceptor;
 import io.tmgg.framework.interceptor.SubjectInterceptor;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
@@ -34,6 +35,9 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     @Resource
     private SysProp sysProp;
+
+    @Resource
+    PermissionInterceptor permissionInterceptor;
 
 
     @Bean
@@ -71,8 +75,11 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         // 登录拦截器
-        HandlerInterceptor[] interceptors = new HandlerInterceptor[]{new SecurityInterceptor(),
-                new SubjectInterceptor()};
+        HandlerInterceptor[] interceptors = new HandlerInterceptor[]{
+                new LoginInterceptor(),
+                new SubjectInterceptor(),
+                permissionInterceptor
+        };
         for (HandlerInterceptor interceptor : interceptors) {
             InterceptorRegistration registration = registry.addInterceptor(interceptor)
                     .addPathPatterns("/**")
