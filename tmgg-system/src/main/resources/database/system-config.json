@@ -42,7 +42,7 @@
     {
       "id": "sys.siteInfo.copyright",
       "label": "版权信息",
-      "defaultValue": "copyright@2024",
+      "remark": "显示在页脚",
       "_update": false
     },
     {
