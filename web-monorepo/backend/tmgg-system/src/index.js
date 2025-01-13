@@ -31,6 +31,8 @@ export function initSystem(){
 
         'code': require('./pages/code').default,
 
+        'mysqlStatus': require('./pages/system/mysqlStatus').default,
+
         'job': require('./pages/job').default,
         'job/logList': require('./pages/job/logList').default,
     })

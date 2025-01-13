@@ -97,6 +97,14 @@
       "seq": 9
     },
     {
+      "id": "mysqlStatus",
+      "pid": "sysMonitor",
+      "name": "Mysql状态",
+      "perm": "mysqlStatus",
+      "path": "/system/mysqlStatus",
+      "seq": 9
+    },
+    {
       "id": "sysOnlineUser",
       "pid": "sysMonitor",
       "name": "在线用户",
