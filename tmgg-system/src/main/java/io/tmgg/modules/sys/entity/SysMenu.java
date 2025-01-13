@@ -2,7 +2,7 @@
 package io.tmgg.modules.sys.entity;
 
 import io.tmgg.lang.Tree;
-import io.tmgg.lang.ann.Remark;
+import io.tmgg.lang.ann.Msg;
 import io.tmgg.lang.dao.BaseEntity;
 import io.tmgg.lang.dao.DBConstants;
 import io.tmgg.web.enums.MenuType;
@@ -19,7 +19,7 @@ import java.util.List;
 
 
 @Entity
-@Remark("系统权限")
+@Msg("系统权限")
 @Getter
 @Setter
 @FieldNameConstants

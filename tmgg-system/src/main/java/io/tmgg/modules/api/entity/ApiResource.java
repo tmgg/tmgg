@@ -1,6 +1,6 @@
 package io.tmgg.modules.api.entity;
 
-import io.tmgg.lang.ann.Remark;
+import io.tmgg.lang.ann.Msg;
 import io.tmgg.lang.dao.BaseEntity;
 import jakarta.persistence.Entity;
 import lombok.Getter;
@@ -8,7 +8,7 @@ import lombok.Setter;
 import lombok.experimental.FieldNameConstants;
 
 
-@Remark("接口资源")
+@Msg("接口资源")
 @Entity
 @Getter
 @Setter
@@ -16,17 +16,17 @@ import lombok.experimental.FieldNameConstants;
 public class ApiResource extends BaseEntity {
 
 
-    @Remark("名称")
+    @Msg("名称")
     private String name;
 
-    @Remark("资源定位")
+    @Msg("资源定位")
     private String url;
 
 
 
-    @Remark("描述")
+    @Msg("描述")
     private String description;
 
-    @Remark("状态")
+    @Msg("状态")
     private Boolean enable;
 }

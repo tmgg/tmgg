@@ -1,6 +1,6 @@
 package io.tmgg.modules.api.entity;
 
-import io.tmgg.lang.ann.Remark;
+import io.tmgg.lang.ann.Msg;
 import io.tmgg.lang.dao.BaseEntity;
 import jakarta.persistence.ManyToOne;
 import lombok.Getter;
@@ -11,7 +11,7 @@ import jakarta.persistence.Entity;
 
 import java.util.Date;
 
-@Remark("接口授权")
+@Msg("接口授权")
 @Entity
 @FieldNameConstants
 @Getter
@@ -19,24 +19,24 @@ import java.util.Date;
 public class ApiAccountResource extends BaseEntity {
 
 
-    @Remark("准入IP")
+    @Msg("准入IP")
     private String accessIp;
 
-    @Remark("超期时间")
+    @Msg("超期时间")
     private Date endDate;
 
 
 
-    @Remark("资源定位")
+    @Msg("资源定位")
     @ManyToOne
     private ApiResource apiResource;
 
 
-    @Remark("访问者")
+    @Msg("访问者")
     @ManyToOne
     private ApiAccount visitor;
 
-    @Remark("状态")
+    @Msg("状态")
     private Boolean enable;
 
 }

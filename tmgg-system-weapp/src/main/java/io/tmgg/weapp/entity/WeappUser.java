@@ -1,7 +1,7 @@
 package io.tmgg.weapp.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import io.tmgg.lang.ann.Remark;
+import io.tmgg.lang.ann.Msg;
 import io.tmgg.lang.dao.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,7 +10,6 @@ import lombok.experimental.FieldNameConstants;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
 import java.util.Date;
 
@@ -23,7 +22,7 @@ import java.util.Date;
 public class WeappUser extends BaseEntity {
 
     @Column(length = 32)
-    @Remark("应用ID")
+    @Msg("应用ID")
     String appId;
 
     @Column(length = 32)

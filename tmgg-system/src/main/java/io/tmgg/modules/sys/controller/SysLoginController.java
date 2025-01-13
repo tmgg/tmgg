@@ -6,7 +6,7 @@ import cn.hutool.captcha.CaptchaUtil;
 import cn.hutool.core.thread.ThreadUtil;
 import cn.hutool.core.util.ObjUtil;
 import io.tmgg.lang.PasswordTool;
-import io.tmgg.lang.ann.PublicApi;
+import io.tmgg.lang.ann.PublicRequest;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.modules.sys.entity.SysUser;
 import io.tmgg.modules.sys.service.SysConfigService;
@@ -45,7 +45,7 @@ public class SysLoginController {
 
 
     @GetMapping("/check-token")
-    @PublicApi
+    @PublicRequest
     public AjaxResult loginCheck(HttpSession session) {
         Boolean isLogin = (Boolean) session.getAttribute("isLogin");
         isLogin = ObjUtil.defaultIfNull(isLogin, false);
@@ -97,7 +97,7 @@ public class SysLoginController {
     }
 
 
-    @PublicApi
+    @PublicRequest
     @GetMapping("captchaImage")
     public void captcha(HttpSession session, HttpServletResponse resp) throws IOException {
         AbstractCaptcha captcha = CaptchaUtil.createLineCaptcha(100, 50,4 ,100);

@@ -2,8 +2,7 @@
 package io.tmgg.modules.sys.controller;
 
 import cn.hutool.core.util.StrUtil;
-import io.tmgg.lang.ann.Remark;
-import io.tmgg.lang.dao.BaseCURDController;
+import io.tmgg.lang.ann.Msg;
 import io.tmgg.lang.dao.specification.JpaQuery;
 import io.tmgg.modules.sys.entity.SysDictItem;
 import io.tmgg.modules.sys.service.SysDictItemService;
@@ -32,7 +31,7 @@ public class SysDictItemController  {
         String sysDictId;
     }
 
-    @Remark("字典项目列表")
+    @Msg("字典项目列表")
     @HasPermission("sysDict:item-page")
     @RequestMapping("page")
     public AjaxResult page(@RequestBody QueryParam param, @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) {
@@ -46,7 +45,7 @@ public class SysDictItemController  {
         return AjaxResult.ok().data(page);
     }
 
-    @Remark("字典项目保存")
+    @Msg("字典项目保存")
     @HasPermission("sysDict:item-save")
     @PostMapping("save")
     public AjaxResult save(@RequestBody SysDictItem param) throws Exception {
@@ -56,7 +55,7 @@ public class SysDictItemController  {
 
 
 
-    @Remark("字典项目删除")
+    @Msg("字典项目删除")
     @HasPermission("sysDict:item-delete")
     @PostMapping("delete")
     public AjaxResult delete(String id) {

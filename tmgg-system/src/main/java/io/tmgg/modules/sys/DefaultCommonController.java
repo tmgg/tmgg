@@ -8,7 +8,7 @@ import io.tmgg.config.external.MenuBadgeProvider;
 import io.tmgg.config.external.UserMessageProvider;
 import io.tmgg.lang.SpringTool;
 import io.tmgg.lang.TreeTool;
-import io.tmgg.lang.ann.PublicApi;
+import io.tmgg.lang.ann.PublicRequest;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.obj.Route;
 import io.tmgg.modules.sys.controller.LoginUserVo;
@@ -48,7 +48,7 @@ public class DefaultCommonController {
     /**
      * 站点信息， 非登录情况下使用
      */
-    @PublicApi
+    @PublicRequest
     @GetMapping("site-info")
     public AjaxResult siteInfo() {
         Map<String, Object> siteInfo = sysConfigService.findSiteInfo();

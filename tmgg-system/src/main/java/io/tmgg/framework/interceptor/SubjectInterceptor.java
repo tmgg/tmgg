@@ -3,10 +3,9 @@ package io.tmgg.framework.interceptor;
 
 import io.tmgg.framework.session.SysHttpSession;
 import io.tmgg.lang.SpringTool;
-import io.tmgg.lang.ann.PublicApi;
+import io.tmgg.lang.ann.PublicRequest;
 import io.tmgg.web.perm.AuthorizingRealm;
 import io.tmgg.web.perm.Subject;
-import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -41,7 +40,7 @@ public class SubjectInterceptor implements HandlerInterceptor {
 
         if (handler instanceof HandlerMethod) {
             HandlerMethod hm = (HandlerMethod) handler;
-            if (hm.hasMethodAnnotation(PublicApi.class)) {
+            if (hm.hasMethodAnnotation(PublicRequest.class)) {
                 return true;
             }
         }

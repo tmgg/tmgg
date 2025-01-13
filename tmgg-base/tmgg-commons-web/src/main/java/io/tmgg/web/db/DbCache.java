@@ -1,6 +1,6 @@
 package io.tmgg.web.db;
 
-import io.tmgg.lang.ann.Remark;
+import io.tmgg.lang.ann.Msg;
 import io.tmgg.lang.dao.BaseEntity;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -14,7 +14,7 @@ import jakarta.persistence.Table;
 /**
  * 用于临时存储，存储杂项等
  */
-@Remark("临时数据")
+@Msg("临时数据")
 @Getter
 @Setter
 @FieldNameConstants
@@ -22,12 +22,12 @@ import jakarta.persistence.Table;
 @Table(name = "sys_db_cache")
 public class DbCache extends BaseEntity {
 
-    @Remark("编码")
+    @Msg("编码")
     @NotNull
     @Column(unique = true, length = 100)
     String code;
 
-    @Remark("内容")
+    @Msg("内容")
     @Column(length = 5000)
     @NotNull
     String value;

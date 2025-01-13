@@ -95,7 +95,7 @@ export default class extends React.Component {
             columns={[
               {dataIndex: 'name', title: "角色名称"},
               {dataIndex: 'code', title: "角色代码"},
-              {dataIndex: 'remark', title: "备注"},
+              {dataIndex: 'msg', title: "备注"},
 
             ]}
             rowKey='id'
@@ -145,7 +145,7 @@ export default class extends React.Component {
           <Form.Item label='启用' name='enabled' rules={[{required: true}]}>
             <FieldRadioBoolean />
           </Form.Item>
-          <Form.Item label='备注' name='remark' >
+          <Form.Item label='备注' name='msg' >
             <Input/>
           </Form.Item>
 
@@ -168,7 +168,7 @@ export default class extends React.Component {
         <Descriptions.Item label='角色名称'>{curRecord.name}</Descriptions.Item>
         <Descriptions.Item label='编码'>{curRecord.code}</Descriptions.Item>
         <Descriptions.Item label='序号'>{curRecord.sort}</Descriptions.Item>
-        <Descriptions.Item label='备注'>{curRecord.remark}</Descriptions.Item>
+        <Descriptions.Item label='备注'>{curRecord.msg}</Descriptions.Item>
       </Descriptions>
 
       <h4>权限设置</h4>

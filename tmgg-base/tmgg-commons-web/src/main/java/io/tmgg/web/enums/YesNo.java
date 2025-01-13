@@ -1,7 +1,7 @@
 
 package io.tmgg.web.enums;
 
-import io.tmgg.lang.ann.Remark;
+import io.tmgg.lang.ann.Msg;
 import io.tmgg.web.base.DictEnum;
 import lombok.Getter;
 
@@ -12,7 +12,7 @@ import lombok.Getter;
  *
  */
 @Getter
-@Remark("是否")
+@Msg("是否")
 public enum YesNo implements DictEnum {
     Y("Y", "是"),
     N("N", "否");

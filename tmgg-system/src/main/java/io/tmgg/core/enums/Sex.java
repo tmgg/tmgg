@@ -3,7 +3,6 @@ package io.tmgg.core.enums;
 
 import io.tmgg.framework.dict.Dict;
 import io.tmgg.framework.dict.DictItem;
-import io.tmgg.lang.ann.Remark;
 
 /**
  * 性别常量

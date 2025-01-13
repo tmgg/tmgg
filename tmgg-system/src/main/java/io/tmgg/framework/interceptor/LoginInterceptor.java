@@ -2,7 +2,7 @@ package io.tmgg.framework.interceptor;
 
 
 import cn.hutool.core.util.ObjUtil;
-import io.tmgg.lang.ann.PublicApi;
+import io.tmgg.lang.ann.PublicRequest;
 import io.tmgg.lang.ResponseTool;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -50,7 +50,7 @@ public class LoginInterceptor implements HandlerInterceptor {
         }
         if (handler instanceof HandlerMethod) {
             HandlerMethod hm = ((HandlerMethod) handler);
-            if (hm.hasMethodAnnotation(PublicApi.class)) {
+            if (hm.hasMethodAnnotation(PublicRequest.class)) {
                 return true;
             }
         }

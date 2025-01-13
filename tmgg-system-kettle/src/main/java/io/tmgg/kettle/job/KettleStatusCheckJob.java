@@ -7,7 +7,7 @@ import io.github.tmgg.kettle.sdk.KettleSdk;
 import io.github.tmgg.kettle.sdk.response.SlaveServerJobStatus;
 import io.github.tmgg.kettle.sdk.response.SlaveServerStatus;
 import io.tmgg.modules.job.JobDesc;
-import io.tmgg.lang.ann.Remark;
+import io.tmgg.lang.ann.Msg;
 import io.tmgg.modules.sys.msg.IMessagePublishService;
 import org.apache.commons.io.IOUtils;
 import org.quartz.Job;
@@ -21,7 +21,7 @@ import java.time.Duration;
 import java.util.List;
 
 
-@Remark("Kettle状态检查")
+@Msg("Kettle状态检查")
 @JobDesc(name = "kettle状态检查", params = {})
 public class KettleStatusCheckJob implements Job {
 

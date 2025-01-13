@@ -1,7 +1,7 @@
 
 package io.tmgg.modules.sys.entity;
 
-import io.tmgg.lang.ann.Remark;
+import io.tmgg.lang.ann.Msg;
 import io.tmgg.lang.dao.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,7 +17,7 @@ import lombok.extern.slf4j.Slf4j;
  * 参数配置
  */
 @Slf4j
-@Remark("系统配置")
+@Msg("系统配置")
 @Getter
 @Setter
 @Entity
@@ -25,7 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 @ToString
 public class SysConfig extends BaseEntity {
 
-    @Remark("名称")
+    @Msg("名称")
     @Column(length = 30, nullable = false)
     private String label;
 
@@ -33,17 +33,17 @@ public class SysConfig extends BaseEntity {
     /**
      * 属性值
      */
-    @Remark("值")
+    @Msg("值")
     private String value;
 
-    @Remark("默认值")
+    @Msg("默认值")
     private String defaultValue;
 
     @Column(length = 20)
     private String valueType;
 
 
-    @Remark("备注")
+    @Msg("备注")
     private String remark;
 
 

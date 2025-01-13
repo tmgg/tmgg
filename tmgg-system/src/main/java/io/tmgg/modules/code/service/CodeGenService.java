@@ -2,7 +2,7 @@ package io.tmgg.modules.code.service;
 
 import cn.hutool.core.util.StrUtil;
 import io.tmgg.lang.AnnTool;
-import io.tmgg.lang.ann.Remark;
+import io.tmgg.lang.ann.Msg;
 import io.tmgg.modules.code.bean.BeanInfo;
 import io.tmgg.modules.code.bean.FieldInfo;
 import jakarta.persistence.Enumerated;
@@ -92,9 +92,9 @@ public class CodeGenService {
         }
 
         {
-            if (cls.isAnnotationPresent(Remark.class)) {
-                Remark remark = cls.getAnnotation(Remark.class);
-                bean.setLabel(remark.value());
+            if (cls.isAnnotationPresent(Msg.class)) {
+                Msg msg = cls.getAnnotation(Msg.class);
+                bean.setLabel(msg.value());
             }
         }
 
@@ -161,9 +161,9 @@ public class CodeGenService {
 
             // title 默认为name
             f.setTitle(f.getName());
-            if (field.isAnnotationPresent(Remark.class)) {
-                Remark remark = field.getAnnotation(Remark.class);
-                f.setAnnRemark(remark.value());
+            if (field.isAnnotationPresent(Msg.class)) {
+                Msg msg = field.getAnnotation(Msg.class);
+                f.setAnnRemark(msg.value());
                 f.setTitle(f.getAnnRemark());
             }
 

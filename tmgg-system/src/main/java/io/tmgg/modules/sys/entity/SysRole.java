@@ -1,12 +1,11 @@
 
 package io.tmgg.modules.sys.entity;
 
-import io.tmgg.lang.ann.Remark;
+import io.tmgg.lang.ann.Msg;
 import io.tmgg.lang.dao.BaseEntity;
 import io.tmgg.lang.dao.DBConstants;
 import io.tmgg.lang.dao.converter.ToListConverter;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldNameConstants;
@@ -17,7 +16,7 @@ import java.util.List;
 /**
  * 系统角色表
  */
-@Remark("系统角色")
+@Msg("系统角色")
 @Entity
 @Getter
 @Setter

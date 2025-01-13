@@ -1,8 +1,7 @@
 package io.tmgg.modules.sys.msg.entity;
 
-import io.tmgg.lang.ann.Remark;
+import io.tmgg.lang.ann.Msg;
 import io.tmgg.lang.dao.BaseEntity;
-import io.tmgg.modules.sys.entity.SysUser;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldNameConstants;
@@ -10,7 +9,7 @@ import lombok.experimental.FieldNameConstants;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
-@Remark("消息订阅")
+@Msg("消息订阅")
 @Getter
 @Setter
 @Entity

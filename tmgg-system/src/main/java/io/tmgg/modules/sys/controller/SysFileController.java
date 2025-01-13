@@ -2,7 +2,7 @@
 package io.tmgg.modules.sys.controller;
 
 import cn.hutool.core.lang.Dict;
-import io.tmgg.lang.ann.PublicApi;
+import io.tmgg.lang.ann.PublicRequest;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.modules.sys.entity.SysFile;
 import io.tmgg.modules.sys.service.SysFileService;
@@ -65,7 +65,7 @@ public class SysFileController {
     }
 
 
-    @PublicApi
+    @PublicRequest
     @GetMapping("preview/{id}")
     public void previewByPath(@PathVariable String id, HttpServletResponse response) throws Exception {
         try {

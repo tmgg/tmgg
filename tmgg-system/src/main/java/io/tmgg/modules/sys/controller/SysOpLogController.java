@@ -2,7 +2,7 @@
 package io.tmgg.modules.sys.controller;
 
 import io.tmgg.lang.DateRange;
-import io.tmgg.lang.ann.Remark;
+import io.tmgg.lang.ann.Msg;
 import io.tmgg.lang.dao.specification.JpaQuery;
 import io.tmgg.modules.sys.service.SysOpLogService;
 import io.tmgg.web.annotion.HasPermission;
@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import jakarta.annotation.Resource;
 
 
-@Remark("操作日志")
+@Msg("操作日志")
 @RestController
 public class SysOpLogController {
 
@@ -34,7 +34,7 @@ public class SysOpLogController {
     }
 
 
-    @Remark("查询")
+    @Msg("查询")
     @HasPermission
     @RequestMapping("/sysOpLog/page")
     public AjaxResult opLogPage(@RequestBody QueryParam queryParam, @PageableDefault(sort = "createTime", direction = Sort.Direction.DESC) Pageable pageable) {

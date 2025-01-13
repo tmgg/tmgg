@@ -2,7 +2,6 @@ package io.tmgg.framework.dict;
 
 import cn.hutool.core.util.ClassUtil;
 import io.tmgg.BasePackage;
-import io.tmgg.lang.ann.RemarkTool;
 import io.tmgg.modules.sys.dao.SysDictDao;
 import io.tmgg.modules.sys.dao.SysDictItemDao;
 import io.tmgg.modules.sys.entity.SysDict;
@@ -42,9 +41,7 @@ public class DictAnnHandler {
             String code = dictAnn.code();
             Assert.state(code.equals(code.toUpperCase()), "字典编码必须是大写,可用下划线分割");
 
-            DictItem itemAnn = (DictItem) cls.getAnnotation(DictItem.class);
-            Assert.state(itemAnn != null, "字典想必须有注解：" + DictItem.class.getName());
-            String label = itemAnn.label();
+            String label = dictAnn.label();
 
 
             SysDict sysDict = new SysDict();
@@ -59,7 +56,10 @@ public class DictAnnHandler {
             for (int i = 0; i < fields.length; i++) {
                 Field field = fields[i];
                 String key = String.valueOf(field.getInt(null));
-                String text = RemarkTool.getRemark(field);
+                DictItem fieldAnnotation = field.getAnnotation(DictItem.class);
+                Assert.notNull(fieldAnnotation, "需要有" + DictItem.class.getName() + "注解");
+
+                String text = fieldAnnotation.label();
 
 
                 SysDictItem data = new SysDictItem();

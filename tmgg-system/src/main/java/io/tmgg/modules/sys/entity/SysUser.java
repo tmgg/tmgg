@@ -4,7 +4,7 @@ package io.tmgg.modules.sys.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.tmgg.core.jpa.fill.AutoFillOrgLabelStrategy;
-import io.tmgg.lang.ann.Remark;
+import io.tmgg.lang.ann.Msg;
 import io.tmgg.lang.dao.AutoFill;
 import io.tmgg.lang.dao.BaseEntity;
 import io.tmgg.lang.dao.DBConstants;
@@ -24,7 +24,7 @@ import java.util.Set;
 @Setter
 @Entity
 @FieldNameConstants
-@Remark("系统用户")
+@Msg("系统用户")
 public class SysUser extends BaseEntity {
 
 
@@ -45,7 +45,7 @@ public class SysUser extends BaseEntity {
     /**
      * 所属机构 (公司，单位级别）
      */
-    @Remark("所属机构")
+    @Msg("所属机构")
     private String unitId;
 
 
@@ -54,7 +54,7 @@ public class SysUser extends BaseEntity {
     private String unitLabel;
 
 
-    @Remark("所属部门")
+    @Msg("所属部门")
     private String deptId;
 
     @Transient
@@ -62,7 +62,7 @@ public class SysUser extends BaseEntity {
     private String deptLabel;
 
 
-    @Remark("账号")
+    @Msg("账号")
     @NotNull(message = "账号不能为空")
     @Column(unique = true)
     private String account;
@@ -70,21 +70,21 @@ public class SysUser extends BaseEntity {
     /**
      * 密码， 转换json时不显示，但可接受前端设置
      */
-    @Remark("密码")
+    @Msg("密码")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
-    @Remark("姓名")
+    @Msg("姓名")
     @Column(length = 50)
     private String name;
 
 
-    @Remark("电话")
+    @Msg("电话")
     @Column(length = 11)
     private String phone;
 
 
-    @Remark("邮箱")
+    @Msg("邮箱")
     @Column(length = 30)
     private String email;
 

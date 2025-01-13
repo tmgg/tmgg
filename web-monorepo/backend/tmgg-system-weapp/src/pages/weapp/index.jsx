@@ -33,7 +33,7 @@ export default class extends React.Component {
     },
     {
       title: '备注',
-      dataIndex: 'remark',
+      dataIndex: 'msg',
     },
 
     {
@@ -115,7 +115,7 @@ export default class extends React.Component {
           <Form.Item label='密钥' name='appSecret' rules={[{required: true}]}>
             <Input/>
           </Form.Item>
-          <Form.Item label='备注' name='remark' rules={[{required: true}]}>
+          <Form.Item label='备注' name='msg' rules={[{required: true}]}>
             <Input/>
           </Form.Item>
         </Form>

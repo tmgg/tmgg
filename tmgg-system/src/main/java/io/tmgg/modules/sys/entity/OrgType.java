@@ -2,8 +2,6 @@ package io.tmgg.modules.sys.entity;
 
 import io.tmgg.framework.dict.Dict;
 import io.tmgg.framework.dict.DictItem;
-import io.tmgg.lang.ann.Remark;
-
 
 
 @Dict(code = "ORG_TYPE",label = "机构类型")

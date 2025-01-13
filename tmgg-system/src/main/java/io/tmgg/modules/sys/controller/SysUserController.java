@@ -5,7 +5,7 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.text.PasswdStrength;
 import cn.hutool.core.util.StrUtil;
 import io.tmgg.framework.session.SysHttpSessionService;
-import io.tmgg.lang.ann.Remark;
+import io.tmgg.lang.ann.Msg;
 import io.tmgg.lang.dao.BaseEntity;
 import io.tmgg.lang.dao.specification.JpaQuery;
 import io.tmgg.lang.obj.AjaxResult;
@@ -132,7 +132,7 @@ public class SysUserController {
     }
 
     @PostMapping("updatePwd")
-    @Remark("修改密码")
+    @Msg("修改密码")
     public AjaxResult updatePwd(String password, String newPassword) {
         String userId = SecurityUtils.getSubject().getId();
         sysUserService.updatePwd(userId, password, newPassword);

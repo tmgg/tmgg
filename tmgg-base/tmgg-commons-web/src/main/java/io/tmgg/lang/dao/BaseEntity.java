@@ -2,7 +2,7 @@ package io.tmgg.lang.dao;
 
 import com.fasterxml.jackson.annotation.*;
 import io.tmgg.lang.SpringTool;
-import io.tmgg.lang.ann.Remark;
+import io.tmgg.lang.ann.Msg;
 import io.tmgg.lang.dao.exports.UserLabelQuery;
 import io.tmgg.web.perm.SecurityUtils;
 import jakarta.persistence.*;
@@ -52,12 +52,12 @@ public abstract class BaseEntity implements PersistId, Serializable {
 
 
     @Column(updatable = false)
-    @Remark("创建时间")
+    @Msg("创建时间")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     protected Date createTime;
 
-    @Remark("创建人ID")
+    @Msg("创建人ID")
     @Column(length = DBConstants.LEN_ID, updatable = false)
     protected String createUser;
 

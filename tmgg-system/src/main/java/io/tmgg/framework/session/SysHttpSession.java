@@ -1,7 +1,7 @@
 package io.tmgg.framework.session;
 
 import cn.hutool.core.util.IdUtil;
-import io.tmgg.lang.ann.Remark;
+import io.tmgg.lang.ann.Msg;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,7 +18,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 // 参考 MapSession
-@Remark("http会话")
+@Msg("http会话")
 @Getter
 @Setter
 @FieldNameConstants

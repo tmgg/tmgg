@@ -12,7 +12,7 @@ import io.tmgg.modules.job.entity.SysJob;
 import io.tmgg.modules.job.quartz.QuartzManager;
 import io.tmgg.modules.job.service.SysJobService;
 import io.tmgg.lang.SpringTool;
-import io.tmgg.lang.ann.Remark;
+import io.tmgg.lang.ann.Msg;
 import io.tmgg.lang.dao.specification.JpaQuery;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.obj.Option;
@@ -99,7 +99,7 @@ public class SysJobController {
         return AjaxResult.ok().msg("删除成功");
     }
 
-    @Remark("执行一次")
+    @Msg("执行一次")
     @HasPermission
     @GetMapping("triggerJob")
     public AjaxResult triggerJob(String id) throws SchedulerException, ClassNotFoundException {

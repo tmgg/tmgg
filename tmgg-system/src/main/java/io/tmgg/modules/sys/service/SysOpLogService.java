@@ -6,11 +6,10 @@ import io.tmgg.lang.HttpServletTool;
 import io.tmgg.lang.IpAddressTool;
 import io.tmgg.lang.JoinPointTool;
 import io.tmgg.lang.UserAgentTool;
-import io.tmgg.lang.ann.Remark;
+import io.tmgg.lang.ann.Msg;
 import io.tmgg.lang.dao.BaseService;
 import io.tmgg.modules.sys.dao.SysOpLogDao;
 import io.tmgg.modules.sys.entity.SysLog;
-import io.tmgg.web.annotion.HasPermission;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -77,14 +76,14 @@ public class SysOpLogService extends BaseService<SysLog> {
         String baseName = StrUtil.removeSuffix( controller.getClass().getSimpleName(), "Controller");
         String methodName = method.getName();
 
-        Remark controllerRemark = controller.getClass().getAnnotation(Remark.class);
-        if(controllerRemark != null){
-            baseName = controllerRemark.value();
+        Msg controllerMsg = controller.getClass().getAnnotation(Msg.class);
+        if(controllerMsg != null){
+            baseName = controllerMsg.value();
         }
 
-        Remark methodRemark = method.getAnnotation(Remark.class);
-        if(methodRemark != null){
-            methodName = methodRemark.value();
+        Msg methodMsg = method.getAnnotation(Msg.class);
+        if(methodMsg != null){
+            methodName = methodMsg.value();
         }
 
         return baseName + "-" + methodName;

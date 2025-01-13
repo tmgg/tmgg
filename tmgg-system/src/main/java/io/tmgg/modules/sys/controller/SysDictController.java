@@ -1,7 +1,7 @@
 
 package io.tmgg.modules.sys.controller;
 
-import io.tmgg.lang.ann.PublicApi;
+import io.tmgg.lang.ann.PublicRequest;
 import io.tmgg.lang.dao.BaseCURDController;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.modules.sys.entity.SysDict;
@@ -21,7 +21,7 @@ public class SysDictController extends BaseCURDController<SysDict> {
 
 
     @GetMapping("tree")
-    @PublicApi
+    @PublicRequest
     public AjaxResult tree() {
         return AjaxResult.ok().data(sysDictService.tree());
     }

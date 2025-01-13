@@ -1,7 +1,7 @@
 package io.tmgg.modules.sys.controller;
 
 import io.tmgg.lang.TreeManager;
-import io.tmgg.lang.ann.Remark;
+import io.tmgg.lang.ann.Msg;
 import io.tmgg.modules.sys.entity.SysMenu;
 import io.tmgg.modules.sys.service.SysMenuService;
 import io.tmgg.web.annotion.HasPermission;
@@ -80,7 +80,7 @@ public class SysRoleController {
 
     @HasPermission(value = "sysRole:grant")
     @GetMapping("ownMenu")
-    @Remark("权限授权")
+    @Msg("权限授权")
     public AjaxResult ownMenu(String id) {
         List<String> menuIdList = sysRoleService.ownMenu(id);
         List<SysMenu> all = sysMenuService.findAll();
@@ -93,7 +93,7 @@ public class SysRoleController {
 
     @HasPermission( "sysRole:grant")
     @PostMapping("grantPerm")
-    @Remark("权限授权")
+    @Msg("权限授权")
     public AjaxResult grantPerm(@RequestParam(required = true) String id, @RequestParam(required = false) List<String> permIds) {
         sysRoleService.grantPerm(id, permIds);
 

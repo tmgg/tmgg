@@ -4,8 +4,8 @@ import cn.hutool.core.map.CaseInsensitiveMap;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import io.tmgg.lang.LongTool;
-import io.tmgg.lang.ann.Remark;
-import io.tmgg.lang.ann.RemarkTool;
+import io.tmgg.lang.ann.Msg;
+import io.tmgg.lang.ann.MsgTool;
 import io.tmgg.modules.sys.dao.SysMenuDao;
 import io.tmgg.modules.sys.entity.SysMenu;
 import io.tmgg.web.annotion.HasPermission;
@@ -14,17 +14,14 @@ import io.tmgg.web.perm.PermissionService;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
-import org.springframework.web.util.pattern.PathPattern;
 
 import java.io.IOException;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Component
 @Slf4j
@@ -71,7 +68,7 @@ public class PermissionToDatabaseService {
         List<Class<?>> entityList = jpaService.findAllClass();
 
         for (Class<?> cls : entityList) {
-            String remark = RemarkTool.getRemark(cls);
+            String remark = MsgTool.getRemark(cls);
             if (remark != null) {
                 dict.put(cls.getSimpleName().toLowerCase(), remark);
             }
@@ -95,7 +92,7 @@ public class PermissionToDatabaseService {
                 }
 
 
-                Remark remark = handlerMethod.getMethodAnnotation(Remark.class);
+                Msg msg = handlerMethod.getMethodAnnotation(Msg.class);
 
                 String perm = permissionService.parsePerm(handlerMethod, info);
 
@@ -103,8 +100,8 @@ public class PermissionToDatabaseService {
 
 
                 String permLabel = perm; // 权限显示名称
-                if (remark != null) {
-                    permLabel = remark.value();
+                if (msg != null) {
+                    permLabel = msg.value();
                 } else {
                     if(perm.contains(":")){
                         String option = StrUtil.subAfter(perm, ":", true);

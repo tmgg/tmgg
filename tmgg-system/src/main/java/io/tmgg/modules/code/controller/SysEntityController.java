@@ -2,7 +2,7 @@ package io.tmgg.code.controller;
 
 import cn.hutool.core.lang.Dict;
 import cn.hutool.core.util.StrUtil;
-import io.tmgg.lang.ann.RemarkTool;
+import io.tmgg.lang.ann.MsgTool;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.modules.sys.service.JpaService;
 import jakarta.annotation.Resource;
@@ -36,7 +36,7 @@ public class SysEntityController {
                 map.put("name", cls.getName());
                 map.put("simpleName", cls.getSimpleName());
                 map.put("superclassSimpleName", cls.getSuperclass().getSimpleName());
-                map.put("remark", RemarkTool.getRemark(cls));
+                map.put("remark", MsgTool.getRemark(cls));
 
             } catch (ClassNotFoundException e) {
                 throw new RuntimeException(e);

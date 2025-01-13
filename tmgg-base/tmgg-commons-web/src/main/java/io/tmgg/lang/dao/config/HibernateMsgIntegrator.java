@@ -2,7 +2,7 @@ package io.tmgg.lang.dao.config;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ClassUtil;
-import io.tmgg.lang.ann.Remark;
+import io.tmgg.lang.ann.Msg;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.boot.Metadata;
 import org.hibernate.engine.spi.SessionFactoryImplementor;
@@ -17,11 +17,14 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
+/**
+ * 自定生成注释，根据注解
+ */
 @Slf4j
-public class RemarkIntegrator implements Integrator {
-    public static final RemarkIntegrator INSTANCE = new RemarkIntegrator();
+public class HibernateMsgIntegrator implements Integrator {
+    public static final HibernateMsgIntegrator INSTANCE = new HibernateMsgIntegrator();
 
-    public RemarkIntegrator() {
+    public HibernateMsgIntegrator() {
         super();
     }
 
@@ -56,9 +59,9 @@ public class RemarkIntegrator implements Integrator {
         for (PersistentClass persistentClass : metadata.getEntityBindings()) {
             // Process the Comment annotation is applied to Class
             Class<?> clz = persistentClass.getMappedClass();
-            if (clz.isAnnotationPresent(Remark.class)) {
-                Remark remark = clz.getAnnotation(Remark.class);
-                persistentClass.getTable().setComment(remark.value());
+            if (clz.isAnnotationPresent(Msg.class)) {
+                Msg msg = clz.getAnnotation(Msg.class);
+                persistentClass.getTable().setComment(msg.value());
             }
 
             // Process Comment annotations of identifier.
@@ -99,8 +102,8 @@ public class RemarkIntegrator implements Integrator {
             if(field == null){
                 return;
             }
-            if (field.isAnnotationPresent(Remark.class)) {
-                String comment = field.getAnnotation(Remark.class).value();
+            if (field.isAnnotationPresent(Msg.class)) {
+                String comment = field.getAnnotation(Msg.class).value();
 
                 log.debug("设置数据库表的注释 {}.{}：{}", persistentClass.getTable().getName(), columnName, comment);
 

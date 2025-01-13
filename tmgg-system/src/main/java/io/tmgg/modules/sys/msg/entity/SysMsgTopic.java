@@ -1,6 +1,6 @@
 package io.tmgg.modules.sys.msg.entity;
 
-import io.tmgg.lang.ann.Remark;
+import io.tmgg.lang.ann.Msg;
 import io.tmgg.lang.dao.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,7 +12,7 @@ import jakarta.persistence.Entity;
 /**
  * 消息主题，这里仅为了展示
  */
-@Remark("消息主题")
+@Msg("消息主题")
 @Entity
 @Getter
 @Setter
