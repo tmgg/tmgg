@@ -2,7 +2,6 @@ package io.tmgg.framework.dict;
 
 import cn.hutool.core.util.ClassUtil;
 import io.tmgg.BasePackage;
-import io.tmgg.lang.ann.Remark;
 import io.tmgg.lang.ann.RemarkTool;
 import io.tmgg.modules.sys.dao.SysDictDao;
 import io.tmgg.modules.sys.dao.SysDictItemDao;
@@ -34,21 +33,19 @@ public class DictAnnHandler {
 
         Set<Class<?>> classes = new HashSet<>();
         for (String basePackage : BasePackage.getBasePackages()) {
-            classes.addAll( ClassUtil.scanPackageByAnnotation(basePackage, Dict.class));
+            classes.addAll(ClassUtil.scanPackageByAnnotation(basePackage, Dict.class));
         }
 
         List<SysDictItem> dataList = new ArrayList<>();
         for (Class cls : classes) {
             Dict dictAnn = (Dict) cls.getAnnotation(Dict.class);
             String code = dictAnn.code();
+            Assert.state(code.equals(code.toUpperCase()), "字典编码必须是大写,可用下划线分割");
 
-            String simpleTypeName = cls.getSimpleName();
-            Assert.state(cls.isAnnotationPresent(Remark.class), "枚举" + simpleTypeName + "保存为字典时失败，必须使用Remark注解描述");
+            DictItem itemAnn = (DictItem) cls.getAnnotation(DictItem.class);
+            Assert.state(itemAnn != null, "字典想必须有注解：" + DictItem.class.getName());
+            String label = itemAnn.label();
 
-            Remark annotation = (Remark) cls.getAnnotation(Remark.class);
-            String label = annotation.value();
-
-            log.info("发现枚举 {} {} ", simpleTypeName, annotation.value());
 
             SysDict sysDict = new SysDict();
             sysDict.setId(code);
@@ -79,7 +76,6 @@ public class DictAnnHandler {
         }
         sysDictItemDao.saveAll(dataList);
     }
-
 
 
 }

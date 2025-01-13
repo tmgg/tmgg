@@ -35,7 +35,6 @@ public class SysJobService extends BaseService<SysJob> {
         JpaQuery<SysJob> q = new JpaQuery<>();
         q.eq(SysJob.Fields.enabled, true);
 
-
         return baseDao.findAll(q);
     }
 

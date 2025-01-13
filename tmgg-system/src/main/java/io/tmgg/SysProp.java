@@ -16,9 +16,10 @@ public class SysProp {
 
 
     /**
-     * 当异常发生时，是否打印异常
+     * 适用Assert时
+     * 是否打印异常堆栈
      */
-    private boolean printException = true;
+    private boolean printExceptionForAssert = false;
 
 
 

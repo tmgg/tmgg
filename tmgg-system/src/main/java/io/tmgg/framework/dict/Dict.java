@@ -16,6 +16,7 @@ public @interface Dict {
 
     String code();
 
+    String label();
 
     /**
      * 字典值是否数字， 如1，2，3

@@ -1,18 +1,18 @@
 package io.tmgg.modules.sys.entity;
 
 import io.tmgg.framework.dict.Dict;
+import io.tmgg.framework.dict.DictItem;
 import io.tmgg.lang.ann.Remark;
 
 
 
-@Dict(code = "ORG_TYPE")
-@Remark("机构类型")
+@Dict(code = "ORG_TYPE",label = "机构类型")
 public interface OrgType {
 
-  @Remark("单位")
+  @DictItem(label = "单位")
   int UNIT = 10;
 
-  @Remark("部门")
+  @DictItem(label = "部门")
   int DEPT = 20;
 
 

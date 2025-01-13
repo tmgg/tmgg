@@ -91,9 +91,9 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler({IllegalArgumentException.class, IllegalStateException.class})
     public AjaxResult assertError(RuntimeException e) {
-        log.error(">>> 业务异常，assertError ，具体信息为：{}", e.getMessage());
-        if (sysProp.isPrintException()) {
-            e.printStackTrace();
+        log.error(">>> 业务异常，具体信息为：{}", e.getMessage());
+        if (sysProp.isPrintExceptionForAssert()) {
+            log.error("打印异常已开启,以下是异常详细信息", e);
         }
 
         return AjaxResult.err().code(500).msg(e.getMessage());
