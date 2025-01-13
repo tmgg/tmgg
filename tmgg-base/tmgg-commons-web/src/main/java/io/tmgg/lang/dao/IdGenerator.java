@@ -46,10 +46,7 @@ public class IdGenerator implements IdentifierGenerator {
             }
         }
 
-        // 雪花算法
-        String snowflakeId = IdUtil.getSnowflakeNextIdStr();
-        return snowflakeId;
+        return IdUtil.simpleUUID();
     }
-
 
 }
