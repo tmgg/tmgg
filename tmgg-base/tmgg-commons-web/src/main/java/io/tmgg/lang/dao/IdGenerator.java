@@ -47,8 +47,8 @@ public class IdGenerator implements IdentifierGenerator {
         }
 
         // 雪花算法
-        Snowflake snowflake = IdUtil.getSnowflake(1, 1);
-        return String.valueOf(snowflake.nextId());
+        String snowflakeId = IdUtil.getSnowflakeNextIdStr();
+        return snowflakeId;
     }
 
 
