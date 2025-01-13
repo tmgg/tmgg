@@ -1,6 +1,8 @@
 package io.tmgg.modules.job.service;
 
 import cn.hutool.core.date.DateUtil;
+import io.tmgg.lang.dao.BaseEntity;
+import io.tmgg.lang.dao.specification.JpaQuery;
 import io.tmgg.modules.job.JobProp;
 import io.tmgg.modules.job.dao.SysJobDao;
 import io.tmgg.modules.job.dao.SysJobLogDao;
@@ -8,8 +10,6 @@ import io.tmgg.modules.job.dao.SysJobLoggingDao;
 import io.tmgg.modules.job.entity.SysJob;
 import io.tmgg.modules.job.entity.SysJobLog;
 import io.tmgg.modules.job.entity.SysJobLogging;
-import io.tmgg.lang.dao.BaseEntity;
-import io.tmgg.lang.dao.specification.JpaQuery;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -48,6 +48,12 @@ public class SysJobLoggingService {
     @Resource
     private JobProp jobProp;
 
+
+    /**
+     * 清空日志
+     *
+     * @param job
+     */
     @Async
     @Transactional
     public void cleanByConfig(SysJob job) {
@@ -55,12 +61,13 @@ public class SysJobLoggingService {
             int days = jobProp.getMaxHistoryDays();
             sysJobLoggingDao.clean(DateUtil.offsetDay(new Date(), -days));
 
-            int records = jobProp.getMaxHistoryRecords();
+            int limit = jobProp.getMaxHistoryRecords();
+
 
             List<SysJobLog> list = sysJobLogDao.findByJobDesc(job);
 
-            if (list.size() > records) {
-                List<SysJobLog> targetList = list.subList(records, list.size());
+            if (list.size() > limit) {
+                List<SysJobLog> targetList = list.subList(limit, list.size());
                 List<String> ids = targetList.stream().map(BaseEntity::getId).collect(Collectors.toList());
                 sysJobLogDao.deleteAll(targetList);
                 sysJobLoggingDao.deleteByJobLogId(ids);

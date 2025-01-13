@@ -84,8 +84,8 @@ public class SysJobService extends BaseService<SysJob> {
         Date date = new Date();
         date = DateUtils.addDays(date, -cleanDate);
 
-        sysJobLoggingDao.clean(date);
         sysJobLogDao.clean(date);
+        sysJobLoggingDao.clean(date);
     }
 
 }

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import jakarta.persistence.Query;
+
 import java.util.Date;
 import java.util.List;
 
@@ -43,5 +44,10 @@ public class SysJobLogDao extends BaseDao<SysJobLog> {
         return this.findAll(q, Sort.by(Sort.Direction.DESC,"createTime"));
     }
 
+    public long countByJob(SysJob job) {
+        JpaQuery<SysJobLog> q = new JpaQuery<>();
+        q.eq(SysJobLog.Fields.sysJob, job);
+        return this.count(q);
+    }
 
 }

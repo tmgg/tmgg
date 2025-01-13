@@ -50,7 +50,7 @@
     {
       "id": "sysConfig",
       "pid": "sys",
-      "name": "系统配置",
+      "name": "系统参数",
       "perm": "sysConfig",
       "path": "/system/config",
       "icon": "SettingOutlined",

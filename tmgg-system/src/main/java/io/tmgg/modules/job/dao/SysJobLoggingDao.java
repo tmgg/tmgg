@@ -1,8 +1,10 @@
 package io.tmgg.modules.job.dao;
 
+import io.tmgg.dbtool.DbTool;
 import io.tmgg.modules.job.entity.SysJobLogging;
 import io.tmgg.lang.dao.BaseDao;
 import io.tmgg.lang.dao.specification.JpaQuery;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,13 +17,17 @@ import java.util.List;
 @Slf4j
 @Repository
 public class SysJobLoggingDao extends BaseDao<SysJobLogging> {
+    @Resource
+    DbTool db;
+
     public void deleteByJobId(String jobId) {
-        JpaQuery<SysJobLogging> q = new JpaQuery<>();
-        q.eq(SysJobLogging.Fields.jobId, jobId);
-        List<SysJobLogging> list = findAll(q);
-        this.deleteAll(list);
+        db.executeQuietly("delete from sys_job_logging where job_id=?", jobId);
     }
 
+    /**
+     * 由于数量大，直接执行sql，以免内存爆掉
+     * @param ids
+     */
     public void deleteByJobLogId(List<String> ids) {
         JpaQuery<SysJobLogging> q = new JpaQuery<>();
         q.in(SysJobLogging.Fields.jogLogId, ids);
