@@ -68,7 +68,7 @@ public class PermissionToDatabaseService {
         List<Class<?>> entityList = jpaService.findAllClass();
 
         for (Class<?> cls : entityList) {
-            String remark = MsgTool.getRemark(cls);
+            String remark = MsgTool.getMsg(cls);
             if (remark != null) {
                 dict.put(cls.getSimpleName().toLowerCase(), remark);
             }

@@ -36,7 +36,7 @@ public class SysEntityController {
                 map.put("name", cls.getName());
                 map.put("simpleName", cls.getSimpleName());
                 map.put("superclassSimpleName", cls.getSuperclass().getSimpleName());
-                map.put("remark", MsgTool.getRemark(cls));
+                map.put("remark", MsgTool.getMsg(cls));
 
             } catch (ClassNotFoundException e) {
                 throw new RuntimeException(e);
