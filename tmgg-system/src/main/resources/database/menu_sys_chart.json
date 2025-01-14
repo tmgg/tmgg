@@ -1,0 +1,12 @@
+{
+  "SysMenu": [
+    {
+      "pid":"sys",
+      "id": "sysChart",
+      "name": "系统图表",
+      "perm": "sysChart",
+      "path": "/chart/sysChart",
+      "seq": 1
+    }
+  ]
+}

@@ -1,11 +1,11 @@
-package ${modulePackageName}.controller;
+package io.tmgg.modules.chart.controller;
 
 import cn.hutool.core.bean.BeanUtil;
 import io.tmgg.lang.dao.specification.JpaQuery;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.obj.Option;
-import ${modulePackageName}.entity.${name};
-import ${modulePackageName}.service.${name}Service;
+import io.tmgg.modules.chart.entity.SysChart;
+import io.tmgg.modules.chart.service.SysChartService;
 import io.tmgg.lang.dao.BaseController;
 import io.tmgg.lang.dao.BaseEntity;
 import io.tmgg.lang.DateRange;
@@ -24,33 +24,33 @@ import org.springframework.web.bind.annotation.*;
 
 
 import jakarta.annotation.Resource;
-import java.util.List;
+
 import java.io.IOException;
+import java.util.List;
+
 @RestController
-@RequestMapping("${firstLowerName}")
-public class ${name}Controller  extends BaseController<${name}>{
+@RequestMapping("sysChart")
+public class SysChartController  extends BaseController<SysChart>{
 
     @Resource
-    ${name}Service service;
+    SysChartService service;
 
 
     @Data
     public static class QueryParam {
         private  String keyword; // 仅有一个搜索框时的搜索文本
 
-        <#list queryFields as f>
 
-         <#if (f.type == 'java.util.Date')>
-            private DateRange ${f.name}Range;
-         <#else>
-            private ${f.type} ${f.name};
-         </#if>
-        </#list>
+            private java.lang.String name;
+
+            private java.lang.String sqlContent;
+
+            private java.lang.String category;
 
     }
 
-    private  JpaQuery<${name}> buildQuery(QueryParam param) {
-        JpaQuery<${name}> q = new JpaQuery<>();
+    private  JpaQuery<SysChart> buildQuery(QueryParam param) {
+        JpaQuery<SysChart> q = new JpaQuery<>();
       /*  DateRange dateRange = param.getDateRange();
         if(dateRange != null && dateRange.isNotEmpty()){
             q.between(PointsItemRecord.Fields.redeemTime, dateRange.getBegin(), dateRange.getEnd());
@@ -61,9 +61,9 @@ public class ${name}Controller  extends BaseController<${name}>{
     @HasPermission
     @PostMapping("page")
     public AjaxResult page(@RequestBody  QueryParam param,  @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) throws Exception {
-        JpaQuery<${name}> q = buildQuery(param);
+        JpaQuery<SysChart> q = buildQuery(param);
 
-        Page<${name}> page = service.findAll(q, pageable);
+        Page<SysChart> page = service.findAll(q, pageable);
         return AjaxResult.ok().data(page);
     }
 
@@ -71,10 +71,10 @@ public class ${name}Controller  extends BaseController<${name}>{
         @HasPermission
         @GetMapping({"exportExcel"})
         public void exportExcel(@RequestBody QueryParam param, HttpServletResponse resp) throws IOException {
-            JpaQuery<${name}> q = buildQuery(param);
+            JpaQuery<SysChart> q = buildQuery(param);
 
             // 使用Excel注解
-            this.service.exportExcel(q, "${name}.xlsx",resp);
+            this.service.exportExcel(q, "SysChart.xlsx",resp);
 
             /** 自定义列
             LinkedHashMap<String, Function<PointsRecord, Object>> columns = new LinkedHashMap<>();
@@ -84,7 +84,7 @@ public class ${name}Controller  extends BaseController<${name}>{
             columns.put("获得积分", t -> t.getPoints());
             columns.put("时间", t -> DateUtil.formatDateTime(t.getTime()));
             columns.put("原因", t -> t.getReason());
-             this.service.exportExcel(q, "${name}.xlsx", columns,resp);
+             this.service.exportExcel(q, "SysChart.xlsx", columns,resp);
              **/
         }
 
