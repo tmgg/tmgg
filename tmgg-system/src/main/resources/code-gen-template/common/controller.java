@@ -34,6 +34,7 @@ public class ${name}Controller  extends BaseController<${name}>{
     ${name}Service service;
 
 
+    // 查询参数，如果比较简单，可以直接用实体代替
     @Data
     public static class QueryParam {
         private  String keyword; // 仅有一个搜索框时的搜索文本
