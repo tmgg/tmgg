@@ -49,15 +49,12 @@ public class SysProp {
     private List<String> loginExcludePathPatterns;
 
     /**
-     * 操作日志保留天数
+     * 缓存目录
      */
-    private int sysOpLogMaxHistoryDays = 30;
+    private String cacheDir = "/tmgg/cache" ;
 
 
-    /**
-     * 访问日志保留天数
-     */
-    private int sysVisLogMaxHistoryDays = 30;
+
 
 
     /**
@@ -102,6 +99,7 @@ public class SysProp {
           */
         String url;
     }
+
 
 
 }

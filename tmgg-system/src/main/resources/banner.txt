@@ -3,3 +3,4 @@ Spring Boot  ${spring-boot.version}
 端口号 ${server.port}
 数据库连接 ${spring.datasource.url}
 数据库账号 ${spring.datasource.username}
+系统缓存目录 ${sys.cache-dir}

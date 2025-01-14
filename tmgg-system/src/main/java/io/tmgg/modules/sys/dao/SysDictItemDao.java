@@ -1,11 +1,14 @@
 
 package io.tmgg.modules.sys.dao;
 
-import io.tmgg.framework.cache.EhCacheTool;
+import io.tmgg.framework.cache.CacheService;
+import io.tmgg.framework.cache.EhCacheService;
 import io.tmgg.lang.dao.BaseDao;
 import io.tmgg.lang.dao.specification.JpaQuery;
 import io.tmgg.modules.sys.entity.SysDict;
 import io.tmgg.modules.sys.entity.SysDictItem;
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.Resource;
 import org.ehcache.Cache;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,7 +24,14 @@ import java.util.List;
  */
 @Repository
 public class SysDictItemDao extends BaseDao<SysDictItem> {
-   private Cache<String, String> cache = EhCacheTool.create("dict", String.class, String.class, 100, Duration.ofHours(1));
+   private Cache<String, String> cache = null;
+
+   @Resource
+   private CacheService cacheService;
+   @PostConstruct
+   void init(){
+       cache = cacheService.createLight("dict");
+   }
 
 
     @Transactional

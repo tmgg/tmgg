@@ -6,3 +6,5 @@ db_password: 123456
 spring:
   profiles:
     active: default
+sys:
+  cache-dir: /tmgg/framework/cache
