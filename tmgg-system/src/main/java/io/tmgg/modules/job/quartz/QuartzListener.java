@@ -96,7 +96,6 @@ public class QuartzListener implements JobListener {
         jobLog.setResult(result);
         sysJobLogDao.save(jobLog);
 
-        this.stopAppender(jobLogId);
         MDC.clear();
     }
 
@@ -123,13 +122,5 @@ public class QuartzListener implements JobListener {
     }
 
 
-    public void stopAppender(String jobLogId) {
-        LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
 
-        ch.qos.logback.classic.Logger logger = loggerContext.getLogger("JOB");
-        String appenderId = "JOB-" + jobLogId;
-
-        SiftingAppender appender = (SiftingAppender) logger.getAppender("JOB-SIFT");
-        System.out.println(appenderId);
-    }
 }
