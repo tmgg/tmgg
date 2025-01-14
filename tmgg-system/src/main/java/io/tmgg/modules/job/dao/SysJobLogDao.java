@@ -25,12 +25,7 @@ public class SysJobLogDao extends BaseDao<SysJobLog> {
 
 
 
-    @Transactional
-    public void clean(Date date) {
-        Query q = em.createQuery("delete from SysJobLog where createTime  <= :time" );
-        q.setParameter("time", date);
-        q.executeUpdate();
-    }
+
 
 
     /**

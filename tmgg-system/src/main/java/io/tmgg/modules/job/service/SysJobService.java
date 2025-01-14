@@ -1,20 +1,21 @@
 package io.tmgg.modules.job.service;
 
+import io.tmgg.modules.job.dao.SysJobTextDao;
 import io.tmgg.modules.job.dao.SysJobLogDao;
 import io.tmgg.modules.job.entity.SysJob;
 import io.tmgg.modules.job.JobDesc;
+import io.tmgg.modules.job.entity.SysJobLog;
 import io.tmgg.modules.job.quartz.QuartzManager;
 import io.tmgg.lang.dao.BaseService;
 import io.tmgg.lang.dao.specification.JpaQuery;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.time.DateUtils;
 import org.quartz.SchedulerException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import jakarta.annotation.Resource;
-import java.util.Date;
+
 import java.util.List;
 
 @Slf4j
@@ -26,6 +27,9 @@ public class SysJobService extends BaseService<SysJob> {
 
     @Resource
     SysJobLogDao sysJobLogDao;
+
+    @Resource
+    SysJobTextDao sysJobTextDao;
 
 
 
@@ -75,12 +79,12 @@ public class SysJobService extends BaseService<SysJob> {
 
 
     //清理日志
-    public void clean(Integer cleanDate){
-        // 删除10天以前的
-        Date date = new Date();
-        date = DateUtils.addDays(date, -cleanDate);
-
-        sysJobLogDao.clean(date);
+    public void clean(List<String> ids){
+        List<SysJobLog> list = sysJobLogDao.findAllById(ids);
+        for (SysJobLog sysJobLog : list) {
+            sysJobLogDao.delete(sysJobLog);
+            sysJobTextDao.delete(sysJobLog.getId());
+        }
     }
 
 }

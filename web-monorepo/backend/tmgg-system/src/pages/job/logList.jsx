@@ -65,8 +65,8 @@ export default class extends React.Component {
 
   ]
 
-  clean = (cleanDate)=>{
-    HttpUtil.postForm('/job/jobLogClean', {cleanDate} ).then(rs=>{
+  clean = (selectedRowKeys)=>{
+    HttpUtil.post('/job/jobLogClean', {ids:selectedRowKeys} ).then(rs=>{
       this.tableRef.current.reload()
     })
   }
@@ -76,15 +76,15 @@ export default class extends React.Component {
   render() {
     return <>
       <ProTable
-        toolBarRender={()=><>
-          <Button onClick={()=>this.clean(1)}>清理</Button>
+        toolBarRender={(_,{selectedRowKeys})=><>
+          <Button disabled={selectedRowKeys.length === 0} onClick={()=>this.clean(selectedRowKeys)} type='primary' >删除{selectedRowKeys.length}条</Button>
         </>}
         actionRef={this.tableRef}
         request={(params, sort) => {
           return HttpUtil.pageData('job/jobLog', params, sort);
         }}
         columns={this.columns}
-        rowSelection={false}
+        rowSelection={{}}
         rowKey='id'
       />
 

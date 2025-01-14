@@ -1,11 +1,14 @@
 package io.tmgg.modules.job.quartz;
 
+import ch.qos.logback.classic.LoggerContext;
+import ch.qos.logback.classic.sift.SiftingAppender;
+import ch.qos.logback.classic.spi.ILoggingEvent;
+import ch.qos.logback.core.Appender;
 import io.tmgg.modules.job.JobTool;
 import io.tmgg.modules.job.dao.SysJobDao;
 import io.tmgg.modules.job.dao.SysJobLogDao;
 import io.tmgg.modules.job.entity.SysJob;
 import io.tmgg.modules.job.entity.SysJobLog;
-import io.tmgg.modules.job.service.SysJobLogFileService;
 import io.tmgg.modules.sys.msg.IMessagePublishService;
 import jakarta.annotation.Resource;
 import org.apache.commons.io.IOUtils;
@@ -13,6 +16,7 @@ import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.quartz.JobListener;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 import org.springframework.stereotype.Component;
 
@@ -56,8 +60,6 @@ public class QuartzListener implements JobListener {
         // 2. 设置日志
         MDC.put("job_id", job.getId());
         MDC.put("job_log_id", sysJobLog.getId());
-        String filename = job.getJobClass() + "/" + sysJobLog.getId();
-        MDC.put("job_file_name", filename);
     }
 
     @Override
@@ -94,8 +96,8 @@ public class QuartzListener implements JobListener {
         jobLog.setResult(result);
         sysJobLogDao.save(jobLog);
 
+        this.stopAppender(jobLogId);
         MDC.clear();
-
     }
 
     private static String getStacktrace(JobExecutionContext context, JobExecutionException jobException) {
@@ -121,4 +123,13 @@ public class QuartzListener implements JobListener {
     }
 
 
+    public void stopAppender(String jobLogId) {
+        LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
+
+        ch.qos.logback.classic.Logger logger = loggerContext.getLogger("JOB");
+        String appenderId = "JOB-" + jobLogId;
+
+        SiftingAppender appender = (SiftingAppender) logger.getAppender("JOB-SIFT");
+        System.out.println(appenderId);
+    }
 }
