@@ -38,5 +38,6 @@ export function initSystem(){
 
 
         'chart/sysChart': require('./pages/chart/sysChart').default,
+        'chart/sysChart/design': require('./pages/chart/sysChart/design').default,
     })
 }
