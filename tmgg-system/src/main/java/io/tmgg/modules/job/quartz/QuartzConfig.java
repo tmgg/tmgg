@@ -25,10 +25,6 @@ public class QuartzConfig implements CommandLineRunner {
 
 
     @Resource
-    private LogDbAppender logDbAppender;
-
-
-    @Resource
     private Scheduler scheduler;
 
     @Resource
@@ -52,9 +48,6 @@ public class QuartzConfig implements CommandLineRunner {
             return;
         }
 
-        // 0. 设置logback 配置, 曲波
-        this.addLogbackConfig();
-
         // 1. 添加执行监听器
         scheduler.getListenerManager().addJobListener(jobExecuteListener);
 
@@ -70,17 +63,7 @@ public class QuartzConfig implements CommandLineRunner {
     }
 
 
-    private void addLogbackConfig() {
-        LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
 
-        Logger logger = loggerContext.getLogger(jobProp.getLoggerName());
-
-        if (logger.getAppender("JOB") == null) {
-            logger.setAdditive(jobProp.isLoggerAdditive());
-            logDbAppender.start();
-            logger.addAppender(logDbAppender);
-        }
-    }
 
 
 
