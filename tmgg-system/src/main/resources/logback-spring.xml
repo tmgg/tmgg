@@ -54,7 +54,6 @@
 
     <!-- 日志记录器，日期滚动记录 -->
     <appender name="FILE_ALL" class="ch.qos.logback.core.rolling.RollingFileAppender">
-
         <!-- 正在记录的日志文件的路径及文件名 -->
         <file>${LOG_PATH}/log_total.log</file>
 
@@ -92,11 +91,33 @@
         level:设置打印级别（TRACE, DEBUG, INFO, WARN, ERROR, ALL 和 OFF）
         addtivity:描述是否向上级logger传递打印信息。默认是true。
     -->
-    <logger name="io.tmgg" level="DEBUG"  additivity="false" >
+    <logger name="io.tmgg" level="DEBUG">
         <appender-ref ref="STDOUT"/>
     </logger>
 
 
+    <appender name="JOB-SIFT" class="ch.qos.logback.classic.sift.SiftingAppender">
+        <discriminator>
+            <key>job_file_name</key>
+            <defaultValue>default</defaultValue>
+        </discriminator>
+        <sift>
+            <appender name="${job_file_name}" class="ch.qos.logback.core.rolling.RollingFileAppender">
+                <file>${LOG_PATH}/jobs/${job_file_name}.log</file>
+                <encoder>
+                    <pattern>%d{yyyy-MM-dd HH:mm:ss} - %msg%n</pattern>
+                </encoder>
+                <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                    <fileNamePattern>${LOG_PATH}/jobs/backup.%d{yyyy-MM-dd}.log</fileNamePattern>
+                    <maxHistory>30</maxHistory>
+                </rollingPolicy>
+            </appender>
+        </sift>
+    </appender>
+
+    <logger name="JOB" level="DEBUG" additivity="false">
+        <appender-ref ref="JOB-SIFT"/>
+    </logger>
 
 </configuration>
 

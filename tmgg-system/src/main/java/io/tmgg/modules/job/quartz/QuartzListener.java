@@ -1,5 +1,6 @@
 package io.tmgg.modules.job.quartz;
 
+import cn.hutool.core.date.DateUtil;
 import io.tmgg.modules.job.JobTool;
 import io.tmgg.modules.job.dao.SysJobDao;
 import io.tmgg.modules.job.dao.SysJobLogDao;
@@ -58,7 +59,7 @@ public class QuartzListener implements JobListener {
         // 2. 设置日志
         MDC.put("job_id", job.getId());
         MDC.put("job_log_id", sysJobLog.getId());
-
+        MDC.put("job_file_name", job.getJobClass() + "/" + sysJobLog.getId());
     }
 
     @Override
@@ -97,8 +98,6 @@ public class QuartzListener implements JobListener {
 
         MDC.clear();
 
-        // 清理日志
-        sysJobLoggingService.cleanByConfig(job);
     }
 
     private static String getStacktrace(JobExecutionContext context, JobExecutionException jobException) {

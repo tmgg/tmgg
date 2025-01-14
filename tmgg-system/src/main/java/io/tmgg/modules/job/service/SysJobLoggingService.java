@@ -29,11 +29,7 @@ public class SysJobLoggingService {
     @Resource
     private SysJobLoggingDao sysJobLoggingDao;
 
-    @Resource
-    private SysJobLogDao sysJobLogDao;
 
-    @Resource
-    private SysJobDao sysJobDao;
 
 
     public Page<SysJobLogging> read(String jogLogId, Pageable pageable) {
@@ -45,36 +41,8 @@ public class SysJobLoggingService {
         return page;
     }
 
-    @Resource
-    private JobProp jobProp;
 
 
-    /**
-     * 清空日志
-     *
-     * @param job
-     */
-    @Async
-    @Transactional
-    public void cleanByConfig(SysJob job) {
-        try {
-            int days = jobProp.getMaxHistoryDays();
-            sysJobLoggingDao.clean(DateUtil.offsetDay(new Date(), -days));
 
-            int limit = jobProp.getMaxHistoryRecords();
-
-
-            List<SysJobLog> list = sysJobLogDao.findByJobDesc(job);
-
-            if (list.size() > limit) {
-                List<SysJobLog> targetList = list.subList(limit, list.size());
-                List<String> ids = targetList.stream().map(BaseEntity::getId).collect(Collectors.toList());
-                sysJobLogDao.deleteAll(targetList);
-                sysJobLoggingDao.deleteByJobLogId(ids);
-            }
-        } catch (Exception e) {
-            log.error("清理日志失败", e);
-        }
-    }
 
 }
