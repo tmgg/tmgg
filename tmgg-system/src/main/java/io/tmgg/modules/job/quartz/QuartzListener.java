@@ -1,12 +1,11 @@
 package io.tmgg.modules.job.quartz;
 
-import cn.hutool.core.date.DateUtil;
 import io.tmgg.modules.job.JobTool;
 import io.tmgg.modules.job.dao.SysJobDao;
 import io.tmgg.modules.job.dao.SysJobLogDao;
 import io.tmgg.modules.job.entity.SysJob;
 import io.tmgg.modules.job.entity.SysJobLog;
-import io.tmgg.modules.job.service.SysJobLoggingService;
+import io.tmgg.modules.job.service.SysJobLogFileService;
 import io.tmgg.modules.sys.msg.IMessagePublishService;
 import jakarta.annotation.Resource;
 import org.apache.commons.io.IOUtils;
@@ -34,8 +33,6 @@ public class QuartzListener implements JobListener {
     @Resource
     private IMessagePublishService messagePublishService;
 
-    @Resource
-    private SysJobLoggingService sysJobLoggingService;
 
     @Override
     public String getName() {

@@ -1,7 +1,6 @@
 package io.tmgg.modules.job.service;
 
 import io.tmgg.modules.job.dao.SysJobLogDao;
-import io.tmgg.modules.job.dao.SysJobLoggingDao;
 import io.tmgg.modules.job.entity.SysJob;
 import io.tmgg.modules.job.JobDesc;
 import io.tmgg.modules.job.quartz.QuartzManager;
@@ -28,8 +27,8 @@ public class SysJobService extends BaseService<SysJob> {
     @Resource
     SysJobLogDao sysJobLogDao;
 
-    @Resource
-    SysJobLoggingDao sysJobLoggingDao;
+
+
 
     public List<SysJob> findAllEnabled() {
         JpaQuery<SysJob> q = new JpaQuery<>();
@@ -69,9 +68,7 @@ public class SysJobService extends BaseService<SysJob> {
         Assert.notNull(job, "该任务已被删除，请勿重复操作");
         quartzManager.deleteJob(job);
 
-        sysJobLoggingDao.deleteByJobId(id);
         sysJobLogDao.deleteByJobId(id);
-
 
         super.deleteById(id);
     }
@@ -84,7 +81,6 @@ public class SysJobService extends BaseService<SysJob> {
         date = DateUtils.addDays(date, -cleanDate);
 
         sysJobLogDao.clean(date);
-        sysJobLoggingDao.clean(date);
     }
 
 }

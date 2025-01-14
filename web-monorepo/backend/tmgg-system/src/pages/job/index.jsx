@@ -114,7 +114,7 @@ export default class extends React.Component {
 
                 return (
                     <Space>
-                        <a href={url} target='_blank'>最新日志</a>
+                        <a href={url} target='_blank'>日志</a>
                         <Button size='small' onClick={() => this.handleTriggerJob(record)}>执行一次</Button>
                         <Button size='small' onClick={() => this.handleEdit(record)}> 修改 </Button>
                         <Popconfirm title='是否确定删除?' onConfirm={() => this.handleDelete(record)}>
