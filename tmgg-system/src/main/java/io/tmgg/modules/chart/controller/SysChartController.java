@@ -1,6 +1,7 @@
 package io.tmgg.modules.chart.controller;
 
 import io.tmgg.jackson.JsonTool;
+import io.tmgg.lang.ann.Msg;
 import io.tmgg.lang.dao.BaseController;
 import io.tmgg.lang.dao.specification.JpaQuery;
 import io.tmgg.lang.obj.AjaxResult;
@@ -79,7 +80,8 @@ public class SysChartController extends BaseController<SysChart> {
         return AjaxResult.ok().data(chart);
     }
 
-    @HasPermission
+    @Msg("查看报表")
+    @HasPermission("sysChart:view")
     @GetMapping("getOption/{code}")
     public AjaxResult draw(@PathVariable String code) throws Exception {
         SysChart chart = service.findByCode(code);
@@ -88,7 +90,8 @@ public class SysChartController extends BaseController<SysChart> {
         return AjaxResult.ok().data(option);
     }
 
-    @HasPermission
+    @Msg("查看报表")
+    @HasPermission("sysChart:view")
     @GetMapping("view/{code}")
     public void view(@PathVariable String code, HttpServletResponse response) throws Exception {
         SysChart chart = service.findByCode(code);
