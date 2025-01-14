@@ -56,7 +56,8 @@ public class QuartzListener implements JobListener {
         // 2. 设置日志
         MDC.put("job_id", job.getId());
         MDC.put("job_log_id", sysJobLog.getId());
-        MDC.put("job_file_name", job.getJobClass() + "/" + sysJobLog.getId());
+        String filename = job.getJobClass() + "/" + sysJobLog.getId();
+        MDC.put("job_file_name", filename);
     }
 
     @Override

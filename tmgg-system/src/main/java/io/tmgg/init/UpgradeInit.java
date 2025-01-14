@@ -55,6 +55,10 @@ public class UpgradeInit {
             }
         }
 
+        // 删除日志文件
+        {
+            db.executeQuietly("drop table sys_job_logging");
+        }
 
 
     }
