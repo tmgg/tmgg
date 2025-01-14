@@ -23,12 +23,14 @@ public class SysChart extends BaseEntity {
     @Column(length = 30)
     String name;
 
+    @NotNull
+    @Column(length = 30,unique = true)
+    String code;
+
     @Msg("sql文本")
     @Lob
     @Column(columnDefinition = DBConstants.TYPE_LONGTEXT)
     String sqlContent;
 
-    @Msg("分类")
-    @Column(length = 30)
-    String category;
+
 }

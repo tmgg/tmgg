@@ -1,8 +1,8 @@
 import {PlusOutlined} from '@ant-design/icons'
-import {Button, Popconfirm,Modal,Form,Input} from 'antd'
+import {Button, Form, Input, Modal, Popconfirm} from 'antd'
 import React from 'react'
 
-import {ButtonList,HttpUtil, ProTable} from "@tmgg/tmgg-base";
+import {ButtonList, HttpUtil, PageUtil, ProTable} from "@tmgg/tmgg-base";
 
 export default class extends React.Component {
 
@@ -20,25 +20,21 @@ export default class extends React.Component {
             title: '名称',
             dataIndex: 'name',
         },
-
         {
-            title: 'sql文本',
-            dataIndex: 'sqlContent',
+            title: '编码',
+            dataIndex: 'code',
         },
 
-        {
-            title: '分类',
-            dataIndex: 'category',
-        },
 
         {
             title: '操作',
             dataIndex: 'option',
-            valueType: 'option',
             render: (_, record) => (
                 <ButtonList>
+                    <a perm='sysChart:save' onClick={() => PageUtil.open('/chart/sysChart/design?id='+record.id)}> 设计 </a>
                     <a perm='sysChart:save' onClick={() => this.handleEdit(record)}> 修改 </a>
-                    <Popconfirm perm='sysChart:delete' title='是否确定删除系统图表'  onConfirm={() => this.handleDelete(record)}>
+                    <Popconfirm perm='sysChart:delete' title='是否确定删除系统图表'
+                                onConfirm={() => this.handleDelete(record)}>
                         <a>删除</a>
                     </Popconfirm>
                 </ButtonList>
@@ -46,26 +42,25 @@ export default class extends React.Component {
         },
     ]
 
-    handleAdd = ()=>{
+    handleAdd = () => {
         this.setState({formOpen: true, formValues: {}})
     }
 
-    handleEdit = record=>{
+    handleEdit = record => {
         this.setState({formOpen: true, formValues: record})
     }
 
 
     onFinish = values => {
-        HttpUtil.post( 'sysChart/save', values).then(rs => {
+        HttpUtil.post('sysChart/save', values).then(rs => {
             this.setState({formOpen: false})
             this.tableRef.current.reload()
         })
     }
 
 
-
     handleDelete = record => {
-        HttpUtil.postForm( 'sysChart/delete', {id:record.id}).then(rs => {
+        HttpUtil.postForm('sysChart/delete', {id: record.id}).then(rs => {
             this.tableRef.current.reload()
         })
     }
@@ -88,12 +83,10 @@ export default class extends React.Component {
                         <Form.Item label='名称' name='name'>
                             <Input/>
                         </Form.Item>
-                        <Form.Item label='sql文本' name='sqlContent'>
+                        <Form.Item label='编码' name='code'>
                             <Input/>
                         </Form.Item>
-                        <Form.Item label='分类' name='category'>
-                            <Input/>
-                        </Form.Item>
+
                     </>
                 }}
             />
@@ -111,17 +104,15 @@ export default class extends React.Component {
                       initialValues={this.state.formValues}
                       onFinish={this.onFinish}
                 >
-                    <Form.Item  name='id' noStyle></Form.Item>
+                    <Form.Item name='id' noStyle></Form.Item>
 
                     <Form.Item label='名称' name='name' rules={[{required: true}]}>
                         <Input/>
                     </Form.Item>
-                    <Form.Item label='sql文本' name='sqlContent' rules={[{required: true}]}>
-                        <Input.TextArea />
-                    </Form.Item>
-                    <Form.Item label='分类' name='category' >
+                    <Form.Item label='编码' name='code' rules={[{required: true}]}>
                         <Input/>
                     </Form.Item>
+
 
                 </Form>
             </Modal>
