@@ -7,6 +7,7 @@ import io.tmgg.dbtool.DbTool;
 import io.tmgg.lang.dao.BaseEntity;
 import io.tmgg.lang.dao.BaseService;
 import io.tmgg.modules.chart.QueryData;
+import io.tmgg.modules.chart.dao.SysChartDao;
 import io.tmgg.modules.chart.entity.SysChart;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,9 @@ public class SysChartService extends BaseService<SysChart> {
 
     @Resource
     DbTool db;
+
+    @Resource
+    SysChartDao sysChartDao;
 
     @Override
     public SysChart saveOrUpdate(SysChart input) throws Exception {
@@ -116,5 +120,8 @@ public class SysChartService extends BaseService<SysChart> {
         return option;
     }
 
+    public SysChart findByCode(String code) {
+        return sysChartDao.findOneByField("code",code);
+    }
 }
 
