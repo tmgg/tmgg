@@ -3,7 +3,7 @@
     {
       "pid":"sys",
       "id": "sysChart",
-      "name": "系统图表",
+      "name": "SQL图表",
       "perm": "sysChart",
       "path": "/chart/sysChart",
       "seq": 1
