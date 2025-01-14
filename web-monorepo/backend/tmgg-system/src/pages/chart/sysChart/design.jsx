@@ -84,14 +84,9 @@ export default class extends React.Component {
                     <Input.TextArea/>
                 </Form.Item>
 
-
-
-
                 <div style={{marginLeft: 100, marginTop:36, display: 'flex', gap: 16}}>
-
                     <Button type='primary' danger htmlType="submit">保存</Button>
                     <Button type='primary' onClick={this.chartRender}>预览</Button>
-
                 </div>
             </Form>
 
