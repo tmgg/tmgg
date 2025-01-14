@@ -15,14 +15,14 @@ export default class extends React.Component {
     tableRef = React.createRef()
 
     columns = [
-
-        {
-            title: '名称',
-            dataIndex: 'name',
-        },
         {
             title: '编码',
             dataIndex: 'code',
+        },
+
+        {
+            title: '标题',
+            dataIndex: 'title',
         },
 
 
@@ -31,8 +31,9 @@ export default class extends React.Component {
             dataIndex: 'option',
             render: (_, record) => (
                 <ButtonList>
-                    <a perm='sysChart:save' onClick={() => PageUtil.open('/chart/sysChart/design?id='+record.id)}> 设计 </a>
-                    <a perm='sysChart:save' onClick={() => this.handleEdit(record)}> 修改 </a>
+                    <a perm='sysChart:save'
+                       onClick={() => PageUtil.open('/chart/sysChart/design?id=' + record.id)}> 设计 </a>
+
                     <Popconfirm perm='sysChart:delete' title='是否确定删除系统图表'
                                 onConfirm={() => this.handleDelete(record)}>
                         <a>删除</a>
@@ -80,12 +81,14 @@ export default class extends React.Component {
                 columns={this.columns}
                 searchFormItemsRender={() => {
                     return <>
-                        <Form.Item label='名称' name='name'>
-                            <Input/>
-                        </Form.Item>
+
                         <Form.Item label='编码' name='code'>
                             <Input/>
                         </Form.Item>
+                        <Form.Item label='标题' name='title'>
+                            <Input/>
+                        </Form.Item>
+
 
                     </>
                 }}
@@ -105,14 +108,12 @@ export default class extends React.Component {
                       onFinish={this.onFinish}
                 >
                     <Form.Item name='id' noStyle></Form.Item>
-
-                    <Form.Item label='名称' name='name' rules={[{required: true}]}>
-                        <Input/>
-                    </Form.Item>
                     <Form.Item label='编码' name='code' rules={[{required: true}]}>
                         <Input/>
                     </Form.Item>
-
+                    <Form.Item label='标题' name='title' rules={[{required: true}]}>
+                        <Input/>
+                    </Form.Item>
 
                 </Form>
             </Modal>

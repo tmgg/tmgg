@@ -21,7 +21,7 @@ public class SysChart extends BaseEntity {
     @Msg("名称")
     @NotNull
     @Column(length = 30)
-    String name;
+    String title;
 
     @NotNull
     @Column(length = 30,unique = true)
@@ -29,8 +29,10 @@ public class SysChart extends BaseEntity {
 
     @Msg("sql文本")
     @Lob
-    @Column(columnDefinition = DBConstants.TYPE_LONGTEXT)
-    String sqlContent;
+    @Column(name = "sql_",columnDefinition = DBConstants.TYPE_LONGTEXT)
+    String sql;
 
+    @Column(length = 10)
+    String type;
 
 }
