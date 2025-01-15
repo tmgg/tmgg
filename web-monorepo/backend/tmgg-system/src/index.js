@@ -39,6 +39,7 @@ export function initSystem(){
 
         'chart/sysChart': require('./pages/chart/sysChart').default,
         'chart/sysChart/design': require('./pages/chart/sysChart/design').default,
-        'chart/sysChart/$code': require('./pages/chart/sysChart/$code').default,
+        // 动态路由
+        'chart/sysChart/:code': require('./pages/chart/sysChart/$code').default,
     })
 }
