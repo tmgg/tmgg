@@ -1,13 +1,10 @@
 package io.tmgg.modules.job.quartz;
 
-import ch.qos.logback.classic.Logger;
-import ch.qos.logback.classic.LoggerContext;
 import io.tmgg.modules.job.JobProp;
 import io.tmgg.modules.job.dao.SysJobDao;
 import io.tmgg.modules.job.entity.SysJob;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.Scheduler;
-import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -35,7 +32,7 @@ public class QuartzConfig implements CommandLineRunner {
 
 
     @Resource
-    QuartzManager quartzManager;
+    QuartzService quartzService;
 
     @Resource
     JobProp jobProp;
@@ -55,7 +52,7 @@ public class QuartzConfig implements CommandLineRunner {
         List<SysJob> list = sysJobDao.findAllEnabled();
         for (SysJob sysJob : list) {
             try {
-                quartzManager.scheduleJob(sysJob);
+                quartzService.scheduleJob(sysJob);
             } catch (ClassNotFoundException e) {
                 log.error("加载数据库任务失败：{}", e.getMessage());
             }

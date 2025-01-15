@@ -1,6 +1,7 @@
 import React from "react";
 import * as echarts from 'echarts';
-import {HttpUtil, PageUtil} from "../../system";
+import {HttpUtil} from "../../system";
+
 export class Chart extends React.Component {
 
     componentDidMount() {
@@ -25,8 +26,9 @@ export class Chart extends React.Component {
     }
 
     render() {
-        return   <div ref={this.domRef}
-                      style={{width: '100%', height: 500, marginTop: 36}}></div>
+        let height = this.props.height || '100%';
+        return <div ref={this.domRef}
+                    style={{width: '100%', minHeight: 500, height: height}}></div>
     }
 
 }

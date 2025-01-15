@@ -80,7 +80,7 @@ export default class extends React.Component {
               })
 
             }
-            }> 修改 </Button>
+            }> 编辑 </Button>
 
             <Popconfirm perm={basePerm + 'delete'} title={'是否确定删除'}
                         onConfirm={() => this.handleDelete(this.state.curRecord.id)}>

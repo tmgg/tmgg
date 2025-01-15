@@ -41,8 +41,6 @@ public class SysMenuService extends BaseService<SysMenu> {
      */
     public Map<String, SysMenu> findMenuMap() {
         List<SysMenu> sysMenuList = sysMenuDao.findMenuVisible();
-
-
         return sysMenuList.stream().collect(Collectors.toMap(BaseEntity::getId, t -> t));
     }
 
@@ -53,6 +51,20 @@ public class SysMenuService extends BaseService<SysMenu> {
         Collection<TreeNode> nodes = new ArrayList<>();
 
 
+        return convertTreeNode(all, nodes);
+    }
+
+    public List<TreeNode> menuTree() {
+        List<SysMenu> all = sysMenuDao.findMenuVisible();
+
+        Collection<TreeNode> nodes = new ArrayList<>();
+
+
+        return convertTreeNode(all, nodes);
+    }
+
+
+    public  List<TreeNode> convertTreeNode(List<SysMenu> all, Collection<TreeNode> nodes) {
         for (SysMenu sysMenu : all) {
             TreeNode treeNode = new TreeNode();
             treeNode.setId(sysMenu.getId());
@@ -63,9 +75,9 @@ public class SysMenuService extends BaseService<SysMenu> {
             nodes.add(treeNode);
         }
 
-        List<TreeNode> tree = TreeTool.buildTree(nodes);
-        return tree;
+        return TreeTool.buildTree(nodes);
     }
+
 
     public void reset() throws IOException, ClassNotFoundException {
         List<SysMenu> list = sysMenuDao.findAll();
@@ -83,4 +95,6 @@ public class SysMenuService extends BaseService<SysMenu> {
         permissionToDatabaseService.run();
 
     }
+
+
 }

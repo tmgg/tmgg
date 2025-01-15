@@ -9,6 +9,9 @@ import io.tmgg.lang.dao.BaseService;
 import io.tmgg.modules.chart.QueryData;
 import io.tmgg.modules.chart.dao.SysChartDao;
 import io.tmgg.modules.chart.entity.SysChart;
+import io.tmgg.modules.sys.dao.SysMenuDao;
+import io.tmgg.modules.sys.entity.SysMenu;
+import io.tmgg.web.enums.MenuType;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +30,9 @@ public class SysChartService extends BaseService<SysChart> {
     @Resource
     SysChartDao sysChartDao;
 
+    @Resource
+    SysMenuDao sysMenuDao;
+
     @Override
     public SysChart saveOrUpdate(SysChart input) throws Exception {
         boolean isNew = input.isNew();
@@ -34,9 +40,32 @@ public class SysChartService extends BaseService<SysChart> {
             return baseDao.save(input);
         }
 
-        SysChart old = baseDao.findOne(input);
-        BeanUtil.copyProperties(input, old, CopyOptions.create().setIgnoreProperties(BaseEntity.BASE_ENTITY_FIELDS).ignoreNullValue());
-        return baseDao.save(old);
+        String sysMenuPid = input.getSysMenuPid();
+
+        SysChart chart = baseDao.findOne(input);
+        chart.setSql(input.getSql());
+        chart.setType(input.getType());
+        chart.setSysMenuPid(sysMenuPid);
+
+        String code = chart.getCode();
+        String menuId = "sysChart-" + code;
+        sysMenuDao.deleteById(menuId);
+        if (sysMenuPid != null) {
+            SysMenu sysMenu = new SysMenu();
+            sysMenu.setId(menuId);
+            sysMenu.setName(chart.getTitle());
+            sysMenu.setType(MenuType.MENU);
+            sysMenu.setPid(sysMenuPid);
+
+            sysMenu.setPerm(code);
+            sysMenu.setVisible(true);
+            sysMenu.setPerm(code);
+            sysMenu.setPath("/chart/sysChart/view?code=" + code);
+            sysMenuDao.save(sysMenu);
+        }
+
+
+        return baseDao.save(chart);
     }
 
     public QueryData runSql(String sql) {
@@ -121,7 +150,7 @@ public class SysChartService extends BaseService<SysChart> {
     }
 
     public SysChart findByCode(String code) {
-        return sysChartDao.findOneByField("code",code);
+        return sysChartDao.findOneByField("code", code);
     }
 }
 

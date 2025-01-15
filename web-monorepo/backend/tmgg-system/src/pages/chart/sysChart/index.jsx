@@ -32,7 +32,7 @@ export default class extends React.Component {
             render: (_, record) => (
                 <ButtonList>
                     <a perm='sysChart:save'
-                       onClick={() => PageUtil.open('/chart/sysChart/design?id=' + record.id)}> 设计 </a>
+                       onClick={() => PageUtil.open('/chart/sysChart/design?id=' + record.id)}> 编辑 </a>
 
                     <Popconfirm perm='sysChart:delete' title='是否确定删除系统图表'
                                 onConfirm={() => this.handleDelete(record)}>

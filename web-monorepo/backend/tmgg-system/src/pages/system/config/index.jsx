@@ -59,7 +59,7 @@ export default class extends React.Component {
             valueType: 'option',
             render: (_, record) => (
                 <ButtonList>
-                    <a perm='sysConfig:save' onClick={() => this.handleEdit(record)}> 修改 </a>
+                    <a perm='sysConfig:save' onClick={() => this.handleEdit(record)}> 编辑 </a>
                 </ButtonList>
             ),
         },
@@ -88,7 +88,7 @@ export default class extends React.Component {
                 search={false}
             />
 
-            <Modal title='修改配置'
+            <Modal title='编辑配置'
                    open={this.state.formOpen}
                    onOk={() => this.formRef.current.submit()}
                    onCancel={() => this.setState({formOpen: false})}

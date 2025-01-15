@@ -34,6 +34,8 @@ public class DemoJob implements Job {
         log.info("空闲内存: {}", FileUtil.readableFileSize(SystemUtil.getFreeMemory()));
         log.info("总内存：{}", FileUtil.readableFileSize(SystemUtil.getTotalMemory()));
 
-        log.info("模拟发送邮件中给 {} ", email);
+        log.info("模拟发送邮件中给 {} ,暂停30秒", email);
+        ThreadUtil.sleep(30 * 1000);
+        log.info("任务结束");
     }
 }

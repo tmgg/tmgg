@@ -12,7 +12,7 @@ import java.util.Map;
 
 @Slf4j
 @Component
-public class QuartzManager {
+public class QuartzService {
 
 
     @Resource

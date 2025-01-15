@@ -64,7 +64,7 @@ export default class extends React.Component {
             valueType: 'option',
             render: (_, record) => (
                 <ButtonList>
-                    <a perm='sysDictItem:save' onClick={() => this.handleEdit(record)}> 修改 </a>
+                    <a perm='sysDictItem:save' onClick={() => this.handleEdit(record)}> 编辑 </a>
                     <Popconfirm perm='sysDictItem:delete' title='是否确定删除字典项'
                                 onConfirm={() => this.handleDelete(record)}>
                         <a>删除</a>

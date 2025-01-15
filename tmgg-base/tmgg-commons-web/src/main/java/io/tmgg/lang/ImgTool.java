@@ -1,12 +1,12 @@
 package io.tmgg.lang;
 
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.util.Base64Utils;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.Base64;
 
 public class ImgTool {
 
@@ -20,7 +20,7 @@ public class ImgTool {
         byte[] data = os.toByteArray();
         os.close();
 
-        return getDataUri(mimeType, "base64", Base64Utils.encodeToString(data));
+        return getDataUri(mimeType, "base64", Base64.getEncoder().encodeToString(data));
     }
 
 

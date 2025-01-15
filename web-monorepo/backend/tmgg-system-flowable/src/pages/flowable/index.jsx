@@ -60,7 +60,7 @@ export default class extends React.Component {
         <Space>
           <Link to={'/flowable/design?id=' + record.id}> 设计 </Link>
           <Link to={'/flowable/test?id=' + record.id}> 测试 </Link>
-          <a onClick={()=>this.handleEdit(record)}> 修改 </a>
+          <a onClick={()=>this.handleEdit(record)}> 编辑 </a>
           <Popconfirm perm={delPerm} title={'是否确定' + deleteTitle} onConfirm={() => this.handleDelete(record)}>
             <a>删除</a>
           </Popconfirm>

@@ -57,7 +57,7 @@ export default class extends React.Component {
       dataIndex: 'option',
       render: (_, record) => (
           <ButtonList>
-            <a perm='car:save' onClick={() => this.handleEdit(record)}> 修改 </a>
+            <a perm='car:save' onClick={() => this.handleEdit(record)}> 编辑 </a>
             <Popconfirm perm='car:delete' title='是否确定删除车辆'  onConfirm={() => this.handleDelete(record)}>
               <a>删除</a>
             </Popconfirm>

@@ -24,15 +24,18 @@ public class SysChart extends BaseEntity {
     String title;
 
     @NotNull
-    @Column(length = 30,unique = true)
+    @Column(length = 30, unique = true)
     String code;
 
     @Msg("sql文本")
     @Lob
-    @Column(name = "sql_",columnDefinition = DBConstants.TYPE_LONGTEXT)
+    @Column(name = "sql_", columnDefinition = DBConstants.TYPE_LONGTEXT)
     String sql;
 
     @Column(length = 10)
     String type;
+
+    // 菜单PID
+    String sysMenuPid;
 
 }

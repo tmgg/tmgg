@@ -9,7 +9,7 @@ import io.tmgg.data.FieldDesc;
 import io.tmgg.modules.job.JobDesc;
 import io.tmgg.modules.job.JobParamFieldProvider;
 import io.tmgg.modules.job.entity.SysJob;
-import io.tmgg.modules.job.quartz.QuartzManager;
+import io.tmgg.modules.job.quartz.QuartzService;
 import io.tmgg.modules.job.service.SysJobService;
 import io.tmgg.lang.SpringTool;
 import io.tmgg.lang.ann.Msg;
@@ -42,7 +42,7 @@ public class SysJobController {
     private Scheduler scheduler;
 
     @Resource
-    private QuartzManager quartzManager;
+    private QuartzService quartzService;
 
     @Data
     public static class QueryParam{
@@ -104,7 +104,7 @@ public class SysJobController {
     @GetMapping("triggerJob")
     public AjaxResult triggerJob(String id) throws SchedulerException, ClassNotFoundException {
         SysJob job = service.findOne(id);
-        quartzManager.triggerJob(job);
+        quartzService.triggerJob(job);
 
         return AjaxResult.ok().msg("执行一次命令已发送");
     }

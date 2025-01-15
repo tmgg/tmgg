@@ -113,7 +113,7 @@ export default class extends React.Component {
     root.set('id', id)
     root.set('name',name)
 
-    message.success('修改完成');
+    message.success('编辑完成');
     this.setState({openXmlModal:false})
   }
 
@@ -196,7 +196,7 @@ export default class extends React.Component {
 
 
       <Modal title='流程定义XML文本内容' open={this.state.openXmlModal}
-             okText='修改'
+             okText='确定'
              width='70vw'
              onOk={this.handleChangeXml}
               onCancel={()=>this.setState({openXmlModal:false})}>

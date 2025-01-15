@@ -35,9 +35,10 @@ export function initSystem(){
 
         'job': require('./pages/job').default,
         'job/logList': require('./pages/job/logList').default,
-
+        'job/status': require('./pages/job/status').default,
 
         'chart/sysChart': require('./pages/chart/sysChart').default,
         'chart/sysChart/design': require('./pages/chart/sysChart/design').default,
+        'chart/sysChart/view': require('./pages/chart/sysChart/view').default,
     })
 }

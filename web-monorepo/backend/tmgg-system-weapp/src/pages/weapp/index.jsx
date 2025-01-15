@@ -44,7 +44,7 @@ export default class extends React.Component {
         return (
           <Space>
 
-            <Button size='small' onClick={() => this.handleEdit(record)}> 修改 </Button>
+            <Button size='small' onClick={() => this.handleEdit(record)}> 编辑 </Button>
             <Popconfirm title='是否确定删除?' onConfirm={() => this.handleDelete(record)}>
               <Button size='small'>删除</Button>
             </Popconfirm>

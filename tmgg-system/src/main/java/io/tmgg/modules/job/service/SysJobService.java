@@ -5,7 +5,7 @@ import io.tmgg.modules.job.dao.SysJobLogDao;
 import io.tmgg.modules.job.entity.SysJob;
 import io.tmgg.modules.job.JobDesc;
 import io.tmgg.modules.job.entity.SysJobLog;
-import io.tmgg.modules.job.quartz.QuartzManager;
+import io.tmgg.modules.job.quartz.QuartzService;
 import io.tmgg.lang.dao.BaseService;
 import io.tmgg.lang.dao.specification.JpaQuery;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +23,7 @@ import java.util.List;
 public class SysJobService extends BaseService<SysJob> {
 
     @Resource
-    QuartzManager quartzManager;
+    QuartzService quartzService;
 
     @Resource
     SysJobLogDao sysJobLogDao;
@@ -56,9 +56,9 @@ public class SysJobService extends BaseService<SysJob> {
             throw new IllegalStateException(jobClass + "不存在，请确认");
         }
 
-        quartzManager.deleteJob(db);
+        quartzService.deleteJob(db);
         if (db.getEnabled()) {
-            quartzManager.scheduleJob(db);
+            quartzService.scheduleJob(db);
         }
 
         return db;
@@ -70,7 +70,7 @@ public class SysJobService extends BaseService<SysJob> {
         log.info("删除定时任务 {}", id);
         SysJob job = findOne(id);
         Assert.notNull(job, "该任务已被删除，请勿重复操作");
-        quartzManager.deleteJob(job);
+        quartzService.deleteJob(job);
 
         sysJobLogDao.deleteByJobId(id);
 

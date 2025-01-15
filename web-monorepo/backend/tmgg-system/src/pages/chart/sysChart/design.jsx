@@ -1,7 +1,7 @@
 import React from "react";
-import {Button, Card, Collapse, Form, Input, Radio, Splitter} from "antd";
+import {Button, Card, Collapse, Form, Input, Radio, Row, Splitter} from "antd";
 import * as echarts from 'echarts';
-import {HttpUtil, PageUtil, SysUtil} from "@tmgg/tmgg-base";
+import {FieldRemoteTreeSelect, HttpUtil, PageUtil, SysUtil} from "@tmgg/tmgg-base";
 
 export default class extends React.Component {
 
@@ -74,28 +74,37 @@ export default class extends React.Component {
 
     render() {
         return <><Card>
-            <Form ref={this.formRef} labelCol={{flex: '100px'}} onValuesChange={(changedValues, values) => {
-                this.setState({form: values})
-            }}
+            <Form ref={this.formRef}
+                  labelCol={{flex: '100px'}}
+                  onValuesChange={(changedValues, values) => {
+                      this.setState({form: values})
+                  }}
                   onFinish={this.onFinish}
             >
                 <Form.Item name='id' noStyle></Form.Item>
-                <Form.Item label='标题' name='title' rules={[{required: true}]}>
-                    <Input/>
-                </Form.Item>
-                <Form.Item label='类型' name='type' rules={[{required: true}]}>
-                    <Radio.Group options={[
-                        {
-                            label: '柱状图', value: 'bar'
-                        },
-                        {
-                            label: '折线图', value: 'line'
-                        },
-                        {
-                            label: '饼图', value: 'pie'
-                        }
-                    ]}></Radio.Group>
-                </Form.Item>
+                <Row>
+                    <Form.Item label='标题' name='title' rules={[{required: true}]}>
+                        <Input/>
+                    </Form.Item>
+                    <Form.Item label='嵌入菜单' name='sysMenuPid'>
+                        <FieldRemoteTreeSelect url='sysMenu/menuTree'/>
+                    </Form.Item>
+                    <Form.Item label='类型' name='type' rules={[{required: true}]} >
+                        <Radio.Group
+                            options={[
+                            {
+                                label: '柱状图', value: 'bar'
+                            },
+                            {
+                                label: '折线图', value: 'line'
+                            },
+                            {
+                                label: '饼图', value: 'pie'
+                            }
+                        ]} style={{width:300}}></Radio.Group>
+                    </Form.Item>
+                </Row>
+
                 <Form.Item label='sql' name='sql' rules={[{required: true}]}
                            help={<a onClick={this.fillDemo}>填入示例</a>}>
                     <Input.TextArea/>
@@ -116,7 +125,7 @@ export default class extends React.Component {
                     </Splitter.Panel>
                     <Splitter.Panel>
                         <Collapse
-                            style={{margin:16}}
+                            style={{margin: 16}}
                             items={[
                                 {
                                     key: '1',
