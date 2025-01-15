@@ -108,7 +108,7 @@ export default class extends React.Component {
 
                 <Form.Item label='sql' name='sql' rules={[{required: true}]}
                            help={<a onClick={this.fillDemo}>填入示例</a>}>
-                    <Input.TextArea/>
+                    <Input.TextArea rows={5}/>
                 </Form.Item>
 
                 <div style={{marginLeft: 100, marginTop: 36, display: 'flex', gap: 16}}>
