@@ -48,10 +48,11 @@ export default class extends React.Component {
 
     chartRender = () => {
         const values = this.formRef.current.getFieldsValue();
-        HttpUtil.post('sysChart/preview', values).then(rs => {
-            this.myChart.setOption(rs, true);
-        })
-
+        if(values.sql){
+            HttpUtil.post('sysChart/preview', values).then(rs => {
+                this.myChart.setOption(rs, true);
+            })
+        }
     };
     fillDemo = () => {
         const sql = 'select type, count(*) 数量, max(seq) 最大序号 from sys_menu group by type';
