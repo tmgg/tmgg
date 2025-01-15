@@ -60,7 +60,7 @@ public class SysChartService extends BaseService<SysChart> {
             sysMenu.setPerm(code);
             sysMenu.setVisible(true);
             sysMenu.setPerm(code);
-            sysMenu.setPath("/chart/sysChart/view?code=" + code);
+            sysMenu.setPath("/chart/sysChart/" + code);
             sysMenuDao.save(sysMenu);
         }
 

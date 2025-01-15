@@ -66,16 +66,24 @@ export const StrUtil = {
 
     /**
      * 截取字符串, 如果不包含，则原样返回
-     * @param s
-     * @param sub
+     * @param source
+     * @param str
      * @returns {string|null}
      */
-    subAfter(s, sub) {
-        if (s == null) {
-            return s;
+    subAfter(source, str) {
+        if (source == null) {
+            return source;
         }
-        const index = s.indexOf(sub)
-        return index === -1 ? s : s.substring(index + 1);
+        const index = source.indexOf(str)
+        return index === -1 ? source : source.substring(index + 1);
+    },
+
+    subAfterLast(source, str) {
+        if (source == null) {
+            return source;
+        }
+        const index = source.lastIndexOf(str)
+        return index === -1 ? source : source.substring(index + 1);
     },
 
     subBefore(s, sub) {
