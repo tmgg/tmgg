@@ -5,6 +5,6 @@ WORKDIR build-node
 
 
 ADD web/package.json .
-RUN npm install && rm package.* && ls
+RUN npm install --force && rm package.*
 
 RUN npm config set registry https://registry.npmmirror.com/
