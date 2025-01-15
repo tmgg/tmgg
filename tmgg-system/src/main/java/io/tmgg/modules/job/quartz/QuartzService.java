@@ -1,13 +1,11 @@
 package io.tmgg.modules.job.quartz;
 
 import io.tmgg.modules.job.entity.SysJob;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.*;
 import org.springframework.stereotype.Component;
 
-import jakarta.annotation.Resource;
-
-import java.util.List;
 import java.util.Map;
 
 @Slf4j
@@ -20,32 +18,31 @@ public class QuartzService {
 
 
     public void deleteJob(SysJob job) throws SchedulerException {
-        JobKey jobKey = JobKey.jobKey(job.getName(),job.getGroup());
+        JobKey jobKey = JobKey.jobKey(job.getName(), job.getGroup());
         if (scheduler.checkExists(jobKey)) {
-            List<? extends Trigger> triggers = scheduler.getTriggersOfJob(jobKey);
-            for (Trigger trigger : triggers) {
-                scheduler.pauseTrigger(trigger.getKey());
-                scheduler.deleteJob(jobKey);
-            }
+            scheduler.deleteJob(jobKey);
+
         }
     }
 
     public void scheduleJob(SysJob job) throws SchedulerException, ClassNotFoundException {
         JobDetail jobDetail = getJobDetail(job);
 
+        CronScheduleBuilder scheduleBuilder = CronScheduleBuilder.cronSchedule(job.getCron())
+                .withMisfireHandlingInstructionFireAndProceed(); // 当调度错失时，执行一次
+
         Trigger trigger = TriggerBuilder.newTrigger()
                 .withIdentity(job.getName(), job.getGroup())
-                .withSchedule(CronScheduleBuilder.cronSchedule(job.getCron()))
+                .withSchedule(scheduleBuilder)
                 .build();
 
         scheduler.scheduleJob(jobDetail, trigger);
-
     }
 
 
     public void triggerJob(SysJob job) throws SchedulerException, ClassNotFoundException {
         if (job.getEnabled()) {
-            JobKey jobKey = JobKey.jobKey(job.getName(),job.getGroup());
+            JobKey jobKey = JobKey.jobKey(job.getName(), job.getGroup());
             scheduler.triggerJob(jobKey);
         } else {
             deleteJob(job);
@@ -70,7 +67,7 @@ public class QuartzService {
         Map<String, Object> jobDataMap = job.getJobDataMap();
 
         JobDetail jobDetail = JobBuilder.newJob(cls)
-                .withIdentity(job.getName(),job.getGroup())
+                .withIdentity(job.getName(), job.getGroup())
                 .usingJobData(new JobDataMap(jobDataMap))
                 .build();
         return jobDetail;

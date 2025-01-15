@@ -14,6 +14,7 @@ public class SysBootApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(SysBootApplication.class, args);
+        System.out.println("启动完成");
     }
 
 }

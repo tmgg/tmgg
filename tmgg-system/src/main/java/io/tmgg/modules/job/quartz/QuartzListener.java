@@ -86,15 +86,16 @@ public class QuartzListener implements JobListener {
 
         Date now = new Date();
 
-        SysJob job = sysJobDao.findByName(jobName);
 
         String jobLogId = MDC.get("job_log_id");
         SysJobLog jobLog = sysJobLogDao.findOne(jobLogId);
-        jobLog.setJobRunTime(context.getJobRunTime());
-        jobLog.setEndTime(now);
+        if(jobLog != null){ // 可能被手动清理
+            jobLog.setJobRunTime(context.getJobRunTime());
+            jobLog.setEndTime(now);
 
-        jobLog.setResult(result);
-        sysJobLogDao.save(jobLog);
+            jobLog.setResult(result);
+            sysJobLogDao.save(jobLog);
+        }
 
         MDC.clear();
     }
