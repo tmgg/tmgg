@@ -1,15 +1,16 @@
 import React from "react";
-import {Chart, PageUtil} from "@tmgg/tmgg-base";
+import {Chart} from "@tmgg/tmgg-base";
 import {Card} from "antd";
-import {history} from "umi";
+import {withRouter} from "umi";
 
-export default class extends React.Component {
-
+class ChartView extends React.Component {
 
     render() {
-        const code = PageUtil.currentPathnameLastPart()
+        const code = this.props.match.params.code
         return <Card>
             <Chart code={code} height='calc(100vh - 200px)'/>
         </Card>
     }
 }
+
+export default withRouter(ChartView)

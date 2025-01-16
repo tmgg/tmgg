@@ -2,7 +2,8 @@
 
 import React from 'react';
 import {Button, Divider, Layout, Menu} from 'antd';
-import {history, Link, Outlet} from 'umi';
+
+import {history, Link, Outlet,withRouter} from 'umi';
 import "./index.less"
 import * as Icons from '@ant-design/icons';
 import defaultLogo from '../../asserts/logo.png'
@@ -181,7 +182,7 @@ export default class extends React.Component {
                     </TabMenu>
 
                     <div className='tab-content'>
-                        <Outlet/>
+                       <Outlet context={{xxx:'xxxx'}} />
                     </div>
                 </Content>
 

@@ -5,13 +5,25 @@ import {HttpUtil} from "../../system";
 export class Chart extends React.Component {
 
     componentDidMount() {
+        this.init();
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        this.init()
+    }
+
+    init() {
         const {code} = this.props
         HttpUtil.get("sysChart/getOption/" + code).then(rs => {
-            const myChart = echarts.init(this.domRef.current);
-            myChart.setOption(rs, true);
-            this.myChart = myChart;
+            if(this.myChart) {
+                this.myChart.clear()
+            }
+            this.myChart = echarts.init(this.domRef.current);
+            this.myChart.setOption(rs, true);
         })
     }
+
+
 
     domRef = React.createRef()
 
