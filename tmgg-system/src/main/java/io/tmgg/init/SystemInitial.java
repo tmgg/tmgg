@@ -9,7 +9,7 @@ import io.tmgg.modules.sys.entity.SysRole;
 import io.tmgg.modules.sys.entity.SysUser;
 import io.tmgg.modules.sys.service.SysMenuService;
 import io.tmgg.modules.sys.service.JsonToDatabaseService;
-import io.tmgg.modules.sys.service.PermissionToDatabaseService;
+import io.tmgg.modules.sys.service.SysMenuParserPermissionImpl;
 import io.tmgg.modules.sys.service.SysConfigService;
 import io.tmgg.modules.sys.service.SysRoleService;
 import io.tmgg.modules.sys.entity.DataPermType;
@@ -55,7 +55,7 @@ public class SystemInitial implements CommandLineRunner {
 
 
     @Resource
-    PermissionToDatabaseService permissionToDatabaseService;
+    SysMenuParserPermissionImpl sysMenuParserPermissionImpl;
 
     @Resource
     SysProp sysProp;
@@ -77,9 +77,7 @@ public class SystemInitial implements CommandLineRunner {
         dictAnnHandler.run();
 
 
-        jsonToDatabaseService.parseAndSave(null);
-        permissionToDatabaseService.run();
-
+        jsonToDatabaseService.init();
 
 
         SysRole adminRole = sysRoleService.initDefaultAdmin();

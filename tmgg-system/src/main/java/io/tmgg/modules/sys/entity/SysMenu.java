@@ -63,6 +63,7 @@ public class SysMenu extends BaseEntity implements Tree<SysMenu> {
     private Integer seq;
 
 
+
     /**
      * 子节点（表中不存在，用于构造树）
      */

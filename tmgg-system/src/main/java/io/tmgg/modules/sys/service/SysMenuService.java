@@ -1,21 +1,19 @@
 
 package io.tmgg.modules.sys.service;
 
+import io.tmgg.lang.SpringTool;
 import io.tmgg.lang.TreeTool;
 import io.tmgg.lang.dao.BaseEntity;
 import io.tmgg.lang.dao.BaseService;
 import io.tmgg.lang.obj.TreeNode;
+import io.tmgg.modules.SysMenuParser;
 import io.tmgg.modules.sys.dao.SysMenuDao;
 import io.tmgg.modules.sys.entity.SysMenu;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -33,7 +31,7 @@ public class SysMenuService extends BaseService<SysMenu> {
     private JsonToDatabaseService jsonToDatabaseService;
 
     @Resource
-    private PermissionToDatabaseService permissionToDatabaseService;
+    private SysMenuParserPermissionImpl sysMenuParserPermissionImpl;
 
 
     /**
@@ -79,7 +77,7 @@ public class SysMenuService extends BaseService<SysMenu> {
     }
 
 
-    public void reset() throws IOException, ClassNotFoundException {
+    public void reset() throws Exception {
         List<SysMenu> list = sysMenuDao.findAll();
         for (SysMenu sysMenu : list) {
             try {
@@ -90,10 +88,11 @@ public class SysMenuService extends BaseService<SysMenu> {
         }
 
 
-        jsonToDatabaseService.cleanCache();
-        jsonToDatabaseService.parseAndSave(SysMenu.class);
-        permissionToDatabaseService.run();
-
+        Collection<SysMenuParser> beans = SpringTool.getBeans(SysMenuParser.class);
+        for (SysMenuParser parser : beans) {
+            Collection<SysMenu> menus = parser.getMenuList();
+            sysMenuDao.saveAll(menus);
+        }
     }
 
 

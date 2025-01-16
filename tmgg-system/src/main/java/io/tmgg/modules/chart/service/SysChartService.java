@@ -1,10 +1,7 @@
 package io.tmgg.modules.chart.service;
 
-import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.bean.copier.CopyOptions;
 import cn.hutool.core.util.StrUtil;
 import io.tmgg.dbtool.DbTool;
-import io.tmgg.lang.dao.BaseEntity;
 import io.tmgg.lang.dao.BaseService;
 import io.tmgg.modules.chart.QueryData;
 import io.tmgg.modules.chart.dao.SysChartDao;
@@ -50,22 +47,35 @@ public class SysChartService extends BaseService<SysChart> {
         String code = chart.getCode();
         String menuId = "sysChart-" + code;
         sysMenuDao.deleteById(menuId);
-        if (sysMenuPid != null) {
-            SysMenu sysMenu = new SysMenu();
-            sysMenu.setId(menuId);
-            sysMenu.setName(chart.getTitle());
-            sysMenu.setType(MenuType.MENU);
-            sysMenu.setPid(sysMenuPid);
-
-            sysMenu.setPerm(code);
-            sysMenu.setVisible(true);
-            sysMenu.setPerm(code);
-            sysMenu.setPath("/chart/sysChart/" + code);
+        SysMenu sysMenu = buildMenu(chart);
+        if (sysMenu != null) {
             sysMenuDao.save(sysMenu);
         }
 
 
         return baseDao.save(chart);
+    }
+
+    public SysMenu buildMenu(SysChart chart) {
+        String code = chart.getCode();
+        String sysMenuPid = chart.getSysMenuPid();
+        if (StrUtil.isEmpty(sysMenuPid)) {
+            return null;
+        }
+        String menuId = "sysChart-" + code;
+
+        SysMenu sysMenu = new SysMenu();
+        sysMenu.setId(menuId);
+        sysMenu.setName(chart.getTitle());
+        sysMenu.setType(MenuType.MENU);
+        sysMenu.setPid(sysMenuPid);
+
+        sysMenu.setPerm(code);
+        sysMenu.setVisible(true);
+        sysMenu.setPerm(code);
+        sysMenu.setPath("/chart/sysChart/" + code);
+
+        return sysMenu;
     }
 
     public QueryData runSql(String sql) {

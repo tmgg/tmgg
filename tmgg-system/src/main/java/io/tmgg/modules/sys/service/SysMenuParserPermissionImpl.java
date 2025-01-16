@@ -6,6 +6,7 @@ import cn.hutool.extra.spring.SpringUtil;
 import io.tmgg.lang.LongTool;
 import io.tmgg.lang.ann.Msg;
 import io.tmgg.lang.ann.MsgTool;
+import io.tmgg.modules.SysMenuParser;
 import io.tmgg.modules.sys.dao.SysMenuDao;
 import io.tmgg.modules.sys.entity.SysMenu;
 import io.tmgg.web.annotion.HasPermission;
@@ -25,7 +26,7 @@ import java.util.*;
 
 @Component
 @Slf4j
-public class PermissionToDatabaseService {
+public class SysMenuParserPermissionImpl implements SysMenuParser {
 
 
     @Resource
@@ -38,41 +39,13 @@ public class PermissionToDatabaseService {
     private PermissionService permissionService;
 
 
-
-    public void run() throws IOException, ClassNotFoundException {
+    @Override
+    public Collection<SysMenu> getMenuList() throws Exception {
         log.info("开始分析代码中的权限码");
-        Map<String, String> dict = new CaseInsensitiveMap<>(); // 翻译
-        {
-            // 添加常见翻译
-            dict.put("delete","删除");
-            dict.put("batchDelete","批量删除");
-            dict.put("page","列表");
-            dict.put("list","列表");
-            dict.put("save","增改");
-            dict.put("disable","禁用");
-            dict.put("disableAll","禁用所有");
-            dict.put("enable","启用");
-            dict.put("enableAll","启用所有");
-            dict.put("export","导出");
-            dict.put("exportExcel","导出Excel");
 
-            dict.put("sync","同步");
-            dict.put("batchSave","批量增改");
-            dict.put("reset","重置");
-            dict.put("status","查看状态");
-            dict.put("detail","查看");
-            dict.put("get","查看");
-        }
+        Set<SysMenu> result = new HashSet<>();
 
-
-        List<Class<?>> entityList = jpaService.findAllClass();
-
-        for (Class<?> cls : entityList) {
-            String remark = MsgTool.getMsg(cls);
-            if (remark != null) {
-                dict.put(cls.getSimpleName().toLowerCase(), remark);
-            }
-        }
+        Map<String, String> dict = getDict();
 
 
         //1.获取所有后端接口
@@ -111,41 +84,61 @@ public class PermissionToDatabaseService {
                     }
                 }
 
-                addMenu(perm, permLabel);
+                // 构造btn
+                {
+                    Assert.state(!perm.contains(","), "权限中不能包含逗号" + perm); //  旧版本支持，新版本不支持
+                    SysMenu btn = new SysMenu();
+                    btn.setName(permLabel);
+                    btn.setPerm(perm);
+                    btn.setType(MenuType.BTN);
+
+                    String pid = StringUtils.substringBeforeLast(perm, ":");
+                    btn.setPid(pid);
+                    btn.setVisible(false);
+                    btn.setId(convertPermToId(perm));
+                    result.add(btn);
+                }
             }
         }
 
+        return result;
     }
 
 
+    private Map<String, String> getDict() throws IOException, ClassNotFoundException {
+        Map<String, String> dict = new CaseInsensitiveMap<>(); // 翻译
+        {
+            // 添加常见翻译
+            dict.put("delete","删除");
+            dict.put("batchDelete","批量删除");
+            dict.put("page","列表");
+            dict.put("list","列表");
+            dict.put("save","增改");
+            dict.put("disable","禁用");
+            dict.put("disableAll","禁用所有");
+            dict.put("enable","启用");
+            dict.put("enableAll","启用所有");
+            dict.put("export","导出");
+            dict.put("exportExcel","导出Excel");
 
-
-    private void addMenu(String perm, String permLabel) {
-        SysMenu byPerm = menuDao.findByPerm(perm);
-        if (byPerm != null) {
-            return;
+            dict.put("sync","同步");
+            dict.put("batchSave","批量增改");
+            dict.put("reset","重置");
+            dict.put("status","查看状态");
+            dict.put("detail","查看");
+            dict.put("get","查看");
         }
 
-        Assert.state(!perm.contains(","), "权限中不能包含逗号" + perm); //  旧版本支持，新版本不支持
 
-        SysMenu old = menuDao.findByPerm(perm);
+        List<Class<?>> entityList = jpaService.findAllClass();
 
-        SysMenu btn = old == null ? new SysMenu() : old;
-
-
-        btn.setName(permLabel);
-        btn.setPerm(perm);
-        btn.setType(MenuType.BTN);
-
-        String pid = StringUtils.substringBeforeLast(perm, ":");
-        btn.setPid(pid);
-        btn.setVisible(false);
-
-        if (btn.getId() == null) {
-            btn.setId(convertPermToId(perm));
+        for (Class<?> cls : entityList) {
+            String remark = MsgTool.getMsg(cls);
+            if (remark != null) {
+                dict.put(cls.getSimpleName().toLowerCase(), remark);
+            }
         }
-
-        menuDao.save(btn);
+        return dict;
     }
 
 
@@ -159,6 +152,7 @@ public class PermissionToDatabaseService {
     private String convertPermToId(String perm) {
         return String.valueOf(LongTool.strToMd5Long(perm));
     }
+
 
 
 }

@@ -8,6 +8,8 @@ import io.tmgg.SysProp;
 import io.tmgg.jackson.JsonTool;
 import io.tmgg.lang.SpringTool;
 import io.tmgg.lang.dao.BaseDao;
+import io.tmgg.modules.SysMenuParser;
+import io.tmgg.modules.sys.entity.SysMenu;
 import io.tmgg.web.db.DbCacheDao;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +22,7 @@ import org.springframework.util.Assert;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -28,7 +31,7 @@ import java.util.Map;
  */
 @Slf4j
 @Component
-public class JsonToDatabaseService {
+public class JsonToDatabaseService implements SysMenuParser {
 
     public static final String CLASSPATH_DATABASE_XML = "classpath*:database/*.json";
 
@@ -54,12 +57,16 @@ public class JsonToDatabaseService {
     @Resource
     DbCacheDao dbCacheDao;
 
+    public void init() throws Exception {
+        this.parseAndSave(null);
+    }
+    @Override
+    public Collection<SysMenu> getMenuList() throws Exception {
+         parseAndSave(SysMenu.class);
+    }
 
-    /**
-     *
-     */
-    public void parseAndSave(Class<?> cls) {
-        try {
+
+    public void parseAndSave(Class<?> cls) throws Exception{
             log.info("开始解析并初始化默认数据");
             log.info("开始初始化默认数据，扫描路径为 {}", CLASSPATH_DATABASE_XML);
 
@@ -97,28 +104,22 @@ public class JsonToDatabaseService {
                     dbCacheDao.save(cacheKey, md5);
                 }
             }
-        } catch (Exception e) {
-            throw new IllegalStateException(e);
-        }
+
 
     }
 
-    public void  cleanCache(){
+    private void  cleanCache(){
         dbCacheDao.cleanByPrefix(CACHE_PREFIX);
     }
 
-    private void handleRecord(String entityName, Map<String, Object> beanMap) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+    private Persistable<String> parseRecord(String entityName, Map<String, Object> beanMap) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
         Class entityCls = jpaService.findOne(entityName);
         if (entityCls == null) {
             System.err.println("实体标签异常 " + entityName);
             throw new IllegalStateException();
         }
 
-        String daoName = entityCls.getSimpleName() + "Dao";
-        daoName = StrUtil.lowerFirst(daoName);
-        BaseDao dao = SpringTool.getBean(daoName);
 
-        Assert.state(dao != null, daoName + "不存在");
 
         Persistable<String> bean = (Persistable<String>) entityCls.getConstructor().newInstance();
 
@@ -138,11 +139,25 @@ public class JsonToDatabaseService {
 
         Assert.state(!bean.isNew(), "实体数据必须包含ID：" + bean.getClass().getSimpleName());
 
+        return bean;
+    }
+
+    private void handleRecord(String entityName, Map<String, Object> beanMap) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+        Persistable<String> bean = parseRecord(entityName, beanMap);
+
+        Assert.state(!bean.isNew(), "实体数据必须包含ID：" + bean.getClass().getSimpleName());
+
         Boolean updatable = (Boolean) beanMap.get(ATTR_UPDATE);
 
 
         String findField = StringUtils.trimToNull((String) beanMap.get(ATTR_PK));
 
+        Class entityCls = jpaService.findOne(entityName);
+        String daoName = entityCls.getSimpleName() + "Dao";
+        daoName = StrUtil.lowerFirst(daoName);
+        BaseDao dao = SpringTool.getBean(daoName);
+
+        Assert.state(dao != null, daoName + "不存在");
 
         Persistable old;
         if (findField == null) {
@@ -155,8 +170,6 @@ public class JsonToDatabaseService {
         if (old == null || updatable == null || updatable) {
             dao.save(bean);
         }
-
     }
-
 
 }
