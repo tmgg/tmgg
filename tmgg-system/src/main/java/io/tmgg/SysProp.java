@@ -25,17 +25,6 @@ public class SysProp {
 
 
     /**
-     * 自动更新菜单,枚举，数据库（database目录下的json文件)
-     */
-    private boolean autoUpdateSysData = true;
-
-    /**
-     * 强制更新database目录下的json文件到数据库
-     */
-    private boolean foreUpdateJsonDatabase = false;
-
-
-    /**
      * 页面右上角，点击关于显示的内容文件
      */
     private String aboutFile = "about.md";
@@ -54,6 +43,10 @@ public class SysProp {
     private String cacheDir = "/tmgg/cache" ;
 
 
+    /**
+     * 启动时重置菜单
+     */
+    private boolean resetMenuOnStartup = true;
 
 
 

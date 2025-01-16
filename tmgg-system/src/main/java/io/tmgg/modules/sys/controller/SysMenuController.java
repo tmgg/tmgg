@@ -36,7 +36,7 @@ public class SysMenuController {
 
     @HasPermission
     @RequestMapping("reset")
-    public AjaxResult reset() throws IOException, ClassNotFoundException {
+    public AjaxResult reset() throws Exception {
         sysMenuService.reset();
         return AjaxResult.ok();
     }

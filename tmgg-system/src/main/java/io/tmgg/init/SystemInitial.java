@@ -5,14 +5,10 @@ import io.tmgg.SysProp;
 import io.tmgg.framework.dict.DictAnnHandler;
 import io.tmgg.lang.PasswordTool;
 import io.tmgg.modules.sys.dao.SysUserDao;
+import io.tmgg.modules.sys.entity.DataPermType;
 import io.tmgg.modules.sys.entity.SysRole;
 import io.tmgg.modules.sys.entity.SysUser;
-import io.tmgg.modules.sys.service.SysMenuService;
-import io.tmgg.modules.sys.service.JsonToDatabaseService;
-import io.tmgg.modules.sys.service.SysMenuParserPermissionImpl;
-import io.tmgg.modules.sys.service.SysConfigService;
-import io.tmgg.modules.sys.service.SysRoleService;
-import io.tmgg.modules.sys.entity.DataPermType;
+import io.tmgg.modules.sys.service.*;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
@@ -24,7 +20,6 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component(SystemInitial.BEAN_NAME)
 public class SystemInitial implements CommandLineRunner {
-
 
 
     public static final String BEAN_NAME = "sysInit";
@@ -53,7 +48,6 @@ public class SystemInitial implements CommandLineRunner {
     DictAnnHandler dictAnnHandler;
 
 
-
     @Resource
     SysMenuParserPermissionImpl sysMenuParserPermissionImpl;
 
@@ -63,21 +57,22 @@ public class SystemInitial implements CommandLineRunner {
     @Resource
     UpgradeInit upgradeInit;
 
+
     @Override
     public void run(String... args) throws Exception {
         log.info("开支执行系统初始化程序： {}", getClass().getName());
-        if(!sysProp.isAutoUpdateSysData()){
-            log.info("自动更新系统数据已关闭");
-            return;
-        }
 
-        upgradeInit.init();;
+        upgradeInit.init();
 
         dictEnumHandler.run();
         dictAnnHandler.run();
 
 
         jsonToDatabaseService.init();
+
+        if (sysProp.isResetMenuOnStartup()) {
+            sysMenuService.reset();
+        }
 
 
         SysRole adminRole = sysRoleService.initDefaultAdmin();
@@ -99,7 +94,7 @@ public class SystemInitial implements CommandLineRunner {
             admin.getRoles().add(adminRole);
             admin.setDataPermType(DataPermType.ALL);
 
-            admin=  sysUserDao.save(admin);
+            admin = sysUserDao.save(admin);
         }
 
         if (StrUtil.isBlankIfStr(admin.getPassword())) {
@@ -112,9 +107,6 @@ public class SystemInitial implements CommandLineRunner {
         }
 
     }
-
-
-
 
 
 }
