@@ -46,6 +46,7 @@ public class SysChartService extends BaseService<SysChart> {
         chart.setSql(input.getSql());
         chart.setType(input.getType());
         chart.setSysMenuPid(sysMenuPid);
+        chart.setTitle(input.getTitle());
 
         String menuId = chart.getId();
         sysMenuDao.deleteById(menuId);
