@@ -1,22 +1,31 @@
 import React from "react";
-import {Card, Table, Tabs} from "antd";
+import {Card, Splitter, Table, Tabs} from "antd";
 import {HttpUtil} from "@tmgg/tmgg-base";
 
 export default class extends React.Component {
 
     state = {
         dbSize: [],
-        tableSize: []
+        tableSize: [],
+        schema: null
     }
 
     componentDidMount() {
         HttpUtil.get('mysqlStatus/dbSize').then(rs => {
             this.setState({dbSize: rs})
         })
+        this.loadTableSize();
+    }
 
-        HttpUtil.get('mysqlStatus/tableSize').then(rs => {
+    loadTableSize = () => {
+        this.setState({tableSize:[]})
+        HttpUtil.get('mysqlStatus/tableSize', {schema:this.state.schema}).then(rs => {
             this.setState({tableSize: rs})
         })
+    };
+
+    onSelect = (record)=>{
+        this.setState({schema: record.schema},this.loadTableSize)
     }
 
 
@@ -24,78 +33,80 @@ export default class extends React.Component {
 
         return <>
             <Card>
-                <Tabs items={[
-                    {
-                        key: '1',
-                        label: '数据库大小',
-                        children: <Table
-                            rowKey='数据库'
-                            dataSource={this.state.dbSize}
-                            columns={[
-                                {
-                                    title: '数据库',
-                                    dataIndex: '数据库'
-                                },
-                                {
-                                    title: '记录数',
-                                    dataIndex: '记录数'
-                                }
-                                ,
-                                {
-                                    title: '数据容量(MB)',
-                                    dataIndex: '数据容量(MB)'
-                                }
-                                ,
-                                {
-                                    title: '索引容量(MB)',
-                                    dataIndex: '索引容量(MB)'
-                                }
-                            ]}
-                            pagination={false}
-                        >
+                <Splitter>
+                    <Splitter.Panel defaultSize={500}>
+                        <Card title='数据库空间'>
+                            <Table
+                                rowKey='schema'
+                                dataSource={this.state.dbSize}
+                                rowSelection={{
+                                    type:'radio',
+                                    onSelect: this.onSelect
+                                }}
+                                columns={[
+                                    {
+                                        title: '数据库',
+                                        dataIndex: 'schema'
+                                    },
+                                    {
+                                        title: '记录数',
+                                        dataIndex: '记录数'
+                                    }
+                                    ,
+                                    {
+                                        title: '数据(MB)',
+                                        dataIndex: '数据容量(MB)'
+                                    }
+                                    ,
+                                    {
+                                        title: '索引(MB)',
+                                        dataIndex: '索引容量(MB)'
+                                    }
+                                ]}
+                                pagination={false}
+                            >
 
-                        </Table>
-                    },
+                            </Table>
+                        </Card>
+                    </Splitter.Panel>
+                    <Splitter.Panel>
+                        <Card title='表空间'>
+                            <Table
+                                rowKey='id'
+                                dataSource={this.state.tableSize}
+                                size="small"
+                                columns={[
+                                    {
+                                        title: '数据库',
+                                        dataIndex: '数据库'
+                                    },
+                                    {
+                                        title: '表名',
+                                        dataIndex: '表名'
+                                    },
+                                    {
+                                        title: '记录数',
+                                        dataIndex: '记录数'
+                                    }
+                                    ,
+                                    {
+                                        title: '数据(MB)',
+                                        dataIndex: '数据容量(MB)'
+                                    }
+                                    ,
+                                    {
+                                        title: '索引(MB)',
+                                        dataIndex: '索引容量(MB)'
+                                    }
+                                ]}
+                                pagination={false}
+                            >
 
-                    {
-                        key: '2',
-                        label: '表大小',
-                        children: <Table
-                            rowKey='id'
-                            dataSource={this.state.tableSize}
-                            sticky
-                            columns={[
-                                {
-                                    title: '数据库',
-                                    dataIndex: '数据库'
-                                },
-                                {
-                                    title: '表名',
-                                    dataIndex: '表名'
-                                },
-                                {
-                                    title: '记录数',
-                                    dataIndex: '记录数'
-                                }
-                                ,
-                                {
-                                    title: '数据容量(MB)',
-                                    dataIndex: '数据容量(MB)'
-                                }
-                                ,
-                                {
-                                    title: '索引容量(MB)',
-                                    dataIndex: '索引容量(MB)'
-                                }
-                            ]}
-                            pagination={false}
-                        >
+                            </Table>
+                        </Card>
+                    </Splitter.Panel>
+                </Splitter>
 
-                        </Table>
-                    }
-                ]}>
-
-                </Tabs>
             </Card>
 
 

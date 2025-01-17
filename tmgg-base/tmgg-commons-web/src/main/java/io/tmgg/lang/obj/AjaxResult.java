@@ -1,6 +1,10 @@
 
 package io.tmgg.lang.obj;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import jakarta.persistence.Transient;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -24,6 +28,7 @@ public class AjaxResult  {
     Object data;
 
     String message;
+
 
     public AjaxResult() {
        this(true);
@@ -65,6 +70,32 @@ public class AjaxResult  {
         this.message = msg;
         return this;
     }
+
+
+    /**
+     *  动态字段，处理实体中不包含的字段
+     *  例如状态字段 status, 转成json希望动态增加字段 statusLabel
+     */
+    @Setter(AccessLevel.NONE) // lombok不生成setter
+    @Transient
+    @JsonAnySetter
+    private Map<String, Object> extData = new HashMap<>();
+
+
+    @JsonAnyGetter
+    public Map<String,Object> getExtData(){
+        return extData;
+    }
+
+    /**
+     * 加入额外字段
+     * @param key
+     * @param value
+     */
+    public void putExtData(String key, Object value){
+        extData.put(key,value);
+    }
+
 
 
 }

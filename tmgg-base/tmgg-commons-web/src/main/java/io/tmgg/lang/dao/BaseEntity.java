@@ -94,21 +94,18 @@ public abstract class BaseEntity implements PersistId, Serializable {
 
 
     /**
-     * additionalFields
      *  动态字段，处理实体中不包含的字段
      *  例如状态字段 status, 转成json希望动态增加字段 statusLabel
       */
-    @Setter(AccessLevel.NONE) // 不生成setter
+    @Setter(AccessLevel.NONE) // lombok不生成setter
     @Transient
     @JsonAnySetter
-    private Map<String, Object> extFields = new HashMap<>();
+    private Map<String, Object> extData = new HashMap<>();
 
-    /**
-     * @return
-     */
+
     @JsonAnyGetter
-    public Map<String,Object> getExtFields(){
-        return extFields;
+    public Map<String,Object> getExtData(){
+        return extData;
     }
 
     /**
@@ -116,8 +113,8 @@ public abstract class BaseEntity implements PersistId, Serializable {
      * @param key
      * @param value
      */
-    public void putExtField(String key, Object value){
-            extFields.put(key,value);
+    public void putExtData(String key, Object value){
+            extData.put(key,value);
     }
 
 

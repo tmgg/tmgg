@@ -7,6 +7,10 @@ import {DateUtil, StrUtil} from "@tmgg/tmgg-commons-lang";
 
 const cronOptions = [
     {
+        label: '*/5 * * * * ? 每隔5秒',
+        value: '*/5 * * * * ?'
+    },
+    {
         label: '0 */5 * * * ? 每隔5分钟',
         value: '0 */5 * * * ?'
     },
@@ -185,7 +189,7 @@ export default class extends React.Component {
             <Modal title='定时任务'
                    open={this.state.formOpen}
                    destroyOnClose
-                   width={600}
+                   width={800}
                    onOk={() => this.formRef.current.submit()}
                    onCancel={() => this.setState({formOpen: false})}
             >

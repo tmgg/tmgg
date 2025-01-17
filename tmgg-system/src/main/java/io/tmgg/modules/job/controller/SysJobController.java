@@ -64,16 +64,16 @@ public class SysJobController {
                 JobKey jobKey = JobKey.jobKey(job.getName(), job.getGroup());
                 JobExecutionContext ctx = currentlyExecutingJobsMap.get(jobKey);
                 if (ctx != null) {
-                    job.putExtField("executing", true);
-                    job.putExtField("fireTime", ctx.getFireTime());
+                    job.putExtData("executing", true);
+                    job.putExtData("fireTime", ctx.getFireTime());
                 }
 
                 List<? extends Trigger> triggersOfJob = scheduler.getTriggersOfJob(jobKey);
 
                 if (CollUtil.isNotEmpty(triggersOfJob)) {
                     Trigger trigger = triggersOfJob.get(0);
-                    job.putExtField("previousFireTime", trigger.getPreviousFireTime());
-                    job.putExtField("nextFireTime", trigger.getNextFireTime());
+                    job.putExtData("previousFireTime", trigger.getPreviousFireTime());
+                    job.putExtData("nextFireTime", trigger.getNextFireTime());
                 }
 
             }

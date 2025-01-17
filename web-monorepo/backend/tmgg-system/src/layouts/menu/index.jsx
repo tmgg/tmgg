@@ -7,7 +7,7 @@ import {history, Link, Outlet,withRouter} from 'umi';
 import "./index.less"
 import * as Icons from '@ant-design/icons';
 import defaultLogo from '../../asserts/logo.png'
-import {ArrUtil, isMobileDevice, theme, TreeUtil} from "@tmgg/tmgg-commons-lang";
+import {ArrUtil, DateUtil, isMobileDevice, theme, TreeUtil} from "@tmgg/tmgg-commons-lang";
 
 import HeaderRight from "./HeaderRight";
 
@@ -192,10 +192,11 @@ export default class extends React.Component {
                 style={{
                     textAlign: 'center',
                     margin: 0,
-                    padding: 12
+                    padding: 12,
+                    fontSize:"small"
                 }}
             >
-                {siteInfo.copyright}
+                {siteInfo.copyright} &nbsp;&nbsp;&nbsp;时间&nbsp;{DateUtil.now()}
             </Footer>}
 
         </Layout>

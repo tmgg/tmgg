@@ -1,11 +1,13 @@
 package io.tmgg.modules.sys.controller;
 
+import cn.hutool.core.util.StrUtil;
 import io.tmgg.dbtool.DbTool;
 import io.tmgg.lang.obj.AjaxResult;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -20,7 +22,7 @@ public class MysqlStatusController {
     public AjaxResult dbSize() {
         String sql = """
                 select
-                table_schema as '数据库',
+                table_schema as 'schema',
                 sum(table_rows) as '记录数',
                 sum(truncate(data_length/1024/1024, 1)) as '数据容量(MB)',
                 sum(truncate(index_length/1024/1024, 1)) as '索引容量(MB)'
@@ -34,7 +36,7 @@ public class MysqlStatusController {
     }
 
     @RequestMapping("tableSize")
-    public AjaxResult tableSize() {
+    public AjaxResult tableSize(String schema) {
         String sql = """
                 select
                 table_schema as '数据库',
@@ -43,9 +45,14 @@ public class MysqlStatusController {
                 truncate(data_length/1024/1024, 1) as '数据容量(MB)',
                 truncate(index_length/1024/1024, 1) as '索引容量(MB)'
                 from information_schema.tables
-                order by table_schema,table_name;
+       
                 """;
-        List<Map<String, Object>> list = db.findAll(sql);
+        List<Object> params = new ArrayList<>();
+        if(!StrUtil.isEmptyOrUndefined(schema)){
+            sql += " where table_schema=?";
+            params.add(schema);
+        }
+        List<Map<String, Object>> list = db.findAll(sql,params.toArray());
         for (int i = 0; i < list.size(); i++) {
             list.get(i).put("id", i);
         }
