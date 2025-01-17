@@ -44,8 +44,7 @@ public class SysChartService extends BaseService<SysChart> {
         chart.setType(input.getType());
         chart.setSysMenuPid(sysMenuPid);
 
-        String code = chart.getCode();
-        String menuId = "sysChart-" + code;
+        String menuId = chart.getId();
         sysMenuDao.deleteById(menuId);
         SysMenu sysMenu = buildMenu(chart);
         if (sysMenu != null) {

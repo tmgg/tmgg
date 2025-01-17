@@ -38,4 +38,7 @@ public class SysChart extends BaseEntity {
     // 菜单PID
     String sysMenuPid;
 
+    @Msg("查看次数")
+    Integer viewCount;
+
 }
