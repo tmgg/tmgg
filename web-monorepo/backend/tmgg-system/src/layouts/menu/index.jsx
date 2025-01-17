@@ -196,7 +196,9 @@ export default class extends React.Component {
                     fontSize:"small"
                 }}
             >
-                {siteInfo.copyright} &nbsp;&nbsp;&nbsp;时间&nbsp;{DateUtil.now()}
+                {siteInfo.copyright}
+
+                &nbsp;&nbsp;&nbsp;时间&nbsp;{DateUtil.now()}
             </Footer>}
 
         </Layout>
