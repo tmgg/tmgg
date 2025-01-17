@@ -1,5 +1,6 @@
 package io.tmgg.modules.chart.service;
 
+import cn.hutool.core.thread.ThreadUtil;
 import cn.hutool.core.util.StrUtil;
 import io.tmgg.dbtool.DbTool;
 import io.tmgg.lang.dao.BaseService;
@@ -10,7 +11,9 @@ import io.tmgg.modules.sys.dao.SysMenuDao;
 import io.tmgg.modules.sys.entity.SysMenu;
 import io.tmgg.web.enums.MenuType;
 import jakarta.annotation.Resource;
+import org.springframework.data.annotation.Transient;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -160,6 +163,16 @@ public class SysChartService extends BaseService<SysChart> {
 
     public SysChart findByCode(String code) {
         return sysChartDao.findOneByField("code", code);
+    }
+
+    @Transactional
+    public void addViewCount(String code) {
+        SysChart chart = findByCode(code);
+        if(chart !=null){
+            Integer viewCount = chart.getViewCount();
+            viewCount = viewCount == null ? 0: viewCount;
+            chart.setViewCount(viewCount + 1);
+        }
     }
 }
 

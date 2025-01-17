@@ -5,6 +5,7 @@ import io.tmgg.lang.ann.Msg;
 import io.tmgg.lang.dao.BaseController;
 import io.tmgg.lang.dao.specification.JpaQuery;
 import io.tmgg.lang.obj.AjaxResult;
+import io.tmgg.modules.chart.QueryData;
 import io.tmgg.modules.chart.entity.SysChart;
 import io.tmgg.modules.chart.service.SysChartService;
 import io.tmgg.web.annotion.HasPermission;
@@ -73,6 +74,16 @@ public class SysChartController extends BaseController<SysChart> {
         return AjaxResult.ok().data(option);
     }
 
+    @HasPermission
+    @PostMapping("viewData")
+    public AjaxResult viewData(@RequestBody SysChart param) throws Exception {
+        String sql = param.getSql();
+        Assert.hasText(sql,"请填写sql");
+        QueryData data = service.runSql(sql);
+
+        return AjaxResult.ok().data(data);
+    }
+
     @GetMapping("get")
     public AjaxResult get(String id) throws Exception {
         SysChart chart = service.findOne(id);
@@ -87,6 +98,7 @@ public class SysChartController extends BaseController<SysChart> {
         SysChart chart = service.findByCode(code);
         Map<String, Object> option = service.buildEchartsOption(chart.getTitle(), chart.getType(),  service.runSql(chart.getSql()));
 
+        service.addViewCount(code);
         return AjaxResult.ok().data(option);
     }
 
@@ -97,7 +109,7 @@ public class SysChartController extends BaseController<SysChart> {
         SysChart chart = service.findByCode(code);
         Map<String, Object> option = service.buildEchartsOption(chart.getTitle(), chart.getType(),  service.runSql(chart.getSql()));
         String json = JsonTool.toPrettyJsonQuietly(option);
-
+        service.addViewCount(code);
         String html = """
                 <!DOCTYPE html>
                 <html>

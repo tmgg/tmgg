@@ -15,15 +15,21 @@ export default class extends React.Component {
     tableRef = React.createRef()
 
     columns = [
-        {
-            title: '编码',
-            dataIndex: 'code',
-        },
 
         {
             title: '标题',
             dataIndex: 'title',
         },
+        {
+            title: '标题',
+            dataIndex: 'title',
+        },
+        {
+            title: '查看次数',
+            dataIndex: 'viewCount',
+        },
+
+
 
 
         {

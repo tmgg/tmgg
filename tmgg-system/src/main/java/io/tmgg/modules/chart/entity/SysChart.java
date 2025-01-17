@@ -39,6 +39,14 @@ public class SysChart extends BaseEntity {
     String sysMenuPid;
 
     @Msg("查看次数")
+    @NotNull
     Integer viewCount;
 
+    @Override
+    public void prePersist() {
+        super.prePersist();
+        if (viewCount == null) {
+            viewCount = 0;
+        }
+    }
 }

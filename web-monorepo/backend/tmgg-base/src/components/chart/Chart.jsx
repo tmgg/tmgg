@@ -1,26 +1,42 @@
 import React from "react";
 import * as echarts from 'echarts';
 import {HttpUtil} from "../../system";
+import {Alert, Skeleton, Spin} from "antd";
 
 export class Chart extends React.Component {
+
+    state = {
+        loading:false,
+        data: null
+    }
 
     componentDidMount() {
         this.init();
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        this.init()
+        if(prevProps.code !== this.props.code){
+            this.init()
+        }
+
     }
 
-    init() {
+    init = () => {
         const {code} = this.props
+        this.setState({loading:true})
         HttpUtil.get("sysChart/getOption/" + code).then(rs => {
-            if(this.myChart) {
-                this.myChart.clear()
-            }
-            this.myChart = echarts.init(this.domRef.current);
-            this.myChart.setOption(rs, true);
+            this.setState({data:rs})
+        }).finally(()=>{
+            this.setState({loading:false},this.renderChart)
         })
+    };
+
+    renderChart(){
+        if(this.myChart) {
+            this.myChart.clear()
+        }
+        this.myChart = echarts.init(this.domRef.current);
+        this.myChart.setOption(this.state.data, true);
     }
 
 
@@ -38,6 +54,11 @@ export class Chart extends React.Component {
     }
 
     render() {
+        if(this.state.loading){
+            return  <Spin size='large' tip='数据加载中...'>
+                <Alert message='数据量大的情况可能加载数分钟，请等待!'></Alert>
+            </Spin>
+        }
         let height = this.props.height || '100%';
         return <div ref={this.domRef}
                     style={{width: '100%', minHeight: 500, height: height}}></div>

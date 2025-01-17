@@ -1,5 +1,5 @@
 import React from "react";
-import {Button, Card, Collapse, Form, Input, Radio, Row, Splitter} from "antd";
+import {Button, Card, Collapse, Form, Input, Modal, Radio, Row, Splitter, Table} from "antd";
 import * as echarts from 'echarts';
 import {FieldRemoteTreeSelect, HttpUtil, PageUtil, SysUtil} from "@tmgg/tmgg-base";
 
@@ -54,6 +54,28 @@ export default class extends React.Component {
             })
         }
     };
+    viewData = () => {
+        const values = this.formRef.current.getFieldsValue();
+        if(values.sql){
+            HttpUtil.post('sysChart/viewData', values).then(rs => {
+
+                Modal.info({
+                    icon:null,
+                    title:'预览数据',
+                    width:'80%',
+                    content: <Table dataSource={rs.listData}
+                                    size={"small"}
+                                    columns={rs.keys.map(k=>{
+                        return {
+                            title:k,
+                            dataIndex:k
+                        }
+                    })}></Table>
+                })
+            })
+        }
+    };
+
     fillDemo = () => {
         const sql = 'select type, count(*) 数量, max(seq) 最大序号 from sys_menu group by type';
         this.formRef.current.setFieldsValue({sql})
@@ -113,7 +135,8 @@ export default class extends React.Component {
 
                 <div style={{marginLeft: 100, marginTop: 36, display: 'flex', gap: 16}}>
                     <Button type='primary' danger htmlType="submit">保存</Button>
-                    <Button type='primary' onClick={this.chartRender}>预览</Button>
+                    <Button type='primary' onClick={this.viewData}>查看数据</Button>
+                    <Button type='primary' onClick={this.chartRender}>预览图表</Button>
                 </div>
             </Form>
 
