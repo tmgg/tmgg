@@ -1,13 +1,16 @@
 package io.tmgg.modules.report.controller;
 
+import io.tmgg.dbtool.obj.ComplexResult;
 import io.tmgg.jackson.JsonTool;
 import io.tmgg.lang.ann.Msg;
 import io.tmgg.lang.dao.BaseController;
 import io.tmgg.lang.dao.specification.JpaQuery;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.modules.report.entity.SysReportChart;
+import io.tmgg.modules.report.entity.SysReportTable;
 import io.tmgg.modules.report.service.SysReportChartService;
 import io.tmgg.modules.report.service.SysReportSqlService;
+import io.tmgg.modules.report.service.SysReportTableService;
 import io.tmgg.web.annotion.HasPermission;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletResponse;
@@ -22,11 +25,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 @RestController
-@RequestMapping("sysReportChart")
-public class SysReportChartController extends BaseController<SysReportChart> {
+@RequestMapping("sysReportTable")
+public class SysReportTableController extends BaseController<SysReportTable> {
 
     @Resource
-    private SysReportChartService service;
+    private SysReportTableService service;
 
     @Resource
     private SysReportSqlService sysReportSqlService;
@@ -44,8 +47,8 @@ public class SysReportChartController extends BaseController<SysReportChart> {
         private String category;
     }
 
-    private JpaQuery<SysReportChart> buildQuery(QueryParam param) {
-        JpaQuery<SysReportChart> q = new JpaQuery<>();
+    private JpaQuery<SysReportTable> buildQuery(QueryParam param) {
+        JpaQuery<SysReportTable> q = new JpaQuery<>();
         /*
             DateRange dateRange = param.getDateRange();
             if(dateRange != null && dateRange.isNotEmpty()){
@@ -58,9 +61,9 @@ public class SysReportChartController extends BaseController<SysReportChart> {
     @HasPermission
     @PostMapping("page")
     public AjaxResult page(@RequestBody QueryParam param, @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) throws Exception {
-        JpaQuery<SysReportChart> q = buildQuery(param);
+        JpaQuery<SysReportTable> q = buildQuery(param);
 
-        Page<SysReportChart> page = service.findAll(q, pageable);
+        Page<SysReportTable> page = service.findAll(q, pageable);
         return AjaxResult.ok().data(page);
     }
 
@@ -70,46 +73,37 @@ public class SysReportChartController extends BaseController<SysReportChart> {
     public AjaxResult preview(@RequestBody SysReportChart param) throws Exception {
         String sql = param.getSql();
         Assert.hasText(sql, "请填写sql");
-        SysReportChart chart = service.findOne(param.getId());
-        Map<String, Object> option = service.buildEchartsOption(chart.getTitle(), param.getType(), sysReportSqlService.runSql(sql));
 
-        return AjaxResult.ok().data(option);
+        ComplexResult data = sysReportSqlService.runSql(sql);
+        return AjaxResult.ok().data(data);
     }
 
-    @HasPermission
-    @PostMapping("viewData")
-    public AjaxResult viewData(@RequestBody SysReportChart param) throws Exception {
-        String sql = param.getSql();
-        Assert.hasText(sql, "请填写sql");
 
-        return AjaxResult.ok().data(sysReportSqlService.runSql(sql));
-    }
 
     @GetMapping("get")
     public AjaxResult get(String id) throws Exception {
-        SysReportChart chart = service.findOne(id);
+        SysReportTable chart = service.findOne(id);
 
         return AjaxResult.ok().data(chart);
     }
 
     @Msg("查看报表")
     @HasPermission("sysChart:view")
-    @GetMapping("getOption/{code}")
+    @GetMapping("getData/{code}")
     public AjaxResult draw(@PathVariable String code) throws Exception {
-        SysReportChart chart = service.findByCode(code);
-        Map<String, Object> option = service.buildEchartsOption(chart.getTitle(), chart.getType(), sysReportSqlService.runSql(chart.getSql()));
-
+        SysReportTable table = service.findByCode(code);
+        ComplexResult data = sysReportSqlService.runSql(table.getSql());
         service.addViewCount(code);
-        return AjaxResult.ok().data(option);
+        return AjaxResult.ok().data(data);
     }
 
     @Msg("查看报表")
     @HasPermission("sysChart:view")
     @GetMapping("view/{code}")
     public void view(@PathVariable String code, HttpServletResponse response) throws Exception {
-        SysReportChart chart = service.findByCode(code);
-        Map<String, Object> option = service.buildEchartsOption(chart.getTitle(), chart.getType(), sysReportSqlService.runSql(chart.getSql()));
-        String json = JsonTool.toPrettyJsonQuietly(option);
+        SysReportTable table = service.findByCode(code);
+        ComplexResult data = sysReportSqlService.runSql(table.getSql());
+
         service.addViewCount(code);
         String html = """
                 <!DOCTYPE html>
@@ -127,10 +121,10 @@ public class SysReportChartController extends BaseController<SysReportChart> {
                  </script>
                  </body>
                 </html>
-                                """;
+                """;
 
         response.setContentType("text/html; charset=utf-8");
-        response.getWriter().println(html.replace("OPTION", json));
+        response.getWriter().println(html.replace("OPTION", "xx"));
     }
 
 }

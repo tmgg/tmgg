@@ -199,7 +199,10 @@ public class DbTool {
     public ComplexResult findComplexResult(String sql, Object... params) {
         List<Map<String, Object>> list = this.findAll(sql, params);
         String[] keys = this.getKeys(sql);
-
+        for (int i = 0; i < keys.length; i++) {
+            String key = keys[i];
+            keys[i] = _Util.camel(key);
+        }
 
 
         ComplexResult result = new ComplexResult();
@@ -208,15 +211,15 @@ public class DbTool {
 
 
         for (String key : keys) {
-            result.getKeyedMapList().put(key, new ArrayList<>(list.size()));
+            result.getKeyedMapList().put(key, new Object[list.size()]);
         }
 
         for (int i = 0; i < list.size(); i++) {
             Map<String, Object> row = list.get(i);
             for (String key : keys) {
                 Object v = row.get(key);
-                List<Object> rowData = result.getKeyedMapList().get(key);
-                rowData.set(i, v);
+                Object[] rowData = result.getKeyedMapList().get(key);
+                rowData[i] = v;
             }
         }
 

@@ -18,16 +18,16 @@ public class SysReportSqlService {
 
     public ComplexResult runSql(String sql) {
         ComplexResult complexResult = db.findComplexResult(sql);
-        Map<String, List<Object>> keyedMapList = complexResult.getKeyedMapList();
+        Map<String, Object[]> keyedMapList = complexResult.getKeyedMapList();
 
-        for (Map.Entry<String, List<Object>> e : keyedMapList.entrySet()) {
-            List<Object> valueList = e.getValue();
-            for (int i = 0; i < valueList.size(); i++) {
-                Object v = valueList.get(i);
+        for (Map.Entry<String, Object[]> e : keyedMapList.entrySet()) {
+            Object[] valueList = e.getValue();
+            for (int i = 0; i < valueList.length; i++) {
+                Object v = valueList[i];
                 if (v instanceof Boolean) {
                     v = BooleanUtil.toStringTrueFalse((Boolean) v);
                 }
-                valueList.set(i, v);
+                valueList[i]= v;
             }
         }
 

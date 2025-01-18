@@ -1,10 +1,9 @@
 package io.tmgg.modules.report.service;
 
 import cn.hutool.core.util.StrUtil;
-import io.tmgg.dbtool.DbTool;
 import io.tmgg.dbtool.obj.ComplexResult;
 import io.tmgg.lang.dao.BaseService;
-import io.tmgg.modules.report.dao.SysChartDao;
+import io.tmgg.modules.report.dao.SysReportChartDao;
 import io.tmgg.modules.report.entity.SysReportChart;
 import io.tmgg.modules.sys.dao.SysMenuDao;
 import io.tmgg.modules.sys.entity.SysMenu;
@@ -20,16 +19,14 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
-public class SysChartService extends BaseService<SysReportChart> {
+public class SysReportChartService extends BaseService<SysReportChart> {
+
 
     @Resource
-    DbTool db;
+    private SysReportChartDao sysReportChartDao;
 
     @Resource
-    SysChartDao sysChartDao;
-
-    @Resource
-    SysMenuDao sysMenuDao;
+    private SysMenuDao sysMenuDao;
 
     @Override
     public SysReportChart saveOrUpdate(SysReportChart input) throws Exception {
@@ -63,10 +60,9 @@ public class SysChartService extends BaseService<SysReportChart> {
         if (StrUtil.isEmpty(sysMenuPid)) {
             return null;
         }
-        String menuId = "sysChart-" + code;
 
         SysMenu sysMenu = new SysMenu();
-        sysMenu.setId(menuId);
+        sysMenu.setId(chart.getId());
         sysMenu.setName(chart.getTitle());
         sysMenu.setType(MenuType.MENU);
         sysMenu.setPid(sysMenuPid);
@@ -78,9 +74,6 @@ public class SysChartService extends BaseService<SysReportChart> {
 
         return sysMenu;
     }
-
-
-
 
 
     public Map<String, Object> buildEchartsOption(String title, String type, ComplexResult data) {
@@ -134,15 +127,15 @@ public class SysChartService extends BaseService<SysReportChart> {
     }
 
     public SysReportChart findByCode(String code) {
-        return sysChartDao.findOneByField("code", code);
+        return sysReportChartDao.findOneByField("code", code);
     }
 
     @Transactional
     public void addViewCount(String code) {
         SysReportChart chart = findByCode(code);
-        if(chart !=null){
+        if (chart != null) {
             Integer viewCount = chart.getViewCount();
-            viewCount = viewCount == null ? 0: viewCount;
+            viewCount = viewCount == null ? 0 : viewCount;
             chart.setViewCount(viewCount + 1);
         }
     }

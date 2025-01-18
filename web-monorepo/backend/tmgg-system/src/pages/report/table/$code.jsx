@@ -1,16 +1,16 @@
 import React from "react";
-import {SysReportChart} from "@tmgg/tmgg-base";
+import {SysReportTable} from "@tmgg/tmgg-base";
 import {Card} from "antd";
 import {withRouter} from "umi";
 
-class ChartView extends React.Component {
+class TableView extends React.Component {
 
     render() {
         const code = this.props.match.params.code
         return <Card>
-            <SysReportChart code={code} height='calc(100vh - 200px)'/>
+            <SysReportTable code={code} />
         </Card>
     }
 }
 
-export default withRouter(ChartView)
+export default withRouter(TableView)

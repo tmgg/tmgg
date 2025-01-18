@@ -12,7 +12,7 @@ public class ComplexResult {
 
     private   List<Map<String,Object>> dataList;
 
-   private Map<String, List<Object>> keyedMapList = new HashMap<>();
+   private Map<String, Object[]> keyedMapList = new HashMap<>();
 
 
 }

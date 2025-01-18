@@ -3,10 +3,10 @@ import * as echarts from 'echarts';
 import {HttpUtil} from "../../system";
 import {Alert, Skeleton, Spin} from "antd";
 
-export class Chart extends React.Component {
+export class SysReportChart extends React.Component {
 
     state = {
-        loading:false,
+        loading:true,
         data: null
     }
 
@@ -24,7 +24,7 @@ export class Chart extends React.Component {
     init = () => {
         const {code} = this.props
         this.setState({loading:true})
-        HttpUtil.get("sysReportTable/getData/" + code).then(rs => {
+        HttpUtil.get("sysReportChart/getOption/" + code).then(rs => {
             this.setState({data:rs})
         }).finally(()=>{
             this.setState({loading:false},this.renderChart)

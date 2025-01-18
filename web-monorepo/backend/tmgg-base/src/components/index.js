@@ -9,7 +9,7 @@ export * from './ImageView';
 
 export * from './PageLoading'
 export * from './OrgTree'
-export  * from './ProTable'
+export * from './ProTable'
 export * from './DownloadFileButton'
-export  * from './report/Chart'
-export  * from './report/ComplexResultTable'
+export * from './report/SysReportChart'
+export * from './report/SysReportTable'

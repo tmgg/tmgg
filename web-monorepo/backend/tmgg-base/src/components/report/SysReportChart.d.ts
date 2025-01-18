@@ -6,5 +6,5 @@ declare type ChartProps = {
     height?: string | number // 图片高度, 默认100%
 };
 
-export class Chart extends React.Component<ChartProps, any> {
+export class SysReportChart extends React.Component<ChartProps, any> {
 }
