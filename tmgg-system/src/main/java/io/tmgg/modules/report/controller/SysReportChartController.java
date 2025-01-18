@@ -42,7 +42,7 @@ public class SysReportChartController extends BaseController<SysReportChart> {
 
     @HasPermission
     @PostMapping("page")
-    public AjaxResult page(@RequestBody QueryParam param, @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) throws Exception {
+    public AjaxResult page(@RequestBody CommonQueryParam param, @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) throws Exception {
         JpaQuery<SysReportChart> q = buildQuery(param);
 
         Page<SysReportChart> page = service.findAll(q, pageable);
