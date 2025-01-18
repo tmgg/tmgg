@@ -2,6 +2,7 @@ package io.tmgg.dbtool;
 
 
 import io.tmgg.dbtool.dbutil.MyBeanProcessor;
+import io.tmgg.dbtool.obj.ComplexResult;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.dbutils.*;
 import org.apache.commons.dbutils.handlers.*;
@@ -147,8 +148,6 @@ public class DbTool {
      *
      * @param sql
      * @param params
-     * @param <K>
-     * @param <V>
      * @return
      */
     public Map<String, Object> findDict(String sql, Object... params) {
@@ -194,6 +193,35 @@ public class DbTool {
             list = _Util.camel(list);
         }
         return list;
+    }
+
+
+    public ComplexResult findComplexResult(String sql, Object... params) {
+        List<Map<String, Object>> list = this.findAll(sql, params);
+        String[] keys = this.getKeys(sql);
+
+
+
+        ComplexResult result = new ComplexResult();
+        result.setDataList(list);
+        result.setKeys(keys);
+
+
+        for (String key : keys) {
+            result.getKeyedMapList().put(key, new ArrayList<>(list.size()));
+        }
+
+        for (int i = 0; i < list.size(); i++) {
+            Map<String, Object> row = list.get(i);
+            for (String key : keys) {
+                Object v = row.get(key);
+                List<Object> rowData = result.getKeyedMapList().get(key);
+                rowData.set(i, v);
+            }
+        }
+
+
+        return result;
     }
 
 

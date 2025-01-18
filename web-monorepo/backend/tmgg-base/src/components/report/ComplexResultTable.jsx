@@ -24,7 +24,7 @@ export class Chart extends React.Component {
     init = () => {
         const {code} = this.props
         this.setState({loading:true})
-        HttpUtil.get("sysReportChart/getOption/" + code).then(rs => {
+        HttpUtil.get("sysReportTable/getData/" + code).then(rs => {
             this.setState({data:rs})
         }).finally(()=>{
             this.setState({loading:false},this.renderChart)

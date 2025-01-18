@@ -2,6 +2,7 @@
 package io.tmgg.modules.sys;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.collection.ListUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import io.tmgg.config.external.MenuBadgeProvider;
@@ -21,6 +22,7 @@ import io.tmgg.web.perm.SecurityUtils;
 import io.tmgg.web.perm.Subject;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections.ListUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -164,7 +166,10 @@ public class DefaultCommonController {
 
         }
 
-        list.sort(Comparator.comparing(SysMenu::getSeq));
+
+        // 去重,排序
+        list = list.stream().distinct().sorted(Comparator.comparing(SysMenu::getSeq)).collect(Collectors.toList());
+
 
         List<Route> routes = new LinkedList<>();
         for (SysMenu m : list) {

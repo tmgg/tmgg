@@ -2,11 +2,27 @@
   "SysMenu": [
     {
       "pid":"sys",
-      "id": "sysChart",
-      "name": "SQL图表",
-      "perm": "sysChart",
-      "path": "/report/sysChart",
+      "id": "sysReport",
+      "name": "SQL报表",
+      "perm": "sysReport",
+      "type": "DIR",
       "seq": 1
+    },
+    {
+      "pid":"sysReport",
+      "id": "sysReportChart",
+      "name": "图表",
+      "perm": "sysReportChart",
+      "path": "/report/chart",
+      "seq": 1
+    },
+    {
+      "pid":"sysReport",
+      "id": "sysReportTable",
+      "name": "表格",
+      "perm": "sysReportTable",
+      "path": "/report/table",
+      "seq": 2
     }
   ]
 }

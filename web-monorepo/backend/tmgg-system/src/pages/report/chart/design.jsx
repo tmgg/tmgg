@@ -15,7 +15,7 @@ export default class extends React.Component {
     componentDidMount() {
         const id = PageUtil.currentLocationQuery().id
         this.id = id
-        HttpUtil.get("sysChart/get", {id}).then(rs => {
+        HttpUtil.get("sysReportChart/get", {id}).then(rs => {
             if (!rs.type) {
                 rs.type = 'bar'
             }
@@ -49,7 +49,7 @@ export default class extends React.Component {
     chartRender = () => {
         const values = this.formRef.current.getFieldsValue();
         if(values.sql){
-            HttpUtil.post('sysChart/preview', values).then(rs => {
+            HttpUtil.post('sysReportChart/preview', values).then(rs => {
                 this.myChart.setOption(rs, true);
             })
         }
@@ -57,13 +57,13 @@ export default class extends React.Component {
     viewData = () => {
         const values = this.formRef.current.getFieldsValue();
         if(values.sql){
-            HttpUtil.post('sysChart/viewData', values).then(rs => {
+            HttpUtil.post('sysReportChart/viewData', values).then(rs => {
 
                 Modal.info({
                     icon:null,
                     title:'预览数据',
                     width:'80%',
-                    content: <Table dataSource={rs.listData}
+                    content: <Table dataSource={rs.dataList}
                                     size={"small"}
                                     columns={rs.keys.map(k=>{
                         return {
@@ -81,7 +81,7 @@ export default class extends React.Component {
         this.formRef.current.setFieldsValue({sql})
     };
     onFinish = values => {
-        HttpUtil.post('sysChart/save', values).then(rs => {
+        HttpUtil.post('sysReportChart/save', values).then(rs => {
             this.setState({formOpen: false})
         })
     }
@@ -92,7 +92,7 @@ export default class extends React.Component {
     }
 
     getUrlCode() {
-        return SysUtil.getServerUrl() + "sysChart/view/" + this.state.code
+        return SysUtil.getServerUrl() + "sysReportChart/view/" + this.state.code
     }
 
     render() {
@@ -160,14 +160,14 @@ export default class extends React.Component {
                                     key: 'api',
                                     label: 'api接口调用',
                                     children: <div>接口地址： <Input
-                                        value={'/sysChart/getOption/' + this.state.code}></Input>
+                                        value={'/sysReportChart/getOption/' + this.state.code}></Input>
                                     </div>
                                 },
                                 {
                                     key: '2',
                                     label: 'url直链访问',
                                     children: <div>
-                                        <div>{'/sysChart/getOption/' + this.state.code}</div>
+                                        <div>{'/sysReportChart/getOption/' + this.state.code}</div>
                                         <a href={this.getUrlCode()} target="_blank">点击打开</a>
                                     </div>
                                 },

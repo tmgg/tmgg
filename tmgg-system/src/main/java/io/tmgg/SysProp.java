@@ -19,7 +19,7 @@ public class SysProp {
      * 适用Assert时
      * 是否打印异常堆栈
      */
-    private boolean printExceptionForAssert = false;
+    private boolean printExceptionForAssert = true;
 
 
 

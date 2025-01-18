@@ -2,8 +2,8 @@ package io.tmgg.modules.report.service;
 
 import cn.hutool.core.util.StrUtil;
 import io.tmgg.dbtool.DbTool;
+import io.tmgg.dbtool.obj.ComplexResult;
 import io.tmgg.lang.dao.BaseService;
-import io.tmgg.modules.report.QueryData;
 import io.tmgg.modules.report.dao.SysChartDao;
 import io.tmgg.modules.report.entity.SysReportChart;
 import io.tmgg.modules.sys.dao.SysMenuDao;
@@ -74,43 +74,16 @@ public class SysChartService extends BaseService<SysReportChart> {
         sysMenu.setPerm(code);
         sysMenu.setVisible(true);
         sysMenu.setPerm(code);
-        sysMenu.setPath("/report/sysChart/" + code);
+        sysMenu.setPath("/report/chart/" + code);
 
         return sysMenu;
     }
 
-    public QueryData runSql(String sql) {
-        QueryData result = new QueryData();
-
-        List<Map<String, Object>> list = db.findAll(sql);
-
-        String[] keys = getSqlKeys(sql);
-        result.setKeys(keys);
-
-        for (String key : keys) {
-            result.getData().put(key, new Object[list.size()]);
-        }
-
-        for (int i = 0; i < list.size(); i++) {
-            Map<String, Object> row = list.get(i);
-            for (String key : keys) {
-                Object v = row.get(key);
-                Object[] rowData = result.getData().get(key);
-                rowData[i] = v;
-            }
-        }
-        result.setListData(list);
-
-        return result;
-    }
-
-    public String[] getSqlKeys(String sql) {
-        String[] list = db.getKeys(sql);
-        return list;
-    }
 
 
-    public Map<String, Object> buildEchartsOption(String title, String type, QueryData data) {
+
+
+    public Map<String, Object> buildEchartsOption(String title, String type, ComplexResult data) {
         Map<String, Object> option = new HashMap<>();
 
         if (StrUtil.isNotEmpty(title)) {
@@ -132,14 +105,14 @@ public class SysChartService extends BaseService<SysReportChart> {
                 String nameKey = keys[0];
                 String valueKey = keys[1];
 
-                List<Map<String, Object>> pieDataList = data.getListData().stream().map(i -> Map.of("name", i.get(nameKey), "value", i.get(valueKey))).collect(Collectors.toList());
+                List<Map<String, Object>> pieDataList = data.getDataList().stream().map(i -> Map.of("name", i.get(nameKey), "value", i.get(valueKey))).collect(Collectors.toList());
                 item.put("data", pieDataList);
                 series.add(item);
                 break;
             }
             case "line":
             case "bar":
-                option.put("xAxis", Map.of("data", data.getData().get(keys[0])));
+                option.put("xAxis", Map.of("data", data.getKeyedMapList().get(keys[0])));
                 option.put("yAxis", Map.of());
                 ArrayList<Object> series = new ArrayList<>(keys.length - 1);
                 option.put("series", series);
@@ -147,7 +120,7 @@ public class SysChartService extends BaseService<SysReportChart> {
                 for (int i = 1; i < keys.length; i++) {
                     Map<String, Object> item = new HashMap<>();
                     item.put("type", type);
-                    item.put("data", data.getData().get(keys[i]));
+                    item.put("data", data.getKeyedMapList().get(keys[i]));
                     item.put("name", keys[i]);
                     series.add(item);
                 }
