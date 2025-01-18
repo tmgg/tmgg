@@ -1,8 +1,8 @@
-package io.tmgg.modules.chart;
+package io.tmgg.modules.report;
 
 import io.tmgg.modules.SysMenuParser;
-import io.tmgg.modules.chart.entity.SysChart;
-import io.tmgg.modules.chart.service.SysChartService;
+import io.tmgg.modules.report.entity.SysReportChart;
+import io.tmgg.modules.report.service.SysChartService;
 import io.tmgg.modules.sys.entity.SysMenu;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Component;
@@ -18,9 +18,9 @@ public class SysMenuParserSysChartImpl implements SysMenuParser {
     @Override
     public Collection<SysMenu> getMenuList() throws Exception {
         List<SysMenu> results = new ArrayList<>();
-        List<SysChart> list = sysChartService.findAll();
-        for (SysChart sysChart : list) {
-            SysMenu sysMenu = sysChartService.buildMenu(sysChart);
+        List<SysReportChart> list = sysChartService.findAll();
+        for (SysReportChart sysReportChart : list) {
+            SysMenu sysMenu = sysChartService.buildMenu(sysReportChart);
             if(sysMenu != null){
                 results.add(sysMenu);
             }

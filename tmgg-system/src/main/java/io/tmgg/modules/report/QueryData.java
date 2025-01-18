@@ -1,4 +1,4 @@
-package io.tmgg.modules.chart;
+package io.tmgg.modules.report;
 
 import lombok.Data;
 

@@ -42,9 +42,9 @@ export function initSystem() {
         'job/logList': require('./pages/job/logList').default,
         'job/status': require('./pages/job/status').default,
 
-        'chart/sysChart': require('./pages/chart/sysChart').default,
-        'chart/sysChart/design': require('./pages/chart/sysChart/design').default,
+        'report/sysChart': require('./pages/report/sysChart').default,
+        'report/sysChart/design': require('./pages/report/sysChart/design').default,
         // 动态路由
-        'chart/sysChart/:code': require('./pages/chart/sysChart/$code').default,
+        'report/sysChart/:code': require('./pages/report/sysChart/$code').default,
     })
 }

@@ -5,7 +5,7 @@
       "id": "sysChart",
       "name": "SQL图表",
       "perm": "sysChart",
-      "path": "/chart/sysChart",
+      "path": "/report/sysChart",
       "seq": 1
     }
   ]

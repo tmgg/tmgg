@@ -1,4 +1,4 @@
-package io.tmgg.modules.chart.entity;
+package io.tmgg.modules.report.entity;
 
 import io.tmgg.lang.ann.Msg;
 import io.tmgg.lang.dao.BaseEntity;
@@ -15,8 +15,8 @@ import lombok.experimental.FieldNameConstants;
 @Getter
 @Setter
 @FieldNameConstants
-@Msg("系统图表")
-public class SysChart extends BaseEntity {
+@Msg("系统表格")
+public class SysReportTable extends BaseEntity {
 
     @Msg("名称")
     @NotNull
@@ -35,7 +35,7 @@ public class SysChart extends BaseEntity {
     @Column(length = 10)
     String type;
 
-    // 菜单PID
+    @Msg("菜单PID")
     String sysMenuPid;
 
     @Msg("查看次数")

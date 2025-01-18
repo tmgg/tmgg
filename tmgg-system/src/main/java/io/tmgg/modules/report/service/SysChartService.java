@@ -1,17 +1,15 @@
-package io.tmgg.modules.chart.service;
+package io.tmgg.modules.report.service;
 
-import cn.hutool.core.thread.ThreadUtil;
 import cn.hutool.core.util.StrUtil;
 import io.tmgg.dbtool.DbTool;
 import io.tmgg.lang.dao.BaseService;
-import io.tmgg.modules.chart.QueryData;
-import io.tmgg.modules.chart.dao.SysChartDao;
-import io.tmgg.modules.chart.entity.SysChart;
+import io.tmgg.modules.report.QueryData;
+import io.tmgg.modules.report.dao.SysChartDao;
+import io.tmgg.modules.report.entity.SysReportChart;
 import io.tmgg.modules.sys.dao.SysMenuDao;
 import io.tmgg.modules.sys.entity.SysMenu;
 import io.tmgg.web.enums.MenuType;
 import jakarta.annotation.Resource;
-import org.springframework.data.annotation.Transient;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,7 +20,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
-public class SysChartService extends BaseService<SysChart> {
+public class SysChartService extends BaseService<SysReportChart> {
 
     @Resource
     DbTool db;
@@ -34,7 +32,7 @@ public class SysChartService extends BaseService<SysChart> {
     SysMenuDao sysMenuDao;
 
     @Override
-    public SysChart saveOrUpdate(SysChart input) throws Exception {
+    public SysReportChart saveOrUpdate(SysReportChart input) throws Exception {
         boolean isNew = input.isNew();
         if (isNew) {
             return baseDao.save(input);
@@ -42,7 +40,7 @@ public class SysChartService extends BaseService<SysChart> {
 
         String sysMenuPid = input.getSysMenuPid();
 
-        SysChart chart = baseDao.findOne(input);
+        SysReportChart chart = baseDao.findOne(input);
         chart.setSql(input.getSql());
         chart.setType(input.getType());
         chart.setSysMenuPid(sysMenuPid);
@@ -59,7 +57,7 @@ public class SysChartService extends BaseService<SysChart> {
         return baseDao.save(chart);
     }
 
-    public SysMenu buildMenu(SysChart chart) {
+    public SysMenu buildMenu(SysReportChart chart) {
         String code = chart.getCode();
         String sysMenuPid = chart.getSysMenuPid();
         if (StrUtil.isEmpty(sysMenuPid)) {
@@ -76,7 +74,7 @@ public class SysChartService extends BaseService<SysChart> {
         sysMenu.setPerm(code);
         sysMenu.setVisible(true);
         sysMenu.setPerm(code);
-        sysMenu.setPath("/chart/sysChart/" + code);
+        sysMenu.setPath("/report/sysChart/" + code);
 
         return sysMenu;
     }
@@ -162,13 +160,13 @@ public class SysChartService extends BaseService<SysChart> {
         return option;
     }
 
-    public SysChart findByCode(String code) {
+    public SysReportChart findByCode(String code) {
         return sysChartDao.findOneByField("code", code);
     }
 
     @Transactional
     public void addViewCount(String code) {
-        SysChart chart = findByCode(code);
+        SysReportChart chart = findByCode(code);
         if(chart !=null){
             Integer viewCount = chart.getViewCount();
             viewCount = viewCount == null ? 0: viewCount;

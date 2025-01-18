@@ -37,10 +37,10 @@ export default class extends React.Component {
             dataIndex: 'option',
             render: (_, record) => (
                 <ButtonList>
-                    <a perm='sysChart:save'
-                       onClick={() => PageUtil.open('/chart/sysChart/design?id=' + record.id)}> 编辑 </a>
+                    <a perm='sysReportChart:save'
+                       onClick={() => PageUtil.open('/report/sysReportChart/design?id=' + record.id)}> 编辑 </a>
 
-                    <Popconfirm perm='sysChart:delete' title='是否确定删除系统图表'
+                    <Popconfirm perm='sysReportChart:delete' title='是否确定删除系统图表'
                                 onConfirm={() => this.handleDelete(record)}>
                         <a>删除</a>
                     </Popconfirm>
@@ -59,7 +59,7 @@ export default class extends React.Component {
 
 
     onFinish = values => {
-        HttpUtil.post('sysChart/save', values).then(rs => {
+        HttpUtil.post('sysReportChart/save', values).then(rs => {
             this.setState({formOpen: false})
             this.tableRef.current.reload()
         })
@@ -67,7 +67,7 @@ export default class extends React.Component {
 
 
     handleDelete = record => {
-        HttpUtil.postForm('sysChart/delete', {id: record.id}).then(rs => {
+        HttpUtil.postForm('sysReportChart/delete', {id: record.id}).then(rs => {
             this.tableRef.current.reload()
         })
     }
@@ -78,12 +78,12 @@ export default class extends React.Component {
                 actionRef={this.tableRef}
                 toolBarRender={() => {
                     return <ButtonList>
-                        <Button perm='sysChart:save' type='primary' onClick={this.handleAdd}>
+                        <Button perm='sysReportChart:save' type='primary' onClick={this.handleAdd}>
                             <PlusOutlined/> 新增
                         </Button>
                     </ButtonList>
                 }}
-                request={(params, sort) => HttpUtil.pageData('sysChart/page', params)}
+                request={(params, sort) => HttpUtil.pageData('sysReportChart/page', params)}
                 columns={this.columns}
                 searchFormItemsRender={() => {
                     return <>
