@@ -8,6 +8,7 @@ import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.modules.report.entity.SysReportChart;
 import io.tmgg.modules.report.service.SysReportChartService;
 import io.tmgg.modules.report.service.SysReportSqlService;
+import io.tmgg.web.CommonQueryParam;
 import io.tmgg.web.annotion.HasPermission;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletResponse;
@@ -31,27 +32,11 @@ public class SysReportChartController extends BaseController<SysReportChart> {
     @Resource
     private SysReportSqlService sysReportSqlService;
 
-    @Data
-    public static class QueryParam {
 
-        // 仅有一个搜索框时的搜索文本
-        private String keyword;
 
-        private String name;
-
-        private String sqlContent;
-
-        private String category;
-    }
-
-    private JpaQuery<SysReportChart> buildQuery(QueryParam param) {
+    private JpaQuery<SysReportChart> buildQuery(CommonQueryParam param) {
         JpaQuery<SysReportChart> q = new JpaQuery<>();
-        /*
-            DateRange dateRange = param.getDateRange();
-            if(dateRange != null && dateRange.isNotEmpty()){
-                q.between(PointsItemRecord.Fields.redeemTime, dateRange.getBegin(), dateRange.getEnd());
-            }
-        */
+       q.searchText(param.getKeyword(), "title","code");
         return q;
     }
 

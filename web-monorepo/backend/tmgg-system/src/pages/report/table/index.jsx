@@ -85,19 +85,6 @@ export default class extends React.Component {
                 }}
                 request={(params, sort) => HttpUtil.pageData('sysReportTable/page', params)}
                 columns={this.columns}
-                searchFormItemsRender={() => {
-                    return <>
-
-                        <Form.Item label='编码' name='code'>
-                            <Input/>
-                        </Form.Item>
-                        <Form.Item label='标题' name='title'>
-                            <Input/>
-                        </Form.Item>
-
-
-                    </>
-                }}
             />
 
             <Modal title='系统图表'
