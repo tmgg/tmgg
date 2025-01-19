@@ -11,7 +11,8 @@ declare type ProTableProps = {
     // 选择行，通ant table
     rowSelection: any,
 
-    toolBarRender: (params:any, {selectedRows:[],selectedRowKeys:[]})=>{}
+    toolBarRender: (params:any, {selectedRows:[],selectedRowKeys:[]})=>{},
+    bordered?:boolean
 };
 
 export class ProTable extends React.Component<ProTableProps, any> {

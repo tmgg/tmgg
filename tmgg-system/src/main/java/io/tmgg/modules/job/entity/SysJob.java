@@ -57,6 +57,8 @@ public class SysJob extends BaseEntity {
 
 
 
+
+
     @JsonIgnore
     @Transient
     public Map<String, Object> getJobDataMap() {

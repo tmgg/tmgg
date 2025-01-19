@@ -6,18 +6,22 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import io.tmgg.BasePackage;
 import io.tmgg.data.Field;
 import io.tmgg.data.FieldDesc;
-import io.tmgg.modules.job.JobDesc;
-import io.tmgg.modules.job.JobParamFieldProvider;
-import io.tmgg.modules.job.entity.SysJob;
-import io.tmgg.modules.job.quartz.QuartzService;
-import io.tmgg.modules.job.service.SysJobService;
 import io.tmgg.lang.SpringTool;
 import io.tmgg.lang.ann.Msg;
+import io.tmgg.lang.dao.DBConstants;
 import io.tmgg.lang.dao.specification.JpaQuery;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.obj.Option;
+import io.tmgg.modules.job.JobDesc;
+import io.tmgg.modules.job.JobParamFieldProvider;
+import io.tmgg.modules.job.entity.SysJob;
+import io.tmgg.modules.job.entity.SysJobLog;
+import io.tmgg.modules.job.quartz.QuartzService;
+import io.tmgg.modules.job.service.SysJobLogService;
+import io.tmgg.modules.job.service.SysJobService;
 import io.tmgg.web.annotion.HasPermission;
 import jakarta.annotation.Resource;
+import jakarta.persistence.Column;
 import lombok.Data;
 import org.quartz.*;
 import org.springframework.data.domain.Page;
@@ -44,10 +48,14 @@ public class SysJobController {
     @Resource
     private QuartzService quartzService;
 
+    @Resource
+    private SysJobLogService sysJobLogService;
+
     @Data
-    public static class QueryParam{
+    public static class QueryParam {
         String keyword;
     }
+
     @HasPermission
     @RequestMapping("page")
     public AjaxResult page(@RequestBody QueryParam param, @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) throws SchedulerException {
@@ -60,6 +68,14 @@ public class SysJobController {
 
 
         for (SysJob job : page) {
+            SysJobLog latest = sysJobLogService.findLatest(job);
+            if (latest != null) {
+                job.putExtData("beginTime", latest.getBeginTime());
+                job.putExtData("endTime", latest.getEndTime());
+                job.putExtData("jobRunTime", latest.getJobRunTimeLabel());
+                job.putExtData("result", latest.getResult());
+            }
+
             if (job.getEnabled()) {
                 JobKey jobKey = JobKey.jobKey(job.getName(), job.getGroup());
                 JobExecutionContext ctx = currentlyExecutingJobsMap.get(jobKey);
@@ -67,15 +83,6 @@ public class SysJobController {
                     job.putExtData("executing", true);
                     job.putExtData("fireTime", ctx.getFireTime());
                 }
-
-                List<? extends Trigger> triggersOfJob = scheduler.getTriggersOfJob(jobKey);
-
-                if (CollUtil.isNotEmpty(triggersOfJob)) {
-                    Trigger trigger = triggersOfJob.get(0);
-                    job.putExtData("previousFireTime", trigger.getPreviousFireTime());
-                    job.putExtData("nextFireTime", trigger.getNextFireTime());
-                }
-
             }
         }
 

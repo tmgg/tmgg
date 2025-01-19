@@ -91,7 +91,7 @@
     {
       "id": "sysDatasource",
       "pid": "sysMonitor",
-      "name": "数据源监控",
+      "name": "数据源",
       "perm": "sysDatasource",
       "path": "/system/datasource",
       "seq": 9
@@ -99,7 +99,7 @@
     {
       "id": "mysqlStatus",
       "pid": "sysMonitor",
-      "name": "Mysql状态",
+      "name": "Mysql",
       "perm": "mysqlStatus",
       "path": "/system/mysqlStatus",
       "seq": 9

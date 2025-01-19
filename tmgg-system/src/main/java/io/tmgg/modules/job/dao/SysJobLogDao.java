@@ -6,11 +6,7 @@ import io.tmgg.lang.dao.BaseDao;
 import io.tmgg.lang.dao.specification.JpaQuery;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
-import jakarta.persistence.Query;
-
-import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -37,6 +33,12 @@ public class SysJobLogDao extends BaseDao<SysJobLog> {
         JpaQuery<SysJobLog> q = new JpaQuery<>();
         q.eq(SysJobLog.Fields.sysJob, job);
         return this.findAll(q, Sort.by(Sort.Direction.DESC,"createTime"));
+    }
+
+    public SysJobLog findLatestByJob(SysJob job) {
+        JpaQuery<SysJobLog> q = new JpaQuery<>();
+        q.eq(SysJobLog.Fields.sysJob, job);
+        return this.findTop1(q, Sort.by(Sort.Direction.DESC,"createTime"));
     }
 
     public long countByJob(SysJob job) {

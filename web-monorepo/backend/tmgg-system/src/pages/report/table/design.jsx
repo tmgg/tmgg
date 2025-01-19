@@ -1,5 +1,5 @@
 import React from "react";
-import {Button, Card, Collapse, Form, Input, Row, Splitter, Table} from "antd";
+import {Button, Card, Collapse, Form, Input, message, Row, Splitter, Table} from "antd";
 import {FieldRemoteTreeSelect, HttpUtil, PageUtil, SysUtil} from "@tmgg/tmgg-base";
 
 export default class extends React.Component {
@@ -32,10 +32,16 @@ export default class extends React.Component {
 
     viewData = () => {
         const values = this.formRef.current.getFieldsValue();
+        this.setState({
+            previewData: {
+                keys:[],
+                dataList:[]
+            }})
         if(values.sql){
+            const hide = message.loading('加载数据中...', 0)
             HttpUtil.post('sysReportTable/preview', values).then(rs => {
                this.setState({previewData: rs})
-            })
+            }).finally(hide)
         }
     };
 

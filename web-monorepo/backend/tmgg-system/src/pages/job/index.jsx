@@ -1,8 +1,8 @@
 import {AutoComplete, Button, Form, Input, message, Modal, Popconfirm, Select, Space, Switch, Tag} from 'antd'
 import React from 'react'
-import {PlusOutlined} from "@ant-design/icons";
+import {PlusOutlined, ReloadOutlined} from "@ant-design/icons";
 import {FieldComponent, HttpUtil, ProTable, SysUtil} from "@tmgg/tmgg-base";
-import {DateUtil, StrUtil} from "@tmgg/tmgg-commons-lang";
+import {StrUtil} from "@tmgg/tmgg-commons-lang";
 
 
 const cronOptions = [
@@ -60,6 +60,7 @@ export default class extends React.Component {
         {
             title: '执行类',
             dataIndex: 'jobClass',
+
         },
         {
             title: '分租',
@@ -71,7 +72,6 @@ export default class extends React.Component {
         },
 
 
-
         {
             title: '参数',
             dataIndex: 'jobData',
@@ -81,26 +81,34 @@ export default class extends React.Component {
                     return JSON.stringify(list)
             }
         },
+
         {
             title: '运行状态',
             dataIndex: 'executing',
             render: (v, record) => {
-                return record.executing ? <Tag color='green'>运行中</Tag> : <Tag>空闲</Tag>
+                return record.executing ? <Tag icon={<ReloadOutlined spin/>} color='green'>运行中</Tag> :
+                    <Tag>空闲</Tag>
             },
         },
         {
-            title: '触发时间',
-            dataIndex: 'fireTime',
+            title: '最新执行记录',
+            children: [
+                {title: '开始时间', dataIndex: 'beginTime'},
+                {title: '结束时间', dataIndex: 'endTime'},
+                {title: '耗时', dataIndex: 'jobRunTime'},
+                {title: '结果', dataIndex: 'result'},
+
+                {
+                    title: '日志', dataIndex: 'id', render: (_, record) => {
+                        let url = SysUtil.getServerUrl() + 'job/log/print?jobId=' + record.id;
+
+                        return <Button size='small' href={url} target='_blank'>查看日志</Button>
+                    }
+                }
+            ]
         },
 
-        {
-            title: '上次',
-            dataIndex: 'previousFireTime',
-        },
-        {
-            title: '下次',
-            dataIndex: 'nextFireTime',
-        },
+
         {
             title: '启用状态',
             dataIndex: 'enabled',
@@ -114,11 +122,10 @@ export default class extends React.Component {
             dataIndex: 'option',
             fixed: 'right',
             render: (_, record) => {
-                let url = SysUtil.getServerUrl() + 'job/log/print?jobId=' + record.id;
 
                 return (
                     <Space>
-                        <a href={url} target='_blank'>日志</a>
+
                         <Button size='small' onClick={() => this.handleTriggerJob(record)}>执行一次</Button>
                         <Button size='small' onClick={() => this.handleEdit(record)}> 编辑 </Button>
                         <Popconfirm title='是否确定删除?' onConfirm={() => this.handleDelete(record)}>
@@ -180,9 +187,7 @@ export default class extends React.Component {
                     });
                 }}
                 columns={this.columns}
-                rowSelection={false}
-                rowKey='id'
-
+                bordered={true}
             />
 
 

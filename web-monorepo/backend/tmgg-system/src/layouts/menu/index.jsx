@@ -198,7 +198,7 @@ export default class extends React.Component {
             >
                 {siteInfo.copyright}
 
-                &nbsp;&nbsp;&nbsp;时间&nbsp;{DateUtil.now()}
+                &nbsp;&nbsp;&nbsp;&nbsp;{DateUtil.now()}
             </Footer>}
 
         </Layout>

@@ -144,6 +144,7 @@ export class ProTable extends React.Component {
                     summary={(data)=>{
                         return this.state.extInfo
                     }}
+                    bordered={this.props.bordered}
                 />
             </Card>
         </div>
