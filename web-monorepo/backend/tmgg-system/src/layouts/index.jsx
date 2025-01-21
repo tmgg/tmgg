@@ -86,16 +86,20 @@ export class Layouts extends React.Component {
 
 
     renderContent() {
-        if (this.state.pathname === '/login') {
+        let pathname = this.state.pathname;
+        if (pathname === '/login') {
             return <SiteInfoInterceptor>
                 <Outlet/>
             </SiteInfoInterceptor>
+        }
+        if(pathname === '/test'){
+            return <Outlet />
         }
 
         return <SiteInfoInterceptor>
             <AuthInterceptor>
                 <LoginInfoInterceptor>
-                    <MenuLayout pathname={this.state.pathname} {...this.props}/>
+                    <MenuLayout pathname={pathname} {...this.props}/>
                 </LoginInfoInterceptor>
             </AuthInterceptor>
         </SiteInfoInterceptor>

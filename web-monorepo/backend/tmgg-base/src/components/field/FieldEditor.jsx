@@ -3,13 +3,11 @@ import {Editor as TinyMceEditor} from '@tinymce/tinymce-react';
 import {SysUtil} from "../../system";
 
 
-
-
-
+/**
+ * 富文本编辑器
+ */
 
 export class FieldEditor extends React.Component {
-
-
 
   render() {
 
@@ -17,9 +15,8 @@ export class FieldEditor extends React.Component {
     let uploadUrl = serverUrl + 'sysFile/upload'
     return <>
       <TinyMceEditor
-        apiKey='rexoykm1ion95f44dj3td8dkinsfg1fjigh4t6xojymdnzr8'
         initialValue={this.props.value}
-
+        tinymceScriptSrc={serverUrl + "tinymce/tinymce.min.js"}
         init={{
           min_height: 500,
           language: 'zh_CN',
@@ -28,7 +25,7 @@ export class FieldEditor extends React.Component {
             'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
             'insertdatetime', 'media', 'table', 'code', 'help', 'wordcount'
           ],
-          toolbar: "undo redo | blocks | bold italic forecolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | image | help",
+          toolbar: "fontfamily |fontsize | blocks | bold italic forecolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | image | undo redo | help",
           content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
 
           // 上传图片
