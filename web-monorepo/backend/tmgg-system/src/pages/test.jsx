@@ -1,6 +1,6 @@
 import React from "react";
 import {Card, Form} from "antd";
-import {FieldEditor} from "@tmgg/tmgg-base";
+import {FieldEditor, FieldRemoteSelect} from "@tmgg/tmgg-base";
 
 export default class extends React.Component {
 
@@ -9,9 +9,11 @@ export default class extends React.Component {
 
         return <Card title='测试页面'>
 
-            <Form.Item label='x' name='x'>
-                <FieldEditor />
-            </Form.Item>
+            <Form>
+                <Form.Item label='选择角色' name='roleId'>
+                    <FieldRemoteSelect url={'/sysRole/options'} style={{width: 200}}/>
+                </Form.Item>
+            </Form>
         </Card>
     }
 }
