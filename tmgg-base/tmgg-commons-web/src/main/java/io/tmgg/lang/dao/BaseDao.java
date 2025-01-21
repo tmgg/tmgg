@@ -47,11 +47,6 @@ public abstract class BaseDao<T extends Persistable<String>> {
     @Autowired(required = false)
     protected DbTool jdbc;
 
-
-
-
-
-
     @PostConstruct
     void init() {
         Type type = getClass().getGenericSuperclass();
@@ -241,7 +236,7 @@ public abstract class BaseDao<T extends Persistable<String>> {
         if (all.getTotalElements() > 0) {
             return all.getContent();
         }
-        return null;
+        return Collections.emptyList();
     }
 
     public <R> List<R> findField(String fieldName, Specification<T> c) {

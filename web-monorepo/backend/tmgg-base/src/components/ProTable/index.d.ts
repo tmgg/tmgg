@@ -9,7 +9,7 @@ declare type ProTableProps = {
     searchFormItemsRender?:(formInstance: FormInstance)=>{},
 
     // 选择行，通ant table
-    rowSelection: any,
+    rowSelection?: any,
 
     toolBarRender: (params:any, {selectedRows:[],selectedRowKeys:[]})=>{},
     bordered?:boolean
