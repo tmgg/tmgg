@@ -1,12 +1,11 @@
 import React from "react";
-import {history} from "umi";
-import {CloseOutlined} from "@ant-design/icons";
-import {Menu, Tabs} from "antd";
+import {history, Outlet} from "umi";
+import {Tabs} from "antd";
+import KeepAlive from "react-activation";
 
 export default class extends React.Component {
 
-    onClick = e=>{
-        const {key} = e;
+    onClick = key => {
         const item = this.findItem(key);
 
         history.push(item.path)
@@ -19,10 +18,7 @@ export default class extends React.Component {
         return item;
     };
 
-    remove = e=>{
-        e.preventDefault()
-        e.stopPropagation()
-        const key = e.currentTarget.dataset.key
+    remove = key => {
         const item = this.findItem(key)
         this.props.onTabRemove(item)
         return false
@@ -30,30 +26,37 @@ export default class extends React.Component {
 
     render() {
         const {items, pathname} = this.props
-        if(items.length === 0){
+        if (items.length === 0) {
             return
         }
 
         let activeKey = null
 
-        const menuItems = items.map(item=>{
+        const menuItems = items.map(item => {
             const {label, key, path} = item
-            if(path === pathname){
+            if (path === pathname) {
                 activeKey = key
             }
 
-            return {label,key,path, extra: <CloseOutlined data-key={key} onClick={this.remove} /> }
+
+            return {
+                label, key, path, children:  <Outlet/>
+            }
         })
 
 
-        return <Menu items={menuItems}
-                     style={{lineHeight:'36px'}}
-                     mode="horizontal"
-                     onClick={this.onClick}
-                     selectedKeys={[activeKey]}
-        >
-
-        </Menu>
+        return <>
+            <Tabs hideAdd
+                  size='small'
+                  type='editable-card'
+                  style={{padding: 8}}
+                  items={menuItems}
+                  activeKey={activeKey}
+                  onChange={this.onClick}
+                  onEdit={this.remove}
+                  destroyInactiveTabPane={false}>
+            </Tabs>
+        </>
 
     }
 

@@ -3,6 +3,7 @@ import React from 'react'
 import StreamLog from "../../components/StreamLog";
 import {ProTable} from "@tmgg/tmgg-base";
 import {HttpUtil, SysUtil} from "@tmgg/tmgg-base";
+import KeepAlive from "react-activation";
 
 
 
@@ -74,7 +75,7 @@ export default class extends React.Component {
 
 
   render() {
-    return <>
+    return <KeepAlive>
       <ProTable
         toolBarRender={(_,{selectedRowKeys})=><>
           <Button disabled={selectedRowKeys.length === 0} onClick={()=>this.clean(selectedRowKeys)} type='primary' >删除{selectedRowKeys.length}条</Button>
@@ -88,7 +89,7 @@ export default class extends React.Component {
         rowKey='id'
       />
 
-    </>
+    </KeepAlive>
   }
 }
 

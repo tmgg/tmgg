@@ -48,7 +48,7 @@ export class Layouts extends React.Component {
                 validateMessages: {
                     required: '必填项'
                 },
-                colon:false
+                colon: false
             }}
 
             locale={zhCN}
@@ -92,15 +92,13 @@ export class Layouts extends React.Component {
             </SiteInfoInterceptor>
         }
 
-        return <>
-            <SiteInfoInterceptor>
-                <AuthInterceptor>
-                    <LoginInfoInterceptor>
-                        <MenuLayout pathname={this.state.pathname} {...this.props}/>
-                    </LoginInfoInterceptor>
-                </AuthInterceptor>
-            </SiteInfoInterceptor>
-        </>
+        return <SiteInfoInterceptor>
+            <AuthInterceptor>
+                <LoginInfoInterceptor>
+                    <MenuLayout pathname={this.state.pathname} {...this.props}/>
+                </LoginInfoInterceptor>
+            </AuthInterceptor>
+        </SiteInfoInterceptor>
     }
 
 

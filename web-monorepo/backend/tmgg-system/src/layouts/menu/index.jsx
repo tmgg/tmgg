@@ -1,11 +1,12 @@
 // 全局路由
 
 import React from 'react';
-import {Button, Divider, Layout, Menu} from 'antd';
+import {Divider, Layout, Menu} from 'antd';
 
-import {history, Link, Outlet,withRouter} from 'umi';
+import {history, Link} from 'umi';
 import "./index.less"
 import * as Icons from '@ant-design/icons';
+import {MenuFoldOutlined, MenuUnfoldOutlined} from '@ant-design/icons';
 import defaultLogo from '../../asserts/logo.png'
 import {ArrUtil, DateUtil, isMobileDevice, theme, TreeUtil} from "@tmgg/tmgg-commons-lang";
 
@@ -13,7 +14,7 @@ import HeaderRight from "./HeaderRight";
 
 import TabMenu from "./TabMenu";
 import {HttpUtil, PageUtil, SysUtil} from "@tmgg/tmgg-base";
-import {MenuFoldOutlined, MenuUnfoldOutlined} from "@ant-design/icons";
+import {AliveScope} from "react-activation";
 
 const {Header, Footer, Sider, Content} = Layout;
 /**
@@ -36,7 +37,7 @@ export default class extends React.Component {
         collapsed: false,
         siteInfo: {},
 
-        isMobileDevice:false
+        isMobileDevice: false
     }
 
 
@@ -50,8 +51,8 @@ export default class extends React.Component {
         this.setState({siteInfo})
 
         // 判断是否手机端，自动收起菜单
-        if(isMobileDevice()){
-            this.setState({collapsed:true,isMobileDevice:true})
+        if (isMobileDevice()) {
+            this.setState({collapsed: true, isMobileDevice: true})
         }
 
     }
@@ -139,7 +140,7 @@ export default class extends React.Component {
                               let currentTopMenuKey = e.key;
                               let topMenu = this.state.menuMap[currentTopMenuKey];
                               const leftMenus = topMenu.children
-                              if(topMenu) {
+                              if (topMenu) {
                                   this.setState({currentTopMenuKey, leftMenus})
                               }
                           }}
@@ -154,8 +155,9 @@ export default class extends React.Component {
                        onCollapse={(value) => this.toggleCollapsed(value)}>
 
                     <div style={{
-                        color:'white',fontSize:16, cursor:"pointer", margin:12}} title='收起/展开' onClick={()=>this.toggleCollapsed(!this.state.collapsed)}>
-                      {this.state.collapsed ? <MenuUnfoldOutlined/> : <MenuFoldOutlined/>}
+                        color: 'white', fontSize: 16, cursor: "pointer", margin: 12
+                    }} title='收起/展开' onClick={() => this.toggleCollapsed(!this.state.collapsed)}>
+                        {this.state.collapsed ? <MenuUnfoldOutlined/> : <MenuFoldOutlined/>}
                     </div>
 
                     <Menu items={this.state.leftMenus}
@@ -176,24 +178,22 @@ export default class extends React.Component {
                 </Sider>
 
                 <Content id='content'>
-                    <TabMenu items={this.state.tabs}
-                             pathname={this.props.pathname}
-                             onTabRemove={this.removeTab}>
-                    </TabMenu>
-
-                    <div className='tab-content'>
-                       <Outlet context={{xxx:'xxxx'}} />
-                    </div>
+                    <AliveScope>
+                        <TabMenu items={this.state.tabs}
+                                 pathname={this.props.pathname}
+                                 onTabRemove={this.removeTab}>
+                        </TabMenu>
+                    </AliveScope>
                 </Content>
 
             </Layout>
 
-            {!this.state.isMobileDevice &&  <Footer
+            {!this.state.isMobileDevice && <Footer
                 style={{
                     textAlign: 'center',
                     margin: 0,
                     padding: 12,
-                    fontSize:"small"
+                    fontSize: "small"
                 }}
             >
                 {siteInfo.copyright}

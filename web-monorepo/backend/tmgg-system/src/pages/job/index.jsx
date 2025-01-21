@@ -3,6 +3,7 @@ import React from 'react'
 import {PlusOutlined, ReloadOutlined} from "@ant-design/icons";
 import {FieldComponent, HttpUtil, ProTable, SysUtil} from "@tmgg/tmgg-base";
 import {StrUtil} from "@tmgg/tmgg-commons-lang";
+import KeepAlive from "react-activation";
 
 
 const cronOptions = [
@@ -173,7 +174,7 @@ export default class extends React.Component {
 
 
     render() {
-        return <>
+        return <KeepAlive>
             <ProTable
                 actionRef={this.tableRef}
                 toolBarRender={(action, {selectedRowKeys}) => {
@@ -232,13 +233,10 @@ export default class extends React.Component {
                             ></FieldComponent>
                         </Form.Item>
                     ))}
-
-
                 </Form>
-
             </Modal>
 
-        </>
+        </KeepAlive>
     }
 
     onValuesChange = (changed, values) => {
