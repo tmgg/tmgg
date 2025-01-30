@@ -9,7 +9,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldNameConstants;
 
-@msg("车辆")
+@Msg("车辆")
 @Getter
 @Setter
 @Entity
