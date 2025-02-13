@@ -59,12 +59,13 @@ export default class extends React.Component {
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         let pathname = this.props.pathname;
-        if(prevProps.pathname !== pathname) {
-            console.log('pathname变化 ', prevProps.pathname,pathname)
+        if (prevProps.pathname !== pathname) {
+            console.log('pathname变化 ', prevProps.pathname, pathname)
             const tabs = this.state.tabs
-            const curTab = tabs.find(t=>t.path == pathname)
-            if(curTab == null){
-                this.addTab(pathname, pathname,pathname)
+            const curTab = tabs.find(t => t.path == pathname)
+            if (curTab == null) {
+                const path = window.location.hash.substring(1)
+                this.addTab(pathname, path, pathname)
             }
         }
     }
