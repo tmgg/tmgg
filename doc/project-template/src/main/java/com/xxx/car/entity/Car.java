@@ -1,6 +1,6 @@
 package com.xxx.car.entity;
 
-import io.tmgg.lang.ann.Remark;
+import io.tmgg.lang.ann.Msg;
 import io.tmgg.lang.dao.BaseEntity;
 import io.tmgg.lang.dao.DBConstants;
 import jakarta.persistence.Column;
@@ -9,7 +9,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldNameConstants;
 
-@Remark("车辆")
+@Msg("车辆")
 @Getter
 @Setter
 @Entity
@@ -24,20 +24,20 @@ public class Car extends BaseEntity {
     }
 
     // 车牌号
-    @Remark("车牌号")
+    @Msg("车牌号")
     @Column(unique = true)
     String carNo;
 
-    @Remark("车型")
+    @Msg("车型")
     String type;
 
-    @Remark("颜色")
+    @Msg("颜色")
     String color;
 
-    @Remark("可容纳人数")
+    @Msg("可容纳人数")
     Integer capacity;
 
-    @Remark("启用")
+    @Msg("启用")
     @Column(nullable = false, columnDefinition = DBConstants.COLUMN_DEFINITION_BOOLEAN_DEFAULT_TRUE)
     private Boolean enabled;
 
