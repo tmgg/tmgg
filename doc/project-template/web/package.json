@@ -11,13 +11,13 @@
     "dev" : "umi dev",
     "build" : "umi build"
   },
-  "version" : "0.3.17",
+  "version" : "0.3.18",
   "dependencies" : {
     "@ant-design/icons" : "^5.4.0",
     "@tinymce/tinymce-react" : "^5.0.0",
-    "@tmgg/tmgg-base" : "0.3.17",
-    "@tmgg/tmgg-commons-lang" : "0.3.17",
-    "@tmgg/tmgg-system" : "0.3.17",
+    "@tmgg/tmgg-base" : "0.3.18",
+    "@tmgg/tmgg-commons-lang" : "0.3.18",
+    "@tmgg/tmgg-system" : "0.3.18",
     "antd" : "^5.20.3",
     "antd-img-crop" : "^4.23.0",
     "axios" : "^1.6.8",
@@ -28,6 +28,6 @@
     "react-dom" : "^18.2.0",
     "react-lazylog" : "^4.5.3",
     "umi" : "^4.0.0",
-    "react-activation": "^0.13.0"
+    "react-activation" : "^0.13.0"
   }
 }

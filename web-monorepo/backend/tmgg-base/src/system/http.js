@@ -99,31 +99,37 @@ function request(config) {
 export const HttpUtil = {
     request,
 
-    get(url, params = null) {
+    get(url, params = null, config ={showMessage:true, transformData:true}) {
         return request({
             url,
             method: 'GET',
             params,
+            showMessage: config.showMessage,
+            transformData: config.transformData
         })
     },
 
-    post(url, data, params = null) {
+    post(url, data, params = null, config ={showMessage:true, transformData:true}) {
         return request({
             url,
             method: 'POST',
             params,
-            data
+            data,
+            showMessage: config.showMessage,
+            transformData: config.transformData
         })
     },
 
-    postForm(url, data) {
+    postForm(url, data, config ={showMessage:true, transformData:true}) {
         return request({
             url,
             method: 'POST',
             data,
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
-            }
+            },
+            showMessage: config.showMessage,
+            transformData: config.transformData
         })
     },
 
