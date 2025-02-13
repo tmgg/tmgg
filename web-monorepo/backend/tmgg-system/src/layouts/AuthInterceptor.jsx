@@ -12,7 +12,7 @@ export default class extends React.Component {
 
     componentDidMount() {
         console.log("认证拦截器")
-        HttpUtil.get('/check-token', null, {autoHandleErrors:false}).then(rs => {
+        HttpUtil.get('/check-token', null, false).then(rs => {
             console.log("认证结果", rs)
             let tokenValid = rs;
 

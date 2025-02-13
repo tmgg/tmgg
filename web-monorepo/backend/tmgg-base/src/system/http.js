@@ -99,38 +99,53 @@ function request(config) {
 export const HttpUtil = {
     request,
 
-    get(url, params = null, config ={showMessage:true, transformData:true}) {
-        return request({
+    get(url, params = null, showMessage, transformData) {
+        let config = {
             url,
             method: 'GET',
             params,
-            showMessage: config.showMessage,
-            transformData: config.transformData
-        })
+        };
+        if(showMessage != null){
+            config.showMessage = showMessage
+        }
+        if(transformData != null){
+            config.transformData = transformData
+        }
+        return request(config)
     },
 
-    post(url, data, params = null, config ={showMessage:true, transformData:true}) {
-        return request({
+    post(url, data, params = null, showMessage, transformData) {
+        let config = {
             url,
             method: 'POST',
             params,
             data,
-            showMessage: config.showMessage,
-            transformData: config.transformData
-        })
+        };
+        if(showMessage != null){
+            config.showMessage = showMessage
+        }
+        if(transformData != null){
+            config.transformData = transformData
+        }
+        return request(config)
     },
 
-    postForm(url, data, config ={showMessage:true, transformData:true}) {
-        return request({
+    postForm(url, data, showMessage, transformData) {
+        let config = {
             url,
             method: 'POST',
             data,
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
             },
-            showMessage: config.showMessage,
-            transformData: config.transformData
-        })
+        };
+        if(showMessage != null){
+            config.showMessage = showMessage
+        }
+        if(transformData != null){
+            config.transformData = transformData
+        }
+        return request(config)
     },
 
     /**
