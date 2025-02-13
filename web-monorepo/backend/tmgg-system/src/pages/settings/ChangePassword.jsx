@@ -39,12 +39,14 @@ export default class extends React.Component {
         </Form.Item>
         <Form.Item name='newPassword'
                    label='新密码'
+                   extra={'请输入字母、数字、特殊字符'}
                    rules={[
                      {required: true, message: '请输入新密码'},
                      {
                        validator: (rule, value) => {
                          return new Promise((resolve, reject) => {
-                           HttpUtil.get(sys.getServerUrl() + "/sysUser/pwdStrength", {password: value}).then(rs => {
+                           HttpUtil.get( "/sysUser/pwdStrength", {password: value},false, false).then(response => {
+                             const rs =response.data
                              if (!rs.success) {
                                reject(rs.message)
                              }

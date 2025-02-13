@@ -138,7 +138,6 @@ export default class extends React.Component {
 
                     <img className='logo-img' src={logo} onClick={() => history.push('/')}/>
                     {!this.state.isMobileDevice && <>
-                        <Divider type='vertical'/>
                         <h3>
                             <Link to="/" style={{color: theme["primary-color"]}}>{siteInfo.title} </Link>
                         </h3>

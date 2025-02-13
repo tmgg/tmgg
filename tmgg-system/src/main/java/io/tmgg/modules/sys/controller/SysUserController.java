@@ -36,10 +36,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -121,11 +118,8 @@ public class SysUserController {
 
         PasswdStrength.PASSWD_LEVEL level = PasswdStrength.getLevel(password);
 
-        switch (level) {
-            case EASY:
-                return AjaxResult.err().msg("密码太简单");
-            case MIDIUM:
-                return AjaxResult.err().msg("密码强度一般");
+        if (level == PasswdStrength.PASSWD_LEVEL.EASY) {
+            return AjaxResult.err().msg("密码强度太低");
         }
 
         return AjaxResult.ok().data(level);

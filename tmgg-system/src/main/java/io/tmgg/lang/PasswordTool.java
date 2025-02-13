@@ -29,7 +29,7 @@ public class PasswordTool {
     }
 
     public static boolean isStrengthOk(String password) {
-        return PasswdStrength.getLevel(password).ordinal() >= PasswdStrength.PASSWD_LEVEL.MIDIUM.ordinal();
+        return PasswdStrength.getLevel(password).ordinal() > PasswdStrength.PASSWD_LEVEL.EASY.ordinal();
     }
 
 }
