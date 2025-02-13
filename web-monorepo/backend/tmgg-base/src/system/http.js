@@ -72,19 +72,22 @@ function request(config) {
 
 
         }).catch(e => {
-            let msg = e;
-            if (e.response && e.response.data) {
-                const rs = e.response.data
-                msg = rs.message
-            }
-            if (msg == null && e.message) {
-                msg = e.message
+            if (showMessage) {
+                let msg = e;
+                if (e.response && e.response.data) {
+                    const rs = e.response.data
+                    msg = rs.message
+                }
+                if (msg == null && e.message) {
+                    msg = e.message
+                }
+
+                Modal.error({
+                    title: '操作失败',
+                    content: msg
+                })
             }
 
-            Modal.error({
-                title: '操作失败',
-                content: msg
-            })
             reject(e)
         }).finally(() => {
             if (loadingCallback) {
@@ -105,10 +108,10 @@ export const HttpUtil = {
             method: 'GET',
             params,
         };
-        if(showMessage != null){
+        if (showMessage != null) {
             config.showMessage = showMessage
         }
-        if(transformData != null){
+        if (transformData != null) {
             config.transformData = transformData
         }
         return request(config)
@@ -121,10 +124,10 @@ export const HttpUtil = {
             params,
             data,
         };
-        if(showMessage != null){
+        if (showMessage != null) {
             config.showMessage = showMessage
         }
-        if(transformData != null){
+        if (transformData != null) {
             config.transformData = transformData
         }
         return request(config)
@@ -139,10 +142,10 @@ export const HttpUtil = {
                 'Content-Type': 'application/x-www-form-urlencoded'
             },
         };
-        if(showMessage != null){
+        if (showMessage != null) {
             config.showMessage = showMessage
         }
-        if(transformData != null){
+        if (transformData != null) {
             config.transformData = transformData
         }
         return request(config)
@@ -155,12 +158,12 @@ export const HttpUtil = {
      * @param sort
      * @returns {Promise<unknown>}
      */
-    pageData(url,  params) {
-        const {page,size, sort, ...data} = params;
-        return this.post(url, data, {page,size,sort})
+    pageData(url, params) {
+        const {page, size, sort, ...data} = params;
+        return this.post(url, data, {page, size, sort})
     },
 
-    downloadFile(url, params, method='GET') {
+    downloadFile(url, params, method = 'GET') {
         let config = {
             url,
             params,
@@ -168,9 +171,9 @@ export const HttpUtil = {
             responseType: 'blob',
             transformData: false
         };
-        if(method === 'GET'){
+        if (method === 'GET') {
             config.params = params
-        }else if(method === 'POST'){
+        } else if (method === 'POST') {
             config.data = params;
         }
 
