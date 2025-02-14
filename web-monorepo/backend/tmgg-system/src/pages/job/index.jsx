@@ -64,7 +64,7 @@ export default class extends React.Component {
 
         },
         {
-            title: '分租',
+            title: '分组',
             dataIndex: 'group',
         },
         {
