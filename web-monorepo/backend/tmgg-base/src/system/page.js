@@ -29,7 +29,6 @@ export class PageUtil {
             const k = kvArr[0];
             let v = kvArr[1];
             if(v){
-                debugger
                 v = decodeURI(v)
             }
             rs[k] = v;

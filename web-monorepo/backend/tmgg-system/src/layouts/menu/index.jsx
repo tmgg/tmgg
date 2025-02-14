@@ -215,7 +215,7 @@ export default class extends React.Component {
             >
                 {siteInfo.copyright}
 
-                &nbsp;&nbsp;&nbsp;&nbsp;{DateUtil.now()}
+                &nbsp;&nbsp;&nbsp;&nbsp;time:<time title='当前时间'>{DateUtil.now()}</time>
             </Footer>}
 
         </Layout>
