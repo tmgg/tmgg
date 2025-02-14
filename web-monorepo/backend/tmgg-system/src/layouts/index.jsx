@@ -6,7 +6,7 @@ import {PageUtil} from "@tmgg/tmgg-base";
 import AuthInterceptor from "./AuthInterceptor";
 import {history, Outlet} from "umi";
 import zhCN from 'antd/locale/zh_CN';
-import {theme} from "@tmgg/tmgg-commons-lang";
+import {theme, UrlUtil} from "@tmgg/tmgg-commons-lang";
 import dayjs from 'dayjs';
 import 'dayjs/locale/zh-cn';
 
@@ -29,16 +29,18 @@ export class Layouts extends React.Component {
         siteInfoLoaded: false,
         loginDataLoaded: false,
 
-        pathname: null
+        pathname: null, // 不带参路径
+        path: null // 带参路径
     }
 
     componentDidMount() {
         const unlisten = history.listen(({location, action}) => {
-            console.log(location.pathname);
-            this.setState({pathname: location.pathname})
+            console.log('监听路由：不带参路径为',location);
+            this.setState({pathname: location.pathname, path:location.pathname + location.search})
         });
         let pathname = PageUtil.currentPathname();
-        this.setState({pathname: pathname})
+        let path = PageUtil.currentPath();
+        this.setState({pathname, path})
     }
 
     render() {
@@ -99,7 +101,7 @@ export class Layouts extends React.Component {
         return <SiteInfoInterceptor>
             <AuthInterceptor>
                 <LoginInfoInterceptor>
-                    <MenuLayout pathname={pathname} {...this.props}/>
+                    <MenuLayout pathname={pathname} path={this.state.path} {...this.props}/>
                 </LoginInfoInterceptor>
             </AuthInterceptor>
         </SiteInfoInterceptor>

@@ -58,14 +58,14 @@ export default class extends React.Component {
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        let pathname = this.props.pathname;
-        if (prevProps.pathname !== pathname) {
-            console.log('pathname变化 ', prevProps.pathname, pathname)
+        let curPath = this.props.path;
+        let curPathname = this.props.pathname
+        if (prevProps.path !== curPath) {
             const tabs = this.state.tabs
-            const curTab = tabs.find(t => t.path == pathname)
+            const curTab = tabs.find(t => t.path === curPath)
             if (curTab == null) {
-                const path = window.location.hash.substring(1)
-                this.addTab(pathname, path, pathname)
+                const label = PageUtil.currentLabel()
+                this.addTab(curPath, curPath, label)
             }
         }
     }
@@ -81,8 +81,12 @@ export default class extends React.Component {
                 menuMap[item.id] = item
                 if (item.path === pathname) {
                     currentMenuKey = item.id
-                }
 
+                    if(this.state.tabs.length === 0) {
+                        this.addTab(item.id, item.path, item.label)
+                    }
+
+                }
             })
             const topMenus = menus.map(item => {
                 const {key, label} = item
@@ -193,6 +197,7 @@ export default class extends React.Component {
                     <AliveScope>
                         <TabMenu items={this.state.tabs}
                                  pathname={this.props.pathname}
+                                 path={this.props.path}
                                  onTabRemove={this.removeTab}>
                         </TabMenu>
                     </AliveScope>

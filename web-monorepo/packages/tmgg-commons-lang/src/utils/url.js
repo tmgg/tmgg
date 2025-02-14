@@ -35,7 +35,8 @@ export const UrlUtil = {
         if (!url) {
             return null
         }
-        return new URL(url).origin
+
+        return StrUtil.subBefore(url,'?')
     },
 
 
@@ -55,10 +56,22 @@ export const UrlUtil = {
         return buffer.join('&')
     },
 
-    replaceParam(url, key, value) {
+    setParam(url, key, value) {
         const p = this.params(url)
         p[key] = value;
+        if(value == null){
+            delete p[key]
+        }
         return this.baseUrl(url) + '?' + this.paramsToSearch(p);
-    }
+    },
 
+    /**
+     * @deprecated
+     * @param url
+     * @param key
+     * @param value
+     */
+    replaceParam(url, key, value) {
+      this.setParam(url, key, value)
+    }
 }

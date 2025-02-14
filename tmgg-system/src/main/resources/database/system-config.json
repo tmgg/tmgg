@@ -48,7 +48,7 @@
     {
       "id": "sys.siteInfo.title",
       "label": "站点标题",
-      "defaultValue": "后台管理系统",
+      "defaultValue": "管理系统",
       "$update": false
     },
     {

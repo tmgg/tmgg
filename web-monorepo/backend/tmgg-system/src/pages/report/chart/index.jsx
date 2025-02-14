@@ -20,10 +20,7 @@ export default class extends React.Component {
             title: '标题',
             dataIndex: 'title',
         },
-        {
-            title: '标题',
-            dataIndex: 'title',
-        },
+
         {
             title: '查看次数',
             dataIndex: 'viewCount',
@@ -38,7 +35,7 @@ export default class extends React.Component {
             render: (_, record) => (
                 <ButtonList>
                     <a perm='sysReportChart:save'
-                       onClick={() => PageUtil.open('/report/chart/design?id=' + record.id)}> 编辑 </a>
+                       onClick={() => PageUtil.open('/report/chart/design?id=' + record.id, '图表-' + record.title)}> 编辑 </a>
 
                     <Popconfirm perm='sysReportChart:delete' title='是否确定删除系统图表'
                                 onConfirm={() => this.handleDelete(record)}>

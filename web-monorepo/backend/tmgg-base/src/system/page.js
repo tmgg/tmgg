@@ -1,9 +1,17 @@
 import {history} from "umi";
-import {StrUtil} from "@tmgg/tmgg-commons-lang";
+import {StrUtil, UrlUtil} from "@tmgg/tmgg-commons-lang";
 
 export class PageUtil {
 
+    /**
+     * @deprecated
+     * @returns {{}}
+     */
     static currentLocationQuery() {
+       return this.currentParams()
+    }
+
+    static currentParams(){
         let url = window.location.href
 
 
@@ -19,7 +27,11 @@ export class PageUtil {
         for (let kv of kvs) {
             const kvArr = kv.split('=')
             const k = kvArr[0];
-            const v = kvArr[1];
+            let v = kvArr[1];
+            if(v){
+                debugger
+                v = decodeURI(v)
+            }
             rs[k] = v;
         }
 
@@ -27,9 +39,15 @@ export class PageUtil {
     }
 
     //"http://localhost:8000/#/login?id=1"
+    //  返回不带参的路径
     static currentPathname() {
         let path = window.location.hash.substring(1);
         return StrUtil.subBefore(path, '?')
+    }
+
+    static currentPath() {
+        let path = window.location.hash.substring(1);
+        return path
     }
 
     /**
@@ -42,8 +60,15 @@ export class PageUtil {
     }
 
 
-    static open(path) {
+    static open(path,label) {
+        if(label) {
+            path = UrlUtil.setParam(path,'_label', label)
+        }
         history.push(path)
     }
 
+
+    static currentLabel(){
+        return this.currentParams()['_label'] || this.currentPath()
+    }
 }

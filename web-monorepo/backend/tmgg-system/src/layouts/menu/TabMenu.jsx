@@ -34,7 +34,7 @@ export default class extends React.Component {
 
         const menuItems = items.map(item => {
             const {label, key, path} = item
-            if (path === pathname) {
+            if (path === this.props.path) {
                 activeKey = key
             }
 
