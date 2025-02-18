@@ -2,13 +2,24 @@
   "SysMenu": [
     {
       "pid": "sys",
-      "id": "sys_code_gen",
-      "name": "代码生成",
-      "perm": "sys_code_gen",
+      "id": "dev",
+      "name": "开发",
+      "perm": "dev",
       "path": "/code",
       "icon": "ApartmentOutlined",
-      "seq": 1
+      "seq": 10
+    },
+
+    {
+      "pid": "dev",
+      "id": "sys_entity_gen",
+      "name": "实体生成代码",
+      "perm": "sys_entity_gen",
+      "path": "/code",
+      "icon": "ApartmentOutlined",
+      "seq": 2
     }
+
 
   ]
 }

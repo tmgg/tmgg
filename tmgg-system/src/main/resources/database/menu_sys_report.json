@@ -6,7 +6,7 @@
       "name": "SQL报表",
       "perm": "sysReport",
       "type": "DIR",
-      "seq": 1
+      "seq": 10
     },
     {
       "pid":"sysReport",
