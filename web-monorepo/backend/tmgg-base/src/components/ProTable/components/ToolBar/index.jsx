@@ -13,7 +13,6 @@ export default class Toolbar extends React.Component {
     render = () => {
         const {
             onRefresh,
-            headerTitle,
             showSearch,
             toolBarRender,
 
@@ -24,14 +23,18 @@ export default class Toolbar extends React.Component {
 
 
         return <div className='pro-table-toolbar'>
-            <div className='pro-table-toolbar-title'>{headerTitle }</div>
+
+            <div className='pro-table-toolbar-search'>
+            {showSearch && <Input.Search
+                style={{width: 200}}
+                placeholder='搜索...'
+                onSearch={(v)=>this.props.onSearch({keyword: v})}
+            />
+            }
+            </div>
+
             <div className='pro-table-toolbar-option'>
-                {showSearch && <Input.Search
-                    style={{width: 200}}
-                    placeholder='搜索...'
-                    onSearch={(v)=>this.props.onSearch({keyword: v})}
-                />
-                }
+
 
                 {toolBarRender}
                 <span onClick={onRefresh}>

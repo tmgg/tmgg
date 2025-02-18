@@ -77,11 +77,9 @@ export class ProTable extends React.Component {
         const {
             actionRef,
             toolBarRender,
-            request,
             columns,
             rowSelection,
             rowKey = "id",
-            headerTitle,
             showSearch,
             searchFormItemsRender,
             formRef
@@ -107,7 +105,6 @@ export class ProTable extends React.Component {
             }}
             >
                 <Toolbar
-                    headerTitle={headerTitle}
                     actionRef={actionRef}
                     toolBarRender={this.getToolBarRenderNode(toolBarRender)}
                     onTableSizeChange={tableSize => this.setState({tableSize})}
