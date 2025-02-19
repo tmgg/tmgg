@@ -3,6 +3,9 @@ package io.tmgg.modules.api.gateway;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.util.StrUtil;
+import cn.hutool.crypto.SecureUtil;
+import cn.hutool.crypto.symmetric.AES;
 import cn.hutool.extra.servlet.JakartaServletUtil;
 import io.tmgg.jackson.JsonTool;
 import io.tmgg.modules.api.ApiResource;
@@ -32,7 +35,7 @@ public class ApiGatewayController {
                           @RequestHeader("X-URI") String uri,
                           @RequestHeader("X-APP-KEY") String appKey,
                           @RequestHeader("X-TIMESTAMP") long timestamp,
-                          @RequestBody String body) throws Exception {
+                          String data) throws Exception {
         // 验证时间戳，与服务器时间差异不能超过20分钟
         long diffTime = (System.currentTimeMillis() - timestamp) / (1000 * 60); // 分钟
         Assert.state(Math.abs(diffTime) < 2, "时间戳差异大，差距" + diffTime + "分钟");
@@ -56,14 +59,18 @@ public class ApiGatewayController {
 
         Method method = resource.getMethod();
 
-        Map<String, Object> params = JsonTool.jsonToMap(body);
+        if(StrUtil.isNotEmpty(data)){
+            AES aes = SecureUtil.aes(account.getAppSecret().getBytes());
+            data = aes.decryptStr(data);
+        }
+
+        Map<String, Object> params = JsonTool.jsonToMap(data);
 
         Object[] paramValues = ArgumentResolver.resolve(method, params , request, response);
         Object retValue = null;
         if (paramValues.length == 0) {
             retValue = method.invoke(resource.getBean());
         } else {
-            Map<String, Object> data = new HashMap<>();
             retValue = method.invoke(resource.getBean(), paramValues);
         }
 
