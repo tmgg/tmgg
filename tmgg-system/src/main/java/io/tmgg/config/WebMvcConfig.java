@@ -59,12 +59,16 @@ public class WebMvcConfig implements WebMvcConfigurer {
             "/web/**",
 
 
+
             //后端的
             "/",
             "/login",
             "/logout",
             "/oauth/**",
             "/error",
+
+            // 接口
+            "/api/gateway/**",
 
             // 移动端
             "/wx/**",

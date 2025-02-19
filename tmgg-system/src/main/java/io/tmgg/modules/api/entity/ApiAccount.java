@@ -2,11 +2,19 @@ package io.tmgg.modules.api.entity;
 
 import io.tmgg.lang.ann.Msg;
 import io.tmgg.lang.dao.BaseEntity;
+import io.tmgg.lang.dao.DBConstants;
+import io.tmgg.lang.dao.converter.ToListConverter;
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Lob;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldNameConstants;
+
+import java.util.Date;
+import java.util.List;
 
 @Msg("接口访客")
 @Entity
@@ -24,17 +32,27 @@ public class ApiAccount extends BaseEntity {
     private String remark;
 
     @Msg("权限")
-    private String perms;
+    @Column(length = 2000)
+    @Convert(converter = ToListConverter.class)
+    private List<String> perms;
 
     @Msg("准入IP")
-    private String accessIp;
+    @Convert(converter = ToListConverter.class)
+    private List<String> accessIp;
 
+    @Column(unique = true,length = 64)
+    @NotNull
     private String appKey;
 
+    @Column(unique = true,length = 128)
+    @NotNull
     private String appSecret;
 
     @Msg("状态")
+    @NotNull
     private Boolean enable;
 
 
+    @Msg("有效期")
+    private Date endTime;
 }

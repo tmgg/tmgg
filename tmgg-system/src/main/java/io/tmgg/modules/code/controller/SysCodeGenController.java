@@ -105,7 +105,9 @@ public class SysCodeGenController {
             String targetFile = (String) e.getValue();
             targetFile = FreemarkerTool.renderString(targetFile, model);
 
-            String template = ResourceUtil.readUtf8Str(templateFolder + "/" + templateFile);
+            String fullPath = templateFolder + "/" + templateFile;
+            log.info("模板文件：{}", fullPath);
+            String template = ResourceUtil.readUtf8Str(fullPath);
 
             log.info("准备渲染文件：{}={}", templateFile, targetFile);
             String result = FreemarkerTool.renderString(template, model);
