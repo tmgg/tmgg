@@ -59,8 +59,8 @@ public class ApiGatewayController {
 
         Method method = resource.getMethod();
 
+        AES aes = SecureUtil.aes(account.getAppSecret().getBytes());
         if(StrUtil.isNotEmpty(data)){
-            AES aes = SecureUtil.aes(account.getAppSecret().getBytes());
             data = aes.decryptStr(data);
         }
 
@@ -72,6 +72,12 @@ public class ApiGatewayController {
             retValue = method.invoke(resource.getBean());
         } else {
             retValue = method.invoke(resource.getBean(), paramValues);
+        }
+
+        if(retValue != null){
+            String res = JsonTool.toJsonQuietly(retValue);
+            res =  aes.encryptHex(res);
+            return res;
         }
 
         return retValue;

@@ -33,5 +33,8 @@ public class DemoClient {
 
         String body = http.execute().body();
         System.out.println(body);
+
+        String decryptStr = aes.decryptStr(body);
+        System.out.println(decryptStr);
     }
 }
