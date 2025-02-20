@@ -1,4 +1,4 @@
-package io.tmgg.weapp.config;
+package io.tmgg.weixin.config;
 
 import cn.binarywang.wx.miniapp.api.impl.WxMaServiceImpl;
 import org.springframework.context.annotation.Bean;

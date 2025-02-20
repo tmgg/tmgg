@@ -1,4 +1,4 @@
-package io.tmgg.weapp.rest;
+package io.tmgg.weixin.rest;
 
 import cn.binarywang.wx.miniapp.api.WxMaService;
 import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
@@ -6,10 +6,10 @@ import cn.binarywang.wx.miniapp.bean.WxMaPhoneNumberInfo;
 import cn.binarywang.wx.miniapp.bean.WxMaUserInfo;
 import cn.binarywang.wx.miniapp.util.WxMaConfigHolder;
 import io.tmgg.lang.obj.AjaxResult;
-import io.tmgg.weapp.WeappTool;
-import io.tmgg.weapp.entity.WeappUser;
-import io.tmgg.weapp.service.WeappAuthListener;
-import io.tmgg.weapp.service.WeappUserService;
+import io.tmgg.weixin.WexinTool;
+import io.tmgg.weixin.entity.WeixinUser;
+import io.tmgg.weixin.service.WeappAuthListener;
+import io.tmgg.weixin.service.WeappUserService;
 import cn.hutool.core.img.ImgUtil;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
@@ -62,14 +62,14 @@ public class WeapAppController {
         try {
             WxMaJscode2SessionResult session = wxMaService.getUserService().getSessionInfo(code);
             String openId = session.getOpenid();
-            WeappUser user = null;
+            WeixinUser user = null;
 
             synchronized (openId) {
                 user = weappUserService.findByOpenId(openId);
                 if (user == null) {
-                    user = new WeappUser();
+                    user = new WeixinUser();
                     user.setOpenId(openId);
-                    user.setAppId(WeappTool.curAppId());
+                    user.setAppId(WexinTool.curAppId());
                     user.setUnionId(session.getUnionid());
                 }
                 user.setSessionKey(session.getSessionKey());
@@ -100,11 +100,11 @@ public class WeapAppController {
      */
     @PostMapping("decryptPhone")
     public AjaxResult decryptPhone(String code, HttpSession session) throws WxErrorException {
-        String userId = WeappTool.curUserId(session);
+        String userId = WexinTool.curUserId(session);
         // 解密
         WxMaPhoneNumberInfo phoneNoInfo = wxMaService.getUserService().getPhoneNoInfo(code);
 
-        WeappUser user = weappUserService.findOne(userId);
+        WeixinUser user = weappUserService.findOne(userId);
         user.setPhone(phoneNoInfo.getPurePhoneNumber());
         weappUserService.save(user);
 
@@ -122,19 +122,19 @@ public class WeapAppController {
      */
     @PostMapping("decryptUser")
     public AjaxResult decryptUser(String encryptedData, String iv, HttpSession session) {
-        WeappUser weappUser = WeappTool.curUser(session);
-        String sessionKey = weappUser.getSessionKey();
+        WeixinUser weixinUser = WexinTool.curUser(session);
+        String sessionKey = weixinUser.getSessionKey();
 
         // 解密
         WxMaUserInfo wxMaUserInfo = wxMaService.getUserService().getUserInfo(sessionKey, encryptedData, iv);
 
-        weappUser.setNickName(wxMaUserInfo.getNickName());
-        weappUser.setAvatarUrl(wxMaUserInfo.getAvatarUrl());
+        weixinUser.setNickName(wxMaUserInfo.getNickName());
+        weixinUser.setAvatarUrl(wxMaUserInfo.getAvatarUrl());
 
-        weappUser = weappUserService.save(weappUser);
+        weixinUser = weappUserService.save(weixinUser);
 
 
-        return AjaxResult.ok().data(weappUser);
+        return AjaxResult.ok().data(weixinUser);
     }
 
 
@@ -145,8 +145,8 @@ public class WeapAppController {
      */
     @GetMapping("getUserInfo")
     public AjaxResult getUserInfo(HttpSession session) {
-        String id = WeappTool.curUserId(session);
-        WeappUser user = weappUserService.findOne(id);
+        String id = WexinTool.curUserId(session);
+        WeixinUser user = weappUserService.findOne(id);
         return AjaxResult.ok().data(user);
     }
 
@@ -157,9 +157,9 @@ public class WeapAppController {
      * @return
      */
     @PostMapping("updateUser")
-    public AjaxResult updateUser(WeappUser weappUser, HttpSession session) {
-        String id = WeappTool.curUserId(session);
-        WeappUser user = weappUserService.updateNickName(id, weappUser);
+    public AjaxResult updateUser(WeixinUser weixinUser, HttpSession session) {
+        String id = WexinTool.curUserId(session);
+        WeixinUser user = weappUserService.updateNickName(id, weixinUser);
         return AjaxResult.ok().data(user);
     }
 
@@ -169,9 +169,9 @@ public class WeapAppController {
 
         String png = ImgUtil.toBase64DataUri(image, "png");
 
-        String id = WeappTool.curUserId(session);
+        String id = WexinTool.curUserId(session);
 
-        WeappUser user = weappUserService.updateAvatar(id, png);
+        WeixinUser user = weappUserService.updateAvatar(id, png);
 
         return AjaxResult.ok().data(user);
     }

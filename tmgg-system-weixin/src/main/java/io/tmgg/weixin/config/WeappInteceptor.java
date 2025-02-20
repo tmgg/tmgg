@@ -1,7 +1,7 @@
-package io.tmgg.weapp.config;
+package io.tmgg.weixin.config;
 
 import cn.binarywang.wx.miniapp.api.WxMaService;
-import io.tmgg.weapp.WeappTool;
+import io.tmgg.weixin.WexinTool;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -16,7 +16,7 @@ public class WeappInteceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        String appId = WeappTool.curAppId();
+        String appId = WexinTool.curAppId();
         if(appId != null){
             if (!wxMaService.switchover(appId)) {
                 throw new IllegalArgumentException(String.format("未找到对应appid=[%s]的配置，请核实！", appId));

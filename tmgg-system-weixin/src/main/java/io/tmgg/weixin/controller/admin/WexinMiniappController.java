@@ -1,8 +1,8 @@
-package io.tmgg.weapp.controller.admin;
+package io.tmgg.weixin.controller.admin;
 
 import io.tmgg.lang.dao.BaseCURDController;
-import io.tmgg.weapp.entity.WeixinMiniapp;
-import io.tmgg.weapp.service.WeappService;
+import io.tmgg.weixin.entity.WeixinMiniapp;
+import io.tmgg.weixin.service.WeappService;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.annotation.Resource;

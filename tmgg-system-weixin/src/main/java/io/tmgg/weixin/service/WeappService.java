@@ -1,9 +1,9 @@
-package io.tmgg.weapp.service;
+package io.tmgg.weixin.service;
 
 import cn.binarywang.wx.miniapp.api.WxMaService;
 import cn.binarywang.wx.miniapp.config.impl.WxMaDefaultConfigImpl;
 import io.tmgg.lang.dao.BaseService;
-import io.tmgg.weapp.entity.WeixinMiniapp;
+import io.tmgg.weixin.entity.WeixinMiniapp;
 import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Service;
 

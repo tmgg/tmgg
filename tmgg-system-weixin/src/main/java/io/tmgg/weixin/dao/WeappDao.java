@@ -1,7 +1,7 @@
-package io.tmgg.weapp.dao;
+package io.tmgg.weixin.dao;
 
 import io.tmgg.lang.dao.BaseDao;
-import io.tmgg.weapp.entity.WeixinMiniapp;
+import io.tmgg.weixin.entity.WeixinMiniapp;
 import org.springframework.stereotype.Repository;
 
 @Repository

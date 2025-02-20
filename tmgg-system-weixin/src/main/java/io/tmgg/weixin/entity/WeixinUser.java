@@ -1,4 +1,4 @@
-package io.tmgg.weapp.entity;
+package io.tmgg.weixin.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.tmgg.lang.ann.Msg;
@@ -16,10 +16,9 @@ import java.util.Date;
 @Entity
 @Getter
 @Setter
-@Table(name = "sys_weapp_user")
 @FieldNameConstants
 @ToString
-public class WeappUser extends BaseEntity {
+public class WeixinUser extends BaseEntity {
 
     @Column(length = 32)
     @Msg("应用ID")
