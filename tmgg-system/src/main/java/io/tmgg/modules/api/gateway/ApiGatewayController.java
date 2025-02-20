@@ -75,7 +75,7 @@ public class ApiGatewayController {
 
 
         // 校验签名
-        this.checkSign(uri, appKey, timestamp, data, signature, account.getPublicKey());
+        this.checkSign(uri, appKey, timestamp, data, signature, account.getAsymSecret());
 
         Map<String, Object> params = JsonTool.jsonToMap(data);
         Method method = resource.getMethod();
