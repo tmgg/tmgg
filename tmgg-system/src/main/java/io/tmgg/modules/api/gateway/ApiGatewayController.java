@@ -39,7 +39,7 @@ public class ApiGatewayController {
                           @RequestHeader("X-APP-KEY") String appKey,
                           @RequestHeader("X-TIMESTAMP") long timestamp,
                           @RequestHeader("X-SIGNATURE") String signature,
-                          String data) throws Exception {
+                         @RequestBody String data) throws Exception {
 
         // 验证时间戳，与服务器时间差异不能超过20分钟
         long diffTime = (System.currentTimeMillis() - timestamp) / (1000 * 60); // 分钟
