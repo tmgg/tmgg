@@ -1,4 +1,4 @@
-package io.tmgg.weixin.controller.admin;
+package io.tmgg.weixin.controller;
 
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.weixin.entity.WeixinUser;

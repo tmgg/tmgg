@@ -1,4 +1,4 @@
-package io.tmgg.weixin.controller.admin;
+package io.tmgg.weixin.controller;
 
 import io.tmgg.lang.dao.BaseCURDController;
 import io.tmgg.weixin.entity.WeixinMiniapp;
