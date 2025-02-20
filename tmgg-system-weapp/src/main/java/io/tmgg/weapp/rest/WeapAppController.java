@@ -1,4 +1,4 @@
-package io.tmgg.weapp.controller.app;
+package io.tmgg.weapp.rest;
 
 import cn.binarywang.wx.miniapp.api.WxMaService;
 import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;

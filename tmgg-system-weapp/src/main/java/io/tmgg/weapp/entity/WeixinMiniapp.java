@@ -13,8 +13,7 @@ import jakarta.validation.constraints.NotNull;
 @Entity
 @Getter
 @Setter
-@Table(name = "sys_weapp")
-public class Weapp extends BaseEntity {
+public class WeixinMiniapp extends BaseEntity {
 
 
     @NotNull

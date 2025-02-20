@@ -3,7 +3,7 @@ package io.tmgg.weapp.service;
 import cn.binarywang.wx.miniapp.api.WxMaService;
 import cn.binarywang.wx.miniapp.config.impl.WxMaDefaultConfigImpl;
 import io.tmgg.lang.dao.BaseService;
-import io.tmgg.weapp.entity.Weapp;
+import io.tmgg.weapp.entity.WeixinMiniapp;
 import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +11,7 @@ import jakarta.annotation.Resource;
 import java.util.List;
 
 @Service
-public class WeappService extends BaseService<Weapp> {
+public class WeappService extends BaseService<WeixinMiniapp> {
 
     @Resource
     WxMaService wxMaService;
@@ -19,10 +19,10 @@ public class WeappService extends BaseService<Weapp> {
 
 
     @Override
-    public Weapp saveOrUpdate(Weapp input) throws Exception {
-        Weapp weapp = super.saveOrUpdate(input);
+    public WeixinMiniapp saveOrUpdate(WeixinMiniapp input) throws Exception {
+        WeixinMiniapp weixinMiniapp = super.saveOrUpdate(input);
         this.refresh();
-        return weapp;
+        return weixinMiniapp;
     }
 
     @PostConstruct
@@ -32,14 +32,14 @@ public class WeappService extends BaseService<Weapp> {
 
 
     public void refresh(){
-        List<Weapp> list = this.findAll();
+        List<WeixinMiniapp> list = this.findAll();
 
-        for (Weapp weapp : list) {
+        for (WeixinMiniapp weixinMiniapp : list) {
             WxMaDefaultConfigImpl cfg = new WxMaDefaultConfigImpl();
 
-            String appId = weapp.getAppId();
+            String appId = weixinMiniapp.getAppId();
             cfg.setAppid(appId);
-            cfg.setSecret(weapp.getAppSecret());
+            cfg.setSecret(weixinMiniapp.getAppSecret());
 
             wxMaService.addConfig(appId, cfg);
         }
