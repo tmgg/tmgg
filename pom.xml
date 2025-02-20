@@ -17,7 +17,7 @@
         <module>tmgg-system</module>
         <module>tmgg-system-ureport</module>
         <module>tmgg-system-flowable</module>
-        <module>tmgg-system-weapp</module>
+        <module>tmgg-system-weixin</module>
         <module>tmgg-system-kettle</module>
         <module>tmgg-script</module>
         <module>tmgg-base</module>
