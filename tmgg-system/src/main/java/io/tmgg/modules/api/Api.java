@@ -24,4 +24,10 @@ public @interface Api {
 	 */
 	String desc() default "";
 
+	/**
+	 * 内容是否加密
+	 * @return
+	 */
+	boolean encrypt() default false;
+
 }

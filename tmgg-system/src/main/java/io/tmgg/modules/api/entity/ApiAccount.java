@@ -48,6 +48,11 @@ public class ApiAccount extends BaseEntity {
     @NotNull
     private String appSecret;
 
+    @Msg("公钥")
+    @Column(unique = true,length = 1000)
+    @NotNull
+    private String publicKey;
+
     @Msg("状态")
     @NotNull
     private Boolean enable;

@@ -15,7 +15,7 @@ import java.util.Map;
 public class ServerTimeApi implements BaseApi {
 
 
-	@Api(name = "服务器时间", url = "time")
+	@Api(name = "服务器时间", url = "time",encrypt = false)
 	public Map<String, Object> time(String format) {
 		Date now = new Date();
 		Map<String, Object> data = new HashMap<>();
