@@ -14,9 +14,22 @@ import java.util.Map;
 @Service
 public class ApiResourceService {
 
-
     private Map<String, ApiResource> map;
 
+    public ApiResource findByMethod(String uri) {
+        init();
+
+        return map.get(uri);
+    }
+
+    public Collection<ApiResource> findAll(){
+        init();
+        return map.values();
+    }
+
+    /**
+     * 延迟初始化，节约内存
+     */
     private void init() {
         if (map != null) {
             return;
@@ -36,9 +49,5 @@ public class ApiResourceService {
         }
     }
 
-    public ApiResource findByMethod(String uri) {
-        init();
 
-        return map.get(uri);
-    }
 }

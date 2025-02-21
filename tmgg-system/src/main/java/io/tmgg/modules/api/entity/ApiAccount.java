@@ -1,5 +1,7 @@
 package io.tmgg.modules.api.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.tmgg.lang.ann.Msg;
 import io.tmgg.lang.dao.BaseEntity;
 import io.tmgg.lang.dao.DBConstants;
@@ -28,8 +30,7 @@ public class ApiAccount extends BaseEntity {
     @Column(length = 50)
     private String name;
 
-    @Msg("描述")
-    private String remark;
+
 
     @Msg("权限")
     @Column(length = 2000)
@@ -37,21 +38,14 @@ public class ApiAccount extends BaseEntity {
     private List<String> perms;
 
     @Msg("准入IP")
-    @Convert(converter = ToListConverter.class)
-    private List<String> accessIp;
+    private String accessIp;
 
-    @Column(unique = true,length = 64)
-    @NotNull
-    private String appKey;
 
-    @Column(unique = true,length = 128)
-    @NotNull
+
+    @Column(unique = true,length = 32)
     private String appSecret;
 
-    @Msg("非对称公钥")
-    @Column(unique = true,length = 1000)
-    @NotNull
-    private String asymSecret;
+
 
     @Msg("状态")
     @NotNull

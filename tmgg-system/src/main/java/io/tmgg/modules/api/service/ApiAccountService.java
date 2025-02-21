@@ -11,8 +11,5 @@ public class ApiAccountService extends BaseService<ApiAccount> {
 
     @Resource
     ApiAccountDao apiAccountDao;
-    public ApiAccount findByAppKey(String appKey) {
-        return apiAccountDao.findOneByField(ApiAccount.Fields.appKey, appKey);
 
-    }
 }

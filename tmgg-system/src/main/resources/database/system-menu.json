@@ -79,7 +79,6 @@
       "name": "系统监控",
       "seq": 199
     },
-
     {
       "id": "machine",
       "pid": "sysMonitor",
@@ -112,7 +111,6 @@
       "path": "/system/onlineUser",
       "seq": 10
     },
-
     {
       "id": "sysOpLog",
       "pid": "sysMonitor",
@@ -120,6 +118,14 @@
       "perm": "sysOpLog",
       "path": "/system/log/oplog",
       "seq": 12
+    },
+    {
+      "pid": "sys",
+      "id": "apiAccount",
+      "name": "接口管理",
+      "perm": "apiAccount",
+      "path": "/api/apiAccount",
+      "seq": 13
     }
   ]
 }

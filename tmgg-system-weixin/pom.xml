@@ -7,7 +7,7 @@
         <version>0.3.24</version>
     </parent>
 
-    <artifactId>tmgg-system-weixinMiniapp</artifactId>
+    <artifactId>tmgg-system-weixin</artifactId>
     <description>微信小程序集成，如登录，获取手机号等</description>
 
     <dependencies>

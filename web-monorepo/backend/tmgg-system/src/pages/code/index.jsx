@@ -65,7 +65,7 @@ export default class extends React.Component {
         if (changeValues.template) {
             HttpUtil.get('code/gen/genDetail', {id: values.id, template: values.template}).then(genItemsDetails => {
                 for (let item of genItemsDetails) {
-                    item.children = <pre style={{height: 300, overflowY: 'scroll',fontSize:'xx-small'}}>{item.children}</pre>
+                    item.children = <pre style={{height: 300, overflowY: 'scroll',fontSize:'xx-small'}} contentEditable>{item.children}</pre>
                 }
                 this.setState({genItemsDetails, tabItems: genItemsDetails})
                 this.formRef.current.setFieldsValue({
