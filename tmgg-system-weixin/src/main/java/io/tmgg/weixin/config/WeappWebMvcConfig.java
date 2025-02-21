@@ -23,7 +23,7 @@ public class WeappWebMvcConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
          registry.addInterceptor(weappInteceptor)
-                .addPathPatterns("/app/weapp/**");
+                .addPathPatterns("/app/weixin/**");
 
     }
 

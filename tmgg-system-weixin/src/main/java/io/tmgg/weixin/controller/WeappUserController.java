@@ -2,7 +2,7 @@ package io.tmgg.weixin.controller;
 
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.weixin.entity.WeixinUser;
-import io.tmgg.weixin.service.WeappUserService;
+import io.tmgg.weixin.service.WexinUserService;
 import io.tmgg.web.annotion.HasPermission;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,7 +19,7 @@ import jakarta.annotation.Resource;
 public class WeappUserController  {
 
     @Resource
-    private WeappUserService service;
+    private WexinUserService service;
 
 
     @HasPermission("weapp:userList")

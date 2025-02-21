@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import jakarta.annotation.Resource;
 
 @Service
-public class WeappUserService extends BaseService<WeixinUser> {
+public class WexinUserService extends BaseService<WeixinUser> {
 
     @Resource
     private WeappUserDao weappUserDao;

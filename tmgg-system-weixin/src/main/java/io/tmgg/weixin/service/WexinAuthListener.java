@@ -4,7 +4,7 @@ import io.tmgg.weixin.entity.WeixinUser;
 
 import java.util.Map;
 
-public interface WeappAuthListener {
+public interface WexinAuthListener {
 
 
     /**
