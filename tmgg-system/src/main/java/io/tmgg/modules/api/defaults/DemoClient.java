@@ -12,7 +12,6 @@ import java.util.Map;
 import java.util.TreeMap;
 
 public class DemoClient {
-    static boolean needEncrypt = false; // 是否需要加密
     static String appId = "3a5d98706edd40e5a898b39d725a20d8";
     static String appSecret = "6r5lmNbZmyrgBZ4IttVnZ8odMtzHq5rU";
 
@@ -40,13 +39,8 @@ public class DemoClient {
 
         // 加密
         AES aes = SecureUtil.aes(appSecret.getBytes());
-        if (needEncrypt) {
-            data = aes.encryptHex(data);  // 加密，如果需要的情况下
-            System.out.println("请求加密:" + data);
-            System.out.println(aes.decryptStr(data));
-        }
-
-        http.form("data",data);
+        data = aes.encryptHex(data);  // 加密，如果需要的情况下
+        http.form("data", data);
 
 
         HttpResponse response = http.execute();
@@ -64,10 +58,8 @@ public class DemoClient {
 
         // 成功
         if (code == 1000) {
-            if (needEncrypt) {
-                String decryptStr = aes.decryptStr((String) responseData);
-                System.out.println("解密内容" + decryptStr);
-            }
+            String decryptStr = aes.decryptStr((String) responseData);
+            System.out.println("解密内容" + decryptStr);
         }
 
     }

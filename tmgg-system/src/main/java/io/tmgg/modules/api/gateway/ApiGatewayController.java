@@ -36,11 +36,11 @@ public class ApiGatewayController {
 
     @PostMapping
     public ApiResult process(HttpServletRequest request, HttpServletResponse response,
-                          @RequestHeader("x-action") String action,
-                          @RequestHeader("x-app-id") String appId,
-                          @RequestHeader("x-timestamp") long timestamp,
-                          @RequestHeader("x-signature") String signature,
-                          String data) throws Exception {
+                             @RequestHeader("x-action") String action,
+                             @RequestHeader("x-app-id") String appId,
+                             @RequestHeader("x-timestamp") long timestamp,
+                             @RequestHeader("x-signature") String signature,
+                             String data) throws Exception {
 
         Assert.hasText(data, "请求体不能为空");
 
@@ -71,10 +71,8 @@ public class ApiGatewayController {
         // 解密
         String appSecret = account.getAppSecret();
         AES aes = SecureUtil.aes(appSecret.getBytes());
-        if (api.encrypt()) {
-            System.out.println(data);
-            data = aes.decryptStr(data);
-        }
+        System.out.println(data);
+        data = aes.decryptStr(data);
 
 
         // 校验签名
@@ -91,11 +89,9 @@ public class ApiGatewayController {
         }
 
         Assert.notNull(retValue, "接口必须有返回值");
-        if (api.encrypt()) {
-            String res = JsonTool.toJsonQuietly(retValue);
-            retValue = aes.encryptBase64(res);
-        }
-        return new ApiResult(1000, null, JsonTool.toPrettyJsonQuietly(retValue));
+        String res = JsonTool.toJsonQuietly(retValue);
+        retValue = aes.encryptBase64(res);
+        return new ApiResult(1000, null, JsonTool.toJson(retValue));
     }
 
 
