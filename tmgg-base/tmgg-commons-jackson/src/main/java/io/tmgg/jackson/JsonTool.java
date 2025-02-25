@@ -2,10 +2,7 @@ package io.tmgg.jackson;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.JavaType;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.*;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -18,7 +15,7 @@ import java.util.Map;
 public class JsonTool {
 
     public static String toJson(Object o) throws JsonProcessingException {
-        if(o == null){
+        if (o == null) {
             return null;
         }
         return getObjectMapper().writeValueAsString(o);
@@ -38,7 +35,7 @@ public class JsonTool {
     }
 
     public static String toPrettyJsonQuietly(Object o) {
-        if(o == null){
+        if (o == null) {
             return null;
         }
         try {
@@ -49,7 +46,7 @@ public class JsonTool {
         return null;
     }
 
-    public static <T> T jsonToBean(String json, Class<T> cls)   throws IOException {
+    public static <T> T jsonToBean(String json, Class<T> cls) throws IOException {
         if (json == null) {
             return null;
 
@@ -71,7 +68,7 @@ public class JsonTool {
     }
 
     public static <T> T jsonToBeanQuietly(String json, Class<T> cls) {
-        if(json == null){
+        if (json == null) {
             return null;
         }
         try {
@@ -110,8 +107,6 @@ public class JsonTool {
         }
         return null;
     }
-
-
 
 
     public static Object jsonToBeanQuietly(String json) {
@@ -156,14 +151,50 @@ public class JsonTool {
         return null;
     }
 
+    public static JsonNode getNodeByPath(String json, String... paths) throws JsonProcessingException {
+        ObjectMapper om = getObjectMapper();
+        JsonNode node = om.reader().readTree(json);
+        for (String path : paths) {
+            node = node.get(path);
+            if(node == null){
+                return  null;
+            }
+        }
+
+
+        return node;
+    }
+
+    public static  Boolean getBooleanByPath(String json, String... paths) throws JsonProcessingException {
+        JsonNode node = getNodeByPath(json, paths);
+        return  node == null ? null : node.asBoolean();
+    }
+    public static Integer getIntByPath(String json, String... paths) throws JsonProcessingException {
+        JsonNode node = getNodeByPath(json, paths);
+        return  node == null ? null : node.asInt();
+    }
+    public static Double getDoubleByPath(String json, String... paths) throws JsonProcessingException {
+        JsonNode node = getNodeByPath(json, paths);
+        return  node == null ? null : node.asDouble();
+    }
+
+    public static Long getLongByPath(String json, String... paths) throws JsonProcessingException {
+        JsonNode node = getNodeByPath(json, paths);
+        return  node == null ? null : node.asLong();
+    }
+    public static String getTextByPath(String json, String... paths) throws JsonProcessingException {
+        JsonNode node = getNodeByPath(json, paths);
+        return  node == null ? null : node.asText();
+    }
+
 
     // delay Initialize
     public static ObjectMapper getObjectMapper() {
         if (objectMapper == null) {
             objectMapper = new ObjectMapper();
-            objectMapper.configure(DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES,false);
-            objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,false);
-            objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS,false);
+            objectMapper.configure(DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES, false);
+            objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+            objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
             objectMapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
         }
         return objectMapper;
@@ -171,5 +202,6 @@ public class JsonTool {
 
     // singleton ,as to initialize need much TIME
     private static ObjectMapper objectMapper;
+
 
 }
