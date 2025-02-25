@@ -11,8 +11,13 @@ declare type ProTableProps = {
     // 选择行，通ant table
     rowSelection?: any,
 
-    toolBarRender: (params:any, {selectedRows:[],selectedRowKeys:[]})=>{},
-    bordered?:boolean
+    toolBarRender?: (params:any, {selectedRows:[],selectedRowKeys:[]})=>{},
+    bordered?:boolean,
+
+    /**
+     * 默认每页数量
+     */
+    defaultPageSize?:number
 };
 
 export class ProTable extends React.Component<ProTableProps, any> {

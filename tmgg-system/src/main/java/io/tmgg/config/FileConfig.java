@@ -1,19 +1,14 @@
 
 package io.tmgg.config;
 
-import io.tmgg.init.SystemInitial;
+import cn.hutool.core.lang.Assert;
+import cn.hutool.core.util.StrUtil;
+import cn.hutool.extra.spring.SpringUtil;
 import io.tmgg.modules.sys.file.FileOperator;
 import io.tmgg.modules.sys.file.LocalFileOperator;
 import io.tmgg.modules.sys.file.MinioFileOperator;
-import cn.hutool.core.lang.Assert;
-import cn.hutool.core.util.ObjectUtil;
-import cn.hutool.core.util.StrUtil;
-import cn.hutool.extra.spring.SpringUtil;
-import io.tmgg.modules.sys.service.SysConfigService;
-import jakarta.annotation.Resource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.annotation.Lazy;
 
 

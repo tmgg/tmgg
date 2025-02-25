@@ -50,11 +50,14 @@ public class SysFileService {
     @Resource
     private SysFileDao sysFileDao;
 
+
+
     @Resource
-    private SysProp sysProp;
+    private SysConfigService sysConfigService;
 
     public String getPreviewUrl(String fileId, HttpServletRequest request) {
-        String baseUrl = sysProp.getBaseUrl();
+        String baseUrl = sysConfigService.getStr("sys.baseUrl");
+
         if(StrUtil.isBlank(baseUrl)){
             baseUrl = RequestTool.getBaseUrl(request);
         }

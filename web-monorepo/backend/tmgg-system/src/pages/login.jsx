@@ -1,6 +1,10 @@
 import React from 'react';
-import {Button, Form, Image, Input, Space} from 'antd';
-import {LockOutlined, UserOutlined} from '@ant-design/icons';
+import {Button, Form, Input, Space} from 'antd';
+import {
+    LockOutlined,
+    SafetyCertificateOutlined,
+    UserOutlined
+} from '@ant-design/icons';
 import "./login.less"
 import {history} from 'umi';
 import {HttpUtil, PageUtil, StorageUtil, SysUtil} from "@tmgg/tmgg-base";
@@ -67,7 +71,7 @@ export default class login extends React.Component {
                             name="account"
                             rules={[{required: true, message: '请输入用户名!'}]}
                         >
-                            <Input size='large' prefix={<UserOutlined className="site-form-item-icon"/>}
+                            <Input size='large' prefix={<UserOutlined />}
                                    placeholder="用户名"
                                    autoComplete="off"/>
                         </Form.Item>
@@ -77,7 +81,7 @@ export default class login extends React.Component {
                         >
                             <Input
                                 autoComplete="off"
-                                prefix={<LockOutlined className="site-form-item-icon"/>}
+                                prefix={<LockOutlined />}
                                 type="password"
                                 placeholder="密码"
                                 size='large'
@@ -86,8 +90,8 @@ export default class login extends React.Component {
 
 
                         {siteInfo.captcha && <Form.Item name='code'  rules={[{required: true}]}>
-                            <Space>
-                                <Input size='large' placeholder='验证码'/>
+                            <Space style={{alignItems:'center'}}>
+                                <Input size='large' placeholder='验证码'    prefix={<SafetyCertificateOutlined />}/>
                                 <img height={36} width={100} src={SysUtil.getServerUrl() + "captchaImage?_r="+this.state.r} onClick={()=>{
                                     this.setState({r: Math.random()})
                                 }}></img>
@@ -96,7 +100,7 @@ export default class login extends React.Component {
 
 
 
-                        <Form.Item style={{marginTop: 10}} label=' '>
+                        <Form.Item style={{marginTop: 10}} >
                             <Button loading={this.state.logging} type="primary" htmlType="submit"
                                     block size='large'>
                                 登录

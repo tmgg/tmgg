@@ -18,15 +18,16 @@ export default class extends React.Component {
 
     columns = [
         {
-            title: '键',
-            dataIndex: 'id',
-        },
-        {
             title: '名称',
             dataIndex: 'label',
         },
         {
-            title: '自定义值',
+            title: '键',
+            dataIndex: 'id',
+        },
+
+        {
+            title: '值',
             dataIndex: 'value',
             render(v,record){
                 return <FieldComponent type={record.valueType || 'input'} mode='read' value={v} />
@@ -40,10 +41,7 @@ export default class extends React.Component {
                 return <FieldComponent type={record.valueType || 'input'} mode='read' value={v}/>
             }
         },
-        {
-            title: '值类型',
-            dataIndex: 'valueType',
-        },
+
         {
             title: '备注',
             dataIndex: 'remark',
@@ -86,6 +84,7 @@ export default class extends React.Component {
                 request={(params, sort) => HttpUtil.pageData('sysConfig/page', params, sort)}
                 columns={this.columns}
                 search={false}
+                defaultPageSize={20}
             />
 
             <Modal title='编辑配置'

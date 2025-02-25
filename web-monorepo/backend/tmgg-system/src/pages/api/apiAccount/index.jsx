@@ -153,12 +153,12 @@ export default class extends React.Component {
                         <FieldRemoteMultipleSelect url='apiAccount/resourceOptions' />
                     </Form.Item>
                     <Form.Item label='准入IP' name='accessIp' >
-                        <Input/>
+                        <Input placeholder='逗号分隔'/>
                     </Form.Item>
                     <Form.Item label='秘钥' name='appSecret' rules={[{required: true},{len:32}]}
                                help={<Button size='small' type='link' onClick={this.randomAppSecret}>随机生成</Button>}
                     >
-                        <Input placeholder='留空则自动生成'/>
+                        <Input />
                     </Form.Item>
 
 

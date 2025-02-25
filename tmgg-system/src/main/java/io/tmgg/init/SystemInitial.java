@@ -48,8 +48,6 @@ public class SystemInitial implements CommandLineRunner {
     DictAnnHandler dictAnnHandler;
 
 
-    @Resource
-    SysMenuParserPermissionImpl sysMenuParserPermissionImpl;
 
     @Resource
     SysProp sysProp;

@@ -20,7 +20,6 @@ import java.util.Map;
 
 @Service
 @Slf4j
-
 public class SysConfigService extends BaseService<SysConfig> {
 
     @Resource
@@ -48,6 +47,8 @@ public class SysConfigService extends BaseService<SysConfig> {
         Assert.notNull(sysConfig, "系统配置不存在" + key);
         return parseFinalValue(sysConfig);
     }
+
+
     public String getStr(String key) {
         validateKey(key);
         SysConfig sysConfig = this.findOne(key);
@@ -113,30 +114,15 @@ public class SysConfigService extends BaseService<SysConfig> {
         return map;
     }
 
-    // 解析最终的值， 优先级 数据库value > spring属性 > 默认值
+    // 解析最终的值， 优先级 数据库value >  默认值
     private static Object parseFinalValue(SysConfig sysConfig) {
         String v = sysConfig.getValue();
         if (StrUtil.isEmpty(v)) {
-            // 环境变量
-            String propKey =  sysConfig.getId();
-            propKey = StrUtil.toUnderlineCase(propKey).replace("_","-"); // 将大写转换为-
-
-            String property = SpringTool.getProperty(propKey);
-            if (StrUtil.isNotEmpty(property)) {
-                v = property;
-            }
-        }
-
-        if (StrUtil.isEmpty(v)) {
             v = sysConfig.getDefaultValue();
         }
-
-
         if ("boolean".equals(sysConfig.getValueType())) {
             return Boolean.valueOf(v);
         }
-
-
         return v;
     }
 
