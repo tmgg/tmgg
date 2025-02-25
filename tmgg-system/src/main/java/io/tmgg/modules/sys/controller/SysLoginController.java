@@ -106,8 +106,6 @@ public class SysLoginController {
 
         String code = captcha.getCode();
         session.setAttribute(CAPTCHA_CODE, code);
-
-
     }
 
 

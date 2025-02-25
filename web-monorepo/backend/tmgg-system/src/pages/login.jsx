@@ -85,7 +85,7 @@ export default class login extends React.Component {
                         </Form.Item>
 
 
-                        {siteInfo['siteInfo.captcha'] && <Form.Item name='code' label='验证码' rules={[{required: true}]}>
+                        {siteInfo.captcha && <Form.Item name='code'  rules={[{required: true}]}>
                             <Space>
                                 <Input size='large' placeholder='验证码'/>
                                 <img height={36} width={100} src={SysUtil.getServerUrl() + "captchaImage?_r="+this.state.r} onClick={()=>{

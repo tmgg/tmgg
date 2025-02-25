@@ -37,20 +37,25 @@ public class MySessionRepository implements SessionRepository<SysHttpSession> {
 
     @Override
     public SysHttpSession findById(String id) {
-        SysHttpSession session = httpSessionCache.get(id);
-        if (session == null) {
-            return null;
-        }
+        try {
+            SysHttpSession session = httpSessionCache.get(id);
+            if (session == null) {
+                return null;
+            }
 
-        if(session.isExpired()){
-            return null;
-        }
+            if (session.isExpired()) {
+                return null;
+            }
 
-        if(session.getSessionAttrs() == null){
-            return null;
-        }
+            if (session.getSessionAttrs() == null) {
+                return null;
+            }
 
-        return session;
+            return session;
+        } catch (Exception e) {
+            log.error("获取缓存cache失败 {}", e.getMessage());
+        }
+        return null;
     }
 
     @Override

@@ -54,7 +54,7 @@ public class SysFileService {
     private SysProp sysProp;
 
     public String getPreviewUrl(String fileId, HttpServletRequest request) {
-        String baseUrl = sysProp.getSiteInfo().getUrl();
+        String baseUrl = sysProp.getBaseUrl();
         if(StrUtil.isBlank(baseUrl)){
             baseUrl = RequestTool.getBaseUrl(request);
         }
