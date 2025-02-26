@@ -3,5 +3,8 @@
  */
 
 import {initBase} from "@tmgg/tmgg-base";
+import {initSystem} from "./index";
 
 initBase()
+initSystem()
+

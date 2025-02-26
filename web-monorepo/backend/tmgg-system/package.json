@@ -15,13 +15,11 @@
     "antd" : "^5.20.3",
     "dayjs" : "^1.11.13",
     "echarts" : "^5.6.0",
-    "rc-slider-captcha" : "^1.1.10",
     "react" : "^18.2.0",
     "react-amap" : "^1.2.8",
     "react-dom" : "^18.2.0",
     "react-lazylog" : "^4.5.3",
-    "umi" : "^4.0.0",
-    "react-activation" : "^0.13.0"
+    "umi" : "^4.0.0"
   },
   "name" : "@tmgg/tmgg-system",
   "description" : "系统基础功能，如RBAC基于角色的权限管理，组织机构，日志等",
@@ -30,5 +28,5 @@
   "scripts" : {
     "dev" : "umi dev"
   },
-  "version" : "0.3.26"
+  "version" : "0.3.27"
 }

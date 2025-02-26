@@ -3,7 +3,7 @@
 import React from 'react';
 import {Divider, Layout, Menu} from 'antd';
 
-import {history, Link} from 'umi';
+import {history, Link, Outlet} from 'umi';
 import "./index.less"
 import * as Icons from '@ant-design/icons';
 import {MenuFoldOutlined, MenuUnfoldOutlined} from '@ant-design/icons';
@@ -12,9 +12,8 @@ import {ArrUtil, DateUtil, isMobileDevice, theme, TreeUtil} from "@tmgg/tmgg-com
 
 import HeaderRight from "./HeaderRight";
 
-import TabMenu from "./TabMenu";
 import {HttpUtil, PageUtil, SysUtil} from "@tmgg/tmgg-base";
-import {AliveScope} from "react-activation";
+import MyOutlet from "./MyOutlet";
 
 const {Header, Footer, Sider, Content} = Layout;
 /**
@@ -28,7 +27,6 @@ export default class extends React.Component {
         leftMenus: [],
         menuMap: {},
 
-        tabs: [],
 
         currentTopMenuKey: null,
         currentMenuKey: null,
@@ -37,7 +35,9 @@ export default class extends React.Component {
         collapsed: false,
         siteInfo: {},
 
-        isMobileDevice: false
+        isMobileDevice: false,
+
+        pathLabelMap: {}
     }
 
 
@@ -57,18 +57,6 @@ export default class extends React.Component {
 
     }
 
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        let curPath = this.props.path;
-        let curPathname = this.props.pathname
-        if (prevProps.path !== curPath) {
-            const tabs = this.state.tabs
-            const curTab = tabs.find(t => t.path === curPath)
-            if (curTab == null) {
-                const label = PageUtil.currentLabel()
-                this.addTab(curPath, curPath, label)
-            }
-        }
-    }
 
     initMenu = () => {
         HttpUtil.get('menuTree').then(menus => {
@@ -81,11 +69,6 @@ export default class extends React.Component {
                 menuMap[item.id] = item
                 if (item.path === pathname) {
                     currentMenuKey = item.id
-
-                    if(this.state.tabs.length === 0) {
-                        this.addTab(item.id, item.path, item.label)
-                    }
-
                 }
             })
             const topMenus = menus.map(item => {
@@ -114,24 +97,23 @@ export default class extends React.Component {
             leftMenus = menuMap[currentTopMenuKey]?.children
 
             this.setState({menus, menuMap, topMenus, leftMenus, currentTopMenuKey, currentMenuKey})
+
+            this.storePathLabel(Object.values(menuMap))
+
         })
     }
     actionRef = React.createRef()
 
 
-    addTab = (key, path, label, icon) => {
-        const {tabs} = this.state
-        if (!tabs.some(t => t.key === key)) {
-            tabs.push({key, path, label, icon})
-            this.setState({tabs})
+    storePathLabel(menus){
+        const map = {}
+        for (let menu of menus) {
+            const {label,path} = menu;
+            map[path] = label;
         }
+        this.setState({pathLabelMap:map})
     }
-    removeTab = (item) => {
-        const tabs = this.state.tabs
-        ArrUtil.remove(tabs, item)
-        this.setState({tabs})
-        history.push(tabs[0]?.path || '/')
-    }
+
 
 
     render() {
@@ -182,8 +164,6 @@ export default class extends React.Component {
                           className='left-menu'
                           onClick={({key, item}) => {
                               let {path, id} = item.props;
-                              let menu = this.state.menuMap[id]
-                              this.addTab(key, path, menu.label, menu.icon)
                               this.setState({currentMenuKey: id})
                               history.push(path)
                           }}
@@ -194,13 +174,7 @@ export default class extends React.Component {
                 </Sider>
 
                 <Content id='content'>
-                    <AliveScope>
-                        <TabMenu items={this.state.tabs}
-                                 pathname={this.props.pathname}
-                                 path={this.props.path}
-                                 onTabRemove={this.removeTab}>
-                        </TabMenu>
-                    </AliveScope>
+                    <MyOutlet pathLabelMap={this.state.pathLabelMap}/>
                 </Content>
 
             </Layout>

@@ -13,6 +13,7 @@ export default class extends React.Component {
     }
 
     componentDidMount() {
+        console.log('componentDidMount')
         const id = PageUtil.currentLocationQuery().id
         this.id = id
         HttpUtil.get("sysReportChart/get", {id}).then(rs => {

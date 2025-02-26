@@ -13,7 +13,7 @@
   "scripts" : {
     "dev-weapp" : "umi dev"
   },
-  "version" : "0.3.26",
+  "version" : "0.3.27",
   "dependencies" : {
     "@ant-design/icons" : "^5.4.0",
     "@tmgg/tmgg-base" : "workspace:*",

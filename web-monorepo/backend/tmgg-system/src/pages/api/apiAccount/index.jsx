@@ -1,21 +1,16 @@
 import {PlusOutlined} from '@ant-design/icons'
-import {Button, Card,InputNumber, Popconfirm,Modal,Form,Input,message} from 'antd'
+import {Button, Form, Input, Modal, Popconfirm} from 'antd'
 import React from 'react'
-import KeepAlive from "react-activation";
 import {
     ButtonList,
-    dictValueTag,
-    FieldDateRange,
-    FieldDictSelect,
-    FieldRadioBoolean,
-    FieldDatePickerString,
     FieldDateTimePickerString,
+    FieldRadioBoolean,
+    FieldRemoteMultipleSelect,
     HttpUtil,
-    ProTable,
-    FieldRemoteMultipleSelect, PageUtil
+    PageUtil,
+    ProTable
 } from "@tmgg/tmgg-base";
 import {StrUtil} from "@tmgg/tmgg-commons-lang";
-
 
 
 export default class extends React.Component {
@@ -116,7 +111,7 @@ export default class extends React.Component {
     }
 
     render() {
-        return <KeepAlive>
+        return <>
             <ProTable
                 actionRef={this.tableRef}
                 toolBarRender={() => {
@@ -171,7 +166,7 @@ export default class extends React.Component {
 
                 </Form>
             </Modal>
-        </KeepAlive>
+        </>
 
 
     }

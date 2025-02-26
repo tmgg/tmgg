@@ -10,6 +10,10 @@ export function registerRoutes(routes){
     }
 }
 
+export function getRoutesMap(){
+    return ROUTES_MAP;
+}
+
 
 export function patchClientRoutesRegistered(routes ) {
     const root = routes[0]

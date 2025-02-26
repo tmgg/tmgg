@@ -5,7 +5,7 @@ export const UrlUtil = {
      * 获取url的参数, 如果不传参数，则使用当前路径
      * @param url 字符串
      */
-    params(url= null) {
+    getParams(url= null) {
         if (!url) {
             url = location.href
         }
@@ -31,7 +31,7 @@ export const UrlUtil = {
      * 去掉参数的基础url
      * @param url
      */
-    baseUrl(url) {
+    getPathname(url) {
         if (!url) {
             return null
         }
@@ -57,12 +57,12 @@ export const UrlUtil = {
     },
 
     setParam(url, key, value) {
-        const p = this.params(url)
+        const p = this.getParams(url)
         p[key] = value;
         if(value == null){
             delete p[key]
         }
-        return this.baseUrl(url) + '?' + this.paramsToSearch(p);
+        return this.getPathname(url) + '?' + this.paramsToSearch(p);
     },
 
     /**

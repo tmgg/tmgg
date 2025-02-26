@@ -1,11 +1,6 @@
-import {Button, Input, InputNumber, Modal} from 'antd'
+import {Button} from 'antd'
 import React from 'react'
-import StreamLog from "../../components/StreamLog";
-import {ProTable} from "@tmgg/tmgg-base";
-import {HttpUtil, SysUtil} from "@tmgg/tmgg-base";
-import KeepAlive from "react-activation";
-
-
+import {HttpUtil, ProTable, SysUtil} from "@tmgg/tmgg-base";
 
 
 export default class extends React.Component {
@@ -75,7 +70,7 @@ export default class extends React.Component {
 
 
   render() {
-    return <KeepAlive>
+    return <>
       <ProTable
         toolBarRender={(_,{selectedRowKeys})=><>
           <Button disabled={selectedRowKeys.length === 0} onClick={()=>this.clean(selectedRowKeys)} type='primary' >删除{selectedRowKeys.length}条</Button>
@@ -89,7 +84,7 @@ export default class extends React.Component {
         rowKey='id'
       />
 
-    </KeepAlive>
+    </>
   }
 }
 

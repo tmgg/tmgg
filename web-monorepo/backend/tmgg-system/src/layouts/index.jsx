@@ -13,7 +13,7 @@ import 'dayjs/locale/zh-cn';
 
 import './index.less'
 import SiteInfoInterceptor from "./SiteInfoInterceptor";
-import LoginInfoInterceptor from "./LoginInfoInterceptor";
+import UserInfoInterceptor from "./UserInfoInterceptor";
 
 dayjs.locale('zh-cn');
 
@@ -34,13 +34,18 @@ export class Layouts extends React.Component {
     }
 
     componentDidMount() {
-        const unlisten = history.listen(({location, action}) => {
+        this.unlisten = history.listen(({location, action}) => {
             console.log('监听路由：不带参路径为',location);
-            this.setState({pathname: location.pathname, path:location.pathname + location.search})
+            let path = location.pathname + location.search;
+            console.log('带参数', path)
+            this.setState({pathname: location.pathname, path: path})
         });
         let pathname = PageUtil.currentPathname();
         let path = PageUtil.currentPath();
         this.setState({pathname, path})
+    }
+    componentWillUnmount() {
+        this.unlisten()
     }
 
     render() {
@@ -100,9 +105,9 @@ export class Layouts extends React.Component {
 
         return <SiteInfoInterceptor>
             <AuthInterceptor>
-                <LoginInfoInterceptor>
+                <UserInfoInterceptor>
                     <MenuLayout pathname={pathname} path={this.state.path} {...this.props}/>
-                </LoginInfoInterceptor>
+                </UserInfoInterceptor>
             </AuthInterceptor>
         </SiteInfoInterceptor>
     }
