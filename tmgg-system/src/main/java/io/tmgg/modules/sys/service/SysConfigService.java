@@ -25,6 +25,10 @@ public class SysConfigService extends BaseService<SysConfig> {
     @Resource
     private SysConfigDao dao;
 
+    public String getBaseUrl(){
+       return this.getStr("sys.baseUrl");
+    }
+
 
     @Override
     public SysConfig saveOrUpdate(SysConfig input) throws Exception {
