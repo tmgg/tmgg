@@ -49,7 +49,7 @@ export default class extends React.Component {
 
                 <Title level={2}>接口数据</Title>
                 <Paragraph>
-                    <Descriptions column={1} bordered>
+                    <Descriptions column={1} bordered size='small'>
                         <Descriptions.Item label='请求地址'>
                             {this.state.url}/openApi/gateway
                         </Descriptions.Item>
@@ -83,7 +83,7 @@ export default class extends React.Component {
                 <Title level={4}>1.3 通用请求参数 </Title>
 
                 <Table columns={this.columns} bordered dataSource={[
-                    {name: 'data', type: 'String', required: true, desc: '请求参数JSON后加密'},
+                    {name: 'data', type: 'String', required: true, desc: '请求参数转JSON后加密'},
                 ]} size='small' pagination={false}>
                 </Table>
 
