@@ -10,7 +10,7 @@
 
     <groupId>io.github.tmgg</groupId>
     <artifactId>tmgg-system-parent</artifactId>
-    <version>0.3.28</version>
+    <version>0.3.29</version>
     <packaging>pom</packaging>
     <description>web开发框架</description>
     <modules>
@@ -21,11 +21,12 @@
         <module>tmgg-system-kettle</module>
         <module>tmgg-script</module>
         <module>tmgg-base</module>
+        <module>tmgg-openapi-sdk</module>
     </modules>
 
 
     <properties>
-        <tmgg.version>0.3.28</tmgg.version>
+        <tmgg.version>0.3.29</tmgg.version>
         <java.version>17</java.version>
         <compile.version>17</compile.version>
         <maven.compiler.source>17</maven.compiler.source>
@@ -66,6 +67,7 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
@@ -127,6 +129,11 @@
             <dependency>
                 <groupId>io.github.tmgg</groupId>
                 <artifactId>tmgg-commons-poi</artifactId>
+                <version>${tmgg.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.tmgg</groupId>
+                <artifactId>tmgg-openapi-sdk</artifactId>
                 <version>${tmgg.version}</version>
             </dependency>
 

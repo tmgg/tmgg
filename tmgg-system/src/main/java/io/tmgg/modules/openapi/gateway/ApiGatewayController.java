@@ -62,10 +62,9 @@ public class ApiGatewayController {
 
         ApiResource resource = apiResourceService.findByMethod(action);
         Assert.notNull(resource, "接口不存在,接口：" + action);
-        OpenApi openApi = resource.getOpenApi();
 
         String clientIP = JakartaServletUtil.getClientIP(request);
-        Assert.state(StrUtil.isEmpty(account.getAccessIp()) || account.getAccessIp().contains(clientIP), "IP限制,IP：" + clientIP);
+        Assert.state(StrUtil.isEmpty(account.getAccessIp()) || account.getAccessIp().contains(clientIP), "IP访问限制,您的IP为" + clientIP);
 
         // 解密
         String appSecret = account.getAppSecret();

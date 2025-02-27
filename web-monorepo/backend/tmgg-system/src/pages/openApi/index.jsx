@@ -42,11 +42,7 @@ export default class extends React.Component {
 
         {
             title: '权限',
-            dataIndex: 'perms',
-
-
-
-
+            dataIndex: 'permsLabel',
         },
 
         {

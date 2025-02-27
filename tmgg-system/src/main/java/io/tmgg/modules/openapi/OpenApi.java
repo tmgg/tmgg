@@ -16,7 +16,7 @@ public @interface OpenApi {
 	/**
 	 * Api资源定位
 	 */
-	String url();
+	String action();
 
 
 	/**

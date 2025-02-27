@@ -1,4 +1,4 @@
 package io.tmgg.modules.openapi.gateway;
 
-public interface BaseApi {
+public interface BaseOpenApi {
 }

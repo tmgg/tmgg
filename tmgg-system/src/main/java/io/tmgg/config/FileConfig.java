@@ -30,7 +30,7 @@ public class FileConfig {
     @Lazy
     public FileOperator fileOperator() {
         //判断minio
-        String minioUrl = SpringUtil.getProperty("file.minio.url");
+        String minioUrl = SpringUtil.getProperty("file.minio.action");
         if (StrUtil.isNotBlank(minioUrl)) {
             String accessKey = SpringUtil.getProperty("file.minio.accessKey");
             String secretKey = SpringUtil.getProperty("file.minio.secretKey");

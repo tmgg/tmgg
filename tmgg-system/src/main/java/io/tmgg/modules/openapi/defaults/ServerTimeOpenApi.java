@@ -3,7 +3,7 @@ package io.tmgg.modules.openapi.defaults;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
 import io.tmgg.modules.openapi.OpenApi;
-import io.tmgg.modules.openapi.gateway.BaseApi;
+import io.tmgg.modules.openapi.gateway.BaseOpenApi;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -11,10 +11,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Component
-public class ServerTimeApi implements BaseApi {
+public class ServerTimeOpenApi implements BaseOpenApi {
 
 
-	@OpenApi(name = "服务器时间", url = "server.time")
+	@OpenApi(name = "服务器时间", action = "server.time")
 	public Map<String, Object> time(String format) {
 		Date now = new Date();
 		Map<String, Object> data = new HashMap<>();

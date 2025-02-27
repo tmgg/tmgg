@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -46,6 +47,15 @@ public class ApiAccountController extends BaseController<OpenApiAccount> {
         JpaQuery<OpenApiAccount> q = buildQuery(param);
 
         Page<OpenApiAccount> page = service.findAll(q, pageable);
+
+        Map<String, String> permMap = apiResourceService.findAll().stream().collect(Collectors.toMap(t->t.getOpenApi().action(), t->t.getOpenApi().name()));
+        for (OpenApiAccount a : page) {
+            List<String> perms = a.getPerms();
+            String permsLabel = perms.stream().map(p -> permMap.get(p)).collect(Collectors.joining(","));
+            a.getExtData().put("permsLabel", permsLabel);
+        }
+
+
         return AjaxResult.ok().data(page);
     }
 
@@ -67,7 +77,7 @@ public class ApiAccountController extends BaseController<OpenApiAccount> {
 
         List<Option> options = all.stream().map(r -> {
             OpenApi openApi = r.getOpenApi();
-            return Option.builder().label(openApi.name()).value(openApi.url()).build();
+            return Option.builder().label(openApi.name()).value(openApi.action()).build();
         }).collect(Collectors.toList());
 
         return AjaxResult.ok().data(options);
