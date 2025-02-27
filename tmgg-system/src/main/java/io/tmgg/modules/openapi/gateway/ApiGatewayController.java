@@ -34,6 +34,7 @@ public class ApiGatewayController {
 
 
     public static final int TIME_DIFF_LIMIT = 5;
+    public static final int SUCCESS_CODE = 0;
 
     @PostMapping
     public ApiResult process(HttpServletRequest request, HttpServletResponse response,
@@ -91,7 +92,7 @@ public class ApiGatewayController {
             Assert.notNull(retValue, "接口必须有返回值");
             String res = JsonTool.toJsonQuietly(retValue);
             retValue = aes.encryptBase64(res);
-            return new ApiResult(1000, null, JsonTool.toJson(retValue));
+            return new ApiResult(SUCCESS_CODE, null, JsonTool.toJson(retValue));
         } catch (Exception e) {
             return parseException(e);
         }

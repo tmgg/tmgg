@@ -6,7 +6,7 @@ import {PageUtil} from "@tmgg/tmgg-base";
 import AuthInterceptor from "./AuthInterceptor";
 import {history, Outlet} from "umi";
 import zhCN from 'antd/locale/zh_CN';
-import {theme, UrlUtil} from "@tmgg/tmgg-commons-lang";
+import {theme} from "@tmgg/tmgg-commons-lang";
 import dayjs from 'dayjs';
 import 'dayjs/locale/zh-cn';
 
@@ -14,6 +14,7 @@ import 'dayjs/locale/zh-cn';
 import './index.less'
 import SiteInfoInterceptor from "./SiteInfoInterceptor";
 import UserInfoInterceptor from "./UserInfoInterceptor";
+import MyPureOutlet from "./MyPureOutlet";
 
 dayjs.locale('zh-cn');
 
@@ -102,6 +103,13 @@ export class Layouts extends React.Component {
         if(pathname === '/test'){
             return <Outlet />
         }
+
+        const params =PageUtil.currentParams()
+
+        if(params.hasOwnProperty('_pure')){
+            return  <MyPureOutlet />
+        }
+
 
         return <SiteInfoInterceptor>
             <AuthInterceptor>

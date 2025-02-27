@@ -83,7 +83,7 @@ export default class extends React.Component {
         this.setState({formOpen: true, formValues: record})
     }
     handleDoc = record=>{
-        PageUtil.open('/openApi/doc?id='+record.id, '接口信息')
+        PageUtil.openPure('/openApi/doc?id='+record.id)
     }
 
 

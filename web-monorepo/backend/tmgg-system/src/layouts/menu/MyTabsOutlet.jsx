@@ -4,7 +4,7 @@ import {Outlet, withRouter} from "umi";
 import {Tabs} from "antd";
 import {UrlUtil} from "@tmgg/tmgg-commons-lang";
 
-class MyOutlet extends React.Component {
+class MyTabsOutlet extends React.Component {
 
     state = {
         cache: {},
@@ -129,4 +129,4 @@ class MyOutlet extends React.Component {
 }
 
 // 让组件有路由相关的参数，如 this.props.location
-export default withRouter(MyOutlet)
+export default withRouter(MyTabsOutlet)

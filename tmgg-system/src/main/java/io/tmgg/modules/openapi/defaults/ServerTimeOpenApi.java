@@ -3,29 +3,41 @@ package io.tmgg.modules.openapi.defaults;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
 import io.tmgg.modules.openapi.OpenApi;
+import io.tmgg.modules.openapi.OpenApiField;
 import io.tmgg.modules.openapi.gateway.BaseOpenApi;
+import lombok.Data;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 @Component
 public class ServerTimeOpenApi implements BaseOpenApi {
 
 
 	@OpenApi(name = "服务器时间", action = "server.time")
-	public Map<String, Object> time(String format) {
+	public ServerTimeResponse time(@OpenApiField(required = false,desc = "时间格式") String format) {
 		Date now = new Date();
-		Map<String, Object> data = new HashMap<>();
-        data.put("serverTime",System.currentTimeMillis());
+
+
+		ServerTimeResponse res = new ServerTimeResponse();
+		res.serverTime = System.currentTimeMillis();
 
 		if(StrUtil.isNotEmpty(format)){
-			data.put("serverTimeFormat", DateUtil.format(now, format));
+			res.serverTimeFormat =  DateUtil.format(now, format);
 		}
 
-		return data;
+		return res;
 	}
 
+
+	@Data
+	public static class ServerTimeResponse {
+
+		@OpenApiField(required = true, desc = "服务器时间")
+		long serverTime;
+
+		@OpenApiField(required = false, desc = "服务器时间格式化")
+		String serverTimeFormat;
+	}
 
 }

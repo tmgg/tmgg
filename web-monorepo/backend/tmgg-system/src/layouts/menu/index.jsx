@@ -1,19 +1,19 @@
 // 全局路由
 
 import React from 'react';
-import {Divider, Layout, Menu} from 'antd';
+import {Layout, Menu} from 'antd';
 
-import {history, Link, Outlet} from 'umi';
+import {history, Link} from 'umi';
 import "./index.less"
 import * as Icons from '@ant-design/icons';
 import {MenuFoldOutlined, MenuUnfoldOutlined} from '@ant-design/icons';
 import defaultLogo from '../../asserts/logo.png'
-import {ArrUtil, DateUtil, isMobileDevice, theme, TreeUtil} from "@tmgg/tmgg-commons-lang";
+import {DateUtil, isMobileDevice, theme, TreeUtil} from "@tmgg/tmgg-commons-lang";
 
 import HeaderRight from "./HeaderRight";
 
 import {HttpUtil, PageUtil, SysUtil} from "@tmgg/tmgg-base";
-import MyOutlet from "./MyOutlet";
+import MyTabsOutlet from "./MyTabsOutlet";
 
 const {Header, Footer, Sider, Content} = Layout;
 /**
@@ -174,7 +174,7 @@ export default class extends React.Component {
                 </Sider>
 
                 <Content id='content'>
-                    <MyOutlet pathLabelMap={this.state.pathLabelMap}/>
+                    <MyTabsOutlet pathLabelMap={this.state.pathLabelMap}/>
                 </Content>
 
             </Layout>

@@ -19,7 +19,7 @@ import java.util.TreeMap;
  * 供第三方调用
  */
 public class OpenApiSdk {
-    public static final int SUCCESS_CODE = 1000;
+    public static final int SUCCESS_CODE = 0;
 
     private String baseUrl;
     private String appId;
@@ -37,10 +37,14 @@ public class OpenApiSdk {
     }
 
     public static void main(String[] args) throws IOException {
-        OpenApiSdk sdk = new OpenApiSdk("http://127.0.0.1:8002", "473428cdaeb44e27bb0f45c32a7fc2b5", "cbCaGVuSWWgSExaZTvcVG80IrKKVifI2");
+        String url = "http://127.0.0.1:8002";
+        String appId = "473428cdaeb44e27bb0f45c32a7fc2b5";
+        String appSecret = "cbCaGVuSWWgSExaZTvcVG80IrKKVifI2";
+
+        OpenApiSdk sdk = new OpenApiSdk(url, appId, appSecret);
 
         String action = "server.time";
-        // 请求参数
+
         Map<String, Object> params = new TreeMap<>();
         params.put("format", "yyyy-MM-dd HH:mm:ss");
 

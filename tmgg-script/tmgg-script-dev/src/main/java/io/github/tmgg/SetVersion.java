@@ -1,5 +1,7 @@
 package io.github.tmgg;
 
+import cn.hutool.core.io.FileUtil;
+import io.tmgg.Build;
 import io.tmgg.jackson.JsonTool;
 import org.apache.commons.io.FileUtils;
 import org.jsoup.Jsoup;
@@ -15,13 +17,41 @@ import java.util.Map;
 
 public class SetVersion {
 
-    public static final String NEW_VERSION = "0.3.29";
+    public static final String NEW_VERSION = "0.3.30";
 
 
     public static void main(String[] args) throws IOException {
         SetVersion sv = new SetVersion();
-        sv.changeMaven();
+       sv.changeMaven();
         sv.changeNpm();
+        sv.changeJavaBuildVersion();
+    }
+
+    private void changeJavaBuildVersion(){
+        String javaFile = "tmgg-base\\tmgg-commons-lang\\src\\main\\java\\io\\tmgg\\Build.java";
+        File file = new File(javaFile);
+
+        System.out.println(file.exists());
+
+        List<String> lines = FileUtil.readUtf8Lines(file);
+
+        System.out.println("Build.java的当前版本为：" + Build.FRAMEWORK_VERSION);
+        for (int i = 0; i < lines.size(); i++) {
+            String line = lines.get(i);
+
+            if(line.contains("FRAMEWORK_VERSION")){
+                System.out.println();
+                line = "public static String FRAMEWORK_VERSION = \"" + NEW_VERSION + "\";";
+                lines.set(i, line);
+            }
+        }
+
+        FileUtil.writeUtf8Lines(lines,file);
+
+
+
+        System.out.println();
+
     }
 
 

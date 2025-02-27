@@ -1,28 +1,32 @@
 package io.tmgg.modules.openapi.controller;
 
+import cn.hutool.core.lang.Dict;
 import cn.hutool.core.util.RandomUtil;
+import io.tmgg.Build;
 import io.tmgg.lang.dao.BaseController;
 import io.tmgg.lang.dao.specification.JpaQuery;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.obj.Option;
 import io.tmgg.modules.openapi.ApiResource;
 import io.tmgg.modules.openapi.OpenApi;
+import io.tmgg.modules.openapi.OpenApiField;
 import io.tmgg.modules.openapi.entity.OpenApiAccount;
 import io.tmgg.modules.openapi.service.ApiAccountService;
 import io.tmgg.modules.openapi.service.ApiResourceService;
 import io.tmgg.web.CommonQueryParam;
 import io.tmgg.web.annotion.HasPermission;
 import jakarta.annotation.Resource;
+import org.springframework.core.StandardReflectionParameterNameDiscoverer;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
@@ -49,7 +53,7 @@ public class ApiAccountController extends BaseController<OpenApiAccount> {
 
         Page<OpenApiAccount> page = service.findAll(q, pageable);
 
-        Map<String, String> permMap = apiResourceService.findAll().stream().collect(Collectors.toMap(t->t.getOpenApi().action(), t->t.getOpenApi().name()));
+        Map<String, String> permMap = apiResourceService.findAll().stream().collect(Collectors.toMap(t -> t.getOpenApi().action(), t -> t.getOpenApi().name()));
         for (OpenApiAccount a : page) {
             List<String> perms = a.getPerms();
             String permsLabel = perms.stream().map(p -> permMap.get(p)).collect(Collectors.joining(","));
@@ -89,17 +93,72 @@ public class ApiAccountController extends BaseController<OpenApiAccount> {
     public AjaxResult docInfo(String id) {
         OpenApiAccount acc = service.findOne(id);
         Collection<ApiResource> list = apiResourceService.findAll();
-        List<OpenApi> apis = list.stream().map(ApiResource::getOpenApi).filter(openApi -> acc.getPerms().contains(openApi.action())).toList();
+        List<ApiResource> apis = list.stream().filter(r -> acc.getPerms().contains(r.getOpenApi().action())).toList();
 
-        List<Map<String, Object>> mapList = apis.stream().map(api -> {
+        List<Map<String, Object>> apiInfoList = apis.stream().map(r -> {
+            OpenApi api = r.getOpenApi();
             Map<String, Object> map = new HashMap<>();
+
             map.put("action", api.action());
             map.put("name", api.name());
             map.put("desc", api.desc());
+
+            Method method = r.getMethod();
+
+            Class<?>[] parameters = method.getParameterTypes();
+            StandardReflectionParameterNameDiscoverer u = new StandardReflectionParameterNameDiscoverer();
+            String[] paramNames = u.getParameterNames(method);
+
+            Annotation[][] parameterAnnotations = method.getParameterAnnotations();
+            List<Dict> parameterList = new ArrayList<>();
+            for (int i = 0; i < parameters.length; i++) {
+                String type = parameters[i].getSimpleName();
+                String name = paramNames[i];
+
+                Dict dict = Dict.of("name", name, "type", type);
+
+                Annotation[] anns = parameterAnnotations[i];
+                if(anns.length > 0){
+                    Annotation ann = anns[0];
+                    if(ann instanceof OpenApiField f){
+                        dict.put("required",f.required());
+                        dict.put("desc", f.desc());
+                        dict.put("demo", f.demo());
+                    }
+                }
+
+                parameterList.add(dict);
+            }
+            map.put("parameterList", parameterList);
+
+            Class<?> returnType = method.getReturnType();
+
+            List<Dict> returnList = new ArrayList<>();
+            for (Field field : returnType.getDeclaredFields()) {
+                Dict dict = new Dict();
+                dict.put("name", field.getName());
+                dict.put("type", field.getType().getSimpleName());
+
+                OpenApiField f = field.getAnnotation(OpenApiField.class);
+                if(f != null){
+                    dict.put("required",f.required());
+                    dict.put("desc", f.desc());
+                    dict.put("demo", f.demo());
+                }
+                returnList.add(dict);
+            }
+
+
+            map.put("returnList", returnList);
+
             return map;
         }).toList();
 
-        return AjaxResult.ok().data(mapList);
+        Dict resultData = new Dict();
+        resultData.put("apiList",apiInfoList);
+        resultData.put("frameworkVersion", Build.FRAMEWORK_VERSION);
+
+        return AjaxResult.ok().data(resultData);
     }
 
 

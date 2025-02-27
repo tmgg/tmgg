@@ -59,10 +59,9 @@ export class PageUtil {
     }
 
 
-    static open(path,label) {
-        if(label) {
-            path = UrlUtil.setParam(path,'_label', label)
-        }
+    static openPure(path) {
+       path = UrlUtil.setParam(path,'_pure', true)
+
         history.push(path)
     }
 
