@@ -19,6 +19,7 @@ import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,72 +41,62 @@ public class ApiGatewayController {
                              @RequestHeader("x-timestamp") long timestamp,
                              @RequestHeader("x-signature") String signature,
                              String data) throws Exception {
+        try {
+            Assert.hasText(data, "请求体不能为空");
 
-        Assert.hasText(data, "请求体不能为空");
-
-        // 验证时间戳，与服务器时间差异不能超过20分钟
-        long diffTime = (System.currentTimeMillis() - timestamp) / (1000 * 60); // 分钟
-        Assert.state(Math.abs(diffTime) < TIME_DIFF_LIMIT, "时间戳差异大，差距" + diffTime + "分钟");
-
-
-        OpenApiAccount account = apiAccountService.findOne(appId);
-        Assert.notNull(account, "账号不存在");
-        Assert.state(account.getEnable(), "账号已禁用");
+            // 验证时间戳，与服务器时间差异不能超过20分钟
+            long diffTime = (System.currentTimeMillis() - timestamp) / (1000 * 60); // 分钟
+            Assert.state(Math.abs(diffTime) < TIME_DIFF_LIMIT, "时间戳差异大，差距" + diffTime + "分钟");
 
 
-        // 校验是否超期
-        Assert.state(account.getEndTime() == null || DateUtil.current() > account.getEndTime().getTime(), "账号已超过有效期");
-
-        // 校验权限
-        Assert.state(CollUtil.contains(account.getPerms(), action), "账号没有权限, uri: " + action);
+            OpenApiAccount account = apiAccountService.findOne(appId);
+            Assert.notNull(account, "账号不存在");
+            Assert.state(account.getEnable(), "账号已禁用");
 
 
-        ApiResource resource = apiResourceService.findByMethod(action);
-        Assert.notNull(resource, "接口不存在,接口：" + action);
+            // 校验是否超期
+            Assert.state(account.getEndTime() == null || DateUtil.current() > account.getEndTime().getTime(), "账号已超过有效期");
 
-        String clientIP = JakartaServletUtil.getClientIP(request);
-        Assert.state(StrUtil.isEmpty(account.getAccessIp()) || account.getAccessIp().contains(clientIP), "IP访问限制,您的IP为" + clientIP);
-
-        // 解密
-        String appSecret = account.getAppSecret();
-        AES aes = SecureUtil.aes(appSecret.getBytes());
-        System.out.println(data);
-        data = aes.decryptStr(data);
+            // 校验权限
+            Assert.state(CollUtil.contains(account.getPerms(), action), "账号没有权限, uri: " + action);
 
 
-        // 校验签名
-        this.checkSign(action, appId, timestamp, data, signature, appSecret);
+            ApiResource resource = apiResourceService.findByMethod(action);
+            Assert.notNull(resource, "接口不存在,接口：" + action);
 
-        Map<String, Object> params = JsonTool.jsonToMap(data);
-        Method method = resource.getMethod();
-        Object[] paramValues = ArgumentResolver.resolve(method, params, request, response);
-        Object retValue = null;
-        if (paramValues.length == 0) {
-            retValue = method.invoke(resource.getBean());
-        } else {
-            retValue = method.invoke(resource.getBean(), paramValues);
+            String clientIP = JakartaServletUtil.getClientIP(request);
+            Assert.state(StrUtil.isEmpty(account.getAccessIp()) || account.getAccessIp().contains(clientIP), "IP访问限制,您的IP为" + clientIP);
+
+            // 解密
+            String appSecret = account.getAppSecret();
+            AES aes = SecureUtil.aes(appSecret.getBytes());
+            System.out.println(data);
+            data = aes.decryptStr(data);
+
+
+            // 校验签名
+            this.checkSign(action, appId, timestamp, data, signature, appSecret);
+
+            Map<String, Object> params = JsonTool.jsonToMap(data);
+            Method method = resource.getMethod();
+            Object[] paramValues = ArgumentResolver.resolve(method, params, request, response);
+            Object retValue = null;
+            if (paramValues.length == 0) {
+                retValue = method.invoke(resource.getBean());
+            } else {
+                retValue = method.invoke(resource.getBean(), paramValues);
+            }
+
+            Assert.notNull(retValue, "接口必须有返回值");
+            String res = JsonTool.toJsonQuietly(retValue);
+            retValue = aes.encryptBase64(res);
+            return new ApiResult(1000, null, JsonTool.toJson(retValue));
+        } catch (Exception e) {
+            return parseException(e);
         }
-
-        Assert.notNull(retValue, "接口必须有返回值");
-        String res = JsonTool.toJsonQuietly(retValue);
-        retValue = aes.encryptBase64(res);
-        return new ApiResult(1000, null, JsonTool.toJson(retValue));
     }
 
-
-    /**
-     * 校验签名
-     */
-    public void checkSign(String uri, String appKey, long timestamp, String data, String sign, String secret) {
-        String calcSign = SecureUtil.hmacSha256(secret).digestBase64(uri + appKey + timestamp + data, false);
-
-        Assert.state(sign.equals(calcSign), "签名错误");
-    }
-
-
-    @ExceptionHandler
-    @ResponseBody
-    private ApiResult responseError(Exception e, HttpServletResponse response) {
+    private  ApiResult parseException(Exception e) {
         e.printStackTrace();
         int code = -1;
         String msg = e.getMessage();
@@ -124,6 +115,17 @@ public class ApiGatewayController {
 
         return new ApiResult(code, msg);
     }
+
+
+    /**
+     * 校验签名
+     */
+    public void checkSign(String uri, String appKey, long timestamp, String data, String sign, String secret) {
+        String calcSign = SecureUtil.hmacSha256(secret).digestBase64(uri + appKey + timestamp + data, false);
+
+        Assert.state(sign.equals(calcSign), "签名错误");
+    }
+
 
     @Resource
     private ApiAccountService apiAccountService;
