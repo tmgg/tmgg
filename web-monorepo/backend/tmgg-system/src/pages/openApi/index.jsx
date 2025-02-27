@@ -69,8 +69,8 @@ export default class extends React.Component {
             dataIndex: 'option',
             render: (_, record) => (
                 <ButtonList>
-                    <a perm='apiAccount:save' onClick={() => this.handleEdit(record)}>编辑</a>
-                    <Popconfirm perm='apiAccount:delete' title='是否确定删除接口访客'  onConfirm={() => this.handleDelete(record)}>
+                    <a perm='openApiAccount:save' onClick={() => this.handleEdit(record)}>编辑</a>
+                    <Popconfirm perm='openApiAccount:delete' title='是否确定删除接口访客'  onConfirm={() => this.handleDelete(record)}>
                         <a>删除</a>
                     </Popconfirm>
                 </ButtonList>
@@ -86,12 +86,12 @@ export default class extends React.Component {
         this.setState({formOpen: true, formValues: record})
     }
     handleKeys = record=>{
-        PageUtil.open('/api/apiAccount/keys?id='+record.id, '秘钥信息')
+        PageUtil.open('/api/openApiAccount/keys?id='+record.id, '秘钥信息')
     }
 
 
     onFinish = values => {
-        HttpUtil.post( 'apiAccount/save', values).then(rs => {
+        HttpUtil.post( 'openApiAccount/save', values).then(rs => {
             this.setState({formOpen: false})
             this.tableRef.current.reload()
         })
@@ -100,7 +100,7 @@ export default class extends React.Component {
 
 
     handleDelete = record => {
-        HttpUtil.postForm( 'apiAccount/delete', {id:record.id}).then(rs => {
+        HttpUtil.postForm( 'openApiAccount/delete', {id:record.id}).then(rs => {
             this.tableRef.current.reload()
         })
     }
@@ -116,12 +116,12 @@ export default class extends React.Component {
                 actionRef={this.tableRef}
                 toolBarRender={() => {
                     return <ButtonList>
-                        <Button perm='apiAccount:save' type='primary' onClick={this.handleAdd}>
+                        <Button perm='openApiAccount:save' type='primary' onClick={this.handleAdd}>
                             <PlusOutlined/> 新增
                         </Button>
                     </ButtonList>
                 }}
-                request={(params, sort) => HttpUtil.pageData('apiAccount/page', params)}
+                request={(params, sort) => HttpUtil.pageData('openApiAccount/page', params)}
                 columns={this.columns}
             />
 
@@ -145,7 +145,7 @@ export default class extends React.Component {
                     </Form.Item>
 
                     <Form.Item label='权限' name='perms' rules={[{required: true}]}>
-                        <FieldRemoteMultipleSelect url='apiAccount/resourceOptions' />
+                        <FieldRemoteMultipleSelect url='openApiAccount/resourceOptions' />
                     </Form.Item>
                     <Form.Item label='准入IP' name='accessIp' >
                         <Input placeholder='逗号分隔'/>

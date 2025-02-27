@@ -1,4 +1,4 @@
-package io.tmgg.modules.api.gateway;
+package io.tmgg.modules.openapi.gateway;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.date.DateUtil;
@@ -9,12 +9,12 @@ import cn.hutool.crypto.SecureUtil;
 import cn.hutool.crypto.symmetric.AES;
 import cn.hutool.extra.servlet.JakartaServletUtil;
 import io.tmgg.jackson.JsonTool;
-import io.tmgg.modules.api.Api;
-import io.tmgg.modules.api.ApiResource;
-import io.tmgg.modules.api.ApiResult;
-import io.tmgg.modules.api.entity.ApiAccount;
-import io.tmgg.modules.api.service.ApiAccountService;
-import io.tmgg.modules.api.service.ApiResourceService;
+import io.tmgg.modules.openapi.OpenApi;
+import io.tmgg.modules.openapi.ApiResource;
+import io.tmgg.modules.openapi.ApiResult;
+import io.tmgg.modules.openapi.entity.OpenApiAccount;
+import io.tmgg.modules.openapi.service.ApiAccountService;
+import io.tmgg.modules.openapi.service.ApiResourceService;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -23,12 +23,11 @@ import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.Method;
-import java.util.HashMap;
 import java.util.Map;
 
 @Slf4j
 @RestController
-@RequestMapping("api/gateway")
+@RequestMapping("openApi/gateway")
 public class ApiGatewayController {
 
 
@@ -49,7 +48,7 @@ public class ApiGatewayController {
         Assert.state(Math.abs(diffTime) < TIME_DIFF_LIMIT, "时间戳差异大，差距" + diffTime + "分钟");
 
 
-        ApiAccount account = apiAccountService.findOne(appId);
+        OpenApiAccount account = apiAccountService.findOne(appId);
         Assert.notNull(account, "账号不存在");
         Assert.state(account.getEnable(), "账号已禁用");
 
@@ -63,7 +62,7 @@ public class ApiGatewayController {
 
         ApiResource resource = apiResourceService.findByMethod(action);
         Assert.notNull(resource, "接口不存在,接口：" + action);
-        Api api = resource.getApi();
+        OpenApi openApi = resource.getOpenApi();
 
         String clientIP = JakartaServletUtil.getClientIP(request);
         Assert.state(StrUtil.isEmpty(account.getAccessIp()) || account.getAccessIp().contains(clientIP), "IP限制,IP：" + clientIP);

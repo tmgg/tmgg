@@ -1,4 +1,4 @@
-package io.tmgg.modules.api.utils;
+package io.tmgg.modules.openapi.utils;
 
 public class Constant {
 

@@ -35,7 +35,7 @@ export function initSystem() {
         'about': require('./pages/about').default,
 
         'code': require('./pages/code').default,
-        'api/apiAccount': require('./pages/api/apiAccount').default,
+        'openApi': require('./pages/openApi').default,
 
         'system/mysqlStatus': require('./pages/system/mysqlStatus').default,
 

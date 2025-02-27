@@ -1,4 +1,4 @@
-package io.tmgg.modules.api;
+package io.tmgg.modules.openapi;
 
 import lombok.Data;
 

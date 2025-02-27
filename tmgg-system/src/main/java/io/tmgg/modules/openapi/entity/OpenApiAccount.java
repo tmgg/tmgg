@@ -1,15 +1,11 @@
-package io.tmgg.modules.api.entity;
+package io.tmgg.modules.openapi.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import io.tmgg.lang.ann.Msg;
 import io.tmgg.lang.dao.BaseEntity;
-import io.tmgg.lang.dao.DBConstants;
 import io.tmgg.lang.dao.converter.ToListConverter;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Lob;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,7 +19,7 @@ import java.util.List;
 @FieldNameConstants
 @Getter
 @Setter
-public class ApiAccount extends BaseEntity {
+public class OpenApiAccount extends BaseEntity {
 
 
     @Msg("名称")

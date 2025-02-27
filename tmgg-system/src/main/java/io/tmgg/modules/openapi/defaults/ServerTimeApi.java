@@ -1,21 +1,20 @@
-package io.tmgg.modules.api.defaults;
+package io.tmgg.modules.openapi.defaults;
 
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
-import io.tmgg.modules.api.Api;
-import io.tmgg.modules.api.gateway.BaseApi;
+import io.tmgg.modules.openapi.OpenApi;
+import io.tmgg.modules.openapi.gateway.BaseApi;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
 @Component
 public class ServerTimeApi implements BaseApi {
 
 
-	@Api(name = "服务器时间", url = "server.time")
+	@OpenApi(name = "服务器时间", url = "server.time")
 	public Map<String, Object> time(String format) {
 		Date now = new Date();
 		Map<String, Object> data = new HashMap<>();

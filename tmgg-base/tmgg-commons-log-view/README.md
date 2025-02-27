@@ -20,7 +20,7 @@ http://127.0.0.1:8080/log-view/index.html?path=D:/demo.log
 请求格式
 
 ```
-ws://127.0.0.1:8080/api/log?path=要实时监控的文件路径
+ws://127.0.0.1:8080/openApi/log?path=要实时监控的文件路径
 ```
 
 
@@ -59,7 +59,7 @@ render((
   <ScrollFollow
     startFollowing={true}
     render={({ follow, onScroll }) => (
-      <LazyLog url="http://127.0.0.1/api/log?path=D:\demo.log" stream follow={follow} onScroll={onScroll} />
+      <LazyLog url="http://127.0.0.1/openApi/log?path=D:\demo.log" stream follow={follow} onScroll={onScroll} />
     )}
   />
 ), document.getElementById('root'));

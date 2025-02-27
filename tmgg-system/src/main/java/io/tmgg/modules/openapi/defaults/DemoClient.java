@@ -1,4 +1,4 @@
-package io.tmgg.modules.api.defaults;
+package io.tmgg.modules.openapi.defaults;
 
 import cn.hutool.crypto.SecureUtil;
 import cn.hutool.crypto.symmetric.AES;

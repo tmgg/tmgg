@@ -1,4 +1,4 @@
-package io.tmgg.modules.api;
+package io.tmgg.modules.openapi;
 
 import java.lang.annotation.*;
 
@@ -6,7 +6,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Inherited
 @Documented
-public @interface Api {
+public @interface OpenApi {
 
 	/**
 	 * Api名称

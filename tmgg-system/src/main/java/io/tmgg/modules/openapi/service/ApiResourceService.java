@@ -1,9 +1,9 @@
-package io.tmgg.modules.api.service;
+package io.tmgg.modules.openapi.service;
 
 import io.tmgg.lang.SpringTool;
-import io.tmgg.modules.api.Api;
-import io.tmgg.modules.api.ApiResource;
-import io.tmgg.modules.api.gateway.BaseApi;
+import io.tmgg.modules.openapi.OpenApi;
+import io.tmgg.modules.openapi.ApiResource;
+import io.tmgg.modules.openapi.gateway.BaseApi;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Method;
@@ -40,10 +40,10 @@ public class ApiResourceService {
             Method[] methods = baseApi.getClass().getMethods();
 
             for (Method method : methods) {
-                Api api = method.getAnnotation(Api.class);
-                if (api != null) {
-                    String url = api.url();
-                    map.put(url, new ApiResource(baseApi, method, api));
+                OpenApi openApi = method.getAnnotation(OpenApi.class);
+                if (openApi != null) {
+                    String url = openApi.url();
+                    map.put(url, new ApiResource(baseApi, method, openApi));
                 }
             }
         }

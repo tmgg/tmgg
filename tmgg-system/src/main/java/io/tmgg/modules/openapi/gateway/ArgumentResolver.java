@@ -1,4 +1,4 @@
-package io.tmgg.modules.api.gateway;
+package io.tmgg.modules.openapi.gateway;
 
 import io.tmgg.jackson.JsonTool;
 import jakarta.servlet.http.HttpServletRequest;

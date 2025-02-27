@@ -1,4 +1,4 @@
-package io.tmgg.modules.api;
+package io.tmgg.modules.openapi;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,5 +12,5 @@ public class ApiResource {
     Object bean;
     Method method;
 
-    Api api;
+    OpenApi openApi;
 }

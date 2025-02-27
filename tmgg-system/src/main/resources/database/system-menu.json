@@ -121,10 +121,10 @@
     },
     {
       "pid": "sys",
-      "id": "apiAccount",
-      "name": "接口管理",
-      "perm": "apiAccount",
-      "path": "/api/apiAccount",
+      "id": "openApiAccount",
+      "name": "开放接口",
+      "perm": "openApiAccount",
+      "path": "/openApi",
       "seq": 13
     }
   ]
