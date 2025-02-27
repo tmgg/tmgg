@@ -68,7 +68,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
             "/error",
 
             // 接口
-            "/api/gateway/**",
+            "/openApi/gateway/**",
 
             // 移动端
             "/wx/**",
