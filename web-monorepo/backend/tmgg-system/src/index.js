@@ -36,6 +36,7 @@ export function initSystem() {
 
         'code': require('./pages/code').default,
         'openApi': require('./pages/openApi').default,
+        'openApi/doc': require('./pages/openApi/doc').default,
 
         'system/mysqlStatus': require('./pages/system/mysqlStatus').default,
 

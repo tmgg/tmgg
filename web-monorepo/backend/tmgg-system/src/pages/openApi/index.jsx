@@ -65,6 +65,7 @@ export default class extends React.Component {
             dataIndex: 'option',
             render: (_, record) => (
                 <ButtonList>
+                    <Button size='small' onClick={()=>this.handleDoc(record)}>接口信息</Button>
                     <a perm='openApiAccount:save' onClick={() => this.handleEdit(record)}>编辑</a>
                     <Popconfirm perm='openApiAccount:delete' title='是否确定删除接口访客'  onConfirm={() => this.handleDelete(record)}>
                         <a>删除</a>
@@ -81,8 +82,8 @@ export default class extends React.Component {
     handleEdit = record=>{
         this.setState({formOpen: true, formValues: record})
     }
-    handleKeys = record=>{
-        PageUtil.open('/api/openApiAccount/keys?id='+record.id, '秘钥信息')
+    handleDoc = record=>{
+        PageUtil.open('/openApi/doc?id='+record.id, '接口信息')
     }
 
 

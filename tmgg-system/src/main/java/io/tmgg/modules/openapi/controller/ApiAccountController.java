@@ -20,6 +20,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -81,6 +82,24 @@ public class ApiAccountController extends BaseController<OpenApiAccount> {
         }).collect(Collectors.toList());
 
         return AjaxResult.ok().data(options);
+    }
+
+
+    @GetMapping("docInfo")
+    public AjaxResult docInfo(String id) {
+        OpenApiAccount acc = service.findOne(id);
+        Collection<ApiResource> list = apiResourceService.findAll();
+        List<OpenApi> apis = list.stream().map(ApiResource::getOpenApi).filter(openApi -> acc.getPerms().contains(openApi.action())).toList();
+
+        List<Map<String, Object>> mapList = apis.stream().map(api -> {
+            Map<String, Object> map = new HashMap<>();
+            map.put("action", api.action());
+            map.put("name", api.name());
+            map.put("desc", api.desc());
+            return map;
+        }).toList();
+
+        return AjaxResult.ok().data(mapList);
     }
 
 

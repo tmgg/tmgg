@@ -2,6 +2,7 @@ import React from "react";
 import {getRoutesMap, PageUtil} from "@tmgg/tmgg-base";
 import {Outlet, withRouter} from "umi";
 import {Tabs} from "antd";
+import {UrlUtil} from "@tmgg/tmgg-commons-lang";
 
 class MyOutlet extends React.Component {
 
@@ -100,7 +101,7 @@ class MyOutlet extends React.Component {
     }
     getComponent = (id) => {
         const {location, params} = this.state.cache[id]
-        const {pathname} = location
+        const {pathname,search} = location
 
         const map = getRoutesMap()
         if (pathname == null || pathname.length === 0) {
@@ -117,7 +118,9 @@ class MyOutlet extends React.Component {
 
         const componentType = map[routePath];
         if (componentType) {
-            return React.createElement(componentType, {location, params});
+            const urlParams =UrlUtil.getParams(search)
+            const finalParam = {...params, ...urlParams}
+            return React.createElement(componentType, {location, params:finalParam});
         }
 
         // 如果实在找不到页面组件，则适用自带
