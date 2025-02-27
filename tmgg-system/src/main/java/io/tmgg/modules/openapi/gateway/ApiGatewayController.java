@@ -23,6 +23,7 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Map;
 
@@ -96,10 +97,15 @@ public class ApiGatewayController {
         }
     }
 
-    private  ApiResult parseException(Exception e) {
+    private  ApiResult parseException(Throwable e) {
         e.printStackTrace();
         int code = -1;
         String msg = e.getMessage();
+
+        if(e instanceof InvocationTargetException ite){
+            e = ite.getTargetException();
+        }
+
 
         Map<Class<? extends Exception>, String> codes = new TableMap<>();
         codes.put(CryptoException.class, 2001 + "签名或加密错误，请检查秘钥是否正确");

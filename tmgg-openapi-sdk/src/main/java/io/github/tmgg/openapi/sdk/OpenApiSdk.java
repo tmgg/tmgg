@@ -9,6 +9,7 @@ import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSON;
 import cn.hutool.json.JSONUtil;
 import lombok.AllArgsConstructor;
+import lombok.Setter;
 
 import java.io.IOException;
 import java.util.Map;
@@ -17,13 +18,23 @@ import java.util.TreeMap;
 /**
  * 供第三方调用
  */
-@AllArgsConstructor
 public class OpenApiSdk {
+    public static final int SUCCESS_CODE = 1000;
+
     private String baseUrl;
     private String appId;
     private String appSecret;
 
-    public static final int SUCCESS_CODE = 1000;
+
+    @Setter
+    private boolean debug = true;
+
+
+    public OpenApiSdk(String baseUrl, String appId, String appSecret) {
+        this.baseUrl = baseUrl;
+        this.appId = appId;
+        this.appSecret = appSecret;
+    }
 
     public static void main(String[] args) throws IOException {
         OpenApiSdk sdk = new OpenApiSdk("http://127.0.0.1:8002", "473428cdaeb44e27bb0f45c32a7fc2b5", "cbCaGVuSWWgSExaZTvcVG80IrKKVifI2");
@@ -52,7 +63,6 @@ public class OpenApiSdk {
         // 签名
         String sign = SecureUtil.hmacSha256(appSecret).digestBase64(action + appId + timestamp + data, false);
         http.header("x-signature", sign);
-        System.out.println("签名为：" + sign);
 
 
         // 加密
@@ -64,6 +74,10 @@ public class OpenApiSdk {
         HttpResponse response = http.execute();
         String body = response.body();
 
+        if(debug){
+            System.out.println("响应原始数据");
+            System.out.println(body);
+        }
 
         JSON result = JSONUtil.parse(body);
         Integer code = (Integer) result.getByPath("code");
