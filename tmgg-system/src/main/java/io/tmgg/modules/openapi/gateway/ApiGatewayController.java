@@ -99,12 +99,16 @@ public class ApiGatewayController {
 
     private  ApiResult parseException(Throwable e) {
         e.printStackTrace();
-        int code = -1;
-        String msg = e.getMessage();
 
         if(e instanceof InvocationTargetException ite){
             e = ite.getTargetException();
         }
+
+
+        int code = -1;
+        String msg = e.getMessage();
+
+
 
 
         Map<Class<? extends Exception>, String> codes = new TableMap<>();
