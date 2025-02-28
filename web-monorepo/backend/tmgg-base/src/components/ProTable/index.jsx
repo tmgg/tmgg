@@ -26,11 +26,14 @@ export class ProTable extends React.Component {
         }
     }
 
-    componentDidMount() {
-        if(this.props.defaultPageSize) {
-            this.setState({pageSize:this.props.defaultPageSize})
+    constructor(props) {
+        super(props);
+        if(props.defaultPageSize) {
+            this.state.pageSize = props.defaultPageSize
         }
+    }
 
+    componentDidMount() {
         this.loadData()
 
         if (this.props.actionRef) {
