@@ -87,7 +87,7 @@ export default class extends React.Component {
                 defaultPageSize={20}
             />
 
-            <Modal title='编辑配置'
+            <Modal
                    open={this.state.formOpen}
                    onOk={() => this.formRef.current.submit()}
                    onCancel={() => this.setState({formOpen: false})}
@@ -97,7 +97,7 @@ export default class extends React.Component {
             >
 
                 <Form ref={this.formRef}
-                      layout='vertical'
+                      layout='horizontal'
                       initialValues={this.state.formValues}
                       onFinish={this.onFinish}>
 
