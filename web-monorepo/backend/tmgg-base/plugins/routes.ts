@@ -51,6 +51,7 @@ function parseDir(pageDir, fileRoutes) {
 export default (api: IApi) => {
     api.describe({
         key: 'addDependenceRoutes',
+
     });
 
     const content = fs.readFileSync(api.cwd + "/package.json", "utf-8")

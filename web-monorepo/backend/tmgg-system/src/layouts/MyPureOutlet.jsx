@@ -12,7 +12,7 @@ export default function MyPureOutlet(props) {
 
 
     const mathArr= matchRoutes(appData.clientRoutes,pathname)
-    if(mathArr.length > 0){
+    if(mathArr!=null){
         const mathResult = mathArr[mathArr.length-1].route
         return mathResult.element;
     }
