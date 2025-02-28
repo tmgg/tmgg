@@ -3,21 +3,25 @@ import {IApi} from 'umi';
 import fs from "fs";
 import path from "path";
 
-function addRoute(file,fileRoutes){
+function addRoute(file, fileRoutes) {
     let routePath = file.substring(file.indexOf('pages') + 6, file.length - 4)
-    routePath = routePath.replaceAll('\\','/')
+    routePath = routePath.replaceAll('\\', '/')
 
     let parentId = "@@/global-layout";
-    fileRoutes.push( {
+
+    // 文件$开头的会替换为路径变量 如$id 变为 :id
+    routePath = routePath.replaceAll("\$", ":")
+
+    fileRoutes.push({
         absPath: file,
         id: routePath,
         path: routePath,
         file,
         parentId
     })
-    if(routePath.endsWith("/index")){
-        routePath=  routePath.substring(0,routePath.length -6)
-        fileRoutes.push( {
+    if (routePath.endsWith("/index")) {
+        routePath = routePath.substring(0, routePath.length - 6)
+        fileRoutes.push({
             absPath: file,
             id: routePath,
             path: routePath,
@@ -27,17 +31,17 @@ function addRoute(file,fileRoutes){
     }
 }
 
-function parseDir(pageDir, fileRoutes){
+function parseDir(pageDir, fileRoutes) {
     const list = fs.readdirSync(pageDir)
 
     for (let fileName of list) {
         const fullPath = path.join(pageDir, fileName)
         const stats = fs.statSync(fullPath)
-        if(stats.isFile()){
-            if(fileName.endsWith(".jsx")){
+        if (stats.isFile()) {
+            if (fileName.endsWith(".jsx")) {
                 addRoute(fullPath, fileRoutes)
             }
-        }else if(stats.isDirectory()){
+        } else if (stats.isDirectory()) {
             parseDir(fullPath, fileRoutes)
         }
 
@@ -51,10 +55,10 @@ export default (api: IApi) => {
 
     const content = fs.readFileSync(api.cwd + "/package.json", "utf-8")
     const pkg = JSON.parse(content)
-    const deps = Object.assign({}, pkg.devDependencies,pkg.dependencies,pkg.peerDependencies)
+    const deps = Object.assign({}, pkg.devDependencies, pkg.dependencies, pkg.peerDependencies)
     const pagePkg = [];
-    for(let k in deps){
-        if(k.startsWith("@tmgg/tmgg-system")){
+    for (let k in deps) {
+        if (k.startsWith("@tmgg/tmgg-system")) {
             pagePkg.push(k)
         }
     }

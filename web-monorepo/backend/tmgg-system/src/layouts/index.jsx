@@ -105,4 +105,5 @@ export class Layouts extends React.Component {
 
 }
 
-export default withRouter(Layouts)
+export const LayoutsWithRouter = withRouter(Layouts);
+export default LayoutsWithRouter

@@ -6,7 +6,6 @@ import {withRouter} from "umi";
 class ReportCode  extends React.Component {
 
     render() {
-        debugger
         const code = this.props.params.code
         return <Card>
             <SysReportChart code={code} height='calc(100vh - 200px)'/>

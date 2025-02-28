@@ -6,6 +6,10 @@ import {matchRoutes} from "umi";
 export default function MyPureOutlet(props) {
     let {pathname} = props
     const appData = useAppData()
+    if(pathname === '/'){
+        pathname = '/index'
+    }
+
 
     const mathArr= matchRoutes(appData.clientRoutes,pathname)
     if(mathArr.length > 0){
