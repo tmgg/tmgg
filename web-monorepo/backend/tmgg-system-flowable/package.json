@@ -1,33 +1,31 @@
 {
-  "private": false,
-  "devDependencies": {
-    "@types/node": "^22.13.5",
-    "@types/react": "^18.0.0",
-    "@types/react-dom": "^18.0.0",
-    "typescript": "^5.0.3"
+  "private" : false,
+  "devDependencies" : {
+    "@types/node" : "^22.13.5",
+    "@types/react" : "^18.0.0",
+    "@types/react-dom" : "^18.0.0",
+    "typescript" : "^5.0.3"
   },
-  "peerDependencies": {
-    "@ant-design/icons": "^5.4.0",
-    "@tmgg/tmgg-base": "workspace:*",
-    "@tmgg/tmgg-system": "workspace:*",
-    "antd": "^5.20.3",
-    "axios": "^1.6.7",
-    "bpmn-js": "^9.0.0",
-    "dagre-d3": "^0.6.0",
-    "diagram-js-origin": "^1.0.0",
-    "lodash": "^4.17.21",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "umi": "^4.0.0"
+  "peerDependencies" : {
+    "@ant-design/icons" : "^5.4.0",
+    "@tmgg/tmgg-base" : "workspace:*",
+    "@tmgg/tmgg-system" : "workspace:*",
+    "antd" : "^5.20.3",
+    "axios" : "^1.6.7",
+    "bpmn-js" : "^9.0.0",
+    "dagre-d3" : "^0.6.0",
+    "diagram-js-origin" : "^1.0.0",
+    "lodash" : "^4.17.21",
+    "react" : "^18.2.0",
+    "react-dom" : "^18.2.0",
+    "umi" : "^4.0.0"
   },
-  "name": "@tmgg/tmgg-system-flowable",
-  "files": [
-    "src/*"
-  ],
-  "main": "src/index.js",
-  "scripts": {
-    "flowable-start": "umi dev",
-    "umi plugin list": "umi plugin list"
+  "name" : "@tmgg/tmgg-system-flowable",
+  "files" : [ "src/*" ],
+  "main" : "src/index.js",
+  "scripts" : {
+    "flowable-start" : "umi dev",
+    "umi plugin list" : "umi plugin list"
   },
-  "version": "0.3.31"
+  "version" : "0.3.32"
 }

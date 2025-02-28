@@ -1,2 +1,2 @@
-import {LayoutsWithRouter} from "@tmgg/tmgg-system";
-export default LayoutsWithRouter
+import {Layouts} from "@tmgg/tmgg-system";
+export default Layouts

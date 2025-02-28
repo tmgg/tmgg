@@ -24,7 +24,7 @@ dayjs.locale('zh-cn');
  * logo: 自定义的logo图片
  *
  */
-export class Layouts extends React.Component {
+ class _Layouts extends React.Component {
 
     state = {
         siteInfoLoaded: false,
@@ -105,5 +105,5 @@ export class Layouts extends React.Component {
 
 }
 
-export const LayoutsWithRouter = withRouter(Layouts);
-export default LayoutsWithRouter
+export const Layouts = withRouter(_Layouts);
+export default Layouts

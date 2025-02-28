@@ -4,5 +4,5 @@ import lombok.experimental.FieldNameConstants;
 
 public class Build {
 
-public static String FRAMEWORK_VERSION = "0.3.31";
+public static String FRAMEWORK_VERSION = "0.3.32";
 }

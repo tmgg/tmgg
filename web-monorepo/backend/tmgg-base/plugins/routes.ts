@@ -1,7 +1,8 @@
 import {IApi} from 'umi';
-
 import fs from "fs";
 import path from "path";
+
+// 扫描依赖模块的路由
 
 function addRoute(file, fileRoutes) {
     let routePath = file.substring(file.indexOf('pages') + 6, file.length - 4)

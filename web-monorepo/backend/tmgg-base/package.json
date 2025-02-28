@@ -20,7 +20,7 @@
   },
   "name" : "@tmgg/tmgg-base",
   "description" : "函数工具类",
-  "files" : [ "src/*","plugins/*" ],
+  "files" : [ "src/*", "plugins/*" ],
   "main" : "src/index.js",
-  "version" : "0.3.31"
+  "version" : "0.3.32"
 }
