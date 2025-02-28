@@ -1,5 +1,5 @@
 import {PlusOutlined} from '@ant-design/icons'
-import {Button, Popconfirm, Modal, Form, Input} from 'antd'
+import {Button, Popconfirm, Modal, Form, Input, Tag} from 'antd'
 import React from 'react'
 
 import {ProTable} from '@tmgg/tmgg-base'
@@ -30,21 +30,25 @@ export default class extends React.Component {
             title: '值',
             dataIndex: 'value',
             render(v,record){
-                return <FieldComponent type={record.valueType || 'input'} mode='read' value={v} />
+                if(v != null){
+                    return <FieldComponent type={record.valueType || 'input'} mode='read' value={v} />
+                }
+                let defaultValue = record.defaultValue;
+                if(defaultValue != null){
+                    return <div>
+                        <FieldComponent type={record.valueType || 'input'} mode='read' value={defaultValue}/>
+                        <Tag color={"orange"} style={{marginLeft:8}}>默认值</Tag></div>
+
+                }
             }
         },
 
-        {
-            title: '默认值',
-            dataIndex: 'defaultValue',
-            render(v,record){
-                return <FieldComponent type={record.valueType || 'input'} mode='read' value={v}/>
-            }
-        },
+
 
         {
             title: '备注',
             dataIndex: 'remark',
+            width: 400
         },
         {
             title: '修改时间',
@@ -87,7 +91,7 @@ export default class extends React.Component {
                 defaultPageSize={20}
             />
 
-            <Modal
+            <Modal      title={'编辑系统参数'}
                    open={this.state.formOpen}
                    onOk={() => this.formRef.current.submit()}
                    onCancel={() => this.setState({formOpen: false})}
@@ -97,7 +101,7 @@ export default class extends React.Component {
             >
 
                 <Form ref={this.formRef}
-                      layout='horizontal'
+                      style={{marginTop:24}}
                       initialValues={this.state.formValues}
                       onFinish={this.onFinish}>
 

@@ -1,7 +1,7 @@
 import React from "react";
 import {getRoutesMap, PageUtil} from "@tmgg/tmgg-base";
 import {Outlet, withRouter} from "umi";
-import {Tabs} from "antd";
+import {Empty, Tabs,Result} from "antd";
 import {UrlUtil} from "@tmgg/tmgg-commons-lang";
 
 class MyTabsOutlet extends React.Component {
@@ -110,6 +110,11 @@ class MyTabsOutlet extends React.Component {
 
         // 判断是否动态路径
         let routePath = pathname.substring(1)
+        if(routePath == ''){
+            routePath = 'index'
+        }
+        debugger
+
         // 可能是动态路径， 如 user/:id
         for (let paramKey in params) {
             let paramValue = params[paramKey]
@@ -122,9 +127,12 @@ class MyTabsOutlet extends React.Component {
             const finalParam = {...params, ...urlParams}
             return React.createElement(componentType, {location, params:finalParam});
         }
-
         // 如果实在找不到页面组件，则适用自带
-        return <Outlet/>
+        return   <Result
+            status={404}
+            title='页面未找到'
+            subTitle={<div>路由地址：{routePath}</div>}
+        />
     }
 }
 

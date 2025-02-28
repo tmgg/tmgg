@@ -35,9 +35,9 @@ public class SysConfigController  {
   @HasPermission
   @RequestMapping("page")
   public AjaxResult page(@RequestBody CommonQueryParam queryParam,
-                         @PageableDefault(direction = Sort.Direction.DESC, sort = SysConfig.Fields.label) Pageable pageable) {
+                         @PageableDefault(direction = Sort.Direction.DESC, sort = "id") Pageable pageable) {
     JpaQuery<SysConfig> q= new JpaQuery<>();
-    q.searchText(queryParam.getKeyword(), SysConfig.Fields.label, "id");
+    q.searchText(queryParam.getKeyword(), SysConfig.Fields.label, "id", SysConfig.Fields.remark);
     Page<SysConfig> page = service.findAll(q, pageable);
 
     return AjaxResult.ok().data(page);

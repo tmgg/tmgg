@@ -3,7 +3,7 @@
  */
 
 import {registerRoutes} from "@tmgg/tmgg-base";
-
+import React from "react";
 
 export * from "./layouts"
 
@@ -33,6 +33,7 @@ export function initSystem() {
         'ssoLogin': require('./pages/ssoLogin').default,
         'login': require('./pages/login').default,
         'about': require('./pages/about').default,
+        'index': React.lazy(() => import(/* webpackChunkName: "src__pages__index" */'./pages/index.jsx')),
 
         'code': require('./pages/code').default,
         'openApi': require('./pages/openApi').default,

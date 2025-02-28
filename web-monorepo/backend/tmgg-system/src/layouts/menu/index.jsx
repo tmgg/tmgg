@@ -174,7 +174,7 @@ export default class extends React.Component {
                 </Sider>
 
                 <Content id='content'>
-                    <MyTabsOutlet pathLabelMap={this.state.pathLabelMap}/>
+                    {this.state.menus.length > 0 &&   <MyTabsOutlet pathLabelMap={this.state.pathLabelMap}/>}
                 </Content>
 
             </Layout>
