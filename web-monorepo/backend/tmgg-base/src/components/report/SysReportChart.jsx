@@ -23,12 +23,14 @@ export class SysReportChart extends React.Component {
 
     init = () => {
         const {code} = this.props
-        this.setState({loading:true})
-        HttpUtil.get("sysReportChart/getOption/" + code).then(rs => {
-            this.setState({data:rs})
-        }).finally(()=>{
-            this.setState({loading:false},this.renderChart)
-        })
+        if(code){
+            this.setState({loading:true})
+            HttpUtil.get("sysReportChart/getOption/" + code).then(rs => {
+                this.setState({data:rs})
+            }).finally(()=>{
+                this.setState({loading:false},this.renderChart)
+            })
+        }
     };
 
     renderChart(){

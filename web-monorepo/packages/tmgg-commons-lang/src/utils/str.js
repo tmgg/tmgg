@@ -1,4 +1,12 @@
 export const StrUtil = {
+    removePrefix(str, ch){
+      if(str != null && str.startsWith(ch)){
+       return    str.substring(ch.length)
+      }
+
+      return str;
+
+    },
 
     random(length){
             const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';

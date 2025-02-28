@@ -4,8 +4,9 @@ package io.tmgg.lang;
 import java.util.*;
 
 /**
- * 将列表转换为树
+ * 将列表转换为树,请使用TreeManager
  */
+@Deprecated
 public class TreeTool {
 
 

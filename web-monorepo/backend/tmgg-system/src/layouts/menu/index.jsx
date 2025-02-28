@@ -59,10 +59,13 @@ export default class extends React.Component {
 
 
     initMenu = () => {
-        HttpUtil.get('menuTree').then(menus => {
+        HttpUtil.get('menuInfo').then(info => {
+            const {menus, topMenus} = info
+
             let pathname = PageUtil.currentPathname();
             let currentMenuKey = null
             const menuMap = {}
+
             TreeUtil.traverseTree(menus, (item) => {
                 let IconType = Icons[item.icon || 'SmileOutlined'];
                 item.icon = <IconType style={{fontSize: 12}}/>
@@ -70,10 +73,6 @@ export default class extends React.Component {
                 if (item.path === pathname) {
                     currentMenuKey = item.id
                 }
-            })
-            const topMenus = menus.map(item => {
-                const {key, label} = item
-                return {key, label}
             })
 
 
@@ -86,12 +85,7 @@ export default class extends React.Component {
 
             if (pathname !== "" && pathname !== "/") {
                 let menu = menuMap[currentMenuKey]
-                while (menu && menu.pid) {
-                    menu = menuMap[menu.pid]
-                }
-                if (menu) {
-                    currentTopMenuKey = menu.id
-                }
+                currentTopMenuKey = menu.rootId
             }
 
             leftMenus = menuMap[currentTopMenuKey]?.children
@@ -105,15 +99,14 @@ export default class extends React.Component {
     actionRef = React.createRef()
 
 
-    storePathLabel(menus){
+    storePathLabel(menus) {
         const map = {}
         for (let menu of menus) {
-            const {label,path} = menu;
+            const {label, path} = menu;
             map[path] = label;
         }
-        this.setState({pathLabelMap:map})
+        this.setState({pathLabelMap: map})
     }
-
 
 
     render() {
@@ -124,11 +117,9 @@ export default class extends React.Component {
                 <div className='header-left'>
 
                     <img className='logo-img' src={logo} onClick={() => history.push('/')}/>
-                    {!this.state.isMobileDevice && <>
-                        <h3>
-                            <Link to="/" style={{color: theme["primary-color"]}}>{siteInfo.title} </Link>
-                        </h3>
-                    </>}
+                    <h3 className='hide-on-mobile'>
+                        <Link to="/" style={{color: theme["primary-color"]}}>{siteInfo.title} </Link>
+                    </h3>
 
 
                     <Menu items={topMenus}
@@ -142,7 +133,7 @@ export default class extends React.Component {
                                   this.setState({currentTopMenuKey, leftMenus})
                               }
                           }}
-                          style={{lineHeight: '42px'}}
+                          style={{lineHeight: '42px', minWidth: 500}}
                     ></Menu>
                 </div>
                 <HeaderRight></HeaderRight>
@@ -174,12 +165,13 @@ export default class extends React.Component {
                 </Sider>
 
                 <Content id='content'>
-                    {this.state.menus.length > 0 &&   <MyTabsOutlet pathLabelMap={this.state.pathLabelMap}/>}
+                    {this.state.menus.length > 0 && <MyTabsOutlet pathLabelMap={this.state.pathLabelMap}/>}
                 </Content>
 
             </Layout>
 
-            {!this.state.isMobileDevice && <Footer
+            <Footer
+                className='hide-on-mobile'
                 style={{
                     textAlign: 'center',
                     margin: 0,
@@ -190,7 +182,7 @@ export default class extends React.Component {
                 {siteInfo.copyright}
 
                 &nbsp;&nbsp;&nbsp;&nbsp;当前时间 <time title='当前时间'>{DateUtil.now()}</time>
-            </Footer>}
+            </Footer>
 
         </Layout>
     }

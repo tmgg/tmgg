@@ -8,12 +8,7 @@ export default class extends React.Component {
     render() {
 
         return <Card title='测试页面'>
-
-            <Form>
-                <Form.Item label='选择角色' name='roleId'>
-                    <FieldRemoteSelect url={'/sysRole/options'} style={{width: 200}}/>
-                </Form.Item>
-            </Form>
+          test
         </Card>
     }
 }

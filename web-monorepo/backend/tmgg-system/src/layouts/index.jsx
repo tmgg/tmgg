@@ -4,7 +4,7 @@ import React from "react";
 import {ConfigProvider} from "antd";
 import {PageUtil} from "@tmgg/tmgg-base";
 import AuthInterceptor from "./AuthInterceptor";
-import {history, Outlet} from "umi";
+import {history, Outlet, withRouter} from "umi";
 import zhCN from 'antd/locale/zh_CN';
 import {theme} from "@tmgg/tmgg-commons-lang";
 import dayjs from 'dayjs';
@@ -29,25 +29,8 @@ export class Layouts extends React.Component {
     state = {
         siteInfoLoaded: false,
         loginDataLoaded: false,
-
-        pathname: null, // 不带参路径
-        path: null // 带参路径
     }
 
-    componentDidMount() {
-        this.unlisten = history.listen(({location, action}) => {
-            console.log('监听路由：不带参路径为',location);
-            let path = location.pathname + location.search;
-            console.log('带参数', path)
-            this.setState({pathname: location.pathname, path: path})
-        });
-        let pathname = PageUtil.currentPathname();
-        let path = PageUtil.currentPath();
-        this.setState({pathname, path})
-    }
-    componentWillUnmount() {
-        this.unlisten()
-    }
 
     render() {
         return <ConfigProvider
@@ -93,8 +76,8 @@ export class Layouts extends React.Component {
     }
 
 
-    renderContent() {
-        let pathname = this.state.pathname;
+    renderContent = () => {
+        let pathname = this.props.location.pathname;
         if (pathname === '/login') {
             return <SiteInfoInterceptor>
                 <Outlet/>
@@ -107,9 +90,8 @@ export class Layouts extends React.Component {
         const params =PageUtil.currentParams()
 
         if(params.hasOwnProperty('_pure')){
-            return  <MyPureOutlet />
+            return  <MyPureOutlet pathname={pathname} />
         }
-
 
         return <SiteInfoInterceptor>
             <AuthInterceptor>
@@ -118,9 +100,9 @@ export class Layouts extends React.Component {
                 </UserInfoInterceptor>
             </AuthInterceptor>
         </SiteInfoInterceptor>
-    }
+    };
 
 
 }
 
-export default Layouts
+export default withRouter(Layouts)

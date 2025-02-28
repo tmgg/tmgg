@@ -1,0 +1,73 @@
+import {IApi} from 'umi';
+
+import fs from "fs";
+import path from "path";
+
+function addRoute(file,fileRoutes){
+    let routePath = file.substring(file.indexOf('pages') + 6, file.length - 4)
+    routePath = routePath.replaceAll('\\','/')
+
+    let parentId = "@@/global-layout";
+    fileRoutes.push( {
+        absPath: file,
+        id: routePath,
+        path: routePath,
+        file,
+        parentId
+    })
+    if(routePath.endsWith("/index")){
+        routePath=  routePath.substring(0,routePath.length -6)
+        fileRoutes.push( {
+            absPath: file,
+            id: routePath,
+            path: routePath,
+            file,
+            parentId: parentId
+        })
+    }
+}
+
+function parseDir(pageDir, fileRoutes){
+    const list = fs.readdirSync(pageDir)
+
+    for (let fileName of list) {
+        const fullPath = path.join(pageDir, fileName)
+        const stats = fs.statSync(fullPath)
+        if(stats.isFile()){
+            if(fileName.endsWith(".jsx")){
+                addRoute(fullPath, fileRoutes)
+            }
+        }else if(stats.isDirectory()){
+            parseDir(fullPath, fileRoutes)
+        }
+
+    }
+}
+
+export default (api: IApi) => {
+    api.describe({
+        key: 'addDependenceRoutes',
+    });
+
+    const content = fs.readFileSync(api.cwd + "/package.json", "utf-8")
+    const pkg = JSON.parse(content)
+    const deps = Object.assign({}, pkg.devDependencies,pkg.dependencies,pkg.peerDependencies)
+    const pagePkg = [];
+    for(let k in deps){
+        if(k.startsWith("@tmgg/tmgg-system")){
+            pagePkg.push(k)
+        }
+    }
+
+    const fileRoutes = []
+    for (let pkg of pagePkg) {
+        const pageDir = api.cwd + "/node_modules/" + pkg + "/src/pages"
+        parseDir(pageDir, fileRoutes)
+    }
+    api.modifyRoutes((routes) => {
+        for (let fileRoute of fileRoutes) {
+            routes[fileRoute.id] = fileRoute
+        }
+        return routes;
+    })
+};

@@ -2,7 +2,7 @@
  * umi 规定的入口
  */
 
-import {initBase, patchClientRoutesRegistered} from "@tmgg/tmgg-base";
+import {initBase, appendRouteComponents} from "@tmgg/tmgg-base";
 import {initSystem} from "@tmgg/tmgg-system";
 import {initJob} from "@tmgg/tmgg-system-job";
 
@@ -11,5 +11,5 @@ initSystem()
 initJob()
 
 export function patchClientRoutes({ routes }) {
-    patchClientRoutesRegistered(routes)
+    appendRouteComponents(routes)
 }

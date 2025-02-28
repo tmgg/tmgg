@@ -3,9 +3,10 @@ import {SysReportChart} from "@tmgg/tmgg-base";
 import {Card} from "antd";
 import {withRouter} from "umi";
 
-export  default class  extends React.Component {
+class ReportCode  extends React.Component {
 
     render() {
+        debugger
         const code = this.props.params.code
         return <Card>
             <SysReportChart code={code} height='calc(100vh - 200px)'/>
@@ -13,3 +14,4 @@ export  default class  extends React.Component {
     }
 }
 
+export  default withRouter(ReportCode)

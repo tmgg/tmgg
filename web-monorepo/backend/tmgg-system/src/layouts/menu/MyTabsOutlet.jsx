@@ -1,8 +1,10 @@
 import React from "react";
 import {getRoutesMap, PageUtil} from "@tmgg/tmgg-base";
 import {Outlet, withRouter} from "umi";
-import {Empty, Tabs,Result} from "antd";
-import {UrlUtil} from "@tmgg/tmgg-commons-lang";
+import {Empty, Tabs, Result} from "antd";
+import {StrUtil, UrlUtil} from "@tmgg/tmgg-commons-lang";
+import {useAppData} from "umi";
+import MyPureOutlet from "../MyPureOutlet";
 
 class MyTabsOutlet extends React.Component {
 
@@ -11,7 +13,7 @@ class MyTabsOutlet extends React.Component {
         active: null,
         urlLabelMap: {},
 
-        tabs:[]
+        tabs: []
     }
 
     componentDidMount() {
@@ -29,7 +31,7 @@ class MyTabsOutlet extends React.Component {
     }
 
     onUrlChange(url) {
-        let {cache,tabs} = this.state;
+        let {cache, tabs} = this.state;
         let {location, params} = this.props;
         if (cache[url] == null) {
             cache[url] = {location, params}
@@ -39,7 +41,7 @@ class MyTabsOutlet extends React.Component {
             tabs.push({
                 key: url,
                 label: label,
-               children: this.getComponent(url)
+                children: this.getComponent(url)
             });
             this.setState({tabs})
         }
@@ -59,26 +61,27 @@ class MyTabsOutlet extends React.Component {
 
     render() {
         let {tabs} = this.state
-        let items =tabs.map(tab=>{
+        let items = tabs.map(tab => {
             return {...tab}
         })
 
-
         return <>
             <Tabs
-            items={items }
-            activeKey={this.state.active}
-            onChange={this.onChange}
-            onEdit={this.onRemove}
+                items={items}
+                activeKey={this.state.active}
+                onChange={this.onChange}
+                onEdit={this.onRemove}
 
-            hideAdd
-            size='small'
-            type='editable-card'
-            style={{background: 'white'}}
-            destroyInactiveTabPane={false}
-        >
-        </Tabs></>
+                hideAdd
+                size='small'
+                type='editable-card'
+                style={{background: 'white'}}
+                destroyInactiveTabPane={false}
+            >
+            </Tabs>
+        </>
     }
+
     onChange = url => {
         this.props.history.push(url)
     };
@@ -88,7 +91,7 @@ class MyTabsOutlet extends React.Component {
         delete cache[url]
         const urls = Object.keys(cache)
 
-        const newUrl = urls[urls.length -1]
+        const newUrl = urls[urls.length - 1]
         this.props.history.push(newUrl || '/')
 
         this.setState({cache})
@@ -99,42 +102,16 @@ class MyTabsOutlet extends React.Component {
         let url = pathname + search;
         return url;
     }
-    getComponent = (id) => {
-        const {location, params} = this.state.cache[id]
-        const {pathname,search} = location
+    getComponent = (url) => {
+        const {location, params} = this.state.cache[url]
 
-        const map = getRoutesMap()
-        if (pathname == null || pathname.length === 0) {
-            return '首页'
-        }
+        let {pathname, search} = location
 
-        // 判断是否动态路径
-        let routePath = pathname.substring(1)
-        if(routePath == ''){
-            routePath = 'index'
-        }
-        debugger
-
-        // 可能是动态路径， 如 user/:id
-        for (let paramKey in params) {
-            let paramValue = params[paramKey]
-            routePath = routePath.replace(paramValue, ":" + paramKey)
-        }
-
-        const componentType = map[routePath];
-        if (componentType) {
-            const urlParams =UrlUtil.getParams(search)
-            const finalParam = {...params, ...urlParams}
-            return React.createElement(componentType, {location, params:finalParam});
-        }
-        // 如果实在找不到页面组件，则适用自带
-        return   <Result
-            status={404}
-            title='页面未找到'
-            subTitle={<div>路由地址：{routePath}</div>}
-        />
+        return <MyPureOutlet pathname={pathname} params={params} search={search}/>
     }
 }
+
+
 
 // 让组件有路由相关的参数，如 this.props.location
 export default withRouter(MyTabsOutlet)

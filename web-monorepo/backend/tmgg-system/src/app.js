@@ -1,10 +1,7 @@
 /**
- * umi 规定的入口
+ * umi 运行时配置
  */
-
 import {initBase} from "@tmgg/tmgg-base";
-import {initSystem} from "./index";
 
 initBase()
-initSystem()
 

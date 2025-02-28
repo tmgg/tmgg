@@ -1,7 +1,7 @@
-import {registerRoutes} from "@tmgg/tmgg-base";
+import {registerRouteComponents} from "@tmgg/tmgg-base";
 
 export function initKettle(){
-    registerRoutes({
+    registerRouteComponents({
         'kettle': require('./pages/kettle').default,
     })
 }

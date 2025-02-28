@@ -1,32 +1,22 @@
+import {useAppData} from "umi";
 import React from "react";
-import {getRoutesMap, PageUtil} from "@tmgg/tmgg-base";
-import {Outlet, withRouter} from "umi";
-import {Tabs} from "antd";
-import {UrlUtil} from "@tmgg/tmgg-commons-lang";
+import {Result} from "antd";
+import {matchRoutes} from "umi";
 
-class MyOutlet extends React.Component {
+export default function MyPureOutlet(props) {
+    let {pathname} = props
+    const appData = useAppData()
 
-
-    render() {
-        const {location,params} =this.props
-        const {pathname,search} = location
-
-        // 判断是否动态路径
-        let routePath = pathname.substring(1)
-        // 可能是动态路径， 如 user/:id
-        for (let paramKey in params) {
-            let paramValue = params[paramKey]
-            routePath = routePath.replace(paramValue, ":" + paramKey)
-        }
-        const map = getRoutesMap()
-        const componentType = map[routePath];
-        if (componentType) {
-            const urlParams =UrlUtil.getParams(search)
-            const finalParam = {...params, ...urlParams}
-            return React.createElement(componentType, {location, params:finalParam});
-        }
+    const mathArr= matchRoutes(appData.clientRoutes,pathname)
+    if(mathArr.length > 0){
+        const mathResult = mathArr[mathArr.length-1].route
+        return mathResult.element;
     }
 
+    // 如果实在找不到页面组件，则适用自带
+    return <Result
+        status={404}
+        title='页面未找到'
+        subTitle={<div>路由地址：{pathname}</div>}
+    />
 }
-
-export default withRouter(MyOutlet)

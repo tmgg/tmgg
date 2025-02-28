@@ -12,3 +12,6 @@ export function initBase(){
     }
 
 }
+
+export class appendRouteComponents {
+}

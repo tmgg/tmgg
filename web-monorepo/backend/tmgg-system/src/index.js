@@ -1,56 +1,49 @@
 /**
- * 导出组件
+ *
  */
 
-import {registerRoutes} from "@tmgg/tmgg-base";
 import React from "react";
+
+export const routeComponentsSystem = {
+    'settings/ChangePassword': React.lazy(() => import('./pages/settings/ChangePassword')),
+    'system/onlineUser': React.lazy(() => import('./pages/system/onlineUser/index')),
+    'system/log/oplog': React.lazy(() => import('./pages/system/log/oplog/index')),
+    'settings/MsgSubscribe': React.lazy(() => import('./pages/settings/MsgSubscribe')),
+    'system/machine': React.lazy(() => import('./pages/system/machine/index')),
+    'system/datasource': React.lazy(() => import('./pages/system/datasource/index')),
+    'system/config': React.lazy(() => import('./pages/system/config/index')),
+    'system/dict': React.lazy(() => import('./pages/system/dict/index')),
+    'system/role': React.lazy(() => import('./pages/system/role/index')),
+    'system/menu': React.lazy(() => import('./pages/system/menu/index')),
+    'system/user': React.lazy(() => import("./pages/system/user")),
+    'system/file/main': React.lazy(() => import('./pages/system/file/main')),
+    'system/msg': React.lazy(() => import('./pages/system/msg/index')),
+    'system/org': React.lazy(() => import('./pages/system/org/index')),
+    'settings': React.lazy(() => import('./pages/settings/index')),
+    'ssoLogin': React.lazy(() => import('./pages/ssoLogin')),
+    'login': React.lazy(() => import('./pages/login')),
+    'about': React.lazy(() => import('./pages/about')),
+    'index': React.lazy(() => import('./pages/index.jsx')),
+
+    'code': React.lazy(() => import('./pages/code')),
+    'openApi': React.lazy(() => import('./pages/openApi')),
+    'openApi/doc': React.lazy(() => import('./pages/openApi/doc')),
+
+    'system/mysqlStatus': React.lazy(() => import('./pages/system/mysqlStatus')),
+
+    'job': React.lazy(() => import('./pages/job')),
+    'job/logList': React.lazy(() => import('./pages/job/logList')),
+    'job/status': React.lazy(() => import('./pages/job/status')),
+
+    'report/chart': React.lazy(() => import('./pages/report/chart')),
+    'report/chart/design': React.lazy(() => import('./pages/report/chart/design')),
+    'report/chart/:code': React.lazy(() => import('./pages/report/chart/$code')),
+
+    'report/table': React.lazy(() => import('./pages/report/table')),
+    'report/table/design': React.lazy(() => import('./pages/report/table/design')),
+    'report/table/:code': React.lazy(() => import('./pages/report/table/$code')),
+};
 
 export * from "./layouts"
 
 
-export function initSystem() {
-    /**
-     * 其实这里的路由不是框架用的，是项目调用的，
-     *
-     * 由于使用了umi，使用了基于文件的自动路由，实际项目集成是，需要手动调用一下
-     */
-    registerRoutes({
-        'settings/ChangePassword': require('./pages/settings/ChangePassword').default,
-        'system/onlineUser': require('./pages/system/onlineUser/index').default,
-        'system/log/oplog': require('./pages/system/log/oplog/index').default,
-        'settings/MsgSubscribe': require('./pages/settings/MsgSubscribe').default,
-        'system/machine': require('./pages/system/machine/index').default,
-        'system/datasource': require('./pages/system/datasource/index').default,
-        'system/config': require('./pages/system/config/index').default,
-        'system/dict': require('./pages/system/dict/index').default,
-        'system/role': require('./pages/system/role/index').default,
-        'system/menu': require('./pages/system/menu/index').default,
-        'system/user': require("./pages/system/user").default,
-        'system/file/main': require('./pages/system/file/main').default,
-        'system/msg': require('./pages/system/msg/index').default,
-        'system/org': require('./pages/system/org/index').default,
-        'settings': require('./pages/settings/index').default,
-        'ssoLogin': require('./pages/ssoLogin').default,
-        'login': require('./pages/login').default,
-        'about': require('./pages/about').default,
-        'index': React.lazy(() => import(/* webpackChunkName: "src__pages__index" */'./pages/index.jsx')),
-
-        'code': require('./pages/code').default,
-        'openApi': require('./pages/openApi').default,
-        'openApi/doc': require('./pages/openApi/doc').default,
-
-        'system/mysqlStatus': require('./pages/system/mysqlStatus').default,
-
-        'job': require('./pages/job').default,
-        'job/logList': require('./pages/job/logList').default,
-        'job/status': require('./pages/job/status').default,
-
-        'report/chart': require('./pages/report/chart').default,
-        'report/chart/design': require('./pages/report/chart/design').default,
-        'report/chart/:code': require('./pages/report/chart/$code').default,
-
-        'report/table': require('./pages/report/table').default,
-        'report/table/design': require('./pages/report/table/design').default,
-        'report/table/:code': require('./pages/report/table/$code').default,
-    })
-}

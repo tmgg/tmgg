@@ -5,12 +5,12 @@ export const UrlUtil = {
      * 获取url的参数, 如果不传参数，则使用当前路径
      * @param url 字符串
      */
-    getParams(url= null) {
+    getParams(url = null) {
         if (!url) {
             url = location.href
         }
 
-        if(!StrUtil.contains(url,'?')){
+        if (!StrUtil.contains(url, '?')) {
             return {}
         }
 
@@ -36,7 +36,7 @@ export const UrlUtil = {
             return null
         }
 
-        return StrUtil.subBefore(url,'?')
+        return StrUtil.subBefore(url, '?')
     },
 
 
@@ -59,7 +59,7 @@ export const UrlUtil = {
     setParam(url, key, value) {
         const p = this.getParams(url)
         p[key] = value;
-        if(value == null){
+        if (value == null) {
             delete p[key]
         }
         return this.getPathname(url) + '?' + this.paramsToSearch(p);
@@ -72,6 +72,16 @@ export const UrlUtil = {
      * @param value
      */
     replaceParam(url, key, value) {
-      this.setParam(url, key, value)
+        this.setParam(url, key, value)
+    },
+
+    join(path1, path2) {
+        if (path1.endsWith("/")) {
+            path1 = path1.substring(0, path1.length)
+        }
+        if (path2.startsWith("/")) {
+            path2 = path2.substring(1);
+        }
+        return path1 + "/" + path2;
     }
 }

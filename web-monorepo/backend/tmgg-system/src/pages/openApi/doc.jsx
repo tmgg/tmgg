@@ -1,5 +1,5 @@
 import React from "react";
-import {HttpUtil} from "@tmgg/tmgg-base";
+import {HttpUtil, PageUtil} from "@tmgg/tmgg-base";
 import {Button, Descriptions, Table, Typography} from "antd";
 
 const {Title, Paragraph, Text, Link} = Typography;
@@ -23,7 +23,7 @@ export default class extends React.Component {
     ]
 
     componentDidMount() {
-        const id = this.props.params.id
+        const id = PageUtil.currentParams().id
         this.setState({appId: id})
 
         HttpUtil.get('openApiAccount/docInfo', {id}).then(rs => {
