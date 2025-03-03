@@ -105,6 +105,38 @@ public class SysOrgController {
     }
 
     /**
+     * 管理页面的树，包含禁用的
+     * @return
+     */
+    @GetMapping("pageTree")
+    public AjaxResult pageTree() {
+        Subject subject = SecurityUtils.getSubject();
+        List<SysOrg> list = sysOrgService.findByLoginUser(subject, null, true);
+
+
+        List<Dict> treeList = list.stream().map(o -> {
+            String title = o.getName();
+            if (!o.getEnabled()) {
+                title = title + " [禁用]";
+            }
+
+            Dict d = new Dict();
+            d.set("title", title);
+            d.set("key", o.getId());
+            String pid = o.getPid();
+            d.set("parentKey", pid);
+            d.set("iconName", getIconByType(o.getType()));
+
+            return d;
+        }).collect(Collectors.toList());
+
+
+        TreeManager<Dict> tm = TreeManager.of(treeList, "key", "parentKey");
+
+        return AjaxResult.ok().data(tm.getTree());
+    }
+
+    /**
      * 用户管理界面等使用的机构树
      *
      * @return

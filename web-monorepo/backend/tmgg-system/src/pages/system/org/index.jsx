@@ -13,7 +13,7 @@ import {
     Tree
 } from 'antd';
 import React from 'react';
-import {FieldDictRadio, FieldRadioBoolean, FieldRemoteTreeSelect, HttpUtil} from "@tmgg/tmgg-base";
+import {FieldDictRadio, FieldRadioBoolean, FieldRemoteTreeSelect, HttpUtil, NamedIcon} from "@tmgg/tmgg-base";
 
 const baseTitle = "组织机构";
 const baseApi = 'sysOrg/';
@@ -27,9 +27,7 @@ const treeApi = baseApi + 'tree?showAll=true'
 
 export default class extends React.Component {
 
-
     state = {
-
         formLoading: false,
         formValues: undefined,
         submitLoading: false,
@@ -39,7 +37,6 @@ export default class extends React.Component {
         showAll: true,
         treeData: [],
         treeLoading: false,
-        defaultExpandedKeys: [],
 
 
         enableAllLoading: false,
@@ -57,16 +54,13 @@ export default class extends React.Component {
         }
 
         const {showAll} = this.state
-        HttpUtil.get('sysOrg/tree', {showAll}).then(rs => {
+        HttpUtil.get('sysOrg/pageTree', {showAll}).then(rs => {
             let treeData = rs;
             this.setState({treeData})
         }).finally(() => {
             this.setState({treeLoading: false});
         })
     }
-
-
-
 
     handleDelete = row => {
         HttpUtil.post(delApi, row).then(rs => {
@@ -119,7 +113,7 @@ export default class extends React.Component {
             <Splitter >
                 <Splitter.Panel defaultSize={400} >
                     <Card loading={this.state.treeLoading}
-                          title='机构树'
+                          title='组织机构'
                           extra={<>
                               <Checkbox
                                   checked={this.state.showAll}
@@ -127,26 +121,27 @@ export default class extends React.Component {
                                       this.setState({showAll: e.target.checked}, this.loadTree);
                                   }}
                               >包含禁用</Checkbox>
-                              <Button size='small' icon={<SyncOutlined/>} onClick={this.loadTree}></Button>
+                              <Button size='small' icon={<SyncOutlined/>} onClick={this.loadTree}>刷新</Button>
                           </>}>
 
-                        <Tree
+                        {this.state.treeLoading ||   <Tree
                             ref={this.treeRef}
                             treeData={this.state.treeData}
-                            defaultExpandedKeys={this.state.defaultExpandedKeys}
                             onSelect={this.onSelect}
+                            defaultExpandAll
+                            showIcon
+                            blockNode
+                            icon={item=>{
+                               return <NamedIcon name={item.data.iconName} />
+                            }}
                         >
-
-                        </Tree>
-
-
+                        </Tree>}
                         {this.state.treeData.length === 0 && <Empty/>}
                     </Card>
                 </Splitter.Panel>
 
                 <Splitter>
                     <Card
-
                         loading={this.state.formLoading}
                         extra={<Space>
                             <Button type='primary' onClick={() => {

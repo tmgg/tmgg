@@ -13,3 +13,5 @@ export * from './ProTable'
 export * from './DownloadFileButton'
 export * from './report/SysReportChart'
 export * from './report/SysReportTable'
+
+export * from './NamedIcon'
