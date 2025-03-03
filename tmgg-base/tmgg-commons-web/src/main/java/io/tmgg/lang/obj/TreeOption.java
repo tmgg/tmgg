@@ -74,7 +74,7 @@ public class TreeOption implements Tree<TreeOption> {
 
 
     public static List<TreeOption> convertTree(List<TreeOption> list) {
-        TreeManager<TreeOption> tm = TreeManager.newInstance(list);
+        TreeManager<TreeOption> tm = TreeManager.of(list);
         return tm.getTree();
     }
 

@@ -2,9 +2,10 @@ import {Alert, Skeleton, Tree} from 'antd';
 import React from 'react';
 import {HttpUtil} from "../system";
 import * as Icons from '@ant-design/icons';
+import {SolutionOutlined} from "@ant-design/icons";
 
 
-export  class OrgTree  extends React.Component {
+export  class RoleTree  extends React.Component {
 
     state = {
         treeDataLoading: true,
@@ -15,14 +16,14 @@ export  class OrgTree  extends React.Component {
 
 
     componentDidMount() {
-        HttpUtil.get('sysOrg/bizTree').then(tree => {
+        HttpUtil.get('sysRole/bizTree').then(tree => {
             this.setState({treeData: tree,treeDataLoading: false})
         })
     }
 
-    onSelectOrg = orgIds => {
-        let orgId = orgIds[0] || null;
-        this.props.onChange(orgId)
+    onSelect = keys => {
+        let orgId = keys[0] || null;
+        this.props.onSelect(orgId)
     }
 
 
@@ -32,22 +33,15 @@ export  class OrgTree  extends React.Component {
             return <Skeleton title='加载中...'/>
         }
 
-        if (treeData.length === 0) {
-            return <Alert type={"warning"} message={'组织机构数据为空'}>
-            </Alert>
-        }
 
         return <Tree
             treeData={treeData}
             defaultExpandAll
-            onSelect={this.onSelectOrg}
+            onSelect={this.onSelect}
             showIcon
             blockNode
             icon={item=>{
-                  const icon =  Icons[item.iconName]
-                    if(icon){
-                        return React.createElement(icon)
-                    }
+               return <SolutionOutlined />
             }}
         >
         </Tree>

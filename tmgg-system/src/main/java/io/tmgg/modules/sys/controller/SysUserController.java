@@ -61,12 +61,13 @@ public class SysUserController {
     public static class QueryParam{
         String keyword;
         String orgId;
+        String roleId;
     }
 
     @HasPermission
     @RequestMapping("page")
     public AjaxResult page(@RequestBody QueryParam queryParam, @PageableDefault(sort = SysUser.FIELD_UPDATE_TIME, direction = Sort.Direction.DESC) Pageable pageable) throws SQLException {
-        Page<SysUser> page = sysUserService.findAll(queryParam.getOrgId(), queryParam.getKeyword(), pageable);
+        Page<SysUser> page = sysUserService.findAll(queryParam.getOrgId(), queryParam.getRoleId(), queryParam.getKeyword(), pageable);
         sysUserService.fillRoleName(page);
         return AjaxResult.ok().data(page);
     }

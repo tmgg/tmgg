@@ -1,22 +1,17 @@
 import {PlusOutlined} from '@ant-design/icons';
-import {
-    Button,
-    Card,
-    Form,
-    Input,
-    message,
-    Modal,
-    Popconfirm,
-    Splitter
-} from 'antd';
+import {Button, Card, Form, Input, Modal, Popconfirm, Splitter, Tabs} from 'antd';
 import React from 'react';
-import {FieldRadioBoolean, ProTable, HttpUtil, dictValueTag} from "@tmgg/tmgg-base";
-import UserPerm from "./UserPerm";
 import {
     ButtonList,
-    FieldOrgTreeSelect
+    dictValueTag,
+    FieldOrgTreeSelect,
+    FieldRadioBoolean,
+    HttpUtil,
+    OrgTree,
+    ProTable
 } from "@tmgg/tmgg-base";
-import {OrgTree} from "@tmgg/tmgg-base";
+import UserPerm from "./UserPerm";
+import {RoleTree} from "@tmgg/tmgg-base/src/components/RoleTree";
 
 const baseTitle = "用户"
 const baseApi = 'sysUser/';
@@ -40,7 +35,8 @@ export default class extends React.Component {
         formValues: {},
         treeData: [],
 
-        currentOrgId: null
+        currentOrgId: null,
+        currentRoleId:null,
     }
     permRef = React.createRef();
 
@@ -59,12 +55,12 @@ export default class extends React.Component {
         {
             title: '姓名',
             dataIndex: 'name',
-            sorter:true
+            sorter: true
         },
         {
             title: '登录账号',
             dataIndex: 'account',
-            sorter:true
+            sorter: true
         },
 
 
@@ -93,8 +89,8 @@ export default class extends React.Component {
         {
             title: '数据权限',
             dataIndex: 'dataPermType',
-            render(v){
-                return dictValueTag('dataPermType',v)
+            render(v) {
+                return dictValueTag('dataPermType', v)
             }
         },
 
@@ -110,7 +106,8 @@ export default class extends React.Component {
                 return <ButtonList>
                     <Button size='small' perm={editPerm} onClick={() => this.handleEdit(record)}> 编辑 </Button>
 
-                    <Button size='small' perm='sysUser:grantData' onClick={() => this.permRef.current.show(record)}> 授权 </Button>
+                    <Button size='small' perm='sysUser:grantData'
+                            onClick={() => this.permRef.current.show(record)}> 授权 </Button>
 
                     <Popconfirm perm='sysUser:resetPwd' title='确认重置密码？' onConfirm={() => this.resetPwd(record)}>
                         <a>重置密码</a>
@@ -124,7 +121,6 @@ export default class extends React.Component {
             },
         },
     ];
-
 
 
     componentDidMount() {
@@ -153,10 +149,13 @@ export default class extends React.Component {
         HttpUtil.downloadFile("sysUser/export")
     }
 
-    onSelectOrg = key => {
-        this.setState({currentOrgId: key})
-        this.tableRef.current.reload()
+    onSelectOrg = (key) => {
+        this.setState({currentOrgId: key}, () => this.tableRef.current.reload())
     }
+    onSelectRole = (key) => {
+        this.setState({currentRoleId: key}, () => this.tableRef.current.reload())
+    }
+
 
     handleAdd = () => {
         this.setState({formOpen: true, formValues: {}})
@@ -180,9 +179,22 @@ export default class extends React.Component {
         return <>
             <Splitter>
                 <Splitter.Panel defaultSize={400}>
-                <Card title='机构树'>
-                    <OrgTree onChange={this.onSelectOrg}/>
-                </Card>
+                    <Tabs
+                        type='card'
+                        size='small'
+                        items={[
+                            {
+                                key: 'org',
+                                label: '按组织机构',
+                                children: <Card variant='borderless'> <OrgTree onChange={this.onSelectOrg}/></Card>
+                            },
+                            {
+                                key: 'role',
+                                label: '按角色',
+                                children: <Card variant='borderless'><RoleTree onSelect={this.onSelectRole}/> </Card>
+                            }
+                        ]}/>
+
                 </Splitter.Panel>
                 <Splitter.Panel>
                     <ProTable
@@ -192,22 +204,23 @@ export default class extends React.Component {
                                 <Button
                                     perm={addPerm}
                                     type="primary"
-                                        onClick={this.handleAdd}>
+                                    onClick={this.handleAdd}>
                                     <PlusOutlined/> 新增
                                 </Button>
 
-                                <Button  perm={addPerm}
-                                    onClick={this.handleExport}>导出</Button>
+                                <Button perm={addPerm}
+                                        onClick={this.handleExport}>导出</Button>
                             </ButtonList>
                         }}
                         request={(params) => {
                             params.orgId = this.state.currentOrgId
+                            params.roleId = this.state.currentRoleId
                             return HttpUtil.pageData(pageApi, params)
                         }
                         }
                         columns={this.columns}
                         rowKey="id"
-                        scroll={{x:'max-content'}}
+                        scroll={{x: 'max-content'}}
                     /> </Splitter.Panel>
             </Splitter>
 
@@ -243,15 +256,15 @@ export default class extends React.Component {
                         <Input/>
                     </Form.Item>
 
-                    <Form.Item label='状态' name='enabled' rules={[{required: true}]}>
-                        <FieldRadioBoolean />
+                    <Form.Item label='启用状态' name='enabled' rules={[{required: true}]}>
+                        <FieldRadioBoolean/>
                     </Form.Item>
 
                 </Form>
             </Modal>
 
 
-            <UserPerm ref={this.permRef} onOk={()=>this.tableRef.current.reload()}/>
+            <UserPerm ref={this.permRef} onOk={() => this.tableRef.current.reload()}/>
 
         </>
     }

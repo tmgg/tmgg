@@ -1,5 +1,7 @@
 package io.tmgg.lang;
 
+import cn.hutool.core.lang.Dict;
+
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.BiConsumer;
@@ -42,12 +44,16 @@ public class TreeManager<T> {
      * @param dataList 数据列表
      * @return 管理器
      */
-    public static TreeManager<Map<String, Object>> newInstanceByMap(List<Map<String, Object>> dataList) {
+    public static TreeManager<Map<String, Object>> ofMap(List<Map<String, Object>> dataList) {
         return new TreeManager<>(dataList, m -> (String) m.get("id"), m -> (String) m.get("pid"), m -> (List<Map<String, Object>>) m.get("children"), (m, ch) -> m.put("children", ch));
     }
 
+    public static TreeManager<Dict> of(List<Dict> dataList, String idKey, String pidKey) {
+        return new TreeManager<>(dataList, m -> (String) m.get(idKey), m -> (String) m.get(pidKey), m -> (List<Dict>) m.get("children"), (m, ch) -> m.put("children", ch));
+    }
 
-    public static <X extends Tree<X>> TreeManager<X> newInstance(List<X> dataList) {
+
+    public static <X extends Tree<X>> TreeManager<X> of(List<X> dataList) {
         TreeManager<X> tm = new TreeManager<>(dataList, Tree::getId, Tree::getPid, Tree::getChildren, Tree::setChildren);
 
         // 设置是否叶子

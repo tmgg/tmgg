@@ -30,6 +30,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import javax.management.relation.Role;
 import java.sql.SQLException;
 import java.util.Collection;
 import java.util.Collections;
@@ -142,7 +143,7 @@ public class SysUserService extends BaseService<SysUser> implements UserLabelQue
     }
 
 
-    public Page<SysUser> findAll(String orgId, String keyword, Pageable pageable) throws SQLException {
+    public Page<SysUser> findAll(String orgId,String roleId, String keyword, Pageable pageable) throws SQLException {
         JpaQuery<SysUser> query = new JpaQuery<>();
 
         if (StrUtil.isNotEmpty(orgId)) {
@@ -152,6 +153,10 @@ public class SysUserService extends BaseService<SysUser> implements UserLabelQue
 
             });
         }
+        if (StrUtil.isNotEmpty(roleId)) {
+            query.isMember(SysUser.Fields.roles, new SysRole(roleId));
+        }
+
         if (StrUtil.isNotEmpty(keyword)) {
             query.or(q -> {
                 q.like(SysUser.Fields.name, keyword);

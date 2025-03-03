@@ -1,8 +1,10 @@
 package io.tmgg.modules.sys.controller;
 
+import cn.hutool.core.lang.Dict;
 import io.tmgg.lang.TreeManager;
 import io.tmgg.lang.ann.Msg;
 import io.tmgg.modules.sys.entity.SysMenu;
+import io.tmgg.modules.sys.entity.SysOrg;
 import io.tmgg.modules.sys.service.SysMenuService;
 import io.tmgg.web.annotion.HasPermission;
 import io.tmgg.lang.obj.AjaxResult;
@@ -11,6 +13,7 @@ import io.tmgg.lang.dao.BaseEntity;
 import io.tmgg.modules.sys.entity.SysRole;
 import io.tmgg.modules.sys.service.SysRoleService;
 import io.tmgg.framework.session.SysHttpSessionService;
+import io.tmgg.web.perm.SecurityUtils;
 import io.tmgg.web.perm.Subject;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
@@ -84,7 +87,7 @@ public class SysRoleController {
     public AjaxResult ownMenu(String id) {
         List<String> menuIdList = sysRoleService.ownMenu(id);
         List<SysMenu> all = sysMenuService.findAll();
-        TreeManager<SysMenu> tm = TreeManager.newInstance(all);
+        TreeManager<SysMenu> tm = TreeManager.of(all);
         List<String> allLeafList = tm.getLeafIdList();
 
         List<String> leafList = menuIdList.stream().filter(allLeafList::contains).collect(Collectors.toList());
@@ -111,7 +114,22 @@ public class SysRoleController {
 
 
 
+    @HasPermission
+    @RequestMapping("bizTree")
+    public AjaxResult bizTree() {
+        List<SysRole> list = sysRoleService.findValid();
 
+        List<Dict> treeList = new ArrayList<>();
+        for (SysRole sysOrg : list) {
+
+            Dict d = new Dict();
+            d.set("title", sysOrg.getName());
+            d.set("key", sysOrg.getId());
+            treeList.add(d);
+        }
+
+        return AjaxResult.ok().data(treeList);
+    }
 
 
 }

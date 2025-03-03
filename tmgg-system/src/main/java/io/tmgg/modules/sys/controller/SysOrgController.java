@@ -1,20 +1,24 @@
 
 package io.tmgg.modules.sys.controller;
 
+import cn.hutool.core.lang.Dict;
+import cn.hutool.core.util.StrUtil;
 import io.tmgg.framework.session.SysHttpSession;
+import io.tmgg.lang.TreeManager;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.obj.TreeOption;
-import io.tmgg.modules.sys.entity.SysOrg;
 import io.tmgg.modules.sys.entity.OrgType;
+import io.tmgg.modules.sys.entity.SysOrg;
 import io.tmgg.modules.sys.service.SysOrgService;
 import io.tmgg.web.annotion.HasPermission;
 import io.tmgg.web.perm.SecurityUtils;
 import io.tmgg.web.perm.Subject;
+import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
-import jakarta.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,7 +36,7 @@ public class SysOrgController {
 
     @HasPermission
     @PostMapping("save")
-    public AjaxResult saveOrUpdate(@RequestBody  SysOrg sysOrg, HttpSession session) {
+    public AjaxResult saveOrUpdate(@RequestBody SysOrg sysOrg, HttpSession session) {
         sysOrgService.saveOrUpdate(sysOrg);
         session.removeAttribute(SysHttpSession.SUBJECT_KEY);
         return AjaxResult.ok().msg("保存机构成功");
@@ -55,14 +59,14 @@ public class SysOrgController {
     @HasPermission
     @GetMapping("enableAll")
     public AjaxResult enableAll(String id) {
-        sysOrgService.toggleAllStatus(id,true);
+        sysOrgService.toggleAllStatus(id, true);
         return AjaxResult.ok();
     }
 
     @HasPermission
     @GetMapping("disableAll")
     public AjaxResult disableAll(String id) {
-        sysOrgService.toggleAllStatus(id,false);
+        sysOrgService.toggleAllStatus(id, false);
         return AjaxResult.ok();
     }
 
@@ -76,10 +80,10 @@ public class SysOrgController {
     @GetMapping("tree")
     public AjaxResult tree(Integer type, Boolean filterDept, @RequestParam(defaultValue = "false") boolean showAll) {
         Subject subject = SecurityUtils.getSubject();
-        List<SysOrg> list = sysOrgService.findByLoginUser(subject, type,showAll);
+        List<SysOrg> list = sysOrgService.findByLoginUser(subject, type, showAll);
 
-        if(filterDept != null && filterDept){
-            list = list.stream().filter(o->!o.isDept()).collect(Collectors.toList());
+        if (filterDept != null && filterDept) {
+            list = list.stream().filter(o -> !o.isDept()).collect(Collectors.toList());
         }
 
         List<TreeOption> treeList = list.stream().map(o -> {
@@ -88,8 +92,8 @@ public class SysOrgController {
             treeOption.setKey(o.getId());
             treeOption.setParentKey(o.getPid());
 
-            if(!o.getEnabled()){
-                treeOption.setTitle(treeOption.getTitle() +" [禁用]");
+            if (!o.getEnabled()) {
+                treeOption.setTitle(treeOption.getTitle() + " [禁用]");
             }
 
             return treeOption;
@@ -100,4 +104,44 @@ public class SysOrgController {
         return AjaxResult.ok().data(tree);
     }
 
+    /**
+     * 用户管理界面等使用的机构树
+     *
+     * @return
+     */
+    @GetMapping("bizTree")
+    public AjaxResult allTree() {
+        Subject subject = SecurityUtils.getSubject();
+        List<SysOrg> list = sysOrgService.findByLoginUser(subject, null, true);
+
+        List<Dict> treeList = new ArrayList<>();
+        for (SysOrg sysOrg : list) {
+            if (!sysOrg.getEnabled()) {
+                continue;
+            }
+            Dict d = new Dict();
+            d.set("title", sysOrg.getName());
+            d.set("key", sysOrg.getId());
+            String pid = sysOrg.getPid();
+            d.set("parentKey", pid);
+            d.set("iconName", getIconByType(sysOrg.getType()));
+            treeList.add(d);
+        }
+        TreeManager<Dict> tm = TreeManager.of(treeList, "key", "parentKey");
+
+        return AjaxResult.ok().data(tm.getTree());
+    }
+
+    private String getIconByType(int type){
+        switch (type){
+            case OrgType.UNIT -> {
+                return  "ApartmentOutlined";
+            }
+            case OrgType.DEPT -> {
+                return "HomeOutlined";
+            }
+
+        }
+        return  "";
+    }
 }
