@@ -130,16 +130,14 @@ export default class extends React.Component {
                               <Button size='small' icon={<SyncOutlined/>} onClick={this.loadTree}></Button>
                           </>}>
 
-                        <Tree.DirectoryTree
+                        <Tree
                             ref={this.treeRef}
                             treeData={this.state.treeData}
                             defaultExpandedKeys={this.state.defaultExpandedKeys}
-                            expandAction='doubleClick'
-
                             onSelect={this.onSelect}
                         >
 
-                        </Tree.DirectoryTree>
+                        </Tree>
 
 
                         {this.state.treeData.length === 0 && <Empty/>}

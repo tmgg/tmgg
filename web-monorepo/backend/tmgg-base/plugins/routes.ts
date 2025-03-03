@@ -1,6 +1,7 @@
-import {IApi} from 'umi';
-import fs from "fs";
-import path from "path";
+const IApi = require( 'umi').IApi;
+
+const fs = require("fs");
+const path = require("path");
 
 // 扫描依赖模块的路由
 
@@ -49,10 +50,9 @@ function parseDir(pageDir, fileRoutes) {
     }
 }
 
-export default (api: IApi) => {
+export default (api) => {
     api.describe({
         key: 'addDependenceRoutes',
-
     });
 
     const content = fs.readFileSync(api.cwd + "/package.json", "utf-8")

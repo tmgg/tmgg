@@ -47,6 +47,7 @@ export default class extends React.Component {
     {
       title: '结果',
       dataIndex: 'result',
+      width:300
     },
 
     {

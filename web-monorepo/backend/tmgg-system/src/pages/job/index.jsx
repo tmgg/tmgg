@@ -96,7 +96,7 @@ export default class extends React.Component {
                 {title: '开始时间', dataIndex: 'beginTime'},
                 {title: '结束时间', dataIndex: 'endTime'},
                 {title: '耗时', dataIndex: 'jobRunTime'},
-                {title: '结果', dataIndex: 'result'},
+                {title: '结果', dataIndex: 'result',      width:200},
 
                 {
                     title: '日志', dataIndex: 'id', render: (_, record) => {
