@@ -1,6 +1,6 @@
 package io.tmgg.framework.session.config;
 
-import io.tmgg.framework.cache.CacheService;
+import io.tmgg.framework.cache.EhCacheService;
 import io.tmgg.framework.session.SysHttpSession;
 import org.ehcache.Cache;
 import org.springframework.context.annotation.Bean;
@@ -24,7 +24,7 @@ public class MySessionConfig {
 
 
     @Bean("httpSessionCache")
-    public Cache<String, SysHttpSession> httpSessionCache(CacheService cacheService) {
+    public Cache<String, SysHttpSession> httpSessionCache(EhCacheService cacheService) {
         Class<String> key = String.class;
         Class<SysHttpSession> value = SysHttpSession.class;
         String name = "httpSession";

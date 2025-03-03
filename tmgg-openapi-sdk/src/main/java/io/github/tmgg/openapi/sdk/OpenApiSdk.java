@@ -12,6 +12,7 @@ import lombok.AllArgsConstructor;
 import lombok.Setter;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -62,7 +63,9 @@ public class OpenApiSdk {
         http.header("x-timestamp", timestamp);
         http.header("x-action", action);
 
-
+        if(params == null){
+            params = new HashMap<>();
+        }
         String data = JSONUtil.toJsonStr(params);
         // 签名
         String sign = SecureUtil.hmacSha256(appSecret).digestBase64(action + appId + timestamp + data, false);
