@@ -1,8 +1,7 @@
 import {PlusOutlined} from '@ant-design/icons'
-import {Button, Card,InputNumber, Popconfirm,Modal,Form,Input,message} from 'antd'
+import {Button, Col, Form, Input, InputNumber, Modal, Popconfirm, Row} from 'antd'
 import React from 'react'
-import {ButtonList,dictValueTag, FieldDateRange,FieldDictSelect,FieldRadioBoolean, FieldDatePickerString, FieldDateTimePickerString, HttpUtil, ProTable} from "@tmgg/tmgg-base";
-
+import {ButtonList, FieldRadioBoolean, FieldTree, HttpUtil, ProTable} from "@tmgg/tmgg-base";
 
 
 export default class extends React.Component {
@@ -22,15 +21,11 @@ export default class extends React.Component {
             dataIndex: 'name',
 
 
-
-
         },
 
         {
             title: '编号',
             dataIndex: 'code',
-
-
 
 
         },
@@ -40,15 +35,11 @@ export default class extends React.Component {
             dataIndex: 'seq',
 
 
-
-
         },
 
         {
             title: '备注',
             dataIndex: 'remark',
-
-
 
 
         },
@@ -58,10 +49,20 @@ export default class extends React.Component {
             dataIndex: 'enabled',
 
 
-            render(v){
-                return v == null ? null : ( v ? '是': '否')
+            render(v) {
+                return v == null ? null : (v ? '是' : '否')
             },
 
+
+        },
+        {
+            title: '是否内置',
+            dataIndex: 'builtin',
+
+
+            render(v) {
+                return v == null ? null : (v ? '是' : '否')
+            },
 
 
         },
@@ -69,24 +70,15 @@ export default class extends React.Component {
         {
             title: '权限码',
             dataIndex: 'perms',
-
-
-
-
-        },
-
-        {
-            title: '是否内置',
-            dataIndex: 'builtin',
-
-
-            render(v){
-                return v == null ? null : ( v ? '是': '否')
-            },
-
-
+            width: 300,
+            render(v) {
+                if(v){
+                    return v.join(',')
+                }
+            }
 
         },
+
 
         {
             title: '操作',
@@ -94,7 +86,8 @@ export default class extends React.Component {
             render: (_, record) => (
                 <ButtonList>
                     <a perm='sysRole:save' onClick={() => this.handleEdit(record)}>编辑</a>
-                    <Popconfirm perm='sysRole:delete' title='是否确定删除系统角色'  onConfirm={() => this.handleDelete(record)}>
+                    <Popconfirm perm='sysRole:delete' title='是否确定删除系统角色'
+                                onConfirm={() => this.handleDelete(record)}>
                         <a>删除</a>
                     </Popconfirm>
                 </ButtonList>
@@ -102,26 +95,25 @@ export default class extends React.Component {
         },
     ]
 
-    handleAdd = ()=>{
+    handleAdd = () => {
         this.setState({formOpen: true, formValues: {}})
     }
 
-    handleEdit = record=>{
+    handleEdit = record => {
         this.setState({formOpen: true, formValues: record})
     }
 
 
     onFinish = values => {
-        HttpUtil.post( 'sysRole/save', values).then(rs => {
+        HttpUtil.post('sysRole/save', values).then(rs => {
             this.setState({formOpen: false})
             this.tableRef.current.reload()
         })
     }
 
 
-
     handleDelete = record => {
-        HttpUtil.postForm( 'sysRole/delete', {id:record.id}).then(rs => {
+        HttpUtil.postForm('sysRole/delete', {id: record.id}).then(rs => {
             this.tableRef.current.reload()
         })
     }
@@ -139,31 +131,7 @@ export default class extends React.Component {
                 }}
                 request={(params, sort) => HttpUtil.pageData('sysRole/page', params)}
                 columns={this.columns}
-                searchFormItemsRender={() => {
-                    return <>
-                        <Form.Item label='名称' name='name'>
-                            <Input/>
-                        </Form.Item>
-                        <Form.Item label='编号' name='code'>
-                            <Input/>
-                        </Form.Item>
-                        <Form.Item label='排序' name='seq'>
-                            <InputNumber />
-                        </Form.Item>
-                        <Form.Item label='备注' name='remark'>
-                            <Input/>
-                        </Form.Item>
-                        <Form.Item label='启用' name='enabled'>
-                            <FieldRadioBoolean />
-                        </Form.Item>
-                        <Form.Item label='权限码' name='perms'>
-                            <Input/>
-                        </Form.Item>
-                        <Form.Item label='是否内置' name='builtin'>
-                            <FieldRadioBoolean />
-                        </Form.Item>
-                    </>
-                }}
+
             />
 
             <Modal title='系统角色'
@@ -172,35 +140,50 @@ export default class extends React.Component {
                    onCancel={() => this.setState({formOpen: false})}
                    destroyOnClose
                    maskClosable={false}
+                   width={600}
             >
 
                 <Form ref={this.formRef} labelCol={{flex: '100px'}}
                       initialValues={this.state.formValues}
                       onFinish={this.onFinish}
                 >
-                    <Form.Item  name='id' noStyle></Form.Item>
+                    <Form.Item name='id' noStyle></Form.Item>
 
-                    <Form.Item label='名称' name='name' rules={[{required: true}]}>
+                    <Row>
+                        <Col span={12}>
+                            <Form.Item label='名称' name='name' rules={[{required: true}]}>
+                                <Input/>
+                            </Form.Item>
+                        </Col>
+                        <Col span={12}>
+                            <Form.Item label='编号' name='code' rules={[{required: true}]}>
+                                <Input/>
+                            </Form.Item>
+                        </Col>
+                    </Row>
+
+                    <Row>
+                        <Col span={12}> <Form.Item label='排序' name='seq'>
+                            <InputNumber/>
+                        </Form.Item>
+                        </Col>
+                        <Col span={12}>
+                            <Form.Item label='启用' name='enabled' rules={[{required: true}]}>
+                                <FieldRadioBoolean/>
+                            </Form.Item>
+
+                        </Col>
+                    </Row>
+
+                    <Form.Item label='备注' name='remark'>
                         <Input/>
                     </Form.Item>
-                    <Form.Item label='编号' name='code' rules={[{required: true}]}>
-                        <Input/>
+
+
+                    <Form.Item label='菜单权限' name='menuIds' rules={[{required: true}]}>
+                        <FieldTree url={'sysRole/permTree?roleId='+this.state.formValues.id}/>
                     </Form.Item>
-                    <Form.Item label='排序' name='seq' rules={[{required: true}]}>
-                        <InputNumber />
-                    </Form.Item>
-                    <Form.Item label='备注' name='remark' rules={[{required: true}]}>
-                        <Input/>
-                    </Form.Item>
-                    <Form.Item label='启用' name='enabled' rules={[{required: true}]}>
-                        <FieldRadioBoolean />
-                    </Form.Item>
-                    <Form.Item label='权限码' name='perms' rules={[{required: true}]}>
-                        <Input/>
-                    </Form.Item>
-                    <Form.Item label='是否内置' name='builtin' rules={[{required: true}]}>
-                        <FieldRadioBoolean />
-                    </Form.Item>
+
 
                 </Form>
             </Modal>

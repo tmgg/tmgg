@@ -85,7 +85,7 @@ export default class extends React.Component {
 
             if (pathname !== "" && pathname !== "/") {
                 let menu = menuMap[currentMenuKey]
-                currentTopMenuKey = menu.rootId
+                currentTopMenuKey = menu?.rootId
             }
 
             leftMenus = menuMap[currentTopMenuKey]?.children

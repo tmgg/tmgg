@@ -8,6 +8,7 @@ import io.tmgg.lang.dao.BaseEntity;
 import io.tmgg.lang.dao.specification.JpaQuery;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.obj.Option;
+import io.tmgg.lang.obj.TreeNode;
 import io.tmgg.modules.sys.entity.SysMenu;
 import io.tmgg.modules.sys.entity.SysRole;
 import io.tmgg.modules.sys.service.SysMenuService;
@@ -20,10 +21,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -72,8 +75,19 @@ public class SysRoleController {
     public AjaxResult save(@RequestBody SysRole role) throws Exception {
         role.setBuiltin(false);
 
+        List<SysMenu> newMenus = sysMenuService.findAllById(role.getMenuIds());
+        List<String> perms = newMenus.stream().map(SysMenu::getPerm).filter(Objects::nonNull).toList();
+        role.setPerms(perms);
 
         role= sysRoleService.saveOrUpdate(role);
+
+        // 刷新 登录用户的权限
+        List<Subject> list = sm.findAllSubject();
+        for (Subject subject : list) {
+            if(subject.hasRole(role.getCode())){
+                sm.forceExistBySubjectId(subject.getId());
+            }
+        }
 
         AjaxResult result = AjaxResult.ok().data(role).msg("保存角色成功");
         return result;
@@ -88,36 +102,9 @@ public class SysRoleController {
     }
 
 
-    @HasPermission(value = "sysRole:grant")
-    @GetMapping("ownMenu")
-    @Msg("权限授权")
-    public AjaxResult ownMenu(String id) {
-        List<String> menuIdList = sysRoleService.ownMenu(id);
-        List<SysMenu> all = sysMenuService.findAll();
-        TreeManager<SysMenu> tm = TreeManager.of(all);
-        List<String> allLeafList = tm.getLeafIdList();
 
-        List<String> leafList = menuIdList.stream().filter(allLeafList::contains).collect(Collectors.toList());
-        return AjaxResult.ok().data(leafList);
-    }
 
-    @HasPermission( "sysRole:grant")
-    @PostMapping("grantPerm")
-    @Msg("权限授权")
-    public AjaxResult grantPerm(@RequestParam(required = true) String id, @RequestParam(required = false) List<String> permIds) {
-        sysRoleService.grantPerm(id, permIds);
 
-        // 刷新 登录用户的权限
-        SysRole role = sysRoleService.findOne(id);
-        List<Subject> list = sm.findAllSubject();
-        for (Subject subject : list) {
-            if(subject.hasRole(role.getCode())){
-                sm.forceExistBySubjectId(subject.getId());
-            }
-        }
-
-        return AjaxResult.ok().msg("权限授权成功");
-    }
 
 
 
@@ -138,6 +125,34 @@ public class SysRoleController {
         return AjaxResult.ok().data(treeList);
     }
 
+    /**
+     * 权限树 （菜单）
+     * @return
+     */
+    @HasPermission
+    @RequestMapping("permTree")
+    public AjaxResult permTree(String roleId) {
+        List<SysMenu> menus = sysMenuService.findAllValid();
 
+        List<String> checked = sysRoleService.ownMenu(roleId);
+
+        List<Dict> treeList = new ArrayList<>();
+        for (SysMenu o : menus) {
+            Dict d = new Dict();
+            d.set("title", o.getName());
+            d.set("key", o.getId());
+            d.set("parentKey", o.getPid());
+
+
+            if(checked.contains(o.getId())){
+                d.set("checked",true);
+            }
+
+            treeList.add(d);
+        }
+        TreeManager<Dict> tm = TreeManager.of(treeList, "key", "parentKey");
+
+        return AjaxResult.ok().data(tm.getTree());
+    }
 }
 

@@ -62,6 +62,8 @@ public class SysRole extends BaseEntity {
     Boolean builtin;
 
 
+    @Transient
+    private List<String> menuIds;
 
     public SysRole(String id) {
         this.id = id;

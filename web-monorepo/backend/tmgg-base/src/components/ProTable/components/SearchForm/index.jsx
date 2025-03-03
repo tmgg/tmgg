@@ -1,13 +1,10 @@
-import {Button, Card, Form, Space} from 'antd';
+import {Button, Form} from 'antd';
 import React from 'react';
-import './index.less';
-import {theme} from "@tmgg/tmgg-commons-lang";
 
 
 export default class SearchForm extends React.Component {
 
     formRef = React.createRef()
-
 
 
     onReset = (value) => {
@@ -41,28 +38,23 @@ export default class SearchForm extends React.Component {
         const {loading} = this.props;
 
 
-
         return (
-            <div style={{paddingBottom: 16,borderBottom: '1px solid #e8e8e8'}}>
+            <div style={{paddingBottom: 16, borderBottom: '1px solid #e8e8e8'}}>
                 <Form
-                    className='pro-table-search-form'
                     layout="inline"
                     onFinish={(values) => this.props.onSearch(values)}
                     onReset={() => this.onReset({})}
-                    ref={(instance)=>{
+                    ref={(instance) => {
                         this.formRef.current = instance
-                        if(this.props.formRef) {
+                        if (this.props.formRef) {
                             this.props.formRef.current = instance
                         }
                     }}
                 >
                     {this.props.searchFormItemsRender(this.formRef.current)}
-                    <Space>
-                        <Button htmlType="reset">重置</Button>
-                        <Button type="primary" htmlType="submit" loading={loading}>
-                            查询
-                        </Button>
-                    </Space>
+                    <Button type="primary" htmlType="submit" loading={loading}>
+                        查询
+                    </Button>
                 </Form>
             </div>
         );

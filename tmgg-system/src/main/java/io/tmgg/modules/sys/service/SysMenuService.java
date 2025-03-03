@@ -27,11 +27,7 @@ public class SysMenuService extends BaseService<SysMenu> {
     @Resource
     private SysMenuDao sysMenuDao;
 
-    @Resource
-    private JsonToDatabaseService jsonToDatabaseService;
 
-    @Resource
-    private SysMenuParserPermissionImpl sysMenuParserPermissionImpl;
 
 
     /**
@@ -50,6 +46,10 @@ public class SysMenuService extends BaseService<SysMenu> {
 
 
         return convertTreeNode(all, nodes);
+    }
+
+    public List<SysMenu> findAllValid(){
+        return sysMenuDao.findAllValid();
     }
 
     public List<TreeNode> menuTree() {

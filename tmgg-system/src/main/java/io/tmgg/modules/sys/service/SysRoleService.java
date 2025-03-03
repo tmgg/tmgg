@@ -42,20 +42,7 @@ public class SysRoleService extends BaseService<SysRole> {
     private SysUserDao sysUserDao;
 
 
-    /**
-     * 角色授权
-     */
-    @Transactional
-    public void grantPerm(String roleId, Collection<String> ids) {
-        SysRole role = roleDao.findOne(roleId);
 
-        Assert.state(!role.getBuiltin(), "内置角色不能修改");
-        List<SysMenu> newMenus = sysMenuDao.findAllById(ids);
-
-        List<String> perms = newMenus.stream().map(SysMenu::getPerm).filter(Objects::nonNull).toList();
-        role.setPerms(perms);
-        roleDao.save(role);
-    }
 
 
     public SysRole findByCode(String code) {
@@ -88,10 +75,9 @@ public class SysRoleService extends BaseService<SysRole> {
         SysRole old = baseDao.findOne(input);
         Assert.state(!old.getBuiltin(), "内置角色不能修改");
 
-        BeanUtil.copyProperties(input, old,
-                CopyOptions.create().setIgnoreProperties(
-                ArrayUtil.append( BaseEntity.BASE_ENTITY_FIELDS, SysRole.Fields.perms)
-               ));
+
+
+        BeanUtil.copyProperties(input, old);
 
         return   baseDao.save(old);
     }
