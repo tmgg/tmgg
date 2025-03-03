@@ -177,8 +177,8 @@ export default class extends React.Component {
     render() {
 
         return <>
-            <Splitter>
-                <Splitter.Panel defaultSize={400}>
+            <Splitter >
+                <Splitter.Panel defaultSize={400}   >
                     <Tabs
                         type='card'
                         size='small'
@@ -186,17 +186,17 @@ export default class extends React.Component {
                             {
                                 key: 'org',
                                 label: '按组织机构',
-                                children: <Card variant='borderless'> <OrgTree onChange={this.onSelectOrg}/></Card>
+                                children:  <OrgTree onChange={this.onSelectOrg}/>
                             },
                             {
                                 key: 'role',
                                 label: '按角色',
-                                children: <Card variant='borderless'><RoleTree onSelect={this.onSelectRole}/> </Card>
+                                children: <RoleTree onSelect={this.onSelectRole}/>
                             }
                         ]}/>
 
                 </Splitter.Panel>
-                <Splitter.Panel>
+                <Splitter.Panel style={{paddingLeft:16}}>
                     <ProTable
                         actionRef={this.tableRef}
                         toolBarRender={(action, {selectedRows}) => {
@@ -221,7 +221,8 @@ export default class extends React.Component {
                         columns={this.columns}
                         rowKey="id"
                         scroll={{x: 'max-content'}}
-                    /> </Splitter.Panel>
+                    />
+                </Splitter.Panel>
             </Splitter>
 
 

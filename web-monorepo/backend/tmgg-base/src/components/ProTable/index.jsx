@@ -107,10 +107,7 @@ export class ProTable extends React.Component {
         return <div>
             {searchFormNode}
 
-            <Card styles={{
-                body: {paddingTop: 0}
-            }}
-            >
+
                 <Toolbar
                     actionRef={actionRef}
                     toolBarRender={this.getToolBarRenderNode(toolBarRender)}
@@ -150,7 +147,6 @@ export class ProTable extends React.Component {
                     }}
                     bordered={this.props.bordered}
                 />
-            </Card>
         </div>
 
     }
