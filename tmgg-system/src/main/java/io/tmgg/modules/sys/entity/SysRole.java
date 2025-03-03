@@ -25,35 +25,30 @@ public class SysRole extends BaseEntity {
 
 
 
-    /**
-     * 名称
-     */
+
+    @Msg("名称")
     @Column(length = 50, unique = true)
     private String name;
 
-    /**
-     * 编码
-     */
+
+    @Msg("编号")
     @Column(unique = true, length = 20)
     private String code;
 
-    /**
-     * 排序
-     */
+    @Msg("排序")
     private Integer seq;
 
 
-    /**
-     * 备注
-     */
+
+    @Msg("备注")
     private String remark;
 
+    @Msg("启用")
     @Column(nullable = false, columnDefinition = DBConstants.COLUMN_DEFINITION_BOOLEAN_DEFAULT_TRUE)
     private Boolean enabled;
 
-    /**
-     * 权限码列表
-     */
+
+    @Msg("权限码")
     @Convert(converter = ToListConverter.class)
     @Column(length = 10000)
     private List<String> perms;
@@ -62,6 +57,7 @@ public class SysRole extends BaseEntity {
     /**
      * 是否内置，内置的不让修改
      */
+    @Msg("是否内置")
     @Column(nullable = false)
     Boolean builtin;
 

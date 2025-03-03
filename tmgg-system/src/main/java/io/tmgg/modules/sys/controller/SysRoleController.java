@@ -1,26 +1,29 @@
 package io.tmgg.modules.sys.controller;
 
 import cn.hutool.core.lang.Dict;
+import io.tmgg.framework.session.SysHttpSessionService;
 import io.tmgg.lang.TreeManager;
 import io.tmgg.lang.ann.Msg;
-import io.tmgg.modules.sys.entity.SysMenu;
-import io.tmgg.modules.sys.entity.SysOrg;
-import io.tmgg.modules.sys.service.SysMenuService;
-import io.tmgg.web.annotion.HasPermission;
+import io.tmgg.lang.dao.BaseEntity;
+import io.tmgg.lang.dao.specification.JpaQuery;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.obj.Option;
-import io.tmgg.lang.dao.BaseEntity;
+import io.tmgg.modules.sys.entity.SysMenu;
 import io.tmgg.modules.sys.entity.SysRole;
+import io.tmgg.modules.sys.service.SysMenuService;
 import io.tmgg.modules.sys.service.SysRoleService;
-import io.tmgg.framework.session.SysHttpSessionService;
-import io.tmgg.web.perm.SecurityUtils;
+import io.tmgg.web.CommonQueryParam;
+import io.tmgg.web.annotion.HasPermission;
 import io.tmgg.web.perm.Subject;
+import jakarta.annotation.Resource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
-import jakarta.annotation.Resource;
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -41,10 +44,14 @@ public class SysRoleController {
 
 
     @HasPermission
-    @RequestMapping("page")
-    public AjaxResult page() {
-        List<SysRole> list = sysRoleService.findAll(Sort.by(Sort.Direction.DESC, "updateTime"));
-        return AjaxResult.ok().data(list);
+    @PostMapping("page")
+    public AjaxResult page(@RequestBody CommonQueryParam param, @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) throws Exception {
+        JpaQuery<SysRole> q = new JpaQuery<>();
+        q.searchText(param.getKeyword(),SysRole.Fields.name, SysRole.Fields.code);
+
+
+        Page<SysRole> page = sysRoleService.findAll(q, pageable);
+        return AjaxResult.ok().data(page);
     }
 
 

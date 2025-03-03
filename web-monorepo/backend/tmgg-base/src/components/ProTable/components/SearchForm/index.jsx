@@ -1,6 +1,7 @@
 import {Button, Card, Form, Space} from 'antd';
 import React from 'react';
 import './index.less';
+import {theme} from "@tmgg/tmgg-commons-lang";
 
 
 export default class SearchForm extends React.Component {
@@ -42,7 +43,7 @@ export default class SearchForm extends React.Component {
 
 
         return (
-            <Card style={{marginBottom: 16}}>
+            <div style={{paddingBottom: 16,borderBottom: '1px solid #e8e8e8'}}>
                 <Form
                     className='pro-table-search-form'
                     layout="inline"
@@ -52,7 +53,6 @@ export default class SearchForm extends React.Component {
                         this.formRef.current = instance
                         if(this.props.formRef) {
                             this.props.formRef.current = instance
-
                         }
                     }}
                 >
@@ -64,7 +64,7 @@ export default class SearchForm extends React.Component {
                         </Button>
                     </Space>
                 </Form>
-            </Card>
+            </div>
         );
     };
 }
