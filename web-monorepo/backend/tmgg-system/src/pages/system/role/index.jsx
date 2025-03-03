@@ -1,7 +1,7 @@
 import {PlusOutlined} from '@ant-design/icons'
 import {Button, Col, Form, Input, InputNumber, Modal, Popconfirm, Row} from 'antd'
 import React from 'react'
-import {ButtonList, FieldRadioBoolean, FieldTree, HttpUtil, ProTable} from "@tmgg/tmgg-base";
+import {ButtonList, Ellipsis, FieldRadioBoolean, FieldTree, HttpUtil, ProTable} from "@tmgg/tmgg-base";
 
 
 export default class extends React.Component {
@@ -73,7 +73,7 @@ export default class extends React.Component {
             width: 300,
             render(v) {
                 if(v){
-                    return v.join(',')
+                    return <Ellipsis>{ v.join(',')}</Ellipsis>
                 }
             }
 
@@ -100,6 +100,12 @@ export default class extends React.Component {
     }
 
     handleEdit = record => {
+        HttpUtil.get('sysRole/ownMenu', {id: record.id}).then(rs=>{
+           this.formRef.current.setFieldsValue({
+               menuIds: rs
+           })
+        })
+
         this.setState({formOpen: true, formValues: record})
     }
 
@@ -181,7 +187,7 @@ export default class extends React.Component {
 
 
                     <Form.Item label='菜单权限' name='menuIds' rules={[{required: true}]}>
-                        <FieldTree url={'sysRole/permTree?roleId='+this.state.formValues.id}/>
+                        <FieldTree url={'sysRole/permTree'}/>
                     </Form.Item>
 
 

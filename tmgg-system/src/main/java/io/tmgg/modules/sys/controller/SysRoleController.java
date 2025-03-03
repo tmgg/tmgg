@@ -129,12 +129,11 @@ public class SysRoleController {
      * 权限树 （菜单）
      * @return
      */
-    @HasPermission
+    @HasPermission("sysRole:save")
     @RequestMapping("permTree")
-    public AjaxResult permTree(String roleId) {
+    public AjaxResult permTree() {
         List<SysMenu> menus = sysMenuService.findAllValid();
 
-        List<String> checked = sysRoleService.ownMenu(roleId);
 
         List<Dict> treeList = new ArrayList<>();
         for (SysMenu o : menus) {
@@ -144,9 +143,6 @@ public class SysRoleController {
             d.set("parentKey", o.getPid());
 
 
-            if(checked.contains(o.getId())){
-                d.set("checked",true);
-            }
 
             treeList.add(d);
         }
@@ -154,5 +150,14 @@ public class SysRoleController {
 
         return AjaxResult.ok().data(tm.getTree());
     }
+
+    @HasPermission("sysRole:save")
+    @RequestMapping("ownMenu")
+    public AjaxResult ownMenu(String id) {
+        List<String> checked = sysRoleService.ownMenu(id);
+        return AjaxResult.ok().data(checked);
+    }
+
+
 }
 
