@@ -17,7 +17,7 @@ import java.util.Map;
 
 public class SetVersion {
 
-    public static final String NEW_VERSION = "0.3.33";
+    public static final String NEW_VERSION = "0.3.34";
 
 
     public static void main(String[] args) throws IOException {
@@ -43,8 +43,10 @@ public class SetVersion {
                 System.out.println();
                 line = "public static String FRAMEWORK_VERSION = \"" + NEW_VERSION + "\";";
                 lines.set(i, line);
+                System.out.println(line);
             }
         }
+
 
         FileUtil.writeUtf8Lines(lines,file);
 

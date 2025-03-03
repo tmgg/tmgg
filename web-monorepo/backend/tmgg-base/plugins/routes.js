@@ -50,7 +50,7 @@ function parseDir(pageDir, fileRoutes) {
     }
 }
 
-export default (api) => {
+module.exports = (api) => {
     api.describe({
         key: 'addDependenceRoutes',
     });
