@@ -83,15 +83,20 @@ export default class extends React.Component {
         {
             title: '操作',
             dataIndex: 'option',
-            render: (_, record) => (
-                <ButtonList>
-                    <a perm='sysRole:save' onClick={() => this.handleEdit(record)}>编辑</a>
-                    <Popconfirm perm='sysRole:delete' title='是否确定删除系统角色'
-                                onConfirm={() => this.handleDelete(record)}>
-                        <a>删除</a>
-                    </Popconfirm>
-                </ButtonList>
-            ),
+            render: (_, record) => {
+                if(record.builtin){
+                    return
+                }
+                return (
+                    <ButtonList>
+                        <Button size='small' perm='sysRole:save' onClick={() => this.handleEdit(record)}>编辑</Button>
+                        <Popconfirm perm='sysRole:delete' title='是否确定删除系统角色'
+                                    onConfirm={() => this.handleDelete(record)}>
+                            <Button size='small'>删除</Button>
+                        </Popconfirm>
+                    </ButtonList>
+                );
+            },
         },
     ]
 

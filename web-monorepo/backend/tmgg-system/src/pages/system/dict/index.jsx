@@ -12,10 +12,10 @@ export default class extends React.Component {
 
     render() {
         return <Splitter>
-            <Splitter.Panel defaultSize={600}>
+            <Splitter.Panel defaultSize={600} style={{paddingRight:16}}>
                 <Dict onChange={selectedKey => this.setState({selectedKey})}/>
             </Splitter.Panel>
-            <Splitter.Panel>
+            <Splitter.Panel style={{paddingLeft:16}}>
                 <DictItem sysDictId={this.state.selectedKey}/>
             </Splitter.Panel>
         </Splitter>

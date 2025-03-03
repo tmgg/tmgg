@@ -10,6 +10,7 @@ import io.tmgg.web.annotion.HasPermission;
 import io.tmgg.lang.obj.AjaxResult;
 import lombok.Data;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -39,10 +40,11 @@ public class SysDictItemController  {
         JpaQuery<SysDictItem> q = new JpaQuery<>();
         if(StrUtil.isNotEmpty(sysDictId)){
             q.eq(SysDictItem.Fields.sysDict + ".id",  sysDictId);
+            Page<SysDictItem> page = service.findAll(q, pageable);
+            return AjaxResult.ok().data(page);
+        }else {
+            return AjaxResult.ok().data(Page.empty());
         }
-
-        Page<SysDictItem> page = service.findAll(q, pageable);
-        return AjaxResult.ok().data(page);
     }
 
     @Msg("字典项目保存")

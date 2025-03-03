@@ -51,7 +51,7 @@ export default class extends React.Component {
             width: 400
         },
         {
-            title: '修改时间',
+            title: '更新时间',
             dataIndex: 'updateTime',
         },
 
@@ -61,7 +61,7 @@ export default class extends React.Component {
             valueType: 'option',
             render: (_, record) => (
                 <ButtonList>
-                    <a perm='sysConfig:save' onClick={() => this.handleEdit(record)}> 编辑 </a>
+                    <Button size='small' perm='sysConfig:save' onClick={() => this.handleEdit(record)}> 编辑 </Button>
                 </ButtonList>
             ),
         },
@@ -103,7 +103,9 @@ export default class extends React.Component {
                 <Form ref={this.formRef}
                       style={{marginTop:24}}
                       initialValues={this.state.formValues}
-                      onFinish={this.onFinish}>
+                      onFinish={this.onFinish}
+                      layout='vertical'
+                >
 
                     <Form.Item name='id' noStyle/>
 
