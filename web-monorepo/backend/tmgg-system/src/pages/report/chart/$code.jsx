@@ -7,9 +7,7 @@ class ReportCode  extends React.Component {
 
     render() {
         const code = this.props.params.code
-        return <Card>
-            <SysReportChart code={code} height='calc(100vh - 200px)'/>
-        </Card>
+        return             <SysReportChart code={code} height='calc(100vh - 200px)'/>
     }
 }
 

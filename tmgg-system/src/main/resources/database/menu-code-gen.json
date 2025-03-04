@@ -13,7 +13,7 @@
     "name" : "生成代码",
     "perm" : "sys_entity_gen",
     "path" : "/code",
-    "icon" : "DatabaseOutlined",
+    "icon" : "JavaScriptOutlined",
     "seq" : 2
   } ]
 }
