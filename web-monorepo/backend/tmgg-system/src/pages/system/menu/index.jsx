@@ -131,8 +131,8 @@ export default class extends React.Component {
                              }}
                 >
                     {iconNames.map(iconName => {
-                        return <Radio.Button value={iconName}><NamedIcon name={iconName}
-                                                                         style={{fontSize: 20}}/></Radio.Button>
+                        return <Radio.Button value={iconName}>
+                            <NamedIcon name={iconName}  style={{fontSize: 20}} title={iconName}/></Radio.Button>
                     })}
                 </Radio.Group>
                 </div>

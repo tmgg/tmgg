@@ -69,7 +69,8 @@
     "type" : "DIR",
     "pid" : "sys",
     "name" : "系统监控",
-    "seq" : 199
+    "seq" : 199,
+    "icon" : "DesktopOutlined"
   }, {
     "id" : "machine",
     "pid" : "sysMonitor",

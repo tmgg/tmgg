@@ -1,35 +1,34 @@
 {
-  "SysMenu": [
-    {
-      "id": "jobMgr",      "pid":"sys",
-      "type": "DIR",
-      "name": "任务调度",
-      "seq": 100
-    },
-
-    {
-      "id": "job",
-      "pid": "jobMgr",
-      "name": "任务管理",
-      "perm": "job",
-      "path": "/job",
-      "seq": 1
-    },
-    {
-      "id": "jobLog",
-      "pid": "jobMgr",
-      "name": "任务日志",
-      "perm": "jobLog",
-      "path": "/job/logList",
-      "seq": 2
-    },
-    {
-      "id": "jobStatus",
-      "pid": "jobMgr",
-      "name": "实时状态",
-      "perm": "jobStatus",
-      "path": "/job/status",
-      "seq": 3
-    }
-  ]
+  "SysMenu" : [ {
+    "id" : "jobMgr",
+    "pid" : "sys",
+    "type" : "DIR",
+    "name" : "任务调度",
+    "seq" : 100,
+    "icon" : "FieldTimeOutlined"
+  }, {
+    "id" : "job",
+    "pid" : "jobMgr",
+    "name" : "任务管理",
+    "perm" : "job",
+    "path" : "/job",
+    "seq" : 1,
+    "icon" : "OrderedListOutlined"
+  }, {
+    "id" : "jobLog",
+    "pid" : "jobMgr",
+    "name" : "任务日志",
+    "perm" : "jobLog",
+    "path" : "/job/logList",
+    "seq" : 2,
+    "icon" : "FileOutlined"
+  }, {
+    "id" : "jobStatus",
+    "pid" : "jobMgr",
+    "name" : "实时状态",
+    "perm" : "jobStatus",
+    "path" : "/job/status",
+    "seq" : 3,
+    "icon" : "FundViewOutlined"
+  } ]
 }
