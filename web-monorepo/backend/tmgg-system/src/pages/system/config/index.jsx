@@ -17,13 +17,15 @@ export default class extends React.Component {
     tableRef = React.createRef()
 
     columns = [
-        {
-            title: '名称',
-            dataIndex: 'label',
-        },
+
         {
             title: '键',
             dataIndex: 'id',
+        },
+
+        {
+            title: '名称',
+            dataIndex: 'label',
         },
 
         {
@@ -36,8 +38,8 @@ export default class extends React.Component {
                 let defaultValue = record.defaultValue;
                 if(defaultValue != null){
                     return <div>
-                        <FieldComponent type={record.valueType || 'input'} mode='read' value={defaultValue}/>
-                        <Tag color={"orange"} style={{marginLeft:8}}>默认值</Tag></div>
+                        默认值: <FieldComponent type={record.valueType || 'input'} mode='read' value={defaultValue}/>
+                    </div>
 
                 }
             }
