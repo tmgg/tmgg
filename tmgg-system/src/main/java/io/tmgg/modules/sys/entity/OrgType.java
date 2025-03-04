@@ -4,7 +4,7 @@ import io.tmgg.framework.dict.Dict;
 import io.tmgg.framework.dict.DictItem;
 
 
-@Dict(code = "ORG_TYPE",label = "机构类型")
+@Dict(code = "orgType",label = "机构类型")
 public interface OrgType {
 
   @DictItem(label = "单位")

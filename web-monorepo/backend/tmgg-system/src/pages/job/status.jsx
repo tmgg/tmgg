@@ -17,7 +17,7 @@ export default class extends React.Component {
     }
 
     render() {
-        return <Card>
+        return <div>
             <Alert message={<pre>{this.state.summary}</pre>} style={{marginBottom:12}}></Alert>
             <Table
                 title={()=><div>正在执行的Job</div>}
@@ -34,6 +34,6 @@ export default class extends React.Component {
                     {title: '下次触发', dataIndex: 'nextFireTime'},
 
                 ]}></Table>
-        </Card>
+        </div>
     }
 }

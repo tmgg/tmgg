@@ -32,7 +32,6 @@ export default class extends React.Component {
     render() {
 
         return <>
-            <Card>
                 <Splitter>
                     <Splitter.Panel defaultSize={500}>
                         <Card title='数据库空间'>
@@ -107,7 +106,6 @@ export default class extends React.Component {
                     </Splitter.Panel>
                 </Splitter>
 
-            </Card>
 
 
         </>

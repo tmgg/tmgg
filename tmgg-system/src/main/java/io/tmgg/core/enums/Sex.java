@@ -7,7 +7,7 @@ import io.tmgg.framework.dict.DictItem;
 /**
  * 性别常量
  */
-@Dict(code = "SEX",label = "性别")
+@Dict(code = "sex",label = "性别")
 public interface Sex {
 
     @DictItem(label = "保密")

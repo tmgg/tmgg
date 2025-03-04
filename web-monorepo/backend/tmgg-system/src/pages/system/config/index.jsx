@@ -103,7 +103,6 @@ export default class extends React.Component {
             >
 
                 <Form ref={this.formRef}
-                      style={{marginTop:24}}
                       initialValues={this.state.formValues}
                       onFinish={this.onFinish}
                       layout='vertical'
