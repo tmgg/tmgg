@@ -140,7 +140,7 @@ public class GlobalExceptionHandler {
             }
         }
 
-        return AjaxResult.err().msg("违反数据库规则，操作不能继续进行");
+        return AjaxResult.err().msg("数据之间有关联约束");
     }
 
 

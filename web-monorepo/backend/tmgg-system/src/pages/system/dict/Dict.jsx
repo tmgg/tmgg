@@ -2,7 +2,7 @@ import {PlusOutlined} from '@ant-design/icons'
 import {Button, Form, Input, Modal, Popconfirm} from 'antd'
 import React from 'react'
 
-import {ButtonList, http, HttpUtil, ProTable} from '@tmgg/tmgg-base'
+import {ButtonList, FieldRadioBoolean, http, HttpUtil, ProTable} from '@tmgg/tmgg-base'
 
 
 export default class extends React.Component {
@@ -54,15 +54,20 @@ export default class extends React.Component {
             title: '操作',
             dataIndex: 'option',
             valueType: 'option',
-            render: (_, record) => (
-                <ButtonList>
-                    <a perm='sysDict:save' onClick={() => this.handleEdit(record)}> 编辑 </a>
-                    <Popconfirm perm='sysDict:delete' title='是否确定删除数据字典'
-                                onConfirm={() => this.handleDelete(record)}>
-                        <a>删除</a>
-                    </Popconfirm>
-                </ButtonList>
-            ),
+            render: (_, record) => {
+                if(record.builtin){
+                    return
+                }
+                return (
+                    <ButtonList>
+                        <Button size='small' perm='sysDict:save' onClick={() => this.handleEdit(record)}> 编辑 </Button>
+                        <Popconfirm perm='sysDict:delete' title='是否确定删除数据字典'
+                                    onConfirm={() => this.handleDelete(record)}>
+                            <Button size='small'>删除</Button>
+                        </Popconfirm>
+                    </ButtonList>
+                );
+            },
         },
     ]
 
@@ -140,7 +145,9 @@ export default class extends React.Component {
                     <Form.Item label='编码' name='code' rules={[{required: true}]}>
                         <Input/>
                     </Form.Item>
-
+                    <Form.Item label='是否数字' name='isNumber' rules={[{required: true}]}>
+                        <FieldRadioBoolean/>
+                    </Form.Item>
 
                 </Form>
             </Modal>

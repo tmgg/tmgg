@@ -29,6 +29,7 @@ public class SysDictService extends BaseService<SysDict> {
     private SysDictDao sysDictDao;
 
 
+
     public String findTextByDictCodeAndKey(String code, String key){
        return sysDictItemDao.findTextByDictCodeAndKey(code, key);
     }

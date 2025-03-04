@@ -25,6 +25,7 @@ public class SysDictItem extends BaseEntity {
     SysDict sysDict;
 
 
+    @NotNull
     @Msg("键")
     @Column(length = 50)
     String code;

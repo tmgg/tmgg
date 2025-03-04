@@ -1,5 +1,5 @@
 import {PlusOutlined} from '@ant-design/icons'
-import {Button, Form, Input, InputNumber, Modal, Popconfirm, Tag} from 'antd'
+import {Button, Col, Form, Input, InputNumber, Modal, Popconfirm, Row, Tag} from 'antd'
 import React from 'react'
 
 import {ButtonList, FieldRadioBoolean, http, HttpUtil, ProTable} from '@tmgg/tmgg-base'
@@ -22,15 +22,15 @@ export default class extends React.Component {
     }
 
     columns = [
-
-        {
-            title: '键',
-            dataIndex: 'code',
-        },
         {
             title: '文本',
             dataIndex: 'text',
         },
+        {
+            title: '编码',
+            dataIndex: 'code',
+        },
+
         {
             title: '启用',
             dataIndex: 'enabled',
@@ -62,15 +62,21 @@ export default class extends React.Component {
             title: '操作',
             dataIndex: 'option',
             valueType: 'option',
-            render: (_, record) => (
-                <ButtonList>
-                    <a perm='sysDictItem:save' onClick={() => this.handleEdit(record)}> 编辑 </a>
-                    <Popconfirm perm='sysDictItem:delete' title='是否确定删除字典项'
-                                onConfirm={() => this.handleDelete(record)}>
-                        <a>删除</a>
-                    </Popconfirm>
-                </ButtonList>
-            ),
+            render: (_, record) => {
+                if (record.builtin) {
+                    return
+                }
+                return (
+                    <ButtonList>
+                        <Button size='small' perm='sysDictItem:save'
+                                onClick={() => this.handleEdit(record)}> 编辑 </Button>
+                        <Popconfirm perm='sysDictItem:delete' title='是否确定删除字典项'
+                                    onConfirm={() => this.handleDelete(record)}>
+                            <Button size='small'>删除</Button>
+                        </Popconfirm>
+                    </ButtonList>
+                );
+            },
         },
     ]
 
@@ -132,22 +138,33 @@ export default class extends React.Component {
                       onFinish={this.onFinish}>
                     <Form.Item name='id' noStyle></Form.Item>
 
+                    <Row>
+                        <Col span={12}>
+                            <Form.Item label='编码' name='code' rules={[{required: true}]}>
+                                <Input/>
+                            </Form.Item>
+                        </Col>
+                        <Col span={12}>
+                            <Form.Item label='文本' name='text' rules={[{required: true}]}>
+                                <Input/>
+                            </Form.Item>
+                        </Col>
+                    </Row>
 
-                    <Form.Item label='键' name='key' rules={[{required: true}]}>
-                        <Input/>
-                    </Form.Item>
-                    <Form.Item label='文本' name='text' rules={[{required: true}]}>
-                        <Input/>
-                    </Form.Item>
-                    <Form.Item label='状态' name='enabled' rules={[{required: true}]}>
-                        <FieldRadioBoolean/>
-                    </Form.Item>
-                    <Form.Item label='颜色' name='color' rules={[{required: true}]}>
-                        <Input/>
-                    </Form.Item>
-                    <Form.Item label='系统内置' name='builtin' rules={[{required: true}]}>
-                        <FieldRadioBoolean/>
-                    </Form.Item>
+                    <Row>
+                        <Col span={12}>
+                            <Form.Item label='颜色' name='color' rules={[{required: true}]}>
+                                <Input/>
+                            </Form.Item>
+                        </Col>
+                        <Col span={12}>
+                            <Form.Item label='启用' name='enabled' rules={[{required: true}]}>
+                                <FieldRadioBoolean/>
+                            </Form.Item>
+                        </Col>
+                    </Row>
+
+
                     <Form.Item label='序号' name='seq' rules={[{required: true}]}>
                         <InputNumber/>
                     </Form.Item>
