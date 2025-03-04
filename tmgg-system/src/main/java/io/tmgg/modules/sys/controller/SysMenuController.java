@@ -10,6 +10,7 @@ import io.tmgg.web.annotion.HasPermission;
 import jakarta.annotation.Resource;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -41,7 +42,12 @@ public class SysMenuController {
         return AjaxResult.ok();
     }
 
-
+    @HasPermission
+    @RequestMapping("changeIcon")
+    public AjaxResult changeIcon(@RequestBody SysMenu sysMenu) throws Exception {
+        sysMenuService.changeIcon(sysMenu);
+        return AjaxResult.ok();
+    }
 
     @GetMapping("menuTree")
     public AjaxResult menuTree() {

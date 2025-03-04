@@ -125,7 +125,8 @@
       "name": "开放接口",
       "perm": "openApiAccount",
       "path": "/openApi",
-      "seq": 13
+      "seq": 13,
+      "icon": "ApiOutlined"
     }
   ]
 }

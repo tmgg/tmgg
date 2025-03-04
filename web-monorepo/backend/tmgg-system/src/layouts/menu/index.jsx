@@ -12,7 +12,7 @@ import {DateUtil, isMobileDevice, theme, TreeUtil} from "@tmgg/tmgg-commons-lang
 
 import HeaderRight from "./HeaderRight";
 
-import {HttpUtil, PageUtil, SysUtil} from "@tmgg/tmgg-base";
+import {HttpUtil, NamedIcon, PageUtil, SysUtil} from "@tmgg/tmgg-base";
 import MyTabsOutlet from "./MyTabsOutlet";
 
 const {Header, Footer, Sider, Content} = Layout;
@@ -67,8 +67,7 @@ export default class extends React.Component {
             const menuMap = {}
 
             TreeUtil.traverseTree(menus, (item) => {
-                let IconType = Icons[item.icon || 'SmileOutlined'];
-                item.icon = <IconType style={{fontSize: 12}}/>
+                item.icon = <NamedIcon name={item.icon } style={{fontSize: 12}} />
                 menuMap[item.id] = item
                 if (item.path === pathname) {
                     currentMenuKey = item.id

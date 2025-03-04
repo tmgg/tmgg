@@ -1,4 +1,4 @@
-package io.tmgg.modules.sys.service;
+package io.tmgg.modules.sys.dao;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.io.IoUtil;
@@ -6,10 +6,9 @@ import cn.hutool.core.util.StrUtil;
 import io.tmgg.jackson.JsonTool;
 import io.tmgg.lang.SpringTool;
 import io.tmgg.lang.dao.BaseDao;
-import io.tmgg.modules.SysMenuParser;
-import io.tmgg.modules.sys.entity.SysMenu;
+import io.tmgg.modules.sys.entity.JsonEntity;
+import io.tmgg.modules.sys.service.JpaService;
 import jakarta.annotation.Resource;
-import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
@@ -21,18 +20,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
-/**
- * 初始化 database目录下的数据
- */
 @Slf4j
 @Component
-public class JsonToDatabaseService implements SysMenuParser {
-
+public class JsonEntityDao {
     public static final String CLASSPATH_DATABASE_XML = "classpath*:database/*.json";
 
 
@@ -47,38 +40,49 @@ public class JsonToDatabaseService implements SysMenuParser {
     private static final String ATTR_UPDATE = "$update";
 
     @Resource
-    JpaService jpaService;
+    private JpaService jpaService;
 
 
-
-
-    public void init() throws Exception {
-        // 解析
-        List<EntityInfo> list = this.parsJsonFile();
-
-
-        // 保存
-        for (EntityInfo info : list) {
-            this.saveRecord(info);
+    public JsonEntity findOne(Class<?> entityCls, String id) throws Exception {
+        List<JsonEntity> list = findAll();
+        for (JsonEntity entity : list) {
+            if(entity.getEntity().getClass().equals(entityCls) && id.equals(entity.getEntity().getId())){
+                return entity;
+            }
         }
 
+        return null;
     }
 
-    @Override
-    public Collection<SysMenu> getMenuList() throws Exception {
-        // 解析
-        List<EntityInfo> list = this.parsJsonFile();
+    public void save(JsonEntity entity){
 
-        List<SysMenu> sysMenuList = list.stream().filter(item -> item.entityName.equals("SysMenu")).map(item -> (SysMenu) item.entity).toList();
-        return sysMenuList;
     }
 
-    public List<EntityInfo> parsJsonFile() throws Exception {
+    public <T extends Persistable<String>> void saveToDatabase(JsonEntity info) throws IOException, ClassNotFoundException {
+        String entityName = info.getEntityName();
+        T entity = (T) info.getEntity();
+
+        Assert.state(!entity.isNew(), "实体数据必须包含ID：" + entity.getClass().getSimpleName());
+
+
+        Class<T> entityCls = jpaService.findOne(entityName);
+        String daoName = entityCls.getSimpleName() + "Dao";
+        daoName = StrUtil.lowerFirst(daoName);
+        BaseDao<T> dao = SpringTool.getBean(daoName);
+
+        Assert.notNull(dao, daoName + "不存在");
+        T old = dao.findOneByField(info.getFindField(), info.getFindValue());
+
+        if (old == null || info.isUpdate()) {
+            dao.save(entity);
+        }
+    }
+    public List<JsonEntity> findAll() throws Exception {
         PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
         org.springframework.core.io.Resource[] resources = resolver.getResources(CLASSPATH_DATABASE_XML);
 
         // 遍历文件内容
-        List<EntityInfo> result = new ArrayList<>();
+        List<JsonEntity> result = new ArrayList<>();
 
         for (org.springframework.core.io.Resource resource : resources) {
             log.info("解析文件 {}", resource.getFilename());
@@ -91,7 +95,7 @@ public class JsonToDatabaseService implements SysMenuParser {
 
                     List<Map<String, Object>> beanDataList = (List<Map<String, Object>>) e.getValue();
                     for (Map<String, Object> data : beanDataList) {
-                        EntityInfo info = new EntityInfo(entityName, data);
+                        JsonEntity info = new JsonEntity(entityName, data, resource.getURI());
                         this.convertToEntity(info);
                         result.add(info);
                     }
@@ -103,9 +107,9 @@ public class JsonToDatabaseService implements SysMenuParser {
     }
 
 
-    private void convertToEntity(EntityInfo info) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
-        String entityName = info.entityName;
-        Map<String, Object> mapData = info.mapData;
+    private void convertToEntity(JsonEntity info) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+        String entityName = info.getEntityName();
+        Map<String, Object> mapData = info.getMapData();
 
         Class entityCls = jpaService.findOne(entityName);
         if (entityCls == null) {
@@ -130,52 +134,14 @@ public class JsonToDatabaseService implements SysMenuParser {
 
         Assert.state(!entity.isNew(), "实体数据必须包含ID：" + entity.getClass().getSimpleName());
 
-        if (info.mapData.containsKey(ATTR_UPDATE)) {
-            info.update = (Boolean) info.mapData.get(ATTR_UPDATE);
+        if (info.getMapData().containsKey(ATTR_UPDATE)) {
+            info.setUpdate((Boolean) info.getMapData().get(ATTR_UPDATE));
         }
-        if (info.mapData.containsKey(ATTR_FIND_FIELD)) {
-            info.findField = StringUtils.trimToNull((String) info.mapData.get(ATTR_FIND_FIELD));
+        if (info.getMapData().containsKey(ATTR_FIND_FIELD)) {
+            info.setFindField(StringUtils.trimToNull((String) info.getMapData().get(ATTR_FIND_FIELD)));
         }
-        info.findValue = info.mapData.get(info.findField);
-        info.entity = entity;
+        info.setFindValue(info.getMapData().get(info.getFindField()));
+        info.setEntity(entity);
 
     }
-
-    private <T extends Persistable<String>> void saveRecord(EntityInfo info) throws IOException, ClassNotFoundException {
-        String entityName = info.entityName;
-        T entity = (T) info.entity;
-
-        Assert.state(!entity.isNew(), "实体数据必须包含ID：" + entity.getClass().getSimpleName());
-
-
-        Class<T> entityCls = jpaService.findOne(entityName);
-        String daoName = entityCls.getSimpleName() + "Dao";
-        daoName = StrUtil.lowerFirst(daoName);
-        BaseDao<T> dao = SpringTool.getBean(daoName);
-
-        Assert.notNull(dao, daoName + "不存在");
-        T old = dao.findOneByField(info.findField, info.findValue);
-
-        if (old == null || info.update) {
-            dao.save(entity);
-        }
-    }
-
-  public static class EntityInfo {
-        String entityName;
-        Map<String, Object> mapData;
-
-        Persistable<String> entity;
-
-        boolean update = true;
-        String findField = "id";
-        Object findValue = null;
-
-        public EntityInfo(String entityName, Map<String, Object> mapData) {
-            this.entityName = entityName;
-            this.mapData = mapData;
-        }
-    }
-
 }
-

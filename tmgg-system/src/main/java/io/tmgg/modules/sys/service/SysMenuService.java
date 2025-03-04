@@ -7,13 +7,22 @@ import io.tmgg.lang.dao.BaseEntity;
 import io.tmgg.lang.dao.BaseService;
 import io.tmgg.lang.obj.TreeNode;
 import io.tmgg.modules.SysMenuParser;
+import io.tmgg.modules.sys.dao.JsonEntityDao;
 import io.tmgg.modules.sys.dao.SysMenuDao;
+import io.tmgg.modules.sys.entity.JsonEntity;
 import io.tmgg.modules.sys.entity.SysMenu;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
-import java.util.*;
+import java.io.File;
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -27,7 +36,8 @@ public class SysMenuService extends BaseService<SysMenu> {
     @Resource
     private SysMenuDao sysMenuDao;
 
-
+    @Resource
+    JsonEntityDao jsonEntityDao;
 
 
     /**
@@ -48,7 +58,7 @@ public class SysMenuService extends BaseService<SysMenu> {
         return convertTreeNode(all, nodes);
     }
 
-    public List<SysMenu> findAllValid(){
+    public List<SysMenu> findAllValid() {
         return sysMenuDao.findAllValid();
     }
 
@@ -62,7 +72,7 @@ public class SysMenuService extends BaseService<SysMenu> {
     }
 
 
-    public  List<TreeNode> convertTreeNode(List<SysMenu> all, Collection<TreeNode> nodes) {
+    public List<TreeNode> convertTreeNode(List<SysMenu> all, Collection<TreeNode> nodes) {
         for (SysMenu sysMenu : all) {
             TreeNode treeNode = new TreeNode();
             treeNode.setId(sysMenu.getId());
@@ -96,4 +106,27 @@ public class SysMenuService extends BaseService<SysMenu> {
     }
 
 
+    @Transactional
+    public void changeIcon(SysMenu input) throws Exception {
+        SysMenu menu = sysMenuDao.findOne(input);
+        menu.setIcon(input.getIcon());
+
+        JsonEntity entity = jsonEntityDao.findOne(SysMenu.class, menu.getId());
+        Assert.notNull(entity, "未找到数据文件");
+
+        URI uri = entity.getUri();
+        log.info("修改的json文件为：{}", uri);
+
+        Assert.state(uri.getScheme().equals("file"), "该菜单json文件非文件系统中:" + uri.getScheme());
+
+        String path = uri.getPath();
+        path = path.replace("target/classes", "src/main/resources");
+
+        File file = new File(path);
+        Assert.state(file.exists(), "文件不存在:" + path);
+
+
+        jsonEntityDao.save(entity);
+
+    }
 }

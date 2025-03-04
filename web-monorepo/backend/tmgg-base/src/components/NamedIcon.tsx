@@ -8,5 +8,8 @@ export function NamedIcon(props:NamedIconProps){
     let {name, ...rest} = props;
     const IconType = Icons[name]
 
-    return <IconType {...rest}></IconType>
+    if(IconType){
+        return <IconType {...rest}></IconType>
+    }
+
 }

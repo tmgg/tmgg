@@ -1,12 +1,21 @@
 import React from "react";
-import {Button, Card, Table} from "antd";
-import {dictValueTag, HttpUtil} from "@tmgg/tmgg-base";
+import {Button, Checkbox, Modal, Radio, Table} from "antd";
+import {dictValueTag, HttpUtil, NamedIcon} from "@tmgg/tmgg-base";
+import * as Icons from '@ant-design/icons'
+import {ScrollFollow} from "react-lazylog";
+
+let iconNames = Object.keys(Icons);
+iconNames = iconNames.filter(n => n.endsWith("Outlined"))
 
 export default class extends React.Component {
 
     state = {
         treeData: [],
-        processing: false
+        processing: false,
+
+        iconModalOpen: false,
+
+        formValues:{},
     }
 
     componentDidMount() {
@@ -30,43 +39,105 @@ export default class extends React.Component {
         })
     };
 
+    handleChangeIcon = () => {
+        HttpUtil.post('sysMenu/changeIcon',this.state.formValues).then(rs => {
+            this.loadData()
+        }).finally(() => {
+            this.setState({iconModalOpen: false})
+        })
+    };
+
     render() {
 
 
         return <>
+            <Button type='primary' onClick={this.onClickReset}
+                    loading={this.state.processing}>清理重置</Button>
 
 
-            <Card title='菜单列表' extra={<Button type='primary' onClick={this.onClickReset}
-                                                  loading={this.state.processing}>重置</Button>}>
-                {this.state.treeData.length > 0 && <Table
-                    expandable={{
-                        defaultExpandAllRows: true
-                    }}
-                    size={"small"}
-                    dataSource={this.state.treeData}
-                    columns={[
-                        {title: '名称', dataIndex: 'name'},
-                        {title: '权限', dataIndex: 'perm'},
-                        {
-                            title: '类型', dataIndex: 'type', render(v) {
-                                return dictValueTag('menuType', v)
+            {this.state.treeData.length > 0 && <Table
+                expandable={{
+                    defaultExpandAllRows: true
+                }}
+                size={"small"}
+                dataSource={this.state.treeData}
+                columns={[
+                    {
+                        title: '名称',
+                        dataIndex: 'name',
+                        render(v, record) {
+                            return <div><NamedIcon name={record.icon}/> {v} </div>
+                        }
+                    },
+                    {
+                        title: '权限',
+                        dataIndex: 'perm'
+                    },
+                    {
+                        title: '类型',
+                        dataIndex: 'type',
+                        render(v) {
+                            return dictValueTag('menuType', v)
+                        }
+                    },
+
+                    {
+                        title: '路由',
+                        dataIndex: 'path'
+                    },
+                    {
+                        title: '菜单可见',
+                        dataIndex: 'visible',
+                        render(v) {
+                            if (v) {
+                                return v ? '是' : '否'
                             }
-                        },
-                        {title: '图标', dataIndex: 'icon'},
-                        {title: '路由', dataIndex: 'path'},
-                        {
-                            title: '菜单可见', dataIndex: 'visible', render(v) {
-                                return v + ""
+                        }
+                    },
+                    {
+                        title: '操作',
+                        dataIndex: 'option',
+                        render: (v, record) => {
+                            if (record.visible) {
+                                return <Button size='small' onClick={() => {
+                                    this.setState({iconModalOpen: true, formValues: record})
+                                }}>编辑图标</Button>
                             }
-                        },
+                        }
+                    },
+                ]}
+                pagination={false}
+            >
+            </Table>}
 
-                        {title: '主键', dataIndex: 'id'},
-                        {title: '父键', dataIndex: 'pid'},
-                    ]}
-                    pagination={false}
+            <Modal title='编辑图标'
+                   width={800}
+                   open={this.state.iconModalOpen}
+
+                   onCancel={() => {
+                       this.setState({iconModalOpen: false})
+                   }}
+
+                   onOk={this.handleChangeIcon}
+            >
+                当前图标： {this.state.formValues.icon}
+                <div style={{height:600,overflowY:'auto'}}>
+                <Radio.Group buttonStyle="solid"
+                             value={this.state.formValues.icon}
+                             onChange={e => {
+                                 const {formValues} = this.state
+                                 formValues.icon = e.target.value
+                                 this.setState({formValues})
+                             }}
                 >
-                </Table>}
-            </Card>
+                    {iconNames.map(iconName => {
+                        return <Radio.Button value={iconName}><NamedIcon name={iconName}
+                                                                         style={{fontSize: 20}}/></Radio.Button>
+                    })}
+                </Radio.Group>
+                </div>
+
+            </Modal>
 
 
         </>

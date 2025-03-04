@@ -38,7 +38,7 @@ public class SystemInitial implements CommandLineRunner {
     SysMenuService sysMenuService;
 
     @Resource
-    JsonToDatabaseService jsonToDatabaseService;
+    JsonEntityService jsonEntityService;
 
 
     @Resource
@@ -66,7 +66,7 @@ public class SystemInitial implements CommandLineRunner {
         dictAnnHandler.run();
 
 
-        jsonToDatabaseService.init();
+        jsonEntityService.init();
 
         if (sysProp.isResetMenuOnStartup()) {
             sysMenuService.reset();
