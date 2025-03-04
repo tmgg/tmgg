@@ -14,7 +14,7 @@ import java.util.Map;
 @NoArgsConstructor
 public class JsonEntity {
     private String entityName;
-    private Map<String, Object> mapData;
+    private Map<String, Object> data;
 
     private Persistable<String> entity;
 
@@ -24,9 +24,9 @@ public class JsonEntity {
 
     private URI uri;
 
-    public JsonEntity(String entityName, Map<String, Object> mapData, URI uri) {
+    public JsonEntity(String entityName, Map<String, Object> data, URI uri) {
         this.entityName = entityName;
-        this.mapData = mapData;
+        this.data = data;
         this.uri = uri;
     }
 }

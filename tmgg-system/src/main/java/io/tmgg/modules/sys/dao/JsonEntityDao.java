@@ -16,9 +16,11 @@ import org.springframework.data.domain.Persistable;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -55,6 +57,20 @@ public class JsonEntityDao {
     }
 
     public void save(JsonEntity entity){
+        URI uri = entity.getUri();
+        log.info("修改的json文件为：{}", uri);
+
+        Assert.state(uri.getScheme().equals("file"), "该菜单json文件非文件系统中:" + uri.getScheme());
+
+        String path = uri.getPath();
+        path = path.replace("target/classes", "src/main/resources");
+
+        File file = new File(path);
+        Assert.state(file.exists(), "文件不存在:" + path);
+
+        Map<String, Object> data = entity.getData();
+
+
 
     }
 
@@ -109,7 +125,7 @@ public class JsonEntityDao {
 
     private void convertToEntity(JsonEntity info) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
         String entityName = info.getEntityName();
-        Map<String, Object> mapData = info.getMapData();
+        Map<String, Object> mapData = info.getData();
 
         Class entityCls = jpaService.findOne(entityName);
         if (entityCls == null) {
@@ -134,13 +150,13 @@ public class JsonEntityDao {
 
         Assert.state(!entity.isNew(), "实体数据必须包含ID：" + entity.getClass().getSimpleName());
 
-        if (info.getMapData().containsKey(ATTR_UPDATE)) {
-            info.setUpdate((Boolean) info.getMapData().get(ATTR_UPDATE));
+        if (info.getData().containsKey(ATTR_UPDATE)) {
+            info.setUpdate((Boolean) info.getData().get(ATTR_UPDATE));
         }
-        if (info.getMapData().containsKey(ATTR_FIND_FIELD)) {
-            info.setFindField(StringUtils.trimToNull((String) info.getMapData().get(ATTR_FIND_FIELD)));
+        if (info.getData().containsKey(ATTR_FIND_FIELD)) {
+            info.setFindField(StringUtils.trimToNull((String) info.getData().get(ATTR_FIND_FIELD)));
         }
-        info.setFindValue(info.getMapData().get(info.getFindField()));
+        info.setFindValue(info.getData().get(info.getFindField()));
         info.setEntity(entity);
 
     }

@@ -114,17 +114,7 @@ public class SysMenuService extends BaseService<SysMenu> {
         JsonEntity entity = jsonEntityDao.findOne(SysMenu.class, menu.getId());
         Assert.notNull(entity, "未找到数据文件");
 
-        URI uri = entity.getUri();
-        log.info("修改的json文件为：{}", uri);
-
-        Assert.state(uri.getScheme().equals("file"), "该菜单json文件非文件系统中:" + uri.getScheme());
-
-        String path = uri.getPath();
-        path = path.replace("target/classes", "src/main/resources");
-
-        File file = new File(path);
-        Assert.state(file.exists(), "文件不存在:" + path);
-
+        entity.getData().put("icon",input.getIcon());
 
         jsonEntityDao.save(entity);
 
