@@ -2,7 +2,7 @@
   "SysMenu" : [ {
     "pid" : "sys",
     "id" : "dev",
-    "name" : "开发",
+    "name" : "开发管理",
     "perm" : "dev",
     "path" : "/code",
     "icon" : "JavaOutlined",
@@ -10,7 +10,7 @@
   }, {
     "pid" : "dev",
     "id" : "sys_entity_gen",
-    "name" : "实体生成",
+    "name" : "生成代码",
     "perm" : "sys_entity_gen",
     "path" : "/code",
     "icon" : "DatabaseOutlined",
