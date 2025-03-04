@@ -1,6 +1,7 @@
 package io.tmgg.modules.sys.dao;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.util.StrUtil;
 import io.tmgg.jackson.JsonTool;
@@ -48,7 +49,7 @@ public class JsonEntityDao {
     public JsonEntity findOne(Class<?> entityCls, String id) throws Exception {
         List<JsonEntity> list = findAll();
         for (JsonEntity entity : list) {
-            if(entity.getEntity().getClass().equals(entityCls) && id.equals(entity.getEntity().getId())){
+            if (entity.getEntity().getClass().equals(entityCls) && id.equals(entity.getEntity().getId())) {
                 return entity;
             }
         }
@@ -56,8 +57,10 @@ public class JsonEntityDao {
         return null;
     }
 
-    public void save(JsonEntity entity){
-        URI uri = entity.getUri();
+    public void save(JsonEntity jsonEntity) throws Exception {
+        String id = (String) jsonEntity.getData().get("id");
+        Assert.hasText(id, "id不能为空");
+        URI uri = jsonEntity.getUri();
         log.info("修改的json文件为：{}", uri);
 
         Assert.state(uri.getScheme().equals("file"), "该菜单json文件非文件系统中:" + uri.getScheme());
@@ -68,31 +71,34 @@ public class JsonEntityDao {
         File file = new File(path);
         Assert.state(file.exists(), "文件不存在:" + path);
 
-        Map<String, Object> data = entity.getData();
-
-
-
+        String newFileContent = getNewFileContent(jsonEntity, file, id);
+        Assert.notNull(newFileContent,"替换json内容失败");
+        FileUtil.writeUtf8String(newFileContent,file);
     }
 
-    public <T extends Persistable<String>> void saveToDatabase(JsonEntity info) throws IOException, ClassNotFoundException {
-        String entityName = info.getEntityName();
-        T entity = (T) info.getEntity();
+    private static String getNewFileContent(JsonEntity jsonEntity, File file, String id) throws IOException {
+        try (InputStream is = FileUtil.getInputStream(file)) {
+            String json = IoUtil.readUtf8(is);
+            Map<String, Object> fileData = JsonTool.jsonToMap(json);
+            for (Map.Entry<String, Object> e : fileData.entrySet()) {
+                String entityName = e.getKey();
+                List<Map<String, Object>> beanDataList = (List<Map<String, Object>>) e.getValue();
+                for (int i = 0; i < beanDataList.size(); i++) {
+                    Map<String, Object> data = beanDataList.get(i);
+                    if (entityName.equals(jsonEntity.getEntityName()) && id.equals(data.get("id"))) {
+                        beanDataList.set(i, jsonEntity.getData());
 
-        Assert.state(!entity.isNew(), "实体数据必须包含ID：" + entity.getClass().getSimpleName());
+                        return JsonTool.toPrettyJsonQuietly(fileData);
+                    }
+                }
+            }
 
 
-        Class<T> entityCls = jpaService.findOne(entityName);
-        String daoName = entityCls.getSimpleName() + "Dao";
-        daoName = StrUtil.lowerFirst(daoName);
-        BaseDao<T> dao = SpringTool.getBean(daoName);
-
-        Assert.notNull(dao, daoName + "不存在");
-        T old = dao.findOneByField(info.getFindField(), info.getFindValue());
-
-        if (old == null || info.isUpdate()) {
-            dao.save(entity);
         }
+        return null;
     }
+
+
     public List<JsonEntity> findAll() throws Exception {
         PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
         org.springframework.core.io.Resource[] resources = resolver.getResources(CLASSPATH_DATABASE_XML);
@@ -159,5 +165,25 @@ public class JsonEntityDao {
         info.setFindValue(info.getData().get(info.getFindField()));
         info.setEntity(entity);
 
+    }
+
+    public <T extends Persistable<String>> void saveToDatabase(JsonEntity info) throws IOException, ClassNotFoundException {
+        String entityName = info.getEntityName();
+        T entity = (T) info.getEntity();
+
+        Assert.state(!entity.isNew(), "实体数据必须包含ID：" + entity.getClass().getSimpleName());
+
+
+        Class<T> entityCls = jpaService.findOne(entityName);
+        String daoName = entityCls.getSimpleName() + "Dao";
+        daoName = StrUtil.lowerFirst(daoName);
+        BaseDao<T> dao = SpringTool.getBean(daoName);
+
+        Assert.notNull(dao, daoName + "不存在");
+        T old = dao.findOneByField(info.getFindField(), info.getFindValue());
+
+        if (old == null || info.isUpdate()) {
+            dao.save(entity);
+        }
     }
 }

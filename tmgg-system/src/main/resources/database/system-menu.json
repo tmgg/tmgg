@@ -1,132 +1,117 @@
 {
-  "SysMenu": [
-    {
-      "id": "biz",
-      "name": "业务模块",
-      "type": "MENU",
-      "seq": 0
-    },
-    {
-      "id": "sys",
-      "name": "系统管理",
-      "seq": 100
-    },
-    {
-      "id": "sysOrg",
-      "pid": "sys",
-      "name": "机构管理",
-      "perm": "sysOrg",
-      "path": "/system/org",
-      "icon": "ApartmentOutlined",
-      "seq": 1
-    },
-    {
-      "id": "sysUser",
-      "pid": "sys",
-      "name": "用户管理",
-      "perm": "sysUser",
-      "path": "/system/user",
-      "icon": "UserOutlined",
-      "seq": 2
-    },
-    {
-      "id": "sysRole",
-      "pid": "sys",
-      "name": "角色管理",
-      "perm": "sysRole",
-      "path": "/system/role",
-      "icon": "SafetyCertificateOutlined",
-      "seq": 3
-    },
-    {
-      "id": "sysMenu",
-      "pid": "sys",
-      "name": "菜单管理",
-      "perm": "sysMenu",
-      "path": "/system/menu",
-      "icon": "SafetyCertificateOutlined",
-      "seq": 3
-    },
-    {
-      "id": "sysConfig",
-      "pid": "sys",
-      "name": "系统参数",
-      "perm": "sysConfig",
-      "path": "/system/config",
-      "icon": "SettingOutlined",
-      "seq": 4
-    },
-    {
-      "id": "sysDict",
-      "pid": "sys",
-      "name": "数据字典",
-      "perm": "sysDict",
-      "path": "/system/dict",
-      "seq": 5
-    },
-    {
-      "id": "sysFile",
-      "pid": "sys",
-      "name": "文件管理",
-      "perm": "sysFile",
-      "path": "/system/file/main",
-      "seq": 7
-    },
-    {
-      "id": "sysMonitor",
-      "type": "DIR",
-      "pid": "sys",
-      "name": "系统监控",
-      "seq": 199
-    },
-    {
-      "id": "machine",
-      "pid": "sysMonitor",
-      "name": "环境监控",
-      "perm": "machine",
-      "path": "/system/machine",
-      "seq": 9
-    },
-    {
-      "id": "sysDatasource",
-      "pid": "sysMonitor",
-      "name": "数据源",
-      "perm": "sysDatasource",
-      "path": "/system/datasource",
-      "seq": 9
-    },
-    {
-      "id": "mysqlStatus",
-      "pid": "sysMonitor",
-      "name": "Mysql",
-      "perm": "mysqlStatus",
-      "path": "/system/mysqlStatus",
-      "seq": 9
-    },
-    {
-      "id": "sysOnlineUser",
-      "pid": "sysMonitor",
-      "name": "在线用户",
-      "perm": "sysOnlineUser",
-      "path": "/system/onlineUser",
-      "seq": 10
-    },
-    {
-      "id": "sysOpLog",
-      "pid": "sysMonitor",
-      "name": "操作日志",
-      "perm": "sysOpLog",
-      "path": "/system/log/oplog",
-      "seq": 12
-    },
-    {
-      "pid": "sys",
-      "id": "openApiAccount",
-      "name": "开放接口",
-      "perm": "openApiAccount",
-      "path": "/openApi",
-      "seq": 13,
-      "icon": "ApiOutlined"
-    }
-  ]
+  "SysMenu" : [ {
+    "id" : "biz",
+    "name" : "业务模块",
+    "type" : "MENU",
+    "seq" : 0
+  }, {
+    "id" : "sys",
+    "name" : "系统管理",
+    "seq" : 100
+  }, {
+    "id" : "sysOrg",
+    "pid" : "sys",
+    "name" : "机构管理",
+    "perm" : "sysOrg",
+    "path" : "/system/org",
+    "icon" : "ApartmentOutlined",
+    "seq" : 1
+  }, {
+    "id" : "sysUser",
+    "pid" : "sys",
+    "name" : "用户管理",
+    "perm" : "sysUser",
+    "path" : "/system/user",
+    "icon" : "UserOutlined",
+    "seq" : 2
+  }, {
+    "id" : "sysRole",
+    "pid" : "sys",
+    "name" : "角色管理",
+    "perm" : "sysRole",
+    "path" : "/system/role",
+    "icon" : "IdcardOutlined",
+    "seq" : 3
+  }, {
+    "id" : "sysMenu",
+    "pid" : "sys",
+    "name" : "菜单管理",
+    "perm" : "sysMenu",
+    "path" : "/system/menu",
+    "icon" : "AppstoreOutlined",
+    "seq" : 3
+  }, {
+    "id" : "sysConfig",
+    "pid" : "sys",
+    "name" : "系统参数",
+    "perm" : "sysConfig",
+    "path" : "/system/config",
+    "icon" : "SettingOutlined",
+    "seq" : 4
+  }, {
+    "id" : "sysDict",
+    "pid" : "sys",
+    "name" : "数据字典",
+    "perm" : "sysDict",
+    "path" : "/system/dict",
+    "seq" : 5,
+    "icon" : "FileSearchOutlined"
+  }, {
+    "id" : "sysFile",
+    "pid" : "sys",
+    "name" : "文件管理",
+    "perm" : "sysFile",
+    "path" : "/system/file/main",
+    "seq" : 7,
+    "icon" : "FolderOpenOutlined"
+  }, {
+    "id" : "sysMonitor",
+    "type" : "DIR",
+    "pid" : "sys",
+    "name" : "系统监控",
+    "seq" : 199
+  }, {
+    "id" : "machine",
+    "pid" : "sysMonitor",
+    "name" : "环境监控",
+    "perm" : "machine",
+    "path" : "/system/machine",
+    "seq" : 9
+  }, {
+    "id" : "sysDatasource",
+    "pid" : "sysMonitor",
+    "name" : "数据源",
+    "perm" : "sysDatasource",
+    "path" : "/system/datasource",
+    "seq" : 9
+  }, {
+    "id" : "mysqlStatus",
+    "pid" : "sysMonitor",
+    "name" : "Mysql",
+    "perm" : "mysqlStatus",
+    "path" : "/system/mysqlStatus",
+    "seq" : 9
+  }, {
+    "id" : "sysOnlineUser",
+    "pid" : "sysMonitor",
+    "name" : "在线用户",
+    "perm" : "sysOnlineUser",
+    "path" : "/system/onlineUser",
+    "seq" : 10
+  }, {
+    "id" : "sysOpLog",
+    "pid" : "sysMonitor",
+    "name" : "操作日志",
+    "perm" : "sysOpLog",
+    "path" : "/system/log/oplog",
+    "seq" : 12
+  }, {
+    "pid" : "sys",
+    "id" : "openApiAccount",
+    "name" : "开放接口",
+    "perm" : "openApiAccount",
+    "path" : "/openApi",
+    "seq" : 13,
+    "icon" : "ApiOutlined"
+  } ]
 }

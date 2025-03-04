@@ -1,25 +1,19 @@
 {
-  "SysMenu": [
-    {
-      "pid": "sys",
-      "id": "dev",
-      "name": "开发",
-      "perm": "dev",
-      "path": "/code",
-      "icon": "ApartmentOutlined",
-      "seq": 10
-    },
-
-    {
-      "pid": "dev",
-      "id": "sys_entity_gen",
-      "name": "实体生成代码",
-      "perm": "sys_entity_gen",
-      "path": "/code",
-      "icon": "ApartmentOutlined",
-      "seq": 2
-    }
-
-
-  ]
+  "SysMenu" : [ {
+    "pid" : "sys",
+    "id" : "dev",
+    "name" : "开发",
+    "perm" : "dev",
+    "path" : "/code",
+    "icon" : "JavaOutlined",
+    "seq" : 10
+  }, {
+    "pid" : "dev",
+    "id" : "sys_entity_gen",
+    "name" : "实体生成",
+    "perm" : "sys_entity_gen",
+    "path" : "/code",
+    "icon" : "DatabaseOutlined",
+    "seq" : 2
+  } ]
 }
