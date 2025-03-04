@@ -34,6 +34,7 @@ dayjs.locale('zh-cn');
 
     render() {
         return <ConfigProvider
+
             input={{autoComplete: 'off'}}
             form={{
                 validateMessages: {
@@ -41,7 +42,9 @@ dayjs.locale('zh-cn');
                 },
                 colon: false
             }}
-
+            button={{
+                autoInsertSpace:false
+            }}
             locale={zhCN}
             theme={{
                 token: {
@@ -49,6 +52,8 @@ dayjs.locale('zh-cn');
                     colorSuccess: theme["success-color"],
                     colorWarning: theme["warning-color"],
                     colorError: theme["error-color"],
+                    borderRadius:4,
+
                 },
                 components: {
                     Menu: {

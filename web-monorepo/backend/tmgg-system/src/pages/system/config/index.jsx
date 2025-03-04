@@ -19,7 +19,7 @@ export default class extends React.Component {
     columns = [
 
         {
-            title: '键',
+            title: '标识',
             dataIndex: 'id',
         },
 
