@@ -33,7 +33,7 @@ public class SysDictItemDao extends BaseDao<SysDictItem> {
 
 
     @Transactional
-    public void deleteByTypeId(String typeId) {
+    public void deleteByPid(String typeId) {
         JpaQuery<SysDictItem> q = new JpaQuery<>();
 
         q.eq(SysDictItem.Fields.sysDict + ".id", typeId);

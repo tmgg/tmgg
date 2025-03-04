@@ -30,6 +30,8 @@ public class DictAnnHandler {
     public void run() throws IllegalAccessException {
         log.info("开始解析字典注解");
 
+
+
         Set<Class<?>> classes = new HashSet<>();
         for (String basePackage : BasePackage.getBasePackages()) {
             classes.addAll(ClassUtil.scanPackageByAnnotation(basePackage, Dict.class));
@@ -39,8 +41,6 @@ public class DictAnnHandler {
         for (Class cls : classes) {
             Dict dictAnn = (Dict) cls.getAnnotation(Dict.class);
             String code = dictAnn.code();
-            Assert.state(code.equals(code.toUpperCase()), "字典编码必须是大写,可用下划线分割");
-
             String label = dictAnn.label();
 
 

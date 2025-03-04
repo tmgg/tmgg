@@ -40,6 +40,8 @@ public class SysMenuService extends BaseService<SysMenu> {
     JsonEntityDao jsonEntityDao;
 
 
+
+
     /**
      * 不含按钮 及 不显示的东西
      */
@@ -48,15 +50,6 @@ public class SysMenuService extends BaseService<SysMenu> {
         return sysMenuList.stream().collect(Collectors.toMap(BaseEntity::getId, t -> t));
     }
 
-
-    public List<TreeNode> treeForGrant() {
-        List<SysMenu> all = sysMenuDao.findAllValid();
-
-        Collection<TreeNode> nodes = new ArrayList<>();
-
-
-        return convertTreeNode(all, nodes);
-    }
 
     public List<SysMenu> findAllValid() {
         return sysMenuDao.findAllValid();

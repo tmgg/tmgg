@@ -6,10 +6,12 @@ import io.tmgg.lang.HttpServletTool;
 import io.tmgg.lang.IpAddressTool;
 import io.tmgg.lang.JoinPointTool;
 import io.tmgg.lang.UserAgentTool;
-import io.tmgg.lang.ann.Msg;
 import io.tmgg.lang.dao.BaseService;
+import io.tmgg.modules.sys.dao.SysMenuDao;
 import io.tmgg.modules.sys.dao.SysOpLogDao;
 import io.tmgg.modules.sys.entity.SysLog;
+import io.tmgg.web.annotion.HasPermission;
+import io.tmgg.web.perm.PermissionService;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -26,24 +28,26 @@ import java.util.Date;
 public class SysOpLogService extends BaseService<SysLog> {
 
     @Resource
-    SysOpLogDao dao;
+    private SysOpLogDao dao;
+
+    @Resource
+    private SysMenuDao sysMenuDao;
+
+    @Resource
+    private PermissionService permissionService;
 
 
     public void saveOperationLog(final String account, JoinPoint joinPoint, boolean success, final String msg) {
-        SysLog sysLog = newSysOpLog(HttpServletTool.getRequest());
-
-        String businessLog = parseLogName(joinPoint);
-        fillCommonSysOpLog(sysLog, account, businessLog, joinPoint);
+        SysLog sysLog = newSysOpLog(HttpServletTool.getRequest(), joinPoint);
+        sysLog.setAccount(account);
         sysLog.setSuccess(success);
         sysLog.setMessage(msg);
         dao.saveAsync(sysLog);
     }
 
     public void saveExceptionLog(final String account, JoinPoint joinPoint, Exception exception) {
-        SysLog sysLog = this.newSysOpLog(HttpServletTool.getRequest());
-        String businessLog = parseLogName(joinPoint);
-
-        fillCommonSysOpLog(sysLog, account, businessLog, joinPoint);
+        SysLog sysLog = this.newSysOpLog(HttpServletTool.getRequest(), joinPoint);
+        sysLog.setAccount(account);
         sysLog.setSuccess(false);
         sysLog.setMessage(Arrays.toString(exception.getStackTrace()));
         dao.saveAsync(sysLog);
@@ -51,7 +55,7 @@ public class SysOpLogService extends BaseService<SysLog> {
     }
 
 
-    private SysLog newSysOpLog(HttpServletRequest request) {
+    private SysLog newSysOpLog(HttpServletRequest request, JoinPoint joinPoint) {
         String ip = IpAddressTool.getIp(request);
         String browser = UserAgentTool.getBrowser(request);
         String os = UserAgentTool.getOs(request);
@@ -64,40 +68,33 @@ public class SysOpLogService extends BaseService<SysLog> {
         sysLog.setOs(os);
         sysLog.setUrl(url);
         sysLog.setCreateTime(new Date());
-        return sysLog;
-    }
 
 
-    private String parseLogName(JoinPoint joinPoint) {
         MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
         Method method = methodSignature.getMethod();
         Object controller = joinPoint.getTarget();
+        HasPermission methodAnn = method.getAnnotation(HasPermission.class);
 
-        String baseName = StrUtil.removeSuffix( controller.getClass().getSimpleName(), "Controller");
-        String methodName = method.getName();
 
-        Msg controllerMsg = controller.getClass().getAnnotation(Msg.class);
-        if(controllerMsg != null){
-            baseName = controllerMsg.value();
+        String name = method.getName();
+        String module = controller.getClass().getSimpleName();
+
+        if (StrUtil.isNotEmpty(methodAnn.label())) {
+            name = methodAnn.label();
+        }
+        if (StrUtil.isEmpty(name)) {
+            // TODO
         }
 
-        Msg methodMsg = method.getAnnotation(Msg.class);
-        if(methodMsg != null){
-            methodName = methodMsg.value();
-        }
-
-        return baseName + "-" + methodName;
-    }
+        sysLog.setName(name);
+        sysLog.setModule(module);
 
 
-    /**
-     * 生成通用操作日志字段
-     */
-    private void fillCommonSysOpLog(SysLog sysLog, String account, String businessLog, JoinPoint joinPoint) {
         String param = JoinPointTool.getArgsJsonString(joinPoint);
-        sysLog.setName(businessLog);
         sysLog.setParam(param);
-        sysLog.setAccount(account);
+
+
+        return sysLog;
     }
 
 

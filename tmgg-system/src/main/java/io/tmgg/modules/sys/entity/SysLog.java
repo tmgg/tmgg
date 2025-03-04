@@ -1,6 +1,7 @@
 
 package io.tmgg.modules.sys.entity;
 
+import io.tmgg.lang.ann.Msg;
 import io.tmgg.lang.dao.BaseEntity;
 import io.tmgg.lang.dao.DBConstants;
 import jakarta.persistence.Column;
@@ -23,10 +24,11 @@ import jakarta.persistence.Entity;
 public class SysLog extends BaseEntity {
 
 
+    @Msg("模块")
+    @Column(length = 50)
+    private String module;
 
-    /**
-     * 操作人
-     */
+
     @NotNull
     private String account;
 

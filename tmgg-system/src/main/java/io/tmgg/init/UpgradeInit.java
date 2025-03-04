@@ -1,15 +1,15 @@
 package io.tmgg.init;
 
 import io.tmgg.dbtool.DbTool;
+import io.tmgg.modules.sys.dao.SysDictDao;
+import io.tmgg.modules.sys.dao.SysDictItemDao;
 import io.tmgg.modules.sys.entity.OrgType;
+import io.tmgg.modules.sys.entity.SysDict;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
-import java.sql.Connection;
-import java.sql.DatabaseMetaData;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Set;
 
@@ -20,8 +20,30 @@ public class UpgradeInit {
     @Resource
     private DbTool db;
 
+    @Resource
+    private SysDictDao sysDictDao;
+
+    @Resource
+    private SysDictItemDao sysDictItemDao;
+
     public void init() throws SQLException {
         log.info("开始升级程序，主要针对tmgg前框架的升级");
+
+        {
+            SysDict old = sysDictDao.findByCode("ORG_TYPE");
+            if(old != null){
+                sysDictItemDao.deleteByPid(old.getId());
+                sysDictDao.delete(old);
+            }
+        }
+        {
+            SysDict old = sysDictDao.findByCode("SEX");
+            if(old != null){
+                sysDictItemDao.deleteByPid(old.getId());
+                sysDictDao.delete(old);
+            }
+        }
+
 
         {  // sys_role_menu 已经不再使用
             Set<String> tableNames = db.getTableNames();

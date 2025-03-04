@@ -2,8 +2,11 @@
 package io.tmgg.modules.sys.dao;
 
 
+import cn.hutool.core.lang.Validator;
+import cn.hutool.core.util.StrUtil;
 import io.tmgg.lang.dao.BaseDao;
 import io.tmgg.lang.dao.specification.JpaQuery;
+import io.tmgg.lang.validator.ValidateContainsChinese;
 import io.tmgg.modules.sys.entity.SysMenu;
 import io.tmgg.web.enums.MenuType;
 import org.springframework.data.domain.Sort;
@@ -34,10 +37,17 @@ public class SysMenuDao extends BaseDao<SysMenu> {
     }
 
 
-    public SysMenu findByPerm(String perm) {
+    public String findChineseNameByPerm(String perm) {
         JpaQuery<SysMenu> query = new JpaQuery<>();
         query.eq(SysMenu.Fields.perm, perm);
-        return this.findOne(query);
+        List<SysMenu> list = this.findAll(query);
+        for (SysMenu sysMenu : list) {
+            String name = sysMenu.getName();
+            if(Validator.hasChinese(name)){
+                return name;
+            }
+        }
+        return null;
     }
 
     public List<SysMenu> findByPerms(List<String> perms) {

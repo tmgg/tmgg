@@ -34,8 +34,7 @@ public class SysOpLogController {
     }
 
 
-    @Msg("查询")
-    @HasPermission
+    @HasPermission(log = false)
     @RequestMapping("/sysOpLog/page")
     public AjaxResult opLogPage(@RequestBody QueryParam queryParam, @PageableDefault(sort = "createTime", direction = Sort.Direction.DESC) Pageable pageable) {
         DateRange dateRange = queryParam.getDateRange();
@@ -46,7 +45,7 @@ public class SysOpLogController {
         }
 
         Page<SysLog> page = sysOpLogService.findAll(q, pageable);
-        return AjaxResult.ok().data(page).msg("查询操作日志成功");
+        return AjaxResult.ok().data(page);
     }
 
 

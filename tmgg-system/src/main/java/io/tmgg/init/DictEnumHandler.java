@@ -64,7 +64,7 @@ public class DictEnumHandler {
             sysDict.setBuiltin(true);
             sysDict = sysDictDao.save(sysDict);
 
-            sysDictItemDao.deleteByTypeId(sysDict.getId());
+            sysDictItemDao.deleteByPid(sysDict.getId());
 
 
             for (int i = 0; i < enumConstants.length; i++) {

@@ -13,5 +13,12 @@ public @interface HasPermission {
 
     String value() default "";
 
+    /**
+     * 保存日志
+     * @return
+     */
+    boolean log() default true;
+
+    String label() default "";
 }
 

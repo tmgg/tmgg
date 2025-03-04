@@ -1,18 +1,23 @@
 
 package io.tmgg.framework.aop;
 
+import cn.hutool.core.util.StrUtil;
+import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.modules.sys.service.SysOpLogService;
+import io.tmgg.web.annotion.HasPermission;
 import io.tmgg.web.consts.CommonConstant;
 import io.tmgg.web.perm.SecurityUtils;
 import io.tmgg.web.perm.Subject;
-import io.tmgg.lang.obj.AjaxResult;
 import jakarta.annotation.Resource;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
+
+import java.lang.reflect.Method;
 
 /**
  * 业务日志aop切面
@@ -23,6 +28,7 @@ public class SysLogAop {
 
     @Resource
     SysOpLogService sysOpLogService;
+
 
     /**
      * 日志切入点
@@ -36,9 +42,17 @@ public class SysLogAop {
      */
     @AfterReturning(pointcut = "getLogPointCut()", returning = "result")
     public void doAfterReturning(JoinPoint joinPoint, Object result) {
+        MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
+        Method method = methodSignature.getMethod();
+        HasPermission ann = method.getAnnotation(HasPermission.class);
+        if (!ann.log()) {
+            return;
+        }
+
+
         Subject subject = SecurityUtils.getSubject();
         String account = CommonConstant.UNKNOWN;
-        if (subject != null ) {
+        if (subject != null) {
             account = subject.getAccount() + " " + subject.getName();
         }
         String msg = "操作成功";
@@ -53,13 +67,19 @@ public class SysLogAop {
 
     /**
      * 操作发生异常记录日志
-     *
      */
     @AfterThrowing(pointcut = "getLogPointCut()", throwing = "exception")
     public void doAfterThrowing(JoinPoint joinPoint, Exception exception) {
+        MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
+        Method method = methodSignature.getMethod();
+        HasPermission ann = method.getAnnotation(HasPermission.class);
+        if (!ann.log()) {
+            return;
+        }
+
         Subject subject = SecurityUtils.getSubject();
         String account = CommonConstant.UNKNOWN;
-        if (subject != null ) {
+        if (subject != null) {
             account = subject.getAccount();
         }
         //异步记录日志
