@@ -25,6 +25,8 @@ word，excel等的工具类,参考了easy poi,但项目用的版本是5.x,easypo
  
 ![Maven Central Version](https://img.shields.io/maven-central/v/io.github.tmgg/tmgg-commons-web)tmgg-commons-web
  
+![Maven Central Version](https://img.shields.io/maven-central/v/io.github.tmgg/tmgg-openapi-sdk)tmgg-openapi-sdk
+ 
 ![Maven Central Version](https://img.shields.io/maven-central/v/io.github.tmgg/tmgg-script)tmgg-script
 开发脚本
  
@@ -44,12 +46,9 @@ word，excel等的工具类,参考了easy poi,但项目用的版本是5.x,easypo
 ![Maven Central Version](https://img.shields.io/maven-central/v/io.github.tmgg/tmgg-system-ureport)tmgg-system-ureport
 基于ureport的报表工具
  
-![Maven Central Version](https://img.shields.io/maven-central/v/io.github.tmgg/tmgg-system-weapp)tmgg-system-weapp
+![Maven Central Version](https://img.shields.io/maven-central/v/io.github.tmgg/tmgg-system-weixin)tmgg-system-weixin
 微信小程序集成，如登录，获取手机号等
 ## NPM 包
- 
- ![NPM Version](https://img.shields.io/npm/v/@tmgg/tmgg-taro)@tmgg/tmgg-taro
-
  
  ![NPM Version](https://img.shields.io/npm/v/@tmgg/tmgg-base)@tmgg/tmgg-base
 函数工具类
@@ -67,9 +66,6 @@ word，excel等的工具类,参考了easy poi,但项目用的版本是5.x,easypo
  
  ![NPM Version](https://img.shields.io/npm/v/@tmgg/tmgg-commons-lang)@tmgg/tmgg-commons-lang
 pc和mobile端都可依赖的公共代码，工具类等
- 
- ![NPM Version](https://img.shields.io/npm/v/@tmgg/tmgg-taro-base)@tmgg/tmgg-taro-base
-
 # 文档
 https://github.com/tmgg/tmgg/wiki
 

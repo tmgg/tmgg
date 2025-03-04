@@ -58,6 +58,12 @@ export class PageUtil {
         return StrUtil.subAfterLast(path, '/')
     }
 
+    static open(path,label) {
+        if(label) {
+            path = UrlUtil.setParam(path,'_label', label)
+        }
+        history.push(path)
+    }
 
     static openPure(path) {
        path = UrlUtil.setParam(path,'_pure', true)
