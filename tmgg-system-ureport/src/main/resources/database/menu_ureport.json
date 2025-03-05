@@ -5,7 +5,8 @@
       "pid": "sys",
       "name": "UReport报表",
       "perm": "ureport",
-      "path": "/ureport"
+      "path": "/ureport",
+      "seq": 100
     }
   ]
 }
