@@ -1,13 +1,11 @@
 ---
-layout: default
-title: Home
+title: 首页
 ---
 
-# Documentation Home
 
 
 
-## 文档列表
+# 文档列表
 
 <ul>
 {% for doc in site.docs %}
