@@ -1,5 +1,5 @@
 ---
-title: Getting Started
+title: 开始
 layout: default
 ---
 

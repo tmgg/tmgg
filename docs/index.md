@@ -5,9 +5,9 @@ title: Home
 
 # Documentation Home
 
-Welcome to the documentation site!
 
-## Documentation List
+
+## 文档列表
 
 <ul>
 {% for doc in site.docs %}

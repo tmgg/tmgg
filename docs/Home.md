@@ -1,11 +1,8 @@
-Welcome to the tmgg wiki!
-# 介绍
+---
+title: HOME
+layout: default
+---
 
-# 安装
-## 从模板开始
-访问项目模
-
-# 相关文档
 ## antd
 https://antgroup.com/components/overview-cn/
 
