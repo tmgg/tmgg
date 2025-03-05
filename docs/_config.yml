@@ -1,5 +1,5 @@
-#title: My Documentation Site
-#description: A simple documentation site.
+title: Java Web 管理后台框架
+description: 一个后台管理框架，基于SpringBoot3、React
 #theme: minima
 
 # 添加下面的配置以使其识别 docs 文件夹
