@@ -3,12 +3,16 @@ layout: default
 title: Home
 ---
 
-# Documentation List
+# Documentation Home
+
+Welcome to the documentation site!
+
+## Documentation List
 
 <ul>
-{% for post in site.posts %}
+{% for doc in site.docs %}
     <li>
-        <a href="{{ post.url }}">{{ post.title }}</a> - {{ post.date | date: '%Y-%m-%d' }}
+        <a href="{{ doc.url }}">{{ doc.title }}</a>
     </li>
 {% endfor %}
 </ul>
