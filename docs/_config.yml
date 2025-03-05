@@ -1,0 +1,8 @@
+title: My Documentation Site
+description: A simple documentation site.
+theme: minima
+
+# 添加下面的配置以使其识别 docs 文件夹
+collections:
+  docs:
+    output: true
