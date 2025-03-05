@@ -19,8 +19,7 @@ import java.util.List;
 public class JsonEntityService implements SysMenuParser {
 
 
-    @Resource
-    private JpaService jpaService;
+
 
     @Resource
     private JsonEntityDao dao;
@@ -38,7 +37,7 @@ public class JsonEntityService implements SysMenuParser {
     }
 
     @Override
-    public Collection<SysMenu> getMenuList() throws Exception {
+    public Collection<SysMenu> parseMenuList() throws Exception {
         // 解析
         List<JsonEntity> list = dao.findAll();
 

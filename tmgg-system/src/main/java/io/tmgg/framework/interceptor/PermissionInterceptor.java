@@ -3,7 +3,7 @@ package io.tmgg.framework.interceptor;
 
 import io.tmgg.lang.ResponseTool;
 import io.tmgg.lang.obj.AjaxResult;
-import io.tmgg.web.perm.PermissionService;
+import io.tmgg.framework.perm.PermissionService;
 import io.tmgg.web.perm.SecurityUtils;
 import io.tmgg.web.perm.Subject;
 import jakarta.annotation.Resource;

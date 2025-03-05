@@ -106,8 +106,7 @@ public class SysJobController {
         return AjaxResult.ok().msg("删除成功");
     }
 
-    @Msg("执行一次")
-    @HasPermission
+    @HasPermission(label = "执行一次")
     @GetMapping("triggerJob")
     public AjaxResult triggerJob(String id) throws SchedulerException, ClassNotFoundException {
         SysJob job = service.findOne(id);

@@ -11,10 +11,10 @@ import org.slf4j.Logger;
 import org.springframework.util.Assert;
 
 /**
- * 示例任务
+ * 示例作业
  */
 @DisallowConcurrentExecution // 不允许并发则加这个注解
-@JobDesc(name = "示例任务-发送系统状态", params = {@FieldDesc(name = "email", label = "接收邮箱", required = true)})
+@JobDesc(name = "示例作业-发送系统状态", params = {@FieldDesc(name = "email", label = "接收邮箱", required = true)})
 public class DemoJob implements Job {
 
     private static final Logger log = JobTool.getLogger();

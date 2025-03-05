@@ -33,7 +33,7 @@ public class SysOnlineUserController {
     /**
      * 在线用户强退
      */
-    @HasPermission
+    @HasPermission(label = "强制退出")
     @PostMapping("forceExist")
     public AjaxResult forceExist(String sessionId) {
         sysOnlineUserService.forceExist(sessionId);

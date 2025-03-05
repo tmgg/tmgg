@@ -19,6 +19,12 @@ import jakarta.persistence.Entity;
 @FieldNameConstants
 public class SysDict extends BaseEntity {
 
+    public SysDict() {
+        super();
+    }
+    public SysDict(String id) {
+        super(id);
+    }
 
     @Msg("名称")
     @Column(nullable = false, unique = true)

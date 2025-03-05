@@ -21,7 +21,6 @@ import java.time.Duration;
 import java.util.List;
 
 
-@Msg("Kettle状态检查")
 @JobDesc(name = "kettle状态检查", params = {})
 public class KettleStatusCheckJob implements Job {
 

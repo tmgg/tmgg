@@ -39,8 +39,7 @@ public class SysDictItemController  {
         String sysDictId;
     }
 
-    @Msg("字典项目列表")
-    @HasPermission("sysDict:item-page")
+    @HasPermission(value = "sysDict:item-page",label = "查看明细")
     @RequestMapping("page")
     public AjaxResult page(@RequestBody QueryParam param, @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) {
         String sysDictId = param.getSysDictId();
@@ -54,8 +53,7 @@ public class SysDictItemController  {
         }
     }
 
-    @Msg("字典项目保存")
-    @HasPermission("sysDict:item-save")
+    @HasPermission(value = "sysDict:item-save",label = "保存明细")
     @PostMapping("save")
     public AjaxResult save(@RequestBody SysDictItem param) throws Exception {
         SysDict dict = sysDictService.findOne(param.getSysDict().getId());
@@ -71,8 +69,7 @@ public class SysDictItemController  {
 
 
 
-    @Msg("字典项目删除")
-    @HasPermission("sysDict:item-delete")
+    @HasPermission(value = "sysDict:item-delete",label = "删除明细")
     @PostMapping("delete")
     public AjaxResult delete(String id) {
         service.deleteById(id);

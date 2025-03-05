@@ -42,7 +42,7 @@ public class SysMenuController {
         return AjaxResult.ok();
     }
 
-    @HasPermission
+    @HasPermission(label = "修改图标")
     @RequestMapping("changeIcon")
     public AjaxResult changeIcon(@RequestBody SysMenu sysMenu) throws Exception {
         sysMenuService.changeIcon(sysMenu);

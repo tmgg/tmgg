@@ -11,7 +11,7 @@ import io.tmgg.modules.sys.dao.SysMenuDao;
 import io.tmgg.modules.sys.dao.SysOpLogDao;
 import io.tmgg.modules.sys.entity.SysLog;
 import io.tmgg.web.annotion.HasPermission;
-import io.tmgg.web.perm.PermissionService;
+import io.tmgg.framework.perm.PermissionService;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;

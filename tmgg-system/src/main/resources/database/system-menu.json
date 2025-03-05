@@ -114,5 +114,82 @@
     "path" : "/openApi",
     "seq" : 13,
     "icon" : "ApiOutlined"
-  } ]
+  } ,
+    {
+      "pid" : "sys",
+      "id" : "sysReport",
+      "name" : "SQL报表",
+      "perm" : "sysReport",
+      "type" : "DIR",
+      "seq" : 10,
+      "icon" : "ConsoleSqlOutlined"
+    }, {
+      "pid" : "sysReport",
+      "id" : "sysReportChart",
+      "name" : "图表",
+      "perm" : "sysReportChart",
+      "path" : "/report/chart",
+      "seq" : 1,
+      "icon" : "FundProjectionScreenOutlined"
+    }, {
+      "pid" : "sysReport",
+      "id" : "sysReportTable",
+      "name" : "表格",
+      "perm" : "sysReportTable",
+      "path" : "/report/table",
+      "seq" : 2,
+      "icon" : "TableOutlined"
+    },
+
+    {
+      "id" : "jobMgr",
+      "pid" : "sys",
+      "type" : "DIR",
+      "name" : "定时作业",
+      "seq" : 100,
+      "icon" : "FieldTimeOutlined"
+    }, {
+      "id" : "job",
+      "pid" : "jobMgr",
+      "name" : "作业管理",
+      "perm" : "job",
+      "path" : "/job",
+      "seq" : 1,
+      "icon" : "OrderedListOutlined"
+    }, {
+      "id" : "jobLog",
+      "pid" : "jobMgr",
+      "name" : "作业日志",
+      "perm" : "jobLog",
+      "path" : "/job/logList",
+      "seq" : 2,
+      "icon" : "FileOutlined"
+    }, {
+      "id" : "jobStatus",
+      "pid" : "jobMgr",
+      "name" : "实时状态",
+      "perm" : "jobStatus",
+      "path" : "/job/status",
+      "seq" : 3,
+      "icon" : "FundViewOutlined"
+    },
+
+    {
+      "pid" : "sys",
+      "id" : "dev",
+      "name" : "开发管理",
+      "perm" : "dev",
+      "path" : "/code",
+      "icon" : "JavaOutlined",
+      "seq" : 10
+    }, {
+      "pid" : "dev",
+      "id" : "sys_entity_gen",
+      "name" : "生成代码",
+      "perm" : "sys_entity_gen",
+      "path" : "/code",
+      "icon" : "JavaScriptOutlined",
+      "seq" : 2
+    }
+  ]
 }

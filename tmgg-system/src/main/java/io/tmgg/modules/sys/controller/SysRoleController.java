@@ -108,7 +108,6 @@ public class SysRoleController {
 
 
 
-    @HasPermission
     @RequestMapping("bizTree")
     public AjaxResult bizTree() {
         List<SysRole> list = sysRoleService.findValid();

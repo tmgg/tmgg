@@ -23,7 +23,7 @@ public class SysMenuParserSysReportImpl implements SysMenuParser {
     private SysReportTableService sysReportTableService;
 
     @Override
-    public Collection<SysMenu> getMenuList() throws Exception {
+    public Collection<SysMenu> parseMenuList() throws Exception {
         List<SysMenu> results = new ArrayList<>();
         {
             List<SysReportChart> list = sysReportChartService.findAll();

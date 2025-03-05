@@ -127,7 +127,7 @@ public class SysUserController {
     }
 
     @PostMapping("updatePwd")
-    @Msg("修改密码")
+    @HasPermission(label = "修改密码")
     public AjaxResult updatePwd(String password, String newPassword) {
         String userId = SecurityUtils.getSubject().getId();
         sysUserService.updatePwd(userId, password, newPassword);
@@ -139,10 +139,8 @@ public class SysUserController {
 
 
 
-    /**
-     * 重置密码
-     */
-    @HasPermission
+
+    @HasPermission(label = "重置密码")
     @PostMapping("resetPwd")
     public AjaxResult resetPwd(@RequestBody SysUser user) {
         sysUserService.resetPwd(user.getId());

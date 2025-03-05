@@ -6,5 +6,5 @@ import java.util.Collection;
 
 public interface SysMenuParser {
 
-    Collection<SysMenu> getMenuList() throws Exception;
+    Collection<SysMenu> parseMenuList() throws Exception;
 }

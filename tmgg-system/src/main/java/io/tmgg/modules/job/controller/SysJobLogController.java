@@ -29,7 +29,7 @@ public class SysJobLogController {
     @Resource
     private SysJobService sysJobService;
 
-    @HasPermission
+    @HasPermission(label = "作业日志")
     @RequestMapping("jobLog")
     public AjaxResult page(SysJobLog param, @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) {
         JpaQuery<SysJobLog> q = new JpaQuery<>();
@@ -63,7 +63,7 @@ public class SysJobLogController {
         List<String> ids;
     }
 
-    @HasPermission
+    @HasPermission(label = "清理日志")
     @PostMapping("jobLogClean")
     public AjaxResult clean(@RequestBody CleanParam param) {
         List<String> ids = param.getIds();

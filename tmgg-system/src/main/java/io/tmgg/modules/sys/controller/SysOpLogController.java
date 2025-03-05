@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 import jakarta.annotation.Resource;
 
 
-@Msg("操作日志")
 @RestController
 public class SysOpLogController {
 

@@ -9,6 +9,9 @@ import io.tmgg.modules.sys.entity.SysDictItem;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.Resource;
 import org.ehcache.Cache;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,48 +23,43 @@ import java.util.List;
  *
  */
 @Repository
+@CacheConfig(cacheNames = "dict")
 public class SysDictItemDao extends BaseDao<SysDictItem> {
-   private Cache<String, String> cache = null;
-
-   @Resource
-   private EhCacheService cacheService;
-
-   @PostConstruct
-   void init(){
-       cache = cacheService.createLight("dict");
-   }
 
 
+
+
+    @CacheEvict(allEntries = true)
     @Transactional
     public void deleteByPid(String typeId) {
         JpaQuery<SysDictItem> q = new JpaQuery<>();
 
         q.eq(SysDictItem.Fields.sysDict + ".id", typeId);
 
-        List<SysDictItem> all = this.findAll(q);
+        List<SysDictItem> list = this.findAll(q);
 
 
-        this.deleteAll(all);
+        this.deleteAll(list);
     }
 
-    public String findTextByDictCodeAndKey(String code, String key) {
-        String uid = code + ":" + key;
-        if(cache.containsKey(uid)){
-            return cache.get(uid);
-        }
-
-
+    @Cacheable
+    public String findText(String typeCode, String itemCode) {
         JpaQuery<SysDictItem> q = new JpaQuery<>();
-        q.eq(SysDictItem.Fields.sysDict + "." + SysDict.Fields.code, code);
-        q.eq(SysDictItem.Fields.code, key);
+        q.eq(SysDictItem.Fields.sysDict + "." + SysDict.Fields.code, typeCode);
+        q.eq(SysDictItem.Fields.code, itemCode);
 
         SysDictItem item = this.findOne(q);
         if(item != null){
             String text = item.getText();
-            cache.put(uid, text);
             return text;
         }
         return null;
+    }
+
+    @CacheEvict(allEntries = true)
+    @Override
+    public SysDictItem save(SysDictItem entity) {
+        return super.save(entity);
     }
 
     public List<SysDictItem> findAllByDictCode(String code) {

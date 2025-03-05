@@ -18,7 +18,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 // 参考 MapSession
-@Msg("http会话")
 @Getter
 @Setter
 @FieldNameConstants

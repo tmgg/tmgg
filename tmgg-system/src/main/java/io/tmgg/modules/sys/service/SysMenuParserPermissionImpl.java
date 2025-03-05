@@ -11,8 +11,9 @@ import io.tmgg.modules.sys.dao.SysMenuDao;
 import io.tmgg.modules.sys.entity.SysMenu;
 import io.tmgg.web.annotion.HasPermission;
 import io.tmgg.web.enums.MenuType;
-import io.tmgg.web.perm.PermissionService;
+import io.tmgg.framework.perm.PermissionService;
 import jakarta.annotation.Resource;
+import jakarta.validation.constraints.AssertTrue;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
@@ -30,22 +31,15 @@ public class SysMenuParserPermissionImpl implements SysMenuParser {
 
 
     @Resource
-    private SysMenuDao menuDao;
-
-    @Resource
-    private JpaService jpaService;
-
-    @Resource
     private PermissionService permissionService;
 
 
     @Override
-    public Collection<SysMenu> getMenuList() throws Exception {
+    public Collection<SysMenu> parseMenuList() throws Exception {
         log.info("开始分析代码中的权限码");
 
         Set<SysMenu> result = new HashSet<>();
 
-        Map<String, String> dict = getDict();
 
 
         //1.获取所有后端接口
@@ -59,30 +53,14 @@ public class SysMenuParserPermissionImpl implements SysMenuParser {
             for (Map.Entry<RequestMappingInfo, HandlerMethod> e : map.entrySet()) {
                 RequestMappingInfo info = e.getKey();
                 HandlerMethod handlerMethod = e.getValue();
-
-                if (!handlerMethod.hasMethodAnnotation(HasPermission.class)) {
+                HasPermission hasPermission = handlerMethod.getMethodAnnotation(HasPermission.class);
+                if(hasPermission == null){
                     continue;
                 }
 
-
-                Msg msg = handlerMethod.getMethodAnnotation(Msg.class);
-
                 String perm = permissionService.parsePerm(handlerMethod, info);
 
-
-
-
-                String permLabel = perm; // 权限显示名称
-                if (msg != null) {
-                    permLabel = msg.value();
-                } else {
-                    if(perm.contains(":")){
-                        String option = StrUtil.subAfter(perm, ":", true);
-                        if(dict.containsKey(option)){
-                            permLabel = dict.get(option);
-                        }
-                    }
-                }
+                String permLabel = permissionService.parsePermLabel(perm, hasPermission);
 
                 // 构造btn
                 {
@@ -105,41 +83,6 @@ public class SysMenuParserPermissionImpl implements SysMenuParser {
     }
 
 
-    private Map<String, String> getDict() throws IOException, ClassNotFoundException {
-        Map<String, String> dict = new CaseInsensitiveMap<>(); // 翻译
-        {
-            // 添加常见翻译
-            dict.put("delete","删除");
-            dict.put("batchDelete","批量删除");
-            dict.put("page","列表");
-            dict.put("list","列表");
-            dict.put("save","增改");
-            dict.put("disable","禁用");
-            dict.put("disableAll","禁用所有");
-            dict.put("enable","启用");
-            dict.put("enableAll","启用所有");
-            dict.put("export","导出");
-            dict.put("exportExcel","导出Excel");
-
-            dict.put("sync","同步");
-            dict.put("batchSave","批量增改");
-            dict.put("reset","重置");
-            dict.put("status","查看状态");
-            dict.put("detail","查看");
-            dict.put("get","查看");
-        }
-
-
-        List<Class<?>> entityList = jpaService.findAllClass();
-
-        for (Class<?> cls : entityList) {
-            String remark = MsgTool.getMsg(cls);
-            if (remark != null) {
-                dict.put(cls.getSimpleName().toLowerCase(), remark);
-            }
-        }
-        return dict;
-    }
 
 
     /**

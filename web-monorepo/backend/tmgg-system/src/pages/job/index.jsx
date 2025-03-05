@@ -160,7 +160,7 @@ export default class extends React.Component {
     }
 
     handleDelete = row => {
-        const hide = message.loading("删除任务中...")
+        const hide = message.loading("删除作业中...")
         HttpUtil.postForm('job/delete', {id: row.id}).then(rs => {
             this.tableRef.current.reload();
         }).catch(hide)
@@ -191,7 +191,7 @@ export default class extends React.Component {
             />
 
 
-            <Modal title='定时任务'
+            <Modal title='定时作业'
                    open={this.state.formOpen}
                    destroyOnClose
                    width={800}

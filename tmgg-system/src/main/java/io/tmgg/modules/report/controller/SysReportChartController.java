@@ -77,8 +77,7 @@ public class SysReportChartController extends BaseController<SysReportChart> {
         return AjaxResult.ok().data(chart);
     }
 
-    @Msg("查看报表")
-    @HasPermission("sysChart:view")
+    @HasPermission(value = "sysChart:view",label = "查看报表")
     @GetMapping("getOption/{code}")
     public AjaxResult draw(@PathVariable String code) throws Exception {
         SysReportChart chart = service.findByCode(code);
@@ -88,8 +87,7 @@ public class SysReportChartController extends BaseController<SysReportChart> {
         return AjaxResult.ok().data(option);
     }
 
-    @Msg("查看报表")
-    @HasPermission("sysChart:view")
+    @HasPermission(value = "sysChart:view",label = "查看报表")
     @GetMapping("view/{code}")
     public void view(@PathVariable String code, HttpServletResponse response) throws Exception {
         SysReportChart chart = service.findByCode(code);

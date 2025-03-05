@@ -17,8 +17,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import java.io.File;
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -91,9 +89,9 @@ public class SysMenuService extends BaseService<SysMenu> {
         }
 
 
-        Collection<SysMenuParser> beans = SpringTool.getBeans(SysMenuParser.class);
-        for (SysMenuParser parser : beans) {
-            Collection<SysMenu> menus = parser.getMenuList();
+        Collection<SysMenuParser> parsers = SpringTool.getBeans(SysMenuParser.class);
+        for (SysMenuParser parser : parsers) {
+            Collection<SysMenu> menus = parser.parseMenuList();
             sysMenuDao.saveAll(menus);
         }
     }
