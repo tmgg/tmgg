@@ -7,7 +7,6 @@ import io.tmgg.lang.IpAddressTool;
 import io.tmgg.lang.JoinPointTool;
 import io.tmgg.lang.UserAgentTool;
 import io.tmgg.lang.dao.BaseService;
-import io.tmgg.modules.sys.dao.SysMenuDao;
 import io.tmgg.modules.sys.dao.SysOpLogDao;
 import io.tmgg.modules.sys.entity.SysLog;
 import io.tmgg.web.annotion.HasPermission;
@@ -31,10 +30,9 @@ public class SysOpLogService extends BaseService<SysLog> {
     private SysOpLogDao dao;
 
     @Resource
-    private SysMenuDao sysMenuDao;
-
-    @Resource
     private PermissionService permissionService;
+
+
 
 
     public void saveOperationLog(final String account, JoinPoint joinPoint, boolean success, final String msg) {
@@ -76,25 +74,30 @@ public class SysOpLogService extends BaseService<SysLog> {
         HasPermission methodAnn = method.getAnnotation(HasPermission.class);
 
 
-        String name = method.getName();
-        String module = controller.getClass().getSimpleName();
-
-        if (StrUtil.isNotEmpty(methodAnn.label())) {
-            name = methodAnn.label();
-        }
-        if (StrUtil.isEmpty(name)) {
-            // TODO
-        }
+        String perm = permissionService.parsePerm(methodAnn, url);
+        String name = permissionService.parsePermLabel(perm, methodAnn);
 
         sysLog.setName(name);
-        sysLog.setModule(module);
-
-
+        sysLog.setModule(parseModule(controller));
         String param = JoinPointTool.getArgsJsonString(joinPoint);
         sysLog.setParam(param);
 
 
         return sysLog;
+    }
+
+    private String parseModule(Object controller){
+        Class<?> cls = controller.getClass();
+        String simpleName = cls.getSimpleName();
+        String controllerName = simpleName.replace("Controller", "");
+
+        String permLabel = permissionService.getPermLabel(StrUtil.lowerFirst(controllerName));
+        if(permLabel != null){
+            return permLabel;
+        }
+
+        return simpleName;
+
     }
 
 

@@ -28,12 +28,13 @@ public class SysLog extends BaseEntity {
     @Column(length = 50)
     private String module;
 
+    @NotNull
+    private String name;
 
     @NotNull
     private String account;
 
-    @NotNull
-    private String name;
+
 
 
     @NotNull

@@ -139,7 +139,7 @@ public class PermissionService {
         return parsePerm(hasPermission, url);
     }
 
-    private static String parsePerm(HasPermission hasPermission, String url) {
+    public  String parsePerm(HasPermission hasPermission, String url) {
         if(hasPermission == null){
             return null;
         }

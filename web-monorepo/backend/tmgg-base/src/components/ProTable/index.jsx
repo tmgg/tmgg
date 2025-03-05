@@ -105,16 +105,14 @@ export class ProTable extends React.Component {
         }
 
         return <div>
-            {searchFormNode}
-
-
                 <Toolbar
+                    searchFormNode={searchFormNode}
                     actionRef={actionRef}
                     toolBarRender={this.getToolBarRenderNode(toolBarRender)}
-                    onTableSizeChange={tableSize => this.setState({tableSize})}
                     onRefresh={() => this.loadData()}
                     showSearch={showSearch == null ? (searchFormNode == null) : showSearch} // 未设置搜索表单的情况下，默认显示搜索Input
                     onSearch={this.onSearch}
+                    loading={this.state.loading}
                 />
 
 

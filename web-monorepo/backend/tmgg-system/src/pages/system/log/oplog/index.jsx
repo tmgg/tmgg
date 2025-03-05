@@ -1,5 +1,5 @@
 import React, {Fragment} from 'react';
-import {Form, Tag} from "antd";
+import {Form, Input, Tag} from "antd";
 import {FieldDatePickerString, FieldDateRange, ProTable} from "@tmgg/tmgg-base";
 import {Ellipsis, HttpUtil} from "@tmgg/tmgg-base";
 import {DateUtil} from "@tmgg/tmgg-commons-lang";
@@ -14,7 +14,10 @@ export default class extends React.Component {
 
     columns = [
 
-
+        {
+            title: '模块',
+            dataIndex: 'module',
+        },
         {
             title: '操作',
             dataIndex: 'name',
@@ -24,8 +27,8 @@ export default class extends React.Component {
             dataIndex: 'success',
             hideInSearch: true,
             render(v, record) {
-                return  <>
-                    <Tag color={v ?'green':'red'}>{v ? '成功':'失败'}</Tag>
+                return <>
+                    <Tag color={v ? 'green' : 'red'}>{v ? '成功' : '失败'}</Tag>
                 </>
             }
         },
@@ -34,7 +37,7 @@ export default class extends React.Component {
             dataIndex: 'message',
             hideInSearch: true,
             render(v, record) {
-                return <Ellipsis >{v}</Ellipsis>;
+                return <Ellipsis>{v}</Ellipsis>;
             }
         },
 
@@ -56,7 +59,7 @@ export default class extends React.Component {
             dataIndex: 'param',
             hideInSearch: true,
             render(v, record) {
-                return <Ellipsis >{v}</Ellipsis>;
+                return <Ellipsis>{v}</Ellipsis>;
             }
 
         },
@@ -67,7 +70,7 @@ export default class extends React.Component {
         {
             title: '时间',
             dataIndex: 'createTime',
-            sorter:true,
+            sorter: true,
         },
     ];
 
@@ -77,10 +80,16 @@ export default class extends React.Component {
             <ProTable
                 request={(params) => HttpUtil.pageData(pageApi, params)}
                 columns={this.columns}
-                searchFormItemsRender={(formInstance)=>{
+                searchFormItemsRender={(formInstance) => {
                     return <>
+                        <Form.Item label='模块' name='module'>
+                            <Input/>
+                        </Form.Item>
+                        <Form.Item label='操作' name='name'>
+                            <Input/>
+                        </Form.Item>
                         <Form.Item label='时间' name='dateRange'>
-                            <FieldDateRange />
+                            <FieldDateRange/>
                         </Form.Item>
                     </>
                 }}

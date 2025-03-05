@@ -1,6 +1,7 @@
 
 package io.tmgg.modules.sys.controller;
 
+import cn.hutool.core.util.StrUtil;
 import io.tmgg.lang.DateRange;
 import io.tmgg.lang.ann.Msg;
 import io.tmgg.lang.dao.specification.JpaQuery;
@@ -30,6 +31,8 @@ public class SysOpLogController {
     @Data
     public static class QueryParam {
         DateRange dateRange;
+        String name;
+        String module;
     }
 
 
@@ -39,15 +42,16 @@ public class SysOpLogController {
         DateRange dateRange = queryParam.getDateRange();
 
         JpaQuery<SysLog> q = new JpaQuery<>();
-        if(dateRange!= null && dateRange.isNotEmpty()){
+        if (dateRange != null && dateRange.isNotEmpty()) {
             q.between("createTime", dateRange.getBegin(), dateRange.getEnd());
         }
+
+        q.like(SysLog.Fields.name, queryParam.getName());
+        q.like(SysLog.Fields.module, queryParam.getModule());
 
         Page<SysLog> page = sysOpLogService.findAll(q, pageable);
         return AjaxResult.ok().data(page);
     }
-
-
 
 
 }

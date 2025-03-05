@@ -136,12 +136,14 @@ public class JpaQuery<T> implements Specification<T> {
 
 
     public void like(String column, String val) {
-        this.add(new SpecificationLike<>(column, val));
+        if (StrUtil.isNotEmpty(val)) {
+            this.add(new SpecificationLike<>(column, val.trim()));
+        }
     }
 
     public void likeIf(boolean state, String column, String val) {
         if (state) {
-            this.add(new SpecificationLike<>(column, val));
+            this.like(column,val);
         }
     }
 
