@@ -57,6 +57,13 @@
       "$update": false
     },
     {
+      "id": "sys.siteInfo.loginBoxBottomTip",
+      "label": "登录框下面的提示",
+      "defaultValue": "当前非涉密网络，严禁传输处理涉密信息",
+      "group": "站点信息",
+      "$update": false
+    },
+    {
       "id": "sys.siteInfo.captcha",
       "label": "开启验证码",
       "valueType": "boolean",

@@ -1,9 +1,9 @@
 import React from 'react';
-import {Button, Form, Input, Space} from 'antd';
+import {Button, Form, Input, Space, Typography} from 'antd';
 import {
     LockOutlined,
     SafetyCertificateOutlined,
-    UserOutlined
+    UserOutlined, WarningOutlined
 } from '@ant-design/icons';
 import "./login.less"
 import {history} from 'umi';
@@ -108,6 +108,9 @@ export default class login extends React.Component {
                         </Form.Item>
                     </Form>
 
+                    <div style={{color:'white', marginTop:50,fontSize:'14px',textAlign:'center'}}>
+                        <WarningOutlined />   {siteInfo.loginBoxBottomTip}
+                    </div>
                 </div>
 
             </section>
