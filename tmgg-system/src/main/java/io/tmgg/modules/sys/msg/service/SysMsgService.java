@@ -3,7 +3,7 @@ package io.tmgg.modules.sys.msg.service;
 import io.tmgg.dbtool.DbTool;
 import io.tmgg.lang.PastTimeFormatTool;
 import io.tmgg.modules.sys.msg.dao.SysMsgUserDao;
-import io.tmgg.modules.sys.msg.entity.SysMsgUser;
+import io.tmgg.modules.sys.entity.SysMsgUser;
 import io.tmgg.modules.sys.msg.result.MsgVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;

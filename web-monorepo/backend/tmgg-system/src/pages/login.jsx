@@ -106,10 +106,8 @@ export default class login extends React.Component {
                         </Form.Item>
                     </Form>
 
-                    ｛siteInfo.loginBoxBottomTip && <div
-                    style={{color: 'white', marginTop: 50, fontSize: '14px', textAlign: 'center'}}>
-                    <WarningOutlined/> {siteInfo.loginBoxBottomTip}
-                </div>
+                    {this.renderFormBottom()}
+
                 </div>
                 ｝
 
@@ -117,5 +115,14 @@ export default class login extends React.Component {
         );
     }
 
+
+    renderFormBottom(){
+        let siteInfo = this.state.siteInfo;
+        if(siteInfo.loginBoxBottomTip){
+            return <div style={{color: 'white', marginTop: 50, fontSize: '14px', textAlign: 'center'}}>
+                <WarningOutlined/> {siteInfo.loginBoxBottomTip}
+            </div>
+        }
+    }
 
 }

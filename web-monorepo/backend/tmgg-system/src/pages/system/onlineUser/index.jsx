@@ -27,7 +27,6 @@ export default class extends React.Component {
         {
             title: '是否失效',
             dataIndex: 'expired',
-            valueType: 'boolean'
         },
 
 
@@ -46,7 +45,6 @@ export default class extends React.Component {
         {
             title: '操作',
             dataIndex: 'option',
-            valueType: 'option',
             render: (_, record) => (
                 <ButtonList>
                     <Popconfirm perm='sysOnlineUser:forceExist' title='是否强制下线该用户？'

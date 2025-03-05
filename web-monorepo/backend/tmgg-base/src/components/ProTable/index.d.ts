@@ -17,7 +17,9 @@ declare type ProTableProps = {
     /**
      * 默认每页数量
      */
-    defaultPageSize?:number
+    defaultPageSize?:number,
+
+    formRef: React.Ref<any>
 };
 
 export class ProTable extends React.Component<ProTableProps, any> {

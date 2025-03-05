@@ -1,5 +1,6 @@
 package io.tmgg.modules.job.entity;
 
+import io.tmgg.lang.ann.Msg;
 import io.tmgg.lang.dao.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.tmgg.lang.dao.converter.ToMapConverter;
@@ -12,6 +13,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import java.util.*;
 
+@Msg("作业")
 @Getter
 @Setter
 @Entity

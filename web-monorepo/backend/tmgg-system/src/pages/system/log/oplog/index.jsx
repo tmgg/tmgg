@@ -25,7 +25,6 @@ export default class extends React.Component {
         {
             title: '结果',
             dataIndex: 'success',
-            hideInSearch: true,
             render(v, record) {
                 return <>
                     <Tag color={v ? 'green' : 'red'}>{v ? '成功' : '失败'}</Tag>
@@ -35,7 +34,6 @@ export default class extends React.Component {
         {
             title: '消息',
             dataIndex: 'message',
-            hideInSearch: true,
             render(v, record) {
                 return <Ellipsis>{v}</Ellipsis>;
             }
@@ -57,7 +55,6 @@ export default class extends React.Component {
         {
             title: '请求参数',
             dataIndex: 'param',
-            hideInSearch: true,
             render(v, record) {
                 return <Ellipsis>{v}</Ellipsis>;
             }
@@ -80,6 +77,7 @@ export default class extends React.Component {
             <ProTable
                 request={(params) => HttpUtil.pageData(pageApi, params)}
                 columns={this.columns}
+
                 searchFormItemsRender={(formInstance) => {
                     return <>
                         <Form.Item label='模块' name='module'>

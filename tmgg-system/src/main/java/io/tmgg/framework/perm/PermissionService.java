@@ -51,6 +51,7 @@ public class PermissionService {
         setPermLabel("batchDelete","批量删除");
         setPermLabel("page","列表");
         setPermLabel("list","列表");
+        setPermLabel("add","增加");
         setPermLabel("save","增改");
         setPermLabel("disable","禁用");
         setPermLabel("disableAll","禁用所有");

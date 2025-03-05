@@ -2,6 +2,8 @@ import {Card, Table} from 'antd';
 import Toolbar from './components/ToolBar';
 import React from "react";
 import SearchForm from "./components/SearchForm";
+import {StorageUtil} from "@tmgg/tmgg-commons-lang";
+import {PageUtil} from "../../system";
 
 
 export class ProTable extends React.Component {
@@ -33,24 +35,14 @@ export class ProTable extends React.Component {
         }
     }
 
+    formRef = React.createRef()
+
     componentDidMount() {
         this.loadData()
 
         if (this.props.actionRef) {
             this.props.actionRef.current = {
                 reload: () => this.loadData()
-            }
-        }
-
-        {
-            // 兼容提示代码
-            const disabledKeys = ['hideTable', 'hideInForm', 'hideInSearch', 'valueType']
-            for (let column of this.props.columns) {
-                for (let key in disabledKeys) {
-                    if (column[key] != null) {
-                        console.error('组件不再支持' + key)
-                    }
-                }
             }
         }
     }
@@ -79,6 +71,12 @@ export class ProTable extends React.Component {
         })
     }
 
+    onFormRef= instance=>{
+        if(this.props.formRef){
+            this.props.formRef.current = instance
+        }
+        this.formRef.current = instance
+    }
 
     render() {
         const {
@@ -96,7 +94,7 @@ export class ProTable extends React.Component {
 
         if (searchFormItemsRender) {
             searchFormNode = <SearchForm
-                formRef={formRef}
+                formRef={this.onFormRef}
                 loading={this.state.loading}
                 searchFormItemsRender={searchFormItemsRender}
                 onSearch={this.onSearch}
@@ -113,6 +111,8 @@ export class ProTable extends React.Component {
                     showSearch={showSearch == null ? (searchFormNode == null) : showSearch} // 未设置搜索表单的情况下，默认显示搜索Input
                     onSearch={this.onSearch}
                     loading={this.state.loading}
+                    params={this.state.params}
+                    changeFormValues={this.changeFormValues}
                 />
 
 
@@ -184,6 +184,12 @@ export class ProTable extends React.Component {
 
     onSearch = (values) => {
         this.setState({params:values, current: 1}, this.loadData)
+    }
+
+    changeFormValues= (values)=>{
+        this.formRef.current.resetFields()
+        this.formRef.current.setFieldsValue(values)
+        this.formRef.current.submit()
     }
 
 }

@@ -73,7 +73,6 @@ export default class extends React.Component {
     {
       title: '操作',
       dataIndex: 'option',
-      valueType: 'option',
       render: (_, record) => (
         <ButtonList>
           <Popconfirm perm='sysFile:delete' title='是否确定删除文件信息' onConfirm={() => this.handleDelete(record)}>

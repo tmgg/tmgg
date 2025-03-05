@@ -46,7 +46,6 @@ export default class extends React.Component {
     {
       dataIndex: 'options',
       title: '操作',
-      valueType: 'options',
       render: (_, r) => {
         return <Popconfirm title={'关闭流程'} onConfirm={() => this.close(r.id)}> <a>关闭流程</a></Popconfirm>
       }

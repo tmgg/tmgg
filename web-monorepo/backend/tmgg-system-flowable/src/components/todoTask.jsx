@@ -46,7 +46,6 @@ export default class extends React.Component {
     {
       title: '操作',
       dataIndex: 'option',
-      valueType: 'option',
       render: (_, record) => (
         <Link to={'/flowable/task/form?taskId=' + record.id + '&instanceId=' + record.instanceId}>处理</Link>
       ),

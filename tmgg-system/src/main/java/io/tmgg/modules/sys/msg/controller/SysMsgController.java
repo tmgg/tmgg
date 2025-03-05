@@ -3,7 +3,7 @@ package io.tmgg.modules.sys.msg.controller;
 import io.tmgg.web.perm.SecurityUtils;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.dao.BaseEntity;
-import io.tmgg.modules.sys.msg.entity.SysMsgUser;
+import io.tmgg.modules.sys.entity.SysMsgUser;
 import io.tmgg.modules.sys.msg.result.MsgVo;
 import io.tmgg.modules.sys.msg.service.SysMsgService;
 import lombok.Data;

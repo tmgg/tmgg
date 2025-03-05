@@ -54,7 +54,6 @@ export default class  extends React.Component {
         {
             title: '操作',
             dataIndex: 'option',
-            valueType: 'option',
             render: (_, record) => (
                 <a onClick={() => {
                     this.setState({task: record})

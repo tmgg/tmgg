@@ -1,22 +1,16 @@
 package io.tmgg.modules.job.quartz;
 
-import ch.qos.logback.classic.LoggerContext;
-import ch.qos.logback.classic.sift.SiftingAppender;
-import ch.qos.logback.classic.spi.ILoggingEvent;
-import ch.qos.logback.core.Appender;
 import io.tmgg.modules.job.JobTool;
 import io.tmgg.modules.job.dao.SysJobDao;
 import io.tmgg.modules.job.dao.SysJobLogDao;
 import io.tmgg.modules.job.entity.SysJob;
 import io.tmgg.modules.job.entity.SysJobLog;
-import io.tmgg.modules.sys.msg.IMessagePublishService;
 import jakarta.annotation.Resource;
 import org.apache.commons.io.IOUtils;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.quartz.JobListener;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 import org.springframework.stereotype.Component;
 
@@ -34,8 +28,6 @@ public class QuartzListener implements JobListener {
     @Resource
     private SysJobDao sysJobDao;
 
-    @Resource
-    private IMessagePublishService messagePublishService;
 
 
     @Override
@@ -77,10 +69,6 @@ public class QuartzListener implements JobListener {
             result = jobException.getMessage();
             Logger log = JobTool.getLogger();
             log.error("任务执行异常", jobException);
-
-            if (messagePublishService != null) {
-                messagePublishService.publish("JOB_EXCEPTION", "定时任务执行异常:" + jobName, getStacktrace(context, jobException));
-            }
         }
 
 

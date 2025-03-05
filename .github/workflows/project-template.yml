@@ -19,7 +19,7 @@ jobs:
         uses: a7ul/tar-action@v1.1.0
         with:
           command: c
-          cwd: ./doc
+          cwd: ./templates
           files: |
             ./project-template
           outPath: project-template.tar.gz

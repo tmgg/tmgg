@@ -1,5 +1,5 @@
 
-package io.tmgg.modules.sys.msg.entity;
+package io.tmgg.modules.sys.entity;
 
 import io.tmgg.lang.dao.BaseEntity;
 import lombok.Getter;

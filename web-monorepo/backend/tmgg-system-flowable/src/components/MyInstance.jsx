@@ -56,7 +56,6 @@ export default class MyInstance extends React.Component {
         {
             title: '操作',
             dataIndex: 'option',
-            valueType: 'option',
             render: (_, record) => (
                 <a onClick={() => {
                     this.setState({instance: record})

@@ -47,15 +47,12 @@ export default class extends React.Component {
     {
       title: '更新时间',
       dataIndex: 'updateTime',
-      hideInForm: true,
-      hideInSearch: true
     },
 
 
     {
       title: '操作',
       dataIndex: 'option',
-      valueType: 'option',
       render: (_, record) => (
         <Space>
           <Link to={'/flowable/design?id=' + record.id}> 设计 </Link>

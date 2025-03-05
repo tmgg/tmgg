@@ -18,9 +18,7 @@ export default class SearchForm extends React.Component {
                 onFinish={(values) => this.props.onSearch(values)}
                 ref={(instance) => {
                     this.formRef.current = instance
-                    if (this.props.formRef) {
-                        this.props.formRef.current = instance
-                    }
+                    this.props.formRef(instance)
                 }}
             >
                 {this.props.searchFormItemsRender(this.formRef.current)}

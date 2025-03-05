@@ -32,12 +32,10 @@ export default class extends React.Component {
     {
       title: '开始时间',
       dataIndex: 'beginTime',
-      valueType: 'datetime'
     },
     {
       title: '结束时间',
       dataIndex: 'endTime',
-      valueType: 'datetime'
     },
     {
       title: '耗时',

@@ -17,7 +17,7 @@ import java.util.Map;
 
 public class SetVersion {
 
-    public static final String NEW_VERSION = "0.3.39";
+    public static final String NEW_VERSION = "0.3.40";
 
 
     public static void main(String[] args) throws IOException {
@@ -58,7 +58,7 @@ public class SetVersion {
 
     private void changeMaven() throws IOException {
         Collection<File> poms = DevFileUtil.findByPrefix(".", "pom.xml", "tmgg-");
-        poms.add(new File("./doc/project-template/pom.xml"));
+        poms.add(new File("./templates/project-template/pom.xml"));
 
 
         for (File pom : poms) {

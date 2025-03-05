@@ -75,7 +75,6 @@ export default class extends React.Component {
         {
             title: '参数',
             dataIndex: 'jobData',
-            hideInSearch: true,
             render(list) {
                 if (list)
                     return JSON.stringify(list)

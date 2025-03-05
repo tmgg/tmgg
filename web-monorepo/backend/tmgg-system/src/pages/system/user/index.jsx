@@ -84,7 +84,6 @@ export default class extends React.Component {
         {
             title: '状态',
             dataIndex: 'enabled',
-            valueType: 'boolean',
         },
         {
             title: '数据权限',
@@ -101,7 +100,6 @@ export default class extends React.Component {
         {
             title: '操作',
             dataIndex: 'option',
-            valueType: 'option',
             render: (_, record) => {
                 return <ButtonList>
                     <Button size='small' perm={editPerm} onClick={() => this.handleEdit(record)}> 编辑 </Button>

@@ -56,7 +56,7 @@ export default class HeaderRight extends React.Component {
 
 
             <div className='item'>
-                <Badge count={this.state.messageCount || 1} size="small">
+                <Badge count={this.state.messageCount } size="small">
                     <NotificationOutlined/>
                 </Badge>
             </div>
