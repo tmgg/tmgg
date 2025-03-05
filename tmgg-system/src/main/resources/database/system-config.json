@@ -80,6 +80,14 @@
       "$update": false
     },
     {
+      "id": "sys.siteInfo.waterMark",
+      "label": "开启水印",
+      "remark": "在所有页面增加水印",
+      "group": "站点信息",
+      "valueType": "boolean",
+      "$update": false
+    },
+    {
       "id": "sys.baseUrl",
       "label": "请求基础地址",
       "remark": "这个地址主要用来拼接图片等资源的全路径, 如https://baidu.com。遇到多层转发实践中发现经过多层waf或ningx等的转发，获取请求地址不一致时配置",

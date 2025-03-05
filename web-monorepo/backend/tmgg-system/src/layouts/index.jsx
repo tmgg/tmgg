@@ -1,4 +1,4 @@
-import MenuLayout from "./menu"
+import MenuLayout from "./admin"
 import React from "react";
 
 import {ConfigProvider} from "antd";

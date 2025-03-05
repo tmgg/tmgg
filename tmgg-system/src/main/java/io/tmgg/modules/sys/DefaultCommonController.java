@@ -3,18 +3,15 @@ package io.tmgg.modules.sys;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.lang.Dict;
-import cn.hutool.core.lang.tree.TreeUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import io.tmgg.config.external.MenuBadgeProvider;
 import io.tmgg.config.external.UserMessageProvider;
 import io.tmgg.lang.SpringTool;
 import io.tmgg.lang.TreeManager;
-import io.tmgg.lang.TreeTool;
 import io.tmgg.lang.ann.PublicRequest;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.obj.Route;
-import io.tmgg.modules.sys.controller.LoginUserVo;
 import io.tmgg.modules.sys.entity.SysMenu;
 import io.tmgg.modules.sys.entity.SysRole;
 import io.tmgg.modules.sys.service.SysConfigService;
@@ -67,23 +64,21 @@ public class DefaultCommonController {
         Subject subject = SecurityUtils.getSubject();
         log.debug("subject account {}", subject.getAccount());
 
-
-        LoginUserVo vo = new LoginUserVo();
-        BeanUtil.copyProperties(subject, vo);
-
+        Dict vo = new Dict();
+        vo.put("id", subject.getId());
+        vo.put("name", subject.getName());
+        vo.put("orgName", subject.getUnitName());
+        vo.put("deptName", subject.getDeptName());
+        vo.put("permissions", subject.getPermissions());
+        vo.put("account", subject.getAccount());
 
         Set<String> roles = subject.getRoles();
-
         if (!CollectionUtils.isEmpty(roles)) {
             List<SysRole> roleList = roleService.findAllByCode(roles);
-            Set<String> roleNames = roleList.stream().map(SysRole::getName).collect(Collectors.toSet());
-
-            vo.setRoleNames(StringUtils.join(roleNames, ","));
+            Set<String> roleNameSet = roleList.stream().map(SysRole::getName).collect(Collectors.toSet());
+            String roleNames = StringUtils.join(roleNameSet, ",");
+            vo.put("roleNames", roleNames);
         }
-
-        vo.setOrgName(subject.getUnitName());
-        vo.setDeptName(subject.getDeptName());
-
 
         return AjaxResult.ok().data(vo);
     }

@@ -1,11 +1,10 @@
 // 全局路由
 
 import React from 'react';
-import {Layout, Menu} from 'antd';
+import {Layout, Menu, Watermark} from 'antd';
 
 import {history, Link} from 'umi';
 import "./index.less"
-import * as Icons from '@ant-design/icons';
 import {MenuFoldOutlined, MenuUnfoldOutlined} from '@ant-design/icons';
 import defaultLogo from '../../asserts/logo.png'
 import {DateUtil, isMobileDevice, theme, TreeUtil} from "@tmgg/tmgg-commons-lang";
@@ -22,6 +21,8 @@ const {Header, Footer, Sider, Content} = Layout;
 export default class extends React.Component {
 
     state = {
+        loginInfo: {},
+
         menus: [],
         topMenus: [],
         leftMenus: [],
@@ -55,6 +56,8 @@ export default class extends React.Component {
             this.setState({collapsed: true, isMobileDevice: true})
         }
 
+        const loginInfo = SysUtil.getLoginInfo()
+        this.setState({loginInfo})
     }
 
 
@@ -67,7 +70,7 @@ export default class extends React.Component {
             const menuMap = {}
 
             TreeUtil.traverseTree(menus, (item) => {
-                item.icon = <NamedIcon name={item.icon } style={{fontSize: 12}} />
+                item.icon = <NamedIcon name={item.icon} style={{fontSize: 12}}/>
                 menuMap[item.id] = item
                 if (item.path === pathname) {
                     currentMenuKey = item.id
@@ -110,7 +113,10 @@ export default class extends React.Component {
 
     render() {
         let logo = this.props.logo || defaultLogo
-        const {siteInfo, topMenus} = this.state
+        const {siteInfo, topMenus, loginInfo} = this.state
+
+
+        console.log('admin layout render', siteInfo, topMenus, loginInfo)
         return <Layout className='main-layout'>
             <Header className='header'>
                 <div className='header-left'>
@@ -132,7 +138,7 @@ export default class extends React.Component {
                                   this.setState({currentTopMenuKey, leftMenus})
                               }
                           }}
-                          style={{lineHeight: '42px', minWidth: 500,borderBottom:'none',backgroundColor:'#f5f5f5'}}
+                          style={{lineHeight: '42px', minWidth: 500, borderBottom: 'none', backgroundColor: '#f5f5f5'}}
                     ></Menu>
                 </div>
                 <HeaderRight></HeaderRight>
@@ -164,7 +170,9 @@ export default class extends React.Component {
                 </Sider>
 
                 <Content id='content'>
-                    {this.state.menus.length > 0 && <MyTabsOutlet pathLabelMap={this.state.pathLabelMap}/>}
+
+                    {this.getContent(loginInfo)}
+
                 </Content>
 
             </Layout>
@@ -187,6 +195,21 @@ export default class extends React.Component {
     }
 
 
+    getContent = () => {
+        const {siteInfo, loginInfo} = this.state
+        if (this.state.menus.length === 0) { // 加载菜单中
+            return
+        }
+        if (siteInfo.waterMark === true) {
+            return <Watermark content={[loginInfo.name,  loginInfo.account ]}>
+                <MyTabsOutlet pathLabelMap={this.state.pathLabelMap}/>
+            </Watermark>
+        }
+
+
+        return <MyTabsOutlet pathLabelMap={this.state.pathLabelMap}/>
+
+    };
 }
 
 
