@@ -22,12 +22,12 @@ public class SetVersion {
 
     public static void main(String[] args) throws IOException {
         SetVersion sv = new SetVersion();
-       sv.changeMaven();
+        sv.changeMaven();
         sv.changeNpm();
         sv.changeJavaBuildVersion();
     }
 
-    private void changeJavaBuildVersion(){
+    private void changeJavaBuildVersion() {
         String javaFile = "tmgg-base\\tmgg-commons-lang\\src\\main\\java\\io\\tmgg\\Build.java";
         File file = new File(javaFile);
 
@@ -39,7 +39,7 @@ public class SetVersion {
         for (int i = 0; i < lines.size(); i++) {
             String line = lines.get(i);
 
-            if(line.contains("FRAMEWORK_VERSION")){
+            if (line.contains("FRAMEWORK_VERSION")) {
                 System.out.println();
                 line = "public static String FRAMEWORK_VERSION = \"" + NEW_VERSION + "\";";
                 lines.set(i, line);
@@ -48,8 +48,7 @@ public class SetVersion {
         }
 
 
-        FileUtil.writeUtf8Lines(lines,file);
-
+        FileUtil.writeUtf8Lines(lines, file);
 
 
         System.out.println();
@@ -58,7 +57,7 @@ public class SetVersion {
 
 
     private void changeMaven() throws IOException {
-        Collection<File> poms = DevFileUtil.findByPrefix(".", "pom.xml", "tmgg-" );
+        Collection<File> poms = DevFileUtil.findByPrefix(".", "pom.xml", "tmgg-");
         poms.add(new File("./doc/project-template/pom.xml"));
 
 
@@ -88,7 +87,7 @@ public class SetVersion {
         List<String> lines = FileUtils.readLines(new File(file, "pnpm-workspace.yaml"));
 
         lines.remove(0);
-        lines = lines.stream().map(String::trim).map(line -> line.substring(1, line.length() -2).trim()).toList();
+        lines = lines.stream().map(String::trim).map(line -> line.substring(1, line.length() - 2).trim()).toList();
 
         System.out.println(lines);
 
@@ -114,10 +113,10 @@ public class SetVersion {
     }
 
     private static void replaceProjectTemplate(File pkg, Map<String, Object> map) {
-        if(pkg.getAbsolutePath().contains("project-template")){
-            Map<String,Object> dependencies = (Map<String, Object>) map.get("dependencies");
+        if (pkg.getAbsolutePath().contains("project-template")) {
+            Map<String, Object> dependencies = (Map<String, Object>) map.get("dependencies");
             for (String key : dependencies.keySet()) {
-                if(key.startsWith("@tmgg/tmgg-")){
+                if (key.startsWith("@tmgg/tmgg-")) {
                     dependencies.put(key, NEW_VERSION);
                 }
             }
