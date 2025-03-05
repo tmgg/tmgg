@@ -12,7 +12,7 @@ Welcome to the documentation site!
 <ul>
 {% for doc in site.docs %}
     <li>
-        <a href="{{ doc.url }}">{{ doc.title }}</a>
+      <a href="{{ site.baseurl }}{{ doc.url }}">{{ doc.title }}</a>
     </li>
 {% endfor %}
 </ul>
