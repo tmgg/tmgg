@@ -1,5 +1,6 @@
 ---
 title: 菜单管理
+layout: default
 ---
 # 左侧菜单增加小红点
 
