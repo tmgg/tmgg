@@ -93,7 +93,7 @@ public class SetVersion {
 
 
         Collection<File> pkgs = DevFileUtil.find(file.getPath(), "package.json", lines);
-        pkgs.add(new File("./doc/project-template/web/package.json"));
+        pkgs.add(new File("./templates/project-template/web/package.json"));
 
 
         for (File pkg : pkgs) {

@@ -26,8 +26,7 @@ public class KettleStatusCheckJob implements Job {
     @Resource
     KettleSdk sdk;
 
-    @Resource
-    IMessagePublishService messagePublishService;
+
 
     private static final Cache<String, String> JOB_CACHE = CacheBuilder.newBuilder().expireAfterWrite(Duration.ofHours(12)).build();
 
@@ -63,7 +62,6 @@ public class KettleStatusCheckJob implements Job {
                     sb.append(jobStatus.getLoggingString());
 
 
-                    messagePublishService.publish("KETTLE_EXCEPTION", title, sb.toString());
                     JOB_CACHE.put(jobId, StrUtil.EMPTY);
 
                 }
@@ -73,7 +71,6 @@ public class KettleStatusCheckJob implements Job {
             StringWriter sw = new StringWriter();
             PrintWriter out = new PrintWriter(sw);
             e.printStackTrace(out);
-            messagePublishService.publish("KETTLE_EXCEPTION", title, out.toString());
             IOUtils.closeQuietly(out, sw);
         }
 
