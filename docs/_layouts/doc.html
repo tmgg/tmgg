@@ -1,0 +1,21 @@
+---
+layout: default
+---
+<article class="post">
+    <aside style="position: absolute;left: 50px;border: 1px solid #e8e8e8;padding: 16px">
+        <ul style="margin: 0;padding: 0">
+            {% for doc in site.docs %}
+            <li style="list-style: none; ">
+                <a href="{{ site.baseurl }}{{ doc.url }}">{{ doc.title }}</a>
+            </li>
+            {% endfor %}
+        </ul>
+    </aside>
+
+    <header class="post-header">
+        <h1 class="post-title">{{ page.title | escape }}</h1>
+    </header>
+    <div class="post-content">
+        {{ content }}
+    </div>
+</article>

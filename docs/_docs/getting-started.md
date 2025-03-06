@@ -1,6 +1,6 @@
 ---
 title: 开始
-layout: default
+layout: doc
 ---
 
 # 快速开始

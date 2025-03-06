@@ -1,6 +1,6 @@
 ---
 title: Kettle
-layout: default
+layout: doc
 ---
 
 # 介绍

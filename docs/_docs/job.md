@@ -1,6 +1,6 @@
 ---
 title: 定时任务
-layout: base
+layout: doc
 ---
 # 支持参数设置
 @JobRemark(params = {@Param(key = "name", label = "作业名称")})

@@ -1,6 +1,6 @@
 ---
 title: 数据初始化
-layout: default
+layout: doc
 ---
 
 初始化的数据可以放到resources/database目录
