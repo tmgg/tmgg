@@ -1,19 +1,18 @@
 import React from "react";
-import {getRoutesMap, PageUtil} from "@tmgg/tmgg-base";
-import {Outlet, withRouter} from "umi";
-import {Empty, Tabs, Result} from "antd";
-import {StrUtil, UrlUtil} from "@tmgg/tmgg-commons-lang";
-import {useAppData} from "umi";
+import {PageUtil} from "@tmgg/tmgg-base";
+import {withRouter} from "umi";
+import {Tabs} from "antd";
 import MyPureOutlet from "../MyPureOutlet";
 
 class MyTabsOutlet extends React.Component {
 
     state = {
-        cache: {},
         active: null,
         urlLabelMap: {},
 
-        tabs: []
+        tabs: [],
+
+        componentCache: {}
     }
 
     componentDidMount() {
@@ -30,25 +29,30 @@ class MyTabsOutlet extends React.Component {
         }
     }
 
-    onUrlChange(url) {
-        let {cache, tabs} = this.state;
-        let {location, params} = this.props;
-        if (cache[url] == null) {
-            cache[url] = {location, params}
-            this.setState({cache})
+    onUrlChange = url => {
+        const {params,location} = this.props
+        const {pathname, search} = location
+        let {tabs} = this.state
 
-            let label = this.getLabel(location.pathname);
+        const old = tabs.find(t=>t.key === url)
+        if(old == null){
+            const cmp =  <MyPureOutlet pathname={pathname} params={params} search={search}/>
+            let label = this.getLabel(pathname);
             tabs.push({
                 key: url,
                 label: label,
-                children: this.getComponent(url)
+                children: cmp
             });
-            this.setState({tabs})
+            this.setState({tabs:[...tabs]})
         }
-        this.setState({active: url})
-    }
+
+        this.setState({active:url})
+    };
 
     getLabel(path) {
+        if(path === '/'){
+            return '首页'
+        }
         const pathLabelMap = this.props.pathLabelMap
         let label = pathLabelMap[path]
         if (!label) {
@@ -61,13 +65,13 @@ class MyTabsOutlet extends React.Component {
 
     render() {
         let {tabs} = this.state
-        let items = tabs.map(tab => {
-            return {...tab}
-        })
+        if(tabs.length === 0){
+            return  null
+        }
 
         return <>
             <Tabs
-                items={items}
+                items={tabs}
                 activeKey={this.state.active}
                 onChange={this.onChange}
                 onEdit={this.onRemove}
@@ -84,32 +88,27 @@ class MyTabsOutlet extends React.Component {
     }
 
     onChange = url => {
-        this.props.history.push(url)
+        if(url !== this.state.active){
+            this.props.history.push(url)
+        }
     };
 
     onRemove = url => {
-        const {cache} = this.state
-        delete cache[url]
-        const urls = Object.keys(cache)
+        let {tabs} = this.state
+        tabs = tabs.filter(t=>t.key !== url)
 
-        const newUrl = urls[urls.length - 1]
-        this.props.history.push(newUrl || '/')
-
-        this.setState({cache})
+        this.setState({tabs})
+        if(tabs.length > 0){
+            this.setState({active: tabs[tabs.length -1].key})
+        }
     };
 
     getUrl = props => {
-        const {pathname, search} = props.location
-        let url = pathname + search;
-        return url;
+        const {params,location} = props
+        const {pathname, search} = location
+        return  pathname + search;
     }
-    getComponent = (url) => {
-        const {location, params} = this.state.cache[url]
 
-        let {pathname, search} = location
-
-        return <MyPureOutlet pathname={pathname} params={params} search={search}/>
-    }
 }
 
 

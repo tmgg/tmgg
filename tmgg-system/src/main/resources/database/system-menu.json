@@ -43,7 +43,7 @@
   }, {
     "pid" : "sys",
     "id" : "sysMenuBadge",
-    "name" : "菜单小红点",
+    "name" : "菜单红点",
     "perm" : "sysMenuBadge",
     "path" : "/system/menuBadge",
     "seq" : 41,
@@ -120,7 +120,7 @@
     "name" : "开放接口",
     "perm" : "openApiAccount",
     "path" : "/openApi",
-    "seq" : 13,
+    "seq" : 103,
     "icon" : "ApiOutlined"
   }, {
     "pid" : "sys",
@@ -128,7 +128,7 @@
     "name" : "SQL报表",
     "perm" : "sysReport",
     "type" : "DIR",
-    "seq" : 10,
+    "seq" : 101,
     "icon" : "ConsoleSqlOutlined"
   }, {
     "pid" : "sysReport",
@@ -184,7 +184,7 @@
     "perm" : "dev",
     "path" : "/code",
     "icon" : "JavaOutlined",
-    "seq" : 10
+    "seq" : 100
   }, {
     "pid" : "dev",
     "id" : "sys_entity_gen",

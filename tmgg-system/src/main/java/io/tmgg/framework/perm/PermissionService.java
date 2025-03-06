@@ -36,7 +36,7 @@ public class PermissionService {
     @PostConstruct
     void init() throws IOException, ClassNotFoundException {
         SysDict dict = sysDictDao.findByCode(DICK_CODE);
-        if(dict ==null){
+        if (dict == null) {
             dict = new SysDict();
             dict.setBuiltin(true);
             dict.setCode(DICK_CODE);
@@ -47,32 +47,35 @@ public class PermissionService {
         }
 
         // 添加常见翻译
-        setPermLabel("delete","删除");
-        setPermLabel("batchDelete","批量删除");
-        setPermLabel("page","列表");
-        setPermLabel("list","列表");
-        setPermLabel("add","增加");
-        setPermLabel("edit","编辑");
-        setPermLabel("save","增改");
-        setPermLabel("disable","禁用");
-        setPermLabel("disableAll","禁用所有");
-        setPermLabel("enable","启用");
-        setPermLabel("enableAll","启用所有");
-        setPermLabel("export","导出");
-        setPermLabel("exportExcel","导出Excel");
+        setPermLabel("delete", "删除");
+        setPermLabel("batchDelete", "批量删除");
+        setPermLabel("page", "列表");
+        setPermLabel("list", "列表");
+        setPermLabel("add", "增加");
+        setPermLabel("edit", "编辑");
+        setPermLabel("save", "增改");
+        setPermLabel("update", "更新");
+        setPermLabel("config", "配置");
 
-        setPermLabel("sync","同步");
-        setPermLabel("batchSave","批量保存");
-        setPermLabel("reset","重置");
-        setPermLabel("status","查看状态");
-        setPermLabel("detail","查看详情");
-        setPermLabel("get","查看");
-        setPermLabel("info","查看信息");
-        setPermLabel("deploy","部署");
-        setPermLabel("preview","预览");
+        setPermLabel("disable", "禁用");
+        setPermLabel("disableAll", "禁用所有");
+        setPermLabel("enable", "启用");
+        setPermLabel("enableAll", "启用所有");
+        setPermLabel("export", "导出");
+        setPermLabel("exportExcel", "导出Excel");
 
-        setPermLabel("design","设计");
-        setPermLabel("viewData","查看数据");
+        setPermLabel("sync", "同步");
+        setPermLabel("batchSave", "批量保存");
+        setPermLabel("reset", "重置");
+        setPermLabel("status", "查看状态");
+        setPermLabel("detail", "查看详情");
+        setPermLabel("get", "查看");
+        setPermLabel("info", "查看信息");
+        setPermLabel("deploy", "部署");
+        setPermLabel("preview", "预览");
+
+        setPermLabel("design", "设计");
+        setPermLabel("viewData", "查看数据");
 
 
         // 添加实体的翻译
@@ -86,9 +89,9 @@ public class PermissionService {
     }
 
 
-    public void setPermLabel(String code,String text){
-        String old =  getPermLabel(code);
-        if(old == null){
+    public void setPermLabel(String code, String text) {
+        String old = getPermLabel(code);
+        if (old == null) {
             SysDictItem item = new SysDictItem();
             item.setBuiltin(true);
             item.setCode(code);
@@ -98,28 +101,30 @@ public class PermissionService {
             sysDictItemDao.save(item);
         }
     }
-    public String getPermLabel(String code){
-       return sysDictItemDao.findText(DICK_CODE, code);
+
+    public String getPermLabel(String code) {
+        return sysDictItemDao.findText(DICK_CODE, code);
     }
 
-    private String getBtnCode(String perm){
-        if(perm.contains(":")){
+    private String getBtnCode(String perm) {
+        if (perm.contains(":")) {
             String code = StrUtil.subAfter(perm, ":", true);
             return code;
         }
         return perm;
     }
-    public String parsePermLabel(String perm, HasPermission ann){
+
+    public String parsePermLabel(String perm, HasPermission ann) {
         String btnCode = getBtnCode(perm);
 
         String permLabel = ann.label();
-        if(StrUtil.isNotEmpty(permLabel )){
+        if (StrUtil.isNotEmpty(permLabel)) {
             setPermLabel(btnCode, permLabel);
             return permLabel;
         }
 
-         permLabel = getPermLabel(btnCode);
-        if(StrUtil.isNotEmpty(permLabel )){
+        permLabel = getPermLabel(btnCode);
+        if (StrUtil.isNotEmpty(permLabel)) {
             return permLabel;
         }
 
@@ -141,8 +146,8 @@ public class PermissionService {
         return parsePerm(hasPermission, url);
     }
 
-    public  String parsePerm(HasPermission hasPermission, String url) {
-        if(hasPermission == null){
+    public String parsePerm(HasPermission hasPermission, String url) {
+        if (hasPermission == null) {
             return null;
         }
         String perm = hasPermission.value();

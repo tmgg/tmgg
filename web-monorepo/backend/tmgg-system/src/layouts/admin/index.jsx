@@ -110,8 +110,11 @@ export default class extends React.Component {
             HttpUtil.get(url).then(rs=>{
                 const {leftMenus} = this.state
                 const menu = TreeUtil.findByKey(menuId,leftMenus)
-                menu.icon = <Badge dot count={rs} size={"small"}>{menu.icon}</Badge>
-                this.setState({leftMenus:[...leftMenus]})
+                if(menu){
+                    menu.icon = <Badge dot count={rs} size={"small"}>{menu.icon}</Badge>
+                    this.setState({leftMenus:[...leftMenus]})
+                }
+
             })
         }
     };
