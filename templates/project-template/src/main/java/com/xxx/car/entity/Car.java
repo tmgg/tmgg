@@ -16,14 +16,6 @@ import lombok.experimental.FieldNameConstants;
 @FieldNameConstants
 public class Car extends BaseEntity {
 
-    public Car(String id) {
-        super(id);
-    }
-    public Car() {
-        super();
-    }
-
-    // 车牌号
     @Msg("车牌号")
     @Column(unique = true)
     String carNo;
@@ -40,6 +32,5 @@ public class Car extends BaseEntity {
     @Msg("启用")
     @Column(nullable = false, columnDefinition = DBConstants.COLUMN_DEFINITION_BOOLEAN_DEFAULT_TRUE)
     private Boolean enabled;
-
 
 }

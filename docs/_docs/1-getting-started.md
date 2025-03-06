@@ -5,4 +5,8 @@ layout: doc
 
 # 快速开始
 
-This section explains how to get started with the project.
+1. 下载项目模板
+2. 参考实体Car.java, 创建entity包名，编写Jpa实体，使用@Msg注解描述实体
+3. 启动前后端，使用代码生成工具快速生成代码
+4. 编辑代码
+    
