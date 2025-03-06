@@ -17,7 +17,7 @@ import java.util.Map;
 
 public class SetVersion {
 
-    public static final String NEW_VERSION = "0.3.41";
+    public static final String NEW_VERSION = "0.3.42";
 
 
     public static void main(String[] args) throws IOException {
