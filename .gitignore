@@ -52,3 +52,5 @@ node_modules/
 dist/
 /web-monorepo/packages/tmgg-base/types/
 /web-monorepo/taro/tmgg-taro-base/lib/
+/docs/_site/
+/docs/.jekyll-cache/
