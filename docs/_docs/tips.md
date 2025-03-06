@@ -1,3 +1,7 @@
+---
+title: 注意事项
+layout: doc
+---
 ## Lob
  由于升级到了springboot3， 原来的实体注解@Lob 生成的数据库字段类型为 tinytext,比较小，需要手动设置。
 
