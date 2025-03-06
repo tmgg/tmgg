@@ -1,12 +1,10 @@
 
 package io.tmgg.modules.sys;
 
-import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.lang.Dict;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import io.tmgg.config.external.MenuBadgeProvider;
-import io.tmgg.config.external.UserMessageProvider;
 import io.tmgg.lang.SpringTool;
 import io.tmgg.lang.TreeManager;
 import io.tmgg.lang.ann.PublicRequest;
@@ -93,45 +91,8 @@ public class DefaultCommonController {
     }
 
 
-    @GetMapping("getMessageCount")
-    public AjaxResult getMessageCount() {
-        // 用户信息实现类，多个累加
-        Map<String, UserMessageProvider> beans = SpringUtil.getBeansOfType(UserMessageProvider.class);
-
-        int sum = 0;
-        for (Map.Entry<String, UserMessageProvider> entry : beans.entrySet()) {
-            UserMessageProvider provider = entry.getValue();
-            int count = provider.count();
-            sum += count;
-        }
-
-        return AjaxResult.ok().data(sum);
-    }
-
-    @GetMapping("getMessageList")
-    public AjaxResult getMessageList() {
-        // 用户信息实现类，多个累加
-        Map<String, UserMessageProvider> beans = SpringUtil.getBeansOfType(UserMessageProvider.class);
-
-        Map<String, List<UserMessageProvider.UserMessageVo>> data = new HashMap<>();
-        for (Map.Entry<String, UserMessageProvider> entry : beans.entrySet()) {
-            UserMessageProvider provider = entry.getValue();
-            List<UserMessageProvider.UserMessageVo> list = provider.list();
-
-            data.put(provider.userMsgType(), list);
-        }
-
-        // 排序 , 按消息数倒序
-        List<String> keys = data.keySet().stream().sorted((o1, o2) -> data.get(o2).size() - data.get(o1).size()).collect(Collectors.toList());
-
-        LinkedHashMap<String, List<UserMessageProvider.UserMessageVo>> sortData = new LinkedHashMap<>();
-        for (String key : keys) {
-            sortData.put(key, data.get(key));
-        }
 
 
-        return AjaxResult.ok().data(sortData);
-    }
 
 
     /**

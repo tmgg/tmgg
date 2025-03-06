@@ -1,4 +1,4 @@
-package io.tmgg.modules.sys.msg;
+package io.tmgg.modules.sys.service;
 
 
 import cn.hutool.core.util.StrUtil;

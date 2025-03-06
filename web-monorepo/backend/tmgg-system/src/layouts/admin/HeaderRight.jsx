@@ -2,7 +2,7 @@ import {Badge, Dropdown} from "antd";
 import {NotificationOutlined, SettingOutlined, UserOutlined} from "@ant-design/icons";
 import React from "react";
 import {history} from "umi";
-import {HttpUtil, SysUtil} from "@tmgg/tmgg-base";
+import {HttpUtil, PageUtil, SysUtil} from "@tmgg/tmgg-base";
 import {isMobileDevice} from "@tmgg/tmgg-commons-lang";
 
 
@@ -23,7 +23,7 @@ export default class HeaderRight extends React.Component {
     }
 
     initMessage = () => {
-        HttpUtil.get('/getMessageCount').then(rs => {
+        HttpUtil.get('user/msg/getMessageCount').then(rs => {
             this.setState({messageCount: rs})
         })
     }
@@ -35,8 +35,8 @@ export default class HeaderRight extends React.Component {
         })
     }
 
-    account = () => {
-        history.push('/settings')
+    userCenter = () => {
+        history.push('/userCenter')
     }
 
     render() {
@@ -55,7 +55,7 @@ export default class HeaderRight extends React.Component {
             </div>
 
 
-            <div className='item'>
+            <div className='item' onClick={()=>PageUtil.open('/userCenter/message','我的消息')}>
                 <Badge count={this.state.messageCount } size="small">
                     <NotificationOutlined/>
                 </Badge>
@@ -66,8 +66,8 @@ export default class HeaderRight extends React.Component {
                 <Dropdown menu={{
                     onClick: ({key}) => {
                         switch (key) {
-                            case 'settings':
-                                this.account()
+                            case 'userCenter':
+                                this.userCenter()
                                 break;
                             case 'logout':
                                 this.logout();
@@ -78,7 +78,7 @@ export default class HeaderRight extends React.Component {
                         }
                     },
                     items: [
-                        {key: 'settings', label: '个人设置'},
+                        {key: 'userCenter', label: '个人中心'},
                         {key: 'about', label: '关于系统'},
                         {key: 'logout', label: '退出登录'},
 
@@ -95,6 +95,5 @@ export default class HeaderRight extends React.Component {
 
     about = () => {
         history.push("/about")
-
     }
 }
