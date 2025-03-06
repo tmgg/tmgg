@@ -122,7 +122,7 @@ public class PermissionService {
             return permLabel;
         }
 
-        Assert.notNull(permLabel, "请给权限" + perm + "增加中文说明(label字段)");
+        Assert.notNull(permLabel, "请给权限" + perm + "增加中文说明,如(@HasPermission(label=编辑)");
 
         return null;
     }
