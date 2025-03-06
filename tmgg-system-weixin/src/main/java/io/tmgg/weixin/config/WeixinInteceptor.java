@@ -10,7 +10,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 @Component
-public class WeappInteceptor implements HandlerInterceptor {
+public class WeixinInteceptor implements HandlerInterceptor {
     @Resource
     WxMaService wxMaService;
 

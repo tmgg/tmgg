@@ -1,9 +1,9 @@
 package io.tmgg.weixin.dao;
 
 import io.tmgg.lang.dao.BaseDao;
-import io.tmgg.weixin.entity.WeixinMiniapp;
+import io.tmgg.weixin.entity.WeixinMini;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class WeappDao extends BaseDao<WeixinMiniapp> {
+public class WeixinDao extends BaseDao<WeixinMini> {
 }

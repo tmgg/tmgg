@@ -8,11 +8,14 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
+@Msg("微信公众号")
 @Entity
 @Getter
 @Setter
 public class WeixinMp extends BaseEntity {
 
+    @Msg("名称")
+    String name;
 
     @NotNull
     @Msg("应用id")
@@ -25,7 +28,6 @@ public class WeixinMp extends BaseEntity {
     String appSecret;
 
 
-    @NotNull
     @Msg("备注")
     String remark;
 

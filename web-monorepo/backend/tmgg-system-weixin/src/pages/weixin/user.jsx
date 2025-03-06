@@ -1,6 +1,5 @@
 import React from 'react'
-import {ProTable} from "@tmgg/tmgg-base";
-import {http} from "@tmgg/tmgg-base";
+import {HttpUtil, ProTable} from "@tmgg/tmgg-base";
 
 export default class extends React.Component {
 
@@ -37,7 +36,7 @@ export default class extends React.Component {
         return <div>
             <ProTable
                 request={(params, sort) => {
-                    return HttpUtil.pageData('weappUser/page', params, sort).then(rs => {
+                    return HttpUtil.pageData('weixinUser/page', params, sort).then(rs => {
                         return rs;
                     });
                 }}

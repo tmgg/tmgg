@@ -1,0 +1,31 @@
+{
+  "SysMenu" : [ {
+    "id" : "weixin",
+    "pid" : "sys",
+    "name" : "微信管理",
+    "perm" : "weixin",
+    "seq" : 200,
+    "icon" : "WechatOutlined"
+  }, {
+    "id" : "weixinMini",
+    "pid" : "weixin",
+    "name" : "小程序",
+    "perm" : "weixinMini",
+    "path" : "/weixin/mini",
+    "seq" : 200
+  }, {
+    "id" : "weixinMp",
+    "pid" : "weixin",
+    "name" : "公众号",
+    "perm" : "weixinMp",
+    "path" : "/weixin/mp",
+    "seq" : 200
+  }, {
+    "id" : "weixinUser",
+    "pid" : "weixin",
+    "name" : "微信用户",
+    "perm" : "weixinUser",
+    "path" : "/weixin/user",
+    "seq" : 201
+  } ]
+}

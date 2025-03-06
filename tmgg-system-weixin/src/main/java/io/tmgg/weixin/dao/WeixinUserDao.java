@@ -6,7 +6,7 @@ import io.tmgg.weixin.entity.WeixinUser;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class WeappUserDao extends BaseDao<WeixinUser> {
+public class WeixinUserDao extends BaseDao<WeixinUser> {
 
     public WeixinUser findByOpenId(String openId) {
         JpaQuery<WeixinUser> q = new JpaQuery<>();

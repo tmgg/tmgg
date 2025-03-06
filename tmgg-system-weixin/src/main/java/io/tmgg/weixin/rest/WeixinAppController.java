@@ -34,9 +34,9 @@ import java.util.Map;
  * 小程序端请求
  */
 @Slf4j
-@RequestMapping("app/weapp")
+@RequestMapping("app/weixin")
 @RestController
-public class WeapAppController {
+public class WeixinAppController {
 
 
     @Resource
@@ -128,7 +128,6 @@ public class WeapAppController {
         // 解密
         WxMaUserInfo wxMaUserInfo = wxMaService.getUserService().getUserInfo(sessionKey, encryptedData, iv);
 
-        weixinUser.setNickName(wxMaUserInfo.getNickName());
         weixinUser.setAvatarUrl(wxMaUserInfo.getAvatarUrl());
 
         weixinUser = wexinUserService.save(weixinUser);

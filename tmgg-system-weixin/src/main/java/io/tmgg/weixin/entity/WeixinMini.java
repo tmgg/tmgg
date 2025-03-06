@@ -9,11 +9,14 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.validation.constraints.NotNull;
 
+@Msg("微信小程序")
 @Entity
 @Getter
 @Setter
-public class WeixinMiniapp extends BaseEntity {
+public class WeixinMini extends BaseEntity {
 
+    @Msg("名称")
+    String name;
 
     @NotNull
     @Msg("应用id")
@@ -26,7 +29,6 @@ public class WeixinMiniapp extends BaseEntity {
     String appSecret;
 
 
-    @NotNull
     @Msg("备注")
     String remark;
 

@@ -13,6 +13,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import java.util.Date;
 
+
+@Msg("微信用户")
 @Entity
 @Getter
 @Setter

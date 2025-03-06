@@ -72,7 +72,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
             // 移动端
             "/wx/**",
-            "/app/weapp/**",
+            "/app/weixin/**",
     };
 
 

@@ -107,7 +107,7 @@ export default class extends React.Component {
     loadBadge = list => {
         for(let item of list){
             const {menuId, url} = item
-            HttpUtil.get(url).then(rs=>{
+            HttpUtil.get(url,null, false).then(rs=>{
                 const {leftMenus} = this.state
                 const menu = TreeUtil.findByKey(menuId,leftMenus)
                 if(menu){

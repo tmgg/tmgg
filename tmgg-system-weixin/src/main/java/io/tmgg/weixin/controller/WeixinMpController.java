@@ -22,13 +22,25 @@ import java.util.Map;
  * 微信公众号
  */
 @RestController
-@RequestMapping("weixin")
+@RequestMapping("weixinMp")
 public class WeixinMpController {
 
     WxMpDefaultConfigImpl config;
     WxMpService wxMpService;
     WxMpMessageRouter wxMpMessageRouter;
 
+    /**
+     * 微信回调的
+     * @param signature
+     * @param nonce
+     * @param timestamp
+     * @param token
+     * @param echostr
+     * @param encryptType
+     * @param msgSignature
+     * @param body
+     * @return
+     */
     @PublicRequest
     @GetMapping("msg")
     public String ok(String signature, String nonce, String timestamp, String token, String echostr,

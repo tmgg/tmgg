@@ -2,7 +2,7 @@ import {Button, Form, Input, Modal, Popconfirm, Space} from 'antd'
 import React from 'react'
 import {PlusOutlined} from "@ant-design/icons";
 
-import { HttpUtil} from "@tmgg/tmgg-base";
+import {ButtonList, HttpUtil} from "@tmgg/tmgg-base";
 import { ProTable} from "@tmgg/tmgg-base";
 export default class extends React.Component {
 
@@ -31,22 +31,19 @@ export default class extends React.Component {
     },
     {
       title: '备注',
-      dataIndex: 'msg',
+      dataIndex: 'remark',
     },
 
     {
       title: '操作',
       dataIndex: 'option',
       render: (_, record) => {
-        return (
-          <Space>
-
-            <Button size='small' onClick={() => this.handleEdit(record)}> 编辑 </Button>
-            <Popconfirm title='是否确定删除?' onConfirm={() => this.handleDelete(record)}>
-              <Button size='small'>删除</Button>
-            </Popconfirm>
-          </Space>
-        );
+        return <ButtonList>
+          <Button size='small' onClick={() => this.handleEdit(record)}> 编辑 </Button>
+          <Popconfirm title='是否确定删除?' onConfirm={() => this.handleDelete(record)}>
+            <Button size='small'>删除</Button>
+          </Popconfirm>
+        </ButtonList>;
       },
     },
 
@@ -61,14 +58,14 @@ export default class extends React.Component {
 
 
   onFinish = (values) => {
-    HttpUtil.post('weapp/save', values).then(rs => {
+    HttpUtil.post('weixinMp/save', values).then(rs => {
         this.setState({formOpen: false})
         this.tableRef.current.reload();
     })
   }
 
   handleDelete = row => {
-    HttpUtil.postForm('weapp/delete', null,{id: row.id}).then(rs => {
+    HttpUtil.postForm('weixinMp/delete', null,{id: row.id}).then(rs => {
       this.tableRef.current.reload();
     })
   }
@@ -82,7 +79,7 @@ export default class extends React.Component {
           </Button>
         }}
         request={(params, sort) => {
-          return HttpUtil.pageData('weapp/page', params, sort)
+          return HttpUtil.pageData('weixinMp/page', params, sort)
         }}
         columns={this.columns}
         rowSelection={false}
@@ -112,7 +109,7 @@ export default class extends React.Component {
           <Form.Item label='密钥' name='appSecret' rules={[{required: true}]}>
             <Input/>
           </Form.Item>
-          <Form.Item label='备注' name='msg' rules={[{required: true}]}>
+          <Form.Item label='备注' name='remark' rules={[{required: true}]}>
             <Input/>
           </Form.Item>
         </Form>

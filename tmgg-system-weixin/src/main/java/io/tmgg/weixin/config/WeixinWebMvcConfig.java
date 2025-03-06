@@ -13,16 +13,16 @@ import jakarta.annotation.Resource;
  */
 @Slf4j
 @Configuration
-public class WeappWebMvcConfig implements WebMvcConfigurer {
+public class WeixinWebMvcConfig implements WebMvcConfigurer {
 
 
     @Resource
-    WeappInteceptor weappInteceptor;
+ private    WeixinInteceptor weixinInteceptor;
 
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-         registry.addInterceptor(weappInteceptor)
+         registry.addInterceptor(weixinInteceptor)
                 .addPathPatterns("/app/weixin/**");
 
     }

@@ -15,14 +15,14 @@ import org.springframework.web.bind.annotation.RestController;
 import jakarta.annotation.Resource;
 
 @RestController
-@RequestMapping("weappUser")
-public class WeappUserController  {
+@RequestMapping("weixinUser")
+public class WeixinUserController {
 
     @Resource
     private WexinUserService service;
 
 
-    @HasPermission("weapp:userList")
+    @HasPermission
     @RequestMapping("page")
     public AjaxResult page(@RequestBody WeixinUser param, @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) {
         Page<WeixinUser> page = service.findByExampleLike(param, pageable);
