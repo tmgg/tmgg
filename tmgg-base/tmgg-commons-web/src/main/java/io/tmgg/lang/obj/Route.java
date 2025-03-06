@@ -39,7 +39,6 @@ public class Route implements Tree<Route> {
 
   List<Route> children = new LinkedList<>();
 
-  int badge = 0;
 
 
 

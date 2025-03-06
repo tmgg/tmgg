@@ -5,14 +5,17 @@ import io.tmgg.lang.SpringTool;
 import io.tmgg.lang.TreeTool;
 import io.tmgg.lang.dao.BaseEntity;
 import io.tmgg.lang.dao.BaseService;
+import io.tmgg.lang.dao.specification.JpaQuery;
 import io.tmgg.lang.obj.TreeNode;
 import io.tmgg.modules.SysMenuParser;
 import io.tmgg.modules.sys.dao.JsonEntityDao;
 import io.tmgg.modules.sys.dao.SysMenuDao;
 import io.tmgg.modules.sys.entity.JsonEntity;
 import io.tmgg.modules.sys.entity.SysMenu;
+import io.tmgg.web.enums.MenuType;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -51,6 +54,10 @@ public class SysMenuService extends BaseService<SysMenu> {
 
     public List<SysMenu> findAllValid() {
         return sysMenuDao.findAllValid();
+    }
+
+    public List<SysMenu> findMenuVisible() {
+        return sysMenuDao.findMenuVisible();
     }
 
     public List<TreeNode> menuTree() {

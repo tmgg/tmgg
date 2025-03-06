@@ -1,6 +1,6 @@
 import {Button, Form, Input, message, Modal, Popconfirm, Select, Space} from 'antd';
 import React from 'react';
-import {ProTable} from "@tmgg/tmgg-base";
+import {PageUtil, ProTable} from "@tmgg/tmgg-base";
 import {MinusCircleOutlined, PlusOutlined} from "@ant-design/icons";
 import { HttpUtil} from "@tmgg/tmgg-base";
 import {Link} from "umi";
@@ -55,11 +55,11 @@ export default class extends React.Component {
       dataIndex: 'option',
       render: (_, record) => (
         <Space>
-          <Link to={'/flowable/design?id=' + record.id}> 设计 </Link>
-          <Link to={'/flowable/test?id=' + record.id}> 测试 </Link>
-          <a onClick={()=>this.handleEdit(record)}> 编辑 </a>
+          <Button size='small' type='primary' onClick={()=>PageUtil.open('/flowable/design?id=' + record.id,'流程设计'+ record.name)}> 设计 </Button>
+          <Button size='small' onClick={()=>PageUtil.open('/flowable/test?id=' + record.id,'流程测试'+ record.name)}> 测试 </Button>
+          <Button size='small' onClick={()=>this.handleEdit(record)}> 编辑 </Button>
           <Popconfirm perm={delPerm} title={'是否确定' + deleteTitle} onConfirm={() => this.handleDelete(record)}>
-            <a>删除</a>
+            <Button size='small' danger>删除</Button>
           </Popconfirm>
         </Space>
       ),

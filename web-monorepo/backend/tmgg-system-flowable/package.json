@@ -10,6 +10,7 @@
     "@ant-design/icons" : "^5.4.0",
     "@tmgg/tmgg-base" : "workspace:*",
     "@tmgg/tmgg-system" : "workspace:*",
+    "@tmgg/tmgg-commons-lang" : "workspace:*",
     "antd" : "^5.20.3",
     "axios" : "^1.6.7",
     "bpmn-js" : "^9.0.0",

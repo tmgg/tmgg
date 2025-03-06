@@ -231,7 +231,7 @@ public class MyFlowModelService {
         List<ConditionVariable> vars = model.getConditionVariableList();
         for (ConditionVariable var : vars) {
             Assert.hasText(var.getName(), "参数不能为空");
-            Assert.hasText(var.getLabel(), "显示文本不能为空");
+            Assert.hasText(var.getLabel(), "参数显示文本不能为空");
             Assert.notNull(var.getValueType(), "参数类型不能为空");
 
         }

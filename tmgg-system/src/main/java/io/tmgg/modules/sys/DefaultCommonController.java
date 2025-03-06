@@ -3,16 +3,16 @@ package io.tmgg.modules.sys;
 
 import cn.hutool.core.lang.Dict;
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.extra.spring.SpringUtil;
-import io.tmgg.config.external.MenuBadgeProvider;
 import io.tmgg.lang.SpringTool;
 import io.tmgg.lang.TreeManager;
 import io.tmgg.lang.ann.PublicRequest;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.obj.Route;
 import io.tmgg.modules.sys.entity.SysMenu;
+import io.tmgg.modules.sys.entity.SysMenuBadge;
 import io.tmgg.modules.sys.entity.SysRole;
 import io.tmgg.modules.sys.service.SysConfigService;
+import io.tmgg.modules.sys.service.SysMenuBadgeService;
 import io.tmgg.modules.sys.service.SysMenuService;
 import io.tmgg.modules.sys.service.SysRoleService;
 import io.tmgg.web.perm.SecurityUtils;
@@ -41,6 +41,9 @@ public class DefaultCommonController {
 
     @Resource
     SysConfigService sysConfigService;
+
+    @Resource
+    SysMenuBadgeService sysMenuBadgeService;
 
 
     /**
@@ -143,9 +146,6 @@ public class DefaultCommonController {
 
 
 
-        fillBadge(routes);
-
-
         TreeManager<Route> tm = new TreeManager<>(routes,Route::getId, Route::getPid, Route::getChildren, Route::setChildren);
         List<Route> tree = tm.getTree();
 
@@ -167,39 +167,9 @@ public class DefaultCommonController {
         List<Dict> topMenus = tree.stream().map(r -> Dict.of("key", r.getKey(), "label", r.getLabel())).toList();
         info.put("topMenus", topMenus);
         info.put("menus", tree);
+        info.put("badgeList", sysMenuBadgeService.findAll());
 
         return AjaxResult.ok().data(info);
-    }
-
-    private static void fillBadge(List<Route> list) {
-        // 角标, 右上角数字
-
-        Map<String, Route> idMap = list.stream().collect(Collectors.toMap(Route::getId, r -> r));
-        Map<String, Route> codeMap = list.stream().collect(Collectors.toMap(Route::getKey, r -> r));
-
-        List<MenuBadgeProvider.MenuBadge> badges = new ArrayList<>();
-        Collection<MenuBadgeProvider> menuBadgeProviders = SpringTool.getBeans(MenuBadgeProvider.class);
-        for (MenuBadgeProvider badgeProvider : menuBadgeProviders) {
-            badges.addAll(badgeProvider.getData());
-        }
-
-        for (MenuBadgeProvider.MenuBadge menuBadge : badges) {
-            String code = menuBadge.getMenuCode();
-            int badge = menuBadge.getBadge();
-
-            Route r = codeMap.get(code);
-            if (r == null || badge <= 0) {
-                continue;
-            }
-            r.setBadge(badge);
-
-            // 父节点累加
-            Route parent = idMap.get(r.getPid());
-            if (parent == null) {
-                continue;
-            }
-            parent.setBadge(r.getBadge() + parent.getBadge());
-        }
     }
 
 }

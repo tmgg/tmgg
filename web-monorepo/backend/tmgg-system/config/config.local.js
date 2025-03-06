@@ -3,30 +3,6 @@
 
 
 import {defineConfig} from 'umi';
+import {defaultConfigLocal} from "./defaultConfig";
 
-let target = 'http://127.0.0.1:8002';
-
-
-let proxy = {
-  '/api': {
-    target: target,
-    changeOrigin: true,
-    pathRewrite: {'^/api': '/'},
-  },
-  '/ureport': {
-    target: target,
-    changeOrigin: true,
-    pathRewrite: {'^/ureport': '/ureport'},
-  },
-};
-
-export const configLocal = {
-
-
-  define: {
-    "process.env.API_BASE_URL": "/api/"
-  },
-
-  proxy
-};
-export default defineConfig(configLocal);
+export default defineConfig(defaultConfigLocal);

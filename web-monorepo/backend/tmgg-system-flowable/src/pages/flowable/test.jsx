@@ -1,6 +1,7 @@
 import React from "react";
 import {Button, Card, Form, Input, message} from "antd";
 import {HttpUtil, PageLoading, PageUtil} from "@tmgg/tmgg-base";
+import {StrUtil} from "@tmgg/tmgg-commons-lang";
 
 export default class extends React.Component {
 
@@ -28,8 +29,8 @@ export default class extends React.Component {
 
     return <Card title={'流程测试 / 【' + this.state.model.name + "】 / " + this.state.model.code }>
       <Form onFinish={this.onFinish} labelCol={{flex:'150px'}} >
-        <Form.Item name='id' label='业务标识' rules={[{required: true}]} help='通常指ID'>
-          <Input></Input>
+        <Form.Item name='id' label='业务标识' rules={[{required: true}]} initialValue={StrUtil.random(32)}>
+          <Input />
         </Form.Item>
 
         {this.state.model.conditionVariableList.map(item=><Form.Item key={item.name} name={item.name} label={item.label}>

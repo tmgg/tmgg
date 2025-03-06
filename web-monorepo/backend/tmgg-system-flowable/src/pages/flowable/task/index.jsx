@@ -24,11 +24,9 @@ export default class extends React.Component {
     ]
 
     return <>
-      <Card>
       <Tabs defaultActiveKey="1" destroyInactiveTabPane items={items}>
 
       </Tabs>
-      </Card>
     </>
   }
 }

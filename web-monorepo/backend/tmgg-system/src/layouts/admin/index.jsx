@@ -1,7 +1,7 @@
 // 全局路由
 
 import React from 'react';
-import {Layout, Menu, Watermark} from 'antd';
+import {Badge, Layout, Menu, Watermark} from 'antd';
 
 import {history, Link} from 'umi';
 import "./index.less"
@@ -63,7 +63,7 @@ export default class extends React.Component {
 
     initMenu = () => {
         HttpUtil.get('menuInfo').then(info => {
-            const {menus, topMenus} = info
+            const {menus, topMenus,badgeList} = info
 
             let pathname = PageUtil.currentPathname();
             let currentMenuKey = null
@@ -96,10 +96,25 @@ export default class extends React.Component {
 
             this.storePathLabel(Object.values(menuMap))
 
+            this.loadBadge(badgeList)
         })
+
+
     }
     actionRef = React.createRef()
 
+
+    loadBadge = list => {
+        for(let item of list){
+            const {menuId, url} = item
+            HttpUtil.get(url).then(rs=>{
+                const {leftMenus} = this.state
+                const menu = TreeUtil.findByKey(menuId,leftMenus)
+                menu.icon = <Badge dot count={rs} size={"small"}>{menu.icon}</Badge>
+                this.setState({leftMenus:[...leftMenus]})
+            })
+        }
+    };
 
     storePathLabel(menus) {
         const map = {}
@@ -113,10 +128,10 @@ export default class extends React.Component {
 
     render() {
         let logo = this.props.logo || defaultLogo
-        const {siteInfo, topMenus, loginInfo} = this.state
+        const {siteInfo, topMenus, loginInfo,leftMenus} = this.state
 
+        console.log('admin layout render', leftMenus)
 
-        console.log('admin layout render', siteInfo, topMenus, loginInfo)
         return <Layout className='main-layout'>
             <Header className='header'>
                 <div className='header-left'>
@@ -154,7 +169,7 @@ export default class extends React.Component {
                         {this.state.collapsed ? <MenuUnfoldOutlined/> : <MenuFoldOutlined/>}
                     </div>
 
-                    <Menu items={this.state.leftMenus}
+                    <Menu items={leftMenus}
                           theme='dark'
                           mode="inline"
                           className='left-menu'

@@ -15,7 +15,7 @@
     "perm" : "sysOrg",
     "path" : "/system/org",
     "icon" : "ApartmentOutlined",
-    "seq" : 1
+    "seq" : 10
   }, {
     "id" : "sysUser",
     "pid" : "sys",
@@ -23,7 +23,7 @@
     "perm" : "sysUser",
     "path" : "/system/user",
     "icon" : "UserOutlined",
-    "seq" : 2
+    "seq" : 20
   }, {
     "id" : "sysRole",
     "pid" : "sys",
@@ -31,7 +31,7 @@
     "perm" : "sysRole",
     "path" : "/system/role",
     "icon" : "IdcardOutlined",
-    "seq" : 3
+    "seq" : 30
   }, {
     "id" : "sysMenu",
     "pid" : "sys",
@@ -39,7 +39,15 @@
     "perm" : "sysMenu",
     "path" : "/system/menu",
     "icon" : "AppstoreOutlined",
-    "seq" : 3
+    "seq" : 40
+  }, {
+    "pid" : "sys",
+    "id" : "sysMenuBadge",
+    "name" : "菜单小红点",
+    "perm" : "sysMenuBadge",
+    "path" : "/system/menuBadge",
+    "seq" : 41,
+    "icon" : "MessageOutlined"
   }, {
     "id" : "sysConfig",
     "pid" : "sys",
@@ -47,14 +55,14 @@
     "perm" : "sysConfig",
     "path" : "/system/config",
     "icon" : "SettingOutlined",
-    "seq" : 4
+    "seq" : 50
   }, {
     "id" : "sysDict",
     "pid" : "sys",
     "name" : "数据字典",
     "perm" : "sysDict",
     "path" : "/system/dict",
-    "seq" : 5,
+    "seq" : 60,
     "icon" : "FileSearchOutlined"
   }, {
     "id" : "sysFile",
@@ -62,7 +70,7 @@
     "name" : "文件管理",
     "perm" : "sysFile",
     "path" : "/system/file/main",
-    "seq" : 7,
+    "seq" : 70,
     "icon" : "FolderOpenOutlined"
   }, {
     "id" : "sysMonitor",
@@ -77,35 +85,35 @@
     "name" : "环境监控",
     "perm" : "machine",
     "path" : "/system/machine",
-    "seq" : 9
+    "seq" : 1
   }, {
     "id" : "sysDatasource",
     "pid" : "sysMonitor",
     "name" : "数据源",
     "perm" : "sysDatasource",
     "path" : "/system/datasource",
-    "seq" : 9
+    "seq" : 2
   }, {
     "id" : "mysqlStatus",
     "pid" : "sysMonitor",
     "name" : "Mysql",
     "perm" : "mysqlStatus",
     "path" : "/system/mysqlStatus",
-    "seq" : 9
+    "seq" : 3
   }, {
     "id" : "sysOnlineUser",
     "pid" : "sysMonitor",
     "name" : "在线用户",
     "perm" : "sysOnlineUser",
     "path" : "/system/onlineUser",
-    "seq" : 10
+    "seq" : 4
   }, {
     "id" : "sysOpLog",
     "pid" : "sysMonitor",
     "name" : "操作日志",
     "perm" : "sysOpLog",
     "path" : "/system/log/oplog",
-    "seq" : 12
+    "seq" : 5
   }, {
     "pid" : "sys",
     "id" : "openApiAccount",
@@ -114,82 +122,76 @@
     "path" : "/openApi",
     "seq" : 13,
     "icon" : "ApiOutlined"
-  } ,
-    {
-      "pid" : "sys",
-      "id" : "sysReport",
-      "name" : "SQL报表",
-      "perm" : "sysReport",
-      "type" : "DIR",
-      "seq" : 10,
-      "icon" : "ConsoleSqlOutlined"
-    }, {
-      "pid" : "sysReport",
-      "id" : "sysReportChart",
-      "name" : "图表",
-      "perm" : "sysReportChart",
-      "path" : "/report/chart",
-      "seq" : 1,
-      "icon" : "FundProjectionScreenOutlined"
-    }, {
-      "pid" : "sysReport",
-      "id" : "sysReportTable",
-      "name" : "表格",
-      "perm" : "sysReportTable",
-      "path" : "/report/table",
-      "seq" : 2,
-      "icon" : "TableOutlined"
-    },
-
-    {
-      "id" : "jobMgr",
-      "pid" : "sys",
-      "type" : "DIR",
-      "name" : "定时作业",
-      "seq" : 100,
-      "icon" : "FieldTimeOutlined"
-    }, {
-      "id" : "job",
-      "pid" : "jobMgr",
-      "name" : "作业管理",
-      "perm" : "job",
-      "path" : "/job",
-      "seq" : 1,
-      "icon" : "OrderedListOutlined"
-    }, {
-      "id" : "jobLog",
-      "pid" : "jobMgr",
-      "name" : "作业日志",
-      "perm" : "jobLog",
-      "path" : "/job/logList",
-      "seq" : 2,
-      "icon" : "FileOutlined"
-    }, {
-      "id" : "jobStatus",
-      "pid" : "jobMgr",
-      "name" : "实时状态",
-      "perm" : "jobStatus",
-      "path" : "/job/status",
-      "seq" : 3,
-      "icon" : "FundViewOutlined"
-    },
-
-    {
-      "pid" : "sys",
-      "id" : "dev",
-      "name" : "开发管理",
-      "perm" : "dev",
-      "path" : "/code",
-      "icon" : "JavaOutlined",
-      "seq" : 10
-    }, {
-      "pid" : "dev",
-      "id" : "sys_entity_gen",
-      "name" : "生成代码",
-      "perm" : "sys_entity_gen",
-      "path" : "/code",
-      "icon" : "JavaScriptOutlined",
-      "seq" : 2
-    }
-  ]
+  }, {
+    "pid" : "sys",
+    "id" : "sysReport",
+    "name" : "SQL报表",
+    "perm" : "sysReport",
+    "type" : "DIR",
+    "seq" : 10,
+    "icon" : "ConsoleSqlOutlined"
+  }, {
+    "pid" : "sysReport",
+    "id" : "sysReportChart",
+    "name" : "图表",
+    "perm" : "sysReportChart",
+    "path" : "/report/chart",
+    "seq" : 1,
+    "icon" : "FundProjectionScreenOutlined"
+  }, {
+    "pid" : "sysReport",
+    "id" : "sysReportTable",
+    "name" : "表格",
+    "perm" : "sysReportTable",
+    "path" : "/report/table",
+    "seq" : 2,
+    "icon" : "TableOutlined"
+  }, {
+    "id" : "jobMgr",
+    "pid" : "sys",
+    "type" : "DIR",
+    "name" : "定时作业",
+    "seq" : 100,
+    "icon" : "FieldTimeOutlined"
+  }, {
+    "id" : "job",
+    "pid" : "jobMgr",
+    "name" : "作业管理",
+    "perm" : "job",
+    "path" : "/job",
+    "seq" : 1,
+    "icon" : "OrderedListOutlined"
+  }, {
+    "id" : "jobLog",
+    "pid" : "jobMgr",
+    "name" : "作业日志",
+    "perm" : "jobLog",
+    "path" : "/job/logList",
+    "seq" : 2,
+    "icon" : "FileOutlined"
+  }, {
+    "id" : "jobStatus",
+    "pid" : "jobMgr",
+    "name" : "实时状态",
+    "perm" : "jobStatus",
+    "path" : "/job/status",
+    "seq" : 3,
+    "icon" : "FundViewOutlined"
+  }, {
+    "pid" : "sys",
+    "id" : "dev",
+    "name" : "开发管理",
+    "perm" : "dev",
+    "path" : "/code",
+    "icon" : "JavaOutlined",
+    "seq" : 10
+  }, {
+    "pid" : "dev",
+    "id" : "sys_entity_gen",
+    "name" : "生成代码",
+    "perm" : "sys_entity_gen",
+    "path" : "/code",
+    "icon" : "JavaScriptOutlined",
+    "seq" : 2
+  } ]
 }

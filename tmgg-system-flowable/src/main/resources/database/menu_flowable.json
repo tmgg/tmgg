@@ -12,14 +12,14 @@
     "name" : "模型管理",
     "perm" : "flowableModel",
     "path" : "/flowable",
-    "seq" : 301
+    "seq" : 302
   }, {
     "id" : "flowableTask",
     "pid" : "flowableMgr",
     "name" : "我的任务",
     "perm" : "flowableTask",
     "path" : "/flowable/task",
-    "seq" : 302
+    "seq" : 301
   }, {
     "id" : "flowableMonitor",
     "pid" : "flowableMgr",

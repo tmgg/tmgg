@@ -1,8 +1,9 @@
- const defaultConfig = {
+
+const defaultConfig = {
     npmClient: 'pnpm',
 
     // 扫描依赖模块的路由
-    plugins:['@tmgg/tmgg-base/plugins/routes'],
+    plugins: ['@tmgg/tmgg-base/plugins/routes'],
 
     define: {
         "process.env.API_BASE_URL": "/",
@@ -15,13 +16,39 @@
      */
     hash: true,
 
-    history:{type:'hash'},
+    history: {type: 'hash'},
 
     // monorepo 复杂，还得设置忽略、编译等，先关掉
     mfsu: false,
-
-
 };
- module.exports = {
-     defaultConfig
- }
+
+
+
+ const defaultConfigLocal = {
+
+
+    define: {
+        "process.env.API_BASE_URL": "/api/"
+    },
+
+    proxy:{
+        '/api': {
+            target: 'http://127.0.0.1:8002',
+            changeOrigin: true,
+            pathRewrite: {'^/api': '/'},
+        },
+        '/ureport': {
+            target: 'http://127.0.0.1:8002',
+            changeOrigin: true,
+            pathRewrite: {'^/ureport': '/ureport'},
+        },
+    }
+};
+
+
+
+
+
+module.exports = {
+    defaultConfig,defaultConfigLocal
+}

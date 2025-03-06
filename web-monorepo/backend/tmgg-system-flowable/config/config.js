@@ -1,8 +1,8 @@
 import {defineConfig} from 'umi';
+import {defaultConfig} from "@tmgg/tmgg-system/config/defaultConfig";
 
 
-import {config} from "@tmgg/tmgg-system/config/config";
 
 
 
-export default defineConfig(config);
+export default defineConfig(defaultConfig);

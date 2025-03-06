@@ -4,6 +4,4 @@ layout: default
 ---
 # 左侧菜单增加小红点
 
-SysMenu实体的badgeUrl字段， 如 sysMessage/badge, 返回值为数字
-
-当前端加载菜单后，检测到有detailUrl，会发起请求，
+在后台管理，增加菜单对于的小红点获取路径，供前端异步获取

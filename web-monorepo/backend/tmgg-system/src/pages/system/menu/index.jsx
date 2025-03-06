@@ -2,7 +2,6 @@ import React from "react";
 import {Button, Checkbox, Modal, Radio, Table} from "antd";
 import {dictValueTag, HttpUtil, NamedIcon} from "@tmgg/tmgg-base";
 import * as Icons from '@ant-design/icons'
-import {ScrollFollow} from "react-lazylog";
 
 let iconNames = Object.keys(Icons);
 iconNames = iconNames.filter(n => n.endsWith("Outlined"))
@@ -56,6 +55,7 @@ export default class extends React.Component {
 
 
             {this.state.treeData.length > 0 && <Table
+                rowKey='id'
                 expandable={{
                     defaultExpandAllRows: true
                 }}
@@ -76,6 +76,7 @@ export default class extends React.Component {
                     {
                         title: '类型',
                         dataIndex: 'type',
+                        width:80,
                         render(v) {
                             return dictValueTag('menuType', v)
                         }
@@ -87,7 +88,7 @@ export default class extends React.Component {
                     },
                     {
                         title: '菜单可见',
-                        dataIndex: 'visible',
+                        dataIndex: 'visible',     width:80,
                         render(v) {
                             if (v) {
                                 return v ? '是' : '否'
@@ -97,6 +98,7 @@ export default class extends React.Component {
                     {
                         title: '操作',
                         dataIndex: 'option',
+                        width:100,
                         render: (v, record) => {
                             if (record.visible) {
                                 return <Button size='small' onClick={() => {
