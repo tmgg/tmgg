@@ -36,7 +36,7 @@ export default class HeaderRight extends React.Component {
     }
 
     userCenter = () => {
-        history.push('/userCenter')
+        PageUtil.open('/userCenter','个人中心')
     }
 
     render() {
