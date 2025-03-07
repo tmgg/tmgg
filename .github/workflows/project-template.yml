@@ -22,7 +22,8 @@ jobs:
           cwd: ./templates
           files: |
             ./backend-template
-          outPath: backend-template.tar.gz
+            ./frontend-template
+         # outPath: backend-template.tar.gz
       - name: 查看结果
         run: |
           pwd
@@ -31,4 +32,4 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            /home/runner/work/tmgg/tmgg/backend-template.tar.gz
+            /home/runner/work/tmgg/tmgg/*.tar.gz
