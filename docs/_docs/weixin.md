@@ -9,6 +9,8 @@ layout: doc
 小程序用户登录，信息获取，手机号获取等基本接口。
 
 
+# 具体内置接口参考
+https://github.com/tmgg/tmgg/blob/master/tmgg-system-weixin/src/main/java/io/tmgg/weixin/app/WeixinAppController.java
 
 
 
