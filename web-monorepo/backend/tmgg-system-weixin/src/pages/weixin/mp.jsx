@@ -1,109 +1,169 @@
-import {Button, Form, Input, Modal, Popconfirm, Space} from 'antd'
+import {PlusOutlined} from '@ant-design/icons'
+import {Button, Card,InputNumber, Popconfirm,Modal,Form,Input,message} from 'antd'
 import React from 'react'
-import {PlusOutlined} from "@ant-design/icons";
+import {ButtonList,dictValueTag, FieldDateRange,FieldDictSelect,FieldRadioBoolean, FieldDatePickerString, FieldDateTimePickerString, HttpUtil, ProTable} from "@tmgg/tmgg-base";
 
-import {ButtonList, HttpUtil} from "@tmgg/tmgg-base";
-import { ProTable} from "@tmgg/tmgg-base";
+
+
 export default class extends React.Component {
 
   state = {
     formValues: {},
-    formOpen: false,
-
-    selectedRowKeys: [],
-
-    jobClassOptions: []
+    formOpen: false
   }
 
-
-
-  tableRef = React.createRef()
   formRef = React.createRef()
+  tableRef = React.createRef()
 
   columns = [
+
+    {
+      title: '名称',
+      dataIndex: 'name',
+
+
+
+
+    },
+
     {
       title: '应用id',
       dataIndex: 'appId',
+
+
+
+
     },
+
     {
       title: '密钥',
       dataIndex: 'appSecret',
+
+
+
+
     },
+
     {
       title: '备注',
       dataIndex: 'remark',
+
+
+
+
+    },
+
+    {
+      title: 'token',
+      dataIndex: 'token',
+
+
+
+
+    },
+
+    {
+      title: 'encodingAESKey',
+      dataIndex: 'encodingAESKey',
+
+
+
+
     },
 
     {
       title: '操作',
       dataIndex: 'option',
-      render: (_, record) => {
-        return <ButtonList>
-          <Button size='small' onClick={() => this.handleEdit(record)}> 编辑 </Button>
-          <Popconfirm title='是否确定删除?' onConfirm={() => this.handleDelete(record)}>
-            <Button size='small'>删除</Button>
-          </Popconfirm>
-        </ButtonList>;
-      },
+      render: (_, record) => (
+          <ButtonList>
+            <Button size='small' perm='weixinMp:save' onClick={() => this.handleEdit(record)}>编辑</Button>
+            <Popconfirm perm='weixinMp:delete' title='是否确定删除公众号'  onConfirm={() => this.handleDelete(record)}>
+              <Button size='small'>删除</Button>
+            </Popconfirm>
+          </ButtonList>
+      ),
     },
-
   ]
 
-  handleAdd = () => {
-    this.setState({formOpen: true,formValues:{}})
+  handleAdd = ()=>{
+    this.setState({formOpen: true, formValues: {}})
   }
-  handleEdit = (record) => {
+
+  handleEdit = record=>{
     this.setState({formOpen: true, formValues: record})
   }
 
 
-  onFinish = (values) => {
-    HttpUtil.post('weixinMp/save', values).then(rs => {
-        this.setState({formOpen: false})
-        this.tableRef.current.reload();
+  onFinish = values => {
+    HttpUtil.post( 'weixinMp/save', values).then(rs => {
+      this.setState({formOpen: false})
+      this.tableRef.current.reload()
     })
   }
 
-  handleDelete = row => {
-    HttpUtil.postForm('weixinMp/delete', null,{id: row.id}).then(rs => {
-      this.tableRef.current.reload();
+
+
+  handleDelete = record => {
+    HttpUtil.postForm( 'weixinMp/delete', {id:record.id}).then(rs => {
+      this.tableRef.current.reload()
     })
   }
+
   render() {
-    return <div >
+    return <>
       <ProTable
-        actionRef={this.tableRef}
-        toolBarRender={(action, {selectedRowKeys}) => {
-          return <Button type='primary' onClick={() => this.handleAdd()} icon={<PlusOutlined/>}>
-            新建
-          </Button>
-        }}
-        request={(params, sort) => {
-          return HttpUtil.pageData('weixinMp/page', params, sort)
-        }}
-        columns={this.columns}
-        rowSelection={false}
-        rowKey='id'
-        bordered
-        search={false}
+          actionRef={this.tableRef}
+          toolBarRender={() => {
+            return <ButtonList>
+              <Button perm='weixinMp:save' type='primary' onClick={this.handleAdd}>
+                <PlusOutlined/> 新增
+              </Button>
+            </ButtonList>
+          }}
+          request={(params, sort) => HttpUtil.pageData('weixinMp/page', params)}
+          columns={this.columns}
+          /*searchFormItemsRender={() => {
+            return <>
+              <Form.Item label='名称' name='name'>
+                <Input/>
+              </Form.Item>
+              <Form.Item label='应用id' name='appId'>
+                <Input/>
+              </Form.Item>
+              <Form.Item label='密钥' name='appSecret'>
+                <Input/>
+              </Form.Item>
+              <Form.Item label='备注' name='remark'>
+                <Input/>
+              </Form.Item>
+              <Form.Item label='token' name='token'>
+                <Input/>
+              </Form.Item>
+              <Form.Item label='encodingAESKey' name='encodingAESKey'>
+                <Input/>
+              </Form.Item>
+            </>
+          }}*/
       />
 
-
-      <Modal title='微信小程序'
+      <Modal title='公众号'
              open={this.state.formOpen}
-             destroyOnClose
              onOk={() => this.formRef.current.submit()}
              onCancel={() => this.setState({formOpen: false})}
+             destroyOnClose
+             maskClosable={false}
       >
 
-        <Form ref={this.formRef}
-              layout='vertical'
+        <Form ref={this.formRef} labelCol={{flex: '100px'}}
               initialValues={this.state.formValues}
-              onFinish={this.onFinish}>
+              onFinish={this.onFinish}
+        >
+          <Form.Item  name='id' noStyle></Form.Item>
 
-          <Form.Item name='id' noStyle>
+          <Form.Item label='名称' name='name' rules={[{required: true}]}>
+            <Input/>
           </Form.Item>
-          <Form.Item label='应用Id' name='appId' rules={[{required: true}]}>
+          <Form.Item label='应用id' name='appId' rules={[{required: true}]}>
             <Input/>
           </Form.Item>
           <Form.Item label='密钥' name='appSecret' rules={[{required: true}]}>
@@ -112,13 +172,18 @@ export default class extends React.Component {
           <Form.Item label='备注' name='remark' rules={[{required: true}]}>
             <Input/>
           </Form.Item>
+          <Form.Item label='token' name='token' >
+            <Input/>
+          </Form.Item>
+          <Form.Item label='encodingAESKey' name='encodingAESKey' >
+            <Input/>
+          </Form.Item>
+
         </Form>
-
       </Modal>
+    </>
 
-    </div>
+
   }
 }
-
-
 
