@@ -1,4 +1,4 @@
-package io.tmgg.weixin.rest;
+package io.tmgg.weixin.app;
 
 import cn.binarywang.wx.miniapp.api.WxMaService;
 import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
@@ -34,7 +34,7 @@ import java.util.Map;
  * 小程序端请求
  */
 @Slf4j
-@RequestMapping("app/weixin")
+@RequestMapping("app/weixin/mini")
 @RestController
 public class WeixinAppController {
 
