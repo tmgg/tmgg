@@ -5,6 +5,7 @@ import io.tmgg.jackson.JsonTool;
 import io.tmgg.lang.dao.BaseController;
 import io.tmgg.lang.dao.specification.JpaQuery;
 import io.tmgg.lang.obj.AjaxResult;
+import io.tmgg.lang.obj.Option;
 import io.tmgg.web.CommonQueryParam;
 import io.tmgg.web.annotion.HasPermission;
 import io.tmgg.weixin.entity.WeixinPage;
@@ -111,6 +112,12 @@ public class WeixinPageController extends BaseController<WeixinPage> {
     }
 
 
+    @PostMapping("options")
+    public AjaxResult options() throws Exception {
+        List<WeixinPage> page = service.findAll(Sort.by(WeixinPage.Fields.path));
+        Option.convertList(page, WeixinPage::getPath, WeixinPage::getTitle);
+        return AjaxResult.ok().data(page);
+    }
 
 }
 

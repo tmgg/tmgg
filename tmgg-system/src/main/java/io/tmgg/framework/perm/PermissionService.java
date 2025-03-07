@@ -57,6 +57,10 @@ public class PermissionService {
         setPermLabel("update", "更新");
         setPermLabel("config", "配置");
 
+        setPermLabel("start", "启动");
+        setPermLabel("stop", "停止");
+
+
         setPermLabel("disable", "禁用");
         setPermLabel("disableAll", "禁用所有");
         setPermLabel("enable", "启用");
