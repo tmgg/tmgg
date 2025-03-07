@@ -55,3 +55,4 @@ dist/
 /docs/_site/
 /docs/.jekyll-cache/
 /web/
+/web-monorepo/packages/tmgg-taro-template/yarn.lock

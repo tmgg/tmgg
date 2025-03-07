@@ -10,11 +10,14 @@ import jakarta.servlet.http.HttpSession;
 
 public class WexinTool {
 
+    public static final String X_APP_ID = "x-app-id";
+
     public static String curAppId(){
         HttpServletRequest request = RequestTool.currentRequest();
-        String appId = request.getHeader("appId");
+        String appId = request.getHeader(X_APP_ID);
         return appId;
     }
+
     public static String curUserId(HttpSession session){
        return (String) session.getAttribute("APP_USER_ID");
     }

@@ -14,7 +14,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: 清理不用的文件
-        run: rm -rf doc/backend-template/assets
+        run: rm -rf templates/backend-template/assets
       - name: 压缩模板
         uses: a7ul/tar-action@v1.1.0
         with:
@@ -22,7 +22,6 @@ jobs:
           cwd: ./templates
           files: |
             ./backend-template
-            ./frontend-template
          # outPath: backend-template.tar.gz
       - name: 查看结果
         run: |

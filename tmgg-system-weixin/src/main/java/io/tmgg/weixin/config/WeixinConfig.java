@@ -14,7 +14,6 @@ public class WeixinConfig {
     @Bean
     public cn.binarywang.wx.miniapp.api.WxMaService wxMaService() {
         cn.binarywang.wx.miniapp.api.WxMaService wxMaService = new WxMaServiceImpl();
-
         return wxMaService;
     }
 
