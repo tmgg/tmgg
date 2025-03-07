@@ -1,113 +1,107 @@
 package io.tmgg.weixin.controller;
 
-import io.micrometer.common.util.StringUtils;
-import io.tmgg.lang.ann.PublicRequest;
-import jakarta.annotation.PostConstruct;
-import me.chanjar.weixin.common.error.WxErrorException;
-import me.chanjar.weixin.common.session.WxSessionManager;
-import me.chanjar.weixin.mp.api.WxMpMessageHandler;
-import me.chanjar.weixin.mp.api.WxMpMessageRouter;
-import me.chanjar.weixin.mp.api.WxMpService;
-import me.chanjar.weixin.mp.api.impl.WxMpServiceImpl;
-import me.chanjar.weixin.mp.bean.message.WxMpXmlMessage;
-import me.chanjar.weixin.mp.bean.message.WxMpXmlOutMessage;
-import me.chanjar.weixin.mp.bean.message.WxMpXmlOutTextMessage;
-import me.chanjar.weixin.mp.config.impl.WxMpDefaultConfigImpl;
-import org.ehcache.javadoc.PublicApi;
+import cn.hutool.core.bean.BeanUtil;
+import io.tmgg.lang.dao.specification.JpaQuery;
+import io.tmgg.lang.obj.AjaxResult;
+import io.tmgg.lang.obj.Option;
+import io.tmgg.weixin.entity.WeixinMp;
+import io.tmgg.weixin.service.WeixinMpService;
+import io.tmgg.lang.dao.BaseController;
+import io.tmgg.lang.dao.BaseEntity;
+import io.tmgg.lang.DateRange;
+
+
+import io.tmgg.web.annotion.HasPermission;
+import jakarta.servlet.http.HttpServletResponse;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
 
-/**
- * 微信公众号
- */
+import jakarta.annotation.Resource;
+import java.util.List;
+import java.io.IOException;
 @RestController
 @RequestMapping("weixinMp")
-public class WeixinMpController {
+public class WeixinMpController  extends BaseController<WeixinMp>{
 
-    WxMpDefaultConfigImpl config;
-    WxMpService wxMpService;
-    WxMpMessageRouter wxMpMessageRouter;
+    @Resource
+    WeixinMpService service;
 
-    /**
-     * 微信回调的
-     * @param signature
-     * @param nonce
-     * @param timestamp
-     * @param token
-     * @param echostr
-     * @param encryptType
-     * @param msgSignature
-     * @param body
-     * @return
-     */
-    @PublicRequest
-    @GetMapping("msg")
-    public String ok(String signature, String nonce, String timestamp, String token, String echostr,
-                     @RequestParam(name = "encrypt_type", defaultValue = "raw") String encryptType,
-                     @RequestParam(name = "msg_signature") String msgSignature,
-                     @RequestBody String body
-    ) {
-        if (!wxMpService.checkSignature(timestamp, nonce, signature)) {
-            // 消息签名不正确，说明不是公众平台发过来的消息
-            return "非法请求";
-        }
 
-        if (StringUtils.isNotBlank(echostr)) {
-            return echostr;
-        }
+    // 查询参数，如果比较简单，可以直接用实体代替
+    @Data
+    public static class QueryParam {
+        private  String keyword; // 仅有一个搜索框时的搜索文本
 
-        if ("raw".equals(encryptType)) {
-            // 明文传输的消息
-            WxMpXmlMessage inMessage = WxMpXmlMessage.fromXml(body);
-            WxMpXmlOutMessage outMessage = wxMpMessageRouter.route(inMessage);
-            if (outMessage == null) {
-                //为null，说明路由配置有问题，需要注意
-                return "";
-            }
-            return outMessage.toXml();
-        }
 
-        if ("aes".equals(encryptType)) {
-            // 是aes加密的消息
-            WxMpXmlMessage inMessage = WxMpXmlMessage.fromEncryptedXml(body, wxMpService.getWxMpConfigStorage(), timestamp, nonce, msgSignature);
-            WxMpXmlOutMessage outMessage = wxMpMessageRouter.route(inMessage);
-            if (outMessage == null) {
-                //为null，说明路由配置有问题，需要注意
-                return "";
-            }
-            return outMessage.toEncryptedXml(wxMpService.getWxMpConfigStorage());
-        }
+            private java.lang.String name;
 
-        return ("不可识别的加密类型");
+            private java.lang.String appId;
+
+            private java.lang.String appSecret;
+
+            private java.lang.String remark;
+
+            private java.lang.String token;
+
+            private java.lang.String encodingAESKey;
+
+    }
+
+    private  JpaQuery<WeixinMp> buildQuery(QueryParam param) {
+        JpaQuery<WeixinMp> q = new JpaQuery<>();
+
+        // 一个关键字模糊搜索
+        //  q.searchText(param.getKeyword(), 字段...);
+
+        // 多个字段
+        //  q.likeExample(param.getKeyword(), 字段...);
+
+
+        // 单独判断，如时间区间
+        /*  DateRange dateRange = param.getDateRange();
+        if(dateRange != null && dateRange.isNotEmpty()){
+            q.between(PointsItemRecord.Fields.redeemTime, dateRange.getBegin(), dateRange.getEnd());
+        }*/
+
+        return q;
+    }
+
+    @HasPermission
+    @PostMapping("page")
+    public AjaxResult page(@RequestBody  QueryParam param,  @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) throws Exception {
+        JpaQuery<WeixinMp> q = buildQuery(param);
+
+        Page<WeixinMp> page = service.findAll(q, pageable);
+        return AjaxResult.ok().data(page);
     }
 
 
-    @PostConstruct
-    private void init() {
-        config = new WxMpDefaultConfigImpl();
-        config.setAppId("..."); // 设置微信公众号的appid
-        config.setSecret("..."); // 设置微信公众号的app corpSecret
-        config.setToken("..."); // 设置微信公众号的token
-        config.setAesKey("..."); // 设置微信公众号的EncodingAESKey
+        @HasPermission
+        @GetMapping({"exportExcel"})
+        public void exportExcel(@RequestBody QueryParam param, HttpServletResponse resp) throws IOException {
+            JpaQuery<WeixinMp> q = buildQuery(param);
 
-        wxMpService = new WxMpServiceImpl();
-        wxMpService.setWxMpConfigStorage(config);
+            // 使用Excel注解
+            this.service.exportExcel(q, "WeixinMp.xlsx",resp);
 
-        WxMpMessageHandler handler = (wxMessage, map, wxMpService, wxSessionManager) -> {
-            WxMpXmlOutTextMessage m
-                    = WxMpXmlOutMessage.TEXT().content("测试加密消息").fromUser(wxMessage.getToUser())
-                    .toUser(wxMessage.getFromUser()).build();
-            return m;
-        };
-
-        wxMpMessageRouter = new WxMpMessageRouter(wxMpService);
-        wxMpMessageRouter
-                .rule()
-                .async(false)
-                .content("哈哈") // 拦截内容为“哈哈”的消息
-                .handler(handler)
-                .end();
-    }
+            /** 自定义列
+            LinkedHashMap<String, Function<PointsRecord, Object>> columns = new LinkedHashMap<>();
+            columns.put("姓名", t -> t.getPointsAccount().getRealName());
+            columns.put("手机", t -> t.getPointsAccount().getPhone());
+            columns.put("积分方向", t -> t.getDirection() == 1 ? "增加" : "减少");
+            columns.put("获得积分", t -> t.getPoints());
+            columns.put("时间", t -> DateUtil.formatDateTime(t.getTime()));
+            columns.put("原因", t -> t.getReason());
+             this.service.exportExcel(q, "WeixinMp.xlsx", columns,resp);
+             **/
+        }
 
 }
+
