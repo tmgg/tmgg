@@ -23,7 +23,7 @@ jobs:
           cwd: ./templates
           files: |
             ./backend-template
-         # outPath: backend-template.tar.gz
+          outPath: backend-template.tar.gz
       - name: 压缩前端
         uses: a7ul/tar-action@v1.1.0
         with:
@@ -31,7 +31,7 @@ jobs:
           cwd: ./web-monorepo/packages
           files: |
             ./tmgg-taro-template
-
+          outPath: tmgg-taro-template.tar.gz
       - name: 发布模板压缩包
         uses: softprops/action-gh-release@v2
         with:
