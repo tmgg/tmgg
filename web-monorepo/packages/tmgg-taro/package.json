@@ -1,14 +1,14 @@
 {
   "license" : "ISC",
   "author" : "",
-  "name" : "@tmgg/taro",
+  "name" : "@tmgg/tmgg-taro",
   "files" : [ "src/*" ],
   "main" : "src/index.js",
   "scripts" : {
     "test" : "echo \"Error: no test specified\" && exit 1"
   },
   "version" : "0.3.42",
-  "dependencies" : {
-    "react" : "^18.0.0"
+  "peerDependencies": {
+    "@tarojs/taro": "3.6.14"
   }
 }

@@ -1,13 +1,15 @@
 import Taro from "@tarojs/taro";
-import {getAppId, getServerUrl, getToken} from "./sysUtil";
+import {getAppId, getServerUrl, getToken} from "./sys";
 export  class HttpUtil {
 
 
 
   static get(url, params = {}) {
     return new Promise((resolve, reject) => {
+      let fullUrl = getServerUrl() + url;
+      console.log('请求路径', fullUrl)
       Taro.request({
-        url: getServerUrl() + url,
+        url: fullUrl,
         data: params,
         header: {
           'Authorization': getToken(),

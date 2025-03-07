@@ -3,7 +3,9 @@ import Taro from "@tarojs/taro";
 
 
 
-//const isWeb = Taro.getEnv() === "WEB"
+const isWeb = Taro.getEnv() === "WEB"
+console.log('是否网页', isWeb)
+
 let isProd = process.env.NODE_ENV === 'production';
 console.log('开发环境？', process.env.NODE_ENV)
 
@@ -11,7 +13,7 @@ console.log('开发环境？', process.env.NODE_ENV)
 const globalData = {}
 
 export function getServerUrl() {
-  return process.env.SERVER_URL ;
+  return process.env.TARO_APP_SERVER_URL ;
 }
 
 export function getToken() {
@@ -23,6 +25,9 @@ export function setToken(v) {
 }
 
 export function getAppId(){
+  if(isWeb){
+    return 'web'
+  }
   let appId =  Taro.getAccountInfoSync().miniProgram?.appId;
   return appId;
 }
