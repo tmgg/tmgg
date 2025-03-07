@@ -11,6 +11,7 @@ import jakarta.servlet.http.HttpSession;
 public class WexinTool {
 
     public static final String X_APP_ID = "x-app-id";
+    public static final String APP_USER_ID = "APP_USER_ID";
 
     public static String curAppId(){
         HttpServletRequest request = RequestTool.currentRequest();
@@ -19,7 +20,11 @@ public class WexinTool {
     }
 
     public static String curUserId(HttpSession session){
-       return (String) session.getAttribute("APP_USER_ID");
+       return (String) session.getAttribute(APP_USER_ID);
+    }
+
+    public static void setCurUserId(HttpSession session,String id){
+        session.setAttribute(APP_USER_ID,id);
     }
 
     // TODO 缓存

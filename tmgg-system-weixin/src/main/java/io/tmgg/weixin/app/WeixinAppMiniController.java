@@ -36,7 +36,7 @@ import java.util.Map;
 @Slf4j
 @RequestMapping("app/weixin/mini")
 @RestController
-public class WeixinAppController {
+public class WeixinAppMiniController {
 
 
     @Resource
@@ -54,10 +54,11 @@ public class WeixinAppController {
      * 登陆接口
      */
     @PostMapping("login")
-    public AjaxResult login(String code) {
+    public AjaxResult login(String code, HttpSession httpSession) {
         if (StringUtils.isBlank(code)) {
             return AjaxResult.err().msg("微信登录，code不能为空");
         }
+
 
         try {
             WxMaJscode2SessionResult session = wxMaService.getUserService().getSessionInfo(code);
@@ -84,6 +85,8 @@ public class WeixinAppController {
             if (wexinAuthListener != null) {
                 wexinAuthListener.onAfterLogin(user, model);
             }
+
+            WexinTool.setCurUserId(httpSession,user.getId());
 
             return AjaxResult.ok().msg("登录成功").data( model);
         } catch (WxErrorException e) {

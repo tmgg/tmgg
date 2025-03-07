@@ -16,18 +16,17 @@ export function getServerUrl() {
   return process.env.TARO_APP_SERVER_URL ;
 }
 
-export function getToken() {
-  return globalData['token'] || '';
-}
 
-export function setToken(v) {
-  return globalData['token'] = v;
-}
 
+let appId = null
 export function getAppId(){
   if(isWeb){
     return 'web'
   }
-  let appId =  Taro.getAccountInfoSync().miniProgram?.appId;
+
+  if(appId){
+    return appId
+  }
+   appId =  Taro.getAccountInfoSync().miniProgram.appId;
   return appId;
 }

@@ -2,7 +2,7 @@ package io.tmgg.weixin.controller;
 
 import io.tmgg.lang.dao.BaseCURDController;
 import io.tmgg.weixin.entity.WeixinMini;
-import io.tmgg.weixin.service.WeixinService;
+import io.tmgg.weixin.service.WeixinMiniService;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.annotation.Resource;
@@ -12,7 +12,7 @@ import jakarta.annotation.Resource;
 public class WexinMiniController extends BaseCURDController<WeixinMini> {
 
     @Resource
-    private WeixinService service;
+    private WeixinMiniService service;
 
 
 

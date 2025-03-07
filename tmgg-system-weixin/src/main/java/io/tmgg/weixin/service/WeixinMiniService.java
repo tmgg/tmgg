@@ -11,7 +11,7 @@ import jakarta.annotation.Resource;
 import java.util.List;
 
 @Service
-public class WeixinService extends BaseService<WeixinMini> {
+public class WeixinMiniService extends BaseService<WeixinMini> {
 
     @Resource
     WxMaService wxMaService;
