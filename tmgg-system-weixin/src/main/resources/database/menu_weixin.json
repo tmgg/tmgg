@@ -12,20 +12,30 @@
     "name" : "小程序",
     "perm" : "weixinMini",
     "path" : "/weixin/mini",
-    "seq" : 200
+    "seq" : 1
   }, {
     "id" : "weixinMp",
     "pid" : "weixin",
     "name" : "公众号",
     "perm" : "weixinMp",
     "path" : "/weixin/mp",
-    "seq" : 200
-  }, {
-    "id" : "weixinUser",
-    "pid" : "weixin",
-    "name" : "微信用户",
-    "perm" : "weixinUser",
-    "path" : "/weixin/user",
-    "seq" : 201
-  } ]
+    "seq" : 2
+  },
+    {
+      "pid":"weixin",
+      "id": "weixinPage",
+      "name": "微信页面",
+      "perm": "weixinPage",
+      "path": "/weixin/page",
+      "seq": 3
+    },
+    {
+      "id" : "weixinUser",
+      "pid" : "weixin",
+      "name" : "微信用户",
+      "perm" : "weixinUser",
+      "path" : "/weixin/user",
+      "seq" : 10
+    }
+  ]
 }

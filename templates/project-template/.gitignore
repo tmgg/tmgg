@@ -1,0 +1,5 @@
+/.idea/
+/target/
+/web/package-lock.json
+/web/node_modules/
+/web/src/.umi/

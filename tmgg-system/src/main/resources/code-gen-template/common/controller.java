@@ -52,10 +52,20 @@ public class ${name}Controller  extends BaseController<${name}>{
 
     private  JpaQuery<${name}> buildQuery(QueryParam param) {
         JpaQuery<${name}> q = new JpaQuery<>();
-      /*  DateRange dateRange = param.getDateRange();
+
+        // 一个关键字模糊搜索
+        //  q.searchText(param.getKeyword(), 字段...);
+
+        // 多个字段
+        //  q.likeExample(param.getKeyword(), 字段...);
+
+
+        // 单独判断，如时间区间
+        /*  DateRange dateRange = param.getDateRange();
         if(dateRange != null && dateRange.isNotEmpty()){
             q.between(PointsItemRecord.Fields.redeemTime, dateRange.getBegin(), dateRange.getEnd());
         }*/
+
         return q;
     }
 

@@ -1,6 +1,7 @@
 FROM registry.cn-hangzhou.aliyuncs.com/tmgg/tmgg-base-node as web
 ADD web/ ./
-RUN npm run build-sichuan
+RUN npm install
+RUN npm run build
 
 
 FROM registry.cn-hangzhou.aliyuncs.com/tmgg/tmgg-base-java as java
