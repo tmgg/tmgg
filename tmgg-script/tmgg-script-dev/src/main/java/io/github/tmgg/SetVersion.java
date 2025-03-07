@@ -58,7 +58,7 @@ public class SetVersion {
 
     private void changeMaven() throws IOException {
         Collection<File> poms = DevFileUtil.findByPrefix(".", "pom.xml", "tmgg-");
-        poms.add(new File("./templates/project-template/pom.xml"));
+        poms.add(new File("./templates/backend-template/pom.xml"));
 
 
         for (File pom : poms) {
@@ -93,7 +93,7 @@ public class SetVersion {
 
 
         Collection<File> pkgs = DevFileUtil.find(file.getPath(), "package.json", lines);
-        pkgs.add(new File("./templates/project-template/web/package.json"));
+        pkgs.add(new File("./templates/backend-template/web/package.json"));
 
 
         for (File pkg : pkgs) {
@@ -113,7 +113,7 @@ public class SetVersion {
     }
 
     private static void replaceProjectTemplate(File pkg, Map<String, Object> map) {
-        if (pkg.getAbsolutePath().contains("project-template")) {
+        if (pkg.getAbsolutePath().contains("backend-template")) {
             Map<String, Object> dependencies = (Map<String, Object>) map.get("dependencies");
             for (String key : dependencies.keySet()) {
                 if (key.startsWith("@tmgg/tmgg-")) {

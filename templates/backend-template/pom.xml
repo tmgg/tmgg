@@ -6,7 +6,7 @@
         <artifactId>tmgg-system-parent</artifactId>
         <version>0.3.42</version>
     </parent>
-    <artifactId>project-template</artifactId>
+    <artifactId>backend-template</artifactId>
     <version>1.0.0</version>
     <properties>
         <java.version>17</java.version>
