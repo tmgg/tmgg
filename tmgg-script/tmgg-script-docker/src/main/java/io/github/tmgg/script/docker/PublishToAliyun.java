@@ -53,9 +53,10 @@ public class PublishToAliyun {
         String projectVersion = getProjectVersion(root);
         log.info("项目版本为 {}", projectVersion);
 
+        buildAndPush(projectVersion, root, "jdk");
         buildAndPush(projectVersion, root, "node");
         buildAndPush(projectVersion, root, "java");
-        buildAndPush(projectVersion, root, "jdk");
+
     }
 
     private static void buildAndPush(String projectVersion, File root, String type) throws InterruptedException {
