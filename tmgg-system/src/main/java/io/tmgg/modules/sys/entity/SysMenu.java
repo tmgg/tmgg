@@ -52,7 +52,7 @@ public class SysMenu extends BaseEntity implements Tree<SysMenu> {
     /**
      * 权限标识
      */
-    @Column(unique = true,  length = 30)
+    @Column(unique = true,  length = 50)
     private String perm;
 
     @NotNull
