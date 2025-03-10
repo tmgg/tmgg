@@ -6,6 +6,7 @@ import io.tmgg.modules.job.service.SysJobLogService;
 import io.tmgg.modules.job.service.SysJobService;
 import io.tmgg.lang.dao.specification.JpaQuery;
 import io.tmgg.lang.obj.AjaxResult;
+import io.tmgg.web.CommonQueryParam;
 import io.tmgg.web.annotion.HasPermission;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
@@ -31,27 +32,9 @@ public class SysJobLogController {
 
     @HasPermission(label = "作业日志")
     @RequestMapping("jobLog")
-    public AjaxResult page(SysJobLog param, @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) {
+    public AjaxResult page(@RequestBody  CommonQueryParam param, @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) {
         JpaQuery<SysJobLog> q = new JpaQuery<>();
-
-        SysJob sysJob = param.getSysJob();
-        if (sysJob != null) {
-            if (sysJob.getJobClass() != null) {
-                q.like(SysJobLog.Fields.sysJob + "." + SysJob.Fields.jobClass, sysJob.getJobClass());
-            }
-            if (sysJob.getName() != null) {
-                q.like(SysJobLog.Fields.sysJob + "." + SysJob.Fields.name, sysJob.getName());
-            }
-        }
-
-
-        if (param.getBeginTime() != null) {
-            q.gt(SysJobLog.Fields.beginTime, param.getBeginTime());
-        }
-
-        if (param.getEndTime() != null) {
-            q.lt(SysJobLog.Fields.endTime, param.getEndTime());
-        }
+        q.searchText(param.getKeyword(), SysJobLog.Fields.sysJob + "." + SysJob.Fields.name);
 
         Page<SysJobLog> page = service.findAll(q, pageable);
         return AjaxResult.ok().data(page);

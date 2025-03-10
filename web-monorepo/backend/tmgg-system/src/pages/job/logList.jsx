@@ -17,10 +17,6 @@ export default class extends React.Component {
 
   columns = [
     {
-      title: 'id',
-      dataIndex: 'id',
-    },
-    {
       title: '名称',
       dataIndex: ['sysJob','name'],
     },
