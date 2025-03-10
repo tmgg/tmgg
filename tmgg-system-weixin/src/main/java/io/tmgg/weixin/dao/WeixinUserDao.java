@@ -2,7 +2,6 @@ package io.tmgg.weixin.dao;
 
 import io.tmgg.lang.dao.BaseDao;
 import io.tmgg.lang.dao.specification.JpaQuery;
-import io.tmgg.weixin.entity.WeixinUser;
 import org.springframework.stereotype.Repository;
 
 @Repository

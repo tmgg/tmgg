@@ -1,8 +1,6 @@
 package io.tmgg.weixin.controller;
 
 import io.tmgg.lang.obj.AjaxResult;
-import io.tmgg.weixin.entity.WeixinUser;
-import io.tmgg.weixin.service.WexinUserService;
 import io.tmgg.web.annotion.HasPermission;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
