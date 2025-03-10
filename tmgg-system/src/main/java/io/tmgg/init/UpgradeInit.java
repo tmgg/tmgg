@@ -82,6 +82,7 @@ public class UpgradeInit {
             db.executeQuietly("drop table sys_job_logging");
         }
 
-
+        // 权限字段扩容
+        db.executeQuietly("ALTER TABLE `sys_menu` MODIFY COLUMN `perm` varchar(100) ");
     }
 }
