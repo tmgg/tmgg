@@ -18,7 +18,8 @@ public class Route implements Tree<Route> {
 
 
   String pid;
-  String rootId;
+
+  String rootid; // 如果使用
 
   String label;
 

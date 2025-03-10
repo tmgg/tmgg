@@ -152,11 +152,11 @@ public class DefaultCommonController {
         Map<String, Route> treeMap = tm.getMap();
         tm.traverseTree(tree, item -> {
             if(item.getPid() == null){
-                item.setRootId(item.getId());
+                item.setRootid(item.getId());
             }else {
                 Route parent = treeMap.get(item.getPid());
                 if(parent != null){
-                    item.setRootId(parent.getRootId());
+                    item.setRootid(parent.getRootid());
                 }
             }
         });

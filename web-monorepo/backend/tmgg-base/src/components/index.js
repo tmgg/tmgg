@@ -15,3 +15,4 @@ export * from './report/SysReportChart'
 export * from './report/SysReportTable'
 
 export * from './NamedIcon'
+export * from './EditTable'
