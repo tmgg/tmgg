@@ -2,7 +2,7 @@ import {Button, Form, Input, Modal, Popconfirm, Space} from 'antd'
 import React from 'react'
 import {PlusOutlined} from "@ant-design/icons";
 
-import {ButtonList, HttpUtil} from "@tmgg/tmgg-base";
+import {ButtonList, FieldPassword, HttpUtil} from "@tmgg/tmgg-base";
 import { ProTable} from "@tmgg/tmgg-base";
 export default class extends React.Component {
 
@@ -32,6 +32,9 @@ export default class extends React.Component {
     {
       title: '密钥',
       dataIndex: 'appSecret',
+      render(v){
+        return <FieldPassword mode='read' />
+      }
     },
     {
       title: '备注',

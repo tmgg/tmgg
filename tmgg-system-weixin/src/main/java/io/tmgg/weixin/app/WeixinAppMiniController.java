@@ -105,7 +105,7 @@ public class WeixinAppMiniController {
     public AjaxResult decryptPhone(String code, HttpSession session) throws WxErrorException {
         String userId = WexinTool.curUserId(session);
         // 解密
-        WxMaPhoneNumberInfo phoneNoInfo = wxMaService.getUserService().getPhoneNoInfo(code);
+        WxMaPhoneNumberInfo phoneNoInfo = wxMaService.getUserService().getPhoneNumber(code);
 
         WeixinUser user = wexinUserService.findOne(userId);
         user.setPhone(phoneNoInfo.getPurePhoneNumber());
