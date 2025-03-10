@@ -43,7 +43,12 @@ public class SysConfigService extends BaseService<SysConfig> {
         return (boolean) value;
     }
 
-
+    public void setBoolean(String key, boolean b) {
+        SysConfig sysConfig = this.findOne(key);
+        Assert.notNull(sysConfig,"配置不存在" + key);
+        sysConfig.setValue(String.valueOf(b));
+        dao.save(sysConfig);
+    }
 
     public Object findValue(String key) {
         validateKey(key);
@@ -82,6 +87,8 @@ public class SysConfigService extends BaseService<SysConfig> {
 
         return getStr(key);
     }
+
+
 
     public boolean getMultiDeviceLogin() {
         return getBoolean("sys.multiDeviceLogin");
@@ -129,6 +136,7 @@ public class SysConfigService extends BaseService<SysConfig> {
         }
         return v;
     }
+
 
 
 }
