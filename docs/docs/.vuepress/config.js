@@ -13,6 +13,7 @@ export default defineUserConfig({
 
     navbar: ['/', '/get-started'],
   }),
+  base: '/tmgg/',
 
   bundler: viteBundler(),
 
