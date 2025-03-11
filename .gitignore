@@ -56,3 +56,7 @@ dist/
 /docs/.jekyll-cache/
 /web/
 /web-monorepo/packages/tmgg-taro-template/yarn.lock
+/docs/.vuepress/.cache/
+/docs/.vuepress/.temp/
+/docs/docs/.vuepress/.cache/
+/docs/docs/.vuepress/.temp/
