@@ -6,6 +6,7 @@ import io.tmgg.dbtool.DbTool;
 import io.tmgg.dbtool.obj.ComplexResult;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import java.util.List;
 import java.util.Map;
@@ -17,6 +18,7 @@ public class SysReportSqlService {
     DbTool db;
 
     public ComplexResult runSql(String sql) {
+        Assert.hasText(sql,"sql语句不能为空");
         ComplexResult complexResult = db.findComplexResult(sql);
         Map<String, Object[]> keyedMapList = complexResult.getKeyedMapList();
 
