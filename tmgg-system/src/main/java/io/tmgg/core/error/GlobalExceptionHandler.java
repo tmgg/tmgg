@@ -32,6 +32,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
+import java.io.FileNotFoundException;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
@@ -77,6 +78,15 @@ public class GlobalExceptionHandler {
     public AjaxResult notFound(NoHandlerFoundException e) {
         log.error(">>> 资源不存在异常，具体信息为：{}", e.getMessage() + "，请求地址为:" + HttpServletTool.getRequest().getRequestURI());
         return AjaxResult.err().code(404).msg("资源路径不存在，请检查请求地址，请求地址为:" + HttpServletTool.getRequest().getRequestURI());
+    }
+
+
+    @ExceptionHandler(FileNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public AjaxResult fileNotFoundException(FileNotFoundException e) {
+        String uri = HttpServletTool.getRequest().getRequestURI();
+        log.error("文件不存在：{} ,请求地址为 {}", e.getMessage() , uri);
+        return AjaxResult.err().code(404).msg(e.getMessage()).data("请求路径：" + uri);
     }
 
 
@@ -207,7 +217,7 @@ public class GlobalExceptionHandler {
 
         // 中文则提示中文，非中文则使用默认提示
         if (!StrTool.isChinese(message)) {
-            message = "服务异常";
+            message = "操作失败";
         }
 
         return AjaxResult.err().code(500).msg(message);

@@ -12,7 +12,7 @@ public class BizException extends RuntimeException {
     }
 
     public BizException(Throwable e) {
-        this("服务异常", e);
+        this("操作失败", e);
     }
 
     public BizException(String prefixMessage, Throwable e) {

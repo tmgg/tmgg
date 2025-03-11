@@ -1,7 +1,7 @@
 import {Button, message, Select, Spin} from 'antd';
 
 import React from 'react';
-import {HttpUtil} from "../../system";
+import {HttpUtil} from "../../../system";
 
 const {Option} = Select;
 
@@ -96,7 +96,7 @@ export class FieldRemoteSelect extends React.Component {
                 >
 
                 </Select>
-                <Button onClick={this.loadData} autoInsertSpace={false} type='link'> 刷新</Button>
+                {this.props.showRefresh &&<Button onClick={this.loadData} autoInsertSpace={false} type='link'> 刷新</Button>}
             </div>
         );
     }
