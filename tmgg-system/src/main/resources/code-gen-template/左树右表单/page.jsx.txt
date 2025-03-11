@@ -1,5 +1,5 @@
 import {DeleteOutlined, EditOutlined, PlusOutlined, SyncOutlined} from '@ant-design/icons';
-import {Button, Card, Col, Empty, Form, Input, InputNumber, message, Popconfirm, Row, Space, Switch, Tree} from 'antd';
+import {Button, Card, Col, Empty, Form, Input, InputNumber, message, Popconfirm, Row, Space, Switch, Tree,Splitter} from 'antd';
 import React from 'react';
 import {FieldDictRadio, FieldRemoteTreeSelect} from "@tmgg/tmgg-base";
 
@@ -78,8 +78,8 @@ export default class extends React.Component {
   render() {
     let disabled = this.state.formValues == null;
     return <>
-      <Row gutter={16} wrap={false}>
-        <Col flex='400px'>
+      <Splitter >
+           <Splitter.Panel defaultSize={400}   >
           <Card title='${label}' loading={this.state.treeLoading}
                 extra={<>
                   <Button icon={<SyncOutlined/>} type='link' onClick={this.loadTree}>刷新</Button>
@@ -98,8 +98,8 @@ export default class extends React.Component {
 
 
           </Card>
-        </Col>
-        <Col flex='auto'>
+       </Splitter.Panel>
+                      <Splitter.Panel style={{paddingLeft:16}}>
           <Card
             title='${label} 查看/编辑'
             loading={this.state.formLoading}
@@ -176,8 +176,9 @@ export default class extends React.Component {
 
           </Card>
 
-        </Col>
-      </Row>
+   </Splitter.Panel>
+              </Splitter>
+
 
 
     </>

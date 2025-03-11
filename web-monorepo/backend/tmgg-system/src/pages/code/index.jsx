@@ -121,7 +121,7 @@ export default class extends React.Component {
             <Modal title='代码生成' open={this.state.formOpen} onOk={() => this.formRef.current.submit()}
                    onCancel={() => this.setState({formOpen: false})}
                    destroyOnClose={true}
-                   width={900}
+                   width={'90vw'}
                    maskClosable={false}
                    okText='生成到项目中'
 
@@ -142,7 +142,7 @@ export default class extends React.Component {
 
                     <div>
                         {this.state.tabItems.length == 0 && <Empty description='请选择文件' />}
-                        <Tabs items={this.state.tabItems}></Tabs>
+                        <Tabs items={this.state.tabItems} type='card'></Tabs>
                     </div>
 
                 </Form>
