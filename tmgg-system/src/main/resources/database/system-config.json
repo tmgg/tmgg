@@ -90,7 +90,7 @@
     {
       "id": "sys.baseUrl",
       "label": "请求基础地址",
-      "remark": "这个地址主要用来拼接图片等资源的全路径, 如https://baidu.com。遇到多层转发实践中发现经过多层waf或ningx等的转发，获取请求地址不一致时配置",
+      "remark": "获取不到请求url时配置，如多层waf或ningx等的转发，配置错误时",
       "$update": false
     }
 
