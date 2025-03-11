@@ -22,7 +22,7 @@ import java.util.*;
 @RequestMapping("code/gen")
 public class SysCodeGenController {
 
-    public static final String[] TEMPLATES = {"list", "treeForm"};
+    public static final String[] TEMPLATES = {"列表-简单","列表-复杂", "左树右表单"};
 
     public static final String TEMPLATE_FOLDER = "code-gen-template";
 
@@ -126,7 +126,7 @@ public class SysCodeGenController {
     }
 
     private static void readConfig(String templateFolder, Properties prop) throws IOException {
-        InputStream configStream = ResourceUtil.getStream(templateFolder + "/config.properties");
+        InputStream configStream = ResourceUtil.getStream(templateFolder + "/file-config.properties");
         prop.load(configStream);
         configStream.close();
     }
