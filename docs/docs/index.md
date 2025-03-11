@@ -1,16 +1,28 @@
 # 首页
-## 开始
+
+## 介绍
+基于 antd5,spring3的后他管理框架
+
+## 快速开始
 
 ### 下载项目模板
-### 参考实体Car.java, 创建entity包名，编写Jpa实体，使用@Msg注解描述实体
-### 启动前后端，使用代码生成工具快速生成代码
-
-### 编辑代码，重启
+在[发布页面](https://github.com/tmgg/tmgg/releases)下载项目模板 backend-template.tar.gz
 
 
-## 其他文档链接
+### 创建实体
+参考模板中的Car.java, 使用@Msg注解描述实体及字段
 
-### antd
-https://antgroup.com/components/overview-cn/
+### 生成代码
+启动前后端，默认密码会打印到控制台
+
+网页登录后台，使用代码生成功能
+
+### 编辑代码
+
+编辑生成后的代码，前端自动刷星，后端需手动重启。
+
+
+
+
 
 
