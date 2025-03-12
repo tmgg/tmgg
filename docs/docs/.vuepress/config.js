@@ -17,6 +17,12 @@ export default defineUserConfig({
 
     theme: defaultTheme({
         navbar: ['/'],
+      contributors:false,
+
+        repo:'tmgg/tmgg',
+        editLinkPattern:':repo/edit/master/docs/docs/:path',
+        editLink:true,
+
         sidebar: [
             {
 
