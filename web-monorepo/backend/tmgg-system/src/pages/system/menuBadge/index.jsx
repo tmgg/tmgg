@@ -106,7 +106,7 @@ export default class extends React.Component {
                   <FieldRemoteTreeSelect url='sysMenuBadge/menuOptions' rules={[{required:true}]} />
 
               </Form.Item>
-              <Form.Item label='请求地址' name='url' rules={[{required: true}]}>
+              <Form.Item label='请求地址' name='url' rules={[{required: true}]} help={'该url返回的数据（data）为数字'}>
                     <Input/>
               </Form.Item>
 
