@@ -14,10 +14,15 @@ import java.util.Map;
 /**
  * 响应结果数据
  *
+ * 参考大多数语言，如c语言， 0表示返回成功
+ *
  */
 @Getter
 @Setter
 public class AjaxResult  {
+
+    public static final int SUCCESS = 0;
+    public static final int FAILURE = 1;
 
 
 
@@ -36,6 +41,7 @@ public class AjaxResult  {
 
     public AjaxResult(boolean success) {
         this.success = success;
+        this.code = success ? SUCCESS: FAILURE;
     }
 
 
