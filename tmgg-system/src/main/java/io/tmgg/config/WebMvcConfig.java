@@ -71,8 +71,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
             "/openApi/gateway/**",
 
             // 移动端
-            "/wx/**",
-            "/app/weixin/**",
+            "/app/**",
     };
 
 
