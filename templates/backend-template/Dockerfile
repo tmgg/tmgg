@@ -13,7 +13,7 @@ RUN mvn clean  package -q  -DskipTests   &&    mv target/*.jar /app.jar && rm -r
 # 阶段3 运行环境, 减少镜像大小
 FROM registry.cn-hangzhou.aliyuncs.com/mxvc/tmgg-base-jdk
 
-COPY --from=java /home/app.jar /home/app.jar
+COPY --from=java /app.jar /home/app.jar
 EXPOSE 80
 
 ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-Duser.timezone=Asia/Shanghai","-jar","/home/app.jar"]

@@ -136,8 +136,6 @@ public class SysUser extends BaseEntity {
     }
 
 
-    @Transient
-    @AutoFill(value = AutoFillFileUrlStrategy.class)
-    private String fileUrl;
+
 
 }
