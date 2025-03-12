@@ -3,6 +3,8 @@ package io.tmgg.modules.sys.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.tmgg.core.jpa.fill.AutoFillFileUrl;
+import io.tmgg.core.jpa.fill.AutoFillFileUrlStrategy;
 import io.tmgg.core.jpa.fill.AutoFillOrgLabelStrategy;
 import io.tmgg.lang.ann.Msg;
 import io.tmgg.lang.dao.AutoFill;
@@ -132,4 +134,10 @@ public class SysUser extends BaseEntity {
     public String toString() {
         return name + " " + phone;
     }
+
+
+    @Transient
+    @AutoFill(value = AutoFillFileUrlStrategy.class)
+    private String fileUrl;
+
 }

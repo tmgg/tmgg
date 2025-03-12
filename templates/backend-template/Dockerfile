@@ -6,7 +6,7 @@ RUN npm run build
 
 FROM registry.cn-hangzhou.aliyuncs.com/mxvc/tmgg-base-java as java
 ADD . .
-COPY --from=web /build-node/dist/ common/src/main/resources/static/
+COPY --from=web /build-node/dist/ src/main/resources/static/
 RUN mvn clean  package -q  -DskipTests   &&    mv target/*.jar /app.jar && rm -rf *
 
 
