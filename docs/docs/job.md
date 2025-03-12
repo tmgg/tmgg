@@ -1,6 +1,5 @@
 ---
 title: 定时作业
-layout: doc
 ---
 # 支持参数设置
 ```java

@@ -1,6 +1,5 @@
 ---
-title: Kettle
-layout: doc
+title: 插件 - Kettle
 ---
 
 # 介绍
@@ -18,14 +17,16 @@ windows 上启动 kettle 目录下的 Carte.bat。
 为了避免乱码，建议在该文件前增加 set OPT= -Dfile.encoding=utf-8
 
 # 项目中使用
-## 配置pom.xml
+## 配置pom.xml文件
 ```xml
  <dependency>
     <groupId>io.github.tmgg</groupId>
     <artifactId>tmgg-system-kettle</artifactId>
  </dependency>
 ```
-## 配置环境变量
+
+
+## 配置yaml文件
 ```yaml
 tmgg:
   kettle:
@@ -35,7 +36,7 @@ tmgg:
     password: "cluster"
 ```
 
-# 界面操作
-## 启动项目后，会在左侧菜单看到kettle菜单
+## 界面操作
+ 启动项目后，会在左侧菜单看到kettle菜单
 
 
