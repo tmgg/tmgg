@@ -5,20 +5,52 @@ import {viteBundler} from '@vuepress/bundler-vite'
 export default defineUserConfig({
     lang: 'zh-CN',
 
-    title: '开发文档',
-    description: '一个后台管理框架',
+    title: 'TMGG开源',
+    description: '安全稳定，省时省心',
 
     theme: defaultTheme({
         navbar: ['/'],
         sidebar: [
-            '/',
-            '/data-init',
-            '/session',
-            '/job',
-            '/kettle',
+            {
 
-            '/code-tips',
-            '/qa'
+                text: '快速了解',
+                children: [
+                    '/overview', '/feature', '/technology','/function'
+                ]
+            },
+            '/get-start',
+            {
+
+                text: '后端手册',
+                children: [
+                    '/backend/data-init',
+                    '/backend/session',
+                    '/backend/job',
+                    '/backend/open-api',
+                    '/backend/flowable',
+                    '/backend/kettle',
+                ]
+            },
+
+            {
+
+                text: '前端手册',
+                children: [
+                    '/frontend/get-start',
+                ]
+            },
+
+            {
+
+                text: '其他',
+                children: [
+                    '/code-tips',
+                    '/qa'
+                ]
+            },
+
+
+
         ],
         sidebarDepth:1
     }),

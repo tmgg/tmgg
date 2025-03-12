@@ -1,5 +1,5 @@
 ---
-title: 插件 - Kettle
+title: 扩展插件 - Kettle
 ---
 
 # 介绍

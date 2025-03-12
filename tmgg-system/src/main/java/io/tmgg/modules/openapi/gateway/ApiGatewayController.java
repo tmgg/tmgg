@@ -9,9 +9,8 @@ import cn.hutool.crypto.SecureUtil;
 import cn.hutool.crypto.symmetric.AES;
 import cn.hutool.extra.servlet.JakartaServletUtil;
 import io.tmgg.jackson.JsonTool;
-import io.tmgg.modules.openapi.OpenApi;
+import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.modules.openapi.ApiResource;
-import io.tmgg.modules.openapi.ApiResult;
 import io.tmgg.modules.openapi.entity.OpenApiAccount;
 import io.tmgg.modules.openapi.service.ApiAccountService;
 import io.tmgg.modules.openapi.service.ApiResourceService;
@@ -19,7 +18,6 @@ import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,10 +32,9 @@ public class ApiGatewayController {
 
 
     public static final int TIME_DIFF_LIMIT = 5;
-    public static final int SUCCESS_CODE = 0;
 
     @PostMapping
-    public ApiResult process(HttpServletRequest request, HttpServletResponse response,
+    public AjaxResult process(HttpServletRequest request, HttpServletResponse response,
                              @RequestHeader("x-action") String action,
                              @RequestHeader("x-app-id") String appId,
                              @RequestHeader("x-timestamp") long timestamp,
@@ -57,7 +54,9 @@ public class ApiGatewayController {
 
 
             // 校验是否超期
-            Assert.state(account.getEndTime() == null || DateUtil.current() > account.getEndTime().getTime(), "账号已超过有效期");
+            if(account.getEndTime() != null){
+                Assert.state( DateUtil.current() < account.getEndTime().getTime(), "已过有效期");
+            }
 
             // 校验权限
             Assert.state(CollUtil.contains(account.getPerms(), action), "账号没有权限, uri: " + action);
@@ -92,13 +91,13 @@ public class ApiGatewayController {
             Assert.notNull(retValue, "接口必须有返回值");
             String res = JsonTool.toJsonQuietly(retValue);
             retValue = aes.encryptBase64(res);
-            return new ApiResult(SUCCESS_CODE, null, JsonTool.toJson(retValue));
+            return AjaxResult.ok().data(JsonTool.toJson(retValue)) ;
         } catch (Exception e) {
             return parseException(e);
         }
     }
 
-    private  ApiResult parseException(Throwable e) {
+    private  AjaxResult parseException(Throwable e) {
         e.printStackTrace();
 
         if(e instanceof InvocationTargetException ite){
@@ -106,7 +105,7 @@ public class ApiGatewayController {
         }
 
 
-        int code = -1;
+        int code = AjaxResult.FAILURE;
         String msg = e.getMessage();
 
 
@@ -124,7 +123,7 @@ public class ApiGatewayController {
             }
         }
 
-        return new ApiResult(code, msg);
+        return AjaxResult.err(msg).code(code);
     }
 
 
