@@ -2,6 +2,7 @@
 
 FROM node:18 as web
 
+WORKDIR build-node
 RUN npm install -g pnpm
 
 
