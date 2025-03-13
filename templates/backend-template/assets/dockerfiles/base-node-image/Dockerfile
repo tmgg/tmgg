@@ -7,7 +7,7 @@ RUN npm install -g pnpm
 
 
 ADD web/package.json .
-RUN pnpm install --force && rm *
+RUN pnpm install --force && rm -rf *
 
 RUN npm  config set registry https://registry.npmmirror.com
 RUN pnpm config set registry https://registry.npmmirror.com
