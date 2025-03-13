@@ -65,7 +65,7 @@ export default class extends React.Component {
             dataIndex: 'option',
             render: (_, record) => (
                 <ButtonList>
-                    <Button size='small' onClick={()=>this.handleDoc(record)}>接口信息</Button>
+                    <Button size='small' onClick={()=>this.handleDoc(record)}>接口文档</Button>
                     <Button size='small' perm='openApiAccount:save' onClick={() => this.handleEdit(record)}>编辑</Button>
                     <Popconfirm perm='openApiAccount:delete' title='是否确定删除接口访客'  onConfirm={() => this.handleDelete(record)}>
                         <Button size='small'>删除</Button>
