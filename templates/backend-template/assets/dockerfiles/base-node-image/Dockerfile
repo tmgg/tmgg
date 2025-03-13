@@ -5,6 +5,7 @@ FROM node:18 as web
 WORKDIR build-node
 
 ADD web/package.json .
-RUN pnpm install --force
+RUN npm install --force
 
-RUN npm  config set registry https://registry.npmmirror.com
+RUN npm config set fund false
+RUN npm config set registry https://registry.npmmirror.com
