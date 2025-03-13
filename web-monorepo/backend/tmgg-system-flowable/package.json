@@ -12,7 +12,7 @@
     "@tmgg/tmgg-system" : "workspace:*",
     "@tmgg/tmgg-commons-lang" : "workspace:*",
     "antd" : "^5.20.3",
-    "axios" : "^1.6.7",
+    "axios" : "^1.8.3",
     "bpmn-js" : "^9.0.0",
     "dagre-d3" : "^0.6.0",
     "diagram-js-origin" : "^1.0.0",

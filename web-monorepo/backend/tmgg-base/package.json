@@ -1,26 +1,29 @@
 {
-  "license" : "ISC",
-  "devDependencies" : {
-    "@babel/core" : "^7.25.2",
-    "@babel/preset-env" : "^7.25.4",
-    "@babel/preset-react" : "^7.24.7",
-    "jsdoc" : "^4.0.3"
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "^7.25.2",
+    "@babel/preset-env": "^7.25.4",
+    "@babel/preset-react": "^7.24.7",
+    "jsdoc": "^4.0.3"
   },
-  "author" : "jiangtao",
-  "peerDependencies" : {
-    "@ant-design/icons" : "^5.4.0",
-    "@tinymce/tinymce-react" : "^5.0.0",
-    "antd" : "^5.20.3",
-    "antd-img-crop" : "^4.23.0",
-    "axios" : "^1.6.8",
-    "dayjs" : "^1.11.13",
-    "react-amap" : "^1.2.8",
-    "@tmgg/tmgg-commons-lang" : "workspace:*",
-    "echarts" : "^5.6.0"
+  "author": "jiangtao",
+  "dependencies": {
+    "@ant-design/icons": "^5.4.0",
+    "@tinymce/tinymce-react": "^5.0.0",
+    "@tmgg/tmgg-commons-lang": "workspace:*",
+    "antd": "^5.20.3",
+    "antd-img-crop": "^4.23.0",
+    "axios": "^1.8.3",
+    "dayjs": "^1.11.13",
+    "echarts": "^5.6.0",
+    "react-amap": "^1.2.8"
   },
-  "name" : "@tmgg/tmgg-base",
-  "description" : "函数工具类",
-  "files" : [ "src/*", "plugins/*" ],
-  "main" : "src/index.js",
-  "version" : "0.3.51"
+  "name": "@tmgg/tmgg-base",
+  "description": "函数工具类",
+  "files": [
+    "src/*",
+    "plugins/*"
+  ],
+  "main": "src/index.js",
+  "version": "0.3.51"
 }
