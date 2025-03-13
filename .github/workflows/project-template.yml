@@ -1,4 +1,4 @@
-name: 项目模板
+name: 生成项目模板
 
 on:
   workflow_dispatch:
