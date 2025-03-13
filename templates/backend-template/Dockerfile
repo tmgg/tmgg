@@ -17,4 +17,4 @@ COPY --from=java /app.jar ./
 COPY --from=web /build-node/dist/ ./static/
 EXPOSE 80
 
-ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-Duser.timezone=Asia/Shanghai","-jar","/app.jar"]
+ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-Duser.timezone=Asia/Shanghai","-jar","app.jar"]
