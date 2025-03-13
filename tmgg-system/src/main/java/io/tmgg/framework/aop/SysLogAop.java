@@ -1,7 +1,6 @@
 
 package io.tmgg.framework.aop;
 
-import cn.hutool.core.util.StrUtil;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.modules.sys.service.SysOpLogService;
 import io.tmgg.web.annotion.HasPermission;
@@ -9,6 +8,7 @@ import io.tmgg.web.consts.CommonConstant;
 import io.tmgg.web.perm.SecurityUtils;
 import io.tmgg.web.perm.Subject;
 import jakarta.annotation.Resource;
+import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.AfterThrowing;
@@ -22,6 +22,7 @@ import java.lang.reflect.Method;
 /**
  * 业务日志aop切面
  */
+@Slf4j
 @Component
 @Aspect
 public class SysLogAop {
@@ -42,13 +43,14 @@ public class SysLogAop {
      */
     @AfterReturning(pointcut = "getLogPointCut()", returning = "result")
     public void doAfterReturning(JoinPoint joinPoint, Object result) {
+        log.trace("日志切面开始 ");
+        long startTime = System.currentTimeMillis();
         MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
         Method method = methodSignature.getMethod();
         HasPermission ann = method.getAnnotation(HasPermission.class);
         if (!ann.log()) {
             return;
         }
-
 
         Subject subject = SecurityUtils.getSubject();
         String account = CommonConstant.UNKNOWN;
@@ -63,6 +65,8 @@ public class SysLogAop {
         }
         //异步记录日志
         sysOpLogService.saveOperationLog(account, joinPoint, success, msg);
+
+        log.trace("日志切面结束 {}毫秒", System.currentTimeMillis() - startTime);
     }
 
     /**

@@ -9,7 +9,7 @@
     <springProperty scope="context" name="LOG_PATH" source="logging.file.path" defaultValue="/logs/app-log"/>
 
 
-    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <pattern>${FILE_LOG_PATTERN}</pattern>
             <charset>utf-8</charset>
@@ -50,7 +50,7 @@
     </appender>
 
     <!-- 日志记录器，日期滚动记录 -->
-    <appender name="FILE_ALL" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <!-- 正在记录的日志文件的路径及文件名 -->
         <file>${LOG_PATH}/log_total.log</file>
 
@@ -75,9 +75,9 @@
 
     <!--记录到文件时，记录两类一类是error日志，一个是所有日志-->
     <root level="INFO">
-        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="console"/>
         <appender-ref ref="FILE_ERROR"/>
-        <appender-ref ref="FILE_ALL"/>
+        <appender-ref ref="file"/>
     </root>
     <!--
         name:指定受此logger约束的某一个包或者具体的某一个类。或者用于自定义日志名称

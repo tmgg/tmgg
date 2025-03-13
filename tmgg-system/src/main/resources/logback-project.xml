@@ -4,7 +4,9 @@
 
 <!--实际项目覆盖此文件-->
 
-
+<!--    <logger name="io.tmgg.framework.aop.SysLogAop" level="TRACE" >-->
+<!--        <appender-ref ref="console"/>-->
+<!--    </logger>-->
 </configuration>
 
 

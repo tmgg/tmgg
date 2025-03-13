@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <!--自定义的日志文件-->
+    <!--内置两个appender
+        - file 记录到文件
+        - console 打印在控制台
+     -->
+
+    <logger name="io.tmgg.framework.aop.SysLogAop" level="TRACE" >
+        <appender-ref ref="console"/>
+    </logger>
+</configuration>
+
+

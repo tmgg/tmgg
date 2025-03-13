@@ -504,13 +504,14 @@ public abstract class BaseDao<T extends Persistable<String>> {
 
     @Transactional
     public List<T> saveAll(Iterable<T> entities) {
-        List<T> result = new ArrayList<T>();
+        List<T> resultList = new ArrayList<>();
 
         for (T entity : entities) {
-            result.add(save(entity));
+            T r = save(entity);
+            resultList.add(r);
         }
 
-        return result;
+        return resultList;
     }
 
 
