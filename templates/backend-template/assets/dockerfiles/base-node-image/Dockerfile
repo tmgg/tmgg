@@ -2,7 +2,7 @@
 
 FROM node:18 as web
 
-RUN npm install pnpm
+RUN npm install pnpm -g
 
 
 ADD web/package.json .

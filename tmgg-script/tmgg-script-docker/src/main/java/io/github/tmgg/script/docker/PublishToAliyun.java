@@ -28,6 +28,9 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * 构建基础镜像，推送阿里云
+ */
 @Slf4j
 public class PublishToAliyun {
     private static String url = "registry.cn-hangzhou.aliyuncs.com";
@@ -53,8 +56,8 @@ public class PublishToAliyun {
         String projectVersion = getProjectVersion(root);
         log.info("项目版本为 {}", projectVersion);
 
-        buildAndPush(projectVersion, root, "jdk");
         buildAndPush(projectVersion, root, "node");
+        buildAndPush(projectVersion, root, "jdk");
         buildAndPush(projectVersion, root, "java");
 
     }
