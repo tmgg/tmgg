@@ -5,5 +5,5 @@
   "scripts" : {
     "preinstall" : "npx only-allow pnpm"
   },
-  "version" : "0.3.51"
+  "version" : "0.3.52"
 }

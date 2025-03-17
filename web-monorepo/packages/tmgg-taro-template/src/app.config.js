@@ -1,4 +1,11 @@
 export default defineAppConfig({
+  tabBar:{
+    list: [
+      {text:'首页',pagePath: 'pages/index/index'},
+      {text:'我的',pagePath: 'pages/login/index'},
+    ]
+  },
+
   pages: [
     'pages/index/index',
     'pages/login/index',
@@ -10,5 +17,7 @@ export default defineAppConfig({
     navigationBarTextStyle: 'black'
   },
   animation: false,
+
+
 }
 )

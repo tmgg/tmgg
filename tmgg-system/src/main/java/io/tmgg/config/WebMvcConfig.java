@@ -48,9 +48,16 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/**")
-                .addResourceLocations("file:./static/")
-        ;
+        String[] list = {
+                "classpath:/META-INF/resources/",
+                "classpath:/resources/",
+                "classpath:/static/",
+                "classpath:/public/",
+
+                // 同级目录下的静态文件
+                "file:./static/"
+        };
+        registry.addResourceHandler("/**").addResourceLocations(list);
     }
 
     /**
@@ -64,7 +71,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
             "/static/**.png",
             "/favicon.ico",
             "/web/**",
-
 
 
             //后端的

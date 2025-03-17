@@ -10,7 +10,6 @@ ADD . .
 RUN mvn clean  package -q  -DskipTests   &&    mv target/*.jar /app.jar && rm -rf *
 
 
-# 阶段3 运行环境, 减少镜像大小
 FROM registry.cn-hangzhou.aliyuncs.com/mxvc/tmgg-base-jdk
 WORKDIR /home
 COPY --from=java /app.jar ./
