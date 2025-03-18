@@ -9,6 +9,7 @@ public class DBConstants {
     // 用于存储大量二进制数据，如图片、音频、视频等
     public static final String TYPE_BLOB = "blob";
 
+    public static final String TYPE_LONGBLOB = "longblob";
     public static final String TYPE_TEXT = "text"; // 65535
     public static final String TYPE_LONGTEXT = "LONGTEXT"; // 4,294,967,295
 

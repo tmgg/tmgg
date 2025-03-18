@@ -50,7 +50,7 @@ public class WeixinPayChannel extends BaseEntity {
     @JsonIgnore
     @Msg("p12文件")
     @Lob
-    @Column(columnDefinition = DBConstants.TYPE_BLOB)
+    @Column(columnDefinition = DBConstants.TYPE_LONGBLOB)
     private byte[] keyContent;
 
     private String keyContentMd5;
