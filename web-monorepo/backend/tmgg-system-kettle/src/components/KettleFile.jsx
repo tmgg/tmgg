@@ -77,7 +77,7 @@ export default class extends React.Component {
     }
 
     fileList.forEach((f) => {
-      if (f.status === 'done' && f.response && f.response.code == 200) {
+      if (f.status === 'done' && f.response && f.response.code == 0) {
         this.loadData()
       }
     });

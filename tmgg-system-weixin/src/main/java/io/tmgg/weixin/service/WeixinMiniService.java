@@ -14,24 +14,24 @@ import java.util.List;
 public class WeixinMiniService extends BaseService<WeixinMini> {
 
     @Resource
-    WxMaService wxMaService;
+  private   WxMaService wxMaService;
 
 
 
     @Override
     public WeixinMini saveOrUpdate(WeixinMini input) throws Exception {
         WeixinMini weixinMini = super.saveOrUpdate(input);
-        this.refresh();
+        this.loadConfig();
         return weixinMini;
     }
 
     @PostConstruct
     public void init(){
-        this.refresh();
+        this.loadConfig();
     }
 
 
-    public void refresh(){
+    public void loadConfig(){
         List<WeixinMini> list = this.findAll();
 
         for (WeixinMini weixinMini : list) {

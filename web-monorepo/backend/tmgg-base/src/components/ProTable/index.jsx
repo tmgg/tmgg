@@ -154,9 +154,10 @@ export class ProTable extends React.Component {
         if (!toolBarRender) {
             return
         }
-        return toolBarRender(this.state.params, {
-                selectedRows: this.state.selectedRows,
-                selectedRowKeys: this.state.selectedRowKeys
+        let {selectedRows, selectedRowKeys, params} = this.state;
+        return toolBarRender(params, {
+                selectedRows: selectedRows,
+                selectedRowKeys: selectedRowKeys,
         });
     }
 

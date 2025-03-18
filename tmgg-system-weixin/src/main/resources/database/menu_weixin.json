@@ -28,6 +28,15 @@
       "perm": "weixinPage",
       "path": "/weixin/page",
       "seq": 3
+    },
+
+    {
+      "pid":"weixin",
+      "id": "weixinPayChannel",
+      "name": "支付渠道",
+      "perm": "weixinPayChannel",
+      "path": "/weixin/payChannel",
+      "seq": 10
     }
   ]
 }

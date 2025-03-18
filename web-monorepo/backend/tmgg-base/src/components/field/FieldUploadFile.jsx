@@ -62,7 +62,7 @@ export class FieldUploadFile extends Component{
     if (this.props.onChange) {
       let doneList = [];
       fileList.forEach((f) => {
-        if (f.status === 'done' && f.response && f.response.code == 200) {
+        if (f.status === 'done' && f.response && f.response.code == 0) {
           doneList.push(f.response.data);
         }
       });

@@ -86,7 +86,7 @@ export default class extends React.Component {
 
     onFinish = (values) => {
         HttpUtil.post('code/gen', values).then(rs => {
-            this.setState({formOpen: false})
+            //this.setState({formOpen: false})
         }).catch(err => {
             alert(JSON.stringify(err))
         })
@@ -96,11 +96,6 @@ export default class extends React.Component {
 
 
     render() {
-
-        let  tabItems = this.state.tabItems
-
-
-
         return <>
 
             <ProTable

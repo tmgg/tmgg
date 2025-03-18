@@ -8,7 +8,7 @@
     </parent>
 
     <artifactId>tmgg-system-weixin</artifactId>
-    <description>微信小程序集成，如登录，获取手机号等</description>
+    <description>微信小程序集成，主要做配置管理，无过多业务代码</description>
 
     <dependencies>
         <dependency>
@@ -24,6 +24,11 @@
         <dependency>
             <groupId>com.github.binarywang</groupId>
             <artifactId>weixin-java-mp</artifactId>
+            <version>4.7.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.binarywang</groupId>
+            <artifactId>weixin-java-pay</artifactId>
             <version>4.7.0</version>
         </dependency>
     </dependencies>

@@ -1,11 +1,11 @@
 
 package io.tmgg.modules.sys.controller;
 
-import cn.hutool.core.lang.Dict;
 import io.tmgg.lang.ann.PublicRequest;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.modules.sys.entity.SysFile;
 import io.tmgg.modules.sys.service.SysFileService;
+import io.tmgg.modules.sys.vo.UploadResult;
 import io.tmgg.web.annotion.HasPermission;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletResponse;
@@ -39,16 +39,16 @@ public class SysFileController {
      * 上传文件
      */
     @PostMapping("upload")
-    public Dict upload(@RequestPart("file") MultipartFile file) throws Exception {
+    public UploadResult upload(@RequestPart("file") MultipartFile file) throws Exception {
         SysFile sysFile = service.uploadFile(file);
-        Dict result = new Dict();
 
-        // 兼容 tiny mce
         String location = "/sysFile/preview/" + sysFile.getId();
-        result.put("location", location);
-        result.put("id", sysFile.getId());
+        UploadResult r = new UploadResult();
+        r.setLocation(location);
 
-        return result;
+        r.setId(sysFile.getId());
+        r.setData(sysFile.getId());
+        return r;
     }
 
     /**
