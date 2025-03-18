@@ -14,6 +14,7 @@ import lombok.ToString;
 import lombok.experimental.FieldNameConstants;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.util.Assert;
 
 import java.util.List;
 
@@ -77,6 +78,10 @@ public class SysMenu extends BaseEntity implements Tree<SysMenu> {
         visible = ObjectUtils.defaultIfNull(visible, true);
         type = ObjectUtils.defaultIfNull(type, MenuType.MENU);
         seq = ObjectUtils.defaultIfNull(seq, 1);
+
+        if(id != null && pid != null){
+            Assert.state(!id.equals(pid), "菜单的id和pid不能相同。(%s,%s)".formatted(id, pid));
+        }
     }
 
     @Override

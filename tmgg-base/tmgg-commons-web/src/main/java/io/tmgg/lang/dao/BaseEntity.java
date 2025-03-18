@@ -137,6 +137,10 @@ public abstract class BaseEntity implements PersistId, Serializable {
 
     }
 
+    /**
+     * 修改前调用
+     * 注意：如果修改前后属性无变化，jpa不会入库，也就不会调用本方法
+     */
     @PreUpdate
     public void preUpdate() {
         this.prePersistOrUpdate();

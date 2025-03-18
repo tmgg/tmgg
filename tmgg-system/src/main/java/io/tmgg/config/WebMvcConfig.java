@@ -38,7 +38,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
     private SysProp sysProp;
 
     @Resource
-    PermissionInterceptor permissionInterceptor;
+    private PermissionInterceptor permissionInterceptor;
 
 
     @Bean
@@ -57,6 +57,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 // 同级目录下的静态文件
                 "file:./static/"
         };
+
         registry.addResourceHandler("/**").addResourceLocations(list);
     }
 
