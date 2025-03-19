@@ -4,6 +4,7 @@ import cn.hutool.cache.CacheUtil;
 import cn.hutool.cache.impl.TimedCache;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
+import cn.hutool.core.codec.Base64;
 import cn.hutool.crypto.SecureUtil;
 import com.github.binarywang.wxpay.config.WxPayConfig;
 import com.github.binarywang.wxpay.service.WxPayService;
@@ -84,7 +85,11 @@ public class WeixinPayChannelService extends BaseService<WeixinPayChannel> {
             payConfig.setAppId(item.getAppId());
             payConfig.setMchId(item.getMchId());
             payConfig.setMchKey(item.getMchKey());
-            payConfig.setKeyContent(item.getKeyContent());
+            payConfig.setApiV3Key(item.getMchKey());
+
+            byte[] keyContent = item.getKeyContent();
+            String encode = Base64.encode(keyContent);
+            payConfig.setKeyString(encode);
 
             wxPayService.setConfig(payConfig);
         }
