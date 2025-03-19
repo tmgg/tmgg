@@ -16,3 +16,4 @@ export * from './report/SysReportTable'
 
 export * from './NamedIcon'
 export * from './EditTable'
+export * from './view'

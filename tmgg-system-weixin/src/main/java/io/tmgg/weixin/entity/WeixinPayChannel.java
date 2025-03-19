@@ -47,13 +47,11 @@ public class WeixinPayChannel extends BaseEntity {
      * .p12文件, hex编码后
      */
     @NotNull
-    @JsonIgnore
     @Msg("p12文件")
     @Lob
-    @Column(columnDefinition = DBConstants.TYPE_LONGBLOB)
-    private byte[] keyContent;
+    @Column(columnDefinition = DBConstants.TYPE_LONGTEXT)
+    private String keyContentHex;
 
-    private String keyContentMd5;
 
     private Boolean enable;
 

@@ -1,8 +1,6 @@
 package io.tmgg.weixin.controller;
 
-import cn.hutool.cache.CacheUtil;
-import cn.hutool.cache.impl.TimedCache;
-import io.tmgg.lang.HexTool;
+import cn.hutool.core.util.HexUtil;
 import io.tmgg.lang.dao.BaseController;
 import io.tmgg.lang.dao.specification.JpaQuery;
 import io.tmgg.lang.obj.AjaxResult;
@@ -48,8 +46,9 @@ public class WeixinPayChannelController extends BaseController<WeixinPayChannel>
     @HasPermission("weixinPayChannel:save")
     @PostMapping("uploadP12")
     public AjaxResult uploadP12(MultipartFile file) throws Exception {
+        byte[] bytes = file.getBytes();
 
-        String id = service.cacheFile(file);
+        String id = HexUtil.encodeHexStr(bytes);
 
         UploadResult uploadResult = new UploadResult();
         uploadResult.setId(id);

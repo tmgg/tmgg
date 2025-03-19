@@ -11,8 +11,9 @@ import {
     FieldDateTimePickerString,
     HttpUtil,
     ProTable,
-    FieldUploadFile
+    FieldUploadFile, Ellipsis
 } from "@tmgg/tmgg-base";
+import {ViewEllipsis} from "@tmgg/tmgg-base/src/components/view/ViewEllipsis";
 
 
 
@@ -58,15 +59,14 @@ export default class extends React.Component {
         {
             title: '商户密钥',
             dataIndex: 'mchKey',
-
-
-
-
         },
 
         {
-            title: 'p12文件',
-            dataIndex: 'keyContentMd5',
+            title: 'p12文件(hex)',
+            dataIndex: 'keyContentHex',
+            render(v) {
+                return <ViewEllipsis  value={v} />
+            }
         },
         {
             title: '是否启用',
@@ -154,8 +154,12 @@ export default class extends React.Component {
                     <Form.Item label='商户密钥' name='mchKey' rules={[{required: true}]}>
                         <Input/>
                     </Form.Item>
-                    <Form.Item label='p12文件' name='keyContentMd5' rules={[{required: true}]}>
-                        <FieldUploadFile url='weixinPayChannel/uploadP12' />
+                    <Form.Item label='p12文件' name='keyContentHex' rules={[{required: true}]} help={
+                        <FieldUploadFile url='weixinPayChannel/uploadP12' onChange={(value)=>this.formRef.current.setFieldsValue({
+                            keyContentHex: value
+                        })} />
+                    }>
+                        <Input.TextArea disabled rows={3}></Input.TextArea>
                     </Form.Item>
                     <Form.Item label='启用' name='enable' rules={[{required: true}]}>
                        <FieldRadioBoolean />
