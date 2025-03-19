@@ -37,7 +37,7 @@ public class WeixinPayChannel extends BaseEntity {
     private String mchId;
 
     /**
-     * 微信支付商户密钥
+     * 微信支付商户密钥, v3秘钥
      */
     @Msg("商户密钥")
     private String mchKey;
@@ -54,6 +54,8 @@ public class WeixinPayChannel extends BaseEntity {
     private byte[] keyContent;
 
     private String keyContentMd5;
+
+    private Boolean enable;
 
 
 }

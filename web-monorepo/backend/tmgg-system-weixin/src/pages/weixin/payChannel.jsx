@@ -1,5 +1,5 @@
 import {PlusOutlined} from '@ant-design/icons'
-import {Button, Card,InputNumber, Popconfirm,Modal,Form,Input,message} from 'antd'
+import {Button, Card, InputNumber, Popconfirm, Modal, Form, Input, message, Tag} from 'antd'
 import React from 'react'
 import {
     ButtonList,
@@ -38,7 +38,7 @@ export default class extends React.Component {
         },
 
         {
-            title: 'appId',
+            title: '应用id(appId)',
             dataIndex: 'appId',
 
 
@@ -68,7 +68,13 @@ export default class extends React.Component {
             title: 'p12文件',
             dataIndex: 'keyContentMd5',
         },
-
+        {
+            title: '是否启用',
+            dataIndex: 'enable',
+            render(v){
+                return v ?  <Tag color={"green"}>启用</Tag>: <Tag color={"red"}>禁用</Tag>
+            }
+        },
         {
             title: '操作',
             dataIndex: 'option',
@@ -139,7 +145,7 @@ export default class extends React.Component {
                     <Form.Item label='名称' name='name' rules={[{required: true}]}>
                         <Input/>
                     </Form.Item>
-                    <Form.Item label='appId' name='appId' rules={[{required: true}]} help='公众号或小程序的id'>
+                    <Form.Item label='应用id(appId)' name='appId' rules={[{required: true}]} help='公众号或小程序的id'>
                         <Input/>
                     </Form.Item>
                     <Form.Item label='商户号' name='mchId' rules={[{required: true}]}>
@@ -151,7 +157,9 @@ export default class extends React.Component {
                     <Form.Item label='p12文件' name='keyContentMd5' rules={[{required: true}]}>
                         <FieldUploadFile url='weixinPayChannel/uploadP12' />
                     </Form.Item>
-
+                    <Form.Item label='启用' name='enable' rules={[{required: true}]}>
+                       <FieldRadioBoolean />
+                    </Form.Item>
                 </Form>
             </Modal>
         </>

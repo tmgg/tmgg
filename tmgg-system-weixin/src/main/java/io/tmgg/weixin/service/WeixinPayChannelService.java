@@ -17,6 +17,7 @@ import jakarta.annotation.PostConstruct;
 import jakarta.annotation.Resource;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayInputStream;
@@ -76,6 +77,13 @@ public class WeixinPayChannelService extends BaseService<WeixinPayChannel> {
         return weixinPayChannel;
     }
 
+    @Override
+    public void deleteById(String id) {
+        Assert.hasText(id, "id不能为空");
+        WeixinPayChannel db = baseDao.findOne(id);
+        baseDao.deleteById(id);
+        wxPayService.removeConfig(db.getMchId());
+    }
 
     public void loadConfig() {
         List<WeixinPayChannel> list = this.findAll();
@@ -91,8 +99,9 @@ public class WeixinPayChannelService extends BaseService<WeixinPayChannel> {
             String encode = Base64.encode(keyContent);
             payConfig.setKeyString(encode);
 
-            wxPayService.setConfig(payConfig);
+            wxPayService.addConfig(item.getMchId(),payConfig);
         }
+
     }
 }
 
