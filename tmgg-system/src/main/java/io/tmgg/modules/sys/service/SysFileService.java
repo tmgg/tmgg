@@ -8,9 +8,7 @@ import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.NumberUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
-import io.tmgg.SysProp;
 import io.tmgg.lang.DownloadTool;
-import io.tmgg.lang.RequestTool;
 import io.tmgg.lang.dao.specification.JpaQuery;
 import io.tmgg.modules.sys.dao.SysFileDao;
 import io.tmgg.modules.sys.entity.SysFile;
@@ -56,13 +54,7 @@ public class SysFileService {
     private SysConfigService sysConfigService;
 
     public String getPreviewUrl(String fileId, HttpServletRequest request) {
-        String baseUrl = sysConfigService.getStr("sys.baseUrl");
-
-        if(StrUtil.isBlank(baseUrl)){
-            baseUrl = RequestTool.getBaseUrl(request);
-        }
-
-        baseUrl = baseUrl.trim();
+        String  baseUrl = sysConfigService.getOrParseBaseUrl(request);
 
         String url = baseUrl + previewUrl.replace("{id}", fileId);
         return url;
