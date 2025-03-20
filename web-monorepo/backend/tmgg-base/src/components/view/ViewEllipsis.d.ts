@@ -5,7 +5,8 @@ import React from "react";
 
 declare type ViewEllipsisProps = {
     maxLength?:  number,
-} & CommonViewProps;
+    value: any
+}
 
 export class ViewEllipsis extends React.Component<ViewEllipsisProps, any> {
 }

@@ -3,13 +3,11 @@ package io.tmgg.modules.sys;
 
 import cn.hutool.core.lang.Dict;
 import cn.hutool.core.util.StrUtil;
-import io.tmgg.lang.SpringTool;
 import io.tmgg.lang.TreeManager;
 import io.tmgg.lang.ann.PublicRequest;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.obj.Route;
 import io.tmgg.modules.sys.entity.SysMenu;
-import io.tmgg.modules.sys.entity.SysMenuBadge;
 import io.tmgg.modules.sys.entity.SysRole;
 import io.tmgg.modules.sys.service.SysConfigService;
 import io.tmgg.modules.sys.service.SysMenuBadgeService;
@@ -30,7 +28,7 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
-public class DefaultCommonController {
+public class CommonController {
 
     @Resource
     SysRoleService roleService;
