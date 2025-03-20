@@ -3,7 +3,7 @@ import {Button, Input, Modal, Row} from "antd";
 import {FieldUploadFile} from "../FieldUploadFile";
 
 
-export default class FieldFileBase64 extends React.Component {
+export  class FieldFileBase64 extends React.Component {
 
     render() {
         return <>

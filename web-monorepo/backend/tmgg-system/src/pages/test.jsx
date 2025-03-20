@@ -1,7 +1,6 @@
 import React from "react";
 import {Card, Form, Select} from "antd";
-import {FieldEditor, FieldEditTable, FieldRemoteSelect} from "@tmgg/tmgg-base";
-import FieldFileBase64 from "@tmgg/tmgg-base/src/components/field/FieldFileBase64";
+import {FieldEditor, FieldEditTable, FieldFileBase64, FieldRemoteSelect} from "@tmgg/tmgg-base";
 
 export default class extends React.Component {
 
