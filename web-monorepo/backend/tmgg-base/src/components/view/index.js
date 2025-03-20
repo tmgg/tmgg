@@ -3,3 +3,5 @@
  * 统一有个值叫value
  */
 export * from './ViewEllipsis'
+export * from './ViewBoolean'
+export * from './ViewBooleanEnableDisable'

@@ -1,7 +1,7 @@
 import {PlusOutlined} from '@ant-design/icons'
 import {Button, Card,InputNumber, Popconfirm,Modal,Form,Input,message} from 'antd'
 import React from 'react'
-import {ButtonList,dictValueTag, FieldDateRange,FieldDictSelect,FieldRadioBoolean, FieldDatePickerString, FieldDateTimePickerString, HttpUtil, ProTable} from "@tmgg/tmgg-base";
+import {ButtonList,dictValueTag, ViewBoolean,FieldDateRange,FieldDictSelect,FieldRadioBoolean, FieldDatePickerString, FieldDateTimePickerString, HttpUtil, ProTable} from "@tmgg/tmgg-base";
 
 
 
@@ -30,7 +30,7 @@ export default class extends React.Component {
 
     <#if (f.type == 'java.lang.Boolean')>
          render(v){
-            return v == null ? null : ( v ? '是': '否')
+            return <ViewBoolean value={v}>
           },
 
     </#if>
