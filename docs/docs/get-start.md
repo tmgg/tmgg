@@ -9,7 +9,7 @@
 
 - JPA支持的数据库，如MySql 8.x 或 5.7.11+ 以上版本 或 Oracle、PostgreSQL、Sql Server
 
-- NODE 18或以上版本
+- NODE 20或以上版本
 
 ## 项目模板
 ### 下载模板
