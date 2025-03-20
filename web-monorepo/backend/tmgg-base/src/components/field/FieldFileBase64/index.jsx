@@ -7,17 +7,15 @@ export  class FieldFileBase64 extends React.Component {
 
     render() {
         return <>
-            <div style={{display: 'flex', justifyContent: 'space-between',gap:12}}>
-                <Input.TextArea rows={3}></Input.TextArea>
-                <FieldUploadFile url={'/utils/fileBase64'} onChange={this.onFinish}></FieldUploadFile>
-            </div>
+            <Input.TextArea rows={3} value={this.props.value}></Input.TextArea>
+            <FieldUploadFile url={'/utils/fileBase64'} onChange={this.onFinish}></FieldUploadFile>
         </>
     }
 
-    onFinish = v => {
+    onFinish = value => {
         if(this.props.onChange){
-            this.props.onChange(v)
+            this.props.onChange(value)
         }
-    };
+    }
 
 }

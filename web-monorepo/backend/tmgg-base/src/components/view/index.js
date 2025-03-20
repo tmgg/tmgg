@@ -5,3 +5,4 @@
 export * from './ViewEllipsis'
 export * from './ViewBoolean'
 export * from './ViewBooleanEnableDisable'
+export * from './ViewImage'
