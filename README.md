@@ -43,11 +43,13 @@ word，excel等的工具类,参考了easy poi,但项目用的版本是5.x,easypo
 ![Maven Central Version](https://img.shields.io/maven-central/v/io.github.tmgg/tmgg-system-kettle)tmgg-system-kettle
 数据抽取工具KETTLE的管理。监控，调度等， 注意kettle需要安装一个插件 https://github.com/tmgg/kettle-carte-plugin
  
+![Maven Central Version](https://img.shields.io/maven-central/v/io.github.tmgg/tmgg-system-payment)tmgg-system-payment
+ 
 ![Maven Central Version](https://img.shields.io/maven-central/v/io.github.tmgg/tmgg-system-ureport)tmgg-system-ureport
 基于ureport的报表工具
  
 ![Maven Central Version](https://img.shields.io/maven-central/v/io.github.tmgg/tmgg-system-weixin)tmgg-system-weixin
-微信小程序集成，如登录，获取手机号等
+微信小程序集成，主要做配置管理，无过多业务代码
 ## NPM 包
  
  ![NPM Version](https://img.shields.io/npm/v/@tmgg/tmgg-base)@tmgg/tmgg-base
@@ -60,12 +62,19 @@ word，excel等的工具类,参考了easy poi,但项目用的版本是5.x,easypo
  
  ![NPM Version](https://img.shields.io/npm/v/@tmgg/tmgg-system-kettle)@tmgg/tmgg-system-kettle
  
+ ![NPM Version](https://img.shields.io/npm/v/@tmgg/tmgg-system-payment)@tmgg/tmgg-system-payment
+ 
  ![NPM Version](https://img.shields.io/npm/v/@tmgg/tmgg-system-ureport)@tmgg/tmgg-system-ureport
  
- ![NPM Version](https://img.shields.io/npm/v/@tmgg/tmgg-system-weapp)@tmgg/tmgg-system-weapp
+ ![NPM Version](https://img.shields.io/npm/v/@tmgg/tmgg-system-weixin)@tmgg/tmgg-system-weixin
  
  ![NPM Version](https://img.shields.io/npm/v/@tmgg/tmgg-commons-lang)@tmgg/tmgg-commons-lang
 pc和mobile端都可依赖的公共代码，工具类等
+ 
+ ![NPM Version](https://img.shields.io/npm/v/@tmgg/tmgg-taro)@tmgg/tmgg-taro
+ 
+ ![NPM Version](https://img.shields.io/npm/v/frontend-template)frontend-template
+
 # 文档
 https://github.com/tmgg/tmgg/wiki
 
