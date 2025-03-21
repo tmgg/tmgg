@@ -19,6 +19,10 @@
 
     <dependencies>
         <dependency>
+            <groupId>io.github.tmgg</groupId>
+            <artifactId>tmgg-system</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.github.binarywang</groupId>
             <artifactId>weixin-java-pay</artifactId>
             <version>4.7.0</version>
