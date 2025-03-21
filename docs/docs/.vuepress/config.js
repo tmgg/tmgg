@@ -32,19 +32,13 @@ export default defineUserConfig({
                 ]
             },
             '/get-start',
-            {
-
-                text: '后端手册',
-                children: [
-                    '/backend/data-init',
-                    '/backend/session',
-                    '/backend/job',
-                    '/backend/open-api',
-                    '/backend/flowable',
-                    '/backend/kettle',
-                ]
-            },
-
+            '/data-init',
+            '/session',
+            '/job',
+            '/open-api',
+            '/flowable',
+            '/kettle',
+            '/payment',
             {
 
                 text: '前端手册',

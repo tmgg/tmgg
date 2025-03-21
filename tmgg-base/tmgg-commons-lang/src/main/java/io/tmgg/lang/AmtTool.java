@@ -14,11 +14,17 @@ public class AmtTool {
      * @return
      */
     public static int yuanToFen(BigDecimal yuan) {
-        // 乘以100并四舍五入到最接近的整数
-        BigDecimal fenBigDecimal = yuan.multiply(new BigDecimal("100"))
-                .setScale(0, RoundingMode.DOWN);
-        // 转换为int
-        return fenBigDecimal.intValueExact();
+        BigDecimal dFen = yuan.multiply(new BigDecimal("100"))
+                .setScale(0, RoundingMode.HALF_UP);
+        return dFen.intValueExact();
     }
+    public static BigDecimal fenToYuan(int fen) {
+        BigDecimal dFen = new BigDecimal(fen);
+
+        BigDecimal y = dFen.divide(new BigDecimal("100"))
+                .setScale(2, RoundingMode.HALF_UP);
+        return y;
+    }
+
 
 }

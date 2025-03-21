@@ -3,16 +3,13 @@ package io.tmgg.core.error;
 
 import cn.hutool.core.util.StrUtil;
 import io.tmgg.SysProp;
+import io.tmgg.lang.ExceptionToMessageTool;
 import io.tmgg.lang.HttpServletTool;
-import io.tmgg.lang.RegexTool;
-import io.tmgg.lang.StrTool;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.web.BizException;
 import io.tmgg.web.consts.AopSortConstant;
 import jakarta.annotation.Resource;
-import jakarta.persistence.RollbackException;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.annotation.Order;
@@ -34,9 +31,7 @@ import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import java.io.FileNotFoundException;
 import java.sql.SQLException;
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
-import java.util.Set;
 
 /**
  * 全局异常处理器
@@ -113,61 +108,21 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ConstraintViolationException.class)
     public AjaxResult constraintViolationException(ConstraintViolationException e) {
         log.warn("约束异常:{}", e.getMessage());
-        return AjaxResult.err().msg(getHumanMessage(e));
+        return AjaxResult.err().msg(ExceptionToMessageTool.convert(e));
     }
 
 
     @ExceptionHandler(DataIntegrityViolationException.class)
-    public AjaxResult dataIntegrityViolationException(DataIntegrityViolationException e, HttpServletRequest request) {
+    public AjaxResult dataIntegrityViolationException(DataIntegrityViolationException e) {
         log.error("数据处理异常", e);
-
-        if (e != null && e.getCause() != null && e.getCause().getCause() != null) {
-            Throwable ex = e.getCause().getCause();
-            String msg = ex.getMessage();
-
-            if (msg.contains("Data too long")) {
-                return AjaxResult.err().msg("数据长度超过限制，请修改！");
-            }
-
-
-            if (ex instanceof SQLIntegrityConstraintViolationException) {
-                if (msg.startsWith("Duplicate")) {
-                    String result = RegexTool.findFirstMatch("\\'(.*?)\\'", msg, 1);
-                    if (StrUtil.isNotBlank(result)) {
-                        return AjaxResult.err().msg("数据重复,操作不能继续进行。 重复数据为：" + result);
-                    }
-                }
-
-                {
-                    // Column 'file_id' cannot be null
-                    String regex = "Column '(.*)' cannot be null";
-                    String fieldName = RegexTool.findFirstMatch(regex, msg, 1);
-                    if (StrUtil.isNotEmpty(fieldName)) {
-                        return AjaxResult.err().msg("字段" + fieldName + "不能为空");
-                    }
-                }
-
-            }
-        }
-
-        return AjaxResult.err().msg("数据之间有关联约束");
+        return AjaxResult.err().msg(ExceptionToMessageTool.convert(e));
     }
 
 
     @ExceptionHandler(TransactionSystemException.class)
     public AjaxResult TransactionSystemException(TransactionSystemException e, HttpServletRequest request) {
         log.error("事务异常", e);
-        if (e.getCause() != null) {
-            RollbackException cause = (RollbackException) e.getCause();
-            if (cause != null) {
-                Throwable cause2 = cause.getCause();
-                if (cause2 instanceof ConstraintViolationException) {
-                    String humanMessage = getHumanMessage((ConstraintViolationException) cause2);
-                    return AjaxResult.err().msg(humanMessage);
-                }
-            }
-        }
-        return AjaxResult.err().msg("网络异常,请稍后再试");
+        return AjaxResult.err().msg(ExceptionToMessageTool.convert(e));
     }
 
     @ExceptionHandler(InvalidDataAccessApiUsageException.class)
@@ -184,7 +139,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(SQLException.class)
     public AjaxResult sqlException(SQLException e) {
         log.error("SQL异常", e);
-        return renderException(e);
+        return AjaxResult.err().msg(ExceptionToMessageTool.convert(e));
     }
 
     /**
@@ -194,7 +149,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public AjaxResult serverError(Throwable e) {
         log.error(">>> 服务器运行异常 ", e);
-        return renderException(e);
+        return AjaxResult.err().msg(ExceptionToMessageTool.convert(e));
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
@@ -207,20 +162,6 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public AjaxResult serverError(HttpRequestMethodNotSupportedException e) {
         return AjaxResult.err().msg("不支持请求方法" + e.getMethod());
-    }
-
-    /**
-     * 渲染异常json
-     */
-    private AjaxResult renderException(Throwable throwable) {
-        String message = throwable.getMessage();
-
-        // 中文则提示中文，非中文则使用默认提示
-        if (!StrTool.isChinese(message)) {
-            message = "操作失败";
-        }
-
-        return AjaxResult.err().code(500).msg(message);
     }
 
 
@@ -249,20 +190,7 @@ public class GlobalExceptionHandler {
     }
 
 
-    private String getHumanMessage(ConstraintViolationException e) {
-        Set<ConstraintViolation<?>> constraintViolations = e.getConstraintViolations();
-        StringBuilder sb = new StringBuilder();
 
-        for (ConstraintViolation<?> v : constraintViolations) {
-            String property = v.getPropertyPath().toString();
-            String message = v.getMessage();
-            sb.append(property);
-            sb.append(message);
-            sb.append(" \r\n");
-        }
-
-        return sb.toString();
-    }
 }
 
 
