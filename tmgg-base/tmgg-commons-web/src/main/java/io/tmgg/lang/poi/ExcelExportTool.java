@@ -14,6 +14,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.util.Assert;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -123,6 +124,40 @@ public class ExcelExportTool {
         exportWorkbook(filename, workbook, response);
     }
 
+    /**
+     * 导出map列表， map的key就是表头，可使用中文
+     * @param filename
+     * @param maplist
+     * @param response
+     * @throws IOException
+     */
+    public static void exportMapList(String filename, List<Map<String,Object>> maplist, HttpServletResponse response) throws IOException {
+        Assert.notEmpty(maplist,"数据不能为空"); // 为空时无法获取表头
+        Workbook workbook = new XSSFWorkbook();
+        Sheet sheet = workbook.createSheet();
+
+        // 表头
+        Map<String, Object> first = maplist.get(0);
+        Set<String> titles = first.keySet();
+        Row firstRow = sheet.createRow(sheet.getLastRowNum() + 1);
+        for (String title : titles) {
+            firstRow.createCell(firstRow.getLastCellNum()).setCellValue(title);
+        }
+
+
+        // 表体
+        for (Map<String, Object> dataRow : maplist) {
+            Row row = sheet.createRow(sheet.getLastRowNum() + 1);
+
+            for (Map.Entry<String, Object> e : dataRow.entrySet()) {
+                Object value = e.getValue();
+                value = ObjUtil.defaultIfNull(value, "");
+                row.createCell(row.getLastCellNum()).setCellValue(value.toString());
+            }
+        }
+
+        exportWorkbook(filename, workbook, response);
+    }
 
 
     public static void exportWorkbook(String filename, Workbook workbook, HttpServletResponse response) throws IOException {
