@@ -29,15 +29,6 @@ export default class extends React.Component {
 
     };
 
-    onClickReset = () => {
-        this.setState({processing: true})
-        HttpUtil.get('sysMenu/reset').then(rs => {
-            this.loadData()
-        }).finally(() => {
-            this.setState({processing: false})
-        })
-    };
-
     handleChangeIcon = () => {
         HttpUtil.post('sysMenu/changeIcon',this.state.formValues).then(rs => {
             this.loadData()
@@ -47,13 +38,7 @@ export default class extends React.Component {
     };
 
     render() {
-
-
         return <>
-            <Button type='primary' onClick={this.onClickReset}
-                    loading={this.state.processing}>清理重置</Button>
-
-
             {this.state.treeData.length > 0 && <Table
                 rowKey='id'
                 expandable={{

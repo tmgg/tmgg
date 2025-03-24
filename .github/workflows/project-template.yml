@@ -14,16 +14,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: 清理不用的文件
-        run: rm -rf templates/backend-template/assets
+        run: rm -rf tmgg-application-template/assets
 
       - name: 压缩后端
         uses: a7ul/tar-action@v1.1.0
         with:
           command: c
-          cwd: ./templates
+          cwd: ./
           files: |
-            ./backend-template
-          outPath: backend-template.tar.gz
+            ./tmgg-application-template
+          outPath: application-template.tar.gz
       - name: 压缩前端
         uses: a7ul/tar-action@v1.1.0
         with:

@@ -33,6 +33,7 @@ import java.util.Set;
  */
 @Slf4j
 public class PublishToAliyun {
+    public static final String APPLICATION_TEMPLATE = "tmgg-application-template";
     private static String url = "registry.cn-hangzhou.aliyuncs.com";
     private static String namespace = "mxvc";
     private static String username = "hustme";
@@ -69,7 +70,7 @@ public class PublishToAliyun {
         tags.add(image1);
         tags.add(image2);
 
-        File templateProject = new File(root, "templates/backend-template");
+        File templateProject = new File(root, APPLICATION_TEMPLATE);
         File dockerfile = new File(templateProject, "assets/dockerfiles/base-" + type + "-image/Dockerfile");
         log.info("Dockerfile路径 {}", dockerfile.getAbsolutePath());
         log.info("是否存在 {}", dockerfile.exists());

@@ -1,7 +1,10 @@
 package io.tmgg.web;
 
-public class BizException extends RuntimeException {
+import org.springframework.util.Assert;
 
+public class BizException extends IllegalStateException {
+
+    private int code;
 
     public BizException() {
         super();
@@ -11,11 +14,16 @@ public class BizException extends RuntimeException {
         super(message);
     }
 
-    public BizException(Throwable e) {
-        this("操作失败", e);
-    }
-
     public BizException(String prefixMessage, Throwable e) {
         super(prefixMessage + ": " + e.getMessage());
+    }
+
+    public BizException(String message, int code) {
+        super(message);
+        this.code = code;
+    }
+
+    public int getCode() {
+        return code;
     }
 }

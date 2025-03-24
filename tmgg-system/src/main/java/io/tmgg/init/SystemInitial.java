@@ -58,23 +58,17 @@ public class SystemInitial implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        log.info("开支执行系统初始化程序： {}", getClass().getName());
-
-        upgradeInit.init();
+        log.info("执行系统初始化程序： {}", getClass().getName());
+        long time = System.currentTimeMillis();
 
         dictEnumHandler.run();
         dictAnnHandler.run();
-
-
-        jsonEntityService.init();
-
-        if (sysProp.isResetMenuOnStartup()) {
-            sysMenuService.reset();
-        }
-
-
+        jsonEntityService.initOnStartup();
+        sysMenuService.reset();
         SysRole adminRole = sysRoleService.initDefaultAdmin();
         initUser(adminRole);
+
+        log.info("系统初始化耗时：{}", System.currentTimeMillis() - time );
 
     }
 

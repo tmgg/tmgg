@@ -30,7 +30,7 @@ spring:
     hibernate.ddl-auto: update
     database: MYSQL
     database-platform: MYSQL
-    show-sql: true
+    show-sql: false
     properties.hibernate.dialect: org.hibernate.dialect.MySQL8Dialect
     naming.physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
   data:
@@ -49,4 +49,6 @@ spring:
 logging:
   file:
     path: /logs/app-log
+  pattern:
+    dateformat: yyyy-MM-dd HH:mm:ss.SSS
 

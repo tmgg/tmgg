@@ -5,17 +5,14 @@ import io.tmgg.lang.SpringTool;
 import io.tmgg.lang.TreeTool;
 import io.tmgg.lang.dao.BaseEntity;
 import io.tmgg.lang.dao.BaseService;
-import io.tmgg.lang.dao.specification.JpaQuery;
 import io.tmgg.lang.obj.TreeNode;
 import io.tmgg.modules.SysMenuParser;
-import io.tmgg.modules.sys.dao.JsonEntityDao;
+import io.tmgg.modules.sys.dao.JsonEntityFileDao;
 import io.tmgg.modules.sys.dao.SysMenuDao;
 import io.tmgg.modules.sys.entity.JsonEntity;
 import io.tmgg.modules.sys.entity.SysMenu;
-import io.tmgg.web.enums.MenuType;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -38,7 +35,7 @@ public class SysMenuService extends BaseService<SysMenu> {
     private SysMenuDao sysMenuDao;
 
     @Resource
-    JsonEntityDao jsonEntityDao;
+    JsonEntityFileDao jsonEntityFileDao;
 
 
 
@@ -95,7 +92,6 @@ public class SysMenuService extends BaseService<SysMenu> {
             }
         }
 
-
         Collection<SysMenuParser> parsers = SpringTool.getBeans(SysMenuParser.class);
         for (SysMenuParser parser : parsers) {
             Collection<SysMenu> menus = parser.parseMenuList();
@@ -109,12 +105,12 @@ public class SysMenuService extends BaseService<SysMenu> {
         SysMenu menu = sysMenuDao.findOne(input);
         menu.setIcon(input.getIcon());
 
-        JsonEntity entity = jsonEntityDao.findOne(SysMenu.class, menu.getId());
+        JsonEntity entity = jsonEntityFileDao.findOne(SysMenu.class, menu.getId());
         Assert.notNull(entity, "未找到数据文件");
 
         entity.getData().put("icon",input.getIcon());
 
-        jsonEntityDao.save(entity);
+        jsonEntityFileDao.save(entity);
 
     }
 }

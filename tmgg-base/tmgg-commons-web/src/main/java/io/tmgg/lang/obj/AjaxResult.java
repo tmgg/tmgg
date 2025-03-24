@@ -50,13 +50,17 @@ public class AjaxResult  {
        return new AjaxResult(true);
     }
 
+    public static AjaxResult ok(String msg,Object data) {
+        return ok().msg(msg).data(data);
+    }
+    public static AjaxResult ok(String msg) {
+        return ok().msg(msg);
+    }
+
     public static AjaxResult err() {
         return new AjaxResult(false);
     }
 
-    public static AjaxResult ok(String msg,Object data) {
-      return ok().msg(msg).data(data);
-    }
 
     public static AjaxResult err(String msg) {
         return err().msg(msg);

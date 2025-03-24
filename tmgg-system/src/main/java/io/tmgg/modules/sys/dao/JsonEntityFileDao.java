@@ -1,5 +1,7 @@
 package io.tmgg.modules.sys.dao;
 
+import cn.hutool.cache.Cache;
+import cn.hutool.cache.CacheUtil;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.io.IoUtil;
@@ -28,7 +30,7 @@ import java.util.Map;
 
 @Slf4j
 @Component
-public class JsonEntityDao {
+public class JsonEntityFileDao {
     public static final String CLASSPATH_DATABASE_XML = "classpath*:database/*.json";
 
 
@@ -41,6 +43,9 @@ public class JsonEntityDao {
      * 预留关键字: 是否更新: true,false
      **/
     private static final String ATTR_UPDATE = "$update";
+
+
+    private Cache<String,List<JsonEntity> > cache = CacheUtil.newTimedCache(1000 * 60 * 5);
 
     @Resource
     private JpaService jpaService;
@@ -74,6 +79,8 @@ public class JsonEntityDao {
         String newFileContent = getNewFileContent(jsonEntity, file, id);
         Assert.notNull(newFileContent,"替换json内容失败");
         FileUtil.writeUtf8String(newFileContent,file);
+
+        cache.clear();
     }
 
     private static String getNewFileContent(JsonEntity jsonEntity, File file, String id) throws IOException {
@@ -100,12 +107,19 @@ public class JsonEntityDao {
 
 
     public List<JsonEntity> findAll() throws Exception {
+        List<JsonEntity> cacheList = cache.get("findAll");
+        if(cacheList != null){
+            return cacheList;
+        }
+
+
         PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
         org.springframework.core.io.Resource[] resources = resolver.getResources(CLASSPATH_DATABASE_XML);
 
         // 遍历文件内容
         List<JsonEntity> result = new ArrayList<>();
 
+        log.info("BEGIN 解析所有database目录下的json文件");
         for (org.springframework.core.io.Resource resource : resources) {
             log.info("解析文件 {}", resource.getFilename());
             try (InputStream is = resource.getInputStream()) {
@@ -124,6 +138,9 @@ public class JsonEntityDao {
                 }
             }
         }
+        log.info("END 解析所有database目录下的json文件");
+
+        cache.put("findAll", result);
 
         return result;
     }
@@ -167,8 +184,11 @@ public class JsonEntityDao {
 
     }
 
-    public <T extends Persistable<String>> void saveToDatabase(JsonEntity info) throws IOException, ClassNotFoundException {
+    public <T extends Persistable<String>> void saveToDatabase(JsonEntity info, List<String> ignoreList) throws IOException, ClassNotFoundException {
         String entityName = info.getEntityName();
+        if(ignoreList.contains(entityName)){
+            return;
+        }
         T entity = (T) info.getEntity();
 
         Assert.state(!entity.isNew(), "实体数据必须包含ID：" + entity.getClass().getSimpleName());

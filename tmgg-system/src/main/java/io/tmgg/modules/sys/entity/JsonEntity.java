@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.domain.Persistable;
 
+import java.io.Serializable;
 import java.net.URI;
 import java.util.Map;
 
@@ -12,7 +13,7 @@ import java.util.Map;
  */
 @Data
 @NoArgsConstructor
-public class JsonEntity {
+public class JsonEntity implements Serializable {
     private String entityName;
     private Map<String, Object> data;
 

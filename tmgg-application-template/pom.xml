@@ -6,8 +6,9 @@
         <artifactId>tmgg-system-parent</artifactId>
         <version>0.3.63</version>
     </parent>
+    <description>应用模板</description>
 
-    <artifactId>tmgg-system-payment</artifactId>
+    <artifactId>tmgg-application-template</artifactId>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -20,11 +21,32 @@
             <groupId>io.github.tmgg</groupId>
             <artifactId>tmgg-system</artifactId>
         </dependency>
+
+
+
+
         <dependency>
-            <groupId>com.github.binarywang</groupId>
-            <artifactId>weixin-java-pay</artifactId>
-            <version>4.7.0</version>
+            <groupId>io.github.tmgg</groupId>
+            <artifactId>tmgg-system-flowable</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.github.tmgg</groupId>
+            <artifactId>tmgg-system-kettle</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.github.tmgg</groupId>
+            <artifactId>tmgg-system-weixin</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.github.tmgg</groupId>
+            <artifactId>tmgg-system-payment</artifactId>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
         </dependency>
     </dependencies>
-
 </project>

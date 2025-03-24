@@ -43,12 +43,6 @@ public class SysProp {
     private String cacheDir = "/tmgg/cache" ;
 
 
-    /**
-     * 启动时重置菜单
-     */
-    private boolean resetMenuOnStartup = true;
-
-
 
     /**
      * 机构预留字段1

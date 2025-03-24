@@ -2,6 +2,7 @@ package com.xxx;
 
 import io.tmgg.BasePackage;
 import io.tmgg.lang.PasswordTool;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;
@@ -12,11 +13,12 @@ import org.springframework.scheduling.annotation.EnableAsync;
 @EnableCaching
 @EnableAsync
 @ComponentScan(basePackageClasses = {BasePackage.class, BootApplication.class})
+@Slf4j
 public class BootApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(BootApplication.class, args);
-        System.out.println("启动成功..........");
+        log.info("启动成功..........");
     }
 
 }

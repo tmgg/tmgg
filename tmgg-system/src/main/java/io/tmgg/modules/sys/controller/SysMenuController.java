@@ -35,12 +35,7 @@ public class SysMenuController {
         return AjaxResult.ok().data(sysMenus);
     }
 
-    @HasPermission
-    @RequestMapping("reset")
-    public AjaxResult reset() throws Exception {
-        sysMenuService.reset();
-        return AjaxResult.ok();
-    }
+
 
     @HasPermission(label = "修改图标")
     @RequestMapping("changeIcon")

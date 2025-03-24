@@ -7,9 +7,7 @@ spring:
 
 sys:
   base-package-class: com.xxx.BootApplication
-  site-info:
-    title: "综合办公平台"
-    copyright: "2024"
+  cache-dir: /tmp/project-cache
 
 
 

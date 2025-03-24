@@ -17,7 +17,8 @@ import java.util.Map;
 
 public class SetVersion {
 
-    public static final String NEW_VERSION = "0.3.62";
+    public static final String NEW_VERSION = "0.3.63";
+    public static final String APPLICATION_TEMPLATE = "./tmgg-application-template";
 
 
     public static void main(String[] args) throws IOException {
@@ -58,7 +59,7 @@ public class SetVersion {
 
     private void changeMaven() throws IOException {
         Collection<File> poms = DevFileUtil.findByPrefix(".", "pom.xml", "tmgg-");
-        poms.add(new File("./templates/backend-template/pom.xml"));
+        poms.add(new File(APPLICATION_TEMPLATE + "/pom.xml"));
 
 
         for (File pom : poms) {
@@ -93,7 +94,7 @@ public class SetVersion {
 
 
         Collection<File> pkgs = DevFileUtil.find(file.getPath(), "package.json", lines);
-        pkgs.add(new File("./templates/backend-template/web/package.json"));
+        pkgs.add(new File(APPLICATION_TEMPLATE+"/web/package.json"));
 
 
         for (File pkg : pkgs) {
@@ -113,7 +114,7 @@ public class SetVersion {
     }
 
     private static void replaceProjectTemplate(File pkg, Map<String, Object> map) {
-        if (pkg.getAbsolutePath().contains("backend-template")) {
+        if (pkg.getAbsolutePath().contains(APPLICATION_TEMPLATE)) {
             Map<String, Object> dependencies = (Map<String, Object>) map.get("dependencies");
             for (String key : dependencies.keySet()) {
                 if (key.startsWith("@tmgg/tmgg-")) {
