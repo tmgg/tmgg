@@ -1,4 +1,4 @@
-import{_ as a,c as n,a as t,o as e}from"./app-DevEJdkR.js";const p={};function o(c,s){return e(),n("div",null,s[0]||(s[0]=[t(`<p>初始化的数据可以放到resources/database目录 数据格式为json, key为实体名称，value为数据数组。每个字段都对应实体，如果字段是枚举，填写枚举值即可 例如</p><div class="language-json line-numbers-mode" data-highlighter="prismjs" data-ext="json"><pre><code><span class="line"></span>
+import{_ as a,c as n,a as t,o as e}from"./app-CsizHeIB.js";const p={};function o(c,s){return e(),n("div",null,s[0]||(s[0]=[t(`<p>初始化的数据可以放到resources/database目录 数据格式为json, key为实体名称，value为数据数组。每个字段都对应实体，如果字段是枚举，填写枚举值即可 例如</p><div class="language-json line-numbers-mode" data-highlighter="prismjs" data-ext="json"><pre><code><span class="line"></span>
 <span class="line"><span class="token punctuation">{</span></span>
 <span class="line">  <span class="token property">&quot;SysMenu&quot;</span><span class="token operator">:</span> <span class="token punctuation">[</span></span>
 <span class="line">    <span class="token punctuation">{</span></span>
