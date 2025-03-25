@@ -20,13 +20,27 @@ public class DbCacheDao extends BaseDao<DbCache> {
         }
         return null;
     }
-
+    @Transactional
+    public void set(String code, String value) {
+        Assert.notNull(value, "值不能为空，如需删除，请使用delete方法");
+        DbCache old = this.findByCode(code);
+        if (old != null) {
+            old.setValue(value);
+            this.save(old);
+        } else {
+            DbCache dbCache = new DbCache();
+            dbCache.setCode(code);
+            dbCache.setValue(value);
+            this.save(dbCache);
+        }
+    }
 
     public int getInt(String code){
         String v = get(code);
         return  v == null ? -1: Integer.parseInt(v);
     }
 
+    @Transactional
     public void setInt(String code, int v){
         this.set(code,String.valueOf(v));
     }
@@ -62,20 +76,7 @@ public class DbCacheDao extends BaseDao<DbCache> {
 
 
 
-    @Transactional
-    public void set(String code, String value) {
-        Assert.notNull(value, "值不能为空，如需删除，请使用delete方法");
-        DbCache old = this.findByCode(code);
-        if (old != null) {
-            old.setValue(value);
-             this.save(old);
-        } else {
-            DbCache dbCache = new DbCache();
-            dbCache.setCode(code);
-            dbCache.setValue(value);
-             this.save(dbCache);
-        }
-    }
+
 
 
     @Transactional

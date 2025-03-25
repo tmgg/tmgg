@@ -19,7 +19,7 @@ declare type ProTableProps = {
      */
     defaultPageSize?:number,
 
-    formRef: React.Ref<any>
+    formRef?: React.Ref<any>
 };
 
 export class ProTable extends React.Component<ProTableProps, any> {
