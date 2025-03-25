@@ -53,9 +53,10 @@ public class PermissionService {
         setPermLabel("list", "列表");
         setPermLabel("add", "增加");
         setPermLabel("edit", "编辑");
-        setPermLabel("save", "增改");
+        setPermLabel("set", "增改");
         setPermLabel("update", "更新");
         setPermLabel("config", "配置");
+        setPermLabel("submit", "提交");
 
         setPermLabel("start", "启动");
         setPermLabel("stop", "停止");
@@ -132,7 +133,7 @@ public class PermissionService {
             return permLabel;
         }
 
-        Assert.notNull(permLabel, "请给权限" + perm + "增加中文说明,如(@HasPermission(label=编辑)");
+        Assert.notNull(permLabel, "请给权限" + perm + "增加中文说明,如(@HasPermission(label=xxx)");
 
         return null;
     }

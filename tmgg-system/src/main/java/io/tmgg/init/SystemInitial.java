@@ -12,6 +12,8 @@ import io.tmgg.modules.sys.service.*;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 /**
@@ -19,6 +21,7 @@ import org.springframework.stereotype.Component;
  */
 @Slf4j
 @Component(SystemInitial.BEAN_NAME)
+@Order(Ordered.LOWEST_PRECEDENCE)
 public class SystemInitial implements CommandLineRunner {
 
 

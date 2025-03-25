@@ -13,14 +13,25 @@ import java.util.Map;
 @Repository
 public class DbCacheDao extends BaseDao<DbCache> {
 
-    @Transactional
-    public String findStrByCode(String code) {
+    public String get(String code) {
         DbCache cache = findByCode(code);
         if (cache != null) {
             return cache.getValue();
         }
         return null;
     }
+
+
+    public int getInt(String code){
+        String v = get(code);
+        return  v == null ? -1: Integer.parseInt(v);
+    }
+
+    public void setInt(String code, int v){
+        this.set(code,String.valueOf(v));
+    }
+
+
 
     private DbCache findByCode(String code) {
         DbCache cache = this.findOneByField(DbCache.Fields.code, code);
@@ -52,19 +63,20 @@ public class DbCacheDao extends BaseDao<DbCache> {
 
 
     @Transactional
-    public DbCache save(String code, String value) {
+    public void set(String code, String value) {
         Assert.notNull(value, "值不能为空，如需删除，请使用delete方法");
         DbCache old = this.findByCode(code);
         if (old != null) {
             old.setValue(value);
-            return this.save(old);
+             this.save(old);
         } else {
             DbCache dbCache = new DbCache();
             dbCache.setCode(code);
             dbCache.setValue(value);
-            return this.save(dbCache);
+             this.save(dbCache);
         }
     }
+
 
     @Transactional
     public void deleteByCode(String code) {
