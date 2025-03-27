@@ -10,11 +10,20 @@ import org.hibernate.type.Type;
 import org.springframework.util.Assert;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
 public class IdGenerator implements IdentifierGenerator {
 
     public static final String CLASS_NAME = "io.tmgg.lang.dao.IdGenerator";
+
+    private static Map<Object, String> ENTITY_ID_CACHE = new HashMap<>();
+
+    public static void markId(Object entity, String id){
+        ENTITY_ID_CACHE.put(entity,id);
+    }
+
 
 
     @Override
@@ -28,17 +37,21 @@ public class IdGenerator implements IdentifierGenerator {
     private Properties params;
 
     @Override
-    public Serializable generate(SharedSessionContractImplementor sharedSessionContractImplementor, Object o) throws HibernateException {
-        if (o instanceof PersistEntity) {
-            PersistEntity e = (PersistEntity) o;
+    public Serializable generate(SharedSessionContractImplementor sharedSessionContractImplementor, Object entity) throws HibernateException {
+        if(ENTITY_ID_CACHE.containsKey(entity)){
+            return ENTITY_ID_CACHE.get(entity);
+        }
+
+        if (entity instanceof PersistEntity) {
+            PersistEntity e = (PersistEntity) entity;
             if (e.getId() != null) {
                 return e.getId();
             }
-        }
 
+        }
         // 订单号算法
-        if (o instanceof BaseEntity) {
-            String customGenerateId = ((BaseEntity) o).customGenerateId(params);
+        if (entity instanceof BaseEntity e) {
+            String customGenerateId = e.customGenerateId(params);
             if (customGenerateId != null) {
                 return customGenerateId;
             }

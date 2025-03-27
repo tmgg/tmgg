@@ -6,4 +6,6 @@ db_password: 123456
 logging:
   level:
     io.tmgg: debug
-
+spring:
+  jpa:
+    show-sql: true

@@ -47,7 +47,6 @@ public abstract class BaseIdEntity implements PersistEntity, Serializable {
 
 
     @JsonIgnore
-    @Override
     @Transient
     public boolean isNew() {
         String theId = getId();

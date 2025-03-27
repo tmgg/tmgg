@@ -237,7 +237,7 @@ public abstract class BaseService<T extends PersistEntity> {
 
     @Transactional
     public T saveOrUpdate(T input) throws Exception {
-        boolean isNew = input.isNew();
+        boolean isNew = input.getId() == null;
         if (isNew) {
             return baseDao.save(input);
         }

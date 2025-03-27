@@ -5,6 +5,7 @@ import io.tmgg.lang.dao.specification.JpaQuery;
 import io.tmgg.lang.dao.specification.Selector;
 import jakarta.annotation.PostConstruct;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.LockModeType;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.*;
@@ -29,7 +30,6 @@ import static org.springframework.data.jpa.repository.query.QueryUtils.*;
 
 /**
  * 基础dao，可支持sql
- *
  */
 @Slf4j
 public abstract class BaseDao<T extends PersistEntity> {
@@ -74,7 +74,6 @@ public abstract class BaseDao<T extends PersistEntity> {
         query.likeExample(t);
         return this.findAll(query);
     }
-
 
 
     public boolean isFieldUnique(String id, String fieldName, Object value) {
@@ -295,8 +294,8 @@ public abstract class BaseDao<T extends PersistEntity> {
         for (Map.Entry<String, Object> e : entries) {
             String k = e.getKey();
             Object v = e.getValue();
-            if(v != null){
-                query.like( k, (String) v);
+            if (v != null) {
+                query.like(k, (String) v);
             }
 
         }
@@ -325,27 +324,22 @@ public abstract class BaseDao<T extends PersistEntity> {
     /**
      * 聚合函数
      *
-     * @param spec : 查询条件， 可简单通过JpaQuery
+     * @param spec     : 查询条件， 可简单通过JpaQuery
      * @param selector 选择器
-     *
-     *
-     *
      * @return 结果
-     *
-     *
+     * <p>
+     * <p>
      * 使用方式：
-     *        Object[] rs = this.service.findAggregate(q, new Selector() {
-     *
-     *             public List<Selection<?>> select(CriteriaBuilder builder, Root root) {
-     *                 return Arrays.asList(
-     *                         builder.sum(root.get("points")),
-     *                         builder.count(root)
-     *                 );
-     *             }
-     *         });
-     *         String msg = "合计积分：" + rs[0] + ",合计人数：" + rs[1];
-     *
-     *
+     * Object[] rs = this.service.findAggregate(q, new Selector() {
+     * <p>
+     * public List<Selection<?>> select(CriteriaBuilder builder, Root root) {
+     * return Arrays.asList(
+     * builder.sum(root.get("points")),
+     * builder.count(root)
+     * );
+     * }
+     * });
+     * String msg = "合计积分：" + rs[0] + ",合计人数：" + rs[1];
      */
     public Object[] findAggregate(Specification<T> spec, Selector selector) {
         CriteriaBuilder builder = em.getCriteriaBuilder();
@@ -484,7 +478,22 @@ public abstract class BaseDao<T extends PersistEntity> {
 
     @Transactional
     public T save(T entity) {
-        if (entityInformation.isNew(entity)) {
+        boolean isNew = entityInformation.isNew(entity);
+        if (!isNew) {
+            T oldEntity = this.findOne(entity.getId());
+            isNew = oldEntity == null;
+        }
+
+        if (isNew) {
+            String id = entity.getId();
+
+            // 数据库没有，但有设置了id的情况，直接保存自spring3.4后报错
+            if (id != null) {
+                entity.setId(null);
+                IdGenerator.markId(entity, id);
+            }
+
+
             em.persist(entity);
             return entity;
         } else {
@@ -492,6 +501,17 @@ public abstract class BaseDao<T extends PersistEntity> {
         }
     }
 
+    public void lock(T entity, LockModeType lockMode) {
+        em.lock(entity, lockMode);
+    }
+
+    public LockModeType getLockMode(T entity) {
+        return em.getLockMode(entity);
+    }
+
+    public void refresh(T entity) {
+        em.refresh(entity);
+    }
 
     @Transactional
     public T saveAndFlush(T entity) {
@@ -518,10 +538,6 @@ public abstract class BaseDao<T extends PersistEntity> {
     public boolean existsById(String id) {
         if (id == null) {
             return false;
-        }
-
-        if (entityInformation.getIdAttribute() == null) {
-            return findOne(id) != null;
         }
 
         String placeholder = provider.getCountQueryPlaceholder();
@@ -676,7 +692,7 @@ public abstract class BaseDao<T extends PersistEntity> {
     }
 
     public boolean exist(JpaQuery<T> query) {
-       return this.count(query) > 0;
+        return this.count(query) > 0;
     }
 
 

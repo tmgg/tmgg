@@ -62,6 +62,9 @@ public abstract class BaseEntity implements PersistEntity, Serializable {
     protected String createUser;
 
 
+
+
+
     /**
      *
      * @return  创建人名称
@@ -164,7 +167,6 @@ public abstract class BaseEntity implements PersistEntity, Serializable {
 
 
     @JsonIgnore
-    @Override
     @Transient
     public boolean isNew() {
         String theId = getId();

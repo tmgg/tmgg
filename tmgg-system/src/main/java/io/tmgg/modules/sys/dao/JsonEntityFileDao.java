@@ -171,7 +171,7 @@ public class JsonEntityFileDao {
         }
 
 
-        Assert.state(!entity.isNew(), "实体数据必须包含ID：" + entity.getClass().getSimpleName());
+        Assert.state(entity.getId() != null, "实体数据必须包含ID：" + entity.getClass().getSimpleName());
 
         if (info.getData().containsKey(ATTR_UPDATE)) {
             info.setUpdate((Boolean) info.getData().get(ATTR_UPDATE));
@@ -191,7 +191,7 @@ public class JsonEntityFileDao {
         }
         T entity = (T) info.getEntity();
 
-        Assert.state(!entity.isNew(), "实体数据必须包含ID：" + entity.getClass().getSimpleName());
+        Assert.state(entity.getId() != null, "实体数据必须包含ID：" + entity.getClass().getSimpleName());
 
 
         Class<T> entityCls = jpaService.findOne(entityName);
