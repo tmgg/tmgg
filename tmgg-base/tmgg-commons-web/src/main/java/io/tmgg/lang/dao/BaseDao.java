@@ -32,7 +32,7 @@ import static org.springframework.data.jpa.repository.query.QueryUtils.*;
  *
  */
 @Slf4j
-public abstract class BaseDao<T extends Persistable<String>> {
+public abstract class BaseDao<T extends PersistEntity> {
 
     @PersistenceContext
     protected EntityManager em;
@@ -533,7 +533,7 @@ public abstract class BaseDao<T extends Persistable<String>> {
 
         if (!entityInformation.hasCompositeId()) {
             query.setParameter(idAttributeNames.iterator().next(), id);
-            return query.getSingleResult() == 1L;
+            return query.getSingleResult() >= 1L;
         }
 
         for (String idAttributeName : idAttributeNames) {
@@ -552,7 +552,7 @@ public abstract class BaseDao<T extends Persistable<String>> {
             query.setParameter(idAttributeName, idAttributeValue);
         }
 
-        return query.getSingleResult() == 1L;
+        return query.getSingleResult() >= 1L;
     }
 
 

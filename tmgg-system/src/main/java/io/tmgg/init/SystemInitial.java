@@ -71,6 +71,10 @@ public class SystemInitial implements CommandLineRunner {
         SysRole adminRole = sysRoleService.initDefaultAdmin();
         initUser(adminRole);
 
+
+
+
+
         log.info("系统初始化耗时：{}", System.currentTimeMillis() - time );
 
     }

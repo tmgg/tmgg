@@ -63,8 +63,9 @@ public class Subject implements Serializable {
 
     public boolean hasPermission(String perm) {
         if (StringUtils.isEmpty(perm) || CollectionUtils.isEmpty(permissions)) {
-            return false;
+            return true;
         }
+
         if (permissions.contains("*")) {
             return true;
         }

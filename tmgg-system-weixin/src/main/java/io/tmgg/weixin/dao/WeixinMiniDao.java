@@ -5,5 +5,5 @@ import io.tmgg.weixin.entity.WeixinMini;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class WeixinDao extends BaseDao<WeixinMini> {
+public class WeixinMiniDao extends BaseDao<WeixinMini> {
 }

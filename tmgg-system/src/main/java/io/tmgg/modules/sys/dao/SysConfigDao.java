@@ -10,7 +10,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
 
 /**
- * 系统参数配置 Mapper 接口
+ * 系统参数配置
  */
 @Repository
 @CacheConfig(cacheNames = "sys-config")

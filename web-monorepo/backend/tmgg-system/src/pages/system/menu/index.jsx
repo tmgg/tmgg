@@ -1,5 +1,5 @@
 import React from "react";
-import {Button, Checkbox, Modal, Radio, Table} from "antd";
+import {Button, Modal, Radio, Table} from "antd";
 import {dictValueTag, HttpUtil, NamedIcon} from "@tmgg/tmgg-base";
 import * as Icons from '@ant-design/icons'
 
@@ -14,7 +14,7 @@ export default class extends React.Component {
 
         iconModalOpen: false,
 
-        formValues:{},
+        formValues: {},
     }
 
     componentDidMount() {
@@ -30,7 +30,7 @@ export default class extends React.Component {
     };
 
     handleChangeIcon = () => {
-        HttpUtil.post('sysMenu/changeIcon',this.state.formValues).then(rs => {
+        HttpUtil.post('sysMenu/changeIcon', this.state.formValues).then(rs => {
             this.loadData()
         }).finally(() => {
             this.setState({iconModalOpen: false})
@@ -39,6 +39,7 @@ export default class extends React.Component {
 
     render() {
         return <>
+            <Button size='small'> 提示 </Button>
             {this.state.treeData.length > 0 && <Table
                 rowKey='id'
                 expandable={{
@@ -61,7 +62,7 @@ export default class extends React.Component {
                     {
                         title: '类型',
                         dataIndex: 'type',
-                        width:80,
+                        width: 80,
                         render(v) {
                             return dictValueTag('menuType', v)
                         }
@@ -73,7 +74,7 @@ export default class extends React.Component {
                     },
                     {
                         title: '菜单可见',
-                        dataIndex: 'visible',     width:80,
+                        dataIndex: 'visible', width: 80,
                         render(v) {
                             if (v) {
                                 return v ? '是' : '否'
@@ -83,7 +84,7 @@ export default class extends React.Component {
                     {
                         title: '操作',
                         dataIndex: 'option',
-                        width:100,
+                        width: 100,
                         render: (v, record) => {
                             if (record.visible) {
                                 return <Button size='small' onClick={() => {
@@ -108,20 +109,20 @@ export default class extends React.Component {
                    onOk={this.handleChangeIcon}
             >
                 当前图标： {this.state.formValues.icon}
-                <div style={{height:600,overflowY:'auto'}}>
-                <Radio.Group buttonStyle="solid"
-                             value={this.state.formValues.icon}
-                             onChange={e => {
-                                 const {formValues} = this.state
-                                 formValues.icon = e.target.value
-                                 this.setState({formValues})
-                             }}
-                >
-                    {iconNames.map(iconName => {
-                        return <Radio.Button value={iconName}>
-                            <NamedIcon name={iconName}  style={{fontSize: 20}} title={iconName}/></Radio.Button>
-                    })}
-                </Radio.Group>
+                <div style={{height: 600, overflowY: 'auto'}}>
+                    <Radio.Group buttonStyle="solid"
+                                 value={this.state.formValues.icon}
+                                 onChange={e => {
+                                     const {formValues} = this.state
+                                     formValues.icon = e.target.value
+                                     this.setState({formValues})
+                                 }}
+                    >
+                        {iconNames.map(iconName => {
+                            return <Radio.Button value={iconName}>
+                                <NamedIcon name={iconName} style={{fontSize: 20}} title={iconName}/></Radio.Button>
+                        })}
+                    </Radio.Group>
                 </div>
 
             </Modal>

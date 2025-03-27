@@ -9,13 +9,13 @@ import cn.hutool.core.util.StrUtil;
 import io.tmgg.jackson.JsonTool;
 import io.tmgg.lang.SpringTool;
 import io.tmgg.lang.dao.BaseDao;
+import io.tmgg.lang.dao.PersistEntity;
 import io.tmgg.modules.sys.entity.JsonEntity;
 import io.tmgg.modules.sys.service.JpaService;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
-import org.springframework.data.domain.Persistable;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
@@ -156,7 +156,7 @@ public class JsonEntityFileDao {
             throw new IllegalStateException();
         }
 
-        Persistable<String> entity = (Persistable<String>) entityCls.getConstructor().newInstance();
+        PersistEntity entity = (PersistEntity) entityCls.getConstructor().newInstance();
 
         for (Map.Entry<String, Object> e : mapData.entrySet()) {
             String key = e.getKey();
@@ -184,7 +184,7 @@ public class JsonEntityFileDao {
 
     }
 
-    public <T extends Persistable<String>> void saveToDatabase(JsonEntity info, List<String> ignoreList) throws IOException, ClassNotFoundException {
+    public <T extends PersistEntity> void saveToDatabase(JsonEntity info, List<String> ignoreList) throws IOException, ClassNotFoundException {
         String entityName = info.getEntityName();
         if(ignoreList.contains(entityName)){
             return;

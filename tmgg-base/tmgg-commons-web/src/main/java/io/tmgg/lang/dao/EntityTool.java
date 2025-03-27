@@ -3,7 +3,6 @@ package io.tmgg.lang.dao;
 import cn.hutool.core.util.StrUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeansException;
-import org.springframework.data.domain.Persistable;
 
 import java.util.*;
 import java.util.function.Function;
@@ -14,7 +13,7 @@ import java.util.stream.Collectors;
  */
 public class EntityTool {
 
-    public static <T extends Persistable<String>> Map<String, T> toMap(List<T> list) {
+    public static <T extends PersistEntity> Map<String, T> toMap(List<T> list) {
         Map<String, T> map = new HashMap<>();
 
         for (T t : list) {
@@ -53,7 +52,7 @@ public class EntityTool {
     }
 
 
-    public static <T extends PersistId> T of(Class<T> cls, String id) {
+    public static <T extends PersistEntity> T of(Class<T> cls, String id) {
         if (StrUtil.isEmpty(id)) {
             return null;
         }
@@ -66,7 +65,7 @@ public class EntityTool {
         }
     }
 
-    public static <T extends PersistId> List<T> of(Class<T> cls, Collection<String> ids) {
+    public static <T extends PersistEntity> List<T> of(Class<T> cls, Collection<String> ids) {
         if (ids == null || ids.isEmpty()) {
             return new ArrayList<>();
         }
@@ -75,7 +74,7 @@ public class EntityTool {
     }
 
 
-    public static <T extends PersistId> List<T> of(Class<T> cls, String[] ids) {
+    public static <T extends PersistEntity> List<T> of(Class<T> cls, String[] ids) {
         if (ids == null || ids.length == 0) {
             return new ArrayList<>();
         }

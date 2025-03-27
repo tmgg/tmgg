@@ -4,7 +4,7 @@
     <parent>
         <groupId>io.github.tmgg</groupId>
         <artifactId>tmgg-system-parent</artifactId>
-        <version>0.3.65</version>
+        <version>0.3.66</version>
         <relativePath>../../pom.xml</relativePath>
     </parent>
 
@@ -111,7 +111,7 @@
         <dependency>
             <groupId>org.jsoup</groupId>
             <artifactId>jsoup</artifactId>
-            <version>1.15.3</version>
+            <version>1.17.2</version>
         </dependency>
 
 

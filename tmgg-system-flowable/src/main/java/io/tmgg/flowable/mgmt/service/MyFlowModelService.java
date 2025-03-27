@@ -1,11 +1,10 @@
 
-package io.tmgg.flowable.service;
+package io.tmgg.flowable.mgmt.service;
 
-import io.tmgg.flowable.dao.SysFlowableModelDao;
-import io.tmgg.flowable.entity.ConditionVariable;
-import io.tmgg.flowable.entity.SysFlowableModel;
+import io.tmgg.flowable.mgmt.dao.SysFlowableModelDao;
+import io.tmgg.flowable.mgmt.entity.ConditionVariable;
+import io.tmgg.flowable.mgmt.entity.SysFlowableModel;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import io.tmgg.lang.dao.specification.JpaQuery;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -26,9 +25,8 @@ import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
 import jakarta.annotation.Resource;
-import java.lang.reflect.InvocationTargetException;
+
 import java.nio.charset.StandardCharsets;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

@@ -6,10 +6,8 @@ import io.tmgg.web.annotion.HasPermission;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Persistable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * 已弃用，为了保证稳定性，请直接将增删查改代码放到业务Controller中
  **/
 @Deprecated
-public abstract class BaseCURDController<T extends Persistable<String>> {
+public abstract class BaseCURDController<T extends PersistEntity> {
 
     @Autowired
     private BaseService<T> service;

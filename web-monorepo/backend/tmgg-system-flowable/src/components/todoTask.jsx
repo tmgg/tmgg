@@ -1,7 +1,8 @@
 import React from "react";
-import {ProTable} from "@tmgg/tmgg-base";
+import {ButtonList, LinkButton, ProTable} from "@tmgg/tmgg-base";
 import {HttpUtil} from "@tmgg/tmgg-base";
 import {Link} from "umi";
+import {Button} from "antd";
 
 export default class extends React.Component {
 
@@ -47,7 +48,7 @@ export default class extends React.Component {
       title: '操作',
       dataIndex: 'option',
       render: (_, record) => (
-        <Link to={'/flowable/task/form?taskId=' + record.id + '&instanceId=' + record.instanceId}>处理</Link>
+        <LinkButton path={'/flowable/task/form?taskId=' + record.id + '&instanceId=' + record.instanceId} label='处理任务' >处理</LinkButton>
       ),
     },
   ];

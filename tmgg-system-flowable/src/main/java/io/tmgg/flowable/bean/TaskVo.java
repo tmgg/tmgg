@@ -1,6 +1,6 @@
 package io.tmgg.flowable.bean;
 
-import io.tmgg.flowable.service.MyTaskService;
+import io.tmgg.flowable.mgmt.service.MyTaskService;
 import io.tmgg.lang.SpringTool;
 import lombok.Data;
 import org.flowable.engine.history.HistoricProcessInstance;

@@ -1,6 +1,5 @@
 package io.tmgg.lang.dao;
 
-import cn.hutool.core.lang.Snowflake;
 import cn.hutool.core.util.IdUtil;
 import org.hibernate.HibernateException;
 import org.hibernate.MappingException;
@@ -8,7 +7,6 @@ import org.hibernate.engine.spi.SharedSessionContractImplementor;
 import org.hibernate.id.IdentifierGenerator;
 import org.hibernate.service.ServiceRegistry;
 import org.hibernate.type.Type;
-import org.springframework.data.domain.Persistable;
 import org.springframework.util.Assert;
 
 import java.io.Serializable;
@@ -31,8 +29,8 @@ public class IdGenerator implements IdentifierGenerator {
 
     @Override
     public Serializable generate(SharedSessionContractImplementor sharedSessionContractImplementor, Object o) throws HibernateException {
-        if (o instanceof Persistable) {
-            Persistable<String> e = (Persistable<String>) o;
+        if (o instanceof PersistEntity) {
+            PersistEntity e = (PersistEntity) o;
             if (e.getId() != null) {
                 return e.getId();
             }

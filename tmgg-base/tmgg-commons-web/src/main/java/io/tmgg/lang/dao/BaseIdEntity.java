@@ -8,7 +8,6 @@ import lombok.Setter;
 import lombok.experimental.FieldNameConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.annotations.GenericGenerator;
-import org.springframework.data.domain.Persistable;
 
 
 import java.io.Serializable;
@@ -19,7 +18,7 @@ import java.io.Serializable;
 @FieldNameConstants
 @JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, ignoreUnknown = true)
 @Slf4j
-public abstract class BaseIdEntity implements Persistable<String>, Serializable {
+public abstract class BaseIdEntity implements PersistEntity, Serializable {
 
     @Id
     @GeneratedValue(generator = "custom-uuid")

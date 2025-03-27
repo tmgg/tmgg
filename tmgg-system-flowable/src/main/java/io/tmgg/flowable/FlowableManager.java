@@ -1,10 +1,10 @@
 package io.tmgg.flowable;
 
 import io.tmgg.flowable.bean.TaskVo;
-import io.tmgg.flowable.entity.ConditionVariable;
-import io.tmgg.flowable.entity.SysFlowableModel;
-import io.tmgg.flowable.service.MyFlowModelService;
-import io.tmgg.flowable.service.MyTaskService;
+import io.tmgg.flowable.mgmt.entity.ConditionVariable;
+import io.tmgg.flowable.mgmt.entity.SysFlowableModel;
+import io.tmgg.flowable.mgmt.service.MyFlowModelService;
+import io.tmgg.flowable.mgmt.service.MyTaskService;
 
 import io.tmgg.lang.DateFormatTool;
 import lombok.Getter;

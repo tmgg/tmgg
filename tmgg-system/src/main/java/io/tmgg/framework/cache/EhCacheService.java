@@ -86,4 +86,8 @@ public class EhCacheService  {
 
         return ehCacheManager.createCache(name, cfg);
     }
+
+    public CacheManager getCacheManager() {
+        return ehCacheManager;
+    }
 }

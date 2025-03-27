@@ -53,7 +53,7 @@ public class PermissionService {
         setPermLabel("list", "列表");
         setPermLabel("add", "增加");
         setPermLabel("edit", "编辑");
-        setPermLabel("set", "增改");
+        setPermLabel("save", "增改");
         setPermLabel("update", "更新");
         setPermLabel("config", "配置");
         setPermLabel("submit", "提交");

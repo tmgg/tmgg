@@ -1,24 +1,17 @@
 package io.tmgg.lang.dao;
 
-import io.tmgg.lang.dao.specification.JpaQuery;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.web.annotion.HasPermission;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Persistable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
  * 排除了查询的基础控制器
  * @param <T> 表示id为String的实体
  *
  **/
-public abstract class BaseController<T extends Persistable<String>> {
+public abstract class BaseController<T extends PersistEntity> {
 
     @Autowired
     private BaseService<T> service;

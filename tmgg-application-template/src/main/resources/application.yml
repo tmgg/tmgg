@@ -7,7 +7,7 @@ spring:
 
 sys:
   base-package-class: com.xxx.BootApplication
-  cache-dir: /tmp/project-cache
+  cache-dir: /cache/project-cache
 
 
 

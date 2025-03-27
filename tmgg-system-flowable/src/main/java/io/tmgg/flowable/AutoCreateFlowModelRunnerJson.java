@@ -1,7 +1,7 @@
 package io.tmgg.flowable;
 
-import io.tmgg.flowable.entity.SysFlowableModel;
-import io.tmgg.flowable.service.MyFlowModelService;
+import io.tmgg.flowable.mgmt.entity.SysFlowableModel;
+import io.tmgg.flowable.mgmt.service.MyFlowModelService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import io.tmgg.jackson.JsonTool;
 import lombok.extern.slf4j.Slf4j;

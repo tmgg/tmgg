@@ -1,8 +1,7 @@
-package io.tmgg.flowable.dao;
+package io.tmgg.flowable.mgmt.dao;
 
-import io.tmgg.flowable.entity.SysFlowableModel;
+import io.tmgg.flowable.mgmt.entity.SysFlowableModel;
 
-import io.tmgg.jackson.JsonTool;
 import io.tmgg.lang.dao.BaseDao;
 import lombok.extern.slf4j.Slf4j;
 

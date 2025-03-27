@@ -1,4 +1,4 @@
-package io.tmgg.flowable.entity;
+package io.tmgg.flowable.mgmt.entity;
 
 
 import io.tmgg.lang.dao.BaseEntity;
@@ -6,7 +6,6 @@ import io.tmgg.lang.dao.converter.BaseToListConverter;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Lob;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldNameConstants;

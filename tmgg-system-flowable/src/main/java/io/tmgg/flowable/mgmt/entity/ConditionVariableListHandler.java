@@ -1,4 +1,4 @@
-package io.tmgg.flowable.entity;
+package io.tmgg.flowable.mgmt.entity;
 
 
 import com.fasterxml.jackson.core.type.TypeReference;

@@ -1,21 +1,18 @@
 
-package io.tmgg.flowable.controller;
+package io.tmgg.flowable.mgmt.controller;
 
 import io.tmgg.flowable.assignment.AssignmentTypeProvider;
 import io.tmgg.flowable.assignment.Identity;
-import io.tmgg.flowable.entity.ConditionVariable;
-import io.tmgg.flowable.entity.SysFlowableModel;
-import io.tmgg.flowable.service.MyFlowModelService;
+import io.tmgg.flowable.mgmt.entity.ConditionVariable;
+import io.tmgg.flowable.mgmt.entity.SysFlowableModel;
+import io.tmgg.flowable.mgmt.service.MyFlowModelService;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import io.tmgg.lang.SpringTool;
-import io.tmgg.lang.dao.BaseCURDController;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.obj.Option;
 import io.tmgg.web.annotion.HasPermission;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 import org.flowable.engine.delegate.JavaDelegate;
 import org.springframework.data.domain.Pageable;

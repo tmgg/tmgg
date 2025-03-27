@@ -1,8 +1,8 @@
 package io.tmgg.modules.sys.entity;
 
+import io.tmgg.lang.dao.PersistEntity;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.domain.Persistable;
 
 import java.io.Serializable;
 import java.net.URI;
@@ -17,7 +17,7 @@ public class JsonEntity implements Serializable {
     private String entityName;
     private Map<String, Object> data;
 
-    private Persistable<String> entity;
+    private PersistEntity entity;
 
     private boolean update = true;
     private String findField = "id";

@@ -1,4 +1,4 @@
-package io.tmgg.flowable.service;
+package io.tmgg.flowable.mgmt.service;
 
 
 import io.tmgg.flowable.FlowableProperties;

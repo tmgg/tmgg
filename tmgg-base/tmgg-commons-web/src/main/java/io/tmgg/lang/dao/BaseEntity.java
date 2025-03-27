@@ -24,7 +24,7 @@ import java.util.Properties;
 @MappedSuperclass
 @JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, ignoreUnknown = true)
 @Slf4j
-public abstract class BaseEntity implements PersistId, Serializable {
+public abstract class BaseEntity implements PersistEntity, Serializable {
 
     public static final String FIELD_ID = "id";
     public static final String FIELD_CREATE_TIME = "createTime";

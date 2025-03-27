@@ -4,10 +4,11 @@
     <parent>
         <groupId>io.github.tmgg</groupId>
         <artifactId>tmgg-system-parent</artifactId>
-        <version>0.3.65</version>
+        <version>0.3.66</version>
     </parent>
 
     <artifactId>tmgg-openapi-sdk</artifactId>
+    <description>第三方系统调用基于tmgg框架的开放接口，主要封装加解密协议</description>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>

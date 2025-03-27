@@ -1,17 +1,17 @@
-package io.tmgg.flowable.controller;
+package io.tmgg.flowable.mgmt.controller;
 
 
 import io.tmgg.flowable.FlowableManager;
 import io.tmgg.flowable.bean.CommentResult;
 import io.tmgg.flowable.bean.HandleTaskParam;
 import io.tmgg.flowable.bean.TaskVo;
-import io.tmgg.flowable.entity.ConditionVariable;
-import io.tmgg.flowable.entity.SysFlowableModel;
+import io.tmgg.flowable.mgmt.entity.ConditionVariable;
+import io.tmgg.flowable.mgmt.entity.SysFlowableModel;
 import io.tmgg.flowable.FlowableLoginUser;
 import io.tmgg.flowable.FlowableLoginUserProvider;
 import io.tmgg.flowable.FlowableMasterDataProvider;
-import io.tmgg.flowable.service.MyFlowModelService;
-import io.tmgg.flowable.service.MyTaskService;
+import io.tmgg.flowable.mgmt.service.MyFlowModelService;
+import io.tmgg.flowable.mgmt.service.MyTaskService;
 
 import io.tmgg.lang.BeanTool;
 import io.tmgg.lang.DateFormatTool;
@@ -27,6 +27,7 @@ import org.flowable.engine.task.Comment;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.config.SpringDataJacksonConfiguration;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 

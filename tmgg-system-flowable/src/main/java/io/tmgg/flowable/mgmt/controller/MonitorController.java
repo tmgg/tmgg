@@ -1,4 +1,4 @@
-package io.tmgg.flowable.controller;
+package io.tmgg.flowable.mgmt.controller;
 
 
 import io.tmgg.flowable.FlowableLoginUserProvider;

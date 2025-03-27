@@ -1,8 +1,8 @@
-package io.tmgg.flowable.controller;
+package io.tmgg.flowable.mgmt.controller;
 
 import io.tmgg.flowable.FlowableManager;
-import io.tmgg.flowable.entity.SysFlowableModel;
-import io.tmgg.flowable.service.MyFlowModelService;
+import io.tmgg.flowable.mgmt.entity.SysFlowableModel;
+import io.tmgg.flowable.mgmt.service.MyFlowModelService;
 
 import io.tmgg.lang.obj.AjaxResult;
 import org.springframework.util.Assert;

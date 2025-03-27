@@ -44,7 +44,6 @@ public class DictEnumHandler {
             classes.addAll( ClassUtil.scanPackageBySuper(basePackage, superClass));
         }
 
-        List<SysDictItem> dataList = new ArrayList<>();
         for (Class cls : classes) {
             Object[] enumConstants = cls.getEnumConstants();
 
@@ -82,15 +81,14 @@ public class DictEnumHandler {
                 data.setText(msg);
                 data.setSeq(i);
                 data.setSysDict(sysDict);
-                data.setId(md5(simpleTypeName + name));
+           //     data.setId(md5(simpleTypeName + name));
                 data.setColor(color);
                 data.setBuiltin(true);
 
                 log.trace("{} {}={}", data.getId(), name, msg);
-                dataList.add(data);
+                sysDictItemDao.save(data);
             }
         }
-        sysDictItemDao.saveAll(dataList);
     }
 
     private String md5(String str) {
