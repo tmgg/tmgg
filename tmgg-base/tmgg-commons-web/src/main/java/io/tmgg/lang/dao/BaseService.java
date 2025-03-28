@@ -243,6 +243,8 @@ public abstract class BaseService<T extends PersistEntity> {
         }
 
         T old = baseDao.findOne(input);
+
+        // 复制到原始数据，如果只想更新部分字段，可调整 ignoreProperties
         BeanUtil.copyProperties(input, old, CopyOptions.create().setIgnoreProperties(BaseEntity.BASE_ENTITY_FIELDS));
         return baseDao.save(old);
     }

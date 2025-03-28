@@ -41,7 +41,7 @@ public class ${name}Controller  extends BaseController<${name}>{
         JpaQuery<${name}> q = new JpaQuery<>();
 
         // 关键字搜索，请补全字段
-        q.searchText(param.getKeyword(), 字段1,字段2...);
+        q.searchText(param.getKeyword(), "字段1","字段2");
 
         Page<${name}> page = service.findAll(q, pageable);
         return AjaxResult.ok().data(page);

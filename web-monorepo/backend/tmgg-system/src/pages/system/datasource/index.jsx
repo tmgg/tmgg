@@ -1,5 +1,5 @@
-import {Card, Col, Row, Descriptions, Space} from 'antd';
-import React, {Fragment} from 'react';
+import {Card, Descriptions} from 'antd';
+import React from 'react';
 
 
 import {HttpUtil} from "@tmgg/tmgg-base";

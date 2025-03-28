@@ -1,8 +1,6 @@
 import React, {Fragment} from 'react';
 import {Form, Input, Tag} from "antd";
-import {FieldDatePickerString, FieldDateRange, ProTable} from "@tmgg/tmgg-base";
-import {Ellipsis, HttpUtil} from "@tmgg/tmgg-base";
-import {DateUtil} from "@tmgg/tmgg-commons-lang";
+import {Ellipsis, FieldDateRange, HttpUtil, ProTable} from "@tmgg/tmgg-base";
 
 
 const baseApi = 'sysOpLog/';

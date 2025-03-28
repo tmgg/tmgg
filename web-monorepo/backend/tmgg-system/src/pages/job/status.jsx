@@ -1,5 +1,5 @@
 import React from "react";
-import {Alert, Card, Table} from "antd";
+import {Alert, Table} from "antd";
 import {HttpUtil} from "@tmgg/tmgg-base";
 
 export default class extends React.Component {

@@ -1,5 +1,5 @@
 import React from "react";
-import {Card, Splitter, Table, Tabs} from "antd";
+import {Card, Splitter, Table} from "antd";
 import {HttpUtil} from "@tmgg/tmgg-base";
 
 export default class extends React.Component {

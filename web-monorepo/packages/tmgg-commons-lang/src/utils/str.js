@@ -5,7 +5,13 @@ export const StrUtil = {
       }
 
       return str;
+    },
+    removeSuffix(str, ch){
+        if(str != null && str.endsWith(ch)){
+            return  str.substring(0,str.length - ch.length)
+        }
 
+        return str;
     },
 
     random(length){

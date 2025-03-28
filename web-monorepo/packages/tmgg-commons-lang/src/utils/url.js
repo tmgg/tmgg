@@ -76,12 +76,10 @@ export const UrlUtil = {
     },
 
     join(path1, path2) {
-        if (path1.endsWith("/")) {
-            path1 = path1.substring(0, path1.length)
-        }
-        if (path2.startsWith("/")) {
-            path2 = path2.substring(1);
-        }
-        return path1 + "/" + path2;
+        path1 = StrUtil.removeSuffix(path1,"/")
+        path2 =  StrUtil.removePrefix(path2,"/")
+        let path = path1 + "/" + path2;
+        debugger
+        return path;
     }
 }

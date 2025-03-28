@@ -193,5 +193,13 @@
     "path" : "/code",
     "icon" : "JavaScriptOutlined",
     "seq" : 2
+  }, {
+    "pid" : "sys",
+    "id" : "sysAsset",
+    "name" : "素材管理",
+    "perm" : "sysAsset",
+    "path" : "/system/asset",
+    "seq" : 1,
+    "icon" : "FileImageOutlined"
   } ]
 }

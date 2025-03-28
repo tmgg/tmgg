@@ -1,5 +1,5 @@
 import {PlusOutlined} from '@ant-design/icons';
-import {Button, Card, Form, Input, Modal, Popconfirm, Splitter, Tabs} from 'antd';
+import {Button, Form, Input, Modal, Popconfirm, Splitter, Tabs} from 'antd';
 import React from 'react';
 import {
     ButtonList,

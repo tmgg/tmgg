@@ -1,17 +1,5 @@
 import {DeleteOutlined, EditOutlined, PlusOutlined, SyncOutlined} from '@ant-design/icons';
-import {
-    Button,
-    Card,
-    Checkbox,
-    Empty,
-    Form,
-    Input,
-    InputNumber,
-    Popconfirm,
-    Space,
-    Splitter,
-    Tree
-} from 'antd';
+import {Button, Card, Checkbox, Empty, Form, Input, InputNumber, Popconfirm, Space, Splitter, Tree} from 'antd';
 import React from 'react';
 import {FieldDictRadio, FieldRadioBoolean, FieldRemoteTreeSelect, HttpUtil, NamedIcon} from "@tmgg/tmgg-base";
 

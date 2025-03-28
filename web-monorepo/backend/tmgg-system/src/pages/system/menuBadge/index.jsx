@@ -1,8 +1,7 @@
 import {PlusOutlined} from '@ant-design/icons'
-import {Button, Popconfirm,Modal,Form,Input,message} from 'antd'
+import {Button, Form, Input, Modal, Popconfirm} from 'antd'
 import React from 'react'
 import {ButtonList, FieldRemoteTreeSelect, HttpUtil, ProTable} from "@tmgg/tmgg-base";
-
 
 
 export default class extends React.Component {

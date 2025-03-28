@@ -1,7 +1,6 @@
 import {Popconfirm} from 'antd'
 import React from 'react'
-import {ProTable} from "@tmgg/tmgg-base";
-import {ButtonList, http, HttpUtil} from "@tmgg/tmgg-base";
+import {ButtonList, http, HttpUtil, ProTable} from "@tmgg/tmgg-base";
 
 
 export default class extends React.Component {

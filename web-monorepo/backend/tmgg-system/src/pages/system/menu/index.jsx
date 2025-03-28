@@ -1,6 +1,6 @@
 import React from "react";
-import {Button, Modal, Radio, Table} from "antd";
-import {dictValueTag, HttpUtil, NamedIcon} from "@tmgg/tmgg-base";
+import {Button, Modal, Popconfirm, Radio, Space, Table} from "antd";
+import {ButtonList, dictValueTag, HttpUtil, NamedIcon} from "@tmgg/tmgg-base";
 import * as Icons from '@ant-design/icons'
 
 let iconNames = Object.keys(Icons);
@@ -36,10 +36,14 @@ export default class extends React.Component {
             this.setState({iconModalOpen: false})
         })
     };
+    handleDelete = record => {
+        HttpUtil.postForm( 'sysMenu/delete', {id:record.id}).then(rs => {
+            this.loadData()
+        })
+    }
 
     render() {
         return <>
-            <Button size='small'> 提示 </Button>
             {this.state.treeData.length > 0 && <Table
                 rowKey='id'
                 expandable={{
@@ -86,11 +90,11 @@ export default class extends React.Component {
                         dataIndex: 'option',
                         width: 100,
                         render: (v, record) => {
-                            if (record.visible) {
-                                return <Button size='small' onClick={() => {
-                                    this.setState({iconModalOpen: true, formValues: record})
-                                }}>编辑图标</Button>
-                            }
+                            return <Space> <Button disabled={!record.visible} size='small' onClick={() => {
+                                this.setState({iconModalOpen: true, formValues: record})
+                            }}>编辑图标</Button>  <Popconfirm perm='sysAsset:delete' title='是否确定删除菜单'  onConfirm={() => this.handleDelete(record)}>
+                                <Button  size='small'>删除</Button>
+                            </Popconfirm></Space>
                         }
                     },
                 ]}

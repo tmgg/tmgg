@@ -1,8 +1,6 @@
 import React from "react";
 import {Button, Card, Tabs, Tag} from "antd";
-import {ProTable} from "@tmgg/tmgg-base";
-import { HttpUtil} from "@tmgg/tmgg-base";
-import {ReloadOutlined} from "@ant-design/icons";
+import {HttpUtil, ProTable} from "@tmgg/tmgg-base";
 
 export default class  extends React.Component {
 

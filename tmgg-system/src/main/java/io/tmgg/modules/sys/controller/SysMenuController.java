@@ -9,10 +9,7 @@ import io.tmgg.modules.sys.service.SysMenuService;
 import io.tmgg.web.annotion.HasPermission;
 import jakarta.annotation.Resource;
 import org.springframework.data.domain.Sort;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.List;
@@ -49,4 +46,13 @@ public class SysMenuController {
         List<TreeNode> data = sysMenuService.menuTree();
         return AjaxResult.ok().data(data);
     }
+
+
+    @HasPermission
+    @PostMapping("delete")
+    public AjaxResult delete(String id) {
+        sysMenuService.deleteById(id);
+        return AjaxResult.ok().msg("删除成功");
+    }
+
 }

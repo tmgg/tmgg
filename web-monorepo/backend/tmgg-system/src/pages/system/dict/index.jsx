@@ -1,7 +1,7 @@
 import React from "react";
 import Dict from "./Dict";
 import DictItem from "./DictItem";
-import {Col, Row, Splitter} from "antd";
+import {Splitter} from "antd";
 
 export default class extends React.Component {
 

@@ -1,6 +1,6 @@
-import {Button, Card, Checkbox, Empty, Form, Modal, Radio, Select, Space, Tabs} from 'antd'
+import {Button, Checkbox, Empty, Form, Modal, Radio, Space, Tabs} from 'antd'
 import React from 'react'
-import {FieldDateRange, FieldText, http, HttpUtil, ProTable} from "@tmgg/tmgg-base";
+import {FieldText, http, HttpUtil, ProTable} from "@tmgg/tmgg-base";
 
 
 export default class extends React.Component {
