@@ -7,5 +7,9 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class SysAssetDao extends BaseDao<SysAsset> {
 
+    public SysAsset findByCode(String code){
+        return this.findOneByField("code",code);
+    }
+
 }
 

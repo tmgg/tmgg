@@ -8,7 +8,10 @@ import io.tmgg.lang.dao.BaseService;
 import io.tmgg.modules.asset.dao.SysAssetDao;
 import io.tmgg.modules.asset.entity.SysAsset;
 import io.tmgg.modules.asset.entity.SysAssetType;
+import io.tmgg.modules.sys.entity.SysFile;
+import io.tmgg.modules.sys.service.SysFileService;
 import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +22,9 @@ public class SysAssetService extends BaseService<SysAsset> {
 
     @Resource
     private SysAssetDao sysAssetDao;
+
+    @Resource
+    private SysFileService sysFileService;
 
 
     @Override
@@ -42,6 +48,27 @@ public class SysAssetService extends BaseService<SysAsset> {
 
     public List<SysAsset> findAll(SysAssetType sysAssetType) {
         return sysAssetDao.findAllByField(SysAsset.Fields.type, sysAssetType);
+    }
+
+    public void preview(String code, HttpServletResponse resp) throws Exception {
+        SysAsset a = sysAssetDao.findByCode(code);
+        String content = a.getContent();
+        SysAssetType type = a.getType();
+
+        switch (type) {
+            case DIR:
+                return;
+            case IMAGE:
+            case VIDEO:
+                sysFileService.preview(content, resp);
+                return;
+            case TEXT:
+                resp.setContentType("text/html;charset=utf-8");
+                resp.getWriter().write(content);
+                return;
+        }
+
+
     }
 }
 

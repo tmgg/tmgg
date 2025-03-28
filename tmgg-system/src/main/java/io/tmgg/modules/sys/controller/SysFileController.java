@@ -65,8 +65,15 @@ public class SysFileController {
     }
 
 
+    /**
+     * 可以加后缀，如 /sysFile/preview/113.png , 这样对某些设备友好
+     *
+     * @param id
+     * @param response
+     * @throws Exception
+     */
     @PublicRequest
-    @GetMapping("preview/{id}")
+    @GetMapping(value = {"preview/{id}", "preview/{id}.*"})
     public void previewByPath(@PathVariable String id, HttpServletResponse response) throws Exception {
         try {
             service.preview(id, response);

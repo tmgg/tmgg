@@ -24,7 +24,7 @@ public class SysAsset extends BaseEntity {
     String name;
 
     @Msg("编码")
-    @Column(length = 50)
+    @Column(length = 50,unique = true)
     String code;
 
     @Msg("类型")

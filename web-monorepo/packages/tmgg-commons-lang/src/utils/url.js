@@ -79,7 +79,6 @@ export const UrlUtil = {
         path1 = StrUtil.removeSuffix(path1,"/")
         path2 =  StrUtil.removePrefix(path2,"/")
         let path = path1 + "/" + path2;
-        debugger
         return path;
     }
 }

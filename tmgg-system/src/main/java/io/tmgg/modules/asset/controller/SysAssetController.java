@@ -1,5 +1,6 @@
 package io.tmgg.modules.asset.controller;
 
+import io.tmgg.lang.ann.PublicRequest;
 import io.tmgg.lang.dao.specification.JpaQuery;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.obj.Option;
@@ -12,6 +13,7 @@ import io.tmgg.web.CommonQueryParam;
 
 
 import io.tmgg.web.annotion.HasPermission;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -70,6 +72,10 @@ public class SysAssetController  extends BaseController<SysAsset>{
         return AjaxResult.ok().data(options);
     }
 
-
+    @PublicRequest
+    @GetMapping({"preview/{code}" ,"preview/{code}.*" }) // 可以加后缀，如 /sysAsset/preview/bg.png
+    public void preview(@PathVariable String code, HttpServletResponse resp) throws Exception {
+        service.preview(code, resp);
+    }
 }
 

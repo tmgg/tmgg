@@ -1,4 +1,4 @@
-import {StorageUtil} from "@tmgg/tmgg-commons-lang";
+import {StorageUtil, StrUtil, UrlUtil} from "@tmgg/tmgg-commons-lang";
 
 const SITE_INFO_KEY = "siteInfo"
 const LOGIN_INFO_KEY = "loginInfo"
@@ -12,8 +12,17 @@ export const SysUtil = {
      */
     getServerUrl() {
         const serverUrl = process.env.API_BASE_URL
-
         return serverUrl
+    },
+
+    /**
+     * 将服务url加载最前
+     * @param url
+     * @returns {*}
+     */
+    getFull(url) {
+        const serverUrl = SysUtil.getServerUrl()
+        return UrlUtil.join(serverUrl, url)
     },
 
     setToken(data) {
