@@ -72,7 +72,7 @@ export default class extends React.Component {
                     <Button disabled={record.type === 'DIR'} size='small' perm='sysAsset:save'
                             onClick={() => this.handleEditContent(record)}>内容</Button>
                     <Button disabled={record.code == null} size='small'
-                           href={SysUtil.getFull('/sysAsset/preview/' + record.code)}>预览</Button>
+                           href={SysUtil.getFull('/sysAsset/preview/' + record.code)} target='_blank'>预览</Button>
                     <Button size='small' perm='sysAsset:save' onClick={() => this.handleEdit(record)}>编辑</Button>
                     <Popconfirm perm='sysAsset:delete' title='是否确定删除素材'
                                 onConfirm={() => this.handleDelete(record)}>
