@@ -2,11 +2,14 @@ package io.tmgg.modules.sys.controller;
 
 
 import io.tmgg.lang.TreeTool;
+import io.tmgg.lang.dao.specification.JpaQuery;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.obj.TreeNode;
+import io.tmgg.lang.obj.TreeOption;
 import io.tmgg.modules.sys.entity.SysMenu;
 import io.tmgg.modules.sys.service.SysMenuService;
 import io.tmgg.web.annotion.HasPermission;
+import io.tmgg.web.enums.MenuType;
 import jakarta.annotation.Resource;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +26,7 @@ public class SysMenuController {
 
     @HasPermission
     @RequestMapping("list")
-    public AjaxResult page() throws IOException, ClassNotFoundException {
+    public AjaxResult page(Boolean showBtn) throws IOException, ClassNotFoundException {
         List<SysMenu> list = sysMenuService.findAll(Sort.by("seq"));
 
         List<SysMenu> sysMenus = TreeTool.buildTree(list);
@@ -46,6 +49,8 @@ public class SysMenuController {
         List<TreeNode> data = sysMenuService.menuTree();
         return AjaxResult.ok().data(data);
     }
+
+
 
 
     @HasPermission

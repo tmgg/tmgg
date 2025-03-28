@@ -1,6 +1,6 @@
 import React from "react";
-import {Button, Modal, Popconfirm, Radio, Space, Table} from "antd";
-import {ButtonList, dictValueTag, HttpUtil, NamedIcon} from "@tmgg/tmgg-base";
+import {Button, Form, Modal, Popconfirm, Radio, Space, Table} from "antd";
+import {dictValueTag, FieldRadioBoolean, HttpUtil, NamedIcon} from "@tmgg/tmgg-base";
 import * as Icons from '@ant-design/icons'
 
 let iconNames = Object.keys(Icons);
@@ -10,6 +10,7 @@ export default class extends React.Component {
 
     state = {
         treeData: [],
+
         processing: false,
 
         iconModalOpen: false,
@@ -37,13 +38,21 @@ export default class extends React.Component {
         })
     };
     handleDelete = record => {
-        HttpUtil.postForm( 'sysMenu/delete', {id:record.id}).then(rs => {
+        HttpUtil.postForm('sysMenu/delete', {id: record.id}).then(rs => {
             this.loadData()
         })
     }
 
     render() {
         return <>
+            <div>
+                <Form>
+                    <Form.Item label='显示按钮'>
+                        <FieldRadioBoolean/>
+                    </Form.Item>
+                </Form>
+            </div>
+
             {this.state.treeData.length > 0 && <Table
                 rowKey='id'
                 expandable={{
@@ -90,11 +99,19 @@ export default class extends React.Component {
                         dataIndex: 'option',
                         width: 100,
                         render: (v, record) => {
-                            return <Space> <Button disabled={!record.visible} size='small' onClick={() => {
-                                this.setState({iconModalOpen: true, formValues: record})
-                            }}>编辑图标</Button>  <Popconfirm perm='sysAsset:delete' title='是否确定删除菜单'  onConfirm={() => this.handleDelete(record)}>
-                                <Button  size='small'>删除</Button>
-                            </Popconfirm></Space>
+                            return <Space>
+
+                                <Button disabled={!record.visible}
+                                        size='small'
+                                        onClick={() => {
+                                            this.setState({iconModalOpen: true, formValues: record})
+                                        }}>编辑图标</Button>
+
+                                <Popconfirm perm='sysAsset:delete' title='是否确定删除菜单'
+                                            onConfirm={() => this.handleDelete(record)}>
+                                    <Button size='small'>删除</Button>
+                                </Popconfirm>
+                            </Space>
                         }
                     },
                 ]}

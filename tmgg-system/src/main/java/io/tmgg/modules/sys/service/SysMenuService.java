@@ -62,7 +62,6 @@ public class SysMenuService extends BaseService<SysMenu> {
 
         Collection<TreeNode> nodes = new ArrayList<>();
 
-
         return convertTreeNode(all, nodes);
     }
 
