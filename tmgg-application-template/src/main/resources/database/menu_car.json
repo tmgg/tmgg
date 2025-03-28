@@ -1,15 +1,10 @@
 {
-  "SysMenu": [
-    {
-      "id": "car",
-      "pid": "biz",
-      "name": "车辆管理",
-      "perm": "car",
-      "path": "/Car",
-      "seq": 1
-    }
-
-
-
-  ]
+  "SysMenu" : [ {
+    "id" : "car",
+    "pid" : "biz",
+    "name" : "车辆管理",
+    "perm" : "car",
+    "path" : "/Car",
+    "seq" : null
+  } ]
 }
