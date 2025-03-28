@@ -8,7 +8,6 @@ import io.tmgg.lang.dao.BaseService;
 import io.tmgg.modules.asset.dao.SysAssetDao;
 import io.tmgg.modules.asset.entity.SysAsset;
 import io.tmgg.modules.asset.entity.SysAssetType;
-import io.tmgg.modules.sys.entity.SysFile;
 import io.tmgg.modules.sys.service.SysFileService;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletResponse;

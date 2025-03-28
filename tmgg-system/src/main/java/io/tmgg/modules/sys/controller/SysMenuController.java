@@ -5,7 +5,6 @@ import io.tmgg.lang.TreeTool;
 import io.tmgg.lang.dao.specification.JpaQuery;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.obj.TreeNode;
-import io.tmgg.lang.obj.TreeOption;
 import io.tmgg.modules.sys.entity.SysMenu;
 import io.tmgg.modules.sys.service.SysMenuService;
 import io.tmgg.web.annotion.HasPermission;
@@ -26,15 +25,16 @@ public class SysMenuController {
 
     @HasPermission
     @RequestMapping("list")
-    public AjaxResult page(Boolean showBtn) throws IOException, ClassNotFoundException {
-        List<SysMenu> list = sysMenuService.findAll(Sort.by("seq"));
+    public AjaxResult page(@RequestParam(defaultValue = "false") Boolean showBtn) throws IOException, ClassNotFoundException {
+        JpaQuery<SysMenu> q = new JpaQuery<>();
+        if (!showBtn) {
+            q.ne(SysMenu.Fields.type, MenuType.BTN);
+        }
 
+        List<SysMenu> list = sysMenuService.findAll(q,Sort.by("seq"));
         List<SysMenu> sysMenus = TreeTool.buildTree(list);
-
-
         return AjaxResult.ok().data(sysMenus);
     }
-
 
 
     @HasPermission(label = "修改图标")
@@ -43,14 +43,19 @@ public class SysMenuController {
         sysMenuService.changeIcon(sysMenu);
         return AjaxResult.ok();
     }
+    @HasPermission(label = "修改排序")
+    @RequestMapping("changeSeq")
+    public AjaxResult changeSeq(@RequestBody SysMenu sysMenu) throws Exception {
+        sysMenuService.changeSeq(sysMenu);
+        return AjaxResult.ok();
+    }
+
 
     @GetMapping("menuTree")
     public AjaxResult menuTree() {
         List<TreeNode> data = sysMenuService.menuTree();
         return AjaxResult.ok().data(data);
     }
-
-
 
 
     @HasPermission

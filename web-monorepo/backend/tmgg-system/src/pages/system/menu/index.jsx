@@ -1,5 +1,5 @@
 import React from "react";
-import {Button, Form, Modal, Popconfirm, Radio, Space, Table} from "antd";
+import {Button, Form, Modal, Popconfirm, Radio, Space, Table, Typography} from "antd";
 import {dictValueTag, FieldRadioBoolean, HttpUtil, NamedIcon} from "@tmgg/tmgg-base";
 import * as Icons from '@ant-design/icons'
 
@@ -16,6 +16,9 @@ export default class extends React.Component {
         iconModalOpen: false,
 
         formValues: {},
+        params: {
+            showBtn: false
+        }
     }
 
     componentDidMount() {
@@ -24,7 +27,7 @@ export default class extends React.Component {
 
     loadData = () => {
         this.setState({treeData: []})
-        HttpUtil.get('/sysMenu/list').then(rs => {
+        HttpUtil.get('/sysMenu/list',this.state.params).then(rs => {
             this.setState({treeData: rs})
         })
 
@@ -43,11 +46,17 @@ export default class extends React.Component {
         })
     }
 
+    handleChangeSeq = (id,seq) => {
+        HttpUtil.post('sysMenu/changeSeq', {id,seq}).then(rs => {
+            this.loadData()
+        })
+    }
+
     render() {
         return <>
             <div>
-                <Form>
-                    <Form.Item label='显示按钮'>
+                <Form onValuesChange={(changedValues, values)=>this.setState({params:values}, this.loadData)} initialValues={this.state.params} layout={"inline"}>
+                    <Form.Item label='显示按钮' name='showBtn'>
                         <FieldRadioBoolean/>
                     </Form.Item>
                 </Form>
@@ -95,6 +104,13 @@ export default class extends React.Component {
                         }
                     },
                     {
+                        title: '排序',
+                        dataIndex: 'seq',
+                        render:(seq,record)=>{
+                            return <Typography.Text editable={{onChange:(v)=>this.handleChangeSeq(record.id,v)}} >{seq}</Typography.Text>
+                        }
+                    },
+                    {
                         title: '操作',
                         dataIndex: 'option',
                         width: 100,
@@ -105,7 +121,7 @@ export default class extends React.Component {
                                         size='small'
                                         onClick={() => {
                                             this.setState({iconModalOpen: true, formValues: record})
-                                        }}>编辑图标</Button>
+                                        }}>图标</Button>
 
                                 <Popconfirm perm='sysAsset:delete' title='是否确定删除菜单'
                                             onConfirm={() => this.handleDelete(record)}>

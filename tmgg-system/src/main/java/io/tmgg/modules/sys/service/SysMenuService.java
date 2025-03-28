@@ -112,4 +112,18 @@ public class SysMenuService extends BaseService<SysMenu> {
         jsonEntityFileDao.save(entity);
 
     }
+
+    @Transactional
+    public void changeSeq(SysMenu input) throws Exception {
+        SysMenu menu = sysMenuDao.findOne(input);
+        Integer seq = input.getSeq();
+        menu.setSeq(seq);
+
+        JsonEntity entity = jsonEntityFileDao.findOne(SysMenu.class, menu.getId());
+        Assert.notNull(entity, "未找到数据文件");
+
+        entity.getData().put("seq",seq);
+
+        jsonEntityFileDao.save(entity);
+    }
 }
