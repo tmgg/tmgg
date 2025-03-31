@@ -185,18 +185,7 @@ export default class extends React.Component {
                     <Form.Item label='支付方式' name='methodCode' rules={[{required: true}]}>
                         <FieldRemoteSelect url='paymentChannel/paymentMethodOptions'/>
                     </Form.Item>
-                    <Form.Item label='图标' name='icon'>
-                        <FieldUploadImage/>
-                    </Form.Item>
-                    <Form.Item label='备注' name='remark' rules={[{required: true}]}>
-                        <Input/>
-                    </Form.Item>
-                    <Form.Item label='排序' name='seq' rules={[{required: true}]}>
-                        <InputNumber/>
-                    </Form.Item>
-                    <Form.Item label='启用' name='enable' rules={[{required: true}]}>
-                        <FieldRadioBoolean/>
-                    </Form.Item>
+
                     <Form.Item label='应用ID' name='appId' rules={[{required: true}]}>
                         <Input/>
                     </Form.Item>
@@ -210,6 +199,19 @@ export default class extends React.Component {
                         <FieldFileBase64/>
                     </Form.Item>
 
+
+                    <Form.Item label='图标' name='icon'>
+                        <FieldUploadImage/>
+                    </Form.Item>
+                    <Form.Item label='备注' name='remark' rules={[{required: true}]}>
+                        <Input/>
+                    </Form.Item>
+                    <Form.Item label='排序' name='seq' rules={[{required: true}]}>
+                        <InputNumber/>
+                    </Form.Item>
+                    <Form.Item label='启用' name='enable' rules={[{required: true}]}>
+                        <FieldRadioBoolean/>
+                    </Form.Item>
                 </Form>
             </Modal>
         </>
