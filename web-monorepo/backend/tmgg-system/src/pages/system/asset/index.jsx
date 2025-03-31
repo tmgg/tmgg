@@ -73,7 +73,7 @@ export default class extends React.Component {
                             onClick={() => this.handleEditContent(record)}>内容</a>
 
                     <a show={record.code != null}    type="text"
-                            href={SysUtil.getFull('/sysAsset/preview/' + record.code)} target='_blank'>预览</a>
+                            href={SysUtil.wrapServerUrl('/sysAsset/preview/' + record.code)} target='_blank'>预览</a>
 
                     <a perm='sysAsset:save' onClick={() => this.handleEdit(record)}>编辑</a>
                     <Popconfirm perm='sysAsset:delete' title='是否确定删除素材'

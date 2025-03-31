@@ -20,7 +20,7 @@ export const SysUtil = {
      * @param url
      * @returns {*}
      */
-    getFull(url) {
+    wrapServerUrl(url) {
         const serverUrl = SysUtil.getServerUrl()
         return UrlUtil.join(serverUrl, url)
     },
