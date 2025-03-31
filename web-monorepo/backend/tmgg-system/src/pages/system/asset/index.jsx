@@ -1,7 +1,8 @@
 import {PlusOutlined} from '@ant-design/icons'
-import {Button, Card, Form, Input, Modal, Popconfirm, Skeleton, Splitter, Tree, Typography} from 'antd'
+import {Button, Form, Input, Modal, Popconfirm, Skeleton, Splitter, Tree, Typography} from 'antd'
 import React from 'react'
 import {
+    Actions,
     ButtonList,
     dictValueTag,
     FieldDictRadio,
@@ -10,8 +11,8 @@ import {
     FieldUploadFile,
     FieldUploadImage,
     HttpUtil,
-    ProTable, SysUtil,
-    ViewEllipsis,
+    ProTable,
+    SysUtil,
     ViewImage
 } from "@tmgg/tmgg-base";
 
@@ -62,23 +63,24 @@ export default class extends React.Component {
             title: '尺寸',
             dataIndex: 'size',
         },
-
-
         {
             title: '操作',
             dataIndex: 'option',
             render: (_, record) => (
-                <ButtonList>
-                    <Button disabled={record.type === 'DIR'} size='small' perm='sysAsset:save'
-                            onClick={() => this.handleEditContent(record)}>内容</Button>
-                    <Button disabled={record.code == null} size='small'
-                           href={SysUtil.getFull('/sysAsset/preview/' + record.code)} target='_blank'>预览</Button>
-                    <Button size='small' perm='sysAsset:save' onClick={() => this.handleEdit(record)}>编辑</Button>
+                <Actions>
+                    <a show={record.type !== 'DIR'}
+                            perm='sysAsset:save'
+                            onClick={() => this.handleEditContent(record)}>内容</a>
+
+                    <a show={record.code != null}    type="text"
+                            href={SysUtil.getFull('/sysAsset/preview/' + record.code)} target='_blank'>预览</a>
+
+                    <a perm='sysAsset:save' onClick={() => this.handleEdit(record)}>编辑</a>
                     <Popconfirm perm='sysAsset:delete' title='是否确定删除素材'
                                 onConfirm={() => this.handleDelete(record)}>
-                        <Button size='small'>删除</Button>
+                        <a>删除</a>
                     </Popconfirm>
-                </ButtonList>
+                </Actions>
             ),
         },
     ]
