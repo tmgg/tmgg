@@ -203,11 +203,11 @@ export default class extends React.Component {
                     <Form.Item label='图标' name='icon'>
                         <FieldUploadImage/>
                     </Form.Item>
-                    <Form.Item label='备注' name='remark' rules={[{required: true}]}>
-                        <Input/>
-                    </Form.Item>
                     <Form.Item label='排序' name='seq' rules={[{required: true}]}>
                         <InputNumber/>
+                    </Form.Item>
+                    <Form.Item label='备注' name='remark' rules={[{required: true}]}>
+                        <Input/>
                     </Form.Item>
                     <Form.Item label='启用' name='enable' rules={[{required: true}]}>
                         <FieldRadioBoolean/>

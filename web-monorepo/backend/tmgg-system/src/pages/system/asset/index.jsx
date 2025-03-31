@@ -1,5 +1,5 @@
 import {PlusOutlined} from '@ant-design/icons'
-import {Button, Form, Input, Modal, Popconfirm, Skeleton, Splitter, Tree, Typography} from 'antd'
+import {Button, Empty, Form, Input, Modal, Popconfirm, Skeleton, Splitter, Tree, Typography} from 'antd'
 import React from 'react'
 import {
     Actions,
@@ -9,8 +9,8 @@ import {
     FieldEditor,
     FieldRemoteSelect,
     FieldUploadFile,
-    FieldUploadImage,
-    HttpUtil,
+    FieldUploadImage, Gap,
+    HttpUtil, Panel,
     ProTable,
     SysUtil,
     ViewImage
@@ -34,7 +34,13 @@ export default class extends React.Component {
     tableRef = React.createRef()
 
     columns = [
-
+        {
+            title: '类型',
+            dataIndex: 'type',
+            render(v) {
+                return dictValueTag('sys_asset_type', v)
+            },
+        },
         {
             title: '名称',
             dataIndex: 'name',
@@ -44,15 +50,9 @@ export default class extends React.Component {
             title: '编码',
             dataIndex: 'code',
         },
+
         {
-            title: '类型',
-            dataIndex: 'type',
-            render(v) {
-                return dictValueTag('sys_asset_type', v)
-            },
-        },
-        {
-            title: '文本内容',
+            title: '内容',
             dataIndex: 'content',
             render: (v, record) => {
                 return this.renderContent(record.type, v);
@@ -70,7 +70,7 @@ export default class extends React.Component {
                 <Actions>
                     <a show={record.type !== 'DIR'}
                             perm='sysAsset:save'
-                            onClick={() => this.handleEditContent(record)}>内容</a>
+                            onClick={() => this.handleEditContent(record)}>编辑内容</a>
 
                     <a show={record.code != null}    type="text"
                             href={SysUtil.wrapServerUrl('/sysAsset/preview/' + record.code)} target='_blank'>预览</a>
@@ -136,18 +136,19 @@ export default class extends React.Component {
 
         return <>
             <Splitter>
-                <Splitter.Panel defaultSize={250} style={{padding: 12}}>
-                    <Typography.Text type='secondary'>素材分类</Typography.Text>
-                    {this.state.treeLoading ? <Skeleton/> : <Tree
-                        treeData={this.state.treeData}
-                        defaultExpandAll
-                        onSelect={(key) => this.setState({selectedKey: key[0]}, () => this.tableRef.current.reload())}
-                        showIcon
-                        blockNode
-                    >
-                    </Tree>}
+                <Splitter.Panel defaultSize={250} style={{paddingRight:16}}>
+                    <Panel title='文件夹' loading={this.state.treeLoading} empty={this.state.treeData.length === 0}>
+                        <Tree
+                            treeData={this.state.treeData}
+                            defaultExpandAll
+                            onSelect={(key) => this.setState({selectedKey: key[0]}, () => this.tableRef.current.reload())}
+                            showIcon
+                            blockNode
+                        >
+                        </Tree>
+                    </Panel>
                 </Splitter.Panel>
-                <Splitter.Panel style={{paddingLeft: 12}}>
+                <Splitter.Panel style={{paddingLeft: 16}}>
                     <ProTable
                         actionRef={this.tableRef}
                         toolBarRender={() => {
@@ -194,8 +195,6 @@ export default class extends React.Component {
                     <Form.Item label='父文件夹' name='pid'>
                         <FieldRemoteSelect url={'sysAsset/dirOptions'}/>
                     </Form.Item>
-
-
                 </Form>
             </Modal>
 
@@ -207,7 +206,6 @@ export default class extends React.Component {
                    width={900}
                    maskClosable={false}
             >
-
                 <Form ref={this.formRef} labelCol={{flex: '100px'}}
                       initialValues={this.state.formValues}
                       onFinish={this.onContentFinish}

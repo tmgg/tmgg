@@ -5,6 +5,6 @@
     "name" : "车辆管理",
     "perm" : "car",
     "path" : "/Car",
-    "seq" : null
+    "seq" : 4
   } ]
 }

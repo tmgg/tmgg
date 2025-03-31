@@ -4,7 +4,7 @@
     "id" : "paymentMgr",
     "icon" : "DollarCircleOutlined",
     "name" : "支付管理",
-    "seq" : 20
+    "seq" : 50
   }, {
     "pid" : "paymentMgr",
     "id" : "paymentChannel",

@@ -1,6 +1,6 @@
 import React from "react";
-import {Button, Form, Modal, Popconfirm, Radio, Space, Table, Typography} from "antd";
-import {dictValueTag, FieldRadioBoolean, HttpUtil, NamedIcon} from "@tmgg/tmgg-base";
+import {Button, Form, message, Modal, Popconfirm, Radio, Space, Table, Typography} from "antd";
+import {dictValueTag, FieldCheckboxBoolean, FieldRadioBoolean, Gap, HttpUtil, NamedIcon} from "@tmgg/tmgg-base";
 import * as Icons from '@ant-design/icons'
 
 let iconNames = Object.keys(Icons);
@@ -17,7 +17,8 @@ export default class extends React.Component {
 
         formValues: {},
         params: {
-            showBtn: false
+            showBtn: false,
+            showFramework:false
         }
     }
 
@@ -27,7 +28,7 @@ export default class extends React.Component {
 
     loadData = () => {
         this.setState({treeData: []})
-        HttpUtil.get('/sysMenu/list',this.state.params).then(rs => {
+        HttpUtil.get('/sysMenu/list', this.state.params).then(rs => {
             this.setState({treeData: rs})
         })
 
@@ -46,21 +47,27 @@ export default class extends React.Component {
         })
     }
 
-    handleChangeSeq = (id,seq) => {
-        HttpUtil.post('sysMenu/changeSeq', {id,seq}).then(rs => {
+    handleChangeSeq = (id, seq) => {
+        const hide = message.loading('处理中...',0)
+        HttpUtil.post('sysMenu/changeSeq', {id, seq}).then(rs => {
             this.loadData()
-        })
+        }).finally(hide)
     }
 
     render() {
         return <>
             <div>
-                <Form onValuesChange={(changedValues, values)=>this.setState({params:values}, this.loadData)} initialValues={this.state.params} layout={"inline"}>
+                <Form onValuesChange={(changedValues, values) => this.setState({params: values}, this.loadData)}
+                      initialValues={this.state.params} layout={"inline"}>
                     <Form.Item label='显示按钮' name='showBtn'>
-                        <FieldRadioBoolean/>
+                        <FieldCheckboxBoolean/>
+                    </Form.Item>
+                    <Form.Item label='显示框架菜单' name='showFramework'>
+                        <FieldCheckboxBoolean/>
                     </Form.Item>
                 </Form>
             </div>
+            <Gap/>
 
             {this.state.treeData.length > 0 && <Table
                 rowKey='id'
@@ -106,9 +113,11 @@ export default class extends React.Component {
                     {
                         title: '排序',
                         dataIndex: 'seq',
-                        render:(seq,record)=>{
-                            return <Typography.Text editable={{onChange:(v)=>this.handleChangeSeq(record.id,v)}} >{seq}</Typography.Text>
-                        }
+                        render: (seq, record) => {
+                            return <Typography.Text
+                                editable={{onChange: (v) => this.handleChangeSeq(record.id, v)}}>{seq}</Typography.Text>
+                        },
+                        width:100
                     },
                     {
                         title: '操作',

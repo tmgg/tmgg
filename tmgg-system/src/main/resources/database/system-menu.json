@@ -15,7 +15,7 @@
     "perm" : "sysOrg",
     "path" : "/system/org",
     "icon" : "ApartmentOutlined",
-    "seq" : 10
+    "seq" : 1
   }, {
     "id" : "sysUser",
     "pid" : "sys",
@@ -23,7 +23,7 @@
     "perm" : "sysUser",
     "path" : "/system/user",
     "icon" : "UserOutlined",
-    "seq" : 20
+    "seq" : 3
   }, {
     "id" : "sysRole",
     "pid" : "sys",
@@ -31,7 +31,7 @@
     "perm" : "sysRole",
     "path" : "/system/role",
     "icon" : "IdcardOutlined",
-    "seq" : 30
+    "seq" : 2
   }, {
     "id" : "sysMenu",
     "pid" : "sys",
@@ -39,14 +39,14 @@
     "perm" : "sysMenu",
     "path" : "/system/menu",
     "icon" : "AppstoreOutlined",
-    "seq" : 40
+    "seq" : 10
   }, {
     "pid" : "sys",
     "id" : "sysMenuBadge",
     "name" : "菜单红点",
     "perm" : "sysMenuBadge",
     "path" : "/system/menuBadge",
-    "seq" : 41,
+    "seq" : 11,
     "icon" : "MessageOutlined"
   }, {
     "id" : "sysConfig",
@@ -55,14 +55,14 @@
     "perm" : "sysConfig",
     "path" : "/system/config",
     "icon" : "SettingOutlined",
-    "seq" : 50
+    "seq" : 4
   }, {
     "id" : "sysDict",
     "pid" : "sys",
     "name" : "数据字典",
     "perm" : "sysDict",
     "path" : "/system/dict",
-    "seq" : 60,
+    "seq" : 5,
     "icon" : "FileSearchOutlined"
   }, {
     "id" : "sysFile",
@@ -70,7 +70,7 @@
     "name" : "文件管理",
     "perm" : "sysFile",
     "path" : "/system/file/main",
-    "seq" : 70,
+    "seq" : 6,
     "icon" : "FolderOpenOutlined"
   }, {
     "id" : "sysMonitor",
@@ -115,33 +115,25 @@
     "path" : "/system/log/oplog",
     "seq" : 5
   }, {
-    "pid" : "sys",
+    "pid" : "dev",
     "id" : "openApiAccount",
     "name" : "开放接口",
     "perm" : "openApiAccount",
     "path" : "/openApi",
     "seq" : 103,
     "icon" : "ApiOutlined"
-  }, {
-    "pid" : "sys",
-    "id" : "sysReport",
-    "name" : "SQL报表",
-    "perm" : "sysReport",
-    "type" : "DIR",
-    "seq" : 101,
-    "icon" : "ConsoleSqlOutlined"
-  }, {
-    "pid" : "sysReport",
+  },  {
+    "pid" : "dev",
     "id" : "sysReportChart",
-    "name" : "图表",
+    "name" : "SQL图表",
     "perm" : "sysReportChart",
     "path" : "/report/chart",
     "seq" : 1,
     "icon" : "FundProjectionScreenOutlined"
   }, {
-    "pid" : "sysReport",
+    "pid" : "dev",
     "id" : "sysReportTable",
-    "name" : "表格",
+    "name" : "SQL表格",
     "perm" : "sysReportTable",
     "path" : "/report/table",
     "seq" : 2,
@@ -151,7 +143,7 @@
     "pid" : "sys",
     "type" : "DIR",
     "name" : "定时作业",
-    "seq" : 100,
+    "seq" : 7,
     "icon" : "FieldTimeOutlined"
   }, {
     "id" : "job",
@@ -184,7 +176,7 @@
     "perm" : "dev",
     "path" : "/code",
     "icon" : "JavaOutlined",
-    "seq" : 100
+    "seq" : 200
   }, {
     "pid" : "dev",
     "id" : "sys_entity_gen",
@@ -199,7 +191,7 @@
     "name" : "素材管理",
     "perm" : "sysAsset",
     "path" : "/system/asset",
-    "seq" : 1,
+    "seq" : 20,
     "icon" : "FileImageOutlined"
   } ]
 }

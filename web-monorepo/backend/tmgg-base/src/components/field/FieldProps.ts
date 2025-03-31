@@ -15,5 +15,5 @@ export interface FieldProps {
   /**
    * @description 函数回调，当值变化时
    */
-  onChange: (value: any) => void;
+  onChange?: (value: any) => void;
 }

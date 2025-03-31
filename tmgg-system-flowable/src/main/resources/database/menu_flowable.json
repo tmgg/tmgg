@@ -4,7 +4,7 @@
     "pid" : "sys",
     "type" : "DIR",
     "name" : "流程引擎",
-    "seq" : 300,
+    "seq" : 30,
     "icon" : "BranchesOutlined"
   }, {
     "id" : "flowableModel",

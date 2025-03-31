@@ -7,7 +7,9 @@ import React from "react";
 export class Gap extends React.Component {
 
     render() {
-        const {height = 16} = this.props;
+        const {n =0} = this.props;
+        let height = 16 +  8 * n
+
         return <div style={{height, width: '100%'}}></div>
     }
 }

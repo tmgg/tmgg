@@ -6,6 +6,6 @@
     "perm" : "kettle",
     "path" : "/kettle",
     "icon" : "DatabaseOutlined",
-    "seq": 50
+    "seq" : 100
   } ]
 }

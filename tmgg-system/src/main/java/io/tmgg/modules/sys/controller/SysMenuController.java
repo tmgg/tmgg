@@ -25,14 +25,20 @@ public class SysMenuController {
 
     @HasPermission
     @RequestMapping("list")
-    public AjaxResult page(@RequestParam(defaultValue = "false") Boolean showBtn) throws IOException, ClassNotFoundException {
+    public AjaxResult page(@RequestParam(defaultValue = "false") Boolean showBtn, @RequestParam(defaultValue = "false") Boolean showFramework) throws IOException, ClassNotFoundException {
         JpaQuery<SysMenu> q = new JpaQuery<>();
         if (!showBtn) {
             q.ne(SysMenu.Fields.type, MenuType.BTN);
         }
 
-        List<SysMenu> list = sysMenuService.findAll(q,Sort.by("seq"));
+
+        List<SysMenu> list = sysMenuService.findAll(q, Sort.by("seq"));
         List<SysMenu> sysMenus = TreeTool.buildTree(list);
+
+        if (!showFramework) {
+            sysMenus.removeIf(t -> t.getId().equals("sys"));
+        }
+
         return AjaxResult.ok().data(sysMenus);
     }
 
@@ -43,6 +49,7 @@ public class SysMenuController {
         sysMenuService.changeIcon(sysMenu);
         return AjaxResult.ok();
     }
+
     @HasPermission(label = "修改排序")
     @RequestMapping("changeSeq")
     public AjaxResult changeSeq(@RequestBody SysMenu sysMenu) throws Exception {
