@@ -306,7 +306,7 @@ public abstract class BaseService<T extends PersistEntity> {
 
 
         if (StrUtil.isNotEmpty(searchValue) && fields != null && fields.length > 0) {
-            query.or(q -> {
+            query.addSubOr(q -> {
                 for (String f : fields) {
                     q.like(f, searchValue);
                 }

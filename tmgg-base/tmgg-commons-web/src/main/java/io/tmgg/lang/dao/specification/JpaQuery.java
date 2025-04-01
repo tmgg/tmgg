@@ -62,7 +62,7 @@ public class JpaQuery<T> implements Specification<T> {
             return;
         }
         final String trimText = searchText.trim();
-        this.or(qq -> {
+        this.addSubOr(qq -> {
             for (String column : columns) {
                 qq.like(column, trimText);
             }
@@ -128,8 +128,10 @@ public class JpaQuery<T> implements Specification<T> {
 
 
     public void between(String column, Object v1, Object v2) {
-        this.ge(column, v1);
-        this.le(column, v2);
+        this.addSubAnd(q->{
+            q.ge(column, v1);
+            q.le(column, v2);
+        });
     }
 
     public void notBetween(String column, Object v1, Object v2) {
@@ -250,13 +252,13 @@ public class JpaQuery<T> implements Specification<T> {
      *
      * @param subQueryConsumer 子查询
      */
-    public void or(Consumer<JpaQuery<T>> subQueryConsumer) {
-        JpaQuery<T> orQuery = new JpaQuery<>();
-        subQueryConsumer.accept(orQuery);
-        this.or(orQuery.specificationList);
+    public void addSubOr(Consumer<JpaQuery<T>> subQueryConsumer) {
+        JpaQuery<T> q = new JpaQuery<>();
+        subQueryConsumer.accept(q);
+        this.addSubOr(q.specificationList);
     }
 
-    public void or(List<Specification<T>> specifications) {
+    public void addSubOr(List<Specification<T>> specifications) {
         add((Specification<T>) (root, query, cb) -> {
             Predicate[] predicates = new Predicate[specifications.size()];
             for (int i = 0; i < specifications.size(); i++) {
@@ -267,6 +269,27 @@ public class JpaQuery<T> implements Specification<T> {
         });
 
     }
+
+    public void addSubAnd(Consumer<JpaQuery<T>> subQueryConsumer) {
+        JpaQuery<T> q = new JpaQuery<>();
+        subQueryConsumer.accept(q);
+        this.addSubAnd(q.specificationList);
+    }
+
+    public void addSubAnd(List<Specification<T>> specifications) {
+        add((Specification<T>) (root, query, cb) -> {
+            Predicate[] predicates = new Predicate[specifications.size()];
+            for (int i = 0; i < specifications.size(); i++) {
+                predicates[i] = specifications.get(i).toPredicate(root, query, cb);
+            }
+
+            return cb.and(predicates);
+        });
+
+    }
+
+
+
 
     public void like(Map<String, Object> param) {
         Set<Map.Entry<String, Object>> entries = param.entrySet();

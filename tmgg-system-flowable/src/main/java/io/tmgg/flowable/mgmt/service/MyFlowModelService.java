@@ -258,14 +258,7 @@ public class MyFlowModelService {
 
     public Page<SysFlowableModel> findAll(final String keyword, Pageable pageable) {
         JpaQuery<SysFlowableModel> q = new JpaQuery<>();
-        if(StringUtils.isNotBlank(keyword)){
-           String  keywordTrim = keyword.trim();
-            q.or(sq->{
-                sq.like(SysFlowableModel.Fields.name, keywordTrim);
-                sq.like(SysFlowableModel.Fields.code, keywordTrim);
-            });
-        }
-
+        q.searchText(keyword, "name","code");
 
         return sysFlowableModelDao.findAll(q, pageable);
     }

@@ -180,7 +180,7 @@ public class SysUserController {
         // 权限过滤
         Collection<String> orgIds = SecurityUtils.getSubject().getOrgPermissions();
         if (CollUtil.isNotEmpty(orgIds)) {
-            query.or(q -> {
+            query.addSubOr(q -> {
                 q.in(SysUser.Fields.unitId, orgIds);
                 q.in(SysUser.Fields.deptId, orgIds);
             });

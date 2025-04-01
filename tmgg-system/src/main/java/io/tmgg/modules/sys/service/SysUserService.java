@@ -147,7 +147,7 @@ public class SysUserService extends BaseService<SysUser> implements UserLabelQue
         JpaQuery<SysUser> query = new JpaQuery<>();
 
         if (StrUtil.isNotEmpty(orgId)) {
-            query.or(q -> {
+            query.addSubOr(q -> {
                 q.eq(SysUser.Fields.unitId, orgId);
                 q.eq(SysUser.Fields.deptId, orgId);
 
@@ -158,7 +158,7 @@ public class SysUserService extends BaseService<SysUser> implements UserLabelQue
         }
 
         if (StrUtil.isNotEmpty(keyword)) {
-            query.or(q -> {
+            query.addSubOr(q -> {
                 q.like(SysUser.Fields.name, keyword);
                 q.like(SysUser.Fields.phone, keyword);
                 q.like(SysUser.Fields.account, keyword);
