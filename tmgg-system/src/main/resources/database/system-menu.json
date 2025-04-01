@@ -115,30 +115,6 @@
     "path" : "/system/log/oplog",
     "seq" : 5
   }, {
-    "pid" : "dev",
-    "id" : "openApiAccount",
-    "name" : "开放接口",
-    "perm" : "openApiAccount",
-    "path" : "/openApi",
-    "seq" : 103,
-    "icon" : "ApiOutlined"
-  },  {
-    "pid" : "dev",
-    "id" : "sysReportChart",
-    "name" : "SQL图表",
-    "perm" : "sysReportChart",
-    "path" : "/report/chart",
-    "seq" : 1,
-    "icon" : "FundProjectionScreenOutlined"
-  }, {
-    "pid" : "dev",
-    "id" : "sysReportTable",
-    "name" : "SQL表格",
-    "perm" : "sysReportTable",
-    "path" : "/report/table",
-    "seq" : 2,
-    "icon" : "TableOutlined"
-  }, {
     "id" : "jobMgr",
     "pid" : "sys",
     "type" : "DIR",
@@ -184,8 +160,35 @@
     "perm" : "sys_entity_gen",
     "path" : "/code",
     "icon" : "JavaScriptOutlined",
-    "seq" : 2
-  }, {
+    "seq" : 10
+  },
+
+    {
+      "pid" : "dev",
+      "id" : "openApiAccount",
+      "name" : "开放接口",
+      "perm" : "openApiAccount",
+      "path" : "/openApi",
+      "seq" : 20,
+      "icon" : "ApiOutlined"
+    },
+    {
+      "pid" : "dev",
+      "id" : "sysReportChart",
+      "name" : "SQL图表",
+      "perm" : "sysReportChart",
+      "path" : "/report/chart",
+      "seq" : 30,
+      "icon" : "FundProjectionScreenOutlined"
+    }, {
+      "pid" : "dev",
+      "id" : "sysReportTable",
+      "name" : "SQL表格",
+      "perm" : "sysReportTable",
+      "path" : "/report/table",
+      "seq" : 31,
+      "icon" : "TableOutlined"
+    }, {
     "pid" : "sys",
     "id" : "sysAsset",
     "name" : "素材管理",
