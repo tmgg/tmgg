@@ -7,10 +7,10 @@ import jakarta.persistence.criteria.Selection;
 
 import java.util.List;
 
-public interface Selector {
+public interface MultiSelector {
 
 
-     Selection<?> select(CriteriaBuilder builder, Root root);
+     List<Selection<?>> select(CriteriaBuilder builder, Root root);
 
 
 }

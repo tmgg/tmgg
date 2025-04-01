@@ -124,6 +124,9 @@ public class JpaQuery<T> implements Specification<T> {
         this.add(new SpecificationLTE<>(column, val));
     }
 
+
+
+
     public void between(String column, Object v1, Object v2) {
         this.ge(column, v1);
         this.le(column, v2);
@@ -133,6 +136,20 @@ public class JpaQuery<T> implements Specification<T> {
         this.lt(column, v1);
         this.gt(column, v2);
     }
+
+    /**
+     * 判断值是否在某个区间
+     * 注意： 包含边界
+     * 如当前日期是否在开始、结束时间之间
+     * @param column1 如开始时间
+     * @param column2 如结束时间
+     * @param value 当前时间
+     */
+    public void valueBetween(String column1,String column2, Object value) {
+        this.le(column1, value);  // begin <= cur
+        this.ge(column2, value);  // end >= cur
+    }
+
 
 
     public void like(String column, String val) {

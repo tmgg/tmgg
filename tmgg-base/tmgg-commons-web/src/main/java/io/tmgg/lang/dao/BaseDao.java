@@ -2,6 +2,7 @@ package io.tmgg.lang.dao;
 
 import io.tmgg.dbtool.DbTool;
 import io.tmgg.lang.dao.specification.JpaQuery;
+import io.tmgg.lang.dao.specification.MultiSelector;
 import io.tmgg.lang.dao.specification.Selector;
 import jakarta.annotation.PostConstruct;
 import jakarta.persistence.EntityManager;
@@ -324,6 +325,7 @@ public abstract class BaseDao<T extends PersistEntity> {
     /**
      * 聚合函数
      *
+     *
      * @param spec     : 查询条件， 可简单通过JpaQuery
      * @param selector 选择器
      * @return 结果
@@ -341,7 +343,8 @@ public abstract class BaseDao<T extends PersistEntity> {
      * });
      * String msg = "合计积分：" + rs[0] + ",合计人数：" + rs[1];
      */
-    public Object[] findAggregate(Specification<T> spec, Selector selector) {
+    @Deprecated
+    public Object[] findAggregate(Specification<T> spec, MultiSelector selector) {
         CriteriaBuilder builder = em.getCriteriaBuilder();
 
         CriteriaQuery<Object> criteriaQuery = builder.createQuery(Object.class);
@@ -358,6 +361,44 @@ public abstract class BaseDao<T extends PersistEntity> {
 
         return (Object[]) typedQuery.getSingleResult();
     }
+
+
+    public Object stats(Specification<T> spec, Selector selector) {
+        CriteriaBuilder builder = em.getCriteriaBuilder();
+
+        CriteriaQuery<Object> criteriaQuery = builder.createQuery(Object.class);
+        Root<T> root = applySpecificationToCriteria(spec, criteriaQuery);
+
+        Selection<?> selection = selector.select(builder, root);
+
+        criteriaQuery.select(selection);
+
+        TypedQuery<Object> typedQuery = em.createQuery(criteriaQuery);
+
+        return  typedQuery.getSingleResult();
+    }
+
+    public Object[] stats(Specification<T> spec, Selector... selectors) {
+        CriteriaBuilder builder = em.getCriteriaBuilder();
+
+        CriteriaQuery<Object> criteriaQuery = builder.createQuery(Object.class);
+        Root<T> root = applySpecificationToCriteria(spec, criteriaQuery);
+
+        Selection[] selections = new Selection[selectors.length];
+        for (int i = 0; i < selectors.length; i++) {
+            Selector selector = selectors[i];
+            selections[i] = selector.select(builder, root);
+        }
+
+
+        criteriaQuery.multiselect(selections);
+
+
+        TypedQuery<Object> typedQuery = em.createQuery(criteriaQuery);
+
+        return (Object[]) typedQuery.getSingleResult();
+    }
+
 
 
     public Page<T> findAll(Specification<T> spec, Pageable pageable) {
@@ -659,7 +700,7 @@ public abstract class BaseDao<T extends PersistEntity> {
         return pageable.isUnpaged();
     }
 
-    private <S> Root<T> applySpecificationToCriteria(@Nullable Specification<T> spec,
+    protected  <S> Root<T> applySpecificationToCriteria(@Nullable Specification<T> spec,
                                                      CriteriaQuery<S> query) {
 
         Assert.notNull(domainClass, "Domain class must not be null!");

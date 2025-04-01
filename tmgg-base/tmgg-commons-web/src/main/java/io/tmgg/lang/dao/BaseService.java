@@ -3,6 +3,7 @@ package io.tmgg.lang.dao;
 
 import io.tmgg.data.domain.PageExt;
 import io.tmgg.lang.dao.specification.JpaQuery;
+import io.tmgg.lang.dao.specification.MultiSelector;
 import io.tmgg.lang.dao.specification.Selector;
 import io.tmgg.lang.obj.Option;
 import cn.hutool.core.bean.BeanUtil;
@@ -37,7 +38,7 @@ public abstract class BaseService<T extends PersistEntity> {
      * @param selector
      * @return
      */
-    public Object[] findAggregate(Specification<T> spec, Selector selector) {
+    public Object[] findAggregate(Specification<T> spec, MultiSelector selector) {
         return baseDao.findAggregate(spec, selector);
     }
 
