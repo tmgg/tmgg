@@ -1,7 +1,6 @@
 package io.tmgg.lang.obj;
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +9,9 @@ import java.util.function.Function;
 /**
  * 选项，如下拉多选，单选等
  */
-@Data
+@EqualsAndHashCode(of = "value")
+@Getter
+@Setter
 @Builder
 public class Option {
     String label;
@@ -82,5 +83,6 @@ public class Option {
 
         return result;
     }
+
 
 }

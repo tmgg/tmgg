@@ -113,9 +113,20 @@ public class WeixinPageController extends BaseController<WeixinPage> {
     public AjaxResult options(String searchText) {
         JpaQuery<WeixinPage> q = new JpaQuery<>();
         q.searchText(searchText, WeixinPage.Fields.path, WeixinPage.Fields.title);
-        List<WeixinPage> page = service.findAll(Sort.by(WeixinPage.Fields.path));
-        Option.convertList(page, WeixinPage::getPath, WeixinPage::getTitle);
-        return AjaxResult.ok().data(page);
+        List<WeixinPage> list = service.findAll(Sort.by(WeixinPage.Fields.path));
+        List<Option> options = Option.convertList(list, WeixinPage::getPath, t-> {
+            String title = t.getTitle();
+            String path = t.getPath();
+            if(title.equals(path)){
+                return title;
+            }
+            return title + " " + path;
+        });
+
+        // 去重
+        options = options.stream().distinct().collect(Collectors.toList());
+
+        return AjaxResult.ok().data(options);
     }
 
 }

@@ -120,6 +120,7 @@ export default class extends React.Component {
                    onCancel={() => this.setState({formOpen: false})}
                    destroyOnClose
                    maskClosable={false}
+                   width={800}
             >
 
                 <Form ref={this.formRef} labelCol={{flex: '100px'}}
