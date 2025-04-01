@@ -22,7 +22,7 @@ public class DBConstants {
     public static final int LEN_TEL = 14; // 0851-8524990
     public static final int LEN_EMAIL = 50;
 
-    public static final int LEN_MAX_VARCHAR = 65535;
+    public static final int LEN_MAX_VARCHAR = 16383;
     public static final int LEN_TEXT = 65536;
 
     /**

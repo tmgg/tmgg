@@ -1,4 +1,5 @@
-Spring Boot  ${spring-boot.version}
+Spring Boot  ${spring-boot.formatted-version}
+应用名称 ${spring.application.name}
 配置文件 ${spring.profiles.active}
 端口号 ${server.port}
 数据库连接 ${spring.datasource.url}

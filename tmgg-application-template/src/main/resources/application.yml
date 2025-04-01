@@ -3,7 +3,8 @@ spring:
   profiles:
     active: default,dev
 
-
+  application:
+    name: 'template'
 
 sys:
   base-package-class: com.xxx.BootApplication

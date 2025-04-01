@@ -3,6 +3,7 @@ package io.tmgg.modules.job.entity;
 import io.tmgg.lang.ann.Msg;
 import io.tmgg.lang.dao.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.tmgg.lang.dao.DBConstants;
 import io.tmgg.lang.dao.converter.ToMapConverter;
 import lombok.Getter;
 import lombok.Setter;
@@ -49,7 +50,8 @@ public class SysJob extends BaseEntity {
 
 
     // 参数
-    @Column(length = 20000)
+    @Lob
+    @Column(columnDefinition = DBConstants.TYPE_TEXT)
     @Convert(converter = ToMapConverter.class)
     Map<String,Object> jobData;
 
