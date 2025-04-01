@@ -18,10 +18,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -112,8 +109,10 @@ public class WeixinPageController extends BaseController<WeixinPage> {
     }
 
 
-    @PostMapping("options")
-    public AjaxResult options() throws Exception {
+    @GetMapping("options")
+    public AjaxResult options(String searchText) {
+        JpaQuery<WeixinPage> q = new JpaQuery<>();
+        q.searchText(searchText, WeixinPage.Fields.path, WeixinPage.Fields.title);
         List<WeixinPage> page = service.findAll(Sort.by(WeixinPage.Fields.path));
         Option.convertList(page, WeixinPage::getPath, WeixinPage::getTitle);
         return AjaxResult.ok().data(page);
