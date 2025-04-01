@@ -1,6 +1,8 @@
 package io.tmgg.lang.dao;
 
+import cn.hutool.core.util.ArrayUtil;
 import io.tmgg.dbtool.DbTool;
+import io.tmgg.lang.dao.specification.ExpressionTool;
 import io.tmgg.lang.dao.specification.JpaQuery;
 import io.tmgg.lang.dao.specification.MultiSelector;
 import io.tmgg.lang.dao.specification.Selector;
@@ -26,6 +28,7 @@ import org.springframework.util.Assert;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.*;
+import java.util.function.Consumer;
 
 import static org.springframework.data.jpa.repository.query.QueryUtils.*;
 
@@ -365,24 +368,22 @@ public abstract class BaseDao<T extends PersistEntity> {
 
     public Object stats(Specification<T> spec, Selector selector) {
         CriteriaBuilder builder = em.getCriteriaBuilder();
-
-        CriteriaQuery<Object> criteriaQuery = builder.createQuery(Object.class);
-        Root<T> root = applySpecificationToCriteria(spec, criteriaQuery);
+        CriteriaQuery<Object> query = builder.createQuery(Object.class);
+        Root<T> root = applySpecificationToCriteria(spec, query);
 
         Selection<?> selection = selector.select(builder, root);
 
-        criteriaQuery.select(selection);
+        query.select(selection);
 
-        TypedQuery<Object> typedQuery = em.createQuery(criteriaQuery);
+        TypedQuery<Object> typedQuery = em.createQuery(query);
 
         return  typedQuery.getSingleResult();
     }
 
     public Object[] stats(Specification<T> spec, Selector... selectors) {
         CriteriaBuilder builder = em.getCriteriaBuilder();
-
-        CriteriaQuery<Object> criteriaQuery = builder.createQuery(Object.class);
-        Root<T> root = applySpecificationToCriteria(spec, criteriaQuery);
+        CriteriaQuery<Object> query = builder.createQuery(Object.class);
+        Root<T> root = applySpecificationToCriteria(spec, query);
 
         Selection[] selections = new Selection[selectors.length];
         for (int i = 0; i < selectors.length; i++) {
@@ -391,13 +392,84 @@ public abstract class BaseDao<T extends PersistEntity> {
         }
 
 
-        criteriaQuery.multiselect(selections);
+        query.multiselect(selections);
 
 
-        TypedQuery<Object> typedQuery = em.createQuery(criteriaQuery);
+        TypedQuery<Object> typedQuery = em.createQuery(query);
 
         return (Object[]) typedQuery.getSingleResult();
     }
+
+    public Map<String,Object[]> statsGroup(Specification<T> spec,  String groupField,Selector... selectors) {
+        CriteriaBuilder builder = em.getCriteriaBuilder();
+        CriteriaQuery<Object> query = builder.createQuery(Object.class);
+        Root<T> root = applySpecificationToCriteria(spec, query);
+
+        Selection[] selections = new Selection[selectors.length];
+        for (int i = 0; i < selectors.length; i++) {
+            Selector selector = selectors[i];
+            selections[i] = selector.select(builder, root);
+        }
+
+
+        query.multiselect(selections);
+
+        // 分组
+        Expression group = ExpressionTool.getExpression(groupField, root); // 支持 . 分割， 如 user.id
+        query.groupBy(group);
+
+
+        TypedQuery<Object> typedQuery = em.createQuery(query);
+
+        // 组装结构
+        Map<String, Object[]> map = new HashMap<>();
+        List<Object> resultList = typedQuery.getResultList();
+        for (Object row : resultList) {
+            Object[] rowArr = (Object[]) row;
+            String key = (String) rowArr[0];
+            map.put(key, ArrayUtil.remove(rowArr, 0));
+        }
+        return map;
+    }
+
+
+    public Map<String, Long> statsCount(Specification<T> q, String groupField){
+            CriteriaBuilder builder = em.getCriteriaBuilder();
+            CriteriaQuery<Object> query = builder.createQuery(Object.class);
+            Root<T> root = query.from(domainClass);
+
+            // 查询条件
+            Predicate predicate = q.toPredicate(root, query, builder);
+            query.where(predicate);
+
+
+            //Path<Object> group = root.get(groupColumn);
+            Expression group = ExpressionTool.getExpression(groupField, root); // 支持 . 分割， 如 user.id
+
+
+            query.multiselect(group, builder.count(root));
+
+            // 分组
+            query.groupBy(group);
+
+
+            TypedQuery<Object> typedQuery = em.createQuery(query);
+            List<Object> resultList =  typedQuery.getResultList();
+
+            // 组装数据结构
+            Map<String, Long> map = new HashMap<>();
+            for (Object row : resultList) {
+                Object[] rowArr = (Object[]) row;
+                String homePopupId = (String) rowArr[0];
+                Number count = (Number) rowArr[1];
+                if(count != null){
+                    map.put(homePopupId, count.longValue());
+                }
+            }
+            return map;
+    }
+
+
 
 
 

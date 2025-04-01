@@ -148,8 +148,10 @@ public class JpaQuery<T> implements Specification<T> {
      * @param value 当前时间
      */
     public void valueBetween(String column1,String column2, Object value) {
-        this.le(column1, value);  // begin <= cur
-        this.ge(column2, value);  // end >= cur
+        this.addSubAnd(q->{
+            q.le(column1, value);  // begin <= cur
+            q.ge(column2, value);  // end >= cur
+        });
     }
 
 
