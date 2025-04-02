@@ -10,7 +10,7 @@ import java.util.List;
 public interface Selector {
 
 
-     Selection<?> select(CriteriaBuilder builder, Root root);
+     List<Selection<?>> select(CriteriaBuilder builder, Root<?> root);
 
 
 }

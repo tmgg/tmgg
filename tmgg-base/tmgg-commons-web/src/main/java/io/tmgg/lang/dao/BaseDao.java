@@ -4,7 +4,6 @@ import cn.hutool.core.util.ArrayUtil;
 import io.tmgg.dbtool.DbTool;
 import io.tmgg.lang.dao.specification.ExpressionTool;
 import io.tmgg.lang.dao.specification.JpaQuery;
-import io.tmgg.lang.dao.specification.MultiSelector;
 import io.tmgg.lang.dao.specification.Selector;
 import jakarta.annotation.PostConstruct;
 import jakarta.persistence.EntityManager;
@@ -28,7 +27,6 @@ import org.springframework.util.Assert;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.*;
-import java.util.function.Consumer;
 
 import static org.springframework.data.jpa.repository.query.QueryUtils.*;
 
@@ -347,7 +345,7 @@ public abstract class BaseDao<T extends PersistEntity> {
      * String msg = "合计积分：" + rs[0] + ",合计人数：" + rs[1];
      */
     @Deprecated
-    public Object[] findAggregate(Specification<T> spec, MultiSelector selector) {
+    public Object[] findAggregate(Specification<T> spec, Selector selector) {
         CriteriaBuilder builder = em.getCriteriaBuilder();
 
         CriteriaQuery<Object> criteriaQuery = builder.createQuery(Object.class);
@@ -366,68 +364,63 @@ public abstract class BaseDao<T extends PersistEntity> {
     }
 
 
-    public Object stats(Specification<T> spec, Selector selector) {
+    public Object statsSingle(Specification<T> spec, Selector selector) {
         CriteriaBuilder builder = em.getCriteriaBuilder();
         CriteriaQuery<Object> query = builder.createQuery(Object.class);
         Root<T> root = applySpecificationToCriteria(spec, query);
 
-        Selection<?> selection = selector.select(builder, root);
+        List<Selection<?>> selections = selector.select(builder, root);
+        Assert.state(selections.size() ==1, "selection的个数应为1");
 
-        query.select(selection);
+        query.select(selections.get(0));
 
         TypedQuery<Object> typedQuery = em.createQuery(query);
 
         return  typedQuery.getSingleResult();
     }
 
-    public Object[] stats(Specification<T> spec, Selector... selectors) {
+    public Object[] stats(Specification<T> spec, Selector selector) {
         CriteriaBuilder builder = em.getCriteriaBuilder();
         CriteriaQuery<Object> query = builder.createQuery(Object.class);
         Root<T> root = applySpecificationToCriteria(spec, query);
 
-        Selection[] selections = new Selection[selectors.length];
-        for (int i = 0; i < selectors.length; i++) {
-            Selector selector = selectors[i];
-            selections[i] = selector.select(builder, root);
-        }
-
+        List<Selection<?>> selections = selector.select(builder, root);
 
         query.multiselect(selections);
-
 
         TypedQuery<Object> typedQuery = em.createQuery(query);
 
         return (Object[]) typedQuery.getSingleResult();
     }
 
-    public Map<String,Object[]> statsGroup(Specification<T> spec,  String groupField,Selector... selectors) {
+    public Map<String,Object[]> statsGroup(Specification<T> spec,  String groupField,Selector selector) {
         CriteriaBuilder builder = em.getCriteriaBuilder();
         CriteriaQuery<Object> query = builder.createQuery(Object.class);
         Root<T> root = applySpecificationToCriteria(spec, query);
 
-        Selection[] selections = new Selection[selectors.length];
-        for (int i = 0; i < selectors.length; i++) {
-            Selector selector = selectors[i];
-            selections[i] = selector.select(builder, root);
-        }
+        Expression group = ExpressionTool.getExpression(groupField, root); // 支持 . 分割， 如 user.id
 
+        List<Selection<?>> selections = new ArrayList<>();
+        selections.add(group);
+        selections.addAll(selector.select(builder, root));
 
         query.multiselect(selections);
 
         // 分组
-        Expression group = ExpressionTool.getExpression(groupField, root); // 支持 . 分割， 如 user.id
+
         query.groupBy(group);
 
 
         TypedQuery<Object> typedQuery = em.createQuery(query);
+        List<Object> resultList = typedQuery.getResultList();
 
         // 组装结构
-        Map<String, Object[]> map = new HashMap<>();
-        List<Object> resultList = typedQuery.getResultList();
+        Map<String, Object[]> map = new LinkedHashMap<>();
         for (Object row : resultList) {
+            log.trace("statsGroup的结果{}", row);
             Object[] rowArr = (Object[]) row;
-            String key = (String) rowArr[0];
-            map.put(key, ArrayUtil.remove(rowArr, 0));
+            Object key =  rowArr[0];
+            map.put(key.toString(), ArrayUtil.remove(rowArr, 0));
         }
         return map;
     }
@@ -468,10 +461,6 @@ public abstract class BaseDao<T extends PersistEntity> {
             }
             return map;
     }
-
-
-
-
 
     public Page<T> findAll(Specification<T> spec, Pageable pageable) {
         TypedQuery<T> query = getQuery(spec, pageable);

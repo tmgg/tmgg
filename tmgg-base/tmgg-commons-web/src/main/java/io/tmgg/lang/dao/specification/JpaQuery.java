@@ -135,8 +135,10 @@ public class JpaQuery<T> implements Specification<T> {
     }
 
     public void notBetween(String column, Object v1, Object v2) {
-        this.lt(column, v1);
-        this.gt(column, v2);
+        this.addSubAnd(q->{
+            q.lt(column, v1);
+            q.gt(column, v2);
+        });
     }
 
     /**
