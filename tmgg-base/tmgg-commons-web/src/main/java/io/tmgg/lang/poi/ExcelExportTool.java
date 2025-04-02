@@ -7,9 +7,10 @@ import io.tmgg.commons.poi.excel.entity.ExportParams;
 import io.tmgg.commons.poi.excel.entity.enmus.ExcelType;
 import io.tmgg.lang.ResponseTool;
 import io.tmgg.lang.data.Array2D;
-import cn.hutool.core.bean.BeanUtil;
+import io.tmgg.lang.obj.Table;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.poi.ss.formula.functions.T;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -23,6 +24,10 @@ import java.util.function.Function;
 
 /**
  * 简单导入导出工具类
+ *
+ * 注意：
+ * 列范围：0..16383
+ *
  */
 @Slf4j
 public class ExcelExportTool {
@@ -39,6 +44,35 @@ public class ExcelExportTool {
         ExportParams param = new ExportParams();
         param.setType(ExcelType.XSSF);
         Workbook workbook = ExcelExportUtil.exportExcel(param, pojoClass, list);
+
+        exportWorkbook(filename, workbook, response);
+    }
+    public static void exportTable(String filename, Table tb, HttpServletResponse response) throws IOException {
+        Workbook workbook = new XSSFWorkbook();
+        Sheet sheet = workbook.createSheet();
+
+        // 表头
+        List<Table.Column> columns = tb.getColumns();
+        Row firstRow = sheet.createRow(sheet.getLastRowNum() + 1);
+        for (int i = 0; i < columns.size(); i++) {
+            Table.Column col = columns.get(i);
+            firstRow.createCell(i).setCellValue(col.getTitle());
+        }
+
+
+        // 表体
+        for (Map<String, Object> dataRow : tb.getDataSource()) {
+            Row row = sheet.createRow(sheet.getLastRowNum() + 1);
+
+            for (int i = 0; i < columns.size(); i++) {
+                Table.Column column = columns.get(i);
+                String key = column.getDataIndex();
+                Object value = dataRow.get(key);
+                if(value != null){
+                    row.createCell(i).setCellValue(value.toString());
+                }
+            }
+        }
 
         exportWorkbook(filename, workbook, response);
     }
@@ -64,6 +98,7 @@ public class ExcelExportTool {
      * @param response
      * @throws IOException
      */
+    @Deprecated
     public static <T> void exportBeanList(String filename, List<T> dataList, LinkedHashMap<String, Function<T, Object>> columns, HttpServletResponse response) throws IOException {
         Workbook workbook = new XSSFWorkbook();
         Sheet sheet = workbook.createSheet();
@@ -108,6 +143,8 @@ public class ExcelExportTool {
      * @param response
      * @throws IOException
      */
+
+    @Deprecated
     public static void exportArray2D(String filename, Array2D array2D, HttpServletResponse response) throws IOException {
         Workbook workbook = new XSSFWorkbook();
         Sheet sheet = workbook.createSheet();
@@ -124,40 +161,6 @@ public class ExcelExportTool {
         exportWorkbook(filename, workbook, response);
     }
 
-    /**
-     * 导出map列表， map的key就是表头，可使用中文
-     * @param filename
-     * @param maplist
-     * @param response
-     * @throws IOException
-     */
-    public static void exportMapList(String filename, List<Map<String,Object>> maplist, HttpServletResponse response) throws IOException {
-        Assert.notEmpty(maplist,"数据不能为空"); // 为空时无法获取表头
-        Workbook workbook = new XSSFWorkbook();
-        Sheet sheet = workbook.createSheet();
-
-        // 表头
-        Map<String, Object> first = maplist.get(0);
-        Set<String> titles = first.keySet();
-        Row firstRow = sheet.createRow(sheet.getLastRowNum() + 1);
-        for (String title : titles) {
-            firstRow.createCell(firstRow.getLastCellNum()).setCellValue(title);
-        }
-
-
-        // 表体
-        for (Map<String, Object> dataRow : maplist) {
-            Row row = sheet.createRow(sheet.getLastRowNum() + 1);
-
-            for (Map.Entry<String, Object> e : dataRow.entrySet()) {
-                Object value = e.getValue();
-                value = ObjUtil.defaultIfNull(value, "");
-                row.createCell(row.getLastCellNum()).setCellValue(value.toString());
-            }
-        }
-
-        exportWorkbook(filename, workbook, response);
-    }
 
 
     public static void exportWorkbook(String filename, Workbook workbook, HttpServletResponse response) throws IOException {

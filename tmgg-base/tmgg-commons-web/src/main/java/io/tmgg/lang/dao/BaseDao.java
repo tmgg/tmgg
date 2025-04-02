@@ -1,6 +1,5 @@
 package io.tmgg.lang.dao;
 
-import cn.hutool.core.util.ArrayUtil;
 import io.tmgg.dbtool.DbTool;
 import io.tmgg.lang.dao.specification.ExpressionTool;
 import io.tmgg.lang.dao.specification.JpaQuery;
@@ -393,15 +392,16 @@ public abstract class BaseDao<T extends PersistEntity> {
         return (Object[]) typedQuery.getSingleResult();
     }
 
-    public Map<String,Object[]> statsGroup(Specification<T> spec,  String groupField,Selector selector) {
+    public List<Map> statsGroup(Specification<T> spec, String groupField, Selector selector) {
         CriteriaBuilder builder = em.getCriteriaBuilder();
-        CriteriaQuery<Object> query = builder.createQuery(Object.class);
+
+        CriteriaQuery<Map> query = builder.createQuery(Map.class);
         Root<T> root = applySpecificationToCriteria(spec, query);
 
         Expression group = ExpressionTool.getExpression(groupField, root); // 支持 . 分割， 如 user.id
 
         List<Selection<?>> selections = new ArrayList<>();
-        selections.add(group);
+        selections.add(group.alias(groupField));
         selections.addAll(selector.select(builder, root));
 
         query.multiselect(selections);
@@ -411,18 +411,11 @@ public abstract class BaseDao<T extends PersistEntity> {
         query.groupBy(group);
 
 
-        TypedQuery<Object> typedQuery = em.createQuery(query);
-        List<Object> resultList = typedQuery.getResultList();
+        TypedQuery<Map> typedQuery = em.createQuery(query);
+        List<Map> resultList = typedQuery.getResultList();
 
-        // 组装结构
-        Map<String, Object[]> map = new LinkedHashMap<>();
-        for (Object row : resultList) {
-            log.trace("statsGroup的结果{}", row);
-            Object[] rowArr = (Object[]) row;
-            Object key =  rowArr[0];
-            map.put(key.toString(), ArrayUtil.remove(rowArr, 0));
-        }
-        return map;
+
+        return resultList;
     }
 
 

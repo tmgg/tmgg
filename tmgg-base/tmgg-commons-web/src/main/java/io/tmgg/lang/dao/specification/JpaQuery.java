@@ -128,6 +128,7 @@ public class JpaQuery<T> implements Specification<T> {
 
 
     public void between(String column, Object v1, Object v2) {
+        Assert.state(v1!= null && v2 != null, "值不能为空");
         this.addSubAnd(q->{
             q.ge(column, v1);
             q.le(column, v2);

@@ -19,6 +19,9 @@ public class Table {
     public void addColumn(String dataIndex, String title){
         columns.add(new Column(dataIndex,title));
     }
+    public void addData(Map<String, Object> data){
+        dataSource.add(data);
+    }
 
     @Getter
     @Setter
@@ -36,6 +39,10 @@ public class Table {
         public Column(String dataIndex, String title) {
             this.dataIndex = dataIndex;
             this.title = title;
+        }
+
+        public String getTitle() {
+            return title == null ? dataIndex : title;
         }
     }
 }
