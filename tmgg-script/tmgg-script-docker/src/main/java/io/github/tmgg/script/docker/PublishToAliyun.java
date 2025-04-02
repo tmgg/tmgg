@@ -124,6 +124,7 @@ public class PublishToAliyun {
 
     public static String getLocalDockerHost() {
         boolean windows = SystemUtil.getOsInfo().isWindows();
+        System.out.println("windows" + windows);
         return windows ? "tcp://localhost:2375" : "unix:///var/run/docker.sock";
     }
 
