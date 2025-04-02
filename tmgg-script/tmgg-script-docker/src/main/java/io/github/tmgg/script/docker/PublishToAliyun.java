@@ -133,7 +133,7 @@ public class PublishToAliyun {
         System.out.println("docker host: " + dockerHost);
 
         DefaultDockerClientConfig.Builder builder = DefaultDockerClientConfig.createDefaultConfigBuilder()
-             //   .withDockerHost(dockerHost)
+                .withDockerHost(dockerHost)
                 .withRegistryUrl(url)
                 .withRegistryUsername(username)
                 .withRegistryPassword(password);
