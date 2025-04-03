@@ -129,7 +129,7 @@ public class WeixinPageController extends BaseController<WeixinPage> {
     @GetMapping("options")
     public AjaxResult options(String searchText) {
         JpaQuery<WeixinPage> q = new JpaQuery<>();
-        q.searchText(searchText, WeixinPage.Fields.path, WeixinPage.Fields.title);
+        q.searchText(searchText, WeixinPage.Fields.page, WeixinPage.Fields.title);
         List<WeixinPage> list = service.findAll(Sort.by(WeixinPage.Fields.root,WeixinPage.Fields.page));
         List<Option> options = Option.convertList(list, WeixinPage::getPath, t-> {
             String title = t.getTitle();
