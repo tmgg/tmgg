@@ -386,6 +386,7 @@ public abstract class BaseDao<T extends PersistEntity> {
         Root<T> root = applySpecificationToCriteria(spec, query);
 
         List<Selection<?>> selections = selector.select(builder, root);
+        Assert.state(selections.size() > 1, "selections需多个");
 
         query.multiselect(selections);
 

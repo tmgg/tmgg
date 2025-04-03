@@ -8,3 +8,8 @@ spring:
     show-sql: true
     # 清空数据
     hibernate.ddl-auto: create
+logging:
+  file:
+    path: ./logs/app-log
+  pattern:
+    dateformat: yyyy-MM-dd HH:mm:ss.SSS
