@@ -29,7 +29,7 @@ public class SysReportTable extends BaseEntity {
 
     @Msg("sql文本")
     @Lob
-    @Column(name = "sql_", columnDefinition = DBConstants.TYPE_LONGTEXT)
+    @Column(name = "sql_", columnDefinition = DBConstants.TYPE_BLOB)
     String sql;
 
     @Column(length = 10)

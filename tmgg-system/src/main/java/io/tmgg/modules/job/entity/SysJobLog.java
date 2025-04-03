@@ -26,7 +26,7 @@ public class SysJobLog extends BaseEntity {
 
     Date endTime;
 
-    @Column(columnDefinition = DBConstants.TYPE_TEXT)
+    @Column(columnDefinition = DBConstants.TYPE_BLOB)
     String result;
 
     Long jobRunTime;

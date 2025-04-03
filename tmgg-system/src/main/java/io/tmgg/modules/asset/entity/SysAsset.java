@@ -33,10 +33,9 @@ public class SysAsset extends BaseEntity {
 
 
     // 如果是文件，存id
-    @Column(columnDefinition = DBConstants.TYPE_LONGTEXT)
+    @Column(columnDefinition = DBConstants.TYPE_BLOB)
     @Msg("内容")
     @Lob
- //   @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     String content;
 
 

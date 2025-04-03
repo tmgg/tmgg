@@ -51,7 +51,7 @@ public class SysJob extends BaseEntity {
 
     // 参数
     @Lob
-    @Column(columnDefinition = DBConstants.TYPE_TEXT)
+    @Column(columnDefinition = DBConstants.TYPE_BLOB)
     @Convert(converter = ToMapConverter.class)
     Map<String,Object> jobData;
 

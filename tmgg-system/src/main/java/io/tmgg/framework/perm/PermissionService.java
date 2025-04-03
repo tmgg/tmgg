@@ -33,8 +33,8 @@ public class PermissionService {
     @Resource
     JpaService jpaService;
 
-    @PostConstruct
-    void init() throws IOException, ClassNotFoundException {
+
+  public   void init() throws IOException, ClassNotFoundException {
         SysDict dict = sysDictDao.findByCode(DICK_CODE);
         if (dict == null) {
             dict = new SysDict();

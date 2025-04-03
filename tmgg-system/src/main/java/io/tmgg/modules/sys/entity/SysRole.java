@@ -44,7 +44,7 @@ public class SysRole extends BaseEntity {
     private String remark;
 
     @Msg("启用")
-    @Column(nullable = false, columnDefinition = DBConstants.COLUMN_DEFINITION_BOOLEAN_DEFAULT_TRUE)
+    @Column(nullable = false)
     private Boolean enabled;
 
 

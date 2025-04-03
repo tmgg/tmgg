@@ -60,3 +60,5 @@ dist/
 /docs/.vuepress/.temp/
 /docs/docs/.vuepress/.cache/
 /docs/docs/.vuepress/.temp/
+/tmgg-system/derby.log
+/tmgg-system/derby-test-data/

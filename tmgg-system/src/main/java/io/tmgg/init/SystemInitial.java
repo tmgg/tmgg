@@ -6,6 +6,7 @@ import io.tmgg.SysProp;
 import io.tmgg.dbtool.DbTool;
 import io.tmgg.framework.dict.DictAnnHandler;
 import io.tmgg.framework.dict.DictFieldAnnHandler;
+import io.tmgg.framework.perm.PermissionService;
 import io.tmgg.lang.PasswordTool;
 import io.tmgg.modules.sys.dao.SysUserDao;
 import io.tmgg.modules.sys.entity.DataPermType;
@@ -59,6 +60,9 @@ public class SystemInitial implements CommandLineRunner {
     DictFieldAnnHandler dictFieldAnnHandler;
 
     @Resource
+    PermissionService permissionService;
+
+    @Resource
     private DbTool db;
 
 
@@ -69,7 +73,7 @@ public class SystemInitial implements CommandLineRunner {
 
 
         fixDict();
-
+        permissionService.init();
         dictEnumHandler.run();
         dictAnnHandler.run();
         dictFieldAnnHandler.run();
@@ -87,7 +91,7 @@ public class SystemInitial implements CommandLineRunner {
     }
 
     private void fixDict() {
-        String[] keys = db.getKeys("select * from sys_dict limit 1");
+        String[] keys = db.getKeys("select * from sys_dict");
         System.out.println(keys);
         if(ArrayUtil.contains(keys,"name")){
             db.executeQuietly("ALTER TABLE `sys_dict` DROP COLUMN text");

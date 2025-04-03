@@ -1,0 +1,10 @@
+spring:
+  datasource:
+    driver-class-name: org.apache.derby.jdbc.EmbeddedDriver
+    url: jdbc:derby:derby-test-data;create=true
+    username: root
+    password: root
+  jpa:
+    show-sql: true
+    # 清空数据
+    hibernate.ddl-auto: create

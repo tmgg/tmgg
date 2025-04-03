@@ -3,15 +3,10 @@ package io.tmgg.lang.dao;
 
 public class DBConstants {
 
-    public static final String COLUMN_DEFINITION_BOOLEAN_DEFAULT_TRUE = "bit(1) DEFAULT b'1'";
 
 
     // 用于存储大量二进制数据，如图片、音频、视频等
     public static final String TYPE_BLOB = "blob";
-
-    public static final String TYPE_LONGBLOB = "longblob";
-    public static final String TYPE_TEXT = "text"; // 65535
-    public static final String TYPE_LONGTEXT = "LONGTEXT"; // 4,294,967,295
 
     public static final int LEN_ID = 32;
     public static final int LEN_NAME = 50;

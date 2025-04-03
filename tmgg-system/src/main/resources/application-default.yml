@@ -28,7 +28,7 @@ spring:
       keepalive-time: 60000 # 保活时间，会测试空闲连接是否正常  1分钟
   jpa:
     hibernate.ddl-auto: update
-    database: MYSQL
+   # database: MYSQL
     show-sql: false
   data:
     web:

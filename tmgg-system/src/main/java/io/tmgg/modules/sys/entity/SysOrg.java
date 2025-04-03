@@ -49,7 +49,7 @@ public class SysOrg extends BaseEntity implements Tree<SysOrg> {
     private Integer seq;
 
 
-    @Column(nullable = false, columnDefinition = DBConstants.COLUMN_DEFINITION_BOOLEAN_DEFAULT_TRUE)
+    @Column(nullable = false)
     private Boolean enabled;
 
 

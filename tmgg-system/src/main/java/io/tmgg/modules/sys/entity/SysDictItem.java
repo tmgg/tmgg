@@ -38,7 +38,7 @@ public class SysDictItem extends BaseEntity {
 
 
 
-    @Column(nullable = false, columnDefinition = DBConstants.COLUMN_DEFINITION_BOOLEAN_DEFAULT_TRUE)
+    @Column(nullable = false)
     private Boolean enabled;
 
     @Msg("颜色")

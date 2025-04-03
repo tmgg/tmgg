@@ -72,7 +72,7 @@ public class SysLog extends BaseEntity {
     /**
      * 请求参数
      */
-    @Column(columnDefinition = DBConstants.TYPE_TEXT)
+    @Column(columnDefinition = DBConstants.TYPE_BLOB)
     private String param;
 
 

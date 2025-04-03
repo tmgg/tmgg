@@ -90,7 +90,8 @@ public class SysUser extends BaseEntity {
     @Column(length = 30)
     private String email;
 
-    @Column(nullable = false, columnDefinition = DBConstants.COLUMN_DEFINITION_BOOLEAN_DEFAULT_TRUE)
+    @NotNull
+    @Column(nullable = false)
     private Boolean enabled;
 
     // 扩展字段1
