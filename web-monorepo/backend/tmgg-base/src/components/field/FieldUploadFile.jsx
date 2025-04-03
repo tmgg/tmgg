@@ -79,12 +79,15 @@ export class FieldUploadFile extends Component{
     let url = defaultURL;
 
     if (this.props.url != null) {
-      url = SysUtil.getServerUrl() + this.props.url;
+      url =  SysUtil.wrapServerUrl(this.props.url)  ;
+
     }
 
     if (businessKey != null) {
       url += '?businessKey=' + businessKey;
     }
+
+    console.log('最终上传url', url)
 
     if (mode == 'read') {
       return this.renderReadOnly();

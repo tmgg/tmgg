@@ -30,27 +30,25 @@ export default class extends React.Component {
 
         },
         {
-            title: '根',
-            dataIndex: 'root',
-        },
-        {
             title: '标题',
             dataIndex: 'title',
+        },
 
-
-
-
+        {
+            title: '根',
+            dataIndex: 'root',
+            sorter:true
         },
 
         {
             title: '路径',
             dataIndex: 'path',
 
-
-
-
         },
-
+        {
+            title: '全路径',
+            dataIndex: 'page',
+        },
         {
             title: '操作',
             dataIndex: 'option',
@@ -84,6 +82,12 @@ export default class extends React.Component {
         })
     }
 
+    handleClean=()=>{
+        HttpUtil.get( 'weixinPage/clean').then(rs => {
+            this.tableRef.current.reload()
+        })
+}
+
     onImportPagesFinish = values => {
         HttpUtil.post( 'weixinPage/importPages', values).then(rs => {
             this.setState({importPagesOpen: false})
@@ -102,12 +106,14 @@ export default class extends React.Component {
             <ProTable
                 actionRef={this.tableRef}
                 toolBarRender={() => {
-                    return <ButtonList>
+                    return <ButtonList maxNum={5}>
                         <Button perm='weixinPage:save' type='primary' onClick={this.handleAdd}>
                             <PlusOutlined/> 新增
                         </Button>
 
                         <Button perm='weixinPage:save' onClick={this.handleImportPages}>导入页面</Button>
+
+                        <Button perm='weixinPage:clean' onClick={this.handleClean}>清空</Button>
                     </ButtonList>
                 }}
                 request={(params, sort) => HttpUtil.pageData('weixinPage/page', params)}
@@ -158,7 +164,7 @@ export default class extends React.Component {
                       onFinish={this.onImportPagesFinish}
                 >
 
-                    <Form.Item label='appId' name='appId' rules={[{required: true}]}>
+                    <Form.Item label='appId' name='应用表示（appId）' help='可不填' >
                         <Input/>
                     </Form.Item>
 

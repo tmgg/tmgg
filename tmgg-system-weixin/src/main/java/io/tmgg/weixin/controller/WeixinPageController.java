@@ -54,7 +54,12 @@ public class WeixinPageController extends BaseController<WeixinPage> {
         String appId;
         String content;
     }
-
+    @HasPermission(label = "清空")
+    @GetMapping({"clean"})
+    public AjaxResult clean(){
+        service.deleteAll();
+        return AjaxResult.ok();
+    }
 
 
     @HasPermission(label = "导入页面")
@@ -79,11 +84,10 @@ public class WeixinPageController extends BaseController<WeixinPage> {
         }
 
         for (WeixinPage weixinPage : list) {
+
             weixinPage.setAppId(appId);
-            if(StrUtil.isEmpty(weixinPage.getTitle())){
-                weixinPage.setTitle(weixinPage.getPath());
-            }
         }
+
 
         service.saveAll(list);
 
@@ -92,17 +96,30 @@ public class WeixinPageController extends BaseController<WeixinPage> {
     }
 
     private void parsePages(Map<String,Object> map, List<WeixinPage> list){
-        String root = (String) map.getOrDefault("root","root");
+        String root = (String) map.getOrDefault("root", null);
         List<Map<String,Object>> pages = (List<Map<String, Object>>) map.get("pages");
-        for (Map<String, Object> page : pages) {
-            String path = (String) page.get("path");
-            Map<String, Object> style = (Map<String, Object>) page.get("style");
+        for (Map<String, Object> pageData : pages) {
+            String path = (String) pageData.get("path");
+            Map<String, Object> style = (Map<String, Object>) pageData.get("style");
             String title = (String) style.get("navigationBarTitleText");
+
+            if(StrUtil.isBlank(title)){
+                continue;
+            }
+
+            String page = "/";
+            if (root != null){
+                page += root + "/";
+            }
+            page += path;
+
+
 
             WeixinPage item = new WeixinPage();
             item.setRoot(root);
             item.setPath(path);
             item.setTitle(title);
+            item.setPage(page);
             list.add(item);
         }
 
@@ -116,11 +133,8 @@ public class WeixinPageController extends BaseController<WeixinPage> {
         List<WeixinPage> list = service.findAll(Sort.by(WeixinPage.Fields.path));
         List<Option> options = Option.convertList(list, WeixinPage::getPath, t-> {
             String title = t.getTitle();
-            String path = t.getPath();
-            if(title.equals(path)){
-                return title;
-            }
-            return title + " " + path;
+
+            return title + " " + t.getPage();
         });
 
         // 去重

@@ -11,7 +11,7 @@
     "dev" : "umi dev",
     "build" : "umi build"
   },
-  "version" : "0.3.71",
+  "version" : "0.3.72",
   "dependencies" : {
     "@ant-design/icons" : "^5.4.0",
     "@tinymce/tinymce-react" : "^5.0.0",

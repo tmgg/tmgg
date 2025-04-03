@@ -7,9 +7,11 @@ import {SysUtil} from "../../../system";
 export  class FieldFileBase64 extends React.Component {
 
     render() {
+        let url = '/utils/fileBase64';
+        console.log('上传地址')
         return <>
             <Input.TextArea rows={3} value={this.props.value}></Input.TextArea>
-            <FieldUploadFile url={SysUtil.wrapServerUrl('/utils/fileBase64')} onChange={this.onFinish}></FieldUploadFile>
+            <FieldUploadFile url={url} onChange={this.onFinish}></FieldUploadFile>
         </>
     }
 

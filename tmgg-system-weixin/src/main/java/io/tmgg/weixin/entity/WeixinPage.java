@@ -1,5 +1,6 @@
 package io.tmgg.weixin.entity;
 
+import cn.hutool.core.util.StrUtil;
 import io.tmgg.lang.ann.Msg;
 import io.tmgg.lang.dao.BaseEntity;
 import io.tmgg.lang.dao.DBConstants;
@@ -30,5 +31,11 @@ public class WeixinPage extends BaseEntity {
     String path;
 
     String root;
+
+
+    @Msg("全路径")
+    String page;
+
+
 
 }
