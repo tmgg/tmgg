@@ -26,18 +26,15 @@ public class SysDict extends BaseEntity {
         super(id);
     }
 
-    @Msg("名称")
-    @Column(nullable = false, unique = true)
-    private String name;
+    @Column(length = 80)
+    private String text;
 
     @Msg("编码")
     @Column(nullable = false, unique = true)
     private String code;
 
 
-    @Msg("系统内置")
-    @NotNull
-    private Boolean builtin;
+
 
     // 是否数字类型，如1，2，3
     @Msg("是否数字类型")

@@ -196,7 +196,7 @@ public class ApiSignUtil {
 		// signMap.put("AppKey", "12qweqqw");
 		// signMap.put("TimeStamp", String.valueOf(System.currentTimeMillis()));
 		// signMap.put("Data",
-		// "{\"loginName\":\"ZT013922\",\"name\":\"zhangsan\",\"phone\":\"13602535623\"}");
+		// "{\"loginName\":\"ZT013922\",\"code\":\"zhangsan\",\"phone\":\"13602535623\"}");
 		// signMap.put("Format", "xml");
 		// try {
 		// String json = JsonTool.toJson(signMap);

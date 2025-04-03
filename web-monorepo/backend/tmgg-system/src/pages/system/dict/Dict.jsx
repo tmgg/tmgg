@@ -2,7 +2,7 @@ import {PlusOutlined} from '@ant-design/icons'
 import {Button, Form, Input, Modal, Popconfirm} from 'antd'
 import React from 'react'
 
-import {ButtonList, FieldRadioBoolean, http, HttpUtil, ProTable} from '@tmgg/tmgg-base'
+import {ButtonList, FieldRadioBoolean,  HttpUtil, ProTable} from '@tmgg/tmgg-base'
 
 
 export default class extends React.Component {
@@ -18,12 +18,7 @@ export default class extends React.Component {
 
     columns = [
 
-        {
-            title: '名称',
-            dataIndex: 'name',
 
-
-        },
 
         {
             title: '编码',
@@ -31,16 +26,11 @@ export default class extends React.Component {
 
 
         },
-
         {
-            title: '系统内置',
-            dataIndex: 'builtin',
-
-            render(v) {
-                return v ? '是' : '否'
-            }
-
+            title: '文本',
+            dataIndex: 'text',
         },
+
         {
             title: '是否数字',
             dataIndex: 'isNumber',

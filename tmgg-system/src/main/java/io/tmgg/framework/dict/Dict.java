@@ -8,6 +8,7 @@ import java.lang.annotation.*;
  * 需配合@Remark注解使用
  * 可参考 Sex.java
  */
+@Deprecated
 @Inherited
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.FIELD, ElementType.TYPE,ElementType.METHOD})

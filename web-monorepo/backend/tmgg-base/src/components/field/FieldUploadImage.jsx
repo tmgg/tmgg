@@ -89,27 +89,7 @@ export class FieldUploadImage extends React.Component {
     if (maxNum === 1) {
       multiple = false;
     }
-    if (this.props.crop) {
-      return (
-        <div className="clearfix">
-          <ImgCrop {...this.props}>
-            <Upload
-              action={SysUtil.getServerUrl() + 'common/upload'}
-              listType="picture-card"
-              fileList={fileList}
-              onPreview={this.handlePreview}
-              onChange={this.handleChange}
-              headers={SysUtil.getHeaders()}
-            >
-              {fileList.length >= maxNum ? null : uploadButton}
-            </Upload>
-          </ImgCrop>
-          <Modal open={previewVisible} footer={null} onCancel={this.handleCancel}>
-            <img style={{ width: '100%' }} src={previewImage} />
-          </Modal>
-        </div>
-      );
-    }
+
     return (
       <div className="clearfix">
         <Upload

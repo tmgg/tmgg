@@ -64,7 +64,7 @@ public class ${name}Controller  extends BaseController<${name}>{
             columns.put("获得积分", t -> t.getPoints());
             columns.put("时间", t -> DateUtil.formatDateTime(t.getTime()));
             columns.put("原因", t -> t.getReason());
-             this.service.exportExcel(q, "${name}.xlsx", columns,resp);
+             this.service.exportExcel(q, "${code}.xlsx", columns,resp);
              **/
         }
 

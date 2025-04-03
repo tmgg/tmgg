@@ -51,12 +51,12 @@ public class SysDictService extends BaseService<SysDict> {
             SysDictTreeNode sysDictTreeNode = new SysDictTreeNode();
             BeanUtil.copyProperties(sysDict, sysDictTreeNode);
             sysDictTreeNode.setPid(null);
+            sysDictTreeNode.setName(sysDict.getText());
             resultList.add(sysDictTreeNode);
         }
 
-        JpaQuery<SysDictItem> dictQueryWrapper = new JpaQuery<>();
 
-        List<SysDictItem> dictData = sysDictItemDao.findAll(dictQueryWrapper, Sort.by(SysDictItem.Fields.seq));
+        List<SysDictItem> dictData = sysDictItemDao.findAll( Sort.by(SysDictItem.Fields.seq));
         for (SysDictItem item : dictData) {
             SysDictTreeNode node = new SysDictTreeNode();
             node.setId(item.getId());

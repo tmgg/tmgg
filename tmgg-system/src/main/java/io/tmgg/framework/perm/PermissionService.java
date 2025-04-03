@@ -38,9 +38,8 @@ public class PermissionService {
         SysDict dict = sysDictDao.findByCode(DICK_CODE);
         if (dict == null) {
             dict = new SysDict();
-            dict.setBuiltin(true);
             dict.setCode(DICK_CODE);
-            dict.setName("权限翻译");
+            dict.setText("权限翻译");
             dict.setIsNumber(false);
             dict.setId(DICK_CODE);
             sysDictDao.save(dict);

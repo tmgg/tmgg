@@ -1,6 +1,7 @@
 
 package io.tmgg.modules.sys.entity;
 
+import io.tmgg.framework.dict.DictField;
 import io.tmgg.lang.Tree;
 import io.tmgg.lang.dao.BaseEntity;
 import io.tmgg.lang.dao.DBConstants;
@@ -53,6 +54,7 @@ public class SysOrg extends BaseEntity implements Tree<SysOrg> {
 
 
     @NotNull
+    @DictField(code ="orgType", label="机构类型",  value = {10,20}, valueLabel ={"单位", "部门"})
     private Integer type;
 
 

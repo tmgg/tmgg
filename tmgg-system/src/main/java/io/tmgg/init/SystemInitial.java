@@ -1,8 +1,11 @@
 package io.tmgg.init;
 
+import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
 import io.tmgg.SysProp;
+import io.tmgg.dbtool.DbTool;
 import io.tmgg.framework.dict.DictAnnHandler;
+import io.tmgg.framework.dict.DictFieldAnnHandler;
 import io.tmgg.lang.PasswordTool;
 import io.tmgg.modules.sys.dao.SysUserDao;
 import io.tmgg.modules.sys.entity.DataPermType;
@@ -53,10 +56,10 @@ public class SystemInitial implements CommandLineRunner {
 
 
     @Resource
-    SysProp sysProp;
+    DictFieldAnnHandler dictFieldAnnHandler;
 
     @Resource
-    UpgradeInit upgradeInit;
+    private DbTool db;
 
 
     @Override
@@ -64,8 +67,12 @@ public class SystemInitial implements CommandLineRunner {
         log.info("执行系统初始化程序： {}", getClass().getName());
         long time = System.currentTimeMillis();
 
+
+        fixDict();
+
         dictEnumHandler.run();
         dictAnnHandler.run();
+        dictFieldAnnHandler.run();
         jsonEntityService.initOnStartup();
         sysMenuService.reset();
         SysRole adminRole = sysRoleService.initDefaultAdmin();
@@ -76,6 +83,20 @@ public class SystemInitial implements CommandLineRunner {
 
 
         log.info("系统初始化耗时：{}", System.currentTimeMillis() - time );
+
+    }
+
+    private void fixDict() {
+        String[] keys = db.getKeys("select * from sys_dict limit 1");
+        System.out.println(keys);
+        if(ArrayUtil.contains(keys,"name")){
+            db.executeQuietly("ALTER TABLE `sys_dict` DROP COLUMN text");
+            db.executeQuietly("ALTER TABLE `sys_dict` CHANGE COLUMN `name` `text` varchar(80)");
+        }
+
+        if(ArrayUtil.contains(keys,"builtin")){
+            db.executeQuietly("ALTER TABLE `sys_dict` DROP COLUMN builtin");
+        }
 
     }
 

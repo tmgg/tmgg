@@ -59,8 +59,7 @@ public class DictEnumHandler {
             SysDict sysDict = new SysDict();
             sysDict.setId(md5(simpleTypeName));
             sysDict.setCode(StrUtil.lowerFirst(simpleTypeName));
-            sysDict.setName(label);
-            sysDict.setBuiltin(true);
+            sysDict.setText(label);
             sysDict = sysDictDao.save(sysDict);
 
             sysDictItemDao.deleteByPid(sysDict.getId());
@@ -81,7 +80,7 @@ public class DictEnumHandler {
                 data.setText(msg);
                 data.setSeq(i);
                 data.setSysDict(sysDict);
-           //     data.setId(md5(simpleTypeName + name));
+           //     data.setId(md5(simpleTypeName + code));
                 data.setColor(color);
                 data.setBuiltin(true);
 

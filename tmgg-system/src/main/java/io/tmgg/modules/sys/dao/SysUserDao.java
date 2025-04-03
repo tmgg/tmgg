@@ -79,7 +79,7 @@ public class SysUserDao extends BaseDao<SysUser> {
     }
 
     public Map<String,Object> findUserNameMap(){
-        String sql = "select id, name from sys_user";
+        String sql = "select id, code from sys_user";
 
         return dbTool.findDict(sql);
     }

@@ -40,7 +40,6 @@ public class SysDictController extends BaseController<SysDict> {
     @PostMapping("save")
     @Override
     public AjaxResult save(@RequestBody SysDict param) throws Exception {
-        param.setBuiltin(false);
         sysDictService.save(param);
         return AjaxResult.ok();
     }

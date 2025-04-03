@@ -47,8 +47,7 @@ public class DictAnnHandler {
             SysDict sysDict = new SysDict();
             sysDict.setId(code);
             sysDict.setCode(code);
-            sysDict.setName(label);
-            sysDict.setBuiltin(true);
+            sysDict.setText(label);
             sysDict.setIsNumber(dictAnn.isNumber());
             sysDict = sysDictDao.save(sysDict);
 

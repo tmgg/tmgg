@@ -89,7 +89,7 @@ public class SysMenu extends BaseEntity implements Tree<SysMenu> {
     @Override
     public String toString() {
         return "SysMenu{" +
-               "name='" + name + '\'' +
+               "code='" + name + '\'' +
                ", id='" + id + '\'' +
                '}';
     }
