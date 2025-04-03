@@ -2,7 +2,7 @@ name: base-docker-image-aliyun
 
 on:
   workflow_dispatch:
-  push:
+ # push:
   schedule:
     # 定时任务，在每天的5点 (时差）
     - cron: '0 21 * * *'
