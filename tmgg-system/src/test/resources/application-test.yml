@@ -13,3 +13,5 @@ logging:
     path: ./logs/app-log
   pattern:
     dateformat: yyyy-MM-dd HH:mm:ss.SSS
+sys:
+  cache-dir: ./cache
