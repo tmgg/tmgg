@@ -49,7 +49,7 @@ public class PaymentChannel extends BaseEntity {
      */
     @Msg("p12文件")
     @Lob
-    @Column(columnDefinition = DBConstants.TYPE_LONGTEXT)
+    @Column(columnDefinition = DBConstants.TYPE_BLOB)
     private String p12FileBase64;
 
 

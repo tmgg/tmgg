@@ -79,6 +79,13 @@ public class JpaQuery<T> implements Specification<T> {
         }
     }
 
+    public void eqIfNotNull(String column, Object value) {
+        if (value != null) {
+            this.add(new SpecificationEQ<>(column, value));
+        }
+    }
+
+
     public void isNull(String column) {
         this.add(new Specification<T>() {
             @Override
