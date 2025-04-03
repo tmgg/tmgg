@@ -30,7 +30,7 @@ public class Car extends BaseEntity {
     Integer capacity;
 
     @Msg("启用")
-    @Column(nullable = false, columnDefinition = DBConstants.COLUMN_DEFINITION_BOOLEAN_DEFAULT_TRUE)
+    @Column(nullable = false)
     private Boolean enabled;
 
 }

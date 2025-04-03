@@ -92,7 +92,7 @@ export class FieldUploadCropImage extends React.Component {
         const {fileList} = this.state;
 
         return <>
-            {fileList.length <= this.props.maxCount && <>
+            {fileList.length < this.props.maxCount && <>
                 <PlusOutlined/>
                 <div className="ant-upload-text">添加</div>
             </>}
