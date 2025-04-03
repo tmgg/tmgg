@@ -42,11 +42,7 @@ public abstract class BaseDao<T extends PersistEntity> {
     protected JpaEntityInformation<T, ?> entityInformation;
     private PersistenceProvider provider;
 
-    /**
-     * 方便直接调用sql， 当然也可自行注入
-     */
-    @Autowired(required = false)
-    protected DbTool jdbc;
+
 
     @PostConstruct
     void init() {
@@ -201,16 +197,22 @@ public abstract class BaseDao<T extends PersistEntity> {
     }
 
 
-    public List<T> findChildren(String id, String parentProperty) {
+    /**
+     * 查询儿子，
+     * @param id
+     * @param parentField 如pid
+     * @return
+     */
+    public List<T> findChildren(String id, String parentField) {
         JpaQuery<T> c = new JpaQuery<>();
-        c.eq(parentProperty, id);
+        c.eq(parentField, id);
         List<T> list = this.findAll(c);
 
         List<T> result = new ArrayList<>();
         if (list != null && !list.isEmpty()) {
             result.addAll(list);
             for (T child : list) {
-                List<T> subChildren = findChildren(child.getId(), parentProperty);
+                List<T> subChildren = findChildren(child.getId(), parentField);
                 result.addAll(subChildren);
             }
         }
@@ -392,6 +394,12 @@ public abstract class BaseDao<T extends PersistEntity> {
         return (Object[]) typedQuery.getSingleResult();
     }
 
+    /**
+     * 按分组字段统计结果
+     * @param groupField 分组字段（支持嵌套路径，如"user.id"）
+     * @param selector 聚合选择器
+     * @return 分组统计结果（每行格式：Map{"groupField": value, "stat1": value1, ...}）
+     */
     public List<Map> statsGroup(Specification<T> spec, String groupField, Selector selector) {
         CriteriaBuilder builder = em.getCriteriaBuilder();
 
@@ -585,7 +593,7 @@ public abstract class BaseDao<T extends PersistEntity> {
             // 数据库没有，但有设置了id的情况，直接保存自spring3.4后报错
             if (id != null) {
                 entity.setId(null);
-                IdGenerator.markId(entity, id);
+                IdGenerator.cacheId(entity, id);
             }
 
 
@@ -782,11 +790,11 @@ public abstract class BaseDao<T extends PersistEntity> {
         this.deleteAll(list);
     }
 
-    public boolean exist(String id) {
+    public boolean exists(String id) {
         return this.existsById(id);
     }
 
-    public boolean exist(JpaQuery<T> query) {
+    public boolean exists(JpaQuery<T> query) {
         return this.count(query) > 0;
     }
 

@@ -18,9 +18,9 @@ public class IdGenerator implements IdentifierGenerator {
 
     public static final String CLASS_NAME = "io.tmgg.lang.dao.IdGenerator";
 
-    private static Map<Object, String> ENTITY_ID_CACHE = new HashMap<>();
+    private static final Map<Object, String> ENTITY_ID_CACHE = new HashMap<>();
 
-    public static void markId(Object entity, String id){
+    public static void cacheId(Object entity, String id){
         ENTITY_ID_CACHE.put(entity,id);
     }
 
