@@ -4,20 +4,19 @@ import com.fasterxml.jackson.annotation.*;
 import io.tmgg.lang.SpringTool;
 import io.tmgg.lang.ann.Msg;
 import io.tmgg.lang.dao.exports.UserLabelQuery;
+import io.tmgg.lang.dao.id.CustomId;
 import io.tmgg.web.perm.SecurityUtils;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.annotations.GenericGenerator;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Properties;
 
 @Getter
 @Setter
@@ -45,8 +44,7 @@ public abstract class BaseEntity implements PersistEntity, Serializable {
 
 
     @Id
-    @GeneratedValue(generator = "custom-uuid")
-    @GenericGenerator(name = "custom-uuid", strategy = IdGenerator.CLASS_NAME)
+    @CustomId
     @Column(length = DBConstants.LEN_ID)
     protected String id;
 
@@ -198,9 +196,5 @@ public abstract class BaseEntity implements PersistEntity, Serializable {
     }
 
 
-    @Transient
-    @JsonIgnore
-    public String customGenerateId(Properties properties) {
-        return null;
-    }
+
 }

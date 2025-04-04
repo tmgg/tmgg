@@ -2,12 +2,12 @@ package io.tmgg.lang.dao;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import io.tmgg.lang.dao.id.CustomId;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldNameConstants;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.annotations.GenericGenerator;
 
 
 import java.io.Serializable;
@@ -21,8 +21,7 @@ import java.io.Serializable;
 public abstract class BaseIdEntity implements PersistEntity, Serializable {
 
     @Id
-    @GeneratedValue(generator = "custom-uuid")
-    @GenericGenerator(name = "custom-uuid", strategy = IdGenerator.CLASS_NAME)
+    @CustomId
     @Column(length = DBConstants.LEN_ID, updatable = false)
     protected String id;
 
