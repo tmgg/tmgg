@@ -28,14 +28,6 @@ public abstract class BaseIdEntity implements PersistEntity, Serializable {
 
 
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
 
     @PostLoad
     public void afterLoad(){

@@ -46,18 +46,18 @@ public abstract class BaseEntity implements PersistEntity, Serializable {
     @Id
     @CustomId
     @Column(length = DBConstants.LEN_ID)
-    protected String id;
+    private String id;
 
 
     @Column(updatable = false)
     @Msg("创建时间")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    protected Date createTime;
+    private Date createTime;
 
     @Msg("创建人ID")
     @Column(length = DBConstants.LEN_ID, updatable = false)
-    protected String createUser;
+    private String createUser;
 
 
 
@@ -78,20 +78,15 @@ public abstract class BaseEntity implements PersistEntity, Serializable {
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    protected Date updateTime;
+    private Date updateTime;
 
 
     @Column(length = DBConstants.LEN_ID)
-    protected String updateUser;
+    private String updateUser;
 
 
-    public String getId() {
-        return id;
-    }
 
-    public void setId(String id) {
-        this.id = id;
-    }
+
 
 
     /**
