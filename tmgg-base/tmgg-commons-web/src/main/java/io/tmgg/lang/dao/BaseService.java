@@ -183,33 +183,6 @@ public abstract class BaseService<T extends PersistEntity> {
         baseDao.deleteById(id);
     }
 
-    @Transactional
-    public void deleteOneWithChildren(String id, String parentProperty) {
-        baseDao.deleteWithChildren(id, parentProperty);
-    }
-
-
-    @Transactional
-    public void deleteAllWithChildren(List<String> idList, String parentProperty) {
-        for (String id : idList) {
-            baseDao.deleteWithChildren(id, parentProperty);
-        }
-
-    }
-
-
-    @Transactional
-    public void deleteAllWithChildren(String[] idList, String parentProperty) {
-        for (String id : idList) {
-            baseDao.deleteWithChildren(id, parentProperty);
-        }
-
-    }
-
-    public void flush() {
-        baseDao.flush();
-    }
-
 
     @Transactional
     public T save(T input) {

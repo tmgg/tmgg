@@ -271,30 +271,6 @@ public class BaseDao<T extends PersistEntity> {
     }
 
 
-    /**
-     * 查询儿子，
-     *
-     * @param id
-     * @param parentField 如pid
-     * @return
-     */
-    public List<T> findChildren(String id, String parentField) {
-        JpaQuery<T> c = new JpaQuery<>();
-        c.eq(parentField, id);
-        List<T> list = this.findAll(c);
-
-        List<T> result = new ArrayList<>();
-        if (list != null && !list.isEmpty()) {
-            result.addAll(list);
-            for (T child : list) {
-                List<T> subChildren = findChildren(child.getId(), parentField);
-                result.addAll(subChildren);
-            }
-        }
-        return result;
-    }
-
-
     public T findTop1(Specification<T> c, Sort sort) {
         PageRequest pageRequest = PageRequest.of(0, 1, sort);
 
@@ -443,15 +419,6 @@ public class BaseDao<T extends PersistEntity> {
         return map;
     }
 
-
-    @Transactional
-    public void deleteWithChildren(String id, String parentProperty) {
-        List<T> list = findChildren(id, parentProperty);
-        deleteById(id);
-        if (list != null && !list.isEmpty()) {
-            deleteAll(list);
-        }
-    }
 
     private Class<T> parseDomainClass() {
         Type type = getClass().getGenericSuperclass();
