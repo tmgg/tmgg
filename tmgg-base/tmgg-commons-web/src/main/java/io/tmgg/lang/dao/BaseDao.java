@@ -6,17 +6,12 @@ import io.tmgg.lang.dao.specification.Selector;
 import jakarta.annotation.PostConstruct;
 import jakarta.persistence.*;
 import jakarta.persistence.criteria.*;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.data.domain.*;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.data.jpa.repository.query.KeysetScrollSpecification;
-import org.springframework.data.jpa.repository.query.QueryUtils;
 import org.springframework.data.jpa.repository.support.*;
 import org.springframework.data.repository.query.FluentQuery;
-import org.springframework.data.support.PageableExecutionUtils;
-import org.springframework.data.util.ProxyUtils;
-import org.springframework.lang.Nullable;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
@@ -25,26 +20,28 @@ import java.lang.reflect.Type;
 import java.util.*;
 import java.util.function.Function;
 
-import static org.springframework.data.jpa.repository.query.QueryUtils.*;
-
 /**
  * 基础dao
  */
 @Slf4j
 public class BaseDao<T extends PersistEntity> {
 
+    @Getter
     @PersistenceContext
-    protected EntityManager em;
+    protected EntityManager entityManager;
 
     protected JpaEntityInformation<T, ?> entityInformation;
 
+    @Getter
+    protected Class<T> domainClass;
     private SimpleJpaRepository<T, String> rep;
+
 
     @PostConstruct
     void init() {
-        Class<T> domainClass = parseDomainClass();
-        this.entityInformation = JpaEntityInformationSupport.getEntityInformation(domainClass, em);
-        this.rep = new SimpleJpaRepository<>(domainClass, em);
+        this.domainClass = parseDomainClass();
+        this.entityInformation = JpaEntityInformationSupport.getEntityInformation(domainClass, entityManager);
+        this.rep = new SimpleJpaRepository<>(domainClass, entityManager);
     }
 
     @Transactional
@@ -215,7 +212,7 @@ public class BaseDao<T extends PersistEntity> {
 
     @Transactional
     public void flush() {
-        em.flush();
+        entityManager.flush();
     }
 
 
@@ -328,9 +325,9 @@ public class BaseDao<T extends PersistEntity> {
      * @param <R>
      */
     public <R> List<R> findField(String fieldName, Specification<T> c) {
-        CriteriaBuilder builder = em.getCriteriaBuilder();
+        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
         CriteriaQuery query = builder.createQuery();
-        Root root = query.from(getDomainClass());
+        Root root = query.from(domainClass);
 
         Path path = root.get(fieldName);
         query.select(path);
@@ -339,7 +336,7 @@ public class BaseDao<T extends PersistEntity> {
         query.where(expression);
 
 
-        return (List<R>) em.createQuery(query).getResultList();
+        return (List<R>) entityManager.createQuery(query).getResultList();
     }
 
 
@@ -353,10 +350,10 @@ public class BaseDao<T extends PersistEntity> {
      * @param selector
      * @return
      */
-    public Object findSingle(Specification<T> spec, Selector selector) {
-        CriteriaBuilder builder = em.getCriteriaBuilder();
+    public Object selectSingle(Specification<T> spec, Selector selector) {
+        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Object> query = builder.createQuery(Object.class);
-        Root<T> root = query.from(getDomainClass());
+        Root<T> root = query.from(domainClass);
 
         List<Selection<?>> selections = selector.select(builder, root);
         Assert.state(selections.size() == 1, "selection的个数应为1");
@@ -364,7 +361,7 @@ public class BaseDao<T extends PersistEntity> {
 
         query.select(selection).where(spec.toPredicate(root,query,builder));
 
-        return  em.createQuery(query).getSingleResult();
+        return  entityManager.createQuery(query).getSingleResult();
     }
 
     /**
@@ -375,10 +372,10 @@ public class BaseDao<T extends PersistEntity> {
      * @param selector
      * @return
      */
-    public Object[] findOne(Specification<T> spec, Selector selector) {
-        CriteriaBuilder builder = em.getCriteriaBuilder();
+    public Object[] select(Specification<T> spec, Selector selector) {
+        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Object> query = builder.createQuery(Object.class);
-        Root<T> root = query.from(getDomainClass());
+        Root<T> root = query.from(domainClass);
 
         List<Selection<?>> selections = selector.select(builder, root);
         Assert.state(selections.size() > 1, "selections需多个");
@@ -387,7 +384,7 @@ public class BaseDao<T extends PersistEntity> {
         Predicate predicate = spec.toPredicate(root, query, builder);
         query.multiselect(selections).where(predicate);
 
-        return (Object[]) em.createQuery(query).getSingleResult();
+        return (Object[]) entityManager.createQuery(query).getSingleResult();
     }
 
     /**
@@ -397,10 +394,10 @@ public class BaseDao<T extends PersistEntity> {
      * @param selector   聚合选择器
      * @return 分组统计结果（每行格式：Map{"groupField": value, "stat1": value1, ...}）
      */
-    public List<Map> findAll(Specification<T> spec, String groupField, Selector selector) {
-        CriteriaBuilder builder = em.getCriteriaBuilder();
+    public List<Map> select(Specification<T> spec, String groupField, Selector selector) {
+        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Map> query = builder.createQuery(Map.class);
-        Root<T> root = query.from(getDomainClass());
+        Root<T> root = query.from(domainClass);
 
         Expression group = ExpressionTool.getExpression(groupField, root); //分组字段
 
@@ -411,21 +408,27 @@ public class BaseDao<T extends PersistEntity> {
         Predicate predicate = spec.toPredicate(root, query, builder);
         query.multiselect(selections).where(predicate).groupBy(group);
 
-        return em.createQuery(query).getResultList();
+        return entityManager.createQuery(query).getResultList();
     }
 
 
+    /**
+     * 分株统计数量
+     * @param q
+     * @param groupField
+     * @return
+     */
     public Map<String, Long> count(Specification<T> q, String groupField) {
-        CriteriaBuilder builder = em.getCriteriaBuilder();
+        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Object> query = builder.createQuery(Object.class);
-        Root<T> root = query.from(getDomainClass());
+        Root<T> root = query.from(domainClass);
 
         Expression group = ExpressionTool.getExpression(groupField, root); // 支持 . 分割， 如 user.id
 
         Predicate predicate = q.toPredicate(root, query, builder);
         query.multiselect(group, builder.count(root)).where(predicate).groupBy(group);
 
-        List<Object> resultList =  em.createQuery(query).getResultList();
+        List<Object> resultList =  entityManager.createQuery(query).getResultList();
 
         // 组装数据结构
         Map<String, Long> map = new HashMap<>();
@@ -449,14 +452,6 @@ public class BaseDao<T extends PersistEntity> {
             deleteAll(list);
         }
     }
-
-
-
-    protected Class<T> getDomainClass() {
-        return entityInformation.getJavaType();
-    }
-
-
 
     private Class<T> parseDomainClass() {
         Type type = getClass().getGenericSuperclass();
