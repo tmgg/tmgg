@@ -101,7 +101,7 @@ public class SysMenuService extends BaseService<SysMenu> {
 
     @Transactional
     public void changeIcon(SysMenu input) throws Exception {
-        SysMenu menu = sysMenuDao.findOne(input);
+        SysMenu menu = sysMenuDao.findById(input.getId());
         menu.setIcon(input.getIcon());
 
         JsonEntity entity = jsonEntityFileDao.findOne(SysMenu.class, menu.getId());
@@ -115,7 +115,7 @@ public class SysMenuService extends BaseService<SysMenu> {
 
     @Transactional
     public void changeSeq(SysMenu input) throws Exception {
-        SysMenu menu = sysMenuDao.findOne(input);
+        SysMenu menu = sysMenuDao.findById(input.getId());
         Integer seq = input.getSeq();
         menu.setSeq(seq);
 

@@ -179,7 +179,7 @@ public class SysUserService extends BaseService<SysUser> implements UserLabelQue
         }
 
 
-        SysUser old = baseDao.findOne(input);
+        SysUser old = baseDao.findById(input.getId());
         BeanUtil.copyProperties(input, old, CopyOptions.create()
                 .setIgnoreProperties(ArrayUtil.append(BaseEntity.BASE_ENTITY_FIELDS,
                         SysUser.Fields.roles, SysUser.Fields.password, SysUser.Fields.dataPerms

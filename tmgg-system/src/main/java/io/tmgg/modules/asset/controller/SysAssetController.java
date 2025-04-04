@@ -38,7 +38,7 @@ public class SysAssetController  extends BaseController<SysAsset>{
             throws Exception {
         JpaQuery<SysAsset> q = new JpaQuery<>();
         String pid = (String) param.getData().get("pid");
-        q.eqIf(pid !=null , SysAsset.Fields.pid, pid);
+        q.eq(SysAsset.Fields.pid, pid);
 
 
         // 关键字搜索，请补全字段

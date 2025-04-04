@@ -10,7 +10,9 @@ import org.springframework.stereotype.Repository;
 public class SysDictDao extends BaseDao<SysDict> {
 
     public SysDict findByCode(String code) {
-        return this.findOneByField(SysDict.Fields.code, code);
+        JpaQuery<SysDict> q = new JpaQuery<>();
+        q.eq(SysDict.Fields.code, code);
+        return this.findOne(q);
     }
     public boolean existsByCode(String code) {
         JpaQuery<SysDict> q = new JpaQuery<>();

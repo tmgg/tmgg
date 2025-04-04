@@ -10,6 +10,7 @@ import io.tmgg.jackson.JsonTool;
 import io.tmgg.lang.SpringTool;
 import io.tmgg.lang.dao.BaseDao;
 import io.tmgg.lang.dao.PersistEntity;
+import io.tmgg.lang.dao.specification.JpaQuery;
 import io.tmgg.modules.sys.entity.JsonEntity;
 import io.tmgg.modules.sys.service.JpaService;
 import jakarta.annotation.Resource;
@@ -200,7 +201,9 @@ public class JsonEntityFileDao {
         BaseDao<T> dao = SpringTool.getBean(daoName);
 
         Assert.notNull(dao, daoName + "不存在");
-        T old = dao.findOneByField(info.getFindField(), info.getFindValue());
+        JpaQuery<T> q = new JpaQuery<>();
+        q.eq(info.getFindField(), info.getFindValue());
+        T old = dao.findOne(q);
 
         if (old == null || info.isUpdate()) {
             dao.save(entity);

@@ -5,6 +5,7 @@ import cn.hutool.core.bean.copier.CopyOptions;
 import cn.hutool.core.util.ArrayUtil;
 import io.tmgg.lang.dao.BaseEntity;
 import io.tmgg.lang.dao.BaseService;
+import io.tmgg.lang.dao.specification.JpaQuery;
 import io.tmgg.modules.asset.dao.SysAssetDao;
 import io.tmgg.modules.asset.entity.SysAsset;
 import io.tmgg.modules.asset.entity.SysAssetType;
@@ -33,7 +34,7 @@ public class SysAssetService extends BaseService<SysAsset> {
             return baseDao.save(input);
         }
 
-        SysAsset old = baseDao.findOne(input);
+        SysAsset old = baseDao.findById(input.getId());
         String[] ignoreProperties = ArrayUtil.append( BaseEntity.BASE_ENTITY_FIELDS, SysAsset.Fields.content, SysAsset.Fields.dimension);
         BeanUtil.copyProperties(input, old, CopyOptions.create().setIgnoreProperties(ignoreProperties).ignoreNullValue());
         return baseDao.save(old);
@@ -46,7 +47,9 @@ public class SysAssetService extends BaseService<SysAsset> {
     }
 
     public List<SysAsset> findAll(SysAssetType sysAssetType) {
-        return sysAssetDao.findAllByField(SysAsset.Fields.type, sysAssetType);
+        JpaQuery<SysAsset> q = new JpaQuery<>();
+        q.eq(SysAsset.Fields.type, sysAssetType);
+        return sysAssetDao.findAll(q);
     }
 
     public void preview(String code, HttpServletResponse resp) throws Exception {

@@ -306,11 +306,9 @@ public class BaseDao<T extends PersistEntity> {
         Root root = query.from(domainClass);
 
         Path path = root.get(fieldName);
-        query.select(path);
+        Predicate predicate = c.toPredicate(root, query, builder);
 
-        Predicate expression = c.toPredicate(root, query, builder);
-        query.where(expression);
-
+        query.select(path).where(predicate);
 
         return (List<R>) entityManager.createQuery(query).getResultList();
     }

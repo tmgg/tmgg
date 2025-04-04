@@ -27,7 +27,7 @@ layout: doc
       "id": "sysUser",
       "name": "用户管理",
       "code": "sysUser",
-      "router": "/system/user",
+      "router": "/system/student",
       "type": "MENU",
       "status": "ENABLE",
       "visible": "Y",

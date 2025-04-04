@@ -3,6 +3,7 @@ package io.tmgg.lang.dao.specification;
 import cn.hutool.core.util.StrUtil;
 import io.tmgg.lang.dao.specification.impl.*;
 import jakarta.persistence.criteria.*;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.util.Assert;
 
@@ -14,15 +15,15 @@ import java.util.function.Consumer;
 
 /**
  * 查询条件
- *
+ * <p>
  * 注意：如果键值对查询，值为空的情况下，会忽略
- *
  */
 public class JpaQuery<T> implements Specification<T> {
 
     private final List<Specification<T>> specificationList = new ArrayList<>();
 
 
+    @NotNull
     @Override
     public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
         if (specificationList.isEmpty()) {
@@ -30,11 +31,9 @@ public class JpaQuery<T> implements Specification<T> {
         }
 
         List<Predicate> predicates = new ArrayList<>();
-        for (Specification c : specificationList) {
+        for (Specification<T> c : specificationList) {
             Predicate predicate = c.toPredicate(root, query, builder);
-            if (predicate != null) {
-                predicates.add(predicate);
-            }
+            predicates.add(predicate);
         }
 
         // 将所有条件用 and 联合起来
@@ -44,6 +43,11 @@ public class JpaQuery<T> implements Specification<T> {
     public long size() {
         return specificationList.size();
     }
+
+    public void clear(){
+        specificationList.clear();
+    }
+
 
 
     public void likeExample(T t) {
@@ -71,81 +75,89 @@ public class JpaQuery<T> implements Specification<T> {
         });
     }
 
-    public void eq(String column, Object value) {
-        this.add(new SpecificationEQ<>(column, value));
-    }
-
-    public void eqIf(boolean state, String column, Object value) {
-        if (state) {
-            this.add(new SpecificationEQ<>(column, value));
+    public void eq(String column, Object v) {
+        if (v == null) {
+            return;
         }
+        this.add((Specification<T>) (root, query, builder) -> {
+            Expression expression = ExpressionTool.getExpression(column, root);
+            return builder.equal(expression, v);
+        });
     }
-
-    public void eqIfNotNull(String column, Object value) {
-        if (value != null) {
-            this.add(new SpecificationEQ<>(column, value));
-        }
-    }
-
 
     public void isNull(String column) {
-        this.add(new Specification<T>() {
-            @Override
-            public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
-                Expression expression = ExpressionTool.getExpression(column, root);
-                return builder.isNull(expression);
-            }
-        });
-
+        this.add((Specification<T>) (root, query, builder) -> ExpressionTool.getExpression(column, root).isNull());
     }
 
     public void isNotNull(String column) {
-        this.add(new Specification<T>() {
-            @Override
-            public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
-                Expression expression = ExpressionTool.getExpression(column, root);
-                return builder.isNotNull(expression);
-            }
-        });
+        this.add((Specification<T>) (root, query, builder) -> ExpressionTool.getExpression(column, root).isNotNull());
 
     }
 
 
-    public void ne(String column, Object val) {
-        this.add(new SpecificationNE<>(column, val));
+    public void ne(String column, Object v) {
+        if (v == null) {
+            return;
+        }
+        this.add(new SpecificationNE<>(column, v));
     }
 
 
-    public void gt(String column, Object val) {
-        this.add(new SpecificationGT<>(column, val));
+    public void gt(String column, Object v) {
+        if (v == null) {
+            return;
+        }
+        this.add(new SpecificationGT<>(column, v));
     }
 
 
-    public void ge(String column, Object val) {
-        this.add(new SpecificationGTE<>(column, val));
+    public void ge(String column, Object v) {
+        if (v == null) {
+            return;
+        }
+        this.add(new SpecificationGTE<>(column, v));
     }
 
-    public void lt(String column, Object val) {
-        this.add(new SpecificationLT<>(column, val));
+    public void lt(String column, Object v) {
+        if (v == null) {
+            return;
+        }
+        this.add(new SpecificationLT<>(column, v));
     }
 
-    public void le(String column, Object val) {
-        this.add(new SpecificationLTE<>(column, val));
+    public void le(String column, Object v) {
+        if (v == null) {
+            return;
+        }
+        this.add(new SpecificationLTE<>(column, v));
     }
-
-
 
 
     public void between(String column, Object v1, Object v2) {
-        Assert.state(v1!= null && v2 != null, "值不能为空");
-        this.addSubAnd(q->{
-            q.ge(column, v1);
-            q.le(column, v2);
-        });
+        if (v1 == null && v2 == null) {
+            return;
+        }
+
+        if (v1 != null && v2 != null) {
+            this.addSubAnd(q -> {
+                q.ge(column, v1);
+                q.le(column, v2);
+            });
+            return;
+        }
+
+        if (v1 != null) {
+            this.ge(column, v1);
+        }else {
+            this.le(column, v2);
+        }
     }
 
     public void notBetween(String column, Object v1, Object v2) {
-        this.addSubAnd(q->{
+        if (v1 == null || v2 == null) {
+            return;
+        }
+        this.addSubAnd(q -> {
             q.lt(column, v1);
             q.gt(column, v2);
         });
@@ -155,33 +167,36 @@ public class JpaQuery<T> implements Specification<T> {
      * 判断值是否在某个区间
      * 注意： 包含边界
      * 如当前日期是否在开始、结束时间之间
+     *
      * @param column1 如开始时间
      * @param column2 如结束时间
-     * @param value 当前时间
+     * @param v   当前时间
      */
-    public void valueBetween(String column1,String column2, Object value) {
-        this.addSubAnd(q->{
-            q.le(column1, value);  // begin <= cur
-            q.ge(column2, value);  // end >= cur
+    public void valueBetween(String column1, String column2, Object v) {
+        if (v == null) {
+            return;
+        }
+        this.addSubAnd(q -> {
+            q.le(column1, v);  // begin <= cur
+            q.ge(column2, v);  // end >= cur
         });
     }
 
 
-
-    public void like(String column, String val) {
-        if (StrUtil.isNotEmpty(val)) {
-            this.add(new SpecificationLike<>(column, val.trim()));
+    public void like(String column, String v) {
+        if (StrUtil.isEmpty(v)) {
+            return;
         }
+            this.add(new SpecificationLike<>(column, v.trim()));
     }
 
-    public void likeIf(boolean state, String column, String val) {
-        if (state) {
-            this.like(column,val);
-        }
-    }
 
-    public void notLike(String column, String val) {
-        this.add(new SpecificationNotLike<>(column, val));
+
+    public void notLike(String column, String v) {
+        if (StrUtil.isEmpty(v)) {
+            return;
+        }
+        this.add(new SpecificationNotLike<>(column, v));
     }
 
 
@@ -253,9 +268,9 @@ public class JpaQuery<T> implements Specification<T> {
     }
 
 
-    public void add(Specification<T> e) {
-        if (e != null) {
-            specificationList.add(e);
+    public void add(Specification<T> spec) {
+        if (spec != null) {
+            specificationList.add(spec);
         }
     }
 
@@ -301,8 +316,6 @@ public class JpaQuery<T> implements Specification<T> {
         });
 
     }
-
-
 
 
     public void like(Map<String, Object> param) {

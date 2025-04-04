@@ -37,7 +37,7 @@ public class SysReportTableService extends BaseService<SysReportTable> {
 
         String sysMenuPid = input.getSysMenuPid();
 
-        SysReportTable chart = baseDao.findOne(input);
+        SysReportTable chart = baseDao.findById(input.getId());
         chart.setSql(input.getSql());
         chart.setType(input.getType());
         chart.setSysMenuPid(sysMenuPid);
@@ -78,7 +78,7 @@ public class SysReportTableService extends BaseService<SysReportTable> {
 
 
     public SysReportTable findByCode(String code) {
-        return sysReportTableDao.findOneByField("code", code);
+        return sysReportTableDao.findByCode( code);
     }
 
     @Transactional

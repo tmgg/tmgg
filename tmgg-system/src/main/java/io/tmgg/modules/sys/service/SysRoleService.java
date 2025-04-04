@@ -72,7 +72,7 @@ public class SysRoleService extends BaseService<SysRole> {
             return baseDao.save(input);
         }
 
-        SysRole old = baseDao.findOne(input);
+        SysRole old = baseDao.findById(input.getId());
         Assert.state(!old.getBuiltin(), "内置角色不能修改");
 
 
