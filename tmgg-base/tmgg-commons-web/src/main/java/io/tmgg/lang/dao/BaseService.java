@@ -90,7 +90,7 @@ public abstract class BaseService<T extends PersistEntity> {
         return baseDao.count();
     }
 
-    public boolean exists(String id) {
+    public boolean existsById(String id) {
         return baseDao.existsById(id);
     }
 
@@ -134,9 +134,7 @@ public abstract class BaseService<T extends PersistEntity> {
     }
 
 
-    public List<T> findByExampleLike(T t) {
-        return baseDao.findByExampleLike(t);
-    }
+
 
 
     public List<T> findByExampleLike(T t, Sort sort) {
@@ -151,13 +149,6 @@ public abstract class BaseService<T extends PersistEntity> {
         query.likeExample(example);
         return baseDao.findAll(query, pageable);
     }
-
-    public JpaQuery<T> getQueryByExampleLike(T example) {
-        JpaQuery<T> q = new JpaQuery<>();
-        q.likeExample(example);
-        return q;
-    }
-
 
 
     public List<T> findAll(Specification<T> filter) {
@@ -177,9 +168,6 @@ public abstract class BaseService<T extends PersistEntity> {
 
     @Transactional
     public void deleteById(String id) {
-        Assert.hasText(id, "id不能为空");
-
-        T db = baseDao.findOne(id);
         baseDao.deleteById(id);
     }
 
@@ -251,45 +239,6 @@ public abstract class BaseService<T extends PersistEntity> {
 
     public Class<T> getEntityClass() {
         return baseDao.getDomainClass();
-    }
-
-    public Page<T> findByLike(Pageable pageable, Map<String, Object> param, String searchValue, String[] fields) {
-        JpaQuery<T> query = new JpaQuery<>();
-
-        query.like(param);
-
-
-        if (StrUtil.isNotEmpty(searchValue) && fields != null && fields.length > 0) {
-            query.addSubOr(q -> {
-                for (String f : fields) {
-                    q.like(f, searchValue);
-                }
-            });
-        }
-
-
-        return this.findAll(query, pageable);
-    }
-
-    public List<T> findByLike(Map<String, Object> param) {
-        JpaQuery<T> query = new JpaQuery<>();
-
-        Set<Map.Entry<String, Object>> entries = param.entrySet();
-        for (Map.Entry<String, Object> e : entries) {
-            if (e.getValue() != null) {
-                query.like(e.getKey(), (String) e.getValue());
-
-            }
-        }
-
-        return this.findAll(query);
-    }
-
-    @Transactional
-    @Deprecated
-    public void deleteOne(JpaQuery<T> query) {
-        T data = baseDao.findOne(query);
-        SpringUtil.getBean(getClass()).deleteById(data.getId());
     }
 
 

@@ -1,16 +1,18 @@
 package io.tmgg.lang.dao.specification;
 
+import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.collection.ListUtil;
 import cn.hutool.core.util.StrUtil;
-import io.tmgg.lang.dao.specification.impl.*;
 import jakarta.persistence.criteria.*;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.jpa.convert.QueryByExamplePredicateBuilder;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.jpa.repository.query.EscapeCharacter;
 import org.springframework.util.Assert;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Consumer;
 
 /**
@@ -50,13 +52,27 @@ public class JpaQuery<T> implements Specification<T> {
 
 
 
-    public void likeExample(T t) {
-        this.add(new SpecificationExample<>(t));
-    }
 
     public void likeExample(T t, String... ignores) {
-        this.add(new SpecificationExample<>(t, ignores));
+        ExampleMatcher exampleMatcher = ExampleMatcher.matching()
+                .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING) // 遇到string，模糊匹配
+                .withIgnoreCase()
+                .withIgnoreNullValues()
+                ;
+
+        if(ignores.length > 0){
+            exampleMatcher.withIgnorePaths(ignores);
+        }
+        Example<T> example = Example.of(t, exampleMatcher);
+
+        this.add(new Specification<T>() {
+            @Override
+            public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
+                return QueryByExamplePredicateBuilder.getPredicate(root, builder, example);
+            }
+        });
     }
+
 
     /**
      * 常见的搜索，会模糊匹配多个字段
@@ -79,18 +95,31 @@ public class JpaQuery<T> implements Specification<T> {
         if (v == null) {
             return;
         }
-        this.add((Specification<T>) (root, query, builder) -> {
-            Expression expression = ExpressionTool.getExpression(column, root);
-            return builder.equal(expression, v);
+        this.add(new Specification<T>() {
+            @Override
+            public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
+                Expression<T> expression = getExpression(column, root);
+                return builder.equal(expression, v);
+            }
         });
     }
 
     public void isNull(String column) {
-        this.add((Specification<T>) (root, query, builder) -> ExpressionTool.getExpression(column, root).isNull());
+        this.add(new Specification<T>() {
+            @Override
+            public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
+                return getExpression(column, root).isNull();
+            }
+        });
     }
 
     public void isNotNull(String column) {
-        this.add((Specification<T>) (root, query, builder) -> ExpressionTool.getExpression(column, root).isNotNull());
+        this.add(new Specification<T>() {
+            @Override
+            public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
+                return getExpression(column, root).isNotNull();
+            }
+        });
 
     }
 
@@ -99,7 +128,13 @@ public class JpaQuery<T> implements Specification<T> {
         if (v == null) {
             return;
         }
-        this.add(new SpecificationNE<>(column, v));
+        this.add(new Specification<T>() {
+            @Override
+            public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
+                Expression<T> expression = getExpression(column, root);
+                return  builder.notEqual(expression, v);
+            }
+        });
     }
 
 
@@ -107,7 +142,14 @@ public class JpaQuery<T> implements Specification<T> {
         if (v == null) {
             return;
         }
-        this.add(new SpecificationGT<>(column, v));
+
+        this.add(new Specification<T>() {
+            @Override
+            public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
+                Expression expression = getExpression(column, root);
+                return builder.greaterThan(expression, (Comparable)v);
+            }
+        });
     }
 
 
@@ -115,33 +157,62 @@ public class JpaQuery<T> implements Specification<T> {
         if (v == null) {
             return;
         }
-        this.add(new SpecificationGTE<>(column, v));
+        this.add(new Specification<T>() {
+            @Override
+            public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
+                Expression expression = getExpression(column, root);
+                return builder.greaterThanOrEqualTo(expression, (Comparable)v);
+            }
+        });
     }
 
     public void lt(String column, Object v) {
         if (v == null) {
             return;
         }
-        this.add(new SpecificationLT<>(column, v));
+        this.add(new Specification<T>() {
+            @Override
+            public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
+                Expression expression = getExpression(column, root);
+                return builder.lessThan(expression, (Comparable)v);
+            }
+        });
     }
 
     public void le(String column, Object v) {
         if (v == null) {
             return;
         }
-        this.add(new SpecificationLTE<>(column, v));
+        this.add(new Specification<T>() {
+            @Override
+            public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
+                Expression expression = getExpression(column, root);
+                return builder.lessThanOrEqualTo(expression, (Comparable)v);
+            }
+        });
     }
 
 
+    /**
+     *  包含边界
+     * @param column
+     * @param v1
+     * @param v2
+     */
     public void between(String column, Object v1, Object v2) {
         if (v1 == null && v2 == null) {
             return;
         }
 
+
+
         if (v1 != null && v2 != null) {
-            this.addSubAnd(q -> {
-                q.ge(column, v1);
-                q.le(column, v2);
+            this.add(new Specification<T>() {
+                @Override
+                public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
+                    Expression expression = getExpression(column, root);
+                    return builder.between(expression, (Comparable)v1, (Comparable)v2);
+                }
             });
             return;
         }
@@ -157,9 +228,12 @@ public class JpaQuery<T> implements Specification<T> {
         if (v1 == null || v2 == null) {
             return;
         }
-        this.addSubAnd(q -> {
-            q.lt(column, v1);
-            q.gt(column, v2);
+        this.add(new Specification<T>() {
+            @Override
+            public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
+                Expression expression = getExpression(column, root);
+                return builder.between(expression, (Comparable)v1, (Comparable)v2).not();
+            }
         });
     }
 
@@ -183,89 +257,133 @@ public class JpaQuery<T> implements Specification<T> {
     }
 
 
-    public void like(String column, String v) {
-        if (StrUtil.isEmpty(v)) {
+    public void like(String column, String value) {
+        if (StrUtil.isEmpty(value)) {
             return;
         }
-            this.add(new SpecificationLike<>(column, v.trim()));
-    }
-
-
-
-    public void notLike(String column, String v) {
-        if (StrUtil.isEmpty(v)) {
-            return;
-        }
-        this.add(new SpecificationNotLike<>(column, v));
-    }
-
-
-    public void in(String column, Iterable<?> valueList) {
-        List<Object> params = new ArrayList<>();
-        if (valueList != null) {
-            for (Object obj : valueList) {
-                params.add(obj);
-            }
-        }
-
-        this.in(column, params.toArray());
-    }
-
-    public void notIn(String column, Iterable<?> valueList) {
-        List<Object> objs = new ArrayList<>();
-        for (Object obj : valueList) {
-            objs.add(obj);
-        }
-        this.notIn(column, objs.toArray());
-    }
-
-    public void in(String column, Object... valueList) {
-        boolean hasValue = valueList != null && valueList.length > 0;
-
-        if (!hasValue) {
-            // in 空值， 相当于 1!=1, 直接没有数据返回了
-            this.add(new SpecificationAlwaysFalse<>());
-            return;
-        }
-
-
+        String v = value.trim();
         this.add(new Specification<T>() {
             @Override
-            public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-                Expression expression = ExpressionTool.getExpression(column, root);
-                CriteriaBuilder.In<Object> in = cb.in(expression);
-                for (Object value : valueList) {
-                    Assert.notNull(value, "in 中不应包含null");
-                    in.value(value);
-                }
+            public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
+                Expression<String> expression = getExpression(column, root);
 
-                return in;
+
+                String likeValue = value.contains("%") ? v : "%" + v + "%";
+                return builder.like(expression, likeValue);
+            }
+        });
+
+    }
+
+
+
+    public void notLike(String column, String value) {
+        if (StrUtil.isEmpty(value)) {
+            return;
+        }
+        String v = value.trim();
+        this.add(new Specification<T>() {
+            @Override
+            public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
+                Expression<String> expression = getExpression(column, root);
+
+
+                String likeValue = value.contains("%") ? v : "%" + v + "%";
+                return builder.notLike(expression, likeValue);
             }
         });
     }
+
+
+
+
+    public void in(String column, Object... valueList) {
+        this.in(column, ListUtil.of(valueList));
+    }
+
+    public void in(String column, Collection<?> valueList) {
+        if(CollUtil.isEmpty(valueList)){
+            // 阻断查询，查询结果为空
+            this.add(new Specification<T>() {
+                @Override
+                public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
+                    return builder.disjunction();
+                }
+            });
+            return;
+        }
+
+        this.add(new Specification<T>() {
+            @Override
+            public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
+                Expression expression = ExpressionTool.getExpression(column, root);
+
+
+                List<?> list = valueList.stream().filter(Objects::nonNull).toList();
+                boolean containsNull = valueList.contains(null);
+                if(list.isEmpty() && containsNull){
+                    return expression.isNull();
+                }
+
+                CriteriaBuilder.In in = builder.in(expression);
+                for (Object value : list) {
+                    in.value(value);
+                }
+
+                // 数据库不会处理null，需按正常逻辑转换下
+                return containsNull ? builder.or(in, expression.isNull()) : in;
+            }
+        });
+    }
+
 
 
     public void notIn(String column, Object... valueList) {
-        boolean hasValue = valueList != null && valueList.length > 0;
-        if (!hasValue) {
+        this.notIn(column, ListUtil.of(valueList));
+    }
+
+
+    /***
+     *
+     * @param column
+     * @param valueList 为空时，相当与查所有
+     */
+    public void notIn(String column, Collection<?> valueList) {
+        if(CollUtil.isEmpty(valueList)){
+            // 相当于查所有，不做操作
             return;
         }
 
         this.add(new Specification<T>() {
             @Override
-            public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+            public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
                 Expression expression = ExpressionTool.getExpression(column, root);
-                CriteriaBuilder.In<Object> in = cb.in(expression);
-                for (Object value : valueList) {
-                    Assert.notNull(value, "not in 中不应包含null");
-                    in.value(value);
+
+                List<?> list = valueList.stream().filter(Objects::nonNull).toList();
+                boolean hasNull = valueList.contains(null);
+
+                if(list.isEmpty() && hasNull){
+                    return expression.isNotNull();
                 }
 
-                // 注意，sql 中的not in 不会处理null值，这里or 一下
-                return cb.or(in.not(), cb.isNull(expression));
+                CriteriaBuilder.In<Object> in = builder.in(expression);
+                for (Object value : list) {
+                   in.value(value);
+                }
+
+                if(!hasNull){ // 正常逻辑要剔除值为null的数据，
+                    return  builder.or(in.not(),expression.isNull());
+                }
+                return in.not();
             }
         });
+
+
     }
+
+
+
+
 
 
     public void add(Specification<T> spec) {
@@ -318,22 +436,7 @@ public class JpaQuery<T> implements Specification<T> {
     }
 
 
-    public void like(Map<String, Object> param) {
-        Set<Map.Entry<String, Object>> entries = param.entrySet();
-        for (Map.Entry<String, Object> e : entries) {
-            String key = e.getKey();
-            Object value = e.getValue();
 
-            if (value != null) {
-                if (value instanceof String) {
-                    this.like(key, (String) value);
-                } else {
-                    this.eq(key, value);
-                }
-            }
-
-        }
-    }
 
     // 去重复
     public void distinct() {
@@ -355,5 +458,10 @@ public class JpaQuery<T> implements Specification<T> {
                 return cb.isMember(v, keyPath);
             }
         });
+    }
+
+
+    private Expression getExpression(String column, Root<T> root){
+        return ExpressionTool.getExpression(column,root);
     }
 }

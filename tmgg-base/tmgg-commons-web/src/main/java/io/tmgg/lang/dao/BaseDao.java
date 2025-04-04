@@ -4,13 +4,16 @@ import io.tmgg.lang.dao.specification.ExpressionTool;
 import io.tmgg.lang.dao.specification.JpaQuery;
 import io.tmgg.lang.dao.specification.Selector;
 import jakarta.annotation.PostConstruct;
-import jakarta.persistence.*;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.criteria.*;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.*;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.data.jpa.repository.support.*;
+import org.springframework.data.jpa.repository.support.JpaEntityInformation;
+import org.springframework.data.jpa.repository.support.JpaEntityInformationSupport;
+import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.data.repository.query.FluentQuery;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -100,7 +103,7 @@ public class BaseDao<T extends PersistEntity> {
     }
 
     public boolean existsById(String id) {
-      return rep.existsById(id);
+        return rep.existsById(id);
     }
 
     public List<T> findAll() {
@@ -110,6 +113,7 @@ public class BaseDao<T extends PersistEntity> {
     public List<T> findAllById(Iterable<String> ids) {
         return rep.findAllById(ids);
     }
+
     public List<T> findAllById(String[] ids) {
         return rep.findAllById(List.of(ids));
     }
@@ -131,12 +135,12 @@ public class BaseDao<T extends PersistEntity> {
         return rep.findAll(spec);
     }
 
-    public Page<T> findAll( Specification<T> spec, Pageable pageable) {
-        return rep.findAll(spec,pageable);
+    public Page<T> findAll(Specification<T> spec, Pageable pageable) {
+        return rep.findAll(spec, pageable);
     }
 
     public List<T> findAll(Specification<T> spec, Sort sort) {
-        return rep.findAll(spec,sort);
+        return rep.findAll(spec, sort);
     }
 
     public boolean exists(Specification<T> spec) {
@@ -149,14 +153,14 @@ public class BaseDao<T extends PersistEntity> {
     }
 
     public <R> R findBy(Specification<T> spec, Function<FluentQuery.FetchableFluentQuery<T>, R> queryFunction) {
-        return  rep.findBy(spec,queryFunction);
+        return rep.findBy(spec, queryFunction);
     }
 
     public T findOne(Example<T> example) {
-      return rep.findOne(example).orElse(null);
+        return rep.findOne(example).orElse(null);
     }
 
-    public  long count(Example<T> example) {
+    public long count(Example<T> example) {
         return rep.count(example);
 
     }
@@ -165,20 +169,20 @@ public class BaseDao<T extends PersistEntity> {
         return rep.exists(example);
     }
 
-    public  List<T> findAll(Example<T> example) {
+    public List<T> findAll(Example<T> example) {
         return rep.findAll(example);
     }
 
-    public  List<T> findAll(Example<T> example, Sort sort) {
-        return rep.findAll(example,sort);
+    public List<T> findAll(Example<T> example, Sort sort) {
+        return rep.findAll(example, sort);
     }
 
     public <S extends T> Page<S> findAll(Example<S> example, Pageable pageable) {
-        return rep.findAll(example,pageable);
+        return rep.findAll(example, pageable);
     }
 
-    public < R> R findBy(Example<T> example, Function<FluentQuery.FetchableFluentQuery<T>, R> queryFunction) {
-      return rep.findBy(example,queryFunction);
+    public <R> R findBy(Example<T> example, Function<FluentQuery.FetchableFluentQuery<T>, R> queryFunction) {
+        return rep.findBy(example, queryFunction);
     }
 
     public long count() {
@@ -190,6 +194,12 @@ public class BaseDao<T extends PersistEntity> {
         return rep.count(spec);
     }
 
+    /**
+     * 插入或更新
+     *
+     * @param entity
+     * @return
+     */
     @Transactional
     public T save(T entity) {
         return rep.save(entity);
@@ -201,14 +211,27 @@ public class BaseDao<T extends PersistEntity> {
     }
 
     @Transactional
-    public  List<T> saveAll(Iterable<T> entities) {
+    public List<T> saveAll(Iterable<T> entities) {
         return rep.saveAll(entities);
     }
 
     @Transactional
-    public  List<T> saveAllAndFlush(Iterable<T> entities) {
+    public List<T> saveAllAndFlush(Iterable<T> entities) {
         return rep.saveAllAndFlush(entities);
     }
+
+
+    @Transactional
+    public T update(T entity) {
+        return entityManager.merge(entity);
+    }
+
+    @Transactional
+    public T insert(T entity) {
+        entityManager.persist(entity);
+        return entity;
+    }
+
 
     @Transactional
     public void flush() {
@@ -216,11 +239,7 @@ public class BaseDao<T extends PersistEntity> {
     }
 
 
-    public List<T> findByExampleLike(T t) {
-        JpaQuery<T> query = new JpaQuery<>();
-        query.likeExample(t);
-        return this.findAll(query);
-    }
+
 
 
     public boolean isFieldUnique(String id, String fieldName, Object value) {
@@ -239,7 +258,6 @@ public class BaseDao<T extends PersistEntity> {
     }
 
 
-
     public Map<String, T> findKeyed(Iterable<String> ids) {
         List<T> list = this.findAllById(ids);
         Map<String, T> map = new HashMap<>();
@@ -249,26 +267,6 @@ public class BaseDao<T extends PersistEntity> {
         return map;
     }
 
-
-    public Page<T> findAll(T t, Pageable pageable) {
-        JpaQuery<T> c = new JpaQuery<>();
-        c.likeExample(t);
-        return findAll(c, pageable);
-    }
-
-
-    public List<T> findAllLike(T example) {
-        JpaQuery<T> c = new JpaQuery<>();
-        c.likeExample(example);
-        return this.findAll(c);
-    }
-
-
-    public List<T> findAllLike(T example, Sort sort) {
-        JpaQuery<T> c = new JpaQuery<>();
-        c.likeExample(example);
-        return this.findAll(c, sort);
-    }
 
 
     public T findTop1(Specification<T> c, Sort sort) {
@@ -314,12 +312,10 @@ public class BaseDao<T extends PersistEntity> {
     }
 
 
-
-
-
     /**
      * 查询一个单值
      * 如select sum(age) from user
+     *
      * @param spec
      * @param selector
      * @return
@@ -333,9 +329,9 @@ public class BaseDao<T extends PersistEntity> {
         Assert.state(selections.size() == 1, "selection的个数应为1");
         Selection<?> selection = selections.get(0);
 
-        query.select(selection).where(spec.toPredicate(root,query,builder));
+        query.select(selection).where(spec.toPredicate(root, query, builder));
 
-        return  entityManager.createQuery(query).getSingleResult();
+        return entityManager.createQuery(query).getSingleResult();
     }
 
     /**
@@ -388,6 +384,7 @@ public class BaseDao<T extends PersistEntity> {
 
     /**
      * 分株统计数量
+     *
      * @param q
      * @param groupField
      * @return
@@ -402,7 +399,7 @@ public class BaseDao<T extends PersistEntity> {
         Predicate predicate = q.toPredicate(root, query, builder);
         query.multiselect(group, builder.count(root)).where(predicate).groupBy(group);
 
-        List<Object> resultList =  entityManager.createQuery(query).getResultList();
+        List<Object> resultList = entityManager.createQuery(query).getResultList();
 
         // 组装数据结构
         Map<String, Long> map = new HashMap<>();

@@ -4,6 +4,8 @@ import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.StrUtil;
 import io.tmgg.TestBootApplication;
 import io.tmgg.lang.dao.specification.JpaQuery;
+import io.tmgg.mgmt.Student;
+import io.tmgg.mgmt.StudentDao;
 import io.tmgg.web.db.DbCache;
 import io.tmgg.web.db.DbCacheDao;
 import jakarta.annotation.Resource;
@@ -22,17 +24,14 @@ public class BaseDaoTest {
 
     // 由于base到是个抽象对象，这里以DbCache为例
     @Resource
-    DbCacheDao dao;
+    StudentDao dao;
 
     @Test
     public void test() {
-        DbCache d = new DbCache();
-        d.setCode("zhangsan");
-        d.setValue("张三");
-        dao.save(d);
+        Student d = dao.save(new Student("zhangsan", "张三", 1));
 
 
-        Assertions.assertEquals(dao.count(), 1L);
+        Assertions.assertEquals(1L, dao.count());
         Assertions.assertTrue(dao.existsById(d.getId()));
         Assertions.assertFalse(dao.existsById(StrUtil.uuid()));
 
@@ -44,22 +43,20 @@ public class BaseDaoTest {
                 dao.existsById(null);
             }
         });
+        Student d2 = dao.save(new Student("lisi", "李四", 1));
 
 
-        DbCache d2 = new DbCache();
-        d2.setCode("lisi");
-        d2.setValue("李四");
-        dao.save(d2);
-        Assertions.assertEquals(dao.count(), 2L);
+
+        Assertions.assertEquals(2L, dao.count());
 
 
-        JpaQuery<DbCache> q = new JpaQuery<>();
-        q.eq("code","lisi");
-        Assertions.assertEquals(dao.count(q), 1L);
+        JpaQuery<Student> q = new JpaQuery<>();
+        q.eq("account","lisi");
+        Assertions.assertEquals(1L, dao.count(q));
 
         dao.delete(q);
-        Assertions.assertEquals(dao.count(q), 0L);
-        Assertions.assertEquals(dao.count(), 1L);
+        Assertions.assertEquals(0L, dao.count(q));
+        Assertions.assertEquals(1L, dao.count());
     }
 
 
