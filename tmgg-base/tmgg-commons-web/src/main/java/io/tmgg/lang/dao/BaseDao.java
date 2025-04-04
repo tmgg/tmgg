@@ -1,7 +1,6 @@
 package io.tmgg.lang.dao;
 
 import io.tmgg.lang.dao.specification.ExpressionTool;
-import io.tmgg.lang.dao.specification.JpaQuery;
 import io.tmgg.lang.dao.specification.Selector;
 import jakarta.annotation.PostConstruct;
 import jakarta.persistence.EntityManager;
@@ -25,6 +24,8 @@ import java.util.function.Function;
 
 /**
  * 基础dao
+ *
+ * BaseDao的查询条件不依赖JpaQuery
  */
 @Slf4j
 public class BaseDao<T extends PersistEntity> {
@@ -240,23 +241,9 @@ public class BaseDao<T extends PersistEntity> {
 
 
 
-
-
-    public boolean isFieldUnique(String id, String fieldName, Object value) {
-        JpaQuery<T> c = new JpaQuery<>();
-        if (id != null) {
-            c.ne("id", id);
-        }
-
-        c.eq(fieldName, value);
-        return count(c) == 0;
-    }
-
-
     public T findOne(String id) {
         return rep.findById(id).orElse(null);
     }
-
 
     public Map<String, T> findKeyed(Iterable<String> ids) {
         List<T> list = this.findAllById(ids);

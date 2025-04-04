@@ -54,7 +54,10 @@ public abstract class BaseService<T extends PersistEntity> {
 
 
     public boolean isFieldUnique(String id, String fieldName, Object value) {
-        return baseDao.isFieldUnique(id, fieldName, value);
+        JpaQuery<T> q = new JpaQuery<>();
+        q.ne("id", id);
+        q.eq(fieldName, value);
+        return baseDao.exists(q);
     }
 
     public List<Option> findOptionList(Function<T, String> labelFn) {

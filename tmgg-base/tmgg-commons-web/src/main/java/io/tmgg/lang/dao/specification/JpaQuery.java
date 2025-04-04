@@ -9,10 +9,11 @@ import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.jpa.convert.QueryByExamplePredicateBuilder;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.data.jpa.repository.query.EscapeCharacter;
-import org.springframework.util.Assert;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Objects;
 import java.util.function.Consumer;
 
 /**
@@ -49,8 +50,6 @@ public class JpaQuery<T> implements Specification<T> {
     public void clear(){
         specificationList.clear();
     }
-
-
 
 
     public void likeExample(T t, String... ignores) {
