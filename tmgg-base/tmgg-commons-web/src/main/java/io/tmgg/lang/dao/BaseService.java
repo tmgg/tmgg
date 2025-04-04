@@ -91,7 +91,7 @@ public abstract class BaseService<T extends PersistEntity> {
     }
 
     public boolean exists(String id) {
-        return baseDao.exists(id);
+        return baseDao.existsById(id);
     }
 
 
@@ -129,11 +129,6 @@ public abstract class BaseService<T extends PersistEntity> {
 
 
 
-    public Page<T> findAll(Specification<T> specification, Pageable pageable, Sort sort) {
-        return baseDao.findAll(specification, pageable, sort);
-    }
-
-
     public List<T> findAll() {
         return baseDao.findAll();
     }
@@ -163,9 +158,6 @@ public abstract class BaseService<T extends PersistEntity> {
         return q;
     }
 
-    public Page<T> findAll(Map<String, Object> map, Pageable pageable) {
-        return baseDao.findAll(map, pageable);
-    }
 
 
     public List<T> findAll(Specification<T> filter) {
@@ -232,7 +224,7 @@ public abstract class BaseService<T extends PersistEntity> {
             return baseDao.save(input);
         }
 
-        T old = baseDao.findOne(input);
+        T old = baseDao.findById(input.getId());
 
         // 复制到原始数据，如果只想更新部分字段，可调整 ignoreProperties
         BeanUtil.copyProperties(input, old, CopyOptions.create().setIgnoreProperties(BaseEntity.BASE_ENTITY_FIELDS));

@@ -64,3 +64,9 @@ dist/
 /tmgg-system/derby-test-data/
 /tmgg-system/cache/
 /tmgg-system/logs/app-log/spring.log
+/tmgg-base/tmgg-commons-web/derby.log
+/tmgg-base/tmgg-commons-web/derby-test-data/
+/tmgg-base/tmgg-commons-web/logs/
+/derby.log
+/derby-test-data/
+/logs/

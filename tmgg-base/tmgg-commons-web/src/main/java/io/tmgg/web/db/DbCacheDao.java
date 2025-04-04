@@ -48,8 +48,9 @@ public class DbCacheDao extends BaseDao<DbCache> {
 
 
     private DbCache findByCode(String code) {
-        DbCache cache = this.findOneByField(DbCache.Fields.code, code);
-        return cache;
+        JpaQuery<DbCache> q = new JpaQuery<>();
+        q.eq(DbCache.Fields.code, code);
+       return this.findOne(q);
     }
 
     public Map<String, String> findDictByPrefix(String code) {

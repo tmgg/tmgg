@@ -13,5 +13,7 @@ logging:
     path: ./logs/app-log
   pattern:
     dateformat: yyyy-MM-dd HH:mm:ss.SSS
+  level:
+    io.tmgg: trace
 sys:
   cache-dir: ./cache

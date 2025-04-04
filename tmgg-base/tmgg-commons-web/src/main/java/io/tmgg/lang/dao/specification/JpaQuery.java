@@ -14,7 +14,9 @@ import java.util.function.Consumer;
 
 /**
  * 查询条件
- * 多对多可 可使用 containsAnyMember
+ *
+ * 注意：如果键值对查询，值为空的情况下，会忽略
+ *
  */
 public class JpaQuery<T> implements Specification<T> {
 
