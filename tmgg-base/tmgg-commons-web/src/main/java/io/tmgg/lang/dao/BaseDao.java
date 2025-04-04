@@ -36,15 +36,13 @@ public class BaseDao<T extends PersistEntity> {
     @PersistenceContext
     protected EntityManager em;
 
-    protected Class<T> domainClass = null;
     protected JpaEntityInformation<T, ?> entityInformation;
-
 
     private SimpleJpaRepository<T, String> rep;
 
     @PostConstruct
     void init() {
-        this.domainClass = parseDomainClass();
+        Class<T> domainClass = parseDomainClass();
         this.entityInformation = JpaEntityInformationSupport.getEntityInformation(domainClass, em);
         this.rep = new SimpleJpaRepository<>(domainClass, em);
     }
@@ -332,7 +330,7 @@ public class BaseDao<T extends PersistEntity> {
     public <R> List<R> findField(String fieldName, Specification<T> c) {
         CriteriaBuilder builder = em.getCriteriaBuilder();
         CriteriaQuery query = builder.createQuery();
-        Root root = query.from(domainClass);
+        Root root = query.from(getDomainClass());
 
         Path path = root.get(fieldName);
         query.select(path);
@@ -358,7 +356,7 @@ public class BaseDao<T extends PersistEntity> {
     public Object findSingle(Specification<T> spec, Selector selector) {
         CriteriaBuilder builder = em.getCriteriaBuilder();
         CriteriaQuery<Object> query = builder.createQuery(Object.class);
-        Root<T> root = query.from(domainClass);
+        Root<T> root = query.from(getDomainClass());
 
         List<Selection<?>> selections = selector.select(builder, root);
         Assert.state(selections.size() == 1, "selection的个数应为1");
@@ -380,7 +378,7 @@ public class BaseDao<T extends PersistEntity> {
     public Object[] findOne(Specification<T> spec, Selector selector) {
         CriteriaBuilder builder = em.getCriteriaBuilder();
         CriteriaQuery<Object> query = builder.createQuery(Object.class);
-        Root<T> root = query.from(domainClass);
+        Root<T> root = query.from(getDomainClass());
 
         List<Selection<?>> selections = selector.select(builder, root);
         Assert.state(selections.size() > 1, "selections需多个");
@@ -402,7 +400,7 @@ public class BaseDao<T extends PersistEntity> {
     public List<Map> findAll(Specification<T> spec, String groupField, Selector selector) {
         CriteriaBuilder builder = em.getCriteriaBuilder();
         CriteriaQuery<Map> query = builder.createQuery(Map.class);
-        Root<T> root = query.from(domainClass);
+        Root<T> root = query.from(getDomainClass());
 
         Expression group = ExpressionTool.getExpression(groupField, root); //分组字段
 
@@ -420,7 +418,7 @@ public class BaseDao<T extends PersistEntity> {
     public Map<String, Long> count(Specification<T> q, String groupField) {
         CriteriaBuilder builder = em.getCriteriaBuilder();
         CriteriaQuery<Object> query = builder.createQuery(Object.class);
-        Root<T> root = query.from(domainClass);
+        Root<T> root = query.from(getDomainClass());
 
         Expression group = ExpressionTool.getExpression(groupField, root); // 支持 . 分割， 如 user.id
 
