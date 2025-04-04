@@ -1,6 +1,6 @@
 package io.tmgg.lang.dao;
 
-import io.tmgg.lang.dao.id.EntityIdCacheTool;
+import io.tmgg.lang.dao.id.EntityIdHolder;
 import io.tmgg.lang.dao.specification.ExpressionTool;
 import io.tmgg.lang.dao.specification.Selector;
 import jakarta.annotation.PostConstruct;
@@ -252,7 +252,7 @@ public class BaseDao<T extends PersistEntity> {
         boolean isNew =  !existsById(id);
         if (isNew) {
             // hibernate 升级后的问题，如果制定了id生成器，就不能自定义id了
-            EntityIdCacheTool.cache(entity,id);
+            EntityIdHolder.cache(entity,id);
             entity.setId(null);
             entityManager.persist(entity);
             return entity;

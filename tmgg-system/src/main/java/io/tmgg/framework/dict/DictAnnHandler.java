@@ -37,7 +37,6 @@ public class DictAnnHandler {
             classes.addAll(ClassUtil.scanPackageByAnnotation(basePackage, Dict.class));
         }
 
-        List<SysDictItem> dataList = new ArrayList<>();
         for (Class cls : classes) {
             Dict dictAnn = (Dict) cls.getAnnotation(Dict.class);
             String code = dictAnn.code();
@@ -49,7 +48,7 @@ public class DictAnnHandler {
             sysDict.setCode(code);
             sysDict.setText(label);
             sysDict.setIsNumber(dictAnn.isNumber());
-            sysDict = sysDictDao.save(sysDict);
+            sysDict = sysDictDao.replace(sysDict);
 
             Field[] fields = cls.getFields();
             for (int i = 0; i < fields.length; i++) {
@@ -69,11 +68,9 @@ public class DictAnnHandler {
                 data.setId(code + "-" + key);
                 data.setBuiltin(true);
 
-                log.trace("增加数据库字典 {} {}={}", data.getId(), key, text);
-                dataList.add(data);
+                sysDictItemDao.replace(data);
             }
         }
-        sysDictItemDao.saveAll(dataList);
     }
 
 

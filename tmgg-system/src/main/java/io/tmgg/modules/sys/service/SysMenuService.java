@@ -94,7 +94,10 @@ public class SysMenuService extends BaseService<SysMenu> {
         Collection<SysMenuParser> parsers = SpringTool.getBeans(SysMenuParser.class);
         for (SysMenuParser parser : parsers) {
             Collection<SysMenu> menus = parser.parseMenuList();
-            sysMenuDao.saveAll(menus);
+            for (SysMenu menu : menus) {
+                sysMenuDao.replace(menu);
+            }
+
         }
     }
 

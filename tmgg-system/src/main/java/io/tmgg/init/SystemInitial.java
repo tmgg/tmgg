@@ -111,7 +111,6 @@ public class SystemInitial implements CommandLineRunner {
         if (admin == null) {
             log.info("创建默认管理员");
             admin = new SysUser();
-            admin.setId("superAdmin");
             admin.setAccount("superAdmin");
             admin.setName("管理员");
             admin.setEnabled(true);

@@ -3,13 +3,10 @@ package io.tmgg.lang.dao.id;
 import cn.hutool.core.util.IdUtil;
 import io.tmgg.lang.dao.PersistEntity;
 import org.hibernate.engine.spi.SharedSessionContractImplementor;
-import org.hibernate.generator.EventType;
-import org.hibernate.generator.EventTypeSets;
 import org.hibernate.id.IdentifierGenerator;
 import org.hibernate.id.factory.spi.CustomIdGeneratorCreationContext;
 
 import java.lang.reflect.Member;
-import java.util.EnumSet;
 
 public class CustomIdGenerator implements IdentifierGenerator {
 
@@ -29,7 +26,7 @@ public class CustomIdGenerator implements IdentifierGenerator {
                 return e.getId();
             }
 
-            String id = EntityIdCacheTool.get(e);
+            String id = EntityIdHolder.get(e);
             if(id != null){
                 return id;
             }

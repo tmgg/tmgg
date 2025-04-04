@@ -122,7 +122,6 @@ public class SysRoleService extends BaseService<SysRole> {
             return role;
         }
         SysRole sysRole = new SysRole();
-        sysRole.setId(roleCode);
         sysRole.setCode(roleCode);
         sysRole.setName("管理员");
         sysRole.setPerms(List.of("*"));

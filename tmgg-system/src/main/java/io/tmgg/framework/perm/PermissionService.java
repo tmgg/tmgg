@@ -32,10 +32,11 @@ public class PermissionService {
 
     @Resource
     JpaService jpaService;
+    private SysDict dict;
 
 
-  public   void init() throws IOException, ClassNotFoundException {
-        SysDict dict = sysDictDao.findByCode(DICK_CODE);
+    public   void init() throws IOException, ClassNotFoundException {
+         this.dict = sysDictDao.findByCode(DICK_CODE);
         if (dict == null) {
             dict = new SysDict();
             dict.setCode(DICK_CODE);
@@ -101,7 +102,7 @@ public class PermissionService {
             item.setCode(code);
             item.setText(text);
             item.setEnabled(true);
-            item.setSysDict(new SysDict(DICK_CODE));
+            item.setSysDict(dict);
             sysDictItemDao.save(item);
         }
     }

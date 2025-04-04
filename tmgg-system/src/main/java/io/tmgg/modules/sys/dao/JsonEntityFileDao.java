@@ -206,7 +206,7 @@ public class JsonEntityFileDao {
         T old = dao.findOne(q);
 
         if (old == null || info.isUpdate()) {
-            dao.save(entity);
+            dao.replace(entity);
         }
     }
 }
