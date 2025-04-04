@@ -26,7 +26,7 @@ public class Student implements PersistEntity {
     Integer age;
 
     @Id
-    @CustomId(prefix = "STU_")
+    @CustomId(prefix = "STU_",datetime = true)
     private String id;
 
     public Student(String account, String name, Integer age) {
