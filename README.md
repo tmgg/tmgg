@@ -6,6 +6,9 @@
 ![Maven Central Version](https://img.shields.io/maven-central/v/io.github.tmgg/tmgg-system-parent)tmgg-system-parent
 web开发框架
  
+![Maven Central Version](https://img.shields.io/maven-central/v/io.github.tmgg/tmgg-application-template)tmgg-application-template
+应用模板
+ 
 ![Maven Central Version](https://img.shields.io/maven-central/v/io.github.tmgg/tmgg-base)tmgg-base
 工具类,业务逻辑无关
  
@@ -26,6 +29,7 @@ word，excel等的工具类,参考了easy poi,但项目用的版本是5.x,easypo
 ![Maven Central Version](https://img.shields.io/maven-central/v/io.github.tmgg/tmgg-commons-web)tmgg-commons-web
  
 ![Maven Central Version](https://img.shields.io/maven-central/v/io.github.tmgg/tmgg-openapi-sdk)tmgg-openapi-sdk
+第三方系统调用基于tmgg框架的开放接口，主要封装加解密协议
  
 ![Maven Central Version](https://img.shields.io/maven-central/v/io.github.tmgg/tmgg-script)tmgg-script
 开发脚本
