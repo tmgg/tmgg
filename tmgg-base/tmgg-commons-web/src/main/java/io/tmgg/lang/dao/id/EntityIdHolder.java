@@ -3,6 +3,7 @@ package io.tmgg.lang.dao.id;
 import io.tmgg.lang.dao.PersistEntity;
 import lombok.AllArgsConstructor;
 
+import java.util.IdentityHashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -11,27 +12,18 @@ import java.util.List;
  */
 public class EntityIdHolder {
 
-    private static final List<Entry> list = new LinkedList<>();
+    // 只判断引用相等的map （由于实体id可能设置为空，重写了hashcode，equals方法，使用常规map会导致判断key不准）
+    private static final IdentityHashMap<PersistEntity,String> cache = new IdentityHashMap<>();
 
-    public static synchronized void cache(PersistEntity entity, String id) {
-        list.add(new Entry(entity,id));
+    public static  void cache(PersistEntity entity, String id) {
+       cache.put(entity,id);
     }
 
-    public static synchronized String get(Object entity) {
-        Entry entry = list.stream().filter(t -> t.entity == entity).findFirst().orElse(null); // 效率不高，但量少，勉强这样吧
-        if(entry == null){
-            return null;
-        }
-        list.remove(entry);
-
-        return entry.id;
+    public static  String get(PersistEntity entity) {
+       return cache.remove(entity);
     }
 
 
-    @AllArgsConstructor
-    static class Entry {
-        PersistEntity entity;
-        String id;
-    }
+
 
 }
