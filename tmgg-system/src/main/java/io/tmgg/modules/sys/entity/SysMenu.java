@@ -81,8 +81,8 @@ public class SysMenu extends BaseEntity implements Tree<SysMenu> {
         type = ObjectUtils.defaultIfNull(type, MenuType.MENU);
         seq = ObjectUtils.defaultIfNull(seq, 1);
 
-        if(id != null && pid != null){
-            Assert.state(!id.equals(pid), "菜单的id和pid不能相同。(%s,%s)".formatted(id, pid));
+        if(getId() != null && pid != null){
+            Assert.state(!getId().equals(pid), "菜单的id和pid不能相同。(%s,%s)".formatted(getId(), pid));
         }
     }
 

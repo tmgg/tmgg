@@ -26,7 +26,7 @@ public class SysJob extends BaseEntity {
     }
 
     public SysJob(String id) {
-        this.id = id;
+        this.setId(id);
     }
 
     public static final String JOB_SUFFIX = "Job";

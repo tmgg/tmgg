@@ -40,7 +40,8 @@ public class SysUser extends BaseEntity {
     }
 
     public SysUser(String id) {
-        this.id = id;
+        this.setId(id);
+
     }
 
 

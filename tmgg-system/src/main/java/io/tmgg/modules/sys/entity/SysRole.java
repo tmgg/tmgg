@@ -66,7 +66,7 @@ public class SysRole extends BaseEntity {
     private List<String> menuIds;
 
     public SysRole(String id) {
-        this.id = id;
+        this.setId(id);
     }
     public SysRole() {
 

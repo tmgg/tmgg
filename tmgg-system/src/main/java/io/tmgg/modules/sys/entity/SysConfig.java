@@ -59,6 +59,7 @@ public class SysConfig extends BaseEntity {
     }
 
     private void validateId() {
+        String id = getId();
         boolean ok = id.startsWith("sys.");
         if (!ok) {
             log.info("主键:{}", id);
