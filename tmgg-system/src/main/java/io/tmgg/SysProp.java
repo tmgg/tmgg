@@ -24,10 +24,6 @@ public class SysProp {
 
 
 
-    /**
-     * 页面右上角，点击关于显示的内容文件
-     */
-    private String aboutFile = "about.md";
 
 
     /**
