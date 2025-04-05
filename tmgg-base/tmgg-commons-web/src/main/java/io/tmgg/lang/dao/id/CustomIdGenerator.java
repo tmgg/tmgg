@@ -20,7 +20,11 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.Properties;
 
+import static cn.hutool.core.date.DatePattern.PURE_DATETIME_MS_PATTERN;
+
 public class CustomIdGenerator implements IdentifierGenerator {
+
+    private static final int TIME_LEN = PURE_DATETIME_MS_PATTERN.length();
 
     private final CustomId cfg;
 
@@ -34,12 +38,13 @@ public class CustomIdGenerator implements IdentifierGenerator {
                              CustomIdGeneratorCreationContext context) {
         CustomId override = getOverride(context);
         this.cfg = override != null ? override : config;
+        int idLen = cfg.length() - cfg.prefix().length(); // 不含前缀
 
         switch (cfg.style()) {
-            case DAILY_SEQ -> generator = new DailyTableGenerator(cfg.length() - cfg.prefix().length());
+            case DAILY_SEQ -> generator = new DailyTableGenerator(idLen);
             case UUID -> generator = (session, object) -> IdUtil.simpleUUID();
             case DATETIME_UUID -> generator = (session, object) -> time() + IdUtil.simpleUUID();
-            case DATETIME_SEQ -> generator = (session, object) -> time() + count;
+            case DATETIME_SEQ -> generator = (session, object) -> time() +  StrUtil.padPre( String.valueOf(count),idLen-TIME_LEN,'0')  ;
         }
     }
 
@@ -75,7 +80,7 @@ public class CustomIdGenerator implements IdentifierGenerator {
 
 
     private static String time() {
-        return DateUtil.format(new Date(), DatePattern.PURE_DATETIME_MS_PATTERN);
+        return DateUtil.format(new Date(), PURE_DATETIME_MS_PATTERN);
     }
 
 

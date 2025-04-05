@@ -18,6 +18,8 @@ import org.hibernate.type.descriptor.jdbc.IntegerJdbcType;
 import java.util.Date;
 import java.util.Properties;
 
+import static cn.hutool.core.date.DatePattern.PURE_DATETIME_MS_PATTERN;
+
 /**
  *
  *
@@ -28,10 +30,12 @@ public class DailyTableGenerator extends TableGenerator {
 
     public static final String TABLE_NAME = "sys_id_daily_generator";
 
+    private static final int DATE_LEN = DatePattern.PURE_DATE_PATTERN.length();
 
 
     private String entityTableName;
     private int length = 32;
+
 
     public DailyTableGenerator() {
     }
@@ -69,7 +73,7 @@ public class DailyTableGenerator extends TableGenerator {
 
         String date = date();
 
-        return date + StrUtil.padPre(id, length - date.length(), '0');
+        return date + StrUtil.padPre(id, length - DATE_LEN, '0');
     }
 
     private void setDailySegmentValue() {
@@ -84,6 +88,6 @@ public class DailyTableGenerator extends TableGenerator {
     }
 
     private static String date() {
-        return DateUtil.format(new Date(), DatePattern.PURE_DATE_FORMATTER);
+        return DateUtil.format(new Date(), DatePattern.PURE_DATE_PATTERN);
     }
 }
