@@ -84,7 +84,7 @@ public class DailyTableGenerator extends TableGenerator {
     }
 
     private String calcSegmentValue() {
-        return entityTableName + date();
+        return entityTableName + "_" + date();
     }
 
     private static String date() {
