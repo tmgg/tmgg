@@ -24,15 +24,9 @@ export default defineUserConfig({
         editLink:true,
 
         sidebar: [
-            {
-
-                text: '快速了解',
-                children: [
-                    '/overview', '/feature', '/technology','/function'
-                ]
-            },
+            '/function',
             '/get-start',
-            '/data-init',
+            '/config',
             '/session',
             '/job',
             '/open-api',

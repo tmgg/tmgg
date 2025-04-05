@@ -31,19 +31,3 @@
 编辑生成后的代码，前端自动刷星，后端需重启生效。
 
 
-## 基础配置
-
-### id生产策略
-默认的id生成策略是uuid， 可通过实体类型上增加注解@CustomId改变
-
-支持增加前缀，prefix，
-可这只长度
-
-支持样式如下，具体可参考IdStyle枚举
-- UUID
-- DATETIME_UUID
-- DATETIME_SEQ
-- DAILY_SEQ ：每日id从1重新计数。例子： 用户表，prefix="USR_", idStyle=DAILY_SEQ, length=16的情况 :USR_202504060001,USR_202504060002
-
-
-
