@@ -24,15 +24,21 @@ export default defineUserConfig({
         editLink:true,
 
         sidebar: [
-            '/function',
+            '/intro',
             '/get-start',
             '/config',
             '/session',
             '/job',
             '/open-api',
-            '/flowable',
-            '/kettle',
-            '/payment',
+            {
+
+                text: '扩展插件',
+                children: [
+                    '/plugins/kettle',
+                    '/plugins/payment',
+                    '/plugins/flowable',
+                ]
+            },
             {
 
                 text: '前端手册',
