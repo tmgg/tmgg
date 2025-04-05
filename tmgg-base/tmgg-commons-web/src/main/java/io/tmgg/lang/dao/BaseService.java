@@ -9,6 +9,7 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
+import io.tmgg.lang.obj.Table;
 import io.tmgg.lang.poi.ExcelExportTool;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,13 +44,12 @@ public abstract class BaseService<T extends PersistEntity> {
         return PageExt.of(page);
     }
 
-    public void exportExcel(Specification<T> spec, String filename, HttpServletResponse response) throws IOException {
-        List<T> list = baseDao.findAll(spec);
-        ExcelExportTool.exportBeanList(filename, list, getEntityClass(), response);
+
+    public void exportExcel(List<T> list, String filename, HttpServletResponse response) throws IOException {
+        ExcelExportTool.exportBeanList(filename,  list, getEntityClass(), response);
     }
-    public void exportExcel(Specification<T> spec, String filename, LinkedHashMap<String, Function<T, Object>> columns, HttpServletResponse response) throws IOException {
-        List<T> list = baseDao.findAll(spec);
-        ExcelExportTool.exportBeanList(filename,  list, columns, response);
+    public void exportExcel(Table table, String filename, HttpServletResponse response) throws IOException {
+        ExcelExportTool.exportTable(filename,  table, response);
     }
 
 

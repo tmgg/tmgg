@@ -52,9 +52,10 @@ public class ${name}Controller  extends BaseController<${name}>{
         @GetMapping({"exportExcel"})
         public void exportExcel(@RequestBody QueryParam param, HttpServletResponse resp) throws IOException {
             JpaQuery<${name}> q = buildQuery(param);
+            List<${name}> list = service.findAll(q);
 
             // 使用Excel注解
-            this.service.exportExcel(q, "${name}.xlsx",resp);
+            this.service.exportExcel(list, "${name}.xlsx",resp);
 
             /** 自定义列 示例
             LinkedHashMap<String, Function<PointsRecord, Object>> columns = new LinkedHashMap<>();

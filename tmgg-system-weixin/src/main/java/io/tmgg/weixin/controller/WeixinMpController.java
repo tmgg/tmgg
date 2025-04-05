@@ -88,8 +88,9 @@ public class WeixinMpController  extends BaseController<WeixinMp>{
         public void exportExcel(@RequestBody QueryParam param, HttpServletResponse resp) throws IOException {
             JpaQuery<WeixinMp> q = buildQuery(param);
 
+            List<WeixinMp> list = this.service.findAll(q);
             // 使用Excel注解
-            this.service.exportExcel(q, "WeixinMp.xlsx",resp);
+            this.service.exportExcel(list, "WeixinMp.xlsx",resp);
 
             /** 自定义列
             LinkedHashMap<String, Function<PointsRecord, Object>> columns = new LinkedHashMap<>();
