@@ -14,31 +14,23 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 @Getter
 @Setter
 @NoArgsConstructor
-@CustomId(prefix = Student.PREFIX ,style = IdStyle.UUID)
-public class Student extends BaseEntity {
+@CustomId(prefix = Teacher.PREFIX ,style = IdStyle.DAILY_SEQ,length = 16)
+public class Teacher extends BaseEntity {
 
-    public static final String PREFIX = "STU";
+    public static final String PREFIX = "USR_";
 
 
-    String account;
     String name;
-    Integer age;
 
-
-
-    public Student(String account, String name, Integer age) {
-        this.account = account;
+    public Teacher(String name) {
         this.name = name;
-        this.age = age;
     }
 
     @Override
     public String toString() {
         return new ToStringBuilder(this, ToStringStyle.SIMPLE_STYLE)
                 .append("id", getId())
-                .append("account", account)
                 .append("name", name)
-                .append("age", age)
                 .toString();
     }
 }

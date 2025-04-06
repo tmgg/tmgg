@@ -5,6 +5,7 @@ import io.tmgg.lang.SpringTool;
 import io.tmgg.lang.ann.Msg;
 import io.tmgg.lang.dao.exports.UserLabelQuery;
 import io.tmgg.lang.dao.id.CustomId;
+import io.tmgg.lang.dao.id.IdStyle;
 import io.tmgg.web.perm.SecurityUtils;
 import jakarta.persistence.*;
 import lombok.AccessLevel;

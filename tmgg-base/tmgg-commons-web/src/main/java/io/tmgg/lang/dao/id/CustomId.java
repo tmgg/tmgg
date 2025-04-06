@@ -6,7 +6,7 @@ import java.lang.annotation.*;
 
 @IdGeneratorType(CustomIdGenerator.class)
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.METHOD, ElementType.FIELD})
+@Target({ElementType.METHOD, ElementType.FIELD,ElementType.TYPE})
 public @interface CustomId {
 
     /**
@@ -17,7 +17,7 @@ public @interface CustomId {
 
 
     /**
-     * 是否使用时间格式
+     * 样式
      *
      * @return
      */
