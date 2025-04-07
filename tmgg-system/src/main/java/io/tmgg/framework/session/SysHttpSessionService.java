@@ -54,10 +54,16 @@ public class SysHttpSessionService {
 
     public  List<SysHttpSession> findAllSession() {
         List<SysHttpSession> sessionList = new ArrayList<>();
-        httpSessionCache.forEach(e->{
-            SysHttpSession session = e.getValue();
-            sessionList.add(session);
-        });
+        try {
+        for (Cache.Entry<String, SysHttpSession> e : httpSessionCache) {
+
+                SysHttpSession session = e.getValue();
+                sessionList.add(session);
+
+
+        }   } catch (Exception ex) {
+            log.error("获取在线用户列表时失败，可能是多个系统共用一个缓存文件夹照成，可尝试删除", ex);
+        }
         return sessionList;
     }
 

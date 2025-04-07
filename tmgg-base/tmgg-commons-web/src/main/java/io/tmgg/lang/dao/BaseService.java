@@ -48,7 +48,7 @@ public abstract class BaseService<T extends PersistEntity> {
     public void exportExcel(List<T> list, String filename, HttpServletResponse response) throws IOException {
         ExcelExportTool.exportBeanList(filename,  list, getEntityClass(), response);
     }
-    public void exportExcel(Table table, String filename, HttpServletResponse response) throws IOException {
+    public void exportExcel(Table<T> table, String filename, HttpServletResponse response) throws IOException {
         ExcelExportTool.exportTable(filename,  table, response);
     }
 

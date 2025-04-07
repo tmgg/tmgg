@@ -36,7 +36,9 @@ public class JpaQuery<T> implements Specification<T> {
         List<Predicate> predicates = new ArrayList<>();
         for (Specification<T> c : specificationList) {
             Predicate predicate = c.toPredicate(root, query, builder);
-            predicates.add(predicate);
+            if(predicate != null){
+                predicates.add(predicate);
+            }
         }
 
         // 将所有条件用 and 联合起来
