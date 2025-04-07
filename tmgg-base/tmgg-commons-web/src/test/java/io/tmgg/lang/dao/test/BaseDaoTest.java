@@ -28,6 +28,7 @@ public class BaseDaoTest {
 
     @Test
     public void test() {
+        dao.deleteAllInBatch();
         Student d = dao.save(new Student("zhangsan", "张三", 1));
 
 
