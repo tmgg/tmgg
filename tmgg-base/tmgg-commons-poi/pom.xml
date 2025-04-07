@@ -4,7 +4,7 @@
     <parent>
         <groupId>io.github.tmgg</groupId>
         <artifactId>tmgg-base</artifactId>
-        <version>0.3.76</version>
+        <version>0.3.77</version>
     </parent>
     <description>word，excel等的工具类,参考了easy poi,但项目用的版本是5.x,easypoi 用的4.x</description>
 
