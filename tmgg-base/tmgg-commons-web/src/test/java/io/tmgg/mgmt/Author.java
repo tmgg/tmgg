@@ -3,19 +3,23 @@ package io.tmgg.mgmt;
 import io.tmgg.lang.dao.BaseEntity;
 import io.tmgg.lang.dao.id.CustomId;
 import io.tmgg.lang.dao.id.IdStyle;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+import java.util.List;
+
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
-@CustomId(prefix = Student.PREFIX ,style = IdStyle.DAILY_SEQ)
-public class Student extends BaseEntity {
+@CustomId(prefix = Author.PREFIX ,style = IdStyle.DAILY_SEQ)
+public class Author extends BaseEntity {
 
     public static final String PREFIX = "STU";
 
@@ -24,9 +28,10 @@ public class Student extends BaseEntity {
     String name;
     Integer age;
 
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
+    List<Book> books;
 
-
-    public Student(String account, String name, Integer age) {
+    public Author(String account, String name, Integer age) {
         this.account = account;
         this.name = name;
         this.age = age;

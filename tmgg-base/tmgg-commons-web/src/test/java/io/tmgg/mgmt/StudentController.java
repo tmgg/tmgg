@@ -9,12 +9,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class StudentController {
 
     @Resource
-    StudentDao studentDao;
+    AuthorDao authorDao;
 
     @GetMapping("add")
-    public Student add(){
+    public Author add(){
         String s = RandomUtil.randomString(5);
-        Student student = new Student("stu"+s, "学生"+s, 5);
-        return studentDao.save(student);
+        Author author = new Author("stu" + s, "学生" + s, 5);
+        return authorDao.save(author);
     }
 }

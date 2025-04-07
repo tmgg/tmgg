@@ -153,16 +153,13 @@ public class SysUserController {
 
         sysUserService.fillRoleName(list);
 
-
-        Table<SysUser> tb = new Table<>();
+        Table<SysUser> tb = new Table<>(list);
         tb.addColumn("姓名", SysUser::getName);
         tb.addColumn("账号", SysUser::getAccount);
         tb.addColumn("手机号", SysUser::getPhone);
         tb.addColumn("部门", SysUser::getDeptLabel);
         tb.addColumn("单位", SysUser::getUnitLabel);
         tb.addColumn("角色", SysUser::getRoleNames);
-
-        tb.setDataSource(list);
 
         ExcelExportTool.exportTable("用户列表.xlsx", tb,  response);
     }

@@ -58,14 +58,13 @@ public class ${name}Controller  extends BaseController<${name}>{
             this.service.exportExcel(list, "${name}.xlsx",resp);
 
             /** 自定义列 示例
-            LinkedHashMap<String, Function<PointsRecord, Object>> columns = new LinkedHashMap<>();
-            columns.put("姓名", t -> t.getPointsAccount().getRealName());
-            columns.put("手机", t -> t.getPointsAccount().getPhone());
-            columns.put("积分方向", t -> t.getDirection() == 1 ? "增加" : "减少");
-            columns.put("获得积分", t -> t.getPoints());
-            columns.put("时间", t -> DateUtil.formatDateTime(t.getTime()));
-            columns.put("原因", t -> t.getReason());
-             this.service.exportExcel(q, "${code}.xlsx", columns,resp);
+             Table<${name}> tb = new Table<>(list);
+             tb.addColumn("姓名", SysUser::getName);
+             tb.addColumn("账号", SysUser::getAccount);
+             tb.addColumn("手机号", SysUser::getPhone);
+
+
+             ExcelExportTool.exportTable("用户列表.xlsx", tb,  response);
              **/
         }
 

@@ -1,9 +1,8 @@
 package io.tmgg.lang.dao.test;
 
 import io.tmgg.TestBootApplication;
-import io.tmgg.lang.dao.specification.JpaQuery;
-import io.tmgg.mgmt.Student;
-import io.tmgg.mgmt.StudentDao;
+import io.tmgg.mgmt.Author;
+import io.tmgg.mgmt.AuthorDao;
 import io.tmgg.mgmt.Teacher;
 import io.tmgg.mgmt.TeacherDao;
 import jakarta.annotation.Resource;
@@ -16,19 +15,19 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest(classes = TestBootApplication.class)
 public class IdTest {
     @Resource
-    StudentDao dao;
+    AuthorDao dao;
 
     @Resource
     TeacherDao teacherDao;
     @Test
     public void prefixTest() {
-        Student d = dao.save(new Student("zhangsan", "张三", 1));
+        Author d = dao.save(new Author("zhangsan", "张三", 1));
         System.out.println(d);
-        Assertions.assertEquals(Student.PREFIX, d.getId().substring(0,Student.PREFIX.length()));
+        Assertions.assertEquals(Author.PREFIX, d.getId().substring(0, Author.PREFIX.length()));
 
-         d = dao.save(new Student("lisi", "李四", 1));
+         d = dao.save(new Author("lisi", "李四", 1));
         System.out.println(d);
-        Assertions.assertEquals(Student.PREFIX, d.getId().substring(0,Student.PREFIX.length()));
+        Assertions.assertEquals(Author.PREFIX, d.getId().substring(0, Author.PREFIX.length()));
 
         Teacher t = teacherDao.save(new Teacher("隆老师"));
         System.out.println(t);

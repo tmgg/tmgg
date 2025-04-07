@@ -4,5 +4,5 @@ import io.tmgg.lang.dao.BaseDao;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class StudentDao extends BaseDao<Student> {
+public class AuthorDao extends BaseDao<Author> {
 }

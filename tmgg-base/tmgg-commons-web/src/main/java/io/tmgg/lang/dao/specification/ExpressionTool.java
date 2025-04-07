@@ -28,16 +28,7 @@ public class ExpressionTool {
         String[] names = fieldName.split("\\.");
 
         for (String name : names) {
-            Class clazz = expression.getJavaType();
-            if (clazz.equals(Set.class)) {
-                expression = root.joinSet(name);
-            } else if (clazz.equals(List.class)) {
-                expression = root.joinList(name);
-            } else if (clazz.equals(Map.class)) {
-                expression = root.joinMap(name);
-            } else {
-                expression = ((Path) expression).get(name);
-            }
+            expression = ((Path) expression).get(name);
         }
 
         return expression;

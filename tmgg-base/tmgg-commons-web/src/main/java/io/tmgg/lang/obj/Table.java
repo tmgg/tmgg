@@ -2,6 +2,7 @@ package io.tmgg.lang.obj;
 
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.apache.poi.ss.formula.functions.T;
 
@@ -11,12 +12,17 @@ import java.util.Map;
 import java.util.function.Function;
 
 @Getter
-@Setter
 public class Table<T> {
+
 
     private List<Column<T>> columns = new ArrayList<>();
 
-    private List<T> dataSource = new ArrayList<>();
+    private List<T> dataSource;
+
+
+    public Table(List<T> dataSource) {
+        this.dataSource = dataSource;
+    }
 
     public void addColumn(String dataIndex, String title){
         columns.add(new Column(dataIndex,title));
