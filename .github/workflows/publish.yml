@@ -3,6 +3,8 @@ name: Publish NPM, Maven
 on:
   workflow_dispatch:
   push:
+    branches:
+      - master
  # schedule:
     # 定时任务，在每天的5点 (时差）
   #  - cron: '0 21 * * *'

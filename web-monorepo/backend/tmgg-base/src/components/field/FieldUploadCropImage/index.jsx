@@ -32,7 +32,7 @@ export class FieldUploadCropImage extends React.Component {
                     file.url = item;
                 } else {
                     const id = item // f 相当于id了
-                    file.url = SysUtil.wrapServerUrl(+'sysFile/preview/' + id);
+                    file.url = SysUtil.wrapServerUrl('sysFile/preview/' + id);
                 }
                 file.uid = index;
                 file.name = 'image.png';

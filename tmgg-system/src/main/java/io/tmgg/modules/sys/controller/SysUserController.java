@@ -5,11 +5,11 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.text.PasswdStrength;
 import cn.hutool.core.util.StrUtil;
 import io.tmgg.framework.session.SysHttpSessionService;
-import io.tmgg.lang.ann.Msg;
 import io.tmgg.lang.dao.BaseEntity;
 import io.tmgg.lang.dao.specification.JpaQuery;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.obj.Option;
+import io.tmgg.lang.obj.Table;
 import io.tmgg.lang.obj.TreeOption;
 import io.tmgg.lang.poi.ExcelExportTool;
 import io.tmgg.modules.sys.dto.GrantPermDto;
@@ -36,8 +36,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.*;
-import java.util.function.Function;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 import java.util.stream.Collectors;
 
 
@@ -58,7 +59,7 @@ public class SysUserController {
     private SysHttpSessionService sm;
 
     @Data
-    public static class QueryParam{
+    public static class QueryParam {
         String keyword;
         String orgId;
         String roleId;
@@ -90,7 +91,7 @@ public class SysUserController {
         SysUser sysUser = sysUserService.saveOrUpdate(input);
         sm.forceExistBySubjectId(sysUser.getId());
 
-        if(isNew){
+        if (isNew) {
             return AjaxResult.ok().msg("添加成功,密码：" + configService.getDefaultPassWord());
         }
 
@@ -136,10 +137,6 @@ public class SysUserController {
     }
 
 
-
-
-
-
     @HasPermission(label = "重置密码")
     @PostMapping("resetPwd")
     public AjaxResult resetPwd(@RequestBody SysUser user) {
@@ -157,15 +154,17 @@ public class SysUserController {
         sysUserService.fillRoleName(list);
 
 
-        LinkedHashMap<String, Function<SysUser,Object>> columns = new LinkedHashMap<>();
-        columns.put("姓名", SysUser::getName);
-        columns.put("账号", SysUser::getAccount);
-        columns.put("手机号", SysUser::getPhone);
-        columns.put("部门", SysUser::getDeptLabel);
-        columns.put("单位",SysUser::getUnitLabel);
-        columns.put("角色", SysUser::getRoleNames);
+        Table<SysUser> tb = new Table<>();
+        tb.addColumn("姓名", SysUser::getName);
+        tb.addColumn("账号", SysUser::getAccount);
+        tb.addColumn("手机号", SysUser::getPhone);
+        tb.addColumn("部门", SysUser::getDeptLabel);
+        tb.addColumn("单位", SysUser::getUnitLabel);
+        tb.addColumn("角色", SysUser::getRoleNames);
 
-        ExcelExportTool.exportBeanList("用户列表.xlsx",  list,columns, response);
+        tb.setDataSource(list);
+
+        ExcelExportTool.exportTable("用户列表.xlsx", tb,  response);
     }
 
 
@@ -217,7 +216,7 @@ public class SysUserController {
      */
     @PostMapping("grantPerm")
     public AjaxResult grantPerm(@Valid @RequestBody GrantPermDto param) {
-        sysUserService.grantPerm(param.getId(), param.getRoleIds(),param.getDataPermType(),  param.getOrgIds());
+        sysUserService.grantPerm(param.getId(), param.getRoleIds(), param.getDataPermType(), param.getOrgIds());
 
         sm.forceExistBySubjectId(param.getId());
         return AjaxResult.ok();
@@ -234,7 +233,7 @@ public class SysUserController {
         Collection<String> orgPermissions = subject.getOrgPermissions();
         List<SysUser> userList = sysUserService.findByUnit(orgPermissions);
 
-        List<TreeOption> tree = orgList.stream().map(o -> new TreeOption( o.getName(), o.getId(), o.getPid())).collect(Collectors.toList());
+        List<TreeOption> tree = orgList.stream().map(o -> new TreeOption(o.getName(), o.getId(), o.getPid())).collect(Collectors.toList());
 
         List<TreeOption> userTree = userList.stream().map(u -> new TreeOption(u.getName(), u.getId(), StrUtil.emptyToDefault(u.getDeptId(), u.getUnitId()))).collect(Collectors.toList());
 
@@ -244,7 +243,6 @@ public class SysUserController {
 
         return AjaxResult.ok().data(tree);
     }
-
 
 
 }
