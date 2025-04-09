@@ -2,9 +2,8 @@
 package io.tmgg.modules.sys.entity;
 
 import io.tmgg.framework.dict.DictField;
-import io.tmgg.lang.Tree;
 import io.tmgg.lang.dao.BaseEntity;
-import io.tmgg.lang.dao.DBConstants;
+import io.tmgg.lang.dao.TreeEntity;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldNameConstants;
@@ -20,7 +19,7 @@ import java.util.List;
 @Setter
 @Entity
 @FieldNameConstants
-public class SysOrg extends BaseEntity implements Tree<SysOrg> {
+public class SysOrg extends BaseEntity implements TreeEntity<SysOrg> {
 
     public SysOrg() {
     }

@@ -1,6 +1,6 @@
-import {Popconfirm} from 'antd'
+import {Form, Input, Popconfirm} from 'antd'
 import React from 'react'
-import {ButtonList, http, HttpUtil, ProTable} from "@tmgg/tmgg-base";
+import {ButtonList, FieldDateRange, HttpUtil, ProTable} from "@tmgg/tmgg-base";
 
 
 export default class extends React.Component {
@@ -48,7 +48,7 @@ export default class extends React.Component {
     },
 
     {
-      title: '存储到bucket的名称',
+      title: '对象名称',
       dataIndex: 'fileObjectName',
       tooltip: '文件唯一标识id'
 
@@ -58,11 +58,6 @@ export default class extends React.Component {
     {
       title: '存储路径',
       dataIndex: 'filePath',
-    },
-
-    {
-      title: '业务标识',
-      dataIndex: 'businessKey',
     },
 
     {
@@ -96,6 +91,34 @@ export default class extends React.Component {
         ref={this.tableRef}
         request={(params) => HttpUtil.pageData('sysFile/page', params)}
         columns={this.columns}
+        searchFormItemsRender={()=><>
+          <Form.Item label='存储位置' name='fileLocation'>
+            <Input />
+          </Form.Item>
+          <Form.Item label='仓库' name='fileBucket'>
+            <Input />
+          </Form.Item>
+          <Form.Item label='文件名' name='fileOriginName'>
+            <Input />
+          </Form.Item>
+          <Form.Item label='对象名称' name='fileObjectName'>
+            <Input />
+          </Form.Item>
+          <Form.Item label='存储路径' name='filePath'>
+            <Input />
+          </Form.Item>
+
+          <Form.Item label='文件大小' name='fileSize'>
+          </Form.Item>
+
+          <Form.Item label='上传者' name='createUser'>
+            <Input />
+          </Form.Item>
+          <Form.Item label='上传时间' name='dateRange'>
+           <FieldDateRange />
+          </Form.Item>
+
+        </>}
       />
     </>
   }

@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import java.util.Date;
 
 @Component
-public class ServerTimeOpenApi implements BaseOpenApi {
+public class ServerTimeApi implements BaseOpenApi {
 
 
 	@OpenApi(name = "服务器时间", action = "server.time")

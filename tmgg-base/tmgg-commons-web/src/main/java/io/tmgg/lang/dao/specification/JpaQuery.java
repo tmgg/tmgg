@@ -40,6 +40,12 @@ public class JpaQuery<T> implements Specification<T> {
                 predicates.add(predicate);
             }
         }
+        if (specificationList.isEmpty()) {
+            return builder.conjunction();
+        }
+        if(predicates.size() == 1){
+            return predicates.get(0);
+        }
 
         // 将所有条件用 and 联合起来
         return builder.and(predicates.toArray(new Predicate[0]));

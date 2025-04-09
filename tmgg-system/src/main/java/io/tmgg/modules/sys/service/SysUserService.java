@@ -23,6 +23,7 @@ import io.tmgg.modules.sys.entity.SysUser;
 import io.tmgg.modules.sys.entity.DataPermType;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -63,6 +64,20 @@ public class SysUserService extends BaseService<SysUser> implements UserLabelQue
     private SysHttpSessionService sm;
 
     public SysUser checkLogin(String account, String password) {
+        SysUser sysUser = checkPwd(account, password);
+
+
+        // 多端登录检测
+        if (!sysConfigService.getMultiDeviceLogin()) {
+            // "您的账号已在其他地方登录"
+            sm.forceExistBySubjectId(sysUser.getId());
+        }
+
+
+        return sysUser;
+    }
+
+    public SysUser checkPwd(String account, String password) {
         Assert.hasText(account, "账号不能为空");
         Assert.hasText(password, "密码不能为空");
         SysUser sysUser = sysUserDao.findByAccount(account);
@@ -76,15 +91,6 @@ public class SysUserService extends BaseService<SysUser> implements UserLabelQue
 
         boolean checkpw = PasswordTool.checkpw(password, passwordBcrypt);
         Assert.state(checkpw, "密码错误");
-
-
-        // 多端登录检测
-        if (!sysConfigService.getMultiDeviceLogin()) {
-            // "您的账号已在其他地方登录"
-            sm.forceExistBySubjectId(sysUser.getId());
-        }
-
-
         return sysUser;
     }
 

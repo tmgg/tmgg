@@ -1,7 +1,7 @@
 import {AutoComplete, Button, Form, Input, message, Modal, Popconfirm, Select, Space, Switch, Tag} from 'antd'
 import React from 'react'
 import {PlusOutlined, ReloadOutlined} from "@ant-design/icons";
-import {FieldComponent, HttpUtil, ProTable, SysUtil} from "@tmgg/tmgg-base";
+import {FieldComponent, HttpUtil, Page, ProTable, SysUtil} from "@tmgg/tmgg-base";
 import {StrUtil} from "@tmgg/tmgg-commons-lang";
 
 
@@ -172,7 +172,7 @@ export default class extends React.Component {
 
 
     render() {
-        return <>
+        return <Page>
             <ProTable
                 actionRef={this.tableRef}
                 toolBarRender={(action, {selectedRowKeys}) => {
@@ -234,7 +234,7 @@ export default class extends React.Component {
                 </Form>
             </Modal>
 
-        </>
+        </Page>
     }
 
     onValuesChange = (changed, values) => {

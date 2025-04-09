@@ -2,7 +2,7 @@ import {Table} from 'antd';
 import Toolbar from './components/ToolBar';
 import React from "react";
 import SearchForm from "./components/SearchForm";
-
+import './index.less'
 
 export class ProTable extends React.Component {
     state = {
@@ -119,7 +119,7 @@ export class ProTable extends React.Component {
             </SearchForm>
         }
 
-        return <div>
+        return <div className='tmgg-pro-table'>
             <Toolbar
                 searchFormNode={searchFormNode}
                 actionRef={actionRef}

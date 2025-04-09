@@ -2,10 +2,10 @@
 package io.tmgg.modules.sys.controller;
 
 import cn.hutool.core.lang.Dict;
-import cn.hutool.core.util.StrUtil;
 import io.tmgg.framework.session.SysHttpSession;
 import io.tmgg.lang.TreeManager;
 import io.tmgg.lang.obj.AjaxResult;
+import io.tmgg.lang.obj.DropEvent;
 import io.tmgg.lang.obj.TreeOption;
 import io.tmgg.modules.sys.entity.OrgType;
 import io.tmgg.modules.sys.entity.SysOrg;
@@ -106,6 +106,7 @@ public class SysOrgController {
 
     /**
      * 管理页面的树，包含禁用的
+     *
      * @return
      */
     @GetMapping("pageTree")
@@ -164,16 +165,24 @@ public class SysOrgController {
         return AjaxResult.ok().data(tm.getTree());
     }
 
-    private String getIconByType(int type){
-        switch (type){
+    private String getIconByType(int type) {
+        switch (type) {
             case OrgType.UNIT -> {
-                return  "ApartmentOutlined";
+                return "ApartmentOutlined";
             }
             case OrgType.DEPT -> {
                 return "HomeOutlined";
             }
 
         }
-        return  "";
+        return "";
+    }
+
+
+    @PostMapping("sort")
+    @HasPermission(label = "排序")
+    public AjaxResult sort(@RequestBody DropEvent e) {
+        sysOrgService.onDrop(e);
+        return AjaxResult.ok().msg("排序成功");
     }
 }

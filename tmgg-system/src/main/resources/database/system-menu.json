@@ -69,7 +69,7 @@
     "pid" : "sys",
     "name" : "文件管理",
     "perm" : "sysFile",
-    "path" : "/system/file/main",
+    "path" : "/system/file",
     "seq" : 6,
     "icon" : "FolderOpenOutlined"
   }, {

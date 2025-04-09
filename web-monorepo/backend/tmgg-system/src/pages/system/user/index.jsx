@@ -7,7 +7,7 @@ import {
     FieldOrgTreeSelect,
     FieldRadioBoolean,
     HttpUtil,
-    OrgTree,
+    OrgTree, Page,
     ProTable
 } from "@tmgg/tmgg-base";
 import UserPerm from "./UserPerm";
@@ -174,7 +174,7 @@ export default class extends React.Component {
 
     render() {
 
-        return <>
+        return <Page>
             <Splitter >
                 <Splitter.Panel defaultSize={400}   >
                     <Tabs
@@ -265,7 +265,7 @@ export default class extends React.Component {
 
             <UserPerm ref={this.permRef} onOk={() => this.tableRef.current.reload()}/>
 
-        </>
+        </Page>
     }
 
 

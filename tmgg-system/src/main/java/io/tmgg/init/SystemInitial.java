@@ -2,6 +2,7 @@ package io.tmgg.init;
 
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
+import io.tmgg.Build;
 import io.tmgg.SysProp;
 import io.tmgg.dbtool.DbTool;
 import io.tmgg.framework.dict.DictAnnHandler;
@@ -68,6 +69,8 @@ public class SystemInitial implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+        log.info("框架版本 {}", Build.FRAMEWORK_VERSION);
+
         log.info("执行系统初始化程序： {}", getClass().getName());
         long time = System.currentTimeMillis();
 

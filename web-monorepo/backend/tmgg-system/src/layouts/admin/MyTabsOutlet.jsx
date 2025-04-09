@@ -80,7 +80,7 @@ class MyTabsOutlet extends React.Component {
                 size='small'
                 type='editable-card'
                 style={{background: 'white'}}
-                rootClassName='layout-tabs'
+                rootClassName='tmgg-layout-tabs'
                 destroyInactiveTabPane={false}
             >
             </Tabs>

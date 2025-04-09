@@ -1,7 +1,7 @@
 import {DeleteOutlined, EditOutlined, PlusOutlined, SyncOutlined} from '@ant-design/icons';
 import {Button, Card, Col, Empty, Form, Input, InputNumber, message, Popconfirm, Row, Space, Switch, Tree,Splitter} from 'antd';
 import React from 'react';
-import {FieldDictRadio, FieldRemoteTreeSelect} from "@tmgg/tmgg-base";
+import {ButtonList,dictValueTag, ViewBoolean,FieldDateRange,FieldDictSelect,FieldRadioBoolean, FieldDatePickerString, FieldDateTimePickerString,FieldRemoteTreeSelect,Page, HttpUtil, ProTable} from "@tmgg/tmgg-base";
 
 
 export default class extends React.Component {
@@ -77,7 +77,7 @@ export default class extends React.Component {
 
   render() {
     let disabled = this.state.formValues == null;
-    return <>
+    return <Page>
       <Splitter >
            <Splitter.Panel defaultSize={400}   >
           <Card title='${label}' loading={this.state.treeLoading}
@@ -181,7 +181,7 @@ export default class extends React.Component {
 
 
 
-    </>
+    </Page>
   }
 
 

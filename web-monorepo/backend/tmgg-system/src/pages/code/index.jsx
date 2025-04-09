@@ -1,6 +1,6 @@
 import {Button, Checkbox, Empty, Form, Modal, Radio, Space, Tabs} from 'antd'
 import React from 'react'
-import {FieldText, http, HttpUtil, ProTable} from "@tmgg/tmgg-base";
+import {FieldText,  HttpUtil, ProTable} from "@tmgg/tmgg-base";
 
 
 export default class extends React.Component {

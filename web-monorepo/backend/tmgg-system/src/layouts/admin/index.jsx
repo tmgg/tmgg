@@ -188,9 +188,7 @@ export default class extends React.Component {
                 </Sider>
 
                 <Content id='content'>
-
                     {this.getContent(loginInfo)}
-
                 </Content>
 
             </Layout>

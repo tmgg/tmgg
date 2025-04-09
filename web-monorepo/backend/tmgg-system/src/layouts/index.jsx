@@ -12,6 +12,7 @@ import 'dayjs/locale/zh-cn';
 
 
 import './index.less'
+import './global.less'
 import SiteInfoInterceptor from "./SiteInfoInterceptor";
 import UserInfoInterceptor from "./UserInfoInterceptor";
 import MyPureOutlet from "./MyPureOutlet";

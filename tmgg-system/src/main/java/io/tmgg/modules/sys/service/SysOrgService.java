@@ -1,11 +1,14 @@
 package io.tmgg.modules.sys.service;
 
 import io.tmgg.lang.dao.BaseService;
+import io.tmgg.lang.dao.BaseTreeService;
 import io.tmgg.lang.dao.specification.JpaQuery;
+import io.tmgg.lang.obj.DropEvent;
 import io.tmgg.modules.sys.dao.SysOrgDao;
-import io.tmgg.modules.sys.entity.SysOrg;
 import io.tmgg.modules.sys.entity.OrgType;
+import io.tmgg.modules.sys.entity.SysOrg;
 import io.tmgg.web.perm.Subject;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.data.domain.Sort;
@@ -13,7 +16,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import jakarta.annotation.Resource;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -23,7 +25,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 @CacheConfig(cacheNames = "sys_org")
-public class SysOrgService extends BaseService<SysOrg> {
+public class SysOrgService extends BaseTreeService<SysOrg> {
 
     @Resource
     private SysOrgDao dao;
@@ -42,8 +44,6 @@ public class SysOrgService extends BaseService<SysOrg> {
 
     /**
      * 查早所有正常的机构
-     *
-     *
      */
     public List<SysOrg> findAllValid() {
         return dao.findAllValid();
@@ -53,7 +53,6 @@ public class SysOrgService extends BaseService<SysOrg> {
     /**
      * @param subject
      * @param type
-     *
      */
     public List<SysOrg> findByLoginUser(Subject subject, Integer type, boolean showAll) {
         JpaQuery<SysOrg> q = new JpaQuery<>();
@@ -102,6 +101,11 @@ public class SysOrgService extends BaseService<SysOrg> {
             Assert.state(!input.getId().equals(input.getPid()), "父节点不能和本节点一致，请重新选择父节点");
             List<String> childIdListById = dao.findChildIdListById(input.getId());
             Assert.state(!childIdListById.contains(input.getId()), "父节点不能为本节点的子节点，请重新选择父节点");
+
+            SysOrg old = dao.findOne(input.getId());
+            if(input.getSeq() == null){
+                input.setSeq(old.getSeq());
+            }
         }
         return dao.save(input);
     }
@@ -109,8 +113,8 @@ public class SysOrgService extends BaseService<SysOrg> {
 
     /**
      * 获得叶子节点
-     * @param orgs
      *
+     * @param orgs
      */
     public Collection<SysOrg> getLeafs(Collection<SysOrg> orgs) {
         return orgs.stream().filter(o -> dao.checkIsLeaf(o.getId())).collect(Collectors.toList());
@@ -122,8 +126,6 @@ public class SysOrgService extends BaseService<SysOrg> {
 
     /**
      * 根据节点id获取所有父节点id集合，不包含自己
-     *
- *
      */
     private List<String> getParentIdListById(String id) {
         return dao.getParentIdListById(id);
@@ -137,7 +139,6 @@ public class SysOrgService extends BaseService<SysOrg> {
      * 直接下级公司
      *
      * @param id
-     *
      */
     public List<SysOrg> findDirectChildUnit(String id) {
         return dao.findDirectChildUnit(id, null);
@@ -147,7 +148,6 @@ public class SysOrgService extends BaseService<SysOrg> {
      * 直接下级公司
      *
      * @param id
-     *
      */
     public List<SysOrg> findDirectChildUnit(String id, Boolean enabled) {
         return dao.findDirectChildUnit(id, enabled);
@@ -184,7 +184,6 @@ public class SysOrgService extends BaseService<SysOrg> {
      * 组织机构分一般分部门和公司，如果orgId属于部门，则返回该部门对于的公司
      *
      * @param orgId
-     *
      */
     public SysOrg findUnitByOrgId(String orgId) {
         SysOrg org = dao.findOne(orgId);
@@ -198,7 +197,7 @@ public class SysOrgService extends BaseService<SysOrg> {
         List<String> ids = dao.findChildIdListWithSelfById(id);
         List<SysOrg> all = dao.findAllById(ids);
         for (SysOrg sysOrg : all) {
-            sysOrg.setEnabled(enabled );
+            sysOrg.setEnabled(enabled);
             dao.save(sysOrg);
         }
     }
@@ -207,4 +206,7 @@ public class SysOrgService extends BaseService<SysOrg> {
     public SysOrg findParentUnit(SysOrg org) {
         return dao.findParentUnit(org);
     }
+
+
+
 }

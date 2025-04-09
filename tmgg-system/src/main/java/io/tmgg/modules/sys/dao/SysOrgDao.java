@@ -200,4 +200,13 @@ public class SysOrgDao extends BaseDao<SysOrg> {
     }
 
 
+    public List<SysOrg> findByPid(String pid) {
+        JpaQuery<SysOrg> q = new JpaQuery<>();
+        if(pid == null){
+            q.isNull("pid");
+        }else {
+            q.eq("pid",pid);
+        }
+        return this.findAll(q, Sort.by("seq"));
+    }
 }

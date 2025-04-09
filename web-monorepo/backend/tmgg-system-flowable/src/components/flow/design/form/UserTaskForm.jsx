@@ -1,7 +1,7 @@
 import React from 'react';
 import {Card, Form, Select, Switch} from 'antd';
 import BpmnUtils from '../../BpmnUtils';
-import {http, HttpUtil} from "@tmgg/tmgg-base";
+import { HttpUtil} from "@tmgg/tmgg-base";
 
 const PREFIX = 'flowable:';
 /**

@@ -1,6 +1,6 @@
 import React from "react";
-import {Button, Form, message, Modal, Popconfirm, Radio, Space, Table, Typography} from "antd";
-import {dictValueTag, FieldCheckboxBoolean, FieldRadioBoolean, Gap, HttpUtil, NamedIcon} from "@tmgg/tmgg-base";
+import {Button, Card, Form, message, Modal, Popconfirm, Radio, Space, Table, Typography} from "antd";
+import {dictValueTag, FieldCheckboxBoolean, Gap, HttpUtil, NamedIcon} from "@tmgg/tmgg-base";
 import * as Icons from '@ant-design/icons'
 
 let iconNames = Object.keys(Icons);
@@ -18,7 +18,7 @@ export default class extends React.Component {
         formValues: {},
         params: {
             showBtn: false,
-            showFramework:false
+            showFramework: true
         }
     }
 
@@ -48,7 +48,7 @@ export default class extends React.Component {
     }
 
     handleChangeSeq = (id, seq) => {
-        const hide = message.loading('处理中...',0)
+        const hide = message.loading('处理中...', 0)
         HttpUtil.post('sysMenu/changeSeq', {id, seq}).then(rs => {
             this.loadData()
         }).finally(hide)
@@ -56,7 +56,7 @@ export default class extends React.Component {
 
     render() {
         return <>
-            <div>
+            <Card>
                 <Form onValuesChange={(changedValues, values) => this.setState({params: values}, this.loadData)}
                       initialValues={this.state.params} layout={"inline"}>
                     <Form.Item label='显示按钮' name='showBtn'>
@@ -66,7 +66,7 @@ export default class extends React.Component {
                         <FieldCheckboxBoolean/>
                     </Form.Item>
                 </Form>
-            </div>
+            </Card>
             <Gap/>
 
             {this.state.treeData.length > 0 && <Table
@@ -117,7 +117,7 @@ export default class extends React.Component {
                             return <Typography.Text
                                 editable={{onChange: (v) => this.handleChangeSeq(record.id, v)}}>{seq}</Typography.Text>
                         },
-                        width:100
+                        width: 100
                     },
                     {
                         title: '操作',

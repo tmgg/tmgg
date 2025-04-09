@@ -1,7 +1,7 @@
 import {DeleteOutlined, EditOutlined, PlusOutlined, SyncOutlined} from '@ant-design/icons';
-import {Button, Card, Checkbox, Empty, Form, Input, InputNumber, Popconfirm, Space, Splitter, Tree} from 'antd';
+import {Button, Card, Checkbox, Empty, Form, Input, Popconfirm, Space, Splitter, Switch, Tree} from 'antd';
 import React from 'react';
-import {FieldDictRadio, FieldRadioBoolean, FieldRemoteTreeSelect, HttpUtil, NamedIcon} from "@tmgg/tmgg-base";
+import {FieldDictRadio, FieldRadioBoolean, FieldRemoteTreeSelect, HttpUtil, NamedIcon, Page} from "@tmgg/tmgg-base";
 
 const baseTitle = "组织机构";
 const baseApi = 'sysOrg/';
@@ -25,6 +25,7 @@ export default class extends React.Component {
         showAll: true,
         treeData: [],
         treeLoading: false,
+        draggable:false,
 
 
         enableAllLoading: false,
@@ -59,8 +60,12 @@ export default class extends React.Component {
 
 
     onSelect = (selectedKeys) => {
-        const key = selectedKeys[0]
+        if (selectedKeys.length === 0) {
+            this.setState({formValues: null})
+            return
+        }
 
+        const key = selectedKeys[0]
         this.setState({formLoading: true, formEditing: false})
         HttpUtil.get(baseApi + "detail", {id: key}).then(rs => {
             this.setState({formValues: rs})
@@ -95,33 +100,48 @@ export default class extends React.Component {
         })
     }
 
+    onDraggableChange = e => {
+        this.setState({draggable:e})
+    };
+
     render() {
-        let disabled = this.state.formValues == null;
-        return <div>
-            <Splitter >
-                <Splitter.Panel defaultSize={400} >
+        let {formValues} = this.state;
+        let disabled = formValues == null;
+        return <Page>
+            <Splitter>
+                <Splitter.Panel defaultSize={400}>
                     <Card loading={this.state.treeLoading}
                           title='组织机构'
-                          extra={<>
-                              <Checkbox
-                                  checked={this.state.showAll}
+                          extra={<Space>
+                              <div>
+                              排序&nbsp;<Switch
+                              value={this.state.draggable}
+                              onChange={this.onDraggableChange}/> </div>
+                              <div>
+                              包含禁用&nbsp;<Switch
+                                  value={this.state.showAll}
                                   onChange={e => {
-                                      this.setState({showAll: e.target.checked}, this.loadTree);
+                                      this.setState({showAll: e}, this.loadTree);
                                   }}
-                              >包含禁用</Checkbox>
-                              <Button size='small' icon={<SyncOutlined/>} onClick={this.loadTree}>刷新</Button>
-                          </>}>
+                              />
+                              </div>
+                              <Button size='small' icon={<SyncOutlined/>} onClick={this.loadTree}></Button>
+                          </Space>}>
 
-                        {this.state.treeLoading ||   <Tree
+                        {this.state.treeLoading || <Tree
                             ref={this.treeRef}
                             treeData={this.state.treeData}
                             onSelect={this.onSelect}
                             defaultExpandAll
                             showIcon
                             blockNode
-                            icon={item=>{
-                               return <NamedIcon name={item.data.iconName} />
+                            icon={item => {
+                                return <NamedIcon name={item.data.iconName}/>
                             }}
+                            draggable={this.state.draggable}
+                            onDrop={this.onDrop}
+                            showLine
+
                         >
                         </Tree>}
                         {this.state.treeData.length === 0 && <Empty/>}
@@ -137,7 +157,7 @@ export default class extends React.Component {
                                     formLoading: true,
                                     formEditing: true,
                                     formValues: {
-                                        pid: this.state.formValues?.id,
+                                        pid: formValues?.id,
                                     }
                                 }, () => {
                                     this.setState({formLoading: false})
@@ -154,30 +174,30 @@ export default class extends React.Component {
                             </Button>
 
                             <Popconfirm title={'是否确定' + deleteTitle} disabled={disabled}
-                                        onConfirm={() => this.handleDelete(this.state.formValues)}>
+                                        onConfirm={() => this.handleDelete(formValues)}>
                                 <Button icon={<DeleteOutlined/>} disabled={disabled}>删除</Button>
                             </Popconfirm>
 
                             <Popconfirm
                                 title='启用本级及子节点'
                                 disabled={disabled}
-                                onConfirm={() => this.handleEnableAll(this.state.formValues?.id)}>
+                                onConfirm={() => this.handleEnableAll(formValues?.id)}>
                                 <Button disabled={disabled}>启用本级及子节点</Button>
                             </Popconfirm>
 
                             <Popconfirm title='禁用本级及子节点' disabled={disabled}
-                                        onConfirm={() => this.handleDisableAll(this.state.formValues?.id)}>
+                                        onConfirm={() => this.handleDisableAll(formValues?.id)}>
                                 <Button disabled={disabled}>禁用本级及子节点</Button>
                             </Popconfirm>
 
                         </Space>}
                     >
 
-                        {this.state.formValues = null ? <Empty description='未选择机构'/> : <Form
+                        {formValues == null ? <Empty description='未选择机构'/> : <Form
                             disabled={!this.state.formEditing}
                             labelCol={{flex: '150px'}}
                             wrapperCol={{flex: '400px'}}
-                            initialValues={this.state.formValues}
+                            initialValues={formValues}
                             onFinish={this.onFinish}
                         >
                             <Form.Item noStyle name='id'>
@@ -198,9 +218,6 @@ export default class extends React.Component {
                             <Form.Item label='状态' name='enabled' rules={[{required: true}]}>
                                 <FieldRadioBoolean/>
                             </Form.Item>
-                            <Form.Item label='排序' name='seq'>
-                                <InputNumber/>
-                            </Form.Item>
 
 
                             <Form.Item label=' ' colon={false}>
@@ -218,10 +235,15 @@ export default class extends React.Component {
             </Splitter>
 
 
-        </div>
+        </Page>
     }
 
-
+    onDrop = ({dragNode, dropPosition, dropToGap, node}) => {
+        const dropKey = node.key;
+        const dragKey = dragNode.key;
+        console.log(dragNode.title, '->', node.title, 'dropToGap', dropToGap, dropPosition)
+        HttpUtil.post('/sysOrg/sort', {dropPosition, dropToGap, dropKey, dragKey}).then(this.loadTree)
+    };
 }
 
 
