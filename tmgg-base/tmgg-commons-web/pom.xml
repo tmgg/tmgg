@@ -206,6 +206,11 @@
             <version>10.14.2.0</version>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId></groupId>
+            <artifactId>fake</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

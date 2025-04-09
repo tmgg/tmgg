@@ -14,7 +14,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 @Getter
 @Setter
 @NoArgsConstructor
-@CustomId(prefix = Student.PREFIX ,style = IdStyle.UUID)
+@CustomId(prefix = Student.PREFIX ,style = IdStyle.DAILY_SEQ)
 public class Student extends BaseEntity {
 
     public static final String PREFIX = "STU";
