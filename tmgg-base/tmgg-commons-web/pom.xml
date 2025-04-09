@@ -207,10 +207,7 @@
             <scope>test</scope>
         </dependency>
 
-        <dependency>
-            <groupId></groupId>
-            <artifactId>fake</artifactId>
-        </dependency>
+
     </dependencies>
 
 </project>
