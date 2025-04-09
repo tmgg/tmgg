@@ -1,6 +1,6 @@
 import React from "react";
-import {Card} from "antd";
-import {FieldFileBase64} from "@tmgg/tmgg-base";
+import {Card, Form} from "antd";
+import {FieldFileBase64, FieldUploadCropImage} from "@tmgg/tmgg-base";
 
 export default class extends React.Component {
 
@@ -12,7 +12,12 @@ export default class extends React.Component {
 
         return <Card title='测试页面'>
 
-            <FieldFileBase64 onChange={v=>console.log(v)} />
+
+            <Form>
+                <Form.Item label='文件剪切上传' name='image'>
+                    <FieldUploadCropImage />
+                </Form.Item>
+            </Form>
 
 
         </Card>

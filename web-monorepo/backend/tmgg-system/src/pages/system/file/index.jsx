@@ -9,7 +9,10 @@ export default class extends React.Component {
   tableRef = React.createRef()
 
   columns = [
-
+      {
+          title: 'id',
+          dataIndex: 'id',
+      },
     {
       title: '存储位置',
       dataIndex: 'fileLocation',
@@ -38,11 +41,6 @@ export default class extends React.Component {
     },
 
     {
-      title: '大小kb',
-      dataIndex: 'fileSizeKb',
-    },
-
-    {
       title: '大小信息',
       dataIndex: 'fileSizeInfo',
     },
@@ -51,8 +49,6 @@ export default class extends React.Component {
       title: '对象名称',
       dataIndex: 'fileObjectName',
       tooltip: '文件唯一标识id'
-
-
     },
 
     {
@@ -88,7 +84,7 @@ export default class extends React.Component {
   render() {
     return <>
       <ProTable
-        ref={this.tableRef}
+          actionRef={this.tableRef}
         request={(params) => HttpUtil.pageData('sysFile/page', params)}
         columns={this.columns}
         searchFormItemsRender={()=><>

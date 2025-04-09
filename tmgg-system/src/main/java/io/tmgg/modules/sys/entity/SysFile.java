@@ -3,6 +3,7 @@ package io.tmgg.modules.sys.entity;
 
 import io.tmgg.lang.RequestTool;
 import io.tmgg.lang.dao.BaseEntity;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldNameConstants;
@@ -46,7 +47,6 @@ public class SysFile extends BaseEntity {
     /**
      * 文件大小kb
      */
-    private Long fileSizeKb;
     private Integer fileSize;
     /**
      * 文件大小信息，计算后的
@@ -56,6 +56,7 @@ public class SysFile extends BaseEntity {
     /**
      * 存储到bucket的名称（文件唯一标识id）
      */
+    @NotNull
     private String fileObjectName;
 
     /**

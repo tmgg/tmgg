@@ -95,7 +95,7 @@ public class SysMenuService extends BaseService<SysMenu> {
         for (SysMenuParser parser : parsers) {
             Collection<SysMenu> menus = parser.parseMenuList();
             for (SysMenu menu : menus) {
-                sysMenuDao.replace(menu);
+                sysMenuDao.save(menu);
             }
 
         }

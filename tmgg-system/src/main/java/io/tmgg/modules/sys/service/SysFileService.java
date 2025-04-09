@@ -75,7 +75,6 @@ public class SysFileService {
     }
 
     public SysFile uploadFile(byte[] bytes, String originalFilename) throws Exception {
-        String fileId = String.valueOf(IdUtil.getSnowflake().nextId());
 
         // 获取文件后缀
         String fileSuffix = null;
@@ -83,40 +82,42 @@ public class SysFileService {
         if (ObjectUtil.isNotEmpty(originalFilename)) {
             fileSuffix = StrUtil.subAfter(originalFilename, SymbolConstant.PERIOD, true);
         }
+
+
+        String fileId = IdUtil.getSnowflakeNextIdStr();
+
         // 生成文件的最终名称
         String finalName = fileId + SymbolConstant.PERIOD + fileSuffix;
 
-        // 存储文件
-        fileOperator.storageFile(null, finalName, bytes);
-
-        // 计算文件大小kb
-        long fileSizeKb = Convert.toLong(NumberUtil.div(new BigDecimal(bytes.length), BigDecimal.valueOf(1024))
-                .setScale(0, RoundingMode.HALF_UP));
 
         //计算文件大小信息
         String fileSizeInfo = FileUtil.readableFileSize(bytes.length);
 
         // 存储文件信息
         SysFile sysFile = new SysFile();
-        sysFile.setId(fileId);
+        sysFile.setCustomId(fileId);
         sysFile.setFileLocation(FileLocationEnum.LOCAL.getCode());
         sysFile.setFileBucket(null);
-        sysFile.setFileObjectName(finalName);
         sysFile.setFileOriginName(originalFilename);
         sysFile.setFileSuffix(fileSuffix);
-        sysFile.setFileSizeKb(fileSizeKb);
         sysFile.setFileSize(bytes.length);
         sysFile.setFileSizeInfo(fileSizeInfo);
-        return sysFileDao.save(sysFile);
+        sysFile.setFileObjectName(finalName);
+        sysFile = sysFileDao.save(sysFile);
+
+        // 存储文件
+        fileOperator.storageFile(null, finalName, bytes);
+
+        return sysFile;
     }
 
 
     public SysFileResult getFileResult(String fileId) throws Exception {
-        Assert.hasText(fileId,"文件id不存在");
+        Assert.hasText(fileId,"文件id不能为空");
         byte[] fileBytes;
         // 获取文件名
         SysFile sysFile = sysFileDao.findOne(fileId);
-        Assert.notNull(sysFile, "文件不存在");
+        Assert.notNull(sysFile, "文件数据记录不存在");
         // 返回文件字节码
         fileBytes = fileOperator.getFileBytes(sysFile.getFileBucket(), sysFile.getFileObjectName());
 

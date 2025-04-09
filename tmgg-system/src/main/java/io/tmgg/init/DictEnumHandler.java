@@ -60,7 +60,7 @@ public class DictEnumHandler {
             sysDict.setId(md5(simpleTypeName));
             sysDict.setCode(StrUtil.lowerFirst(simpleTypeName));
             sysDict.setText(label);
-            sysDict = sysDictDao.replace(sysDict);
+            sysDict = sysDictDao.save(sysDict);
 
             sysDictItemDao.deleteByPid(sysDict.getId());
 

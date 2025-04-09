@@ -1,6 +1,5 @@
 package io.tmgg.lang.dao;
 
-import io.tmgg.lang.dao.id.EntityIdHolder;
 import io.tmgg.lang.dao.specification.ExpressionTool;
 import io.tmgg.lang.dao.specification.Selector;
 import jakarta.annotation.PostConstruct;
@@ -204,7 +203,23 @@ public class BaseDao<T extends PersistEntity> {
      */
     @Transactional
     public T save(T entity) {
-        return rep.save(entity);
+        Assert.notNull(entity, "Entity must not be null");
+        String id = entity.getId();
+
+        if (this.entityInformation.isNew(entity)) {
+            this.entityManager.persist(entity);
+            return entity;
+        }
+
+        // 从3.3升级到3.4后， hibernate也升级了，不能新增是指定id，这里使用customId替换下
+        if (!existsById(id)) {
+            entity.setCustomId(id);
+            entity.setId(null);
+            this.entityManager.persist(entity);
+            return entity;
+        }
+
+        return this.entityManager.merge(entity);
     }
 
     @Transactional
@@ -231,33 +246,6 @@ public class BaseDao<T extends PersistEntity> {
     @Transactional
     public T insert(T entity) {
         entityManager.persist(entity);
-        return entity;
-    }
-
-    /**
-     * 主要解决设置了ID，但不知道数据库是否存在的情况，常见于需要自定义id的场景
-     * 如果id存在先查询数据库，再决定保存或更新
-     * 类似于mysql的replace
-     *
-     * @param entity
-     * @return
-     */
-    @Transactional
-    public T replace(T entity) {
-        String id = entity.getId();
-        if (id == null) {
-            return this.insert(entity);
-        }
-
-        boolean isNew =  !existsById(id);
-        if (isNew) {
-            // hibernate 升级后的问题，如果制定了id生成器，就不能自定义id了
-            EntityIdHolder.cache(entity,id);
-            entity.setId(null);
-            entityManager.persist(entity);
-            return entity;
-        }
-        entityManager.merge(entity);
         return entity;
     }
 

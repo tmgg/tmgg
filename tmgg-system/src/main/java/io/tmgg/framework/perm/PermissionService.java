@@ -43,7 +43,7 @@ public class PermissionService {
             dict.setText("权限翻译");
             dict.setIsNumber(false);
             dict.setId(DICK_CODE);
-            sysDictDao.replace(dict);
+            sysDictDao.save(dict);
         }
 
         // 添加常见翻译

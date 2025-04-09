@@ -10,7 +10,7 @@ import {
     FieldRemoteSelect,
     FieldUploadFile,
     FieldUploadImage, Gap,
-    HttpUtil, Panel,
+    HttpUtil, Page, Panel,
     ProTable,
     SysUtil,
     ViewImage
@@ -134,7 +134,7 @@ export default class extends React.Component {
     render() {
         const {type} = this.state.formValues;
 
-        return <>
+        return <Page>
             <Splitter>
                 <Splitter.Panel defaultSize={250} style={{paddingRight:16}}>
                     <Panel title='文件夹' loading={this.state.treeLoading} empty={this.state.treeData.length === 0}>
@@ -220,7 +220,7 @@ export default class extends React.Component {
                     </Form.Item>
                 </Form>
             </Modal>
-        </>
+        </Page>
 
 
     }

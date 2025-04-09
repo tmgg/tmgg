@@ -48,7 +48,7 @@ public class DictAnnHandler {
             sysDict.setCode(code);
             sysDict.setText(label);
             sysDict.setIsNumber(dictAnn.isNumber());
-            sysDict = sysDictDao.replace(sysDict);
+            sysDict = sysDictDao.save(sysDict);
 
             Field[] fields = cls.getFields();
             for (int i = 0; i < fields.length; i++) {
@@ -68,7 +68,7 @@ public class DictAnnHandler {
                 data.setId(code + "-" + key);
                 data.setBuiltin(true);
 
-                sysDictItemDao.replace(data);
+                sysDictItemDao.save(data);
             }
         }
     }

@@ -110,9 +110,8 @@ public class CustomIdGenerator implements IdentifierGenerator {
                 return e.getId();
             }
 
-            String id = EntityIdHolder.get(e);
-            if (id != null) {
-                return id;
+            if(e.getCustomId() != null){
+                return e.getCustomId();
             }
         }
         return null;
@@ -144,4 +143,3 @@ public class CustomIdGenerator implements IdentifierGenerator {
 
 
 }
-  
