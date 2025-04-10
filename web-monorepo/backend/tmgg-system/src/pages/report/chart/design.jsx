@@ -1,5 +1,5 @@
 import React from "react";
-import {Button, Card, Collapse, Form, Input, Modal, Radio, Row, Splitter, Table} from "antd";
+import {Button, Card, Collapse, Form, Input, InputNumber, Modal, Radio, Row, Splitter, Table} from "antd";
 import * as echarts from 'echarts';
 import {FieldRemoteTreeSelect, HttpUtil, PageUtil, SysUtil} from "@tmgg/tmgg-base";
 
@@ -14,7 +14,7 @@ export default class extends React.Component {
 
     componentDidMount() {
         console.log('componentDidMount')
-        const id = PageUtil.currentLocationQuery().id
+        const id = PageUtil.currentParams().id
         this.id = id
         HttpUtil.get("sysReportChart/get", {id}).then(rs => {
             if (!rs.type) {
@@ -112,6 +112,9 @@ export default class extends React.Component {
                     </Form.Item>
                     <Form.Item label='嵌入菜单' name='sysMenuPid'>
                         <FieldRemoteTreeSelect url='sysMenu/menuTree'/>
+                    </Form.Item>
+                    <Form.Item label='序号' name='sysMenuSeq'>
+                        <Input style={{width:80}}/>
                     </Form.Item>
                     <Form.Item label='类型' name='type' rules={[{required: true}]} >
                         <Radio.Group

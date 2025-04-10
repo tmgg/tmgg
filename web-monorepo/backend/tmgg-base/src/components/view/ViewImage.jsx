@@ -9,7 +9,9 @@ export class ViewImage extends React.Component {
     Modal.info({
       title: '预览图片',
       width: '70vw',
-      content: <div style={{height:'70vh',overflow:'auto'}}><img src={url} width="100%" /></div>,
+      content: <div style={{maxHeight:'70vh',overflow:'auto'}}>
+        <img src={url}  style={{maxWidth: '100%'}}/>
+      </div>,
     });
   };
 

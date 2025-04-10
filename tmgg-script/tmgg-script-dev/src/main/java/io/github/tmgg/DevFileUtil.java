@@ -5,11 +5,13 @@ import org.apache.commons.io.filefilter.IOFileFilter;
 
 import java.io.File;
 import java.util.Collection;
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.List;
 
 public class DevFileUtil {
 
-    public static Collection<File> find(String baseDir, String filename, List<String> dirs) {
+    public static List<File> find(String baseDir, String filename, List<String> dirs) {
         File dir = new File(baseDir);
 
         IOFileFilter fileFilter = new IOFileFilter() {
@@ -47,7 +49,7 @@ public class DevFileUtil {
         };
         Collection<File> files = FileUtils.listFiles(dir, fileFilter, dirFilter);
 
-        return files;
+        return new LinkedList<>(files);
     }
 
     public static Collection<File> findByPrefix(String baseDir, String filename, String prefix) {

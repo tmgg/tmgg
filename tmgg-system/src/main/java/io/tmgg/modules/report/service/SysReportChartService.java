@@ -42,6 +42,7 @@ public class SysReportChartService extends BaseService<SysReportChart> {
         chart.setType(input.getType());
         chart.setSysMenuPid(sysMenuPid);
         chart.setTitle(input.getTitle());
+        chart.setSysMenuSeq(input.getSysMenuSeq());
 
         String menuId = chart.getId();
         sysMenuDao.deleteById(menuId);

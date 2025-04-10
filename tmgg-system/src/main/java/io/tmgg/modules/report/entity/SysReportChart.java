@@ -37,6 +37,7 @@ public class SysReportChart extends BaseEntity {
 
     // 菜单PID
     String sysMenuPid;
+    String sysMenuSeq;
 
     @Msg("查看次数")
     @NotNull

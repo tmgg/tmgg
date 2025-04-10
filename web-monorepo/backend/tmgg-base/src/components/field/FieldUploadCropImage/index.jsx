@@ -67,7 +67,7 @@ export class FieldUploadCropImage extends React.Component {
         const {fileList} = this.state;
         return (
             <div className="clearfix">
-                <ImgCrop cropperProps={this.props.cropperProps} modalTitle={'裁剪图片'}>
+                <ImgCrop cropperProps={this.props.cropperProps} modalTitle={'裁剪图片'} fillColor={null}>
                     <Upload
                         action={SysUtil.wrapServerUrl('sysFile/upload')}
                         listType="picture-card"

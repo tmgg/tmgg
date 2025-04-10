@@ -53,7 +53,7 @@
     "dev:quickapp" : "npm run build:quickapp -- --watch",
     "dev:kwai" : "npm run build:kwai -- --watch"
   },
-  "version" : "0.3.82",
+  "version" : "0.3.83",
   "dependencies" : {
     "@antmjs/mini-fix" : "^2.3.21",
     "@antmjs/vantui" : "^3.1.6",

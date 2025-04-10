@@ -17,8 +17,8 @@ import java.util.Map;
 
 public class SetVersion {
 
-    public static final String NEW_VERSION = "0.3.82";
-    public static final String APPLICATION_TEMPLATE = "./tmgg-application-template";
+    public static final String NEW_VERSION = "0.3.83";
+    public static final String APPLICATION_TEMPLATE = "tmgg-application-template";
 
 
     public static void main(String[] args) throws IOException {
@@ -93,8 +93,8 @@ public class SetVersion {
         System.out.println(lines);
 
 
-        Collection<File> pkgs = DevFileUtil.find(file.getPath(), "package.json", lines);
-        pkgs.add(new File(APPLICATION_TEMPLATE+"/web/package.json"));
+        List<File> pkgs = DevFileUtil.find(file.getPath(), "package.json", lines);
+        pkgs.add(0,new File(APPLICATION_TEMPLATE+"/web/package.json"));
 
 
         for (File pkg : pkgs) {
@@ -114,7 +114,10 @@ public class SetVersion {
     }
 
     private static void replaceProjectTemplate(File pkg, Map<String, Object> map) {
-        if (pkg.getAbsolutePath().contains(APPLICATION_TEMPLATE)) {
+        String path = pkg.getPath();
+        System.out.println(path);
+        System.out.println(APPLICATION_TEMPLATE);
+        if (path.contains(APPLICATION_TEMPLATE)) {
             Map<String, Object> dependencies = (Map<String, Object>) map.get("dependencies");
             for (String key : dependencies.keySet()) {
                 if (key.startsWith("@tmgg/tmgg-")) {
