@@ -13,7 +13,7 @@
   "scripts" : {
     "dev-weixin" : "umi dev"
   },
-  "version" : "0.3.82",
+  "version" : "0.3.83",
   "dependencies" : {
     "@ant-design/icons" : "^5.4.0",
     "@tmgg/tmgg-base" : "workspace:*",
@@ -22,6 +22,5 @@
     "react" : "^18.2.0",
     "react-dom" : "^18.2.0",
     "umi" : "^4.0.0"
-  },
-  "version" : "0.3.83"
+  }
 }
