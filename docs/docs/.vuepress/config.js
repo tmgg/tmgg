@@ -24,7 +24,6 @@ export default defineUserConfig({
         editLink:true,
 
         sidebar: [
-            '/intro',
             '/get-start',
             '/config',
             '/session',
