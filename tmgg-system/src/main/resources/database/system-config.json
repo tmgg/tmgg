@@ -90,7 +90,7 @@
     {
       "id": "sys.baseUrl",
       "label": "请求基础地址",
-      "remark": "获取不到请求url时配置，如多层waf或ningx等的转发，配置错误时",
+      "remark": "非必填，可用于拼接完整请求地址",
       "$update": false
     }
 
