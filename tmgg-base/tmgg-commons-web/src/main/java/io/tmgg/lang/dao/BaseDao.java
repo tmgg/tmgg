@@ -229,12 +229,20 @@ public class BaseDao<T extends PersistEntity> {
 
     @Transactional
     public List<T> saveAll(Iterable<T> entities) {
-        return rep.saveAll(entities);
+        List<T> result = new ArrayList<>();
+        for (T entity : entities) {
+            result.add(save(entity));
+        }
+
+        return result;
     }
 
     @Transactional
     public List<T> saveAllAndFlush(Iterable<T> entities) {
-        return rep.saveAllAndFlush(entities);
+        List<T> result = saveAll(entities);
+        flush();
+
+        return result;
     }
 
 
