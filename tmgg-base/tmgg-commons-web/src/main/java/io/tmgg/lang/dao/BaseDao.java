@@ -224,7 +224,10 @@ public class BaseDao<T extends PersistEntity> {
 
     @Transactional
     public T saveAndFlush(T entity) {
-        return rep.saveAndFlush(entity);
+        T result = save(entity);
+        flush();
+
+        return result;
     }
 
     @Transactional
