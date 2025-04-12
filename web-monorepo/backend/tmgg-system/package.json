@@ -29,7 +29,7 @@
   "scripts" : {
     "dev" : "umi dev"
   },
-  "version" : "0.3.85",
+  "version" : "0.3.86",
   "dependencies" : {
     "@umijs/types" : "^3.5.43"
   }
