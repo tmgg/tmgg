@@ -222,6 +222,23 @@ public class BaseDao<T extends PersistEntity> {
         return this.entityManager.merge(entity);
     }
 
+    /**
+     * 先判断是否存在，然后再保存
+     * @param entity
+     * @return
+     */
+    @Transactional
+    public T saveIfAbsent(T entity) {
+        String id = entity.getId();
+        if (!existsById(id)) {
+            entity.setCustomId(id);
+            entity.setId(null);
+            this.entityManager.persist(entity);
+        }
+
+        return entity;
+    }
+
     @Transactional
     public T saveAndFlush(T entity) {
         T result = save(entity);
