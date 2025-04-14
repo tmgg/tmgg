@@ -4,7 +4,7 @@
     <parent>
         <groupId>io.github.tmgg</groupId>
         <artifactId>tmgg-base</artifactId>
-        <version>0.3.87</version>
+        <version>0.3.88</version>
     </parent>
 
     <artifactId>tmgg-commons-log-view</artifactId>

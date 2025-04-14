@@ -15,15 +15,6 @@ public @interface JobDesc {
     String group() default "默认分组";
 
 
-    /**
-     * 默认定时表达式
-     * @return
-     */
-    String defaultCron() default "0 0 3 * * ?";
-
-    // TODO
-    boolean autoPersistent() default false;
-
     FieldDesc[] params() default {};
 
     Class<? extends JobParamFieldProvider> paramsProvider() default JobParamFieldProvider.class;

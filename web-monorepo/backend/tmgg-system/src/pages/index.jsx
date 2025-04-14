@@ -5,7 +5,6 @@ import {Card} from "antd";
 export default class extends React.Component {
 
   state = {
-    open: true
   }
 
   render() {

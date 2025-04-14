@@ -151,40 +151,10 @@ public class JsonTool {
         return null;
     }
 
-    public static JsonNode getNodeByPath(String json, String... paths) throws JsonProcessingException {
+    public static JsonNode readTreeNode(String json) throws JsonProcessingException {
         ObjectMapper om = getObjectMapper();
         JsonNode node = om.reader().readTree(json);
-        for (String path : paths) {
-            node = node.get(path);
-            if(node == null){
-                return  null;
-            }
-        }
-
-
         return node;
-    }
-
-    public static  Boolean getBooleanByPath(String json, String... paths) throws JsonProcessingException {
-        JsonNode node = getNodeByPath(json, paths);
-        return  node == null ? null : node.asBoolean();
-    }
-    public static Integer getIntByPath(String json, String... paths) throws JsonProcessingException {
-        JsonNode node = getNodeByPath(json, paths);
-        return  node == null ? null : node.asInt();
-    }
-    public static Double getDoubleByPath(String json, String... paths) throws JsonProcessingException {
-        JsonNode node = getNodeByPath(json, paths);
-        return  node == null ? null : node.asDouble();
-    }
-
-    public static Long getLongByPath(String json, String... paths) throws JsonProcessingException {
-        JsonNode node = getNodeByPath(json, paths);
-        return  node == null ? null : node.asLong();
-    }
-    public static String getTextByPath(String json, String... paths) throws JsonProcessingException {
-        JsonNode node = getNodeByPath(json, paths);
-        return  node == null ? null : node.asText();
     }
 
 

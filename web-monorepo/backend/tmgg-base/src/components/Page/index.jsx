@@ -5,6 +5,7 @@ import './index.less'
  * 上下间隔
  */
 export class Page extends React.Component {
+
     static defaultProps = {
 
     }
@@ -14,6 +15,5 @@ export class Page extends React.Component {
             {this.props.children}
         </div>
     }
-
 
 }

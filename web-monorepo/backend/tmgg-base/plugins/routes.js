@@ -33,22 +33,7 @@ function addRoute(file, fileRoutes) {
     }
 }
 
-function parseDir(pageDir, fileRoutes) {
-    const list = fs.readdirSync(pageDir)
 
-    for (let fileName of list) {
-        const fullPath = path.join(pageDir, fileName)
-        const stats = fs.statSync(fullPath)
-        if (stats.isFile()) {
-            if (fileName.endsWith(".jsx")) {
-                addRoute(fullPath, fileRoutes)
-            }
-        } else if (stats.isDirectory()) {
-            parseDir(fullPath, fileRoutes)
-        }
-
-    }
-}
 
 module.exports = (api) => {
     api.describe({
@@ -72,8 +57,26 @@ module.exports = (api) => {
     }
     api.modifyRoutes((routes) => {
         for (let fileRoute of fileRoutes) {
-            routes[fileRoute.id] = fileRoute
+            if(routes[fileRoute.id] == null){
+                routes[fileRoute.id] = fileRoute
+            }
         }
         return routes;
     })
 };
+function parseDir(pageDir, fileRoutes) {
+    const list = fs.readdirSync(pageDir)
+
+    for (let fileName of list) {
+        const fullPath = path.join(pageDir, fileName)
+        const stats = fs.statSync(fullPath)
+        if (stats.isFile()) {
+            if (fileName.endsWith(".jsx")) {
+                addRoute(fullPath, fileRoutes)
+            }
+        } else if (stats.isDirectory()) {
+            parseDir(fullPath, fileRoutes)
+        }
+
+    }
+}

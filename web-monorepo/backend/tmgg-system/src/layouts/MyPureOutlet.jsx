@@ -6,9 +6,6 @@ import {matchRoutes} from "umi";
 export default function MyPureOutlet(props) {
     let {pathname} = props
     const appData = useAppData()
-    if(pathname === '/'){
-        pathname = '/index'
-    }
 
 
     const mathArr= matchRoutes(appData.clientRoutes,pathname)
@@ -20,7 +17,7 @@ export default function MyPureOutlet(props) {
     // 如果实在找不到页面组件，则适用自带
     return <Result
         status={404}
-        title='页面未找到'
+        title='页面不存在！'
         subTitle={<div>路由地址：{pathname}</div>}
     />
 }
