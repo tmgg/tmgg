@@ -2,6 +2,7 @@ package io.tmgg.modules.sys.service;
 
 import io.tmgg.BasePackage;
 import io.tmgg.SysProp;
+import io.tmgg.lang.SpringTool;
 import jakarta.annotation.Resource;
 import jakarta.persistence.Entity;
 import org.apache.commons.lang3.StringUtils;
@@ -14,9 +15,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.ClassUtils;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 @Component
 public class JpaService {
@@ -47,12 +46,12 @@ public class JpaService {
         return clsList;
     }
 
-    public List<String> findAllNames() throws IOException {
-        List<String> entityList = findBySuperClass(BasePackage.class);
-
-        if (!BasePackage.class.equals(sys.getBasePackageClass())) {
-            List<String> entityList2 = findBySuperClass(sys.getBasePackageClass());
-            entityList.addAll(entityList2);
+    public List<String> findAllNames() {
+        Set<Class<?>> basePackageClasses = SpringTool.getBasePackageClasses();
+        List<String> entityList = new LinkedList<>();
+        for (Class<?> cls : basePackageClasses) {
+            List<String> pkgEntityList = findBySuperClass(cls);
+            entityList.addAll(pkgEntityList);
         }
         Collections.sort(entityList);
 
@@ -60,26 +59,33 @@ public class JpaService {
     }
 
 
-    private static List<String> findBySuperClass(Class baseClas) throws IOException {
-        String base = ClassUtils.convertClassNameToResourcePath(baseClas.getPackage().getName());
-        String locationPattern = "classpath*:" + base + "/**/*.class";
+    private static List<String> findBySuperClass(Class baseClas) {
+        try {
 
-        PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
-        org.springframework.core.io.Resource[] resources = resolver.getResources(locationPattern);
+            String base = ClassUtils.convertClassNameToResourcePath(baseClas.getPackage().getName());
+            String locationPattern = "classpath*:" + base + "/**/*.class";
+
+            PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
+            org.springframework.core.io.Resource[] resources = resolver.getResources(locationPattern);
 
 
-        MetadataReaderFactory readerfactory = new CachingMetadataReaderFactory(resolver);
+            MetadataReaderFactory readerfactory = new CachingMetadataReaderFactory(resolver);
 
-        List<String> list = new ArrayList<>();
-        for (org.springframework.core.io.Resource resource : resources) {
-            MetadataReader meta = readerfactory.getMetadataReader(resource);
-            if (meta.getAnnotationMetadata().hasAnnotation(Entity.class.getName())) {
+            List<String> list = new ArrayList<>();
+            for (org.springframework.core.io.Resource resource : resources) {
+                MetadataReader meta = readerfactory.getMetadataReader(resource);
+                if (meta.getAnnotationMetadata().hasAnnotation(Entity.class.getName())) {
 
-                ClassMetadata classMetadata = meta.getClassMetadata();
-                list.add(classMetadata.getClassName());
+                    ClassMetadata classMetadata = meta.getClassMetadata();
+                    list.add(classMetadata.getClassName());
+                }
             }
+            return list;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Collections.emptyList();
         }
-        return list;
     }
 
 }

@@ -1,13 +1,15 @@
 package io.tmgg.lang;
 
 
+import cn.hutool.core.util.ArrayUtil;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ApplicationEvent;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
 
-import java.util.Collection;
-import java.util.Map;
+import java.util.*;
 
 @Component
 public class SpringTool implements ApplicationContextAware {
@@ -32,6 +34,25 @@ public class SpringTool implements ApplicationContextAware {
      */
     public static ApplicationContext getApplicationContext() {
         return applicationContext;
+    }
+
+
+    public static Set<Class<?>> getBasePackageClasses(){
+        Set<Class<?>> clss = new HashSet<>();
+        String[] beanNames = applicationContext.getBeanDefinitionNames();
+        for (String beanName : beanNames) {
+            Class<?> beanType = applicationContext.getType(beanName);
+            SpringBootApplication springBootAnnotation = beanType.getAnnotation(SpringBootApplication.class);
+            if (springBootAnnotation != null) {
+                clss.add(beanType);
+            }
+            ComponentScan componentScanAnnotation = beanType.getAnnotation(ComponentScan.class);
+            if (componentScanAnnotation != null) {
+                Class<?>[] basePackageClasses = componentScanAnnotation.basePackageClasses();
+                clss.addAll(Arrays.asList(basePackageClasses));
+            }
+        }
+        return clss;
     }
 
 
@@ -141,6 +162,12 @@ public class SpringTool implements ApplicationContextAware {
         }
         return applicationContext.getEnvironment().getActiveProfiles();
     }
+
+    public static boolean hasProfile(String name) {
+        return ArrayUtil.contains(applicationContext.getEnvironment().getActiveProfiles(),name);
+    }
+
+
 
     public static void publishEvent(ApplicationEvent event) {
         if (null != applicationContext) {

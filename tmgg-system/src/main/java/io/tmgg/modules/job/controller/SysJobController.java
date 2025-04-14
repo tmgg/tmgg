@@ -118,7 +118,7 @@ public class SysJobController {
 
     @GetMapping("jobClassOptions")
     public AjaxResult jobClassList() {
-        Collection<String> basePackages = BasePackage.getBasePackages();
+        Collection<String> basePackages = SpringTool.getBasePackageClasses().stream().map(Class::getPackageName).toList();
 
         Set<Class<?>> list = new HashSet<>();
         for (String basePackage : basePackages) {

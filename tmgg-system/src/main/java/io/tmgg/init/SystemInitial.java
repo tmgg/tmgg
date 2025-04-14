@@ -9,6 +9,7 @@ import io.tmgg.framework.dict.DictAnnHandler;
 import io.tmgg.framework.dict.DictFieldAnnHandler;
 import io.tmgg.framework.perm.PermissionService;
 import io.tmgg.lang.PasswordTool;
+import io.tmgg.lang.SpringTool;
 import io.tmgg.modules.sys.dao.SysUserDao;
 import io.tmgg.modules.sys.entity.DataPermType;
 import io.tmgg.modules.sys.entity.SysRole;
@@ -70,6 +71,7 @@ public class SystemInitial implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         log.info("框架版本 {}", Build.FRAMEWORK_VERSION);
+
 
         log.info("执行系统初始化程序： {}", getClass().getName());
         long time = System.currentTimeMillis();

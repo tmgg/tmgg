@@ -2,6 +2,7 @@ package io.tmgg.framework.dict;
 
 import cn.hutool.core.util.ClassUtil;
 import io.tmgg.BasePackage;
+import io.tmgg.lang.SpringTool;
 import io.tmgg.modules.sys.dao.SysDictDao;
 import io.tmgg.modules.sys.dao.SysDictItemDao;
 import io.tmgg.modules.sys.entity.SysDict;
@@ -33,8 +34,8 @@ public class DictAnnHandler {
 
 
         Set<Class<?>> classes = new HashSet<>();
-        for (String basePackage : BasePackage.getBasePackages()) {
-            classes.addAll(ClassUtil.scanPackageByAnnotation(basePackage, Dict.class));
+        for (Class<?> cls : SpringTool.getBasePackageClasses()) {
+            classes.addAll(ClassUtil.scanPackageByAnnotation(cls.getPackageName(), Dict.class));
         }
 
         for (Class cls : classes) {

@@ -1,6 +1,7 @@
 package io.tmgg.init;
 
 import io.tmgg.BasePackage;
+import io.tmgg.lang.SpringTool;
 import io.tmgg.lang.ann.Msg;
 import io.tmgg.modules.sys.entity.SysDictItem;
 import io.tmgg.web.base.DictEnum;
@@ -40,8 +41,8 @@ public class DictEnumHandler {
 
         Class<DictEnum> superClass = DictEnum.class;
         Set<Class<?>> classes = new HashSet<>();
-        for (String basePackage : BasePackage.getBasePackages()) {
-            classes.addAll( ClassUtil.scanPackageBySuper(basePackage, superClass));
+        for (Class<?> cls : SpringTool.getBasePackageClasses()) {
+            classes.addAll( ClassUtil.scanPackageBySuper(cls.getPackageName(), superClass));
         }
 
         for (Class cls : classes) {

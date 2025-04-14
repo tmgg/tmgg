@@ -3,7 +3,7 @@
 
     <!--日志格式应用spring boot默认的格式，也可以自己更改, jar包为：spring-boot-3.3.3.jar -->
     <include resource="org/springframework/boot/logging/logback/base.xml"/>
-
+    <include resource="logback-project.xml"/>
 
     <root level="INFO">
         <appender-ref ref="CONSOLE" />

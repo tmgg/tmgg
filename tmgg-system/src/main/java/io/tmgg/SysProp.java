@@ -12,7 +12,6 @@ import java.util.List;
 public class SysProp {
 
     public static final String CONFIG_PREFIX = "sys";
-    private Class  basePackageClass = BasePackage.class;
 
 
     /**
