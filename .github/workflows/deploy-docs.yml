@@ -31,7 +31,7 @@ jobs:
           NODE_OPTIONS: --max_old_space_size=8192
         run: |-
           cd docs
-          npm install
+          npm install --force
           npm run docs:build
           > docs/.vuepress/dist/.nojekyll
 
