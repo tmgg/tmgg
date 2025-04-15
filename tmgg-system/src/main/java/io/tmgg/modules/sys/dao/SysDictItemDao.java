@@ -47,7 +47,7 @@ public class SysDictItemDao extends BaseDao<SysDictItem> {
         if (item != null) {
             rs = item.getText();
         }
-        log.debug("获取数据字典 typeCode=={} itemCode=={} 结果={}", typeCode, itemCode, rs);
+        log.trace("获取数据字典 typeCode:{} itemCode:{} 结果:{}", typeCode, itemCode, rs);
         return rs;
     }
 
