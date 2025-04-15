@@ -28,5 +28,5 @@
     "flowable-start" : "umi dev",
     "umi plugin list" : "umi plugin list"
   },
-  "version" : "0.3.89"
+  "version" : "0.3.90"
 }

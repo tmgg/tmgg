@@ -1,4 +1,3 @@
-
 const defaultConfig = {
     npmClient: 'pnpm',
 
@@ -23,15 +22,14 @@ const defaultConfig = {
 };
 
 
-
- const defaultConfigLocal = {
+const defaultConfigLocal = {
 
 
     define: {
         "process.env.API_BASE_URL": "/api/"
     },
 
-    proxy:{
+    proxy: {
         '/api': {
             target: 'http://127.0.0.1:8002',
             changeOrigin: true,
@@ -42,13 +40,15 @@ const defaultConfig = {
             changeOrigin: true,
             pathRewrite: {'^/ureport': '/ureport'},
         },
+        '/ws-log-view': {
+            target: 'http://127.0.0.1:8002',
+            changeOrigin: true,
+            ws: true,
+        },
     }
 };
 
 
-
-
-
 module.exports = {
-    defaultConfig,defaultConfigLocal
+    defaultConfig, defaultConfigLocal
 }
