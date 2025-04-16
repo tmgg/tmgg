@@ -15,6 +15,7 @@ import io.tmgg.modules.sys.entity.DataPermType;
 import io.tmgg.modules.sys.entity.SysRole;
 import io.tmgg.modules.sys.entity.SysUser;
 import io.tmgg.modules.sys.service.*;
+import io.tmgg.web.db.DbCacheDao;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
@@ -32,6 +33,8 @@ public class SystemDataInit implements CommandLineRunner {
 
 
     public static final String BEAN_NAME = "sysInit";
+
+    public static final String CACHE_KEY_FRAMEWORK_VERSION = "FRAMEWORK_VERSION";
 
     @Resource
     SysRoleService sysRoleService;
@@ -67,28 +70,43 @@ public class SystemDataInit implements CommandLineRunner {
     @Resource
     private DbTool db;
 
+    @Resource
+    private DbCacheDao dbCacheDao;
+
 
     @Override
     public void run(String... args) throws Exception {
         log.info("框架版本 {}", Build.FRAMEWORK_VERSION);
+
+        String cacheVersion = dbCacheDao.get(CACHE_KEY_FRAMEWORK_VERSION);
+        log.info("上次启动的框架版本号:{}",cacheVersion);
+
+        boolean versionChanged = !Build.FRAMEWORK_VERSION.equals(cacheVersion);
 
 
         log.info("执行系统初始化程序： {}", getClass().getName());
         long time = System.currentTimeMillis();
 
 
-        fixDict();
+        if(cacheVersion == null || cacheVersion.compareTo("0.3.91") < 0){
+            fixDict();
+        }
+
         permissionService.init();
         dictEnumHandler.run();
         dictAnnHandler.run();
         dictFieldAnnHandler.run();
-        jsonEntityService.initOnStartup();
+        jsonEntityService.initOnStartup(versionChanged);
         sysMenuService.reset();
         SysRole adminRole = sysRoleService.initDefaultAdmin();
         initUser(adminRole);
 
 
         SpringUtil.publishEvent(new SystemDataInitFinishEvent(this));
+
+
+        log.info("数据初始化完成，缓存框架版本号");
+        dbCacheDao.set(CACHE_KEY_FRAMEWORK_VERSION, Build.FRAMEWORK_VERSION);
 
         log.info("系统初始化耗时：{}", System.currentTimeMillis() - time );
 

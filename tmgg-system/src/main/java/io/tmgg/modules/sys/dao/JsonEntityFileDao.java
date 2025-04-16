@@ -46,14 +46,14 @@ public class JsonEntityFileDao {
     private static final String ATTR_UPDATE = "$update";
 
 
-    private Cache<String,List<JsonEntity> > cache = CacheUtil.newTimedCache(1000 * 60 * 5);
+    private Cache<String, List<JsonEntity>> cache = CacheUtil.newTimedCache(1000 * 60 * 5);
 
     @Resource
     private JpaService jpaService;
 
 
     public JsonEntity findOne(Class<?> entityCls, String id) throws Exception {
-        List<JsonEntity> list = findAll();
+        List<JsonEntity> list = findAll(true);
         for (JsonEntity entity : list) {
             if (entity.getEntity().getClass().equals(entityCls) && id.equals(entity.getEntity().getId())) {
                 return entity;
@@ -78,8 +78,8 @@ public class JsonEntityFileDao {
         Assert.state(file.exists(), "文件不存在:" + path);
 
         String newFileContent = getNewFileContent(jsonEntity, file, id);
-        Assert.notNull(newFileContent,"替换json内容失败");
-        FileUtil.writeUtf8String(newFileContent,file);
+        Assert.notNull(newFileContent, "替换json内容失败");
+        FileUtil.writeUtf8String(newFileContent, file);
 
         cache.clear();
     }
@@ -107,43 +107,68 @@ public class JsonEntityFileDao {
     }
 
 
-    public List<JsonEntity> findAll() throws Exception {
-        List<JsonEntity> cacheList = cache.get("findAll");
-        if(cacheList != null){
+    public List<JsonEntity> findAll(boolean containsFramework) throws Exception {
+        log.info("BEGIN 解析所有database目录下的json文件");
+        long time = System.currentTimeMillis();
+        String cacheKey = "findAll_" + containsFramework;
+        List<JsonEntity> cacheList = cache.get(cacheKey);
+        if (cacheList != null) {
             return cacheList;
         }
 
 
         PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
-        org.springframework.core.io.Resource[] resources = resolver.getResources(CLASSPATH_DATABASE_XML);
+        List<org.springframework.core.io.Resource> resources = List.of(resolver.getResources(CLASSPATH_DATABASE_XML));
+
+        if (!containsFramework) {
+            log.info("排除框架文件，即以framework开头的json文件");
+            resources = resources.stream().filter(r -> !r.getFilename().startsWith("framework")).toList();
+        }
 
         // 遍历文件内容
         List<JsonEntity> result = new ArrayList<>();
-
-        log.info("BEGIN 解析所有database目录下的json文件");
         for (org.springframework.core.io.Resource resource : resources) {
-            log.info("解析文件 {}", resource.getFilename());
-            try (InputStream is = resource.getInputStream()) {
-                String json = IoUtil.readUtf8(is);
-                Map<String, Object> map = JsonTool.jsonToMap(json);
-                for (Map.Entry<String, Object> e : map.entrySet()) {
-                    String entityName = e.getKey();
+
+            List<JsonEntity> fileEntityList = parseFile(resource);
+            result.addAll(fileEntityList);
+
+        }
+
+        cache.put(cacheKey, result);
+        log.info("END 解析所有database目录下的json文件,耗时:{}", System.currentTimeMillis() - time);
+        return result;
+    }
+
+    private List<JsonEntity> parseFile(org.springframework.core.io.Resource resource) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+        long time = System.currentTimeMillis();
+        String filename = resource.getFilename();
+        log.info("解析文件 {}", filename);
+        if (cache.containsKey(filename)) {
+            log.info("命中缓存");
+            return cache.get(filename);
+        }
+
+        List<JsonEntity> fileEntityList = new ArrayList<>();
+
+        try (InputStream is = resource.getInputStream()) {
+            String json = IoUtil.readUtf8(is);
+            Map<String, Object> map = JsonTool.jsonToMap(json);
+            for (Map.Entry<String, Object> e : map.entrySet()) {
+                String entityName = e.getKey();
 
 
-                    List<Map<String, Object>> beanDataList = (List<Map<String, Object>>) e.getValue();
-                    for (Map<String, Object> data : beanDataList) {
-                        JsonEntity info = new JsonEntity(entityName, data, resource.getURI());
-                        this.convertToEntity(info);
-                        result.add(info);
-                    }
+                List<Map<String, Object>> beanDataList = (List<Map<String, Object>>) e.getValue();
+                for (Map<String, Object> data : beanDataList) {
+                    JsonEntity info = new JsonEntity(entityName, data, resource.getURI());
+                    this.convertToEntity(info);
+
+                    fileEntityList.add(info);
                 }
             }
         }
-        log.info("END 解析所有database目录下的json文件");
-
-        cache.put("findAll", result);
-
-        return result;
+        cache.put(filename, fileEntityList);
+        log.info("解析文件 {} 耗时 {}", filename, System.currentTimeMillis() - time);
+        return fileEntityList;
     }
 
 
@@ -187,7 +212,7 @@ public class JsonEntityFileDao {
 
     public <T extends PersistEntity> void saveToDatabase(JsonEntity info, List<String> ignoreList) throws IOException, ClassNotFoundException {
         String entityName = info.getEntityName();
-        if(ignoreList.contains(entityName)){
+        if (ignoreList.contains(entityName)) {
             return;
         }
         T entity = (T) info.getEntity();
