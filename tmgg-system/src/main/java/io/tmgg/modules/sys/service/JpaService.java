@@ -1,11 +1,14 @@
 package io.tmgg.modules.sys.service;
 
+import cn.hutool.cache.Cache;
+import cn.hutool.cache.CacheUtil;
 import io.tmgg.BasePackage;
 import io.tmgg.SysProp;
 import io.tmgg.lang.SpringTool;
 import jakarta.annotation.Resource;
 import jakarta.persistence.Entity;
 import org.apache.commons.lang3.StringUtils;
+import org.checkerframework.checker.units.qual.K;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.type.ClassMetadata;
 import org.springframework.core.type.classreading.CachingMetadataReaderFactory;
@@ -20,8 +23,8 @@ import java.util.*;
 @Component
 public class JpaService {
 
-    @Resource
-    SysProp sys;
+
+   private Cache<String,List<String>> cache = CacheUtil.newTimedCache(5 * 1000 * 60);
 
 
     public <T> Class<T> findOne(String name) throws IOException, ClassNotFoundException {
@@ -47,6 +50,10 @@ public class JpaService {
     }
 
     public List<String> findAllNames() {
+        String key = "ALL_NAMES";
+        if(cache.containsKey(key)){
+            return cache.get(key);
+        }
         Set<Class<?>> basePackageClasses = SpringTool.getBasePackageClasses();
         List<String> entityList = new LinkedList<>();
         for (Class<?> cls : basePackageClasses) {
@@ -54,6 +61,8 @@ public class JpaService {
             entityList.addAll(pkgEntityList);
         }
         Collections.sort(entityList);
+
+        cache.put(key, entityList);
 
         return entityList;
     }
