@@ -1,17 +1,6 @@
 {
   "SysConfig": [
-    {
-      "id": "email.from",
-      "label": "邮件发送账号",
-      "defaultValue": "410518072@qq.com",
-      "$update": false
-    },
-    {
-      "id": "email.pass",
-      "label": "邮件发送密码",
-      "valueType": "password",
-      "$update": false
-    },
+
     {
       "id": "sys.default.password",
       "label": "默认密码",
@@ -123,7 +112,20 @@
       "label": "minio服务存储桶",
       "seq": 104,
       "$update": false
+    },
+    {
+      "id": "email.from",
+      "label": "邮件发送账号",
+      "defaultValue": "410518072@qq.com",
+      "seq": 110,
+      "$update": false
+    },
+    {
+      "id": "email.pass",
+      "label": "邮件发送密码",
+      "valueType": "password",
+      "seq": 111,
+      "$update": false
     }
-
   ]
 }
