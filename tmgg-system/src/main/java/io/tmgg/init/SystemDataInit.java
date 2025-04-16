@@ -2,14 +2,14 @@ package io.tmgg.init;
 
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.extra.spring.SpringUtil;
 import io.tmgg.Build;
-import io.tmgg.SysProp;
 import io.tmgg.dbtool.DbTool;
+import io.tmgg.event.SystemDataInitFinishEvent;
 import io.tmgg.framework.dict.DictAnnHandler;
 import io.tmgg.framework.dict.DictFieldAnnHandler;
 import io.tmgg.framework.perm.PermissionService;
 import io.tmgg.lang.PasswordTool;
-import io.tmgg.lang.SpringTool;
 import io.tmgg.modules.sys.dao.SysUserDao;
 import io.tmgg.modules.sys.entity.DataPermType;
 import io.tmgg.modules.sys.entity.SysRole;
@@ -23,12 +23,12 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 /**
- * 系统初始化
+ * 系统数据初始化
  */
 @Slf4j
-@Component(SystemInitial.BEAN_NAME)
+@Component(SystemDataInit.BEAN_NAME)
 @Order(Ordered.LOWEST_PRECEDENCE)
-public class SystemInitial implements CommandLineRunner {
+public class SystemDataInit implements CommandLineRunner {
 
 
     public static final String BEAN_NAME = "sysInit";
@@ -88,8 +88,7 @@ public class SystemInitial implements CommandLineRunner {
         initUser(adminRole);
 
 
-
-
+        SpringUtil.publishEvent(new SystemDataInitFinishEvent(this));
 
         log.info("系统初始化耗时：{}", System.currentTimeMillis() - time );
 

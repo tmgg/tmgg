@@ -19,11 +19,12 @@ export default class extends React.Component {
         {
             title: '标识',
             dataIndex: 'id',
+            width: 250,
         },
 
         {
             title: '参数标签',
-            dataIndex: 'label',
+            dataIndex: 'label', width: 250,
         },
 
         {
@@ -54,7 +55,7 @@ export default class extends React.Component {
         },
         {
             title: '更新时间',
-            dataIndex: 'updateTime',
+            dataIndex: 'updateTime', width: 150,
         },
 
         {
@@ -96,7 +97,7 @@ export default class extends React.Component {
                 request={(params, sort) => HttpUtil.pageData('sysConfig/page', params, sort)}
                 columns={this.columns}
                 search={false}
-                defaultPageSize={20}
+                defaultPageSize={1000}
             />
 
             <Modal title={'编辑系统参数'}

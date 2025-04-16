@@ -2,6 +2,7 @@ package io.tmgg.lang;
 
 
 import cn.hutool.core.util.ArrayUtil;
+import cn.hutool.extra.spring.SpringUtil;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -12,7 +13,7 @@ import org.springframework.stereotype.Component;
 import java.util.*;
 
 @Component
-public class SpringTool implements ApplicationContextAware {
+public class SpringTool extends SpringUtil implements ApplicationContextAware {
 
 
     /**

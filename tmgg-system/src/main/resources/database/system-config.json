@@ -90,6 +90,39 @@
       "valueType": "boolean",
       "defaultValue": "true",
       "$update": false
+    },
+    {
+      "id": "file.minio.enable",
+      "label": "是否启用minio",
+      "valueType": "boolean",
+      "defaultValue": "false",
+      "remark": "若要启用需配置所有minio参数",
+      "seq": 100,
+      "$update": false
+    },
+    {
+      "id": "file.minio.url",
+      "label": "minio服务地址",
+      "seq": 101,
+      "$update": false
+    },
+    {
+      "id": "file.minio.accessKey",
+      "label": "minio服务accessKey",
+      "seq": 102,
+      "$update": false
+    },
+    {
+      "id": "file.minio.secretKey",
+      "label": "minio服务密钥",
+      "seq": 103,
+      "$update": false
+    },
+    {
+      "id": "file.minio.bucketName",
+      "label": "minio服务存储桶",
+      "seq": 104,
+      "$update": false
     }
 
   ]

@@ -46,26 +46,8 @@ public class SysConfig extends BaseEntity {
     @Msg("备注")
     private String remark;
 
+    private Integer seq;
 
-    @Override
-    public void prePersist() {
-        super.prePersist();
-        validateId();
-    }
 
-    private void validateId() {
-        String id = getId();
-        boolean ok = id.startsWith("sys.");
-        if (!ok) {
-            log.info("主键:{}", id);
-            // 为了和配置文件保持一致
-            throw new IllegalArgumentException("主键必须以sys.开头。" + id);
-        }
-    }
 
-    @Override
-    public void preUpdate() {
-        super.preUpdate();
-        validateId();
-    }
 }

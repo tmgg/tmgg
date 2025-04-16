@@ -2,17 +2,19 @@
 package io.tmgg.modules.sys.service;
 
 import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.convert.Convert;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.IdUtil;
-import cn.hutool.core.util.NumberUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
+import io.tmgg.event.SysConfigChangeEvent;
+import io.tmgg.event.SystemDataInitFinishEvent;
 import io.tmgg.lang.DownloadTool;
 import io.tmgg.lang.dao.specification.JpaQuery;
 import io.tmgg.modules.sys.dao.SysFileDao;
 import io.tmgg.modules.sys.entity.SysFile;
 import io.tmgg.modules.sys.file.FileOperator;
+import io.tmgg.modules.sys.file.LocalFileOperator;
+import io.tmgg.modules.sys.file.MinioFileOperator;
 import io.tmgg.modules.sys.file.enums.FileLocationEnum;
 import io.tmgg.modules.sys.file.result.SysFileResult;
 import io.tmgg.web.consts.SymbolConstant;
@@ -20,14 +22,13 @@ import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.event.EventListener;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.InputStream;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 
 /**
  * 文件信息表 服务实现类
@@ -42,19 +43,31 @@ public class SysFileService {
             "jpg", "jpeg", "png", "gif", "pdf",
     };
 
-    @Resource
     private FileOperator fileOperator;
 
     @Resource
     private SysFileDao sysFileDao;
 
 
-
     @Resource
     private SysConfigService sysConfigService;
 
+
+    @EventListener
+    public void onSystemDataInitFinish(SystemDataInitFinishEvent e) {
+        log.info("系统初始化完成事件触发，接着初始化文件服务");
+        init();
+    }
+
+
+    @EventListener
+    public void onSysConfigChange(SysConfigChangeEvent e) {
+        log.info("系统配置事件触发，判断是否重新初始化文件服务");
+        init();
+    }
+
     public String getPreviewUrl(String fileId, HttpServletRequest request) {
-        String  baseUrl = sysConfigService.getOrParseBaseUrl(request);
+        String baseUrl = sysConfigService.getOrParseBaseUrl(request);
 
         String url = baseUrl + previewUrl.replace("{id}", fileId);
         return url;
@@ -113,7 +126,7 @@ public class SysFileService {
 
 
     public SysFileResult getFileResult(String fileId) throws Exception {
-        Assert.hasText(fileId,"文件id不能为空");
+        Assert.hasText(fileId, "文件id不能为空");
         byte[] fileBytes;
         // 获取文件名
         SysFile sysFile = sysFileDao.findOne(fileId);
@@ -175,5 +188,27 @@ public class SysFileService {
 
     public Object findOne(String id) {
         return sysFileDao.findOne(id);
+    }
+
+
+    private void init() {
+        boolean minioSet = sysConfigService.isValueSet("file.minio.enable", "file.minio.url", "file.minio.accessKey", "file.minio.secretKey", "file.minio.bucketName");
+
+        if (minioSet) {
+            boolean enable = sysConfigService.getBoolean("file.minio.enable");
+            log.info("mino服务是否开启:{}", enable);
+            if (enable) {
+                String minioUrl = sysConfigService.getStr("file.minio.url");
+                String accessKey = sysConfigService.getStr("file.minio.accessKey");
+                String secretKey = sysConfigService.getStr("file.minio.secretKey");
+                String bucketName = sysConfigService.getStr("file.minio.bucketName");
+                log.info("配置文件服务为minio模式");
+                this.fileOperator = new MinioFileOperator(minioUrl, accessKey, secretKey, bucketName);
+                return;
+            }
+        }
+
+        log.info("配置文件服务为本地文件模式");
+        this.fileOperator = new LocalFileOperator();
     }
 }

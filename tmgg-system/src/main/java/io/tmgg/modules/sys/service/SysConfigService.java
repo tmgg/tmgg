@@ -1,6 +1,8 @@
 
 package io.tmgg.modules.sys.service;
 
+import cn.hutool.core.lang.Validator;
+import cn.hutool.core.util.CharsetUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.system.SystemUtil;
 import io.tmgg.lang.RequestTool;
@@ -81,8 +83,20 @@ public class SysConfigService extends BaseService<SysConfig> {
         return null;
     }
 
+    /**
+     * 判断某个key是否有已经配置了值（默认值不算）
+     * @return
+     */
+    public boolean isValueSet(String... keys) {
+        JpaQuery<SysConfig> q = new JpaQuery<>();
+        q.in("id", keys);
+
+        long count = dao.count(q);
+        return count == keys.length;
+    }
+
     private static void validateKey(String key) {
-        Assert.state(key.startsWith("sys."), "键必须已sys.开头");
+       // Assert.state(Validator.isLetter(key) , "键必须已sys.开头");
     }
 
     /**

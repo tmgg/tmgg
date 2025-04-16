@@ -3,7 +3,9 @@ package io.tmgg.modules.sys.controller;
 
 
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.extra.spring.SpringUtil;
 import io.tmgg.data.domain.PageExt;
+import io.tmgg.event.SysConfigChangeEvent;
 import io.tmgg.lang.dao.specification.JpaQuery;
 import io.tmgg.modules.sys.service.SysConfigService;
 import io.tmgg.web.CommonQueryParam;
@@ -35,7 +37,7 @@ public class SysConfigController  {
   @HasPermission
   @RequestMapping("page")
   public AjaxResult page(@RequestBody CommonQueryParam queryParam,
-                         @PageableDefault(sort = {"id"}) Pageable pageable) {
+                         @PageableDefault(sort = {SysConfig.Fields.seq, "id"}) Pageable pageable) {
     JpaQuery<SysConfig> q= new JpaQuery<>();
     q.searchText(queryParam.getKeyword(), SysConfig.Fields.label, "id", SysConfig.Fields.remark);
     Page<SysConfig> page = service.findAll(q, pageable);
@@ -48,6 +50,7 @@ public class SysConfigController  {
   public AjaxResult save(@RequestBody SysConfig param) throws Exception {
     Assert.state(!param.isNew(), "仅限修改");
     SysConfig result = service.saveOrUpdate(param);
+    SpringUtil.publishEvent(new SysConfigChangeEvent(this));
     return AjaxResult.ok().data( result.getId()).msg("保存成功");
   }
 
