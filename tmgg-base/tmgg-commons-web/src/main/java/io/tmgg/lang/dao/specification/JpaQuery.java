@@ -326,8 +326,9 @@ public class JpaQuery<T> implements Specification<T> {
                 Expression expression = ExpressionTool.getExpression(column, root);
 
 
+
                 List<?> list = valueList.stream().filter(Objects::nonNull).toList();
-                boolean containsNull = valueList.contains(null);
+                boolean containsNull =   CollUtil.hasNull(valueList);
                 if(list.isEmpty() && containsNull){
                     return expression.isNull();
                 }
@@ -367,7 +368,7 @@ public class JpaQuery<T> implements Specification<T> {
                 Expression expression = ExpressionTool.getExpression(column, root);
 
                 List<?> list = valueList.stream().filter(Objects::nonNull).toList();
-                boolean hasNull = valueList.contains(null);
+                boolean hasNull = CollUtil.hasNull(valueList);
 
                 if(list.isEmpty() && hasNull){
                     return expression.isNotNull();

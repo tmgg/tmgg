@@ -70,3 +70,4 @@ dist/
 /derby.log
 /derby-test-data/
 /logs/
+/web-monorepo/backend/tmgg-system/src/.umi-production/
