@@ -79,6 +79,4 @@ pc和mobile端都可依赖的公共代码，工具类等
  
  ![NPM Version](https://img.shields.io/npm/v/frontend-template)frontend-template
 
-# 文档
-https://github.com/tmgg/tmgg/wiki
 
