@@ -1,13 +1,13 @@
 {
   "SysConfig": [
     {
-      "id": "sys.email.from",
+      "id": "email.from",
       "label": "邮件发送账号",
       "defaultValue": "410518072@qq.com",
       "$update": false
     },
     {
-      "id": "sys.email.pass",
+      "id": "email.pass",
       "label": "邮件发送密码",
       "valueType": "password",
       "$update": false
