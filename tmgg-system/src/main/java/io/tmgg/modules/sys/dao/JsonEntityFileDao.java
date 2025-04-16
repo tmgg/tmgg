@@ -111,9 +111,9 @@ public class JsonEntityFileDao {
         log.info("BEGIN 解析所有database目录下的json文件");
         long time = System.currentTimeMillis();
         String cacheKey = "findAll_" + containsFramework;
-        List<JsonEntity> cacheList = cache.get(cacheKey);
-        if (cacheList != null) {
-            return cacheList;
+        if (cache.containsKey(cacheKey)) {
+            log.info("END 命中缓存");
+            return cache.get(cacheKey);
         }
 
 
@@ -167,7 +167,6 @@ public class JsonEntityFileDao {
             }
         }
         cache.put(filename, fileEntityList);
-        log.info("解析文件 {} 耗时 {}", filename, System.currentTimeMillis() - time);
         return fileEntityList;
     }
 
