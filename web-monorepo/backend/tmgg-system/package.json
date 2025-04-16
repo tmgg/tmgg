@@ -30,7 +30,7 @@
     "dev" : "umi dev",
     "build" : "umi build"
   },
-  "version" : "0.3.91",
+  "version" : "0.3.92",
   "dependencies" : {
     "@umijs/types" : "^3.5.43"
   }

@@ -4,7 +4,7 @@
     <parent>
         <groupId>io.github.tmgg</groupId>
         <artifactId>tmgg-system-parent</artifactId>
-        <version>0.3.91</version>
+        <version>0.3.92</version>
         <relativePath>../../pom.xml</relativePath>
     </parent>
 

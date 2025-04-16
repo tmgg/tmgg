@@ -3,22 +3,13 @@ import {Button, Form, Input, Space} from 'antd';
 import {LockOutlined, SafetyCertificateOutlined, UserOutlined, WarningOutlined} from '@ant-design/icons';
 import "./login.less"
 import {history} from 'umi';
-import {HttpUtil, PageUtil, StorageUtil, SysUtil} from "@tmgg/tmgg-base";
-
-// 登录页的自定义样式
-const loginPageStyle = {}
-const bg = process.env.LOGIN_BACKGROUND_IMAGE_URL
-console.log('登录页支持自定义背景，配置项为：process.env.LOGIN_BACKGROUND_IMAGE_URL')
-if (bg) {
-    loginPageStyle.backgroundImage = 'url(' + bg + ')'
-}
+import {HttpUtil, PageUtil, SysUtil} from "@tmgg/tmgg-base";
 
 
 export default class login extends React.Component {
 
 
     state = {
-        // 登陆中状态
         logging: false,
 
         siteInfo: {}
@@ -53,7 +44,7 @@ export default class login extends React.Component {
         const {siteInfo} = this.state
 
         return (
-            <section className='login-page' style={loginPageStyle}>
+            <section className='login-page'>
                 <div className="login-content">
                     <h1>{siteInfo.title}</h1>
                     <Form
@@ -65,24 +56,12 @@ export default class login extends React.Component {
                         colon={false}
                     >
 
-                        <Form.Item
-                            name="account"
-                            rules={[{required: true, message: '请输入用户名!'}]}
-                        >
-                            <Input size='large' prefix={<UserOutlined/>}
-                                   placeholder="用户名"
-                                   autoComplete="off"/>
+                        <Form.Item name="account" rules={[{required: true, message: '请输入用户名!'}]}>
+                            <Input size='large' prefix={<UserOutlined/>} placeholder="用户名" autoComplete="off"/>
                         </Form.Item>
-                        <Form.Item
-                            name="password"
-                            rules={[{required: true, message: '请输入密码!'}]}
-                        >
-                            <Input
-                                autoComplete="off"
-                                prefix={<LockOutlined/>}
-                                type="password"
-                                placeholder="密码"
-                                size='large'
+                        <Form.Item name="password" rules={[{required: true, message: '请输入密码!'}]}>
+                            <Input autoComplete="off" prefix={<LockOutlined/>} type="password" placeholder="密码"
+                                   size='large'
                             />
                         </Form.Item>
 
@@ -109,16 +88,14 @@ export default class login extends React.Component {
                     {this.renderFormBottom()}
 
                 </div>
-                ｝
-
             </section>
         );
     }
 
 
-    renderFormBottom(){
+    renderFormBottom() {
         let siteInfo = this.state.siteInfo;
-        if(siteInfo.loginBoxBottomTip){
+        if (siteInfo.loginBoxBottomTip) {
             return <div style={{color: 'white', marginTop: 50, fontSize: '14px', textAlign: 'center'}}>
                 <WarningOutlined/> {siteInfo.loginBoxBottomTip}
             </div>
