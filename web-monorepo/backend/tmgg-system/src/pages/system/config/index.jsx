@@ -1,4 +1,4 @@
-import {Button, Form, Modal} from 'antd'
+import {Button, Form, Modal, Popconfirm} from 'antd'
 import React from 'react'
 
 import {ButtonList, FieldComponent, HttpUtil, ProTable} from '@tmgg/tmgg-base'
@@ -22,27 +22,29 @@ export default class extends React.Component {
         },
 
         {
-            title: '名称',
+            title: '参数标签',
             dataIndex: 'label',
         },
 
         {
-            title: '值',
+            title: '参数值',
             dataIndex: 'value',
-            render(v,record){
-                if(v != null){
-                    return <FieldComponent type={record.valueType || 'input'} mode='read' value={v} />
+            render(v, record) {
+                if (v != null) {
+                    return <FieldComponent type={record.valueType || 'input'} mode='read' value={v}/>
                 }
-                let defaultValue = record.defaultValue;
-                if(defaultValue != null){
-                    return <div>
-                        默认值: <FieldComponent type={record.valueType || 'input'} mode='read' value={defaultValue}/>
-                    </div>
 
-                }
             }
         },
 
+        {
+            title: '默认值',
+            dataIndex: 'defaultValue',
+            render(v, record) {
+                return <FieldComponent type={record.valueType || 'input'} mode='read' value={v}/>
+
+            }
+        },
 
 
         {
@@ -60,7 +62,10 @@ export default class extends React.Component {
             dataIndex: 'option',
             render: (_, record) => (
                 <ButtonList>
-                    <Button size='small' perm='sysConfig:save' onClick={() => this.handleEdit(record)}> 编辑 </Button>
+                    <Button size='small' perm='sysConfig:save'  onClick={() => this.handleEdit(record)}> 编辑 </Button>
+                    <Popconfirm perm='sysConfig:delete' title='是否确定删除接口访客'  onConfirm={() => this.handleDelete(record)}>
+                        <Button size='small'>删除</Button>
+                    </Popconfirm>
                 </ButtonList>
             ),
         },
@@ -79,7 +84,11 @@ export default class extends React.Component {
         })
     }
 
-
+    handleDelete = record => {
+        HttpUtil.postForm( 'sysConfig/delete', {id:record.id}).then(rs => {
+            this.tableRef.current.reload()
+        })
+    }
     render() {
         return <>
             <ProTable
@@ -90,7 +99,7 @@ export default class extends React.Component {
                 defaultPageSize={20}
             />
 
-            <Modal      title={'编辑系统参数'}
+            <Modal title={'编辑系统参数'}
                    open={this.state.formOpen}
                    onOk={() => this.formRef.current.submit()}
                    onCancel={() => this.setState({formOpen: false})}
@@ -107,8 +116,8 @@ export default class extends React.Component {
 
                     <Form.Item name='id' noStyle/>
 
-                    <Form.Item  name='value' label={this.state.formValues.label}>
-                        <FieldComponent type={this.state.formValues.valueType || 'input'} />
+                    <Form.Item name='value' label={this.state.formValues.label}>
+                        <FieldComponent type={this.state.formValues.valueType || 'input'}/>
                     </Form.Item>
 
                 </Form>

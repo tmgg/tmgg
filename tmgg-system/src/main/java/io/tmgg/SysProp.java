@@ -14,15 +14,6 @@ public class SysProp {
     public static final String CONFIG_PREFIX = "sys";
 
 
-    /**
-     * 适用Assert时
-     * 是否打印异常堆栈
-     */
-    private boolean printExceptionForAssert = true;
-
-
-
-
 
 
     /**

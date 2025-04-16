@@ -46,11 +46,6 @@ public class SysConfig extends BaseEntity {
     @Msg("备注")
     private String remark;
 
-    @Msg("分组")
-    @Column(name = "group_",length = 30)
-    private String group;
-
-    private Boolean seq;
 
     @Override
     public void prePersist() {

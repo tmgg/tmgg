@@ -5,9 +5,12 @@ import cn.hutool.core.util.StrUtil;
 import io.tmgg.SysProp;
 import io.tmgg.lang.ExceptionToMessageTool;
 import io.tmgg.lang.HttpServletTool;
+import io.tmgg.lang.SpringTool;
 import io.tmgg.lang.obj.AjaxResult;
+import io.tmgg.modules.sys.service.SysConfigService;
 import io.tmgg.web.BizException;
 import io.tmgg.web.consts.AopSortConstant;
+import jakarta.annotation.PostConstruct;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolationException;
@@ -42,8 +45,14 @@ import java.util.List;
 public class GlobalExceptionHandler {
 
 
+
+    private Boolean isPrintExceptionForAssert;
+
     @Resource
-    SysProp sysProp;
+    private SysConfigService sysConfigService;
+
+
+
 
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
@@ -97,7 +106,10 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({IllegalArgumentException.class, IllegalStateException.class})
     public AjaxResult assertError(RuntimeException e) {
         log.error(">>> 业务异常，具体信息为：{}", e.getMessage());
-        if (sysProp.isPrintExceptionForAssert()) {
+        if(isPrintExceptionForAssert == null){
+            isPrintExceptionForAssert = sysConfigService.getBoolean("sys.printAssertException");
+        }
+        if (isPrintExceptionForAssert) {
             log.error("打印异常已开启,以下是异常详细信息", e);
         }
 

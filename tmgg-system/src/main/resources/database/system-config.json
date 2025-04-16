@@ -4,14 +4,12 @@
       "id": "sys.email.from",
       "label": "邮件发送账号",
       "defaultValue": "410518072@qq.com",
-      "group": "邮件发送",
       "$update": false
     },
     {
       "id": "sys.email.pass",
       "label": "邮件发送密码",
       "valueType": "password",
-      "group": "邮件发送",
       "$update": false
     },
     {
@@ -39,28 +37,24 @@
       "defaultValue": "true",
       "valueType": "boolean",
       "remark": "是否允许账号在多个地方登录",
-      "group": "站点信息",
       "$update": false
     },
     {
       "id": "sys.siteInfo.copyright",
       "label": "版权信息",
       "remark": "显示在页脚",
-      "group": "站点信息",
       "$update": false
     },
     {
       "id": "sys.siteInfo.title",
       "label": "站点标题",
       "defaultValue": "管理系统",
-      "group": "站点信息",
       "$update": false
     },
     {
       "id": "sys.siteInfo.loginBoxBottomTip",
       "label": "登录框下面的提示",
       "defaultValue": "当前非涉密网络，严禁传输处理涉密信息",
-      "group": "站点信息",
       "$update": false
     },
     {
@@ -69,11 +63,9 @@
       "valueType": "boolean",
       "defaultValue": "false",
       "remark": "登录时显示验证码",
-      "group": "站点信息",
       "$update": false
     },
     {
-      "group": "站点信息",
       "id": "sys.siteInfo.captchaType",
       "label": "验证码类型",
       "remark": "random,math",
@@ -83,7 +75,6 @@
       "id": "sys.siteInfo.waterMark",
       "label": "开启水印",
       "remark": "在所有页面增加水印",
-      "group": "站点信息",
       "valueType": "boolean",
       "$update": false
     },
@@ -91,6 +82,13 @@
       "id": "sys.baseUrl",
       "label": "请求基础地址",
       "remark": "非必填，可用于拼接完整请求地址",
+      "$update": false
+    },
+    {
+      "id": "sys.printAssertException",
+      "label": "是否打印Assert方法抛出的异常",
+      "valueType": "boolean",
+      "defaultValue": "true",
       "$update": false
     }
 

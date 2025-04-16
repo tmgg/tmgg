@@ -35,7 +35,7 @@ public class SysConfigController  {
   @HasPermission
   @RequestMapping("page")
   public AjaxResult page(@RequestBody CommonQueryParam queryParam,
-                         @PageableDefault(sort = {"seq", "group"}) Pageable pageable) {
+                         @PageableDefault(sort = {"id"}) Pageable pageable) {
     JpaQuery<SysConfig> q= new JpaQuery<>();
     q.searchText(queryParam.getKeyword(), SysConfig.Fields.label, "id", SysConfig.Fields.remark);
     Page<SysConfig> page = service.findAll(q, pageable);
@@ -50,6 +50,14 @@ public class SysConfigController  {
     SysConfig result = service.saveOrUpdate(param);
     return AjaxResult.ok().data( result.getId()).msg("保存成功");
   }
+
+  @HasPermission
+  @PostMapping("delete")
+  public AjaxResult delete(String id) {
+    service.deleteById(id);
+    return AjaxResult.ok();
+  }
+
 
 }
 
