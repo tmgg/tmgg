@@ -25,6 +25,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -71,6 +72,17 @@ public class GlobalExceptionHandler {
         String parameterName = e.getParameterName();
         String message = StrUtil.format(">>> 缺少请求的参数{}，类型为{}", parameterName, parameterType);
         return AjaxResult.err().code(500).msg(message);
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public AjaxResult methodArgumentNotValidException(MethodArgumentNotValidException e) {
+        log.error(">>> 请求参数未通过校验：{}", e.getMessage());
+
+        StringBuilder sb = new StringBuilder();
+        for (ObjectError error : e.getAllErrors()) {
+            sb.append(error.getDefaultMessage()).append(" ");
+        }
+        return AjaxResult.err().code(500).msg(sb.toString());
     }
 
 
