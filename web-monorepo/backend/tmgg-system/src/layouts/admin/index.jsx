@@ -187,7 +187,7 @@ export default class extends React.Component {
 
                 </Sider>
 
-                <Content id='content'>
+                <Content id='admin-layout-content'>
                     {this.getContent(loginInfo)}
                 </Content>
 

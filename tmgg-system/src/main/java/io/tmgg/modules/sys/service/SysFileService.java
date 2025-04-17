@@ -209,6 +209,6 @@ public class SysFileService {
         }
 
         log.info("配置文件服务为本地文件模式");
-        this.fileOperator = new LocalFileOperator();
+        this.fileOperator = new LocalFileOperator(sysConfigService.getFileUploadPath());
     }
 }

@@ -90,7 +90,7 @@ public class SysConfigService extends BaseService<SysConfig> {
     public boolean isValueSet(String... keys) {
         JpaQuery<SysConfig> q = new JpaQuery<>();
         q.in("id", keys);
-
+        q.isNotNull(SysConfig.Fields.value);
         long count = dao.count(q);
         return count == keys.length;
     }

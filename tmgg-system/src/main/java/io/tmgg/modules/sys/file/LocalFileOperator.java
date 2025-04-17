@@ -3,31 +3,33 @@ package io.tmgg.modules.sys.file;
 
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.system.SystemUtil;
 import io.tmgg.modules.sys.service.SysConfigService;
 import jakarta.annotation.Resource;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
+@Slf4j
 public class LocalFileOperator implements FileOperator {
 
     public static final String DEFAULT_BUCKET = "defaultBucket";
 
 
-    /**
-     * 默认文件存储的位置
-     */
-    @Resource
-    SysConfigService sysConfigService;
 
 
+    private String savePath;
+
+    public LocalFileOperator(String savePath) {
+        log.info("本地文件保存地址为: {}", savePath);
+        this.savePath = savePath;
+        FileUtil.mkdir(savePath);
+    }
 
     public String getCurrentSavePath() {
-        String path =  sysConfigService.getFileUploadPath();
-        FileUtil.mkdir(path);
-        return path;
+
+        return savePath;
     }
 
     @Override
