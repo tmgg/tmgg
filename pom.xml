@@ -41,7 +41,7 @@
         <poi.version>5.2.3</poi.version>
     </properties>
 
-    <url>https://github.com/tmgg/tmgg-system</url>
+    <url>https://github.com/tmgg/tmgg</url>
     <licenses>
         <license>
             <name>The Apache License, Version 2.0</name>
@@ -55,9 +55,9 @@
         </developer>
     </developers>
     <scm>
-        <connection>scm:git:git:github.com/tmgg/tmgg-system.git</connection>
-        <developerConnection>scm:git@github.com:tmgg/tmgg-system.git</developerConnection>
-        <url>https://github.com/tmgg/tmgg-system/tree/master</url>
+        <connection>scm:git:git:github.com/tmgg/tmgg.git</connection>
+        <developerConnection>scm:git@github.com:tmgg/tmgg.git</developerConnection>
+        <url>https://github.com/tmgg/tmgg/tree/master</url>
     </scm>
 
     <dependencies>
