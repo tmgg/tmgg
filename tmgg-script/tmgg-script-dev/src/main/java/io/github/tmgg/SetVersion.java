@@ -17,7 +17,7 @@ import java.util.Map;
 
 public class SetVersion {
 
-    public static final String NEW_VERSION = "0.4.94";
+    public static final String NEW_VERSION = "1.0.0";
     public static final String APPLICATION_TEMPLATE = "tmgg-application-template";
 
 

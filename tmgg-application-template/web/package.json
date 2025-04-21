@@ -11,13 +11,13 @@
     "dev" : "umi dev",
     "build" : "umi build"
   },
-  "version" : "0.4.94",
+  "version" : "1.0.0",
   "dependencies" : {
     "@ant-design/icons" : "^5.4.0",
     "@tinymce/tinymce-react" : "^5.0.0",
-    "@tmgg/tmgg-base" : "0.4.94",
-    "@tmgg/tmgg-commons-lang" : "0.4.94",
-    "@tmgg/tmgg-system" : "0.4.94",
+    "@tmgg/tmgg-base" : "1.0.0",
+    "@tmgg/tmgg-commons-lang" : "1.0.0",
+    "@tmgg/tmgg-system" : "1.0.0",
     "antd" : "^5.20.3",
     "antd-img-crop" : "^4.23.0",
     "axios" : "^1.8.3",
