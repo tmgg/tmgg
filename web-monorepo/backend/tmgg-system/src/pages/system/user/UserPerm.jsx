@@ -38,6 +38,11 @@ export default class UserPerm extends React.Component {
                 confirmLoading: false
             })
             this.props.onOk()
+        }).finally(()=>{
+            this.setState({
+                confirmLoading: false
+            })
+
         })
 
 

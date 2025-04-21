@@ -3,6 +3,7 @@ package io.tmgg.modules.sys.service;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
@@ -33,10 +34,7 @@ import org.springframework.util.Assert;
 
 import javax.management.relation.Role;
 import java.sql.SQLException;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -303,7 +301,7 @@ public class SysUserService extends BaseService<SysUser> implements UserLabelQue
     @Transactional
     public void grantPerm(String id, List<String> roleIds, DataPermType dataPermType, List<String> orgIdList) {
         SysUser user = this.findOne(id);
-        List<SysOrg> orgs = sysOrgDao.findAllById(orgIdList);
+        List<SysOrg> orgs = CollUtil.isNotEmpty(orgIdList)  ? sysOrgDao.findAllById(orgIdList) : Collections.emptyList();
         user.setDataPerms(orgs);
         user.setDataPermType(dataPermType);
 
