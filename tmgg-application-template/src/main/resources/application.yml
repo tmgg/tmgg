@@ -1,16 +1,22 @@
+db_port: 3306
+db_ip: 127.0.0.1
+db_database: tmgg
+db_username: root
+db_password: 123456
 
 spring:
   profiles:
-    active: default,dev
+    active: default
 
   application:
     name: 'template'
 
 sys:
-  base-package-class: com.xxx.BootApplication
   cache-dir: /cache/project-cache
 
 
-
+logging:
+  level:
+    io.tmgg: debug
 
 
