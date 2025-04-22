@@ -4,11 +4,14 @@
     <parent>
         <groupId>io.github.tmgg</groupId>
         <artifactId>tmgg-base</artifactId>
-        <version>1.0.1</version>
+        <version>${revision}</version>
     </parent>
 
     <artifactId>tmgg-commons-lang</artifactId>
     <description>工具类，方便其他非web项目也可以用，同时也尽量少依赖过重的库</description>
+    <properties>
+        <maven.build.timestamp.format>yyyy-MM-dd HH:mm:ss</maven.build.timestamp.format>
+    </properties>
 
     <dependencies>
         <dependency>
@@ -30,4 +33,19 @@
             <artifactId>commons-io</artifactId>
         </dependency>
     </dependencies>
+
+    <build>
+        <!-- 修改资源文件中的版本号哦-->
+        <resources>
+            <resource>
+                <directory>src/main/resources/</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>**/*.properties</include>
+                </includes>
+            </resource>
+        </resources>
+
+
+    </build>
 </project>

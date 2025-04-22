@@ -71,3 +71,4 @@ dist/
 /derby-test-data/
 /logs/
 /web-monorepo/backend/tmgg-system/src/.umi-production/
+.flattened-pom.xml

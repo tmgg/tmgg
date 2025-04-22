@@ -77,6 +77,7 @@ public class SystemDataInit implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         log.info("框架版本 {}", Build.FRAMEWORK_VERSION);
+        log.info("框架构建时间 {}", Build.FRAMEWORK_BUILD_TIME);
 
         String cacheVersion = dbCacheDao.get(CACHE_KEY_FRAMEWORK_VERSION);
         log.info("上次启动的框架版本号:{}",cacheVersion);
