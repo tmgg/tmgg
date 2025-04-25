@@ -50,7 +50,7 @@ public class SysConfigController  {
   public AjaxResult save(@RequestBody SysConfig param) throws Exception {
     Assert.state(!param.isNew(), "仅限修改");
     SysConfig result = service.saveOrUpdate(param);
-    SpringUtil.publishEvent(new SysConfigChangeEvent(this));
+    SpringUtil.publishEvent(new SysConfigChangeEvent(this, result.getId()));
     return AjaxResult.ok().data( result.getId()).msg("保存成功");
   }
 

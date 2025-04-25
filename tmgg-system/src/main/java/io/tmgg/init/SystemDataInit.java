@@ -82,7 +82,6 @@ public class SystemDataInit implements CommandLineRunner {
         String cacheVersion = dbCacheDao.get(CACHE_KEY_FRAMEWORK_VERSION);
         log.info("上次启动的框架版本号:{}",cacheVersion);
 
-        boolean versionChanged = !Build.FRAMEWORK_VERSION.equals(cacheVersion);
 
 
         log.info("执行系统初始化程序： {}", getClass().getName());
@@ -97,7 +96,7 @@ public class SystemDataInit implements CommandLineRunner {
         dictEnumHandler.run();
         dictAnnHandler.run();
         dictFieldAnnHandler.run();
-        jsonEntityService.initOnStartup(versionChanged);
+        jsonEntityService.initOnStartup();
         sysMenuService.reset();
         SysRole adminRole = sysRoleService.initDefaultAdmin();
         initUser(adminRole);

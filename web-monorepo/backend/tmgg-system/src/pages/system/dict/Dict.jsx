@@ -128,7 +128,7 @@ export default class extends React.Component {
                       onFinish={this.onFinish}>
                     <Form.Item name='id' noStyle></Form.Item>
 
-                    <Form.Item label='名称' name='name' rules={[{required: true}]}>
+                    <Form.Item label='文本' name='text' rules={[{required: true}]}>
                         <Input/>
                     </Form.Item>
                     <Form.Item label='编码' name='code' rules={[{required: true}]}>

@@ -10,6 +10,7 @@ import lombok.experimental.FieldNameConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.session.Session;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.Duration;
 import java.time.Instant;
@@ -24,6 +25,10 @@ import java.util.Set;
 @Slf4j
 @ToString
 public class SysHttpSession  implements Session, Serializable {
+
+
+
+
     public static final String SUBJECT_KEY = "SUBJECT";
 
 

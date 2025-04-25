@@ -3,8 +3,6 @@ package io.tmgg.modules.sys.file;
 
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.StrUtil;
-import io.tmgg.modules.sys.service.SysConfigService;
-import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
@@ -14,73 +12,37 @@ import java.io.InputStream;
 @Slf4j
 public class LocalFileOperator implements FileOperator {
 
-    public static final String DEFAULT_BUCKET = "defaultBucket";
+    public static final String BUCKET_NAME = "defaultBucket";
 
-
-
-
-    private String savePath;
+    private final String dir;
 
     public LocalFileOperator(String savePath) {
         log.info("本地文件保存地址为: {}", savePath);
-        this.savePath = savePath;
         FileUtil.mkdir(savePath);
-    }
-
-    public String getCurrentSavePath() {
-
-        return savePath;
-    }
-
-    @Override
-    public void storageFile(String bucketName, String key, byte[] bytes) {
-        bucketName = StrUtil.emptyToDefault(bucketName, DEFAULT_BUCKET);
 
         // 判断bucket存在不存在
-        String bucketPath = getCurrentSavePath() + File.separator + bucketName;
+        String bucketPath = savePath + File.separator + BUCKET_NAME;
         if (!FileUtil.exist(bucketPath)) {
             FileUtil.mkdir(bucketPath);
         }
 
-        // 存储文件
-        String absoluteFile = getCurrentSavePath() + File.separator + bucketName + File.separator + key;
-        FileUtil.writeBytes(bytes, absoluteFile);
+        this. dir = savePath + File.separator + BUCKET_NAME + File.separator ;
     }
 
-    @Override
-    public void storageFile(String bucketName, String key, InputStream inputStream) {
-        bucketName = StrUtil.emptyToDefault(bucketName, DEFAULT_BUCKET);
-        // 判断bucket存在不存在
-        String bucketPath = getCurrentSavePath() + File.separator + bucketName;
-        if (!FileUtil.exist(bucketPath)) {
-            FileUtil.mkdir(bucketPath);
-        }
 
+    @Override
+    public void save(String key, InputStream inputStream) {
         // 存储文件
-        String absoluteFile = getCurrentSavePath() + File.separator + bucketName + File.separator + key;
+        String absoluteFile = dir + key;
         FileUtil.writeFromStream(inputStream, absoluteFile);
     }
 
     @Override
-    public byte[] getFileBytes(String bucketName, String key) throws Exception {
-        bucketName = StrUtil.emptyToDefault(bucketName, DEFAULT_BUCKET);
+    public InputStream getFileStream(String key) throws Exception {
         // 判断文件存在不存在
-        String absoluteFile = getCurrentSavePath() + File.separator + bucketName + File.separator + key;
+        String absoluteFile = dir + key;
         if (!FileUtil.exist(absoluteFile)) {
-            String message = StrUtil.format("文件不存在,bucket={},key={} ,path={}", bucketName, key, absoluteFile);
-            throw new FileNotFoundException(message);
-        } else {
-            return FileUtil.readBytes(absoluteFile);
-        }
-    }
-
-    @Override
-    public InputStream getFileStream(String bucketName, String key) throws Exception {
-        bucketName = StrUtil.emptyToDefault(bucketName, DEFAULT_BUCKET);
-        // 判断文件存在不存在
-        String absoluteFile = getCurrentSavePath() + File.separator + bucketName + File.separator + key;
-        if (!FileUtil.exist(absoluteFile)) {
-            String message = StrUtil.format("文件不存在,bucket={},key={} ,path={}", bucketName, key, absoluteFile);
+            String message = StrUtil.format("本地文件不存在,bucket={},key={} ,path={}", BUCKET_NAME, key, absoluteFile);
             throw new FileNotFoundException(message);
         }
         return FileUtil.getInputStream(absoluteFile);
@@ -88,10 +50,9 @@ public class LocalFileOperator implements FileOperator {
 
 
     @Override
-    public void deleteFile(String bucketName, String key) {
-        bucketName = StrUtil.emptyToDefault(bucketName, DEFAULT_BUCKET);
+    public void delete(String key) {
         // 判断文件存在不存在
-        String file = getCurrentSavePath() + File.separator + bucketName + File.separator + key;
+        String file = dir + key;
         if (!FileUtil.exist(file)) {
             return;
         }

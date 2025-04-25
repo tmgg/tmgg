@@ -37,25 +37,23 @@ title: 配置说明
       "visible": "Y",
       "icon": "ApartmentOutlined",
       "seq": "1"
-    },
-    {
-      "application": "system",
-      "id": "sysUser",
-      "name": "用户管理",
-      "code": "sysUser",
-      "router": "/system/student",
-      "type": "MENU",
-      "status": "ENABLE",
-      "visible": "Y",
-      "icon": "UserOutlined",
-      "seq": "2"
     }
   ]
 }
 
 ```
+特殊字段
+- $update true|false   控制数据是否更新
+- $pk     String       默认是通过id来判断是否存在，以便判断是新增还是更新操作，如果想通过其他字段判断唯一性，如 $pk:"code"
 
-如果希望控制数据是否更新，可添加 $update字段，值为true或false
 
-默认是通过id来判断是否存在，以便判断是新增还是更新操作，如果想通过其他字段判断唯一性，可通过$pk字段，如 $pk:"code"
+## 系统参数
+数据库有sys_config表，可使用注解 @DbValue，使用方法类似Spring的@Value注解。
+
+如果在系统中修改了参数，也会实时重新修改字段的值
+
+```
+@DbValue("sys.sessionIdleTime")
+private int timeToIdleExpiration;
+```
 

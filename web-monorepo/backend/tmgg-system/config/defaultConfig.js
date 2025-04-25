@@ -35,6 +35,11 @@ const defaultConfigLocal = {
             changeOrigin: true,
             pathRewrite: {'^/api': '/'},
         },
+        '/app-api': {
+            target: 'http://127.0.0.1:8002',
+            changeOrigin: true,
+            pathRewrite: {'^/app-api': '/app-api'},
+        },
         '/ureport': {
             target: 'http://127.0.0.1:8002',
             changeOrigin: true,

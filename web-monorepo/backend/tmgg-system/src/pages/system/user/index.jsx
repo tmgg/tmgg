@@ -129,9 +129,10 @@ export default class extends React.Component {
 
     resetPwd(row) {
         HttpUtil.post('/sysUser/resetPwd', {id: row.id}).then(rs => {
+            debugger
             Modal.success({
-                title: '成功',
-                content: rs.message
+                title: '重置密码成功',
+                content: rs
             })
         })
     }

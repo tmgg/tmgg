@@ -1,7 +1,9 @@
 
 package io.tmgg.modules.sys.controller;
 
+import cn.hutool.core.date.DateUtil;
 import io.tmgg.lang.ann.PublicRequest;
+import io.tmgg.lang.dao.specification.JpaQuery;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.modules.sys.entity.SysFile;
 import io.tmgg.modules.sys.service.SysFileService;
@@ -9,12 +11,16 @@ import io.tmgg.modules.sys.vo.UploadResult;
 import io.tmgg.web.annotion.HasPermission;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.Date;
 
 /**
  * 文件
@@ -27,11 +33,27 @@ public class SysFileController {
     @Resource
     private SysFileService service;
 
+    @Data
+    public static class QueryParam {
+        private Date[] dateRange;
+        private String fileOriginName;
+        private String fileObjectName;
+    }
 
     @HasPermission
     @RequestMapping("page")
-    public AjaxResult page(@RequestBody SysFile param, @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) {
-        return AjaxResult.ok().data(service.findByExampleLike(param, pageable));
+    public AjaxResult page(@RequestBody QueryParam param, @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) {
+        JpaQuery<SysFile> q = new JpaQuery<>();
+        Date[] dateRange = param.getDateRange();
+        if (dateRange != null) {
+            dateRange[1] = DateUtil.endOfDay(dateRange[1]);
+            q.between(SysFile.FIELD_CREATE_TIME, dateRange);
+        }
+
+        q.eq(SysFile.Fields.fileOriginName, param.getFileOriginName());
+        q.eq(SysFile.Fields.fileObjectName, param.getFileObjectName());
+        Page<SysFile> page = service.findAll(q, pageable);
+        return AjaxResult.ok().data(page);
     }
 
 

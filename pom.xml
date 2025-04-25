@@ -23,7 +23,7 @@
         <module>tmgg-base</module>
         <module>tmgg-openapi-sdk</module>
         <module>tmgg-system-payment</module>
-        <module>tmgg-application-template</module>
+        <module>template-backend</module>
     </modules>
 
 
@@ -279,6 +279,7 @@
             </plugin>
 
 
+            <!--打包时，为了批量修改版本 revision 变成真正的版本号，而不是占位符-->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>flatten-maven-plugin</artifactId>

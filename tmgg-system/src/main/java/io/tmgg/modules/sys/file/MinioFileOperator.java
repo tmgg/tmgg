@@ -1,13 +1,11 @@
 package io.tmgg.modules.sys.file;
 
-import cn.hutool.core.util.StrUtil;
 import io.minio.*;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
+import lombok.extern.slf4j.Slf4j;
 
-import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 
+@Slf4j
 public class MinioFileOperator implements FileOperator {
 
 
@@ -15,13 +13,13 @@ public class MinioFileOperator implements FileOperator {
     private String accessKey;
     private String secretKey;
 
-    private String defaultBucketName;
+    private String bucketName;
 
-    public MinioFileOperator(String url, String accessKey, String secretKey, String defaultBucketName) {
+    public MinioFileOperator(String url, String accessKey, String secretKey, String bucketName) {
         this.url = url;
         this.accessKey = accessKey;
         this.secretKey = secretKey;
-        this.defaultBucketName = defaultBucketName;
+        this.bucketName = bucketName;
 
         this.initClient();
     }
@@ -33,48 +31,19 @@ public class MinioFileOperator implements FileOperator {
     }
 
     @Override
-    public void storageFile(String bucketName, String key, byte[] bytes) throws Exception {
-        bucketName = StrUtil.emptyToDefault(bucketName, defaultBucketName);
-
-        ByteArrayInputStream is = new ByteArrayInputStream(bytes);
-        PutObjectArgs arg = PutObjectArgs.builder()
-                .bucket(bucketName)
-                .object(key)
-                .stream(is, bytes.length, -1)
-                .build();
-
-
-        this.client.putObject(arg);
-        is.close();
-    }
-
-    @Override
-    public void storageFile(String bucketName, String key, InputStream inputStream) throws Exception {
-        bucketName = StrUtil.emptyToDefault(bucketName, defaultBucketName);
-
+    public void save(String key, InputStream inputStream) throws Exception {
         PutObjectArgs arg = PutObjectArgs.builder()
                 .bucket(bucketName)
                 .object(key)
                 .stream(inputStream, inputStream.available(), -1)
                 .build();
 
-        this.client.putObject(arg);
+       this.client.putObject(arg);
+
     }
 
     @Override
-    public byte[] getFileBytes(String bucketName, String key) throws Exception {
-        bucketName = StrUtil.emptyToDefault(bucketName, defaultBucketName);
-
-        GetObjectResponse response = client.getObject(GetObjectArgs.builder().bucket(bucketName).object(key).build());
-        byte[] bytes = IOUtils.toByteArray(response);
-        response.close();
-
-        return bytes;
-    }
-
-    @Override
-    public InputStream getFileStream(String bucketName, String key) throws Exception {
-        bucketName = StrUtil.emptyToDefault(bucketName, defaultBucketName);
+    public InputStream getFileStream( String key) throws Exception {
 
         GetObjectResponse response = client.getObject(GetObjectArgs.builder().bucket(bucketName).object(key).build());
         return response;
@@ -83,19 +52,8 @@ public class MinioFileOperator implements FileOperator {
 
 
     @Override
-    public void deleteFile(String bucketName, String key) throws Exception {
-        bucketName = StrUtil.emptyToDefault(bucketName, defaultBucketName);
-
+    public void delete(String key) throws Exception {
         client.removeObject(RemoveObjectArgs.builder().bucket(bucketName).object(key).build());
-    }
-
-
-    public static void main(String[] args) throws Exception {
-        MinioFileOperator operator = new MinioFileOperator("https://minio.ztstc.cn/", "sqky", "Us#k!09J8d", "sqky");
-
-       operator.storageFile(null,"test56.txt", "hello world".getBytes());
-        System.out.println("上传结束");
-
     }
 
 }

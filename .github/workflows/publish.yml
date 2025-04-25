@@ -55,7 +55,7 @@ jobs:
           cd web-monorepo 
           pnpm install 
           pnpm -r exec pnpm version ${{ steps.tag.outputs.tag }}
-        #  pnpm publish -r --access public --no-git-checks
+          pnpm publish -r --access public --no-git-checks
 
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_ACCESS_TOKEN}}

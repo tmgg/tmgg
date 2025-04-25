@@ -10,10 +10,9 @@ import {valueToDate} from "./TimePickerTool";
  *
  *
  */
-export { HHmmPickerString as FieldHHmmPickerString };
 const FMT = 'HH:mm';
 
-export class HHmmPickerString extends React.Component {
+export class FieldHHmmPickerString extends React.Component {
 
   static FORMAT = FMT
 

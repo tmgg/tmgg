@@ -34,7 +34,7 @@ public class SysOnlineUserService {
     public Page<SysOnlineUserVo> findAll(Pageable pageable) {
         List<SysOnlineUserVo> voList = new ArrayList<>();
 
-        List<SysHttpSession> sessionList = sysHttpSessionService.findAllSession();
+        List<SysHttpSession> sessionList = sysHttpSessionService.findAll();
 
         for (SysHttpSession session : sessionList) {
             Subject subject = session.getAttribute(SysHttpSession.SUBJECT_KEY);

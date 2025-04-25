@@ -1,16 +1,17 @@
 import {PlusOutlined} from '@ant-design/icons'
-import {Button, Empty, Form, Input, Modal, Popconfirm, Skeleton, Splitter, Tree, Typography} from 'antd'
+import {Button, Form, Input, Modal, Popconfirm, Splitter, Tree, Typography} from 'antd'
 import React from 'react'
 import {
-    Actions,
     ButtonList,
     dictValueTag,
     FieldDictRadio,
     FieldEditor,
     FieldRemoteSelect,
     FieldUploadFile,
-    FieldUploadImage, Gap,
-    HttpUtil, Page, Panel,
+    FieldUploadImage,
+    HttpUtil,
+    Page,
+    Panel,
     ProTable,
     SysUtil,
     ViewImage
@@ -67,20 +68,21 @@ export default class extends React.Component {
             title: '操作',
             dataIndex: 'option',
             render: (_, record) => (
-                <Actions>
-                    <a show={record.type !== 'DIR'}
-                            perm='sysAsset:save'
-                            onClick={() => this.handleEditContent(record)}>编辑内容</a>
+                <ButtonList>
+                    {record.type !== 'DIR' && <a
+                        perm='sysAsset:save'
+                        onClick={() => this.handleEditContent(record)}>编辑内容</a>}
 
-                    <a show={record.code != null}    type="text"
-                            href={SysUtil.wrapServerUrl('/sysAsset/preview/' + record.code)} target='_blank'>预览</a>
+                    {record.code != null && <a type="text"
+                                               href={SysUtil.wrapServerUrl('/sysAsset/preview/' + record.code)}
+                                               target='_blank'>预览</a>}
 
                     <a perm='sysAsset:save' onClick={() => this.handleEdit(record)}>编辑</a>
                     <Popconfirm perm='sysAsset:delete' title='是否确定删除素材'
                                 onConfirm={() => this.handleDelete(record)}>
                         <a>删除</a>
                     </Popconfirm>
-                </Actions>
+                </ButtonList>
             ),
         },
     ]
@@ -136,7 +138,7 @@ export default class extends React.Component {
 
         return <Page>
             <Splitter>
-                <Splitter.Panel defaultSize={250} style={{paddingRight:16}}>
+                <Splitter.Panel defaultSize={250} style={{paddingRight: 16}}>
                     <Panel title='文件夹' loading={this.state.treeLoading} empty={this.state.treeData.length === 0}>
                         <Tree
                             treeData={this.state.treeData}

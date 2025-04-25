@@ -40,7 +40,7 @@ public class SysUserRealm implements AuthorizingRealm {
         if (subject == null) {
             subject = new Subject();
             SysUser user = sysUserService.findOne(userId);
-            log.debug("查询用户  {}", user);
+            log.trace("查询用户  {}", user);
             if (user == null) {
                 throw new BizException("用户或密码错误"); // 不直接提示用户不存在，防止暴力遍历
             }

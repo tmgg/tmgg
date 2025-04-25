@@ -22,7 +22,7 @@ public class LoginInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-        boolean canAccess = canAccess(request, response, handler);
+        boolean canAccess = canAccess(request, handler);
         if (!canAccess) {
             log.warn("未登录用户尝试访问需要登录的资源 {}  {}", request.getMethod(), request.getRequestURI());
             response.setStatus(HttpStatus.UNAUTHORIZED.value());
@@ -34,7 +34,7 @@ public class LoginInterceptor implements HandlerInterceptor {
         return true;
     }
 
-    private boolean canAccess(HttpServletRequest request, HttpServletResponse response, Object handler) {
+    private boolean canAccess(HttpServletRequest request, Object handler) {
         String url = request.getRequestURI();
         if (url.contains("public")) {
             return true;
@@ -45,7 +45,7 @@ public class LoginInterceptor implements HandlerInterceptor {
 
         if (handler instanceof ResourceHttpRequestHandler) {
             ResourceHttpRequestHandler rh = ((ResourceHttpRequestHandler) handler);
-            log.info("访问静态资源 {} {}", request.getMethod(), url);
+            log.debug("访问静态资源 {} {}", request.getMethod(), url);
             return true;
         }
         if (handler instanceof HandlerMethod) {

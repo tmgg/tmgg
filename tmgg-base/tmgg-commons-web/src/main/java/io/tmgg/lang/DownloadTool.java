@@ -33,14 +33,13 @@ public class DownloadTool {
         }
     }
 
-    public static void download(String fileName, InputStream inputStream, long fileLen, HttpServletResponse response) {
+    public static void download(String fileName, InputStream inputStream, long fileSize, HttpServletResponse response) {
         try {
-            setDownloadParam(fileName, fileLen, response);
+            setDownloadParam(fileName, fileSize, response);
 
             IOUtils.copy(inputStream, response.getOutputStream());
 
-            response.getOutputStream().close();
-            inputStream.close();
+            IOUtils.closeQuietly(response.getOutputStream(),inputStream);
 
         } catch (IOException e) {
             log.error(">>> 下载文件异常，具体信息为：{}", e.getMessage());

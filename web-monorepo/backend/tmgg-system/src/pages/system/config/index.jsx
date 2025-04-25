@@ -38,6 +38,14 @@ export default class extends React.Component {
             }
         },
 
+
+
+
+        {
+            title: '备注',
+            dataIndex: 'remark',
+            width: 400
+        },
         {
             title: '默认值',
             dataIndex: 'defaultValue',
@@ -45,13 +53,6 @@ export default class extends React.Component {
                 return <FieldComponent type={record.valueType || 'input'} mode='read' value={v}/>
 
             }
-        },
-
-
-        {
-            title: '备注',
-            dataIndex: 'remark',
-            width: 400
         },
         {
             title: '更新时间',
@@ -61,6 +62,7 @@ export default class extends React.Component {
         {
             title: '操作',
             dataIndex: 'option',
+            fixed:'right',
             render: (_, record) => (
                 <ButtonList>
                     <Button size='small' perm='sysConfig:save'  onClick={() => this.handleEdit(record)}> 编辑 </Button>

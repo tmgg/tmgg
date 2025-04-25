@@ -1,31 +1,22 @@
 package io.tmgg.weixin.controller;
 
-import cn.hutool.core.bean.BeanUtil;
+import io.tmgg.lang.dao.BaseController;
 import io.tmgg.lang.dao.specification.JpaQuery;
 import io.tmgg.lang.obj.AjaxResult;
-import io.tmgg.lang.obj.Option;
+import io.tmgg.web.annotion.HasPermission;
 import io.tmgg.weixin.entity.WeixinMp;
 import io.tmgg.weixin.service.WeixinMpService;
-import io.tmgg.lang.dao.BaseController;
-import io.tmgg.lang.dao.BaseEntity;
-import io.tmgg.lang.DateRange;
-
-
-import io.tmgg.web.annotion.HasPermission;
+import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
-
-import jakarta.annotation.Resource;
-import java.util.List;
 import java.io.IOException;
+import java.util.List;
 @RestController
 @RequestMapping("weixinMp")
 public class WeixinMpController  extends BaseController<WeixinMp>{

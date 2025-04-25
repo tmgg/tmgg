@@ -1,6 +1,7 @@
 
 package io.tmgg.modules.sys.entity;
 
+import cn.hutool.core.io.FileUtil;
 import io.tmgg.lang.RequestTool;
 import io.tmgg.lang.dao.BaseEntity;
 import jakarta.validation.constraints.NotNull;
@@ -12,6 +13,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Transient;
 import jakarta.servlet.http.HttpServletRequest;
 
+import java.io.InputStream;
+import java.io.OutputStream;
+
 /**
  * 文件信息
  *
@@ -22,10 +26,11 @@ import jakarta.servlet.http.HttpServletRequest;
 @FieldNameConstants
 public class SysFile extends BaseEntity {
 
-    /**
-     * 文件存储位置（1:阿里云，2:腾讯云，3:minio，4:本地）
-     */
-    private Integer fileLocation;
+    // 1 本地，2 minio
+
+    public Integer storageType;
+
+
 
     /**
      * 文件仓库
@@ -44,14 +49,8 @@ public class SysFile extends BaseEntity {
      */
     private String fileSuffix;
 
-    /**
-     * 文件大小kb
-     */
-    private Integer fileSize;
-    /**
-     * 文件大小信息，计算后的
-     */
-    private String fileSizeInfo;
+    private Long fileSize;
+
 
     /**
      * 存储到bucket的名称（文件唯一标识id）
@@ -66,8 +65,19 @@ public class SysFile extends BaseEntity {
 
 
     @Transient
+    private InputStream inputStream;
+
+    @Transient
     public String getName(){
         return fileOriginName;
+    }
+
+    @Transient
+    public String getFileSizeInfo() {
+        if(fileSize != null){
+            return FileUtil.readableFileSize(fileSize);
+        }
+        return null;
     }
 
     @Transient
@@ -80,5 +90,7 @@ public class SysFile extends BaseEntity {
 
         return null;
     }
+
+
 
 }

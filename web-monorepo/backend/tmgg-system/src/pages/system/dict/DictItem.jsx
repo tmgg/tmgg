@@ -157,15 +157,14 @@ export default class extends React.Component {
                             </Form.Item>
                         </Col>
                         <Col span={12}>
-                            <Form.Item label='启用' name='enabled' rules={[{required: true}]}>
-                                <FieldRadioBoolean/>
+                            <Form.Item label='序号' name='seq' rules={[{required: true}]}>
+                                <InputNumber/>
                             </Form.Item>
                         </Col>
                     </Row>
 
-
-                    <Form.Item label='序号' name='seq' rules={[{required: true}]}>
-                        <InputNumber/>
+                    <Form.Item label='启用' name='enabled' rules={[{required: true}]}>
+                        <FieldRadioBoolean/>
                     </Form.Item>
 
                 </Form>

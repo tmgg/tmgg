@@ -9,6 +9,7 @@ import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.jpa.convert.QueryByExamplePredicateBuilder;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.util.Assert;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -228,6 +229,15 @@ public class JpaQuery<T> implements Specification<T> {
             this.ge(column, v1);
         }else {
             this.le(column, v2);
+        }
+    }
+
+    public void between(String column, Object[] arr) {
+        if(arr != null ){
+            Assert.state(arr.length == 2, "between参数数组个数必须为2");
+            Object v1 = arr[0];
+            Object v2 = arr[1];
+            this.between(column, v1, v2);
         }
     }
 

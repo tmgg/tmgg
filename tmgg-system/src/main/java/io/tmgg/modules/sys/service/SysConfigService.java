@@ -1,8 +1,6 @@
 
 package io.tmgg.modules.sys.service;
 
-import cn.hutool.core.lang.Validator;
-import cn.hutool.core.util.CharsetUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.system.SystemUtil;
 import io.tmgg.lang.RequestTool;
@@ -55,7 +53,7 @@ public class SysConfigService extends BaseService<SysConfig> {
 
     public boolean getBoolean(String key) {
         validateKey(key);
-        Object value = this.findValue(key);
+        Object value = this.getValue(key);
         return (boolean) value;
     }
 
@@ -66,7 +64,7 @@ public class SysConfigService extends BaseService<SysConfig> {
         dao.save(sysConfig);
     }
 
-    public Object findValue(String key) {
+    public Object getValue(String key) {
         validateKey(key);
         SysConfig sysConfig = this.findOne(key);
         Assert.notNull(sysConfig, "系统配置不存在" + key);

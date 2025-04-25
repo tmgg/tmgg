@@ -2,7 +2,7 @@
 package io.tmgg.framework.aop;
 
 import io.tmgg.lang.obj.AjaxResult;
-import io.tmgg.modules.sys.service.SysOpLogService;
+import io.tmgg.modules.sys.service.SysLogService;
 import io.tmgg.web.annotion.HasPermission;
 import io.tmgg.web.consts.CommonConstant;
 import io.tmgg.web.perm.SecurityUtils;
@@ -28,7 +28,7 @@ import java.lang.reflect.Method;
 public class SysLogAop {
 
     @Resource
-    SysOpLogService sysOpLogService;
+    SysLogService sysOpLogService;
 
 
     /**

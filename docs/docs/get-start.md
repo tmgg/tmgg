@@ -13,7 +13,9 @@
 
 ## 2 项目模板
 ### 下载模板
-在[发布页面](https://github.com/tmgg/tmgg/releases)下载项目模板 
+源码中包含项目模板，
+template-开头
+改下版本号
 
 ### 修改数据库配置
 修改 application-dev.yml ，application-prod.yml 中相关数据库配置

@@ -108,11 +108,11 @@
     "path" : "/system/onlineUser",
     "seq" : 4
   }, {
-    "id" : "sysOpLog",
+    "id" : "sysLog",
     "pid" : "sysMonitor",
     "name" : "操作日志",
-    "perm" : "sysOpLog",
-    "path" : "/system/log/oplog",
+    "perm" : "sysLog",
+    "path" : "/system/log",
     "seq" : 5
   }, {
     "id" : "jobMgr",

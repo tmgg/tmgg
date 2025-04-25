@@ -33,7 +33,7 @@ export default class extends React.Component {
       title: '密钥',
       dataIndex: 'appSecret',
       render(v){
-        return <FieldPassword mode='read' />
+        return <FieldPassword mode='read' value={v} />
       }
     },
     {

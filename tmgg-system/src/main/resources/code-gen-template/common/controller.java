@@ -8,7 +8,6 @@ import ${modulePackageName}.entity.${name};
 import ${modulePackageName}.service.${name}Service;
 import io.tmgg.lang.dao.BaseController;
 import io.tmgg.lang.dao.BaseEntity;
-import io.tmgg.lang.DateRange;
 import io.tmgg.web.CommonQueryParam;
 
 

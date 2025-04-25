@@ -68,3 +68,5 @@ export class FieldMultipleUploadFile extends React.Component {
     );
   }
 }
+export * from './FieldUploadImage';
+export * from './FieldUploadFile'

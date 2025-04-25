@@ -4,6 +4,7 @@ package io.tmgg.config;
 import cn.hutool.core.collection.CollUtil;
 import io.tmgg.SysProp;
 import io.tmgg.core.filter.xss.XssFilter;
+import io.tmgg.framework.interceptor.AppApiJwtInterceptor;
 import io.tmgg.framework.interceptor.LoginInterceptor;
 import io.tmgg.framework.interceptor.PermissionInterceptor;
 import io.tmgg.framework.interceptor.SubjectInterceptor;
@@ -32,35 +33,6 @@ import java.util.List;
 @EnableCaching
 @ConditionalOnClass(name = "org.springframework.web.servlet.config.annotation.WebMvcConfigurer")
 public class WebMvcConfig implements WebMvcConfigurer {
-
-
-    @Resource
-    private SysProp sysProp;
-
-    @Resource
-    private PermissionInterceptor permissionInterceptor;
-
-
-    @Bean
-    public XssFilter xssFilter() {
-        return new XssFilter();
-    }
-
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        String[] list = {
-                "classpath:/META-INF/resources/",
-                "classpath:/resources/",
-                "classpath:/static/",
-                "classpath:/public/",
-
-                // 同级目录下的静态文件
-                "file:./static/"
-        };
-
-        registry.addResourceHandler("/**").addResourceLocations(list);
-    }
-
     /**
      * 放开权限校验的接口
      */
@@ -84,9 +56,24 @@ public class WebMvcConfig implements WebMvcConfigurer {
             // 接口
             "/openApi/gateway/**",
 
-            // 移动端
-            "/app/**",
+            // 移动端, 小程序
+            AppApiJwtInterceptor.PATTERN
     };
+
+
+    @Resource
+    private SysProp sysProp;
+
+    @Resource
+    private PermissionInterceptor permissionInterceptor;
+
+    @Resource
+    private AppApiJwtInterceptor appApiInterceptor;
+
+    @Bean
+    public XssFilter xssFilter() {
+        return new XssFilter();
+    }
 
 
     @Override
@@ -120,6 +107,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
         }
 
 
+        registry.addInterceptor(appApiInterceptor).addPathPatterns(AppApiJwtInterceptor.PATTERN);
+
     }
 
     /**
@@ -136,5 +125,19 @@ public class WebMvcConfig implements WebMvcConfigurer {
         return registration;
     }
 
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        String[] list = {
+                "classpath:/META-INF/resources/",
+                "classpath:/resources/",
+                "classpath:/static/",
+                "classpath:/public/",
+
+                // 同级目录下的静态文件
+                "file:./static/"
+        };
+
+        registry.addResourceHandler("/**").addResourceLocations(list);
+    }
 
 }

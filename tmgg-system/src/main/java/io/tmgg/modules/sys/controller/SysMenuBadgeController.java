@@ -1,35 +1,24 @@
 package io.tmgg.modules.sys.controller;
 
-import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.lang.Dict;
+import io.tmgg.lang.dao.BaseController;
+import io.tmgg.lang.dao.BaseEntity;
 import io.tmgg.lang.dao.specification.JpaQuery;
 import io.tmgg.lang.obj.AjaxResult;
-import io.tmgg.lang.obj.Option;
 import io.tmgg.lang.obj.TreeOption;
 import io.tmgg.modules.sys.entity.SysMenu;
 import io.tmgg.modules.sys.entity.SysMenuBadge;
 import io.tmgg.modules.sys.service.SysMenuBadgeService;
-import io.tmgg.lang.dao.BaseController;
-import io.tmgg.lang.dao.BaseEntity;
-import io.tmgg.lang.DateRange;
-
-
 import io.tmgg.modules.sys.service.SysMenuService;
 import io.tmgg.web.annotion.HasPermission;
-import jakarta.servlet.http.HttpServletResponse;
+import jakarta.annotation.Resource;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
-
-import jakarta.annotation.Resource;
 import java.util.List;
-import java.io.IOException;
 import java.util.Map;
 
 @RestController

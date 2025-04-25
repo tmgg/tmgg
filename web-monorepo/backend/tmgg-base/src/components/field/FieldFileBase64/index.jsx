@@ -1,7 +1,6 @@
 import React from "react";
 import {Button, Input, Modal, Row} from "antd";
-import {FieldUploadFile} from "../FieldUploadFile";
-import {SysUtil} from "../../../system";
+import {FieldUploadFile} from "../upload";
 
 
 export  class FieldFileBase64 extends React.Component {

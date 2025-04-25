@@ -24,10 +24,10 @@ public class JsonEntityService implements SysMenuParser {
 
 
 
-    public void initOnStartup(boolean versionChanged) throws Exception {
+    public void initOnStartup() throws Exception {
         log.info("database目录下的JSON实体初始化中...");
         // 解析
-        List<JsonEntity> list = dao.findAll(versionChanged);
+        List<JsonEntity> list = dao.findAll(true);
         log.info("实体个数:{}",list.size());
 
         // 保存

@@ -4,7 +4,7 @@ package io.tmgg.modules.sys.controller;
 import io.tmgg.lang.dao.BaseEntity;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.modules.sys.entity.SysUserMessage;
-import io.tmgg.modules.sys.service.SysUserMsgService;
+import io.tmgg.modules.sys.service.SysUserMessageService;
 import io.tmgg.web.perm.SecurityUtils;
 import jakarta.annotation.Resource;
 import org.springframework.data.domain.Page;
@@ -21,7 +21,7 @@ public class UserMsgController {
 
 
     @Resource
-    SysUserMsgService sysUserMsgService;
+    SysUserMessageService sysUserMsgService;
 
 
 

@@ -82,10 +82,10 @@
     },
     {
       "id": "file.minio.enable",
-      "label": "是否启用minio",
+      "label": "是否启用minio存储服务",
       "valueType": "boolean",
       "defaultValue": "false",
-      "remark": "若要启用需配置所有minio参数",
+      "remark": "不启用的情况，使用的是本地存储",
       "seq": 100,
       "$update": false
     },
@@ -126,6 +126,21 @@
       "valueType": "password",
       "seq": 111,
       "$update": false
+    },
+    {
+      "id": "sys.jwtSecret",
+      "label": "jwt密码",
+      "valueType": "password",
+      "seq": 1000,
+      "$update": false
+    },
+    {
+      "id": "sys.sessionIdleTime",
+      "label": "会话(session)空闲过期时间（分钟）",
+      "seq": 1010,
+      "defaultValue": "180",
+      "$update": false
     }
+
   ]
 }

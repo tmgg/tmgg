@@ -142,7 +142,8 @@ public class SysUserController {
     public AjaxResult resetPwd(@RequestBody SysUser user) {
         sysUserService.resetPwd(user.getId());
         sm.forceExistBySubjectId(user.getId());
-        return AjaxResult.ok().msg("重置成功,新密码为：" + configService.getDefaultPassWord());
+        String defaultPassWord = configService.getDefaultPassWord();
+        return AjaxResult.ok().msg("重置成功,新密码为：" + defaultPassWord).data("新密码：" + defaultPassWord);
     }
 
 

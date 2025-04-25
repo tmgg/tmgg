@@ -8,7 +8,7 @@ export * from './input-number-percent';
 export * from './FieldRemoteSelect';
 export * from './FieldRemoteTreeSelect';
 
-export * from './FieldUploadImage';
+
 export * from './time';
 export * from './FieldRemoteMultipleSelect';
 export * from './flat-multiple-select';
@@ -19,15 +19,16 @@ export * from './FieldRemoteTreeMultipleSelect';
 export * from './text';
 export * from './FieldProps'
 export * from './FieldOrgTree'
-export * from './FieldUploadFile'
+
 export * from './FieldAutoTime'
 export * from './FieldRemoteTreeCheckable'
 export * from './FieldPassword'
 export * from './registry'
 export * from  './FieldComponent'
 export * from './FieldInput'
-export * from './FieldDateRange'
+
 export * from './FieldTree'
 export * from './FieldEditTable'
 export * from './FieldFileBase64'
 export * from './FieldUploadCropImage'
+export  * from './upload'
