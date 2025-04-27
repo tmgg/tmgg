@@ -102,10 +102,14 @@ public class AjaxResult  {
      * @param key
      * @param value
      */
+    @Deprecated
     public void putExtData(String key, Object value){
         extData.put(key,value);
     }
 
-
+    public AjaxResult data(String key, Object value){
+        extData.put(key,value);
+        return this;
+    }
 
 }
