@@ -1,0 +1,11 @@
+{
+  "SysMenu" : [ {
+    "pid" : "sys",
+    "id" : "etl-kettle",
+    "name" : "kettle管理",
+    "perm" : "kettle",
+    "path" : "/kettle",
+    "icon" : "DatabaseOutlined",
+    "seq" : 100
+  } ]
+}

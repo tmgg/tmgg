@@ -1,0 +1,146 @@
+{
+  "SysConfig": [
+
+    {
+      "id": "sys.default.password",
+      "label": "默认密码",
+      "defaultValue": "10.Sleep",
+      "valueType": "password",
+      "$update": false
+    },
+    {
+      "id": "sys.fileUploadPath.windows",
+      "label": "win本地上传文件路径",
+      "defaultValue": "c:/tmp",
+      "$update": false
+    },
+    {
+      "id": "sys.fileUploadPath.linux",
+      "label": "linux/mac本地上传文件路径",
+      "defaultValue": "/home/files",
+      "$update": false
+    },
+    {
+      "id": "sys.multiDeviceLogin",
+      "label": "多端登录",
+      "defaultValue": "true",
+      "valueType": "boolean",
+      "remark": "是否允许账号在多个地方登录",
+      "$update": false
+    },
+    {
+      "id": "sys.siteInfo.copyright",
+      "label": "版权信息",
+      "remark": "显示在页脚",
+      "$update": false
+    },
+    {
+      "id": "sys.siteInfo.title",
+      "label": "站点标题",
+      "defaultValue": "管理系统",
+      "$update": false
+    },
+    {
+      "id": "sys.siteInfo.loginBoxBottomTip",
+      "label": "登录框下面的提示",
+      "defaultValue": "当前非涉密网络，严禁传输处理涉密信息",
+      "$update": false
+    },
+    {
+      "id": "sys.siteInfo.captcha",
+      "label": "开启验证码",
+      "valueType": "boolean",
+      "defaultValue": "false",
+      "remark": "登录时显示验证码",
+      "$update": false
+    },
+    {
+      "id": "sys.siteInfo.captchaType",
+      "label": "验证码类型",
+      "remark": "random,math",
+      "$update": false
+    },
+    {
+      "id": "sys.siteInfo.waterMark",
+      "label": "开启水印",
+      "remark": "在所有页面增加水印",
+      "valueType": "boolean",
+      "$update": false
+    },
+    {
+      "id": "sys.baseUrl",
+      "label": "请求基础地址",
+      "remark": "非必填，可用于拼接完整请求地址",
+      "$update": false
+    },
+    {
+      "id": "sys.printAssertException",
+      "label": "是否打印Assert方法抛出的异常",
+      "valueType": "boolean",
+      "defaultValue": "true",
+      "$update": false
+    },
+    {
+      "id": "file.minio.enable",
+      "label": "是否启用minio存储服务",
+      "valueType": "boolean",
+      "defaultValue": "false",
+      "remark": "不启用的情况，使用的是本地存储",
+      "seq": 100,
+      "$update": false
+    },
+    {
+      "id": "file.minio.url",
+      "label": "minio服务地址",
+      "seq": 101,
+      "$update": false
+    },
+    {
+      "id": "file.minio.accessKey",
+      "label": "minio服务accessKey",
+      "seq": 102,
+      "$update": false
+    },
+    {
+      "id": "file.minio.secretKey",
+      "label": "minio服务密钥",
+      "seq": 103,
+      "$update": false
+    },
+    {
+      "id": "file.minio.bucketName",
+      "label": "minio服务存储桶",
+      "seq": 104,
+      "$update": false
+    },
+    {
+      "id": "email.from",
+      "label": "邮件发送账号",
+      "defaultValue": "410518072@qq.com",
+      "seq": 110,
+      "$update": false
+    },
+    {
+      "id": "email.pass",
+      "label": "邮件发送密码",
+      "valueType": "password",
+      "seq": 111,
+      "$update": false
+    },
+    {
+      "id": "sys.jwtSecret",
+      "label": "jwt密码",
+      "valueType": "password",
+      "seq": 1000,
+      "$update": false
+    },
+    {
+      "id": "sys.sessionIdleTime",
+      "label": "会话(session)空闲过期时间（分钟）",
+      "seq": 1010,
+      "defaultValue": "180",
+      "$update": false
+    }
+
+  ]
+}

@@ -1,0 +1,8 @@
+Spring Boot  ${spring-boot.formatted-version}
+应用名称 ${spring.application.name}
+配置文件 ${spring.profiles.active}
+端口号 ${server.port}
+数据库连接 ${spring.datasource.url}
+数据库账号 ${spring.datasource.username}
+系统缓存目录 ${sys.cache-dir}
+日志文件目录 ${logging.file.path}

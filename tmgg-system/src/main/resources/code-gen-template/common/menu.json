@@ -1,0 +1,12 @@
+{
+  "SysMenu": [
+    {
+      "pid":"biz",
+      "id": "${firstLowerName}",
+      "name": "${label}",
+      "perm": "${firstLowerName}",
+      "path": "/${module}/${firstLowerName}",
+      "seq": 1
+    }
+  ]
+}

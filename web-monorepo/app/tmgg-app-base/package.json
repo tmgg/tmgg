@@ -1,0 +1,10 @@
+{
+  "dependencies" : {
+    "@tarojs/taro" : "^4.0.0"
+  },
+  "name" : "@tmgg/tmgg-app-base",
+  "files" : [ "src/*" ],
+  "main" : "src/index.js",
+  "version" : "0.0.1",
+  "type": "module"
+}

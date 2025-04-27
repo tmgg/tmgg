@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <!--日志格式应用spring boot默认的格式，也可以自己更改, jar包为：spring-boot-3.3.3.jar -->
+    <include resource="org/springframework/boot/logging/logback/base.xml"/>
+    <include resource="logback-project.xml"/>
+
+    <root level="INFO">
+        <appender-ref ref="CONSOLE" />
+        <appender-ref ref="FILE" />
+    </root>
+
+    <logger name="io.tmgg" level="DEBUG" />
+
+
+    <!--任务-->
+    <appender name="JOB-SIFT" class="ch.qos.logback.classic.sift.SiftingAppender">
+        <discriminator>
+            <key>job_log_id</key>
+            <defaultValue>default</defaultValue>
+        </discriminator>
+        <sift>
+            <appender name="JOB-${job_log_id}" class="ch.qos.logback.core.FileAppender">
+                <file>${LOG_PATH}/jobs/${job_log_id}.log</file>
+                <encoder>
+                    <pattern>%d{yyyy-MM-dd HH:mm:ss} - %msg%n</pattern>
+                </encoder>
+            </appender>
+        </sift>
+    </appender>
+
+    <logger name="JOB" level="DEBUG" additivity="false">
+        <appender-ref ref="JOB-SIFT"/>
+    </logger>
+
+</configuration>
+
+

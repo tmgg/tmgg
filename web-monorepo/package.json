@@ -1,0 +1,9 @@
+{
+  "private" : "true",
+  "peerDependencies" : { },
+  "name" : "@tmgg/tmgg-monorepo",
+  "scripts" : {
+    "preinstall" : "npx only-allow pnpm"
+  },
+  "version" : "0.0.1"
+}

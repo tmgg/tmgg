@@ -1,0 +1,41 @@
+server:
+  port: 8002
+
+spring:
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+    locale: zh_CN
+    serialization:
+      indent-output: true # json美化，方便查看
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${db_ip}:${db_port}/${db_database}?allowPublicKeyRetrieval=true&autoReconnect=true&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=CONVERT_TO_NULL&useSSL=false&nullCatalogMeansCurrent=true
+    username: ${db_username}
+    password: ${db_password}
+    hikari:
+      register-mbeans: true # 用于监控连接池的信息
+      minimum-idle: 5 # 最小空闲数
+      maximum-pool-size: 50 # 最大
+      max-lifetime: 600000   # 控制池中连接的最长生存期, 默认30分钟， 这里缩小为10分钟，即 10 * 60 * 1000 毫秒
+      idle-timeout: 300000 # 空闲连接的时间，超过这个时间则移除 （数据库会主动断开长连接连接）
+      keepalive-time: 60000 # 保活时间，会测试空闲连接是否正常  1分钟
+  jpa:
+    hibernate.ddl-auto: update
+   # database: MYSQL
+    show-sql: false
+  data:
+    web:
+      pageable:
+        one-indexed-parameters: true
+  session:
+    timeout: 1H
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 100MB
+  cache:
+    type: simple
+
+
+

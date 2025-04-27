@@ -1,0 +1,17 @@
+spring:
+  datasource:
+    driver-class-name: org.apache.derby.jdbc.EmbeddedDriver
+    url: jdbc:derby:derby-test-data;create=true
+  jpa:
+    show-sql: true
+    # 清空数据
+    hibernate.ddl-auto: create
+logging:
+  file:
+    path: ./logs/app-log
+  pattern:
+    dateformat: yyyy-MM-dd HH:mm:ss.SSS
+  level:
+    io.tmgg: trace
+sys:
+  cache-dir: ./cache

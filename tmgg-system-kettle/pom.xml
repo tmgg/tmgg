@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>io.github.tmgg</groupId>
+        <artifactId>tmgg-system-parent</artifactId>
+        <version>${revision}</version>
+    </parent>
+
+    <artifactId>tmgg-system-kettle</artifactId>
+    <description>数据抽取工具KETTLE的管理。监控，调度等， 注意kettle需要安装一个插件 https://github.com/tmgg/kettle-carte-plugin</description>
+
+    <dependencies>
+        <dependency>
+            <groupId>io.github.tmgg</groupId>
+            <artifactId>tmgg-system</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.github.tmgg</groupId>
+            <artifactId>kettle-sdk-java</artifactId>
+            <version>1.0.2</version>
+        </dependency>
+    </dependencies>
+
+</project>

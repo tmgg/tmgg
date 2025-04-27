@@ -1,0 +1,15 @@
+{
+  "license" : "ISC",
+  "author" : "",
+  "name" : "@tmgg/tmgg-commons-lang",
+  "files" : [ "src/*" ],
+  "description" : "pc和mobile端都可依赖的公共代码，工具类等",
+  "main" : "src/index.js",
+  "scripts" : {
+    "test" : "echo \"Error: no test specified\" && exit 1"
+  },
+  "version" : "0.0.1",
+  "dependencies" : {
+    "react" : "^18.0.0"
+  }
+}

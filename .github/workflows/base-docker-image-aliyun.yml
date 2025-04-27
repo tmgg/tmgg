@@ -1,0 +1,33 @@
+name: base-docker-image-aliyun
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - 'v*'
+ # push:
+#  schedule:
+    # 定时任务，在每天的5点 (时差）
+  #  - cron: '0 21 * * *'
+jobs:
+  aliyun-docker:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+
+      - name: mvn build
+        run: mvn package -q
+
+      - name:  Publish
+        run: |
+          cd tmgg-script/tmgg-script-docker/target
+          java -jar app-jar-with-dependencies.jar  ${{ secrets.ALIYUN_REGISTRY_PASSWORD }} 
+
+
+

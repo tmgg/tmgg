@@ -1,0 +1,30 @@
+{
+  "SysMenu" : [ {
+    "pid" : "sys",
+    "id" : "paymentMgr",
+    "icon" : "DollarCircleOutlined",
+    "name" : "支付管理",
+    "seq" : 50
+  }, {
+    "pid" : "paymentMgr",
+    "id" : "paymentChannel",
+    "name" : "支付渠道",
+    "perm" : "paymentChannel",
+    "path" : "/payment/paymentChannel",
+    "seq" : 1
+  }, {
+    "pid" : "paymentMgr",
+    "id" : "paymentOrder",
+    "name" : "支付订单",
+    "perm" : "paymentOrder",
+    "path" : "/payment/paymentOrder",
+    "seq" : 2
+  }, {
+    "pid" : "paymentMgr",
+    "id" : "paymentRefundOrder",
+    "name" : "支付退款",
+    "perm" : "paymentRefundOrder",
+    "path" : "/payment/paymentRefundOrder",
+    "seq" : 3
+  } ]
+}

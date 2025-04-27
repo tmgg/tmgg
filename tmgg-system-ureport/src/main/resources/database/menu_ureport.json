@@ -1,0 +1,11 @@
+{
+  "SysMenu" : [ {
+    "id" : "ureport",
+    "pid" : "sys",
+    "name" : "UReport报表",
+    "perm" : "ureport",
+    "path" : "/ureport",
+    "seq" : 100,
+    "icon" : "TableOutlined"
+  } ]
+}
