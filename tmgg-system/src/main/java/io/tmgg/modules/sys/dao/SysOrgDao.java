@@ -25,6 +25,12 @@ public class SysOrgDao extends BaseDao<SysOrg> {
 
     private TreeManager<SysOrg> _treeManager;
 
+    @Override
+    public SysOrg save(SysOrg entity) {
+        SysOrg org = super.save(entity);
+        this.cleanCache();
+        return org;
+    }
 
     /**
      * TODO 也不能一直放内存，虽然消耗少，考虑缓存10分钟
@@ -42,7 +48,7 @@ public class SysOrgDao extends BaseDao<SysOrg> {
     /**
      * 友元函数，供aop调用
      */
-    void cleanCache() {
+    public void cleanCache() {
         System.err.println("SysOrg 清空缓存");
         _treeManager = null;
     }

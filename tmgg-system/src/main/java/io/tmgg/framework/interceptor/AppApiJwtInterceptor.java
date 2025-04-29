@@ -38,6 +38,7 @@ public class AppApiJwtInterceptor implements HandlerInterceptor {
         }
         String token = request.getHeader("Authorization");
         if (token == null) {
+
             renderError(4010, "登录凭证不存在", response);
             return false;
         }

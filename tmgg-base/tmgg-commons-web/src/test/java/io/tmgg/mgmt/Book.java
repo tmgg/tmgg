@@ -3,6 +3,7 @@ package io.tmgg.mgmt;
 
 import io.tmgg.lang.dao.BaseEntity;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,6 +20,9 @@ public class Book extends BaseEntity {
 
     @ManyToOne
     Author author;
+
+    @Lob
+    String content;
 
     public Book(String name, Author author) {
         this.name = name;
