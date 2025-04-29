@@ -185,4 +185,40 @@ public class SysOrgController {
         sysOrgService.onDrop(e);
         return AjaxResult.ok().msg("排序成功");
     }
+
+
+
+    @GetMapping("unitTree")
+    public AjaxResult unitTree() throws Exception {
+        Subject subject = SecurityUtils.getSubject();
+        List<SysOrg> list = this.sysOrgService.findByLoginUser(subject, OrgType.UNIT, false);
+
+        list = list.stream().filter((o) -> !o.isDept()).collect(Collectors.toList());
+
+        List<TreeOption> treeList = list.stream().map((o) -> {
+            TreeOption treeOption = new TreeOption();
+            treeOption.setTitle(o.getName());
+            treeOption.setKey(o.getId());
+            treeOption.setParentKey(o.getPid());
+            return treeOption;
+        }).collect(Collectors.toList());
+        List<TreeOption> tree = TreeOption.convertTree(treeList);
+        return AjaxResult.ok().data(tree);
+    }
+
+    @GetMapping("deptTree")
+    public AjaxResult deptTree() throws Exception {
+        Subject subject = SecurityUtils.getSubject();
+        List<SysOrg> list = this.sysOrgService.findByLoginUser(subject,null, false);
+
+        List<TreeOption> treeList = list.stream().map((o) -> {
+            TreeOption treeOption = new TreeOption();
+            treeOption.setTitle(o.getName());
+            treeOption.setKey(o.getId());
+            treeOption.setParentKey(o.getPid());
+            return treeOption;
+        }).collect(Collectors.toList());
+        List<TreeOption> tree = TreeOption.convertTree(treeList);
+        return AjaxResult.ok().data(tree);
+    }
 }

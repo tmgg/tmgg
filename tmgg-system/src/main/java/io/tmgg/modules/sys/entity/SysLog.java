@@ -5,6 +5,7 @@ import io.tmgg.lang.ann.Msg;
 import io.tmgg.lang.dao.BaseEntity;
 import io.tmgg.lang.dao.DBConstants;
 import jakarta.persistence.Column;
+import jakarta.persistence.Lob;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
@@ -72,7 +73,7 @@ public class SysLog extends BaseEntity {
     /**
      * 请求参数
      */
-    @Column(columnDefinition = DBConstants.TYPE_BLOB)
+    @Lob
     private String param;
 
 

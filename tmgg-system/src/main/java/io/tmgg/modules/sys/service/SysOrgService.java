@@ -51,7 +51,7 @@ public class SysOrgService extends BaseTreeService<SysOrg> {
 
 
     /**
-     * @param subject
+     * @param showAll 是否显示禁用
      * @param type
      */
     public List<SysOrg> findByLoginUser(Subject subject, Integer type, boolean showAll) {

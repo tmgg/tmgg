@@ -7,6 +7,7 @@ import jakarta.persistence.criteria.Selection;
 
 import java.util.List;
 
+@Deprecated
 public interface Selector {
 
 

@@ -134,6 +134,7 @@ export const HttpUtil = {
     },
 
     postForm(url, data, showMessage, transformData) {
+        console.warn('不推荐调用本方法,设计urlEncode等，对于特殊字符可能会有问题')
         let config = {
             url,
             method: 'POST',

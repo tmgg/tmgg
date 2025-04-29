@@ -1,5 +1,6 @@
 package io.tmgg.lang.dao;
 
+import cn.hutool.core.lang.Dict;
 import io.tmgg.lang.dao.specification.ExpressionTool;
 import io.tmgg.lang.dao.specification.Selector;
 import jakarta.annotation.PostConstruct;
@@ -393,6 +394,7 @@ public class BaseDao<T extends PersistEntity> {
      * @param selector   聚合选择器
      * @return 分组统计结果（每行格式：Map{"groupField": value, "stat1": value1, ...}）
      */
+    @Deprecated
     public List<Map> select(Specification<T> spec, String groupField, Selector selector) {
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Map> query = builder.createQuery(Map.class);
@@ -408,6 +410,65 @@ public class BaseDao<T extends PersistEntity> {
         query.multiselect(selections).where(predicate).groupBy(group);
 
         return entityManager.createQuery(query).getResultList();
+    }
+
+
+
+    /**
+     * 分组统计
+     * @return
+     */
+    public List<Map> groupStats(Specification<T> spec,  String[] groupFields, StatField... statFields) {
+        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Map> query = builder.createQuery(Map.class);
+        Root<T> root = query.from(domainClass);
+        List<Selection<?>> selections = new ArrayList<>();
+
+
+        Expression[] groups = new Expression[groupFields.length];
+        for (int i = 0; i < groupFields.length; i++) {
+            String groupField = groupFields[i];
+            Expression group = ExpressionTool.getExpression(groupField, root); //分组字段
+            groups[i] = group;
+            group.alias(groupField);
+            selections.add(group);
+        }
+
+        for (StatField statField : statFields) {
+            String fieldName = statField.getName();
+            Path<Number> f = root.get(fieldName);
+            Expression<?> statExpr = null ;
+            switch (statField.getType()) {
+                case SUM :
+                    statExpr = builder.sum(f);
+                    break;
+                case COUNT:
+                    statExpr = builder.count(f);
+                    break;
+                case AVG:
+                    statExpr =builder.avg(f);
+                    break;
+                case MIN:
+                    statExpr = (builder.min(f));
+                    break;
+                case MAX:
+                    statExpr = (builder.max(f));
+                    break;
+                default:
+                    throw new IllegalStateException("not support stat type " + statField.getType());
+
+            }
+            selections.add(statExpr.alias(fieldName));
+        }
+
+        Predicate predicate = spec.toPredicate(root, query, builder);
+        query.multiselect(selections).where(predicate).groupBy(groups);
+
+        return entityManager.createQuery(query).getResultList();
+    }
+
+    public List<Map> groupStats(Specification<T> spec,  String groupFields, StatField... statFields) {
+        return this.groupStats(spec, new String[]{groupFields}, statFields);
     }
 
 
@@ -443,6 +504,51 @@ public class BaseDao<T extends PersistEntity> {
         return map;
     }
 
+    /**
+     * 将查找接口转换为map， key为id，value为对象
+     * @param spec
+     * @return
+     */
+    public Map<String,T> dict(Specification<T> spec){
+        List<T> list = this.findAll(spec);
+        Map<String,T> map = new HashMap<>();
+        for (T t : list) {
+            map.put(t.getId(), t);
+        }
+        return map;
+    }
+
+    public Map<String,T> dict(Specification<T> spec,Function<T,String> keyField){
+        List<T> list = this.findAll(spec);
+        Map<String,T> map = new HashMap<>();
+        for (T t : list) {
+            String key = keyField.apply(t);
+            if(key != null){
+                map.put(key, t);
+            }
+        }
+        return map;
+    }
+
+    /**
+     * 将查询结果的两个字段组装成map
+     * @param spec
+     * @param keyField
+     * @param valueField
+     * @return
+     * @param <V>
+     */
+    public <V> Map<String,V>  dict(Specification<T> spec,Function<T,String> keyField,Function<T,V> valueField){
+        List<T> list = this.findAll(spec);
+        Map<String,V> map = new HashMap<>();
+        for (T t : list) {
+            String key = keyField.apply(t);
+            if(key != null){
+                map.put(key, valueField.apply(t));
+            }
+        }
+        return map;
+    }
 
     private Class<T> parseDomainClass() {
         Type type = getClass().getGenericSuperclass();

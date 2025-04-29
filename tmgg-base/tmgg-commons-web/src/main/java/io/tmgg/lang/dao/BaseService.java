@@ -1,14 +1,12 @@
 package io.tmgg.lang.dao;
 
 
-import io.tmgg.data.domain.PageExt;
-import io.tmgg.lang.dao.specification.JpaQuery;
-import io.tmgg.lang.dao.specification.Selector;
-import io.tmgg.lang.obj.Option;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
-import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
+import io.tmgg.data.domain.PageExt;
+import io.tmgg.lang.dao.specification.JpaQuery;
+import io.tmgg.lang.obj.Option;
 import io.tmgg.lang.obj.Table;
 import io.tmgg.lang.poi.ExcelExportTool;
 import jakarta.servlet.http.HttpServletResponse;
@@ -21,7 +19,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -32,24 +31,23 @@ public abstract class BaseService<T extends PersistEntity> {
     protected BaseDao<T> baseDao;
 
 
-
     /**
-     *
      * @param spec
      * @param pageable
      * @return
      */
-    public PageExt<T> page(Specification<T> spec,Pageable pageable){
+    public PageExt<T> page(Specification<T> spec, Pageable pageable) {
         Page<T> page = baseDao.findAll(spec, pageable);
         return PageExt.of(page);
     }
 
 
     public void exportExcel(List<T> list, String filename, HttpServletResponse response) throws IOException {
-        ExcelExportTool.exportBeanList(filename,  list, getEntityClass(), response);
+        ExcelExportTool.exportBeanList(filename, list, getEntityClass(), response);
     }
+
     public void exportExcel(Table<T> table, String filename, HttpServletResponse response) throws IOException {
-        ExcelExportTool.exportTable(filename,  table, response);
+        ExcelExportTool.exportTable(filename, table, response);
     }
 
 
@@ -117,9 +115,6 @@ public abstract class BaseService<T extends PersistEntity> {
     }
 
 
-
-
-
     public Page<T> findAll(Pageable pageable) {
         return baseDao.findAll(pageable);
     }
@@ -130,14 +125,9 @@ public abstract class BaseService<T extends PersistEntity> {
     }
 
 
-
-
     public List<T> findAll() {
         return baseDao.findAll();
     }
-
-
-
 
 
     public List<T> findByExampleLike(T t, Sort sort) {
@@ -232,9 +222,6 @@ public abstract class BaseService<T extends PersistEntity> {
     }
 
 
-
-
-
     public void deleteAll() {
         baseDao.deleteAll();
     }
@@ -261,4 +248,38 @@ public abstract class BaseService<T extends PersistEntity> {
     }
 
 
+    public Map<String, T> dict(Specification<T> specification) {
+        return baseDao.dict(specification);
+    }
+
+    public Map<String, T> dict(Specification<T> spec, Function<T, String> keyField) {
+        return baseDao.dict(spec, keyField);
+    }
+
+    public <V> Map<String, V> dict(Specification<T> spec, Function<T, String> keyField, Function<T, V> valueField) {
+        return baseDao.dict(spec, keyField, valueField);
+    }
+
+    public T findByField(String key,Object value){
+        JpaQuery<T> q = new JpaQuery<>();
+        q.eq(key,value);
+        return this.findOne(q);
+    }
+    public T findByField(String key,Object value,String key2,Object value2){
+        JpaQuery<T> q = new JpaQuery<>();
+        q.eq(key,value);
+        q.eq(key2,value2);
+        return this.findOne(q);
+    }
+    public List<T> findAllByField(String key,Object value){
+        JpaQuery<T> q = new JpaQuery<>();
+        q.eq(key,value);
+        return this.findAll(q);
+    }
+    public List<T>  findAllByField(String key,Object value,String key2,Object value2){
+        JpaQuery<T> q = new JpaQuery<>();
+        q.eq(key,value);
+        q.eq(key2,value2);
+        return this.findAll(q);
+    }
 }

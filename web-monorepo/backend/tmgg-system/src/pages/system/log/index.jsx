@@ -1,5 +1,5 @@
 import React, {Fragment} from 'react';
-import {Form, Input, Tag} from "antd";
+import {Form, Input, Tag, Typography} from "antd";
 import {Ellipsis, FieldDateRange, HttpUtil, ProTable} from "@tmgg/tmgg-base";
 
 
@@ -49,14 +49,6 @@ export default class extends React.Component {
             dataIndex: 'url',
         },
         {
-            title: '请求参数',
-            dataIndex: 'param',
-            render(v, record) {
-                return <Ellipsis>{v}</Ellipsis>;
-            }
-
-        },
-        {
             title: '账号',
             dataIndex: 'account'
         },
@@ -65,6 +57,15 @@ export default class extends React.Component {
             dataIndex: 'createTime',
             sorter: true,
         },
+        {
+            title: '请求参数',
+            dataIndex: 'param',
+            render(v, record) {
+                return <Typography.Text>{v}</Typography.Text>
+            }
+
+        },
+
     ];
 
 

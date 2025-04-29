@@ -49,7 +49,6 @@ public class SysOrgDao extends BaseDao<SysOrg> {
      * 友元函数，供aop调用
      */
     public void cleanCache() {
-        System.err.println("SysOrg 清空缓存");
         _treeManager = null;
     }
 

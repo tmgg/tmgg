@@ -1,8 +1,9 @@
 import React from "react";
 import {PageUtil} from "@tmgg/tmgg-base";
 import {withRouter} from "umi";
-import {Tabs} from "antd";
+import {Spin, Tabs} from "antd";
 import MyPureOutlet from "../MyPureOutlet";
+import {UrlUtil} from "@tmgg/tmgg-commons-lang";
 
 class MyTabsOutlet extends React.Component {
 
@@ -12,7 +13,6 @@ class MyTabsOutlet extends React.Component {
 
         tabs: [],
 
-        componentCache: {}
     }
 
     componentDidMount() {
@@ -82,10 +82,31 @@ class MyTabsOutlet extends React.Component {
                 style={{background: 'white'}}
                 rootClassName='tmgg-layout-tabs'
                 destroyInactiveTabPane={false}
+
+                onTabClick={this.onTabClick}
             >
             </Tabs>
         </>
     }
+
+    // 上次点击tab事件
+    lastTabClickTime = 0
+    onTabClick = (key, event) => {
+        let now = new Date().getTime();
+        let doubleClick = now - this.lastTabClickTime < 300;
+        if(doubleClick){
+            const tabs = this.state.tabs;
+            const tab = tabs.find(t=>t.key === key)
+            const old = tab.children
+            tab.children = '刷新中...'
+            this.setState({tabs},()=>{
+                tab.children = old
+                this.setState({tabs})
+            })
+        }
+
+        this.lastTabClickTime = now
+    };
 
     onChange = url => {
         if(url !== this.state.active){
