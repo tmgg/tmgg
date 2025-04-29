@@ -107,4 +107,10 @@ public class ResponseTool {
     }
 
 
+
+    public static void responseHtml(HttpServletResponse response, String html) throws IOException {
+        response.setContentType("text/html;charset=UTF-8");
+        response.getWriter().write(html);
+        response.getWriter().close();
+    }
 }

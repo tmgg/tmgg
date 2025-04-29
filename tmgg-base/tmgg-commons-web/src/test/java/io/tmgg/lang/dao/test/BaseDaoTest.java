@@ -2,15 +2,26 @@ package io.tmgg.lang.dao.test;
 
 import cn.hutool.core.util.StrUtil;
 import io.tmgg.TestBootApplication;
+import io.tmgg.lang.dao.StatField;
+import io.tmgg.lang.dao.StatType;
+import io.tmgg.lang.dao.specification.ExpressionTool;
 import io.tmgg.lang.dao.specification.JpaQuery;
 import io.tmgg.mgmt.Author;
 import io.tmgg.mgmt.AuthorDao;
+import io.tmgg.mgmt.Book;
+import io.tmgg.mgmt.BookDao;
 import jakarta.annotation.Resource;
+import jakarta.persistence.criteria.*;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.poi.ss.formula.functions.T;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @SpringBootTest(classes = TestBootApplication.class)
@@ -20,6 +31,9 @@ public class BaseDaoTest {
     // 由于base到是个抽象对象，这里以DbCache为例
     @Resource
     AuthorDao dao;
+
+    @Resource
+    BookDao bookDao;
 
     @Test
     public void test() {
@@ -55,6 +69,25 @@ public class BaseDaoTest {
         Assertions.assertEquals(1L, dao.count());
     }
 
+
+    @Test
+    public void groupSum() {
+        bookDao.save(new Book("道德经","2025-01-01", 1,1));
+        bookDao.save(new Book("论语","2025-01-02", 2,2));
+        bookDao.save(new Book("论语","2025-01-02", 3,3));
+
+        JpaQuery<Book> q = new JpaQuery<>();
+        q.eq("name","论语");
+
+        List<Map> maps = bookDao.groupStats(q, "name", new StatField("saleCount", StatType.SUM), new StatField( "favCount",StatType.SUM));
+        System.out.println(maps);
+        Assertions.assertEquals(1, maps.size());
+        Assertions.assertEquals(maps.get(0).get("saleCount"), 5);
+
+
+
+
+    }
 
 
 }

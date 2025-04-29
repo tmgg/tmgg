@@ -1,5 +1,6 @@
 package io.tmgg.lang;
 
+import cn.hutool.core.util.NumberUtil;
 import io.tmgg.lang.obj.Between;
 import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.DateUtil;
@@ -15,6 +16,20 @@ import java.util.Date;
 import java.util.List;
 
 public class DateTool {
+
+
+    public static boolean isBetween(String date, String begin,String end){
+        Assert.state(date != null, "时间不能为空");
+        Assert.state(begin != null, "开始时间不能为空");
+        Assert.state(end != null, "结束时间不能为空");
+        int b = begin.length();
+        int e = end.length();
+        int d = date.length();
+        Assert.state(b == e && d == b, "时间长度不一致");
+
+        return  date.compareTo(begin) >=0 && date.compareTo(end) <=0;
+    }
+
 
     public static List<String> allDaysOfMonth(Date month) {
         String str = DateUtil.format(month, "yyyy-MM-");

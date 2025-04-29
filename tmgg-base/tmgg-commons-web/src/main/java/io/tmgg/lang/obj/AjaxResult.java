@@ -7,6 +7,7 @@ import jakarta.persistence.Transient;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.util.Assert;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -99,13 +100,33 @@ public class AjaxResult  {
 
     /**
      * 加入额外字段
+     *
      * @param key
      * @param value
+     * @return
      */
-    public void putExtData(String key, Object value){
+    public AjaxResult putExtData(String key, Object value){
         extData.put(key,value);
+        return this;
     }
 
 
+
+    @SuppressWarnings("rawtypes")
+    public AjaxResult data(String key, Object value){
+        if(data !=null){
+            if(data instanceof Map m){
+                m.put(key, value);
+            }else {
+                throw new IllegalStateException("该方法只支持调用data数据类型为Map");
+            }
+        }else {
+            Map<String, Object> map = new HashMap<>();
+            map.put(key,value);
+            this.data = map;
+        }
+
+        return this;
+    }
 
 }
