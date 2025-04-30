@@ -1,6 +1,7 @@
 
 package io.tmgg.modules.sys;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.Dict;
 import cn.hutool.core.util.StrUtil;
 import io.tmgg.lang.TreeManager;
@@ -148,6 +149,9 @@ public class CommonController {
 
         TreeManager<Route> tm = new TreeManager<>(routes,Route::getId, Route::getPid, Route::getChildren, Route::setChildren);
         List<Route> tree = tm.getTree();
+        // 如果最顶层（topmenu）没有子节点，则不显示
+        tree = tree.stream().filter(t-> CollUtil.isNotEmpty(t.getChildren())).collect(Collectors.toList());
+
 
         Map<String, Route> treeMap = tm.getMap();
         tm.traverseTree(tree, item -> {
