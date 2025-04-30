@@ -22,7 +22,7 @@ export default class extends React.Component<Props, any> {
     const params: any = {
     };
 
-    httpUtil.get("/sysOrg/tree", params).then(rs => {
+    httpUtil.get("/sysOrg/unitTree", params).then(rs => {
       this.setState({treeData: rs})
     })
   }

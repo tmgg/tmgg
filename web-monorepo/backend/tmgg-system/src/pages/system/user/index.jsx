@@ -33,7 +33,6 @@ export default class extends React.Component {
         showAddForm: false,
         showEditForm: false,
         formValues: {},
-        treeData: [],
 
         currentOrgId: null,
         currentRoleId:null,
@@ -121,11 +120,7 @@ export default class extends React.Component {
     ];
 
 
-    componentDidMount() {
-        HttpUtil.get('sysOrg/tree').then(rs => {
-            this.setState({treeData: rs})
-        })
-    }
+
 
     resetPwd(row) {
         HttpUtil.post('/sysUser/resetPwd', {id: row.id}).then(rs => {
