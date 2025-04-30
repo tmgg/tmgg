@@ -17,7 +17,14 @@ export default class extends React.Component {
     columns = [
         {dataIndex: 'name', title: '名称', width: 150},
         {dataIndex: 'type', title: '类型', width: 100},
-        {dataIndex: 'required', title: '必填', width: 100, render: v => v ? '是' : '否'},
+        {
+            dataIndex: 'required', title: '必填', width: 100, render: v => {
+                if (v == null) {
+                    return null;
+                }
+                return v ? '是' : '否';
+            }
+        },
         {dataIndex: 'desc', title: '描述'},
         {dataIndex: 'demo', title: '示例值', width: 150}
     ]
