@@ -10,6 +10,7 @@ import lombok.Setter;
 import org.springframework.util.Assert;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -121,7 +122,7 @@ public class AjaxResult  {
                 throw new IllegalStateException("该方法只支持调用data数据类型为Map");
             }
         }else {
-            Map<String, Object> map = new HashMap<>();
+            Map<String, Object> map = new LinkedHashMap<>();
             map.put(key,value);
             this.data = map;
         }

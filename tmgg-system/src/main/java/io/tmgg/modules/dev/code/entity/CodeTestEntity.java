@@ -1,4 +1,4 @@
-package io.tmgg.modules.code.entity;
+package io.tmgg.modules.dev.code.entity;
 
 import io.tmgg.lang.ann.Msg;
 import io.tmgg.lang.dao.BaseEntity;

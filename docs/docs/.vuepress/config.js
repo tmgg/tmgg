@@ -45,6 +45,7 @@ export default defineUserConfig({
                     '/frontend/get-start',
                     '/frontend/components',
                     '/frontend/utils',
+                    '/frontend/ui',
                 ]
             },
 

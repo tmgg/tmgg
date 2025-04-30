@@ -1,10 +1,10 @@
-package io.tmgg.modules.code.service;
+package io.tmgg.modules.dev.code.service;
 
 import cn.hutool.core.util.StrUtil;
 import io.tmgg.lang.AnnTool;
 import io.tmgg.lang.ann.Msg;
-import io.tmgg.modules.code.bean.BeanInfo;
-import io.tmgg.modules.code.bean.FieldInfo;
+import io.tmgg.modules.dev.code.bean.BeanInfo;
+import io.tmgg.modules.dev.code.bean.FieldInfo;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
