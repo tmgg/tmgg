@@ -2,6 +2,7 @@ package io.tmgg.modules.openapi.controller;
 
 import cn.hutool.core.lang.Dict;
 import cn.hutool.core.util.RandomUtil;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.tmgg.Build;
 import io.tmgg.lang.ann.Msg;
 import io.tmgg.lang.dao.BaseController;
@@ -177,6 +178,11 @@ public class ApiAccountController extends BaseController<OpenApiAccount> {
     private List<Dict> getClassFields(Class<?> cls) {
         List<Dict> list = new ArrayList<>();
         for (Field field : cls.getDeclaredFields()) {
+            JsonIgnore jsonIgnore = field.getAnnotation(JsonIgnore.class);
+            if(jsonIgnore != null){
+                continue;
+            }
+
             Dict dict = new Dict();
             dict.put("name", field.getName());
             dict.put("type", field.getType().getSimpleName());

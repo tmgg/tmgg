@@ -64,7 +64,7 @@ export default class extends React.Component {
                             {this.state.appId}
                         </Descriptions.Item>
                         <Descriptions.Item label='appSecret'>
-                            通过其他方式发送
+                            ******
                         </Descriptions.Item>
                     </Descriptions>
 
@@ -105,7 +105,7 @@ export default class extends React.Component {
                 <Title level={3}>1.4 签名算法 （signature字段）</Title>
                 <Paragraph>
                     <div>
-                        1、 将请求参数转换为json得到data字段。
+                        1、将请求参数转换为json得到data字段。
                     </div>
                     <div>
                         2、然后将拼接字符串 action, appId , timestamp , data, 得到待签名内容。
