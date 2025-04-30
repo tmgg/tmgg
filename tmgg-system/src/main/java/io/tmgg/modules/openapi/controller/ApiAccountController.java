@@ -3,6 +3,7 @@ package io.tmgg.modules.openapi.controller;
 import cn.hutool.core.lang.Dict;
 import cn.hutool.core.util.RandomUtil;
 import io.tmgg.Build;
+import io.tmgg.lang.ann.Msg;
 import io.tmgg.lang.dao.BaseController;
 import io.tmgg.lang.dao.specification.JpaQuery;
 import io.tmgg.lang.obj.AjaxResult;
@@ -16,6 +17,7 @@ import io.tmgg.modules.openapi.service.ApiResourceService;
 import io.tmgg.web.CommonQueryParam;
 import io.tmgg.web.annotion.HasPermission;
 import jakarta.annotation.Resource;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.core.StandardReflectionParameterNameDiscoverer;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -26,6 +28,8 @@ import org.springframework.web.bind.annotation.*;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -95,79 +99,7 @@ public class ApiAccountController extends BaseController<OpenApiAccount> {
         Collection<ApiResource> list = apiResourceService.findAll();
         List<ApiResource> apis = list.stream().filter(r -> acc.getPerms().contains(r.getOpenApi().action())).toList();
 
-        List<Map<String, Object>> apiInfoList = apis.stream().map(r -> {
-            OpenApi api = r.getOpenApi();
-            Map<String, Object> map = new HashMap<>();
-
-            map.put("action", api.action());
-            map.put("name", api.name());
-            map.put("desc", api.desc());
-
-            Method method = r.getMethod();
-
-            Class<?>[] parameters = method.getParameterTypes();
-            StandardReflectionParameterNameDiscoverer u = new StandardReflectionParameterNameDiscoverer();
-            String[] paramNames = u.getParameterNames(method);
-
-            Annotation[][] parameterAnnotations = method.getParameterAnnotations();
-            List<Dict> parameterList = new ArrayList<>();
-            for (int i = 0; i < parameters.length; i++) {
-                String type = parameters[i].getSimpleName();
-                String name = paramNames[i];
-
-                Dict dict = Dict.of("name", name, "type", type);
-
-                Annotation[] anns = parameterAnnotations[i];
-                if (anns.length > 0) {
-                    Annotation ann = anns[0];
-                    if (ann instanceof OpenApiField f) {
-                        dict.put("required", f.required());
-                        dict.put("desc", f.desc());
-                        dict.put("demo", f.demo());
-                    }
-                }
-
-                parameterList.add(dict);
-            }
-            map.put("parameterList", parameterList);
-
-            // 返回值列表
-            {
-                List<Dict> returnList = new ArrayList<>();
-                Class<?> returnType = method.getReturnType();
-                if(returnType.isPrimitive() || String.class.isAssignableFrom(returnType)){
-                    // 简单数据类型
-                    Dict dict = new Dict();
-                    dict.put("name", "data字段");
-                    dict.put("type", returnType.getSimpleName());
-                    dict.put("required", true);
-                    dict.put("desc", "data字段本身");
-                    returnList.add(dict);
-                }else {
-                    for (Field field : returnType.getDeclaredFields()) {
-                        Dict dict = new Dict();
-                        dict.put("name", field.getName());
-                        dict.put("type", field.getType().getSimpleName());
-
-                        OpenApiField f = field.getAnnotation(OpenApiField.class);
-                        if (f != null) {
-                            dict.put("required", f.required());
-                            dict.put("desc", f.desc());
-                            dict.put("demo", f.demo());
-                        }
-                        returnList.add(dict);
-                    }
-                }
-
-
-
-
-                map.put("returnList", returnList);
-            }
-
-
-            return map;
-        }).toList();
+        List<Map<String, Object>> apiInfoList = apis.stream().map(this::getApiInfo).toList();
 
         Dict resultData = new Dict();
         resultData.put("apiList", apiInfoList);
@@ -176,5 +108,95 @@ public class ApiAccountController extends BaseController<OpenApiAccount> {
         return AjaxResult.ok().data(resultData);
     }
 
+    @NotNull
+    private Map<String, Object> getApiInfo(ApiResource r) {
+        OpenApi api = r.getOpenApi();
+        Map<String, Object> info = new HashMap<>();
+
+        info.put("action", api.action());
+        info.put("name", api.name());
+        info.put("desc", api.desc());
+
+        Method method = r.getMethod();
+
+        Class<?>[] parameters = method.getParameterTypes();
+        StandardReflectionParameterNameDiscoverer u = new StandardReflectionParameterNameDiscoverer();
+        String[] paramNames = u.getParameterNames(method);
+
+        Annotation[][] parameterAnnotations = method.getParameterAnnotations();
+        List<Dict> parameterList = new ArrayList<>();
+        for (int i = 0; i < parameters.length; i++) {
+            String type = parameters[i].getSimpleName();
+            String name = paramNames[i];
+
+            Dict dict = Dict.of("name", name, "type", type);
+
+            Annotation[] anns = parameterAnnotations[i];
+            if (anns.length > 0) {
+                Annotation ann = anns[0];
+                if (ann instanceof OpenApiField f) {
+                    dict.put("required", f.required());
+                    dict.put("desc", f.desc());
+                    dict.put("demo", f.demo());
+                }
+            }
+
+            parameterList.add(dict);
+        }
+        info.put("parameterList", parameterList);
+
+        // 返回值
+
+
+        Class<?> returnType = method.getReturnType();
+        info.put("returnType", returnType.getSimpleName());
+
+        boolean isSimpleType = returnType.isPrimitive() || String.class.isAssignableFrom(returnType);
+        if (isSimpleType) {
+            return info;
+        }
+
+        boolean isCollection = Collection.class.isAssignableFrom(returnType);
+        if (isCollection) {
+            ParameterizedType parameterizedType = (ParameterizedType) method.getGenericReturnType();// 泛型
+            Type type = parameterizedType.getActualTypeArguments()[0];
+
+
+            info.put("returnList", getClassFields((Class<?>) type));
+
+            return info;
+        }
+
+
+        info.put("returnList", getClassFields(returnType));
+
+        return info;
+    }
+
+
+    private List<Dict> getClassFields(Class<?> cls) {
+        List<Dict> list = new ArrayList<>();
+        for (Field field : cls.getDeclaredFields()) {
+            Dict dict = new Dict();
+            dict.put("name", field.getName());
+            dict.put("type", field.getType().getSimpleName());
+
+            OpenApiField f = field.getAnnotation(OpenApiField.class);
+            if (f != null) {
+                dict.put("required", f.required());
+                dict.put("desc", f.desc());
+                dict.put("demo", f.demo());
+            }else {
+
+                Msg msg = field.getAnnotation(Msg.class);
+                if(msg != null){
+                    dict.put("desc", msg.value());
+                }
+            }
+
+            list.add(dict);
+        }
+        return list;
+    }
 
 }

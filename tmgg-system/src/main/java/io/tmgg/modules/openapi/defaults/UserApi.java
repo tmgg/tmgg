@@ -9,6 +9,8 @@ import jakarta.annotation.Resource;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
+import java.util.List;
+
 @Component
 public class UserApi implements BaseOpenApi {
 
@@ -31,6 +33,11 @@ public class UserApi implements BaseOpenApi {
         SysUser sysUser = sysUserService.findByAccount(account);
         Assert.notNull(sysUser,"用户不存在");
         return sysUser.getName();
+    }
+
+    @OpenApi(name = "获取用户列表", action = "user.list")
+    public List<SysUser> list(@OpenApiField(desc = "账号") String account) {
+        return sysUserService.findAll();
     }
 
 }

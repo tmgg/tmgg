@@ -65,8 +65,12 @@ export class PageUtil {
         history.push(path)
     }
 
-    static openPure(path) {
-       path = UrlUtil.setParam(path,'_pure', true)
+    /**
+     * 打开一个不带菜单，header的页面
+     * @param path
+     */
+    static openNoLayout(path) {
+       path = UrlUtil.setParam(path,'_noLayout', true)
 
         history.push(path)
     }
