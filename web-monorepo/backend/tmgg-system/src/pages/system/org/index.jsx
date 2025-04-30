@@ -1,5 +1,5 @@
 import {DeleteOutlined, EditOutlined, PlusOutlined, SyncOutlined} from '@ant-design/icons';
-import {Button, Card, Checkbox, Empty, Form, Input, Popconfirm, Select, Space, Splitter, Switch, Tree} from 'antd';
+import {Button, Card, Empty, Form, Input, Popconfirm, Select, Space, Splitter, Switch, Tree} from 'antd';
 import React from 'react';
 import {
     FieldDictRadio,
@@ -10,6 +10,7 @@ import {
     NamedIcon,
     Page
 } from "@tmgg/tmgg-base";
+import {TreeUtil} from "@tmgg/tmgg-commons-lang";
 
 const baseTitle = "组织机构";
 const baseApi = 'sysOrg/';
@@ -18,7 +19,7 @@ const deleteTitle = '删除' + baseTitle
 
 
 const delApi = baseApi + 'delete'
-const treeApi = baseApi + 'deptTree'
+const treeApi = baseApi + 'allTree'
 
 
 export default class extends React.Component {
@@ -30,8 +31,7 @@ export default class extends React.Component {
         formEditing: false,
 
 
-
-        params:{
+        params: {
             showDisabled: true,
             showDept: true,
             keyword: null
@@ -39,10 +39,14 @@ export default class extends React.Component {
 
         treeData: [],
         treeLoading: false,
-        draggable:false,
+        draggable: false,
+
+        expandedKeys:[],
 
 
         enableAllLoading: false,
+
+
     }
     actionRef = React.createRef();
     treeRef = React.createRef();
@@ -57,7 +61,7 @@ export default class extends React.Component {
         }
 
         const {params} = this.state
-        HttpUtil.post('sysOrg/pageTree',params).then(rs => {
+        HttpUtil.post('sysOrg/pageTree', params).then(rs => {
             let treeData = rs;
             this.setState({treeData})
         }).finally(() => {
@@ -115,8 +119,12 @@ export default class extends React.Component {
     }
 
     onDraggableChange = e => {
-        this.setState({draggable:e})
+        this.setState({draggable: e})
     };
+    onExpandSelect = v=>{
+        const keys = TreeUtil.findKeysByLevel(this.state.treeData, v)
+        this.setState({expandedKeys:keys})
+    }
 
     render() {
         let {formValues} = this.state;
@@ -129,17 +137,29 @@ export default class extends React.Component {
                           title='组织机构'
                           extra={<Space>
                               <div>
-                                  排序&nbsp;<Switch
+                                  展开 <Select style={{width: 80}}
+                                               size='small'
+                                               options={[
+                                                   {label: '所有', value: -1},
+                                                   {label: '一级', value: 1},
+                                                   {label: '二级', value: 2},
+                                                   {label: '三级', value: 3}]}
+                                               onChange={this.onExpandSelect}
+                              />
+                              </div>
+                              <div>
+                                  拖拽排序&nbsp;<Switch
                                   value={this.state.draggable}
                                   onChange={this.onDraggableChange}/>
                               </div>
-                              <Button size='small' icon={<SyncOutlined/>} onClick={this.loadTree}></Button>
+                              <Button size='small' shape={"round"} icon={<SyncOutlined/>}
+                                      onClick={this.loadTree}></Button>
                           </Space>}>
                         <Space>
 
-                            <Input.Search  placeholder='搜索'  value={params.keyword}  onChange={e=>{
+                            <Input.Search placeholder='搜索' value={params.keyword} onChange={e => {
                                 params.keyword = e.target.value
-                                this.setState({params},this.loadTree)
+                                this.setState({params}, this.loadTree)
                             }}/>
                             <div>
                                 显示禁用 <Switch
@@ -157,27 +177,29 @@ export default class extends React.Component {
                                     params.showDept = e;
                                     this.setState({params}, this.loadTree);
                                 }}
-                                />
+                            />
                             </div>
                         </Space>
-                        <Gap />
+
+                        <Gap/>
 
 
-                        {this.state.treeLoading || <Tree
-                            ref={this.treeRef}
-                            treeData={this.state.treeData}
-                            onSelect={this.onSelect}
-                            defaultExpandAll
-                            showIcon
-                            blockNode
-                            icon={item => {
-                                return <NamedIcon name={item.data.iconName}/>
-                            }}
-                            draggable={this.state.draggable}
-                            onDrop={this.onDrop}
-                            showLine
+                        <Tree ref={this.treeRef}
+                              treeData={this.state.treeData}
+                              onSelect={this.onSelect}
+                              showIcon
+                              blockNode
+                              icon={item => <NamedIcon name={item.data.iconName}/>}
+                              draggable={this.state.draggable}
+                              onDrop={this.onDrop}
+                              showLine
+                              expandedKeys={this.state.expandedKeys}
+                              onExpand={(expandedKeys)=>{
+                                  this.setState({expandedKeys})
+                              }}
+                              autoExpandParent
                         >
-                        </Tree>}
+                        </Tree>
                         {this.state.treeData.length === 0 && <Empty/>}
                     </Card>
                 </Splitter.Panel>

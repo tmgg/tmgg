@@ -110,7 +110,7 @@ public class SysOrgController {
                 return "ApartmentOutlined";
             }
             case OrgType.DEPT -> {
-                return "HomeOutlined";
+                return "BorderOutlined";
             }
 
         }
@@ -125,6 +125,14 @@ public class SysOrgController {
         return AjaxResult.ok().msg("排序成功");
     }
 
+
+    @GetMapping("allTree")
+    public AjaxResult allTree() throws Exception {
+        Subject subject = SecurityUtils.getSubject();
+        List<SysOrg> list = this.sysOrgService.findByLoginUser(subject,true, true);
+
+        return AjaxResult.ok().data(list2Tree(list));
+    }
 
 
 
@@ -165,6 +173,10 @@ public class SysOrgController {
             // 兼容选择框
             d.set("value", o.getId());
             d.set("label", o.getName());
+
+            // 兼容treeUtil工具
+            d.set("id", o.getId());
+            d.set("pid", pid);
 
             return d;
         }).collect(Collectors.toList());
