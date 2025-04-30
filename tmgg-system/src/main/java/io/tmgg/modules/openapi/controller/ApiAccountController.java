@@ -98,7 +98,13 @@ public class ApiAccountController extends BaseController<OpenApiAccount> {
     public AjaxResult docInfo(String id) {
         OpenApiAccount acc = service.findOne(id);
         Collection<ApiResource> list = apiResourceService.findAll();
-        List<ApiResource> apis = list.stream().filter(r -> acc.getPerms().contains(r.getOpenApi().action())).toList();
+        List<ApiResource> apis = list.stream()
+                .filter(r -> acc.getPerms().contains(r.getOpenApi().action()))
+                .sorted((o1, o2) -> {
+                    String action1 = o1.getOpenApi().action();
+                    String action2 = o2.getOpenApi().action();
+                    return action1.compareTo(action2);
+                }).toList();
 
         List<Map<String, Object>> apiInfoList = apis.stream().map(this::getApiInfo).toList();
 
@@ -179,7 +185,7 @@ public class ApiAccountController extends BaseController<OpenApiAccount> {
         List<Dict> list = new ArrayList<>();
         for (Field field : cls.getDeclaredFields()) {
             JsonIgnore jsonIgnore = field.getAnnotation(JsonIgnore.class);
-            if(jsonIgnore != null){
+            if (jsonIgnore != null) {
                 continue;
             }
 
@@ -192,10 +198,10 @@ public class ApiAccountController extends BaseController<OpenApiAccount> {
                 dict.put("required", f.required());
                 dict.put("desc", f.desc());
                 dict.put("demo", f.demo());
-            }else {
+            } else {
 
                 Msg msg = field.getAnnotation(Msg.class);
-                if(msg != null){
+                if (msg != null) {
                     dict.put("desc", msg.value());
                 }
             }
