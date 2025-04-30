@@ -118,10 +118,10 @@ public class ApiAccountController extends BaseController<OpenApiAccount> {
                 Dict dict = Dict.of("name", name, "type", type);
 
                 Annotation[] anns = parameterAnnotations[i];
-                if(anns.length > 0){
+                if (anns.length > 0) {
                     Annotation ann = anns[0];
-                    if(ann instanceof OpenApiField f){
-                        dict.put("required",f.required());
+                    if (ann instanceof OpenApiField f) {
+                        dict.put("required", f.required());
                         dict.put("desc", f.desc());
                         dict.put("demo", f.demo());
                     }
@@ -131,31 +131,46 @@ public class ApiAccountController extends BaseController<OpenApiAccount> {
             }
             map.put("parameterList", parameterList);
 
-            Class<?> returnType = method.getReturnType();
+            // 返回值列表
+            {
+                List<Dict> returnList = new ArrayList<>();
+                Class<?> returnType = method.getReturnType();
+                if(returnType.isPrimitive() || String.class.isAssignableFrom(returnType)){
+                    // 简单数据类型
+                    Dict dict = new Dict();
+                    dict.put("name", "data字段");
+                    dict.put("type", returnType.getSimpleName());
+                    dict.put("required", true);
+                    dict.put("desc", "data字段本身");
+                    returnList.add(dict);
+                }else {
+                    for (Field field : returnType.getDeclaredFields()) {
+                        Dict dict = new Dict();
+                        dict.put("name", field.getName());
+                        dict.put("type", field.getType().getSimpleName());
 
-            List<Dict> returnList = new ArrayList<>();
-            for (Field field : returnType.getDeclaredFields()) {
-                Dict dict = new Dict();
-                dict.put("name", field.getName());
-                dict.put("type", field.getType().getSimpleName());
-
-                OpenApiField f = field.getAnnotation(OpenApiField.class);
-                if(f != null){
-                    dict.put("required",f.required());
-                    dict.put("desc", f.desc());
-                    dict.put("demo", f.demo());
+                        OpenApiField f = field.getAnnotation(OpenApiField.class);
+                        if (f != null) {
+                            dict.put("required", f.required());
+                            dict.put("desc", f.desc());
+                            dict.put("demo", f.demo());
+                        }
+                        returnList.add(dict);
+                    }
                 }
-                returnList.add(dict);
+
+
+
+
+                map.put("returnList", returnList);
             }
 
-
-            map.put("returnList", returnList);
 
             return map;
         }).toList();
 
         Dict resultData = new Dict();
-        resultData.put("apiList",apiInfoList);
+        resultData.put("apiList", apiInfoList);
         resultData.put("frameworkVersion", Build.FRAMEWORK_VERSION);
 
         return AjaxResult.ok().data(resultData);

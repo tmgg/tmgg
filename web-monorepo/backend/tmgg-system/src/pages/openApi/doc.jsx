@@ -71,23 +71,18 @@ export default class extends React.Component {
                 </Paragraph>
 
 
-                <Title level={4}>1.2 通用请求头 （http header）</Title>
+                <Title level={4}>1.2 公共请求参数 </Title>
 
                 <Table columns={this.columns} bordered dataSource={[
-                    {name: 'x-action', type: 'String', required: true, desc: '接口定义'},
-                    {name: 'x-app-id', type: 'String', required: true, desc: '账号标识,appId'},
-                    {name: 'x-timestamp', type: 'String', required: true, desc: '时间戳'},
-                    {name: 'x-signature', type: 'String', required: true, desc: '数据签名，参考签名算法'}
-                ]} size='small' pagination={false}>
-                </Table>
-                <Title level={4}>1.3 通用请求参数 </Title>
-
-                <Table columns={this.columns} bordered dataSource={[
+                    {name: 'action', type: 'String', required: true, desc: '接口定义'},
+                    {name: 'appId', type: 'String', required: true, desc: '账号标识,appId'},
+                    {name: 'timestamp', type: 'String', required: true, desc: '时间戳'},
+                    {name: 'signature', type: 'String', required: true, desc: '数据签名，参考签名算法'},
                     {name: 'data', type: 'String', required: true, desc: '请求参数转JSON后加密'},
                 ]} size='small' pagination={false}>
                 </Table>
 
-                <Title level={4}>1.4 通用返回参数 </Title>
+                <Title level={4}>1.3 公共返回参数 </Title>
                 <Table columns={this.columns} bordered dataSource={[
                     {name: 'code', type: 'int', required: true, desc: '返回码,成功返回0，其他表示操作错误'},
                     {name: 'msg', type: 'String', required: false, desc: '返回码说明'},
@@ -95,7 +90,7 @@ export default class extends React.Component {
                 ]} size='small' pagination={false}>
                 </Table>
 
-                <Title level={3}>1.5 签名算法 （signature字段）</Title>
+                <Title level={3}>1.4 签名算法 （signature字段）</Title>
                 <Paragraph>
                     <div>
                         1、 将请求参数转换为json得到data字段。
@@ -108,7 +103,7 @@ export default class extends React.Component {
                     </div>
                 </Paragraph>
 
-                <Title level={3}>1.4 加密请求内容 （data字段）</Title>
+                <Title level={3}>1.5 加密请求内容 （data字段）</Title>
                 <Paragraph>
                     <div>
                         1、请求参数转换为JSON结构,得到data
@@ -165,12 +160,12 @@ export default class extends React.Component {
                         <Typography.Title level={3}>{'2.' + (index + 1) + " " + api.name}</Typography.Title>
                         <p>{api.desc}</p>
 
-                        <Title level={5}>请求参数（data字段）</Title>
+                        <Title level={5}>请求参数</Title>
                         <Table columns={this.columns} bordered dataSource={api.parameterList}
                                size='small' pagination={false}>
                         </Table>
 
-                        <Title level={5}>返回参数（data字段）</Title>
+                        <Title level={5}>返回数据</Title>
                         <Table columns={this.columns} bordered
                                dataSource={api.returnList} size='small' pagination={false}>
                         </Table>

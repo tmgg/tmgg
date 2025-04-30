@@ -25,7 +25,7 @@ public class ExceptionToMessageTool {
 
         // 中文则提示中文，非中文则使用默认提示
         if (!StrTool.isChinese(message)) {
-            message = "操作失败";
+            message = "服务器忙";
         }
         return message;
     }
