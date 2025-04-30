@@ -1,22 +1,16 @@
 package io.tmgg.modules.dev;
 
 import cn.hutool.extra.servlet.JakartaServletUtil;
-import cn.hutool.http.HtmlUtil;
 import io.tmgg.jackson.JsonTool;
 import io.tmgg.lang.RequestTool;
 import io.tmgg.lang.obj.AjaxResult;
-import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
-import org.apache.commons.lang3.StringEscapeUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.util.*;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("requestTest")
@@ -24,8 +18,6 @@ public class RequestTestController {
 
     @GetMapping("get")
     public AjaxResult get(HttpServletRequest request) {
-
-
         Map<String, Object> data = new LinkedHashMap<>();
 
         data.put("请求时间", System.currentTimeMillis());

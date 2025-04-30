@@ -18,7 +18,7 @@ public class BizException extends IllegalStateException {
         super(prefixMessage + ": " + e.getMessage());
     }
 
-    public BizException(String message, int code) {
+    public BizException(int code, String message) {
         super(message);
         this.code = code;
     }

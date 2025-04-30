@@ -67,6 +67,11 @@ public class AjaxResult  {
     public static AjaxResult err(String msg) {
         return err().msg(msg);
     }
+
+    public static AjaxResult err(int code, String msg) {
+        return err().msg(msg).code(code);
+    }
+
     public  AjaxResult code(int code){
         this.code = code;
         return this;

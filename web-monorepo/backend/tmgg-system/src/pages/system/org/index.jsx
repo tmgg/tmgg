@@ -1,7 +1,15 @@
 import {DeleteOutlined, EditOutlined, PlusOutlined, SyncOutlined} from '@ant-design/icons';
-import {Button, Card, Checkbox, Empty, Form, Input, Popconfirm, Space, Splitter, Switch, Tree} from 'antd';
+import {Button, Card, Checkbox, Empty, Form, Input, Popconfirm, Select, Space, Splitter, Switch, Tree} from 'antd';
 import React from 'react';
-import {FieldDictRadio, FieldRadioBoolean, FieldRemoteTreeSelect, HttpUtil, NamedIcon, Page} from "@tmgg/tmgg-base";
+import {
+    FieldDictRadio,
+    FieldRadioBoolean,
+    FieldRemoteTreeSelect,
+    Gap,
+    HttpUtil,
+    NamedIcon,
+    Page
+} from "@tmgg/tmgg-base";
 
 const baseTitle = "组织机构";
 const baseApi = 'sysOrg/';
@@ -10,7 +18,7 @@ const deleteTitle = '删除' + baseTitle
 
 
 const delApi = baseApi + 'delete'
-const treeApi = baseApi + 'tree?showAll=true'
+const treeApi = baseApi + 'deptTree'
 
 
 export default class extends React.Component {
@@ -22,7 +30,13 @@ export default class extends React.Component {
         formEditing: false,
 
 
-        showAll: true,
+
+        params:{
+            showDisabled: true,
+            showDept: true,
+            keyword: null
+        },
+
         treeData: [],
         treeLoading: false,
         draggable:false,
@@ -42,8 +56,8 @@ export default class extends React.Component {
             this.setState({treeLoading: true})
         }
 
-        const {showAll} = this.state
-        HttpUtil.get('sysOrg/pageTree', {showAll}).then(rs => {
+        const {params} = this.state
+        HttpUtil.post('sysOrg/pageTree',params).then(rs => {
             let treeData = rs;
             this.setState({treeData})
         }).finally(() => {
@@ -107,26 +121,47 @@ export default class extends React.Component {
     render() {
         let {formValues} = this.state;
         let disabled = formValues == null;
+        let params = this.state.params;
         return <Page>
             <Splitter>
-                <Splitter.Panel defaultSize={400}>
+                <Splitter.Panel defaultSize={500}>
                     <Card loading={this.state.treeLoading}
                           title='组织机构'
                           extra={<Space>
                               <div>
-                              排序&nbsp;<Switch
-                              value={this.state.draggable}
-                              onChange={this.onDraggableChange}/> </div>
-                              <div>
-                              包含禁用&nbsp;<Switch
-                                  value={this.state.showAll}
-                                  onChange={e => {
-                                      this.setState({showAll: e}, this.loadTree);
-                                  }}
-                              />
+                                  排序&nbsp;<Switch
+                                  value={this.state.draggable}
+                                  onChange={this.onDraggableChange}/>
                               </div>
                               <Button size='small' icon={<SyncOutlined/>} onClick={this.loadTree}></Button>
                           </Space>}>
+                        <Space>
+
+                            <Input.Search  placeholder='搜索'  value={params.keyword}  onChange={e=>{
+                                params.keyword = e.target.value
+                                this.setState({params},this.loadTree)
+                            }}/>
+                            <div>
+                                显示禁用 <Switch
+                                value={params.showDisabled}
+                                onChange={e => {
+                                    params.showDisabled = e;
+                                    this.setState({params}, this.loadTree);
+                                }}
+                            />
+                            </div>
+                            <div>
+                                显示部门 <Switch
+                                value={params.showDept}
+                                onChange={e => {
+                                    params.showDept = e;
+                                    this.setState({params}, this.loadTree);
+                                }}
+                                />
+                            </div>
+                        </Space>
+                        <Gap />
+
 
                         {this.state.treeLoading || <Tree
                             ref={this.treeRef}
@@ -141,7 +176,6 @@ export default class extends React.Component {
                             draggable={this.state.draggable}
                             onDrop={this.onDrop}
                             showLine
-
                         >
                         </Tree>}
                         {this.state.treeData.length === 0 && <Empty/>}
@@ -215,7 +249,7 @@ export default class extends React.Component {
                             </Form.Item>
 
 
-                            <Form.Item label='状态' name='enabled' rules={[{required: true}]}>
+                            <Form.Item label='启用' name='enabled' rules={[{required: true}]}>
                                 <FieldRadioBoolean/>
                             </Form.Item>
 

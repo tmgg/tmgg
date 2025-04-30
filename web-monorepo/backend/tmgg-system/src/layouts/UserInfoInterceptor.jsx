@@ -1,5 +1,7 @@
 import React from "react";
-import {HttpUtil, PageLoading, SysUtil} from "@tmgg/tmgg-base";
+import {HttpSimpleUtil, HttpUtil, PageLoading, SysUtil} from "@tmgg/tmgg-base";
+import {Modal} from "antd";
+import {history} from "umi";
 
 export default class extends React.Component {
 
@@ -10,9 +12,25 @@ export default class extends React.Component {
 
     componentDidMount() {
         console.log("登录信息拦截器")
-        HttpUtil.get('/getLoginInfo').then(rs => {
-            SysUtil.setLoginInfo(rs)
-            this.setState({loginInfoLoading:false})
+        HttpSimpleUtil.get('/getLoginInfo').then(res => {
+            const rs = res.data
+            if(rs.success){
+                SysUtil.setLoginInfo(rs.data)
+                this.setState({loginInfoLoading:false})
+            }else {
+                Modal.error({
+                    title: '获取登录信息失败',
+                    content: rs.message,
+                    okText:'重新登录',
+                    onOk:()=>{
+                        HttpUtil.get('/logout').finally(() => {
+                            localStorage.clear()
+                            history.replace('/login')
+                        })
+                    }
+                })
+            }
+
         })
 
         HttpUtil.get('sysDict/tree').then(rs => {

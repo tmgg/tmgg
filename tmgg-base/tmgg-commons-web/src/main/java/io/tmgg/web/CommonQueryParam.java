@@ -18,10 +18,6 @@ public class CommonQueryParam {
     String keyword;
 
 
-    private Map<String, Object> like = new HashMap<>();
-    private Map<String, Object> equal = new HashMap<>();
-    private Map<String, Object> between = new HashMap<>();
-
     /**
      *  其他字段
      */

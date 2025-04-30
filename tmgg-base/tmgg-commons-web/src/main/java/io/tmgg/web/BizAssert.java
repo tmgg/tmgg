@@ -6,12 +6,12 @@ public class BizAssert {
 
     public static void state(boolean state,  String msg){
         if(!state){
-            throw new BizException(msg,DEFAULT_ERROR_CODE);
+            throw new BizException(DEFAULT_ERROR_CODE,msg);
         }
     }
     public static void state(boolean state, int code, String msg){
         if(!state){
-            throw new BizException(msg,code);
+            throw new BizException(code,msg);
         }
     }
 }

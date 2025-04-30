@@ -18,6 +18,7 @@ import io.tmgg.web.perm.Subject;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -71,9 +72,10 @@ public class CommonController {
         vo.put("permissions", subject.getPermissions());
         vo.put("account", subject.getAccount());
 
-        Set<String> roles = subject.getRoles();
-        if (!CollectionUtils.isEmpty(roles)) {
-            List<SysRole> roleList = roleService.findAllByCode(roles);
+        Set<String> roleIds = subject.getRoles();
+        if (!CollectionUtils.isEmpty(roleIds)) {
+            List<SysRole> roleList = roleService.findAllByCode(roleIds);
+            Assert.state(roleList.size() ==roleIds.size(),"用户角色已被修改，请重新登录");
             Set<String> roleNameSet = roleList.stream().map(SysRole::getName).collect(Collectors.toSet());
             String roleNames = StringUtils.join(roleNameSet, ",");
             vo.put("roleNames", roleNames);

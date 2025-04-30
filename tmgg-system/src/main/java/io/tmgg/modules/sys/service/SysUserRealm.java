@@ -42,7 +42,8 @@ public class SysUserRealm implements AuthorizingRealm {
             SysUser user = sysUserService.findOne(userId);
             log.trace("查询用户  {}", user);
             if (user == null) {
-                throw new BizException("用户或密码错误"); // 不直接提示用户不存在，防止暴力遍历
+                log.error("用户不存在:  {}",subject);
+                throw new BizException(1001,"用户或密码错误"); // 不直接提示用户不存在，防止暴力遍历
             }
 
             BeanUtils.copyProperties(user, subject);

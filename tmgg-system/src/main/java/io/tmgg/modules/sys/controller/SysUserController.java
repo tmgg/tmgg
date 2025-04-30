@@ -220,10 +220,15 @@ public class SysUserController {
         return AjaxResult.ok();
     }
 
+    /**
+     * 用户树
+     * 机构刷下面增加用户节点
+     * @return
+     */
     @GetMapping("tree")
     public AjaxResult tree() {
         Subject subject = SecurityUtils.getSubject();
-        List<SysOrg> orgList = sysOrgService.findByLoginUser(subject, null, true);
+        List<SysOrg> orgList = sysOrgService.findByLoginUser(subject, true, false);
         if (orgList.isEmpty()) {
             return AjaxResult.ok().data(Collections.emptyList());
         }
