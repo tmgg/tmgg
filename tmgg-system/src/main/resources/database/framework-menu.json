@@ -158,7 +158,7 @@
     "id" : "sys_entity_gen",
     "name" : "生成代码",
     "perm" : "sys_entity_gen",
-    "path" : "/code",
+    "path" : "/dev/code",
     "icon" : "JavaScriptOutlined",
     "seq" : 10
   },
@@ -180,7 +180,8 @@
       "path" : "/report/chart",
       "seq" : 30,
       "icon" : "FundProjectionScreenOutlined"
-    }, {
+    },
+    {
       "pid" : "dev",
       "id" : "sysReportTable",
       "name" : "SQL表格",
@@ -188,7 +189,17 @@
       "path" : "/report/table",
       "seq" : 31,
       "icon" : "TableOutlined"
-    }, {
+    },
+    {
+      "pid" : "dev",
+      "id" : "requestTest",
+      "name" : "请求测试",
+      "perm" : "requestTest",
+      "path" : "/dev/requestTest",
+      "icon" : "LinkOutlined",
+      "seq" : 40
+    },
+    {
     "pid" : "sys",
     "id" : "sysAsset",
     "name" : "素材管理",

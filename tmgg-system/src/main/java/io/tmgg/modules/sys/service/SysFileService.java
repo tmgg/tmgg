@@ -191,7 +191,7 @@ public class SysFileService {
     private void init() {
 
         boolean enable = sysConfigService.getBoolean("file.minio.enable");
-        log.info("获取系统参数：mino服务是否开启:{}", enable);
+        log.info("获取系统参数：minio服务是否开启:{}", enable);
         if (enable) {
             String minioUrl = sysConfigService.getStr("file.minio.url");
             String accessKey = sysConfigService.getStr("file.minio.accessKey");

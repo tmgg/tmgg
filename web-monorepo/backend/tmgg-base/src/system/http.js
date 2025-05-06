@@ -229,3 +229,31 @@ export const HttpUtil = {
 
     }
 }
+
+export const HttpSimpleUtil = {
+
+    get(url, params = null) {
+        let config = {
+            url,
+            method: 'GET',
+            params,
+        };
+        config.showMessage = false
+        config.transformData = false
+        return request(config)
+    },
+
+    post(url, data, params = null) {
+        let config = {
+            url,
+            method: 'POST',
+            params,
+            data,
+        };
+        config.showMessage = false
+        config.transformData = false
+        return request(config)
+    },
+
+
+}

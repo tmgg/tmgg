@@ -156,7 +156,7 @@ export default class extends React.Component {
                                   this.setState({currentTopMenuKey, leftMenus})
                               }
                           }}
-                          style={{lineHeight: '42px', minWidth: 500, borderBottom: 'none', backgroundColor: '#f5f5f5'}}
+                          style={{lineHeight: '42px',  borderBottom: 'none', backgroundColor: '#f5f5f5'}}
                     ></Menu>
                 </div>
                 <HeaderRight></HeaderRight>

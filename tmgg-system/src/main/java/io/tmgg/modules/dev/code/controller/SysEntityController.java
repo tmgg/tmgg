@@ -1,4 +1,4 @@
-package io.tmgg.modules.code.controller;
+package io.tmgg.modules.dev.code.controller;
 
 import cn.hutool.core.lang.Dict;
 import cn.hutool.core.util.StrUtil;

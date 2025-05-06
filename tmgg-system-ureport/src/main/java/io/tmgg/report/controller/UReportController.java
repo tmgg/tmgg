@@ -1,5 +1,6 @@
 package io.tmgg.report.controller;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.Dict;
 import com.bstek.ureport.provider.report.ReportFile;
 import com.bstek.ureport.provider.report.ReportProvider;
@@ -36,7 +37,11 @@ public class UReportController {
 
         List<Dict> voList = new ArrayList<>();
         for (ReportProvider reportProvider : list) {
-            for (ReportFile file : reportProvider.getReportFiles()) {
+            List<ReportFile> reportFiles = reportProvider.getReportFiles();
+            if(CollUtil.isEmpty(reportFiles)){
+                continue;
+            }
+            for (ReportFile file : reportFiles) {
                 Dict dict = new Dict();
                 dict.put("providerName", reportProvider.getName());
                 dict.put("providerPrefix",reportProvider.getPrefix());

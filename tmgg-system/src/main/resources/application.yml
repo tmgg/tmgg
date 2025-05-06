@@ -12,6 +12,6 @@ sys:
 
 logging:
   file:
-    path: /logs/app-log
+    path: ../logs/app-log
   pattern:
     dateformat: yyyy-MM-dd HH:mm:ss.SSS

@@ -2,23 +2,25 @@
 package io.tmgg.modules.sys.controller;
 
 import cn.hutool.core.lang.Dict;
+import cn.hutool.core.util.StrUtil;
 import io.tmgg.framework.session.SysHttpSession;
 import io.tmgg.lang.TreeManager;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.obj.DropEvent;
-import io.tmgg.lang.obj.TreeOption;
+import io.tmgg.lang.obj.Option;
 import io.tmgg.modules.sys.entity.OrgType;
 import io.tmgg.modules.sys.entity.SysOrg;
 import io.tmgg.modules.sys.service.SysOrgService;
+import io.tmgg.web.CommonQueryParam;
 import io.tmgg.web.annotion.HasPermission;
 import io.tmgg.web.perm.SecurityUtils;
 import io.tmgg.web.perm.Subject;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpSession;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,6 +34,8 @@ public class SysOrgController {
 
     @Resource
     private SysOrgService sysOrgService;
+
+
 
 
     @HasPermission
@@ -71,37 +75,12 @@ public class SysOrgController {
     }
 
 
-    /***
-     *
-     * @param type
-     * @param showAll 是否包含禁用的
-     *
-     */
-    @GetMapping("tree")
-    public AjaxResult tree(Integer type, Boolean filterDept, @RequestParam(defaultValue = "false") boolean showAll) {
-        Subject subject = SecurityUtils.getSubject();
-        List<SysOrg> list = sysOrgService.findByLoginUser(subject, type, showAll);
 
-        if (filterDept != null && filterDept) {
-            list = list.stream().filter(o -> !o.isDept()).collect(Collectors.toList());
-        }
-
-        List<TreeOption> treeList = list.stream().map(o -> {
-            TreeOption treeOption = new TreeOption();
-            treeOption.setTitle(o.getName());
-            treeOption.setKey(o.getId());
-            treeOption.setParentKey(o.getPid());
-
-            if (!o.getEnabled()) {
-                treeOption.setTitle(treeOption.getTitle() + " [禁用]");
-            }
-
-            return treeOption;
-        }).collect(Collectors.toList());
-
-        List<TreeOption> tree = TreeOption.convertTree(treeList);
-
-        return AjaxResult.ok().data(tree);
+    @Data
+    public static class PageParam{
+        boolean showDisabled;
+        boolean showDept;
+        String keyword;
     }
 
     /**
@@ -109,61 +88,21 @@ public class SysOrgController {
      *
      * @return
      */
-    @GetMapping("pageTree")
-    public AjaxResult pageTree() {
+    @PostMapping("pageTree")
+    public AjaxResult pageTree(@RequestBody PageParam param) {
         Subject subject = SecurityUtils.getSubject();
-        List<SysOrg> list = sysOrgService.findByLoginUser(subject, null, true);
 
+        List<SysOrg> list = sysOrgService.findByLoginUser(subject, param.showDept  , param.showDisabled);
 
-        List<Dict> treeList = list.stream().map(o -> {
-            String title = o.getName();
-            if (!o.getEnabled()) {
-                title = title + " [禁用]";
-            }
-
-            Dict d = new Dict();
-            d.set("title", title);
-            d.set("key", o.getId());
-            String pid = o.getPid();
-            d.set("parentKey", pid);
-            d.set("iconName", getIconByType(o.getType()));
-
-            return d;
-        }).collect(Collectors.toList());
-
-
-        TreeManager<Dict> tm = TreeManager.of(treeList, "key", "parentKey");
-
-        return AjaxResult.ok().data(tm.getTree());
-    }
-
-    /**
-     * 用户管理界面等使用的机构树
-     *
-     * @return
-     */
-    @GetMapping("bizTree")
-    public AjaxResult allTree() {
-        Subject subject = SecurityUtils.getSubject();
-        List<SysOrg> list = sysOrgService.findByLoginUser(subject, null, true);
-
-        List<Dict> treeList = new ArrayList<>();
-        for (SysOrg sysOrg : list) {
-            if (!sysOrg.getEnabled()) {
-                continue;
-            }
-            Dict d = new Dict();
-            d.set("title", sysOrg.getName());
-            d.set("key", sysOrg.getId());
-            String pid = sysOrg.getPid();
-            d.set("parentKey", pid);
-            d.set("iconName", getIconByType(sysOrg.getType()));
-            treeList.add(d);
+        if(StrUtil.isNotEmpty(param.keyword)){
+            list = list.stream().filter(t -> t.getName().contains(param.keyword)).collect(Collectors.toList());
         }
-        TreeManager<Dict> tm = TreeManager.of(treeList, "key", "parentKey");
 
-        return AjaxResult.ok().data(tm.getTree());
+
+
+        return AjaxResult.ok().data(list2Tree(list));
     }
+
 
     private String getIconByType(int type) {
         switch (type) {
@@ -171,7 +110,7 @@ public class SysOrgController {
                 return "ApartmentOutlined";
             }
             case OrgType.DEPT -> {
-                return "HomeOutlined";
+                return "BorderOutlined";
             }
 
         }
@@ -187,38 +126,65 @@ public class SysOrgController {
     }
 
 
+    @GetMapping("allTree")
+    public AjaxResult allTree() throws Exception {
+        Subject subject = SecurityUtils.getSubject();
+        List<SysOrg> list = this.sysOrgService.findByLoginUser(subject,true, true);
+
+        return AjaxResult.ok().data(list2Tree(list));
+    }
+
+
 
     @GetMapping("unitTree")
     public AjaxResult unitTree() throws Exception {
         Subject subject = SecurityUtils.getSubject();
-        List<SysOrg> list = this.sysOrgService.findByLoginUser(subject, OrgType.UNIT, false);
+        List<SysOrg> list = this.sysOrgService.findByLoginUser(subject, false, false);
 
         list = list.stream().filter((o) -> !o.isDept()).collect(Collectors.toList());
 
-        List<TreeOption> treeList = list.stream().map((o) -> {
-            TreeOption treeOption = new TreeOption();
-            treeOption.setTitle(o.getName());
-            treeOption.setKey(o.getId());
-            treeOption.setParentKey(o.getPid());
-            return treeOption;
-        }).collect(Collectors.toList());
-        List<TreeOption> tree = TreeOption.convertTree(treeList);
-        return AjaxResult.ok().data(tree);
+
+        return AjaxResult.ok().data(list2Tree(list));
     }
 
     @GetMapping("deptTree")
     public AjaxResult deptTree() throws Exception {
         Subject subject = SecurityUtils.getSubject();
-        List<SysOrg> list = this.sysOrgService.findByLoginUser(subject,null, false);
+        List<SysOrg> list = this.sysOrgService.findByLoginUser(subject,true, false);
 
-        List<TreeOption> treeList = list.stream().map((o) -> {
-            TreeOption treeOption = new TreeOption();
-            treeOption.setTitle(o.getName());
-            treeOption.setKey(o.getId());
-            treeOption.setParentKey(o.getPid());
-            return treeOption;
-        }).collect(Collectors.toList());
-        List<TreeOption> tree = TreeOption.convertTree(treeList);
-        return AjaxResult.ok().data(tree);
+        return AjaxResult.ok().data(list2Tree(list));
     }
+
+
+    public List<Dict> list2Tree(List<SysOrg> list){
+        List<Dict> treeList = list.stream().map(o -> {
+            String title = o.getName();
+            if (!o.getEnabled()) {
+                title = title + " [禁用]";
+            }
+            String pid = o.getPid();
+
+            Dict d = new Dict();
+            d.set("title", title);
+            d.set("key", o.getId());
+            d.set("parentKey", pid);
+            d.set("iconName", getIconByType(o.getType()));
+
+            // 兼容选择框
+            d.set("value", o.getId());
+            d.set("label", o.getName());
+
+            // 兼容treeUtil工具
+            d.set("id", o.getId());
+            d.set("pid", pid);
+
+            return d;
+        }).collect(Collectors.toList());
+
+
+        TreeManager<Dict> tm = TreeManager.of(treeList, "key", "parentKey");
+
+        return tm.getTree();
+    }
+
 }

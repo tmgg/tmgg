@@ -1,6 +1,7 @@
 
 package io.tmgg.modules.sys;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.Dict;
 import cn.hutool.core.util.StrUtil;
 import io.tmgg.lang.TreeManager;
@@ -18,6 +19,7 @@ import io.tmgg.web.perm.Subject;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -71,9 +73,10 @@ public class CommonController {
         vo.put("permissions", subject.getPermissions());
         vo.put("account", subject.getAccount());
 
-        Set<String> roles = subject.getRoles();
-        if (!CollectionUtils.isEmpty(roles)) {
-            List<SysRole> roleList = roleService.findAllByCode(roles);
+        Set<String> roleIds = subject.getRoles();
+        if (!CollectionUtils.isEmpty(roleIds)) {
+            List<SysRole> roleList = roleService.findAllByCode(roleIds);
+            Assert.state(roleList.size() ==roleIds.size(),"用户角色已被修改，请重新登录");
             Set<String> roleNameSet = roleList.stream().map(SysRole::getName).collect(Collectors.toSet());
             String roleNames = StringUtils.join(roleNameSet, ",");
             vo.put("roleNames", roleNames);
@@ -146,6 +149,9 @@ public class CommonController {
 
         TreeManager<Route> tm = new TreeManager<>(routes,Route::getId, Route::getPid, Route::getChildren, Route::setChildren);
         List<Route> tree = tm.getTree();
+        // 如果最顶层（topmenu）没有子节点，则不显示
+        tree = tree.stream().filter(t-> CollUtil.isNotEmpty(t.getChildren())).collect(Collectors.toList());
+
 
         Map<String, Route> treeMap = tm.getMap();
         tm.traverseTree(tree, item -> {

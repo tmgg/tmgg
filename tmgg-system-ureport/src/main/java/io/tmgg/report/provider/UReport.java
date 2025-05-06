@@ -1,8 +1,12 @@
 package io.tmgg.report.provider;
 
 import io.tmgg.lang.dao.BaseEntity;
+import io.tmgg.lang.dao.DBConstants;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldNameConstants;
@@ -17,11 +21,14 @@ import java.util.Date;
 @FieldNameConstants
 public class UReport extends BaseEntity {
 
-    String id;
 
+    // 文件名称
+    @NotNull
+    @Column(length = DBConstants.LEN_NAME,unique = true)
     String file;
 
 
+    @Lob
     String content;
 
     Date updateTime;

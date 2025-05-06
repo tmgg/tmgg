@@ -1,5 +1,6 @@
 package io.tmgg.modules.sys.service;
 
+import cn.hutool.core.collection.CollUtil;
 import io.tmgg.lang.dao.BaseService;
 import io.tmgg.lang.dao.BaseTreeService;
 import io.tmgg.lang.dao.specification.JpaQuery;
@@ -17,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -51,34 +53,29 @@ public class SysOrgService extends BaseTreeService<SysOrg> {
 
 
     /**
-     * @param showAll 是否显示禁用
+     * @param showDisabled 是否显示禁用
      * @param type
      */
-    public List<SysOrg> findByLoginUser(Subject subject, Integer type, boolean showAll) {
+    public List<SysOrg> findByLoginUser(Subject subject, boolean showDept, boolean showDisabled) {
+        Collection<String> orgPermissions = subject.getOrgPermissions();
+        if(CollUtil.isEmpty(orgPermissions)){
+            return Collections.emptyList();
+        }
+
         JpaQuery<SysOrg> q = new JpaQuery<>();
 
         // 如果不显示全部，则只显示启用的
-        if (!showAll) {
+        if (!showDisabled) {
             q.eq(SysOrg.Fields.enabled, true);
+        }
+        if(!showDept){
+            q.ne(SysOrg.Fields.type, OrgType.DEPT);
         }
 
         List<SysOrg> list = dao.findAll(q, Sort.by(SysOrg.Fields.type, SysOrg.Fields.seq));
 
         // 权限过滤
         list = list.stream().filter(t -> subject.hasOrgPermission(t.getId())).collect(Collectors.toList());
-
-
-        if (type != null) {
-            // 过滤掉子分支， 例如查询公司，则显示公司，不显示部门
-            list = list.stream().filter(o -> o.getType() <= type).collect(Collectors.toList());
-
-
-            // 如果只有一个父节点， 则隐藏该父节点（方便选择）
-            long diff = list.stream().filter(o -> o.getType() != type).count();
-            if (diff == 1) {
-                list = list.stream().filter(o -> o.getType() == type).collect(Collectors.toList());
-            }
-        }
 
 
         return list;

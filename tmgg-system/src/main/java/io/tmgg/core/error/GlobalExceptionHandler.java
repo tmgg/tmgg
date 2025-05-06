@@ -112,7 +112,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(BizException.class)
     public AjaxResult systemException(BizException e) {
-        return AjaxResult.err().msg(e.getMessage());
+        return AjaxResult.err(e.getCode(), e.getCode() + ":" +e.getMessage());
     }
 
 

@@ -11,19 +11,19 @@ export function FieldUserMultipleSelect(props:any) {
 }
 
 export function FieldUnitTreeSelect(props:any) {
-  return <FieldRemoteTreeSelect url="/sysOrg/tree?type=UNIT" {...props} />;
+  return <FieldRemoteTreeSelect url="/sysOrg/unitTree" {...props} />;
 }
 
 export function FieldDeptTreeSelect(props:any) {
-  return <FieldRemoteTreeSelect url="/sysOrg/tree?type=DEPT" {...props} />;
+  return <FieldRemoteTreeSelect url="/sysOrg/deptTree" {...props} />;
 }
 
 export function FieldOrgTreeSelect(props:any) {
-  return <FieldRemoteTreeSelect url="/sysOrg/tree" {...props} />;
+  return <FieldRemoteTreeSelect url="/sysOrg/deptTree" {...props} />;
 }
 
 export function FieldOrgTreeMultipleSelect(props:any) {
-  return <FieldRemoteMultipleSelect url="/sysOrg/tree" {...props} />;
+  return <FieldRemoteMultipleSelect url="/sysOrg/deptTree" {...props} />;
 }
 
 

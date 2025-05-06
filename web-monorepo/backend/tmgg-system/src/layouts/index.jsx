@@ -95,7 +95,7 @@ dayjs.locale('zh-cn');
 
         const params =PageUtil.currentParams()
 
-        if(params.hasOwnProperty('_pure')){
+        if(params.hasOwnProperty('_noLayout')){
             return  <MyPureOutlet pathname={pathname} />
         }
 

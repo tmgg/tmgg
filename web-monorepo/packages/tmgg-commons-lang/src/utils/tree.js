@@ -5,7 +5,37 @@
 
 import {ArrUtil} from "./arr";
 
+
+function treeToList(tree, level = 1, result = []) {
+    for (const node of tree) {
+        const newNode = {...node, level: level};
+        result.push(newNode);
+
+        if (node.children && node.children.length > 0) {
+            treeToList(node.children, level + 1, result);
+        }
+    }
+
+    return result;
+}
+
+
 export const TreeUtil = {
+    treeToList,
+
+    /**
+     *
+     * @param tree
+     * @param level -1所有
+     */
+    findKeysByLevel(tree, level) {
+        const list = this.treeToList(tree)
+        if (level === -1) {
+            return list.filter(t => t.level === level).map(t => t.id)
+        }
+        return list.filter(t => t.level === level).map(t => t.id)
+    },
+
     /**
      * 将数组转换为树
      * @param data
