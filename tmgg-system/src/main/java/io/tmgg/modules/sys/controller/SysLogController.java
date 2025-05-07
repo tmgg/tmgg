@@ -17,8 +17,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Date;
-
 
 @RestController
 @RequestMapping("sysLog")
@@ -30,25 +28,20 @@ public class SysLogController {
 
     @Data
     public static class QueryParam {
-        Date[] dateRange;
+        String dateRange;
         String name;
         String module;
     }
 
 
+
     @HasPermission(log = false)
     @RequestMapping("page")
     public AjaxResult page(@RequestBody QueryParam queryParam, @PageableDefault(sort = "createTime", direction = Sort.Direction.DESC) Pageable pageable) {
-        Date[] dateRange = queryParam.getDateRange();
+        String dateRange = queryParam.getDateRange();
 
         JpaQuery<SysLog> q = new JpaQuery<>();
-
-        if(dateRange !=null){
-            dateRange[1] = DateUtil.endOfDay(dateRange[1]);
-            q.between("createTime", dateRange);
-        }
-
-
+        q.betweenIsoDateRange("createTime", dateRange);
         q.like(SysLog.Fields.name, queryParam.getName());
         q.like(SysLog.Fields.module, queryParam.getModule());
 

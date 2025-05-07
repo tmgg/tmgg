@@ -2,6 +2,8 @@ package io.tmgg.lang.dao.specification;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.collection.ListUtil;
+import cn.hutool.core.date.DateTime;
+import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
 import jakarta.persistence.criteria.*;
 import org.jetbrains.annotations.NotNull;
@@ -239,6 +241,30 @@ public class JpaQuery<T> implements Specification<T> {
             Object v2 = arr[1];
             this.between(column, v1, v2);
         }
+    }
+
+    /**
+     * 时间范围的between， 时间范围使用ISO 8601 时间间隔格式
+     *  存储格式：开始时间/结束时间
+     * 2023-01-01/2023-01-01
+     * @param column
+     * @param isoRange
+     */
+    public void betweenIsoDateRange(String column, String isoRange) {
+        if(StrUtil.isEmpty(isoRange)){
+            return;
+        }
+        String[] arr = isoRange.split("/");
+        Assert.state(arr.length == 2, "between参数数组个数必须为2");
+        String v1 = arr[0];
+        String v2 = arr[1];
+
+        DateTime d1 = DateUtil.parseDate(v1);
+        DateTime d2 = DateUtil.parseDate(v2);
+        d2 = DateUtil.endOfDay(d2);
+
+
+        this.between(column, d1, d2);
     }
 
     public void notBetween(String column, Object v1, Object v2) {

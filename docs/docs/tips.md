@@ -7,3 +7,14 @@ layout: doc
 
  如果长度不超过65535， 可直接用 @Column(length = 1234)
  否则可用 `@Column(columnDefinition = "longtext")`等
+
+## 时间范围
+
+前端可使用组件 FieldDateRange, 参考ISO 8601 时间间隔格式
+
+后端构造查询条件时，可使用
+```java
+        JpaQuery<SysLog> q = new JpaQuery<>();
+        q.betweenIsoDateRange("createTime", dateRange);
+
+```
