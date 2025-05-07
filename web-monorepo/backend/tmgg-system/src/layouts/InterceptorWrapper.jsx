@@ -17,7 +17,9 @@ export class InterceptorWrapper extends React.Component {
 
 
     interceptors = [
-        new SiteInfoInterceptor(), new AuthInterceptor(), new UserInfoInterceptor()
+        new SiteInfoInterceptor(),
+        new AuthInterceptor(),
+        new UserInfoInterceptor()
     ]
 
     async componentDidMount() {

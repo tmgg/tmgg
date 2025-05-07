@@ -72,7 +72,7 @@ export default class extends React.Component {
   }
 
   handleDelete = row => {
-    HttpUtil.postForm('weixinMini/delete', null,{id: row.id}).then(rs => {
+    HttpUtil.postForm('weixinMini/delete', null).then(rs => {
       this.tableRef.current.reload();
     })
   }

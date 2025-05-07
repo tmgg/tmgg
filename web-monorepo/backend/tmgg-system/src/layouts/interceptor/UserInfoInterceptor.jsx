@@ -1,7 +1,4 @@
-import React from "react";
-import {HttpSimpleUtil, HttpUtil, PageLoading, SysUtil} from "@tmgg/tmgg-base";
-import {Modal} from "antd";
-import {history} from "umi";
+import { HttpUtil, PageLoading, SysUtil} from "@tmgg/tmgg-base";
 
 export  class UserInfoInterceptor{
 
@@ -10,7 +7,7 @@ export  class UserInfoInterceptor{
     preHandle() {
         console.log("登录信息拦截器")
         return new Promise((resolve, reject) => {
-            HttpSimpleUtil.get('/getLoginInfo').then(res => {
+            HttpUtil.create().get('/getLoginInfo').then(res => {
                 const rs = res.data
                 if (rs.success) {
                     SysUtil.setLoginInfo(rs.data)
