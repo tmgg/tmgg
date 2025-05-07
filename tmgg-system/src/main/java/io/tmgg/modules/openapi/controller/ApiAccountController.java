@@ -72,9 +72,6 @@ public class ApiAccountController extends BaseController<OpenApiAccount> {
     @HasPermission
     @PostMapping("save")
     public AjaxResult save(@RequestBody OpenApiAccount param) throws Exception {
-        if (param.isNew()) {
-            param.setAppSecret(RandomUtil.randomString(32));
-        }
 
         OpenApiAccount result = service.saveOrUpdate(param);
         return AjaxResult.ok().data(result.getId()).msg("保存成功");

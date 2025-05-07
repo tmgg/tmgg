@@ -9,6 +9,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -184,6 +185,19 @@ public class SpringTool extends SpringUtil implements ApplicationContextAware {
     public static void publishEvent(ApplicationEvent event) {
         if (null != applicationContext) {
             applicationContext.publishEvent(event);
+        }
+    }
+
+    public static void publishEventAsync(ApplicationEvent event) {
+        if (null != applicationContext) {
+            Timer timer = new Timer();
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    applicationContext.publishEvent(event);
+                }
+            }, 5);
+
         }
     }
 

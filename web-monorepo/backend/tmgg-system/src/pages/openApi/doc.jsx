@@ -177,7 +177,7 @@ export default class extends React.Component {
                                size='small' pagination={false}>
                         </Table>
 
-                        <Title level={5}>返回数据</Title>
+                        <Title level={5}>返回参数</Title>
                         <Typography.Text>
                             返回值类型：{api.returnType}
                         </Typography.Text>

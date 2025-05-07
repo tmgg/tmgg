@@ -6,7 +6,6 @@ import cn.hutool.core.map.TableMap;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.CryptoException;
 import cn.hutool.crypto.SecureUtil;
-import cn.hutool.crypto.symmetric.AES;
 import cn.hutool.extra.servlet.JakartaServletUtil;
 import io.tmgg.jackson.JsonTool;
 import io.tmgg.lang.obj.AjaxResult;
@@ -35,22 +34,15 @@ public class ApiGatewayController {
     public static final int TIME_DIFF_LIMIT = 5;
 
     @PostMapping
-    public AjaxResult process(HttpServletRequest request,
-                              HttpServletResponse response,
-                              String action,
-                              String appId,
-                              long timestamp,
-                              String signature,
-                              String data) throws Exception {
-        {
-            // 兼容老代码,从请求头取
-            if (action == null) {
-                action = request.getHeader("x-action");
-                appId = request.getHeader("x-app-id");
-                timestamp = Long.parseLong(request.getHeader("x-timestamp"));
-                signature = request.getHeader("x-signature");
-            }
-        }
+    public AjaxResult process(
+            @RequestHeader("x-action") String action,
+            @RequestHeader("x-app-id") String appId,
+            @RequestHeader("x-timestamp") long timestamp,
+            @RequestHeader("x-signature") String signature,
+            @RequestBody String data,
+            HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+
 
 
         Assert.hasText(data, "请求体不能为空");
@@ -80,16 +72,17 @@ public class ApiGatewayController {
         String clientIP = JakartaServletUtil.getClientIP(request);
         Assert.state(StrUtil.isEmpty(account.getAccessIp()) || account.getAccessIp().contains(clientIP), "IP访问限制,您的IP为" + clientIP);
 
-        // 解密
         String appSecret = account.getAppSecret();
-        AES aes = SecureUtil.aes(appSecret.getBytes());
-        System.out.println(data);
-        data = aes.decryptStr(data);
-
 
         // 校验签名
         this.checkSign(action, appId, timestamp, data, signature, appSecret);
 
+        Object retValue = dispatch(data, resource, request, response);
+        return AjaxResult.ok().data(JsonTool.toJson(retValue));
+
+    }
+
+    private  Object dispatch(String data, ApiResource resource, HttpServletRequest request, HttpServletResponse response) throws IOException, IllegalAccessException, InvocationTargetException {
         Map<String, Object> params = JsonTool.jsonToMap(data);
         Method method = resource.getMethod();
         Object[] paramValues = ArgumentResolver.resolve(method, params, request, response);
@@ -101,10 +94,8 @@ public class ApiGatewayController {
         }
 
         Assert.notNull(retValue, "接口必须有返回值");
-        String res = JsonTool.toJsonQuietly(retValue);
-        retValue = aes.encryptBase64(res);
-        return AjaxResult.ok().data(JsonTool.toJson(retValue));
-
+        retValue = JsonTool.toJsonQuietly(retValue);
+        return retValue;
     }
 
     @ExceptionHandler(Exception.class)
@@ -139,12 +130,21 @@ public class ApiGatewayController {
     /**
      * 校验签名
      */
-    public void checkSign(String uri, String appKey, long timestamp, String data, String sign, String secret) {
-        String calcSign = SecureUtil.hmacSha256(secret).digestBase64(uri + appKey + timestamp + data, false);
-
-        Assert.state(sign.equals(calcSign), "签名错误");
+    public void checkSign(String action, String appId, long timestamp, String data, String sign, String appSecret) {
+        String calc = this.sign(action, appId, timestamp, data, appSecret);
+        Assert.state(sign.equals(calc), "签名错误");
     }
 
+    private String sign(String action, String appId, long timestamp, String postData, String appSecret) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(action).append("\n");
+        sb.append(appId).append("\n");
+        sb.append(timestamp).append("\n");
+        sb.append(postData);
+
+        String signStr = sb.toString();
+        return SecureUtil.hmacSha256(appSecret).digestBase64(signStr, false);
+    }
 
     @Resource
     private ApiAccountService apiAccountService;

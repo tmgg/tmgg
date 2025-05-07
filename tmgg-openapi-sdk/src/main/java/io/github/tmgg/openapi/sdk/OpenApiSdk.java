@@ -2,13 +2,9 @@ package io.github.tmgg.openapi.sdk;
 
 import cn.hutool.core.lang.Assert;
 import cn.hutool.crypto.SecureUtil;
-import cn.hutool.crypto.symmetric.AES;
 import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpResponse;
 import cn.hutool.http.HttpUtil;
-import cn.hutool.json.JSON;
-import cn.hutool.json.JSONUtil;
-import lombok.AllArgsConstructor;
 import lombok.Setter;
 
 import java.io.IOException;
@@ -20,7 +16,6 @@ import java.util.TreeMap;
  * 供第三方调用
  */
 public class OpenApiSdk {
-    public static final int SUCCESS_CODE = 0;
 
     private String baseUrl;
     private String appId;
@@ -37,10 +32,73 @@ public class OpenApiSdk {
         this.appSecret = appSecret;
     }
 
+
+
+    public String send(String action, Map<String, Object> params) throws IOException {
+        String timestamp = String.valueOf(System.currentTimeMillis());
+        String url = baseUrl + "/openApi/gateway";
+        String postData = this.joinPostData(params);
+
+
+        Map<String, String> headers = new HashMap<>();
+        headers.put("x-action", action);
+        headers.put("x-app-id", appId);
+        headers.put("x-timestamp", timestamp);
+
+        // 签名
+        String sign = sign(action, appId, timestamp, postData);
+        headers.put("x-signature", sign);
+
+
+        HttpRequest http = HttpUtil.createPost(url)
+                .headerMap(headers, true)
+                .body(postData);
+
+
+        HttpResponse response = http.execute();
+        String body = response.body();
+
+        if (debug) {
+            System.out.println("响应原始数据");
+            System.out.println(body);
+        }
+
+        // 成功
+        return body;
+    }
+
+    private String sign(String action, String appId, String timestamp, String postData) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(action).append("\n");
+        sb.append(appId).append("\n");
+        sb.append(timestamp).append("\n");
+        sb.append(postData);
+
+        String signStr = sb.toString();
+        return SecureUtil.hmacSha256(appSecret).digestBase64(signStr, false);
+    }
+
+
+    private String joinPostData(Map<String, Object> params) {
+        params = params == null ? new TreeMap<>() : new TreeMap<>(params);
+
+        StringBuilder sb = new StringBuilder();
+        params.forEach((k, v) -> {
+            if (v != null) {
+                sb.append(k).append("=").append(v).append("&");
+            }
+        });
+        if (sb.length() > 0) {
+            sb.deleteCharAt(sb.length() - 1);
+        }
+
+        return sb.toString();
+    }
+
     public static void main(String[] args) throws IOException {
         String url = "http://127.0.0.1:8002";
-        String appId = "473428cdaeb44e27bb0f45c32a7fc2b5";
-        String appSecret = "cbCaGVuSWWgSExaZTvcVG80IrKKVifI2";
+        String appId = "1589fcbd4a0b4a5cb01094f75dc52ac3";
+        String appSecret = "D4cy5ofnQ46RCCd8FGe1YYbunZadOXAf";
 
         OpenApiSdk sdk = new OpenApiSdk(url, appId, appSecret);
 
@@ -51,51 +109,7 @@ public class OpenApiSdk {
 
         String result = sdk.send(action, params);
 
-        System.out.println("响应的json数据为："+ result);
+        System.out.println("响应的json数据为：" + result);
     }
 
-
-    public String send(String action, Map<String, Object> params) throws IOException {
-        String timestamp = String.valueOf(System.currentTimeMillis());
-        String url = baseUrl + "/openApi/gateway";
-        HttpRequest http = HttpUtil.createPost(url);
-        http.header("x-app-id", appId);
-        http.header("x-timestamp", timestamp);
-        http.header("x-action", action);
-
-        if(params == null){
-            params = new HashMap<>();
-        }
-        String data = JSONUtil.toJsonStr(params);
-        // 签名
-        String sign = SecureUtil.hmacSha256(appSecret).digestBase64(action + appId + timestamp + data, false);
-        http.header("x-signature", sign);
-
-
-        // 加密
-        AES aes = SecureUtil.aes(appSecret.getBytes());
-        data = aes.encryptHex(data);  // 加密，如果需要的情况下
-        http.form("data", data);
-
-
-        HttpResponse response = http.execute();
-        String body = response.body();
-
-        if(debug){
-            System.out.println("响应原始数据");
-            System.out.println(body);
-        }
-
-        JSON result = JSONUtil.parse(body);
-        Integer code = (Integer) result.getByPath("code");
-        String msg = (String) result.getByPath("msg");
-
-        Assert.state(code == SUCCESS_CODE, msg);
-
-        Object responseData = result.getByPath("data");
-
-        // 成功
-        String decryptStr = aes.decryptStr((String) responseData);
-        return decryptStr;
-    }
 }

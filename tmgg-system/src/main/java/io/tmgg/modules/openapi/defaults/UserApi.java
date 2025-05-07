@@ -18,7 +18,7 @@ public class UserApi implements BaseOpenApi {
     SysUserService sysUserService;
 
 
-    @OpenApi(name = "验证账号密码", action = "user.checkPwd")
+    @OpenApi(name = "验证用户密码", action = "user.checkPwd")
     public boolean checkPwd(@OpenApiField(desc = "账号") String account, @OpenApiField(desc = "密码") String pwd) {
         try {
             SysUser sysUser = sysUserService.checkPwd(account, pwd);
@@ -28,7 +28,7 @@ public class UserApi implements BaseOpenApi {
         }
     }
 
-    @OpenApi(name = "获取账号名称", action = "user.name", desc = "通过账号获取账号名称")
+    @OpenApi(name = "获取用户名称", action = "user.name", desc = "通过账号获取账号名称")
     public String username(@OpenApiField(desc = "账号") String account) {
         SysUser sysUser = sysUserService.findByAccount(account);
         Assert.notNull(sysUser,"用户不存在");

@@ -11,6 +11,7 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.context.event.EventListener;
+import org.springframework.context.event.SmartApplicationListener;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Field;
@@ -21,10 +22,11 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
 @Component
-public class DbValueProcessor implements BeanPostProcessor {
+public class DbValueProcessor implements BeanPostProcessor  {
 
     private final Map<Object, Map<Field, DbValue>> beanRegistry = new ConcurrentHashMap<>();
 
+    private boolean hasError = false;
 
     @NotNull
     @Override
@@ -72,8 +74,10 @@ public class DbValueProcessor implements BeanPostProcessor {
             field.setAccessible(true);
             String key = dbValue.value();
             SysConfigService configService = SpringTool.getBean(SysConfigService.class);
-            Object value = configService.getValue(key);
-
+            Object value = configService.getValueQuietly(key);
+            if(value == null){
+                return;
+            }
 
             // 类型转换（例如 String -> Integer）
             Object convertedValue = SpringTool.getConfigurableBeanFactory()
@@ -81,7 +85,9 @@ public class DbValueProcessor implements BeanPostProcessor {
                     .convert(value, field.getType());
             field.set(bean, convertedValue);
         } catch (IllegalAccessException e) {
-            throw new RuntimeException("Failed to inject @DatabaseValue for field: " + field.getName(), e);
+            String message = "Failed to inject @DatabaseValue for field: " + field.getName();
+            log.error(message);
+            throw new IllegalStateException(message);
         }
     }
 

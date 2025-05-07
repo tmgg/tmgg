@@ -3,6 +3,7 @@ package io.tmgg.modules.sys.service;
 
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.system.SystemUtil;
+import io.tmgg.jackson.JsonTool;
 import io.tmgg.lang.RequestTool;
 import io.tmgg.lang.dao.BaseService;
 import io.tmgg.lang.dao.specification.JpaQuery;
@@ -70,6 +71,16 @@ public class SysConfigService extends BaseService<SysConfig> {
         Assert.notNull(sysConfig, "系统配置不存在" + key);
         return parseFinalValue(sysConfig);
     }
+
+    public Object getValueQuietly(String key) {
+        validateKey(key);
+        SysConfig sysConfig = this.findOne(key);
+        if(sysConfig == null){
+            return null;
+        }
+        return parseFinalValue(sysConfig);
+    }
+
 
 
     public String getStr(String key) {

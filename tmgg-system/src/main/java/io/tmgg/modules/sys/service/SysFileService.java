@@ -55,17 +55,14 @@ public class SysFileService {
     private SysConfigService sysConfigService;
 
 
-    @EventListener
-    public void onSystemDataInitFinish(SystemDataInitFinishEvent e) {
-        log.info("系统初始化完成事件触发，接着初始化文件服务");
-        init();
-    }
 
 
     @EventListener
     public void onSysConfigChange(SysConfigChangeEvent e) {
-        log.info("系统配置事件触发，判断是否重新初始化文件服务");
-        init();
+        if(e.getKey().startsWith("file.")){
+            log.info("系统配置事件触发，判断是否重新初始化文件服务");
+            init();
+        }
     }
 
     public String getPreviewUrl(String fileId, HttpServletRequest request) {
