@@ -114,7 +114,7 @@ public class SysUserController {
      */
     @GetMapping("pwdStrength")
     public AjaxResult pwdStrength(String password) {
-        if (password == null) {
+        if (StrUtil.isEmpty(password)) {
             return AjaxResult.err().msg("请输入密码");
         }
 
@@ -127,11 +127,17 @@ public class SysUserController {
         return AjaxResult.ok().data(level);
     }
 
+    @Data
+    public static class UpdatePwdParam{
+        String newPassword;
+    }
+
     @PostMapping("updatePwd")
     @HasPermission(label = "修改密码")
-    public AjaxResult updatePwd(String password, String newPassword) {
+    public AjaxResult updatePwd(@RequestBody UpdatePwdParam param) {
         String userId = SecurityUtils.getSubject().getId();
-        sysUserService.updatePwd(userId, password, newPassword);
+        String newPassword = param.getNewPassword();
+        sysUserService.updatePwd(userId,  newPassword);
         sm.forceExistBySubjectId(userId);
         return AjaxResult.ok();
     }

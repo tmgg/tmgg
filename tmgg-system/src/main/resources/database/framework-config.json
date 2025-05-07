@@ -8,6 +8,7 @@
       "valueType": "password",
       "$update": false
     },
+
     {
       "id": "sys.fileUploadPath.windows",
       "label": "win本地上传文件路径",

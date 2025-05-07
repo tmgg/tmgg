@@ -1,5 +1,5 @@
 
-package io.tmgg.modules.sys.controller;
+package io.tmgg.modules;
 
 import cn.hutool.captcha.CaptchaUtil;
 import cn.hutool.captcha.ICaptcha;
@@ -11,6 +11,7 @@ import cn.hutool.core.util.ObjUtil;
 import io.tmgg.lang.PasswordTool;
 import io.tmgg.lang.ann.PublicRequest;
 import io.tmgg.lang.obj.AjaxResult;
+import io.tmgg.modules.sys.controller.LoginParam;
 import io.tmgg.modules.sys.entity.SysUser;
 import io.tmgg.modules.sys.service.SysConfigService;
 import io.tmgg.modules.sys.service.SysUserService;
@@ -44,12 +45,16 @@ public class SysLoginController {
     private SysConfigService sysConfigService;
 
 
-    @GetMapping("/check-token")
+    @GetMapping("checkLogin")
     @PublicRequest
-    public AjaxResult loginCheck(HttpSession session) {
+    public AjaxResult checkLogin(HttpSession session) {
         Boolean isLogin = (Boolean) session.getAttribute("isLogin");
+        Boolean needUpdatePwd = (Boolean) session.getAttribute("needUpdatePwd");
+
         isLogin = ObjUtil.defaultIfNull(isLogin, false);
-        return AjaxResult.ok().data(isLogin);
+        needUpdatePwd = ObjUtil.defaultIfNull(needUpdatePwd, false);
+
+        return AjaxResult.ok().data("isLogin",isLogin).data("needUpdatePwd",needUpdatePwd);
     }
 
     /**
@@ -81,9 +86,13 @@ public class SysLoginController {
 
         SysUser sysUser = sysUserService.checkLogin(account, password);
 
-        session.setAttribute("isLogin", true);
-        session.setAttribute("subjectId", sysUser.getId());
 
+        // 检查是否需要修改密码
+        boolean needUpdatePwd = sysUserService.checkNeedUpdatePwd(account, password);
+
+        session.setAttribute("subjectId", sysUser.getId());
+        session.setAttribute("needUpdatePwd", needUpdatePwd);
+        session.setAttribute("isLogin", true);
         return AjaxResult.ok().msg("登录成功").data(session.getId());
     }
 
@@ -91,7 +100,7 @@ public class SysLoginController {
     /**
      * 退出登录
      */
-    @GetMapping("/logout")
+    @GetMapping("logout")
     public AjaxResult logout(HttpSession session) {
         session.invalidate();
         return AjaxResult.ok().msg("退出登录成功");

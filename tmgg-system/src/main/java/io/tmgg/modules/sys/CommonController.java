@@ -17,6 +17,7 @@ import io.tmgg.modules.sys.service.SysRoleService;
 import io.tmgg.web.perm.SecurityUtils;
 import io.tmgg.web.perm.Subject;
 import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.Assert;
@@ -61,7 +62,7 @@ public class CommonController {
      * 获取当前登录信息
      */
     @GetMapping("getLoginInfo")
-    private AjaxResult getLoginInfo() {
+    private AjaxResult getLoginInfo(HttpSession session) {
         Subject subject = SecurityUtils.getSubject();
         log.debug("subject account {}", subject.getAccount());
 
@@ -72,6 +73,10 @@ public class CommonController {
         vo.put("deptName", subject.getDeptName());
         vo.put("permissions", subject.getPermissions());
         vo.put("account", subject.getAccount());
+
+
+
+
 
         Set<String> roleIds = subject.getRoles();
         if (!CollectionUtils.isEmpty(roleIds)) {
@@ -85,14 +90,6 @@ public class CommonController {
         return AjaxResult.ok().data(vo);
     }
 
-    /**
-     * 获取当前登录信息
-     */
-    @Deprecated
-    @GetMapping("getLoginUser")
-    public AjaxResult getLoginUser() {
-        return getLoginInfo();
-    }
 
 
 

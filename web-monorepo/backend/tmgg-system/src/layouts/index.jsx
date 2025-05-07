@@ -3,7 +3,6 @@ import React from "react";
 
 import {ConfigProvider} from "antd";
 import {PageUtil} from "@tmgg/tmgg-base";
-import AuthInterceptor from "./AuthInterceptor";
 import {history, Outlet, withRouter} from "umi";
 import zhCN from 'antd/locale/zh_CN';
 import {theme} from "@tmgg/tmgg-commons-lang";
@@ -13,9 +12,8 @@ import 'dayjs/locale/zh-cn';
 
 import './index.less'
 import './global.less'
-import SiteInfoInterceptor from "./SiteInfoInterceptor";
-import UserInfoInterceptor from "./UserInfoInterceptor";
 import MyPureOutlet from "./MyPureOutlet";
+import {InterceptorWrapper} from "./InterceptorWrapper";
 
 dayjs.locale('zh-cn');
 
@@ -85,9 +83,9 @@ dayjs.locale('zh-cn');
     renderContent = () => {
         let pathname = this.props.location.pathname;
         if (pathname === '/login') {
-            return <SiteInfoInterceptor>
+            return <InterceptorWrapper siteInfoOnly pathname={pathname} >
                 <Outlet/>
-            </SiteInfoInterceptor>
+            </InterceptorWrapper>
         }
         if(pathname === '/test'){
             return <Outlet />
@@ -99,13 +97,9 @@ dayjs.locale('zh-cn');
             return  <MyPureOutlet pathname={pathname} />
         }
 
-        return <SiteInfoInterceptor>
-            <AuthInterceptor>
-                <UserInfoInterceptor>
+        return <InterceptorWrapper pathname={pathname} >
                     <MenuLayout pathname={pathname} path={this.state.path} {...this.props}/>
-                </UserInfoInterceptor>
-            </AuthInterceptor>
-        </SiteInfoInterceptor>
+        </InterceptorWrapper>
     };
 
 

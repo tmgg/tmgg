@@ -19,5 +19,5 @@ logging:
   level:
     io.tmgg: debug
   file:
-    path: ./logs/app-logs
+    path: ./logs/
 
