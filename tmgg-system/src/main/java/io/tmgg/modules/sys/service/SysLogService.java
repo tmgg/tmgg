@@ -2,11 +2,15 @@
 package io.tmgg.modules.sys.service;
 
 import cn.hutool.core.util.StrUtil;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import io.tmgg.event.SysConfigChangeEvent;
+import io.tmgg.framework.dbconfig.DbValue;
 import io.tmgg.framework.perm.PermissionService;
-import io.tmgg.jackson.JsonTool;
 import io.tmgg.lang.HttpServletTool;
 import io.tmgg.lang.IpAddressTool;
-import io.tmgg.lang.JoinPointTool;
 import io.tmgg.lang.UserAgentTool;
 import io.tmgg.lang.dao.BaseService;
 import io.tmgg.modules.sys.dao.SysOpLogDao;
@@ -19,11 +23,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.Signature;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.LinkedList;
@@ -36,16 +42,30 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class SysLogService extends BaseService<SysLog> implements Runnable {
 
+    private static final ObjectMapper om = new ObjectMapper();
+    static {
+        om.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
+        om.setDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
+        om.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+    }
+
+
     @Resource
     private SysOpLogDao dao;
 
     @Resource
     private PermissionService permissionService;
 
-    private final LinkedList<SysLog> logsPendingSave = new LinkedList<>();
+    /**
+     * 待保存队列
+     */
+    private final LinkedList<SysLog> persistList = new LinkedList<>();
 
 
     public void saveOperationLog(final String account, JoinPoint joinPoint, boolean success, final String msg) {
+        if(!opLogEnable){
+            return;
+        }
         SysLog sysLog = newSysOpLog(HttpServletTool.getRequest(), joinPoint);
 
         sysLog.setAccount(account);
@@ -54,13 +74,31 @@ public class SysLogService extends BaseService<SysLog> implements Runnable {
 
         Object params = getParams(joinPoint);
         if (params != null) {
-            sysLog.setParam(JsonTool.toPrettyJsonQuietly(params));
+
+            try {
+                sysLog.setParam(om.writeValueAsString(params));
+            } catch (JsonProcessingException e) {
+                log.error("将参数序列化时异常",e);
+            }
         }
 
-        logsPendingSave.add(sysLog);
+        persistList.add(sysLog);
     }
 
-    private static Object getParams(JoinPoint joinPoint) {
+
+
+    public void saveExceptionLog(final String account, JoinPoint joinPoint, Exception exception) {
+        if(!opLogEnable){
+            return;
+        }
+        SysLog sysLog = this.newSysOpLog(HttpServletTool.getRequest(), joinPoint);
+        sysLog.setAccount(account);
+        sysLog.setSuccess(false);
+        sysLog.setMessage(Arrays.toString(exception.getStackTrace()));
+        persistList.add(sysLog);
+    }
+
+    private  Object getParams(JoinPoint joinPoint) {
         Object[] args = joinPoint.getArgs();
         Signature signature = joinPoint.getSignature();
         if (signature instanceof MethodSignature methodSignature) {
@@ -79,15 +117,6 @@ public class SysLogService extends BaseService<SysLog> implements Runnable {
 
         return null;
     }
-
-    public void saveExceptionLog(final String account, JoinPoint joinPoint, Exception exception) {
-        SysLog sysLog = this.newSysOpLog(HttpServletTool.getRequest(), joinPoint);
-        sysLog.setAccount(account);
-        sysLog.setSuccess(false);
-        sysLog.setMessage(Arrays.toString(exception.getStackTrace()));
-        logsPendingSave.add(sysLog);
-    }
-
 
     private SysLog newSysOpLog(HttpServletRequest request, JoinPoint joinPoint) {
         String ip = IpAddressTool.getIp(request);
@@ -116,8 +145,6 @@ public class SysLogService extends BaseService<SysLog> implements Runnable {
 
         sysLog.setName(name);
         sysLog.setModule(parseModule(controller));
-        String param = JoinPointTool.getArgsJsonString(joinPoint);
-        sysLog.setParam(param);
 
         return sysLog;
     }
@@ -136,25 +163,49 @@ public class SysLogService extends BaseService<SysLog> implements Runnable {
 
     }
 
-    private final ScheduledExecutorService executorService = Executors.newScheduledThreadPool(2);
+
+    @DbValue("sys.opLog.enable")
+    boolean opLogEnable;
+
+
+    private ScheduledExecutorService executorService;
+
 
     @PostConstruct
-    public void post() {
-        executorService.scheduleWithFixedDelay(this, 5, 5, TimeUnit.SECONDS);
+    public void init() {
+        log.info("操作日志是否开启 {}", opLogEnable);
+        if (opLogEnable) {
+            executorService = Executors.newScheduledThreadPool(1);
+            executorService.scheduleWithFixedDelay(this, 30 , 5, TimeUnit.SECONDS);
+            log.info("启动异步保存操作日志线程 ");
+        }else {
+            persistList.clear();
+            if(executorService !=null){
+                executorService.shutdown();
+                executorService = null;
+            }
+        }
+    }
+
+    @EventListener(SysConfigChangeEvent.class)
+    public void onChange() {
+        this.init();
     }
 
     @Override
     public void run() {
         try {
-            if (logsPendingSave.isEmpty()) {
+            if (persistList.isEmpty()) {
                 return;
             }
-            List<SysLog> result = dao.saveAll(logsPendingSave);
+            List<SysLog> result = dao.saveAll(persistList);
             // 移除保存成功的日志 （不使用clear是为了保持）
-            logsPendingSave.removeAll(result);
+            persistList.removeAll(result);
         } catch (Exception e) {
             log.info("保存日志失败 {}", e.getMessage());
         }
 
     }
+
+
 }

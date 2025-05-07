@@ -2,6 +2,7 @@
 package io.tmgg.modules.sys.entity;
 
 import io.tmgg.framework.dict.DictField;
+import io.tmgg.lang.ann.Msg;
 import io.tmgg.lang.dao.BaseEntity;
 import io.tmgg.lang.dao.TreeEntity;
 import lombok.Getter;
@@ -15,6 +16,7 @@ import java.util.List;
 /**
  * 系统组织机构表
  */
+@Msg("组织机构")
 @Getter
 @Setter
 @Entity

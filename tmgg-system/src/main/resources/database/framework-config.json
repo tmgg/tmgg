@@ -141,6 +141,15 @@
       "seq": 1010,
       "defaultValue": "180",
       "$update": false
+    },
+
+    {
+      "id": "sys.opLog.enable",
+      "label": "是否保存操作日志到数据库",
+      "seq": 1012,
+      "valueType": "boolean",
+      "defaultValue": "true",
+      "$update": false
     }
 
   ]

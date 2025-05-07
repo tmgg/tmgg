@@ -1,69 +1,78 @@
 package io.tmgg.framework.dbconfig;
 
+import cn.hutool.core.util.StrUtil;
+import io.tmgg.BasePackage;
+import io.tmgg.SysProp;
 import io.tmgg.event.SysConfigChangeEvent;
-import io.tmgg.event.SystemDataInitFinishEvent;
 import io.tmgg.lang.SpringTool;
 import io.tmgg.modules.sys.service.SysConfigService;
+import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Field;
-import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
+@Slf4j
 @Component
-public class DbValueProcessor {
+public class DbValueProcessor implements BeanPostProcessor {
 
     private final Map<Object, Map<Field, DbValue>> beanRegistry = new ConcurrentHashMap<>();
 
+
+    @NotNull
+    @Override
+    public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
+        register(bean);
+
+        Map<Field, DbValue> map = beanRegistry.get(bean);
+        if (map != null) {
+            map.forEach(((field, dbValue) -> injectValue(bean, field, dbValue)));
+        }
+
+        return bean;
+    }
+
+    private String[] basePackageNames;
+
+
+
     private void register(Object bean) {
+        String name = bean.getClass().getName();
+
+        // 缓存基础包，提升效率
+        if(basePackageNames == null){
+            basePackageNames = SpringTool.getBasePackageNames();
+        }
+
+        // 过滤包名，提升效率
+        if(!StrUtil.startWithAny(name, basePackageNames)){
+            return;
+        }
+
         for (Field field : bean.getClass().getDeclaredFields()) {
             if (field.isAnnotationPresent(DbValue.class)) {
                 DbValue annotation = field.getAnnotation(DbValue.class);
-                beanRegistry.computeIfAbsent(bean, k -> new ConcurrentHashMap<>()).put(field, annotation);
+                Map<Field, DbValue> map = beanRegistry.computeIfAbsent(bean, k -> new HashMap<>());
+                map.put(field, annotation);
+                log.info("注册bean{}的DbValue注解{}", bean, annotation.value());
             }
         }
     }
 
-    @EventListener
-    public void on(SystemDataInitFinishEvent e){
-        Collection<Object> beans = SpringTool.getBeans(Object.class);
 
-        for (Object bean : beans) {
-            register(bean);
-        }
-
-        beanRegistry.forEach((bean, fields) -> {
-            fields.forEach((field, annotation) -> {
-                // 重新注入值
-                injectValue(bean, field, annotation);
-            });
-        });
-    }
-
-    @EventListener
-    public void on(SysConfigChangeEvent e){
-        String key = e.getKey();
-
-        beanRegistry.forEach((bean, fields) -> {
-            fields.forEach((field, dbValue) -> {
-                // 重新注入值
-                String dbKey = dbValue.value();
-                if(key.equals(dbKey)){
-                    injectValue(bean, field, dbValue);
-                }
-            });
-        });
-    }
-
-
-    private void injectValue(Object bean, Field field, DbValue annotation) {
+    private void injectValue(Object bean, Field field, DbValue dbValue) {
         try {
             field.setAccessible(true);
-            String key = annotation.value();
+            String key = dbValue.value();
             SysConfigService configService = SpringTool.getBean(SysConfigService.class);
-            String value = configService.getStr(key);
+            Object value = configService.getValue(key);
 
 
             // 类型转换（例如 String -> Integer）
@@ -77,7 +86,19 @@ public class DbValueProcessor {
     }
 
 
+    @EventListener
+    public void on(SysConfigChangeEvent e) {
+        String key = e.getKey();
 
-
+        beanRegistry.forEach((bean, fields) -> {
+            fields.forEach((field, dbValue) -> {
+                // 重新注入值
+                String dbKey = dbValue.value();
+                if (key.equals(dbKey)) {
+                    injectValue(bean, field, dbValue);
+                }
+            });
+        });
+    }
 
 }
