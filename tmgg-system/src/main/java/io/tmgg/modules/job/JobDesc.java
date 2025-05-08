@@ -1,7 +1,7 @@
 package io.tmgg.modules.job;
 
 
-import io.tmgg.data.FieldDesc;
+import io.tmgg.lang.field.FieldInfo;
 
 import java.lang.annotation.*;
 
@@ -15,7 +15,7 @@ public @interface JobDesc {
     String group() default "默认分组";
 
 
-    FieldDesc[] params() default {};
+    FieldInfo[] params() default {};
 
     Class<? extends JobParamFieldProvider> paramsProvider() default JobParamFieldProvider.class;
 

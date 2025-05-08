@@ -4,53 +4,13 @@
 ## 1 示例
 可参考内置的获取时间接口
 ```java
-package io.tmgg.modules.openapi.defaults;
-
-import cn.hutool.core.date.DateUtil;
-import cn.hutool.core.util.StrUtil;
-import io.tmgg.modules.openapi.OpenApi;
-import io.tmgg.modules.openapi.OpenApiField;
-import io.tmgg.modules.openapi.gateway.BaseOpenApi;
-import lombok.Data;
-import org.springframework.stereotype.Component;
-
-import java.util.Date;
-
-@Component
-public class ServerTimeOpenApi implements BaseOpenApi {
-
-
-	@OpenApi(name = "服务器时间", action = "server.time")
-	public ServerTimeResponse time(@OpenApiField(required = false,desc = "时间格式") String format) {
-		Date now = new Date();
-
-
-		ServerTimeResponse res = new ServerTimeResponse();
-		res.serverTime = System.currentTimeMillis();
-
-		if(StrUtil.isNotEmpty(format)){
-			res.serverTimeFormat =  DateUtil.format(now, format);
-		}
-
-		return res;
-	}
-
-
-    // 响应数据封装
-	@Data
-	public static class ServerTimeResponse {
-
-		@OpenApiField(required = true, desc = "服务器时间")
-		long serverTime;
-
-		@OpenApiField(required = false, desc = "服务器时间格式化")
-		String serverTimeFormat;
-	}
-
+@OpenApi(name = "测试连通性", action = "ping", desc = "示例接口，为了测试，会返回pong")
+public String ping(String msg) {
+        return "pong:" + msg;
 }
 
 ```
-
+请求参数还可以通过@FieldInfo注解描述，方便生成文档
 
 
 ## 2 第三方如何调用

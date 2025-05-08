@@ -1,11 +1,10 @@
 package io.tmgg.modules.openapi.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.tmgg.lang.ann.Msg;
 import io.tmgg.lang.dao.BaseEntity;
 import io.tmgg.lang.dao.converter.ToListConverter;
-import jakarta.persistence.Column;
-import jakarta.persistence.Convert;
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,6 +18,7 @@ import java.util.List;
 @FieldNameConstants
 @Getter
 @Setter
+@Table(name = "open_api_account")
 public class OpenApiAccount extends BaseEntity {
 
 
@@ -28,10 +28,7 @@ public class OpenApiAccount extends BaseEntity {
 
 
 
-    @Msg("权限")
-    @Column(length = 2000)
-    @Convert(converter = ToListConverter.class)
-    private List<String> perms;
+
 
     @Msg("准入IP")
     private String accessIp;
@@ -50,4 +47,8 @@ public class OpenApiAccount extends BaseEntity {
 
     @Msg("有效期")
     private Date endTime;
+
+
+
+
 }

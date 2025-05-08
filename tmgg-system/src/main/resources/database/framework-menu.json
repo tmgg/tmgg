@@ -163,15 +163,7 @@
     "seq" : 10
   },
 
-    {
-      "pid" : "dev",
-      "id" : "openApiAccount",
-      "name" : "开放接口",
-      "perm" : "openApiAccount",
-      "path" : "/openApi",
-      "seq" : 20,
-      "icon" : "ApiOutlined"
-    },
+
     {
       "pid" : "dev",
       "id" : "sysReportChart",
@@ -207,5 +199,33 @@
     "path" : "/system/asset",
     "seq" : 20,
     "icon" : "FileImageOutlined"
-  } ]
+  },
+    {
+      "pid" : "sys",
+      "id" : "openApi",
+      "name" : "开放接口",
+      "perm" : "openApi",
+      "type": "DIR",
+      "seq" : 201,
+      "icon" : "ApiOutlined"
+    },
+    {
+      "pid" : "openApi",
+      "id" : "openApiAccount",
+      "name" : "接口账户",
+      "perm" : "openApiAccount",
+      "path" : "/openApi",
+      "seq" : 1,
+      "icon" : "ApiOutlined"
+    },
+    {
+      "pid" : "openApi",
+      "id" : "openApiResource",
+      "name" : "接口列表",
+      "perm" : "openApiResource",
+      "path" : "/openApi/list",
+      "seq" : 3,
+      "icon" : "ApiOutlined"
+    }
+  ]
 }

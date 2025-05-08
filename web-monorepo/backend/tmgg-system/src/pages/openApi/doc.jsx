@@ -149,7 +149,7 @@ export default class extends React.Component {
         // 请求接口
         String action = "server.time";
         Map<String, Object> params = new HashMap<>();
-        params.put("format", "yyyy-MM-dd HH:mm:ss");
+        params.put("msg", "你好");
         String result = sdk.send(action, params);
         
         System.out.println("响应的json数据为："+ result);

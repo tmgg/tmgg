@@ -1,52 +1,63 @@
 package io.tmgg.modules.openapi.service;
 
-import io.tmgg.lang.SpringTool;
-import io.tmgg.modules.openapi.OpenApi;
-import io.tmgg.modules.openapi.ApiResource;
-import io.tmgg.modules.openapi.gateway.BaseOpenApi;
+import cn.hutool.core.collection.CollUtil;
+import io.tmgg.lang.dao.BaseService;
+import io.tmgg.lang.dao.specification.JpaQuery;
+import io.tmgg.modules.openapi.dao.OpenApiResourceDao;
+import io.tmgg.modules.openapi.entity.OpenApiResource;
+import io.tmgg.modules.openapi.entity.OpenApiResourceArgument;
+import io.tmgg.modules.openapi.entity.OpenApiResourceArgumentReturn;
+import jakarta.annotation.Resource;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.reflect.Method;
-import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
-public class ApiResourceService {
+public class ApiResourceService extends BaseService<OpenApiResource> {
 
-    private Map<String, ApiResource> map;
+    @Resource
+    private OpenApiResourceDao dao;
 
-    public ApiResource findByMethod(String uri) {
-        init();
+    private final Map<String, Method> map = new HashMap<>();
 
-        return map.get(uri);
+    public Method findMethodByAction(String action) {
+        return map.get(action);
+    }
+    public OpenApiResource findByAction(String action) {
+        JpaQuery<OpenApiResource> q = new JpaQuery<>();
+        q.eq(OpenApiResource.Fields.action, action);
+        return this.findOne(q);
+
+    }
+    public List<OpenApiResource> findAll() {
+        return dao.findAll(Sort.by(OpenApiResource.Fields.action));
     }
 
-    public Collection<ApiResource> findAll(){
-        init();
-        return map.values();
-    }
 
-    /**
-     * 延迟初始化，节约内存
-     */
-    private void init() {
-        if (map != null) {
-            return;
-        }
-        map = new HashMap<>();
-        Collection<BaseOpenApi> beans = SpringTool.getBeans(BaseOpenApi.class);
-        for (BaseOpenApi baseOpenApi : beans) {
-            Method[] methods = baseOpenApi.getClass().getMethods();
+    @Transactional
+    public void add(OpenApiResource r) {
+        List<OpenApiResourceArgumentReturn> returnList = r.getReturnList();
+        List<OpenApiResourceArgument> parameterList = r.getParameterList();
 
-            for (Method method : methods) {
-                OpenApi openApi = method.getAnnotation(OpenApi.class);
-                if (openApi != null) {
-                    String url = openApi.action();
-                    map.put(url, new ApiResource(baseOpenApi, method, openApi));
-                }
+        if (CollUtil.isNotEmpty(returnList)) {
+            for (OpenApiResourceArgumentReturn a : returnList) {
+                a.setResource(r);
             }
         }
+
+        if (CollUtil.isNotEmpty(parameterList)) {
+            for (OpenApiResourceArgument a : parameterList) {
+                a.setResource(r);
+            }
+        }
+
+        dao.save(r);
+        map.put(r.getAction(), r.getMethod());
     }
 
 

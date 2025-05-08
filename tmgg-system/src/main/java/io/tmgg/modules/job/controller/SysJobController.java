@@ -1,15 +1,11 @@
 package io.tmgg.modules.job.controller;
 
-import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ClassUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import io.tmgg.BasePackage;
-import io.tmgg.data.Field;
-import io.tmgg.data.FieldDesc;
+import io.tmgg.lang.field.Field;
 import io.tmgg.lang.SpringTool;
-import io.tmgg.lang.ann.Msg;
-import io.tmgg.lang.dao.DBConstants;
 import io.tmgg.lang.dao.specification.JpaQuery;
+import io.tmgg.lang.field.FieldInfo;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.obj.Option;
 import io.tmgg.modules.job.JobDesc;
@@ -21,7 +17,6 @@ import io.tmgg.modules.job.service.SysJobLogService;
 import io.tmgg.modules.job.service.SysJobService;
 import io.tmgg.web.annotion.HasPermission;
 import jakarta.annotation.Resource;
-import jakarta.persistence.Column;
 import lombok.Data;
 import org.quartz.*;
 import org.springframework.data.domain.Page;
@@ -165,8 +160,8 @@ public class SysJobController {
         if (jobDesc != null) {
             option.setLabel(option.getLabel() + " " + jobDesc.name());
 
-            FieldDesc[] params = jobDesc.params();
-            for (FieldDesc param : params) {
+            FieldInfo[] params = jobDesc.params();
+            for (FieldInfo param : params) {
                 Field d = new Field();
                 d.setName(param.name());
                 d.setLabel(param.label());

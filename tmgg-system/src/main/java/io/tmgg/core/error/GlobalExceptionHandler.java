@@ -2,15 +2,12 @@
 package io.tmgg.core.error;
 
 import cn.hutool.core.util.StrUtil;
-import io.tmgg.SysProp;
 import io.tmgg.lang.ExceptionToMessageTool;
 import io.tmgg.lang.HttpServletTool;
-import io.tmgg.lang.SpringTool;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.modules.sys.service.SysConfigService;
-import io.tmgg.web.BizException;
+import io.tmgg.web.CodeException;
 import io.tmgg.web.consts.AopSortConstant;
-import jakarta.annotation.PostConstruct;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolationException;
@@ -28,7 +25,6 @@ import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.NoHandlerFoundException;
@@ -110,8 +106,8 @@ public class GlobalExceptionHandler {
     /**
      * 拦截权限异常
      */
-    @ExceptionHandler(BizException.class)
-    public AjaxResult systemException(BizException e) {
+    @ExceptionHandler(CodeException.class)
+    public AjaxResult systemException(CodeException e) {
         return AjaxResult.err(e.getCode(), e.getCode() + ":" +e.getMessage());
     }
 

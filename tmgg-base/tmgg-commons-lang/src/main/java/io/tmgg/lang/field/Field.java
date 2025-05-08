@@ -1,4 +1,4 @@
-package io.tmgg.data;
+package io.tmgg.lang.field;
 
 import lombok.Getter;
 import lombok.Setter;

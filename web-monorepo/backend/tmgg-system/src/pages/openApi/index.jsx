@@ -65,7 +65,8 @@ export default class extends React.Component {
             dataIndex: 'option',
             render: (_, record) => (
                 <ButtonList>
-                    <Button size='small' onClick={()=>this.handleDoc(record)}>接口文档</Button>
+                    <Button size='small' onClick={()=>PageUtil.open('/openApi/accountResource?accountId=' + record.id, '账户接口')}>接口管理</Button>
+                    <Button size='small' onClick={()=>this.handleDoc(record)}>文档</Button>
                     <Button size='small' perm='openApiAccount:save' onClick={() => this.handleEdit(record)}>编辑</Button>
                     <Popconfirm perm='openApiAccount:delete' title='是否确定删除接口访客'  onConfirm={() => this.handleDelete(record)}>
                         <Button size='small'>删除</Button>
@@ -118,7 +119,7 @@ export default class extends React.Component {
                         </Button>
                     </ButtonList>
                 }}
-                request={(params, sort) => HttpUtil.pageData('openApiAccount/page', params)}
+                request={(params) => HttpUtil.pageData('openApiAccount/page', params)}
                 columns={this.columns}
             />
 
@@ -141,9 +142,7 @@ export default class extends React.Component {
                         <Input/>
                     </Form.Item>
 
-                    <Form.Item label='权限' name='perms' rules={[{required: true}]}>
-                        <FieldRemoteMultipleSelect url='openApiAccount/resourceOptions' />
-                    </Form.Item>
+
                     <Form.Item label='准入IP' name='accessIp' >
                         <Input placeholder='逗号分隔'/>
                     </Form.Item>

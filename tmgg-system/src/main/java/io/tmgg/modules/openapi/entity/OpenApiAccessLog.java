@@ -5,6 +5,7 @@ import io.tmgg.lang.dao.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Lob;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldNameConstants;
@@ -14,6 +15,7 @@ import lombok.experimental.FieldNameConstants;
 @FieldNameConstants
 @Getter
 @Setter
+@Table(name = "open_api_access_log")
 public class OpenApiAccessLog extends BaseEntity {
 
     @Msg("接口名称")

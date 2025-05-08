@@ -93,7 +93,7 @@ public class Api3DesUtil {
 /*	public static void main(String args[]) {
 		String key = "2f08d474c4e94bcaa4a9a61a182af854";
 		String substring = key.substring(0, 24);
-		System.out.println("密钥：" + substring.length());
+		System.out.println("密钥：" + substring.len());
 		String idcard = "130682199606071234sdfs";
 		String encode = Api3DesUtil.encode3Des(key, idcard);
 		System.out.println("原串：" + idcard);

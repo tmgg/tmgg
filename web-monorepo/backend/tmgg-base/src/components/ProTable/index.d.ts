@@ -5,6 +5,7 @@ import {FormInstance} from "antd";
 
 declare type ProTableProps = {
     columns:  ColumnsType,
+    request: (params:any)=>{};
     showSearch?: boolean,
     searchFormItemsRender?:(formInstance: FormInstance)=>{},
 

@@ -1,19 +1,17 @@
 package io.tmgg.modules.openapi.gateway;
 
-import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.date.DateUtil;
-import cn.hutool.core.map.TableMap;
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.crypto.CryptoException;
 import cn.hutool.crypto.SecureUtil;
 import cn.hutool.extra.servlet.JakartaServletUtil;
-import cn.hutool.http.HttpUtil;
-import io.tmgg.jackson.JsonTool;
+import io.tmgg.lang.SpringTool;
 import io.tmgg.lang.obj.AjaxResult;
-import io.tmgg.modules.openapi.ApiResource;
 import io.tmgg.modules.openapi.entity.OpenApiAccount;
+import io.tmgg.modules.openapi.entity.OpenApiAccountResource;
 import io.tmgg.modules.openapi.service.ApiAccountService;
 import io.tmgg.modules.openapi.service.ApiResourceService;
+import io.tmgg.modules.openapi.service.OpenApiAccountResourceService;
+import io.tmgg.web.CodeException;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -21,7 +19,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Map;
@@ -34,6 +31,11 @@ public class ApiGatewayController {
 
 
     public static final int TIME_DIFF_LIMIT = 5;
+
+
+    private OpenApiAccountResourceService openApiAccountResourceService;
+
+    private ApiResourceService resourceService;
 
     @PostMapping
     public AjaxResult process(
@@ -66,12 +68,16 @@ public class ApiGatewayController {
             Assert.state(DateUtil.current() < account.getEndTime().getTime(), "已过有效期");
         }
 
+
+
+
         // 校验权限
-        Assert.state(CollUtil.contains(account.getPerms(), action), "账号没有权限, uri: " + action);
+        OpenApiAccountResource ar = openApiAccountResourceService.findByAccountAndAction(account, action);
+        Assert.notNull(ar, "账号没有权限, action: " + action);
+        Assert.state(ar.getEnable(), "您的权限已被禁用, action: " + action);
 
-
-        ApiResource resource = apiResourceService.findByMethod(action);
-        Assert.notNull(resource, "接口不存在,接口：" + action);
+        Method method = apiResourceService.findMethodByAction(action);
+        Assert.notNull(method, "接口不存在,接口：" + action);
 
         String clientIP = JakartaServletUtil.getClientIP(request);
         Assert.state(StrUtil.isEmpty(account.getAccessIp()) || account.getAccessIp().contains(clientIP), "IP访问限制,您的IP为" + clientIP);
@@ -81,20 +87,19 @@ public class ApiGatewayController {
         // 校验签名
         this.checkSign(action, appId, timestamp, data, signature, appSecret);
 
-        Object retValue = dispatch(params, resource, request, response);
+        Object retValue = dispatch(params, method, request, response);
+
         return AjaxResult.ok().data(retValue);
 
     }
 
-    private  Object dispatch(Map<String,Object> params, ApiResource resource, HttpServletRequest request, HttpServletResponse response) throws IOException, IllegalAccessException, InvocationTargetException {
-        Method method = resource.getMethod();
+    private  Object dispatch(Map<String,Object> params, Method method, HttpServletRequest request, HttpServletResponse response) throws InvocationTargetException, IllegalAccessException {
         Object[] paramValues = ArgumentResolver.resolve(method, params, request, response);
-        Object retValue = null;
-        if (paramValues.length == 0) {
-            retValue = method.invoke(resource.getBean());
-        } else {
-            retValue = method.invoke(resource.getBean(), paramValues);
-        }
+
+        Class<?> declaringClass = method.getDeclaringClass();
+        Object bean = SpringTool.getBean(declaringClass);
+
+        Object retValue = method.invoke(bean, paramValues);
 
         Assert.notNull(retValue, "接口必须有返回值");
         return retValue;
@@ -112,17 +117,9 @@ public class ApiGatewayController {
         int code = AjaxResult.FAILURE;
         String msg = e.getMessage();
 
-
-        Map<Class<? extends Exception>, String> codes = new TableMap<>();
-        codes.put(CryptoException.class, 2001 + "签名或加密错误，请检查秘钥是否正确");
-
-        for (Map.Entry<Class<? extends Exception>, String> entry : codes.entrySet()) {
-            Class<? extends Exception> cls = entry.getKey();
-            String codeMsg = entry.getValue();
-            if (cls.isAssignableFrom(e.getClass())) {
-                msg = codeMsg.substring(4);
-                code = Integer.parseInt(codeMsg.substring(0, 4));
-            }
+        if(e instanceof CodeException be){
+            code = be.getCode();
+            msg = be.getMessage();
         }
 
         return AjaxResult.err(msg).code(code);

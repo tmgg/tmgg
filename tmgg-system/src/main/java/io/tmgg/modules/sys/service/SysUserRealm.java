@@ -4,7 +4,7 @@ package io.tmgg.modules.sys.service;
 import io.tmgg.framework.session.SysHttpSession;
 import io.tmgg.modules.sys.entity.SysUser;
 import io.tmgg.modules.sys.entity.SysRole;
-import io.tmgg.web.BizException;
+import io.tmgg.web.CodeException;
 import io.tmgg.web.perm.AuthorizingRealm;
 import io.tmgg.web.perm.Subject;
 import jakarta.annotation.Resource;
@@ -43,7 +43,7 @@ public class SysUserRealm implements AuthorizingRealm {
             log.trace("查询用户  {}", user);
             if (user == null) {
                 log.error("用户不存在:  {}",subject);
-                throw new BizException(1001,"用户或密码错误"); // 不直接提示用户不存在，防止暴力遍历
+                throw new CodeException(1001,"用户或密码错误"); // 不直接提示用户不存在，防止暴力遍历
             }
 
             BeanUtils.copyProperties(user, subject);
