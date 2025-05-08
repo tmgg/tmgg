@@ -17,8 +17,6 @@ spring:
       register-mbeans: true # 用于监控连接池的信息
   jpa:
     hibernate.ddl-auto: update
-   # database: MYSQL
-    show-sql: false
   data:
     web:
       pageable:

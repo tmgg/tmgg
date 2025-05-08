@@ -139,9 +139,7 @@ export default class extends React.Component {
         })
     }
 
-    handleExport = () => {
-        HttpUtil.downloadFile("sysUser/export")
-    }
+
 
     onSelectOrg = (key) => {
         this.setState({currentOrgId: key}, () => this.tableRef.current.reload())
@@ -202,8 +200,7 @@ export default class extends React.Component {
                                     <PlusOutlined/> 新增
                                 </Button>
 
-                                <Button perm={addPerm}
-                                        onClick={this.handleExport}>导出</Button>
+
                             </ButtonList>
                         }}
                         request={(params) => {

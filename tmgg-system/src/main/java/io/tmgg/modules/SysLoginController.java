@@ -103,7 +103,7 @@ public class SysLoginController {
     @GetMapping("logout")
     public AjaxResult logout(HttpSession session) {
         session.invalidate();
-        return AjaxResult.ok().msg("退出登录成功");
+        return AjaxResult.ok();
     }
 
 

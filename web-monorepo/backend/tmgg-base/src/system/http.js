@@ -42,15 +42,17 @@ class Util {
                 const {success, message, data} = body;
 
                 if (this._showMessage) {
-                    if (success) {
-                        if (message) {
-                            Message.success(message)
+                    if(success !== undefined && message !== undefined){ // 有可能是下载
+                        if (success) {
+                            if (message) {
+                                Message.success(message)
+                            }
+                        } else  {
+                            Modal.error({
+                                title: '操作失败',
+                                content: message
+                            })
                         }
-                    } else {
-                        Modal.error({
-                            title: '操作失败',
-                            content: message
-                        })
                     }
                 }
 
@@ -58,7 +60,6 @@ class Util {
                     resolve(response);
                     return;
                 }
-
 
 
                 if (success == null) { // 返回结果没有success标志，则原样
@@ -74,6 +75,7 @@ class Util {
 
 
             }).catch(e => {
+                console.log(e)
                 if (this._showMessage) {
                     let msg = e;
                     if (e.response && e.response.data) {
@@ -85,7 +87,7 @@ class Util {
                     }
 
                     Modal.error({
-                        title: '操作失败',
+                        title: '操作失败，操作中遇到异常',
                         content: msg
                     })
                 }
@@ -136,7 +138,7 @@ class Util {
             config.data = params;
         }
 
-        this.request(config).then(res => {
+        return this.request(config).then(res => {
             const {data: blob, headers} = res
             if (blob.type === 'application/json') {// 可能是错误了，否则不应该返回json
                 const reader = new FileReader();
@@ -223,7 +225,7 @@ export const HttpUtil = {
         util.enableShowMessage()
         util.enableTransformData()
 
-        return util.post(url, data,params)
+        return util.post(url, data, params)
     },
 
 
@@ -250,6 +252,9 @@ export const HttpUtil = {
      */
     pageData(url, params) {
         const {page, size, sort, ...data} = params;
+        if (params.exportExcel) {
+            return this.downloadFilePost(url, data, {sort})
+        }
         return this.post(url, data, {page, size, sort})
     },
     /**
@@ -259,13 +264,13 @@ export const HttpUtil = {
     downloadFile(url, params, method = 'GET') {
         const util = new Util();
         util.enableShowMessage()
-        util.downloadFile(url, params, method)
+        return util.downloadFile(url, params, method)
     },
 
     downloadFilePost(url, params) {
         const util = new Util();
         util.enableShowMessage()
-        util.downloadFile(url, params, 'POST')
+        return util.downloadFile(url, params, 'POST')
     },
     downloadFileGet(url, params) {
         const util = new Util();

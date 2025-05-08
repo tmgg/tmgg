@@ -6,3 +6,6 @@ Spring Boot  ${spring-boot.formatted-version}
 数据库账号 ${spring.datasource.username}
 系统缓存目录 ${sys.cache-dir}
 日志文件目录 ${logging.file.path}
+
+Writing to the console can be very slow. Avoid logging to the  console in production environments, especially in high volume systems.
+日志文件打印到控制台会很慢，应避免在生产环境打印控制台日志

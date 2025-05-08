@@ -10,6 +10,8 @@ spring:
 
   application:
     name: 'template'
+  jpa:
+    show-sql: false
 
 sys:
   cache-dir: /cache/project-cache
@@ -17,7 +19,8 @@ sys:
 
 logging:
   level:
-    io.tmgg: debug
+    io.tmgg: info
   file:
     path: ./logs/
+    name: ./logs/all.log
 

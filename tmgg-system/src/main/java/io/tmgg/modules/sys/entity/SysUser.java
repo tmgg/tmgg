@@ -3,6 +3,7 @@ package io.tmgg.modules.sys.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.tmgg.commons.poi.excel.annotation.Excel;
 import io.tmgg.core.jpa.fill.AutoFillFileUrl;
 import io.tmgg.core.jpa.fill.AutoFillFileUrlStrategy;
 import io.tmgg.core.jpa.fill.AutoFillOrgLabelStrategy;
@@ -51,7 +52,7 @@ public class SysUser extends BaseEntity {
     @Msg("所属机构")
     private String unitId;
 
-
+    @Excel(name = "部门" )
     @Transient
     @AutoFill(value = AutoFillOrgLabelStrategy.class)
     private String unitLabel;
@@ -60,11 +61,13 @@ public class SysUser extends BaseEntity {
     @Msg("所属部门")
     private String deptId;
 
+    @Excel(name = "单位")
     @Transient
     @AutoFill(value = AutoFillOrgLabelStrategy.class)
     private String deptLabel;
 
 
+    @Excel(name = "账号")
     @Msg("账号")
     @NotNull(message = "账号不能为空")
     @Column(unique = true)
@@ -77,16 +80,18 @@ public class SysUser extends BaseEntity {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
+    @Excel(name = "姓名")
     @Msg("姓名")
     @Column(length = 50)
     private String name;
 
 
+    @Excel(name = "电话")
     @Msg("电话")
     @Column(length = 11)
     private String phone;
 
-
+    @Excel(name = "邮箱")
     @Msg("邮箱")
     @Column(length = 30)
     private String email;
@@ -108,6 +113,7 @@ public class SysUser extends BaseEntity {
     Set<SysRole> roles = new HashSet<>();
 
 
+    @Excel(name = "角色")
     @Transient
     List<String> roleNames;
 

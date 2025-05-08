@@ -5,6 +5,7 @@ import {FormInstance} from "antd";
 
 declare type ProTableProps = {
     columns:  ColumnsType,
+    // 请求数据，注意：需处理下载
     request: (params:any)=>{};
     showSearch?: boolean,
     searchFormItemsRender?:(formInstance: FormInstance)=>{},

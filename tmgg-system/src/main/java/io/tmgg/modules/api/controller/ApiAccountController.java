@@ -11,7 +11,7 @@ import io.tmgg.modules.api.service.ApiAccountResourceService;
 import io.tmgg.web.CommonQueryParam;
 import io.tmgg.web.annotion.HasPermission;
 import jakarta.annotation.Resource;
-import org.springframework.data.domain.Page;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -30,22 +30,19 @@ public class ApiAccountController extends BaseController<ApiAccount> {
     private ApiAccountResourceService accountResourceService;
 
 
-
-    private JpaQuery<ApiAccount> buildQuery(CommonQueryParam param) {
-        JpaQuery<ApiAccount> q = new JpaQuery<>();
-        q.searchText(param.getKeyword(), ApiAccount.Fields.name, ApiAccount.FIELD_ID, ApiAccount.Fields.accessIp);
-        return q;
-    }
-
     @HasPermission
     @PostMapping("page")
-    public AjaxResult page(@RequestBody CommonQueryParam param, @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) throws Exception {
-        JpaQuery<ApiAccount> q = buildQuery(param);
+    public AjaxResult page(@RequestBody CommonQueryParam param, @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable, HttpServletResponse resp) throws Exception {
+        JpaQuery<ApiAccount> q = new JpaQuery<>();
+        q.searchText(param.getKeyword(), ApiAccount.Fields.name, ApiAccount.FIELD_ID, ApiAccount.Fields.accessIp);
 
-        Page<ApiAccount> page = service.findAll(q, pageable);
+        if (param.getExportExcel()) {
+            List<ApiAccount> list = service.findAll(q, pageable.getSort());
+            service.exportExcel(list,"list.xlsx", resp);
+            return null;
+        }
 
-
-        return AjaxResult.ok().data(page);
+        return AjaxResult.ok().data(service.page(q, pageable));
     }
 
     @HasPermission
@@ -54,9 +51,6 @@ public class ApiAccountController extends BaseController<ApiAccount> {
         ApiAccount result = service.saveOrUpdate(param);
         return AjaxResult.ok().data(result.getId()).msg("保存成功");
     }
-
-
-
 
 
     @GetMapping("docInfo")
@@ -68,8 +62,8 @@ public class ApiAccountController extends BaseController<ApiAccount> {
         for (ApiResource r : list) {
             List<ApiResourceArgument> parameterList = r.getParameterList();
             List<ApiResourceArgumentReturn> returnList = r.getReturnList();
-            r.putExtData("parameterList",parameterList);
-            r.putExtData("returnList",returnList);
+            r.putExtData("parameterList", parameterList);
+            r.putExtData("returnList", returnList);
         }
 
 

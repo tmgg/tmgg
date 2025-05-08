@@ -1,4 +1,4 @@
-import {Table} from 'antd';
+import {message, Table} from 'antd';
 import Toolbar from './components/ToolBar';
 import React from "react";
 import SearchForm from "./components/SearchForm";
@@ -70,6 +70,24 @@ export class ProTable extends React.Component {
             this.setState({loading: false})
         })
     }
+    exportExcel = () => {
+        const {request} = this.props
+        const params = {...this.state.params}
+        const {sorter} = this.state
+
+        const {field, order} = sorter
+        if (field) {
+            params.sort = field + "," + (order === 'ascend' ? 'asc' : 'desc')
+        }
+
+        params.exportExcel = true
+
+        const hide = message.loading('下载Excel中...',0)
+        request(params).then(()=>{
+            message.info('下载完成')
+        }).finally(hide)
+
+    };
 
     // 数据重新加载后，更新toolbar需要的已选择数据行
     updateSelectedRows = list => {
@@ -125,6 +143,7 @@ export class ProTable extends React.Component {
                 actionRef={actionRef}
                 toolBarRender={this.getToolBarRenderNode(toolBarRender)}
                 onRefresh={() => this.loadData()}
+                onExportExcel={()=>this.exportExcel()}
                 showSearch={showSearch == null ? (searchFormNode == null) : showSearch} // 未设置搜索表单的情况下，默认显示搜索Input
                 onSearch={this.onSearch}
                 loading={this.state.loading}

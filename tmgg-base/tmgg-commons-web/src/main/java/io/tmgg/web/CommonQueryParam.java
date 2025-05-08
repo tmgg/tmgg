@@ -17,6 +17,11 @@ public class CommonQueryParam {
 
     String keyword;
 
+    /**
+     * 是否导出数据库
+     */
+    Boolean exportExcel =false;
+
 
     /**
      *  其他字段

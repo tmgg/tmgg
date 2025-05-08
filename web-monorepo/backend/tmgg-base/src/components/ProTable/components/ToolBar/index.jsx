@@ -7,7 +7,7 @@ import React from 'react';
 import './index.less';
 import {DateUtil, StorageUtil} from "@tmgg/tmgg-commons-lang";
 import {PageUtil} from "../../../../system";
-
+import excel from './excel.svg'
 
 export default class Toolbar extends React.Component {
 
@@ -17,6 +17,7 @@ export default class Toolbar extends React.Component {
 
     render = () => {
         const {
+            onExportExcel,
             onRefresh,
             showSearch,
             toolBarRender,
@@ -41,6 +42,10 @@ export default class Toolbar extends React.Component {
 
             <div className='pro-table-toolbar-option'>
                 {toolBarRender}
+                <button title='导出EXCEL'  className='btn' onClick={onExportExcel}>
+                    <img src={excel} />
+                </button>
+
                 <Button icon={<ReloadOutlined/>} shape="circle" onClick={onRefresh} title='刷新' loading={loading}/>
                 <Button icon={<HistoryOutlined/>} shape="circle" onClick={this.onClickHistory} title='查询历史'/>
             </div>
@@ -60,7 +65,7 @@ export default class Toolbar extends React.Component {
                       open={this.state.historyOpen}
                       onCancel={() => this.setState({historyOpen: false})}
                       footer={null}
-                      destroyOnClose
+                      destroyOnHidden
         >
 
             <Table

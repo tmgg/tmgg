@@ -19,6 +19,7 @@ import io.tmgg.modules.sys.entity.SysUser;
 import io.tmgg.modules.sys.service.SysConfigService;
 import io.tmgg.modules.sys.service.SysOrgService;
 import io.tmgg.modules.sys.service.SysUserService;
+import io.tmgg.web.CommonQueryParam;
 import io.tmgg.web.annotion.HasPermission;
 import io.tmgg.web.perm.SecurityUtils;
 import io.tmgg.web.perm.Subject;
@@ -36,6 +37,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -59,17 +61,25 @@ public class SysUserController {
     private SysHttpSessionService sm;
 
     @Data
-    public static class QueryParam {
-        String keyword;
+    public static class QueryParam extends CommonQueryParam {
         String orgId;
         String roleId;
     }
 
     @HasPermission
     @PostMapping("page")
-    public AjaxResult page(@RequestBody QueryParam queryParam, @PageableDefault(sort = SysUser.FIELD_UPDATE_TIME, direction = Sort.Direction.DESC) Pageable pageable) throws SQLException {
-        Page<SysUser> page = sysUserService.findAll(queryParam.getOrgId(), queryParam.getRoleId(), queryParam.getKeyword(), pageable);
+    public AjaxResult page(@RequestBody QueryParam param, @PageableDefault(sort = SysUser.FIELD_UPDATE_TIME, direction = Sort.Direction.DESC) Pageable pageable, HttpServletResponse resp) throws SQLException, IOException {
+        if(param.getExportExcel()){
+           pageable = Pageable.unpaged(pageable.getSort());
+        }
+        Page<SysUser> page = sysUserService.findAll(param.getOrgId(), param.getRoleId(), param.getKeyword(), pageable);
         sysUserService.fillRoleName(page);
+
+        if(param.getExportExcel()){
+            sysUserService.exportExcel(new ArrayList<>(page.getContent()), "用户列表.xlsx", resp);
+            return null;
+        }
+
         return AjaxResult.ok().data(page);
     }
 
@@ -150,25 +160,6 @@ public class SysUserController {
         sm.forceExistBySubjectId(user.getId());
         String defaultPassWord = configService.getDefaultPassWord();
         return AjaxResult.ok().msg("重置成功,新密码为：" + defaultPassWord).data("新密码：" + defaultPassWord);
-    }
-
-
-    @HasPermission
-    @GetMapping("export")
-    public void export(HttpServletResponse response) throws IOException {
-        List<SysUser> list = sysUserService.findAll();
-
-        sysUserService.fillRoleName(list);
-
-        Table<SysUser> tb = new Table<>(list);
-        tb.addColumn("姓名", SysUser::getName);
-        tb.addColumn("账号", SysUser::getAccount);
-        tb.addColumn("手机号", SysUser::getPhone);
-        tb.addColumn("部门", SysUser::getDeptLabel);
-        tb.addColumn("单位", SysUser::getUnitLabel);
-        tb.addColumn("角色", SysUser::getRoleNames);
-
-        ExcelExportTool.exportTable("用户列表.xlsx", tb,  response);
     }
 
 
