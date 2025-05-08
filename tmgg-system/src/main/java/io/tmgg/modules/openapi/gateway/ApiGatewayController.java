@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Map;
+import java.util.TreeMap;
 
 @Slf4j
 @RestController
@@ -39,10 +40,12 @@ public class ApiGatewayController {
             @RequestHeader("x-app-id") String appId,
             @RequestHeader("x-timestamp") long timestamp,
             @RequestHeader("x-signature") String signature,
-            @RequestBody String data,
+            @RequestParam Map<String,Object> params,
             HttpServletRequest request,
             HttpServletResponse response) throws Exception {
 
+
+        String data =  joinParams(params) ;
 
 
         Assert.hasText(data, "请求体不能为空");
@@ -77,13 +80,12 @@ public class ApiGatewayController {
         // 校验签名
         this.checkSign(action, appId, timestamp, data, signature, appSecret);
 
-        Object retValue = dispatch(data, resource, request, response);
+        Object retValue = dispatch(params, resource, request, response);
         return AjaxResult.ok().data(JsonTool.toJson(retValue));
 
     }
 
-    private  Object dispatch(String data, ApiResource resource, HttpServletRequest request, HttpServletResponse response) throws IOException, IllegalAccessException, InvocationTargetException {
-        Map<String, Object> params = JsonTool.jsonToMap(data);
+    private  Object dispatch(Map<String,Object> params, ApiResource resource, HttpServletRequest request, HttpServletResponse response) throws IOException, IllegalAccessException, InvocationTargetException {
         Method method = resource.getMethod();
         Object[] paramValues = ArgumentResolver.resolve(method, params, request, response);
         Object retValue = null;
@@ -143,7 +145,24 @@ public class ApiGatewayController {
         sb.append(postData);
 
         String signStr = sb.toString();
+        log.debug("签名内容 {}", signStr);
         return SecureUtil.hmacSha256(appSecret).digestBase64(signStr, false);
+    }
+
+    private String joinParams(Map<String, Object> params) {
+        params = params == null ? new TreeMap<>() : new TreeMap<>(params);
+
+        StringBuilder sb = new StringBuilder();
+        params.forEach((k, v) -> {
+            if (v != null) {
+                sb.append(k).append("=").append(v).append("&");
+            }
+        });
+        if (sb.length() > 0) {
+            sb.deleteCharAt(sb.length() - 1);
+        }
+
+        return sb.toString();
     }
 
     @Resource

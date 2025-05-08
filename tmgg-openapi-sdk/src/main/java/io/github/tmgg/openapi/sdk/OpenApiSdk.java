@@ -1,6 +1,5 @@
 package io.github.tmgg.openapi.sdk;
 
-import cn.hutool.core.lang.Assert;
 import cn.hutool.crypto.SecureUtil;
 import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpResponse;
@@ -37,7 +36,7 @@ public class OpenApiSdk {
     public String send(String action, Map<String, Object> params) throws IOException {
         String timestamp = String.valueOf(System.currentTimeMillis());
         String url = baseUrl + "/openApi/gateway";
-        String postData = this.joinPostData(params);
+        String postData = this.joinParams(params);
 
 
         Map<String, String> headers = new HashMap<>();
@@ -79,7 +78,7 @@ public class OpenApiSdk {
     }
 
 
-    private String joinPostData(Map<String, Object> params) {
+    private String joinParams(Map<String, Object> params) {
         params = params == null ? new TreeMap<>() : new TreeMap<>(params);
 
         StringBuilder sb = new StringBuilder();
@@ -106,6 +105,8 @@ public class OpenApiSdk {
 
         Map<String, Object> params = new TreeMap<>();
         params.put("format", "yyyy-MM-dd HH:mm:ss");
+        params.put("bbb", "中 国 人");
+        params.put("aaa", "中国人");
 
         String result = sdk.send(action, params);
 
