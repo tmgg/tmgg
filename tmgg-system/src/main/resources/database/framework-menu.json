@@ -202,28 +202,28 @@
   },
     {
       "pid" : "sys",
-      "id" : "openApi",
+      "id" : "api",
       "name" : "开放接口",
-      "perm" : "openApi",
+      "perm" : "api",
       "type": "DIR",
       "seq" : 201,
       "icon" : "ApiOutlined"
     },
     {
-      "pid" : "openApi",
-      "id" : "openApiAccount",
+      "pid" : "api",
+      "id" : "apiAccount",
       "name" : "接口账户",
-      "perm" : "openApiAccount",
-      "path" : "/openApi",
+      "perm" : "apiAccount",
+      "path" : "/api",
       "seq" : 1,
       "icon" : "ApiOutlined"
     },
     {
-      "pid" : "openApi",
-      "id" : "openApiResource",
+      "pid" : "api",
+      "id" : "apiResource",
       "name" : "接口列表",
-      "perm" : "openApiResource",
-      "path" : "/openApi/list",
+      "perm" : "apiResource",
+      "path" : "/api/list",
       "seq" : 3,
       "icon" : "ApiOutlined"
     }

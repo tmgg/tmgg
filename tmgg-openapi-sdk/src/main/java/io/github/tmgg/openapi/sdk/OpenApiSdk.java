@@ -89,14 +89,14 @@ public class OpenApiSdk {
 
     public static void main(String[] args) throws IOException {
         String url = "http://127.0.0.1:8002";
-        String appId = "2d9033f0e76f47ef9af4e25e3d3e161c";
-        String appSecret = "y8rRaheXGw3BUQMzf4fimFz61VdZ28Dy";
+        String appId = "220e0de1701041a0b8ae029704f09f5f";
+        String appSecret = "nVgyPYn10M6ZYgbdHRKmLIUcbc5LFUly";
 
         OpenApiSdk sdk = new OpenApiSdk(url, appId, appSecret);
         sdk.setDebug(true);
 
 
-        String result = sdk.send("user.name", MapUtil.of("account","superAdmin"));
+        String result = sdk.send("ping", MapUtil.of("msg","你好！ 中国"));
     }
 
 }

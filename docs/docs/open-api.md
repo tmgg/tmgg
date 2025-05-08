@@ -2,14 +2,8 @@
 # 开放接口
 
 ## 1 示例
-可参考内置的获取时间接口
-```java
-@OpenApi(name = "测试连通性", action = "ping", desc = "示例接口，为了测试，会返回pong")
-public String ping(String msg) {
-        return "pong:" + msg;
-}
+可参考内置的PingApi
 
-```
 请求参数还可以通过@FieldInfo注解描述，方便生成文档
 
 
