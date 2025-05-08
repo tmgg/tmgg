@@ -9,6 +9,7 @@ import io.tmgg.lang.dao.specification.JpaQuery;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.obj.Option;
 import io.tmgg.lang.obj.TreeNode;
+import io.tmgg.lang.poi.ExcelImportTool;
 import io.tmgg.modules.sys.entity.SysMenu;
 import io.tmgg.modules.sys.entity.SysRole;
 import io.tmgg.modules.sys.service.SysMenuService;
@@ -49,11 +50,13 @@ public class SysRoleController {
     @HasPermission
     @PostMapping("page")
     public AjaxResult page(@RequestBody CommonQueryParam param, @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) throws Exception {
+
+
         JpaQuery<SysRole> q = new JpaQuery<>();
         q.searchText(param.getKeyword(),SysRole.Fields.name, SysRole.Fields.code);
 
         Page<SysRole> page = sysRoleService.findAll(q, pageable);
-        return AjaxResult.ok().data(page);
+        return AjaxResult.ok().data(page).cls(SysRole.class);
     }
 
 

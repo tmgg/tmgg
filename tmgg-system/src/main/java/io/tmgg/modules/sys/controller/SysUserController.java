@@ -72,11 +72,6 @@ public class SysUserController {
         Page<SysUser> page = sysUserService.findAll(param.getOrgId(), param.getRoleId(), param.getKeyword(), pageable);
         sysUserService.fillRoleName(page);
 
-//        if(param.getExportExcel()){
-//            sysUserService.exportExcel(page.getContent(), "用户列表.xlsx", resp);
-//            return null;
-//        }
-
         return AjaxResult.ok().data(page).cls(SysUser.class);
     }
 
