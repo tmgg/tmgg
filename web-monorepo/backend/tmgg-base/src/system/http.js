@@ -42,12 +42,12 @@ class Util {
                 const {success, message, data} = body;
 
                 if (this._showMessage) {
-                    if(success !== undefined && message !== undefined){ // 有可能是下载
+                    if (success !== undefined && message !== undefined) { // 有可能是下载
                         if (success) {
                             if (message) {
                                 Message.success(message)
                             }
-                        } else  {
+                        } else {
                             Modal.error({
                                 title: '操作失败',
                                 content: message
@@ -125,18 +125,16 @@ class Util {
         return this.request(config)
     }
 
-    downloadFile(url, params, method = 'GET') {
+    downloadFile(url, data, params, method = 'GET',headers={}) {
         let config = {
             url,
             params,
             method,
             responseType: 'blob',
+            data,
+            headers
         };
-        if (method === 'GET') {
-            config.params = params
-        } else if (method === 'POST') {
-            config.data = params;
-        }
+
 
         return this.request(config).then(res => {
             const {data: blob, headers} = res
@@ -147,7 +145,7 @@ class Util {
                     let rs = JSON.parse(reader.result);
                     Modal.error({
                         title: '下载文件失败',
-                        content: rs.message
+                        content: rs.message || '接口不支持下载'
                     })
                 }
                 return;
@@ -253,7 +251,7 @@ export const HttpUtil = {
     pageData(url, params) {
         const {page, size, sort, ...data} = params;
         if (params.exportExcel) {
-            return this.downloadFilePost(url, data, {sort})
+            return this.downloadFilePost(url, data, {sort, size}, {'X-Export-Excel':'true'})
         }
         return this.post(url, data, {page, size, sort})
     },
@@ -264,18 +262,24 @@ export const HttpUtil = {
     downloadFile(url, params, method = 'GET') {
         const util = new Util();
         util.enableShowMessage()
-        return util.downloadFile(url, params, method)
+
+        const get = method === 'GET';
+        if (get) {
+            return this.downloadFileGet(url, params)
+        }
+
+        return this.downloadFilePost(url, params)
     },
 
-    downloadFilePost(url, params) {
+    downloadFilePost(url, data, params, headers) {
         const util = new Util();
         util.enableShowMessage()
-        return util.downloadFile(url, params, 'POST')
+        return util.downloadFile(url, data, params, 'POST',headers)
     },
     downloadFileGet(url, params) {
         const util = new Util();
         util.enableShowMessage()
-        util.downloadFile(url, params, 'GET')
+        return util.downloadFile(url, null, params, 'GET')
     }
 }
 

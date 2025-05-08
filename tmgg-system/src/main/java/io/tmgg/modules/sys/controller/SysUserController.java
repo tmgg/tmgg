@@ -69,18 +69,15 @@ public class SysUserController {
     @HasPermission
     @PostMapping("page")
     public AjaxResult page(@RequestBody QueryParam param, @PageableDefault(sort = SysUser.FIELD_UPDATE_TIME, direction = Sort.Direction.DESC) Pageable pageable, HttpServletResponse resp) throws SQLException, IOException {
-        if(param.getExportExcel()){
-           pageable = Pageable.unpaged(pageable.getSort());
-        }
         Page<SysUser> page = sysUserService.findAll(param.getOrgId(), param.getRoleId(), param.getKeyword(), pageable);
         sysUserService.fillRoleName(page);
 
-        if(param.getExportExcel()){
-            sysUserService.exportExcel(new ArrayList<>(page.getContent()), "用户列表.xlsx", resp);
-            return null;
-        }
+//        if(param.getExportExcel()){
+//            sysUserService.exportExcel(page.getContent(), "用户列表.xlsx", resp);
+//            return null;
+//        }
 
-        return AjaxResult.ok().data(page);
+        return AjaxResult.ok().data(page).cls(SysUser.class);
     }
 
     @HasPermission

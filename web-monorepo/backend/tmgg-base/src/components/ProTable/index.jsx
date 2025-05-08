@@ -81,6 +81,7 @@ export class ProTable extends React.Component {
         }
 
         params.exportExcel = true
+        params.size = -1
 
         const hide = message.loading('下载Excel中...',0)
         request(params).then(()=>{

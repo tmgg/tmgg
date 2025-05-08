@@ -52,7 +52,6 @@ public class SysRoleController {
         JpaQuery<SysRole> q = new JpaQuery<>();
         q.searchText(param.getKeyword(),SysRole.Fields.name, SysRole.Fields.code);
 
-
         Page<SysRole> page = sysRoleService.findAll(q, pageable);
         return AjaxResult.ok().data(page);
     }

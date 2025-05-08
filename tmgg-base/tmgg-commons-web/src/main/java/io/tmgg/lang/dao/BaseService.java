@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -44,7 +45,7 @@ public abstract class BaseService<T extends PersistEntity> {
 
 
     public void exportExcel(List<T> list, String filename, HttpServletResponse response) throws IOException {
-        ExcelExportTool.exportBeanList(filename, list, getEntityClass(), response);
+        ExcelExportTool.exportBeanList(filename, list , getEntityClass(), response);
     }
 
     public void exportExcel(Table<T> table, String filename, HttpServletResponse response) throws IOException {
