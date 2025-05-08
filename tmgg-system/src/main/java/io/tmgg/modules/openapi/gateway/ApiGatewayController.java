@@ -41,6 +41,7 @@ public class ApiGatewayController {
             @RequestHeader("x-app-id") String appId,
             @RequestHeader("x-timestamp") long timestamp,
             @RequestHeader("x-signature") String signature,
+            @RequestHeader("x-request-id") String requestId,
             @RequestParam Map<String,Object> params,
             HttpServletRequest request,
             HttpServletResponse response) throws Exception {
@@ -50,7 +51,7 @@ public class ApiGatewayController {
 
         Assert.hasText(data, "请求体不能为空");
 
-        // 验证时间戳，与服务器时间差异不能超过20分钟
+        // 验证时间戳，与服务器时间差异不能超过x分钟
         long diffTime = (System.currentTimeMillis() - timestamp) / (1000 * 60); // 分钟
         Assert.state(Math.abs(diffTime) < TIME_DIFF_LIMIT, "时间戳差异大，差距" + diffTime + "分钟");
 
@@ -81,7 +82,7 @@ public class ApiGatewayController {
         this.checkSign(action, appId, timestamp, data, signature, appSecret);
 
         Object retValue = dispatch(params, resource, request, response);
-        return AjaxResult.ok().data(JsonTool.toJson(retValue));
+        return AjaxResult.ok().data(retValue);
 
     }
 
@@ -96,7 +97,6 @@ public class ApiGatewayController {
         }
 
         Assert.notNull(retValue, "接口必须有返回值");
-        retValue = JsonTool.toJsonQuietly(retValue);
         return retValue;
     }
 

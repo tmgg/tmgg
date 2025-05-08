@@ -101,7 +101,7 @@ export default class extends React.Component {
                     title: '日志', dataIndex: 'id', render: (_, record) => {
                         let url = SysUtil.getServerUrl() + 'job/log/print?jobId=' + record.id;
 
-                        return <Button size='small' href={url} target='_blank'>查看日志</Button>
+                        return <Button size='small' type='link' href={url} target='_blank'>最新日志</Button>
                     }
                 }
             ]

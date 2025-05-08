@@ -1,6 +1,9 @@
 package io.github.tmgg.openapi.sdk;
 
+import cn.hutool.core.map.MapUtil;
+import cn.hutool.core.util.IdUtil;
 import cn.hutool.crypto.SecureUtil;
+import cn.hutool.http.HttpResponse;
 import cn.hutool.http.HttpUtil;
 import lombok.Setter;
 
@@ -10,7 +13,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 /**
- * 供第三方调用
+ * 第三方调用sdk
  */
 public class OpenApiSdk {
 
@@ -40,17 +43,20 @@ public class OpenApiSdk {
         headers.put("x-action", action);
         headers.put("x-app-id", appId);
         headers.put("x-timestamp", timestamp);
+        headers.put("x-request-id", IdUtil.fastUUID());
 
         // 签名
         String sign = sign(action, appId, timestamp, postData);
         headers.put("x-signature", sign);
 
 
-        String body = HttpUtil.createPost(url)
+        HttpResponse response = HttpUtil.createPost(url)
                 .headerMap(headers, true)
                 .body(postData)
-                .execute().body();
+                .execute();
+        String body = response.body();
         if (debug) {
+            System.out.println("http状态码" + response.getStatus());
             System.out.println("响应原始数据");
             System.out.println(body);
         }
@@ -59,15 +65,9 @@ public class OpenApiSdk {
         return body;
     }
 
-    private String sign(String action, String appId, String timestamp, String postData) {
-        StringBuilder sb = new StringBuilder();
-        sb.append(action).append("\n");
-        sb.append(appId).append("\n");
-        sb.append(timestamp).append("\n");
-        sb.append(postData);
-
-        String signStr = sb.toString();
-        return SecureUtil.hmacSha256(appSecret).digestBase64(signStr, false);
+    private String sign(String action, String appId, String timestamp, String body) {
+        String signStr = action + "\n" + appId + "\n" + timestamp + "\n" + body;
+        return SecureUtil.hmacSha256(appSecret).digestHex(signStr);
     }
 
 
@@ -89,21 +89,14 @@ public class OpenApiSdk {
 
     public static void main(String[] args) throws IOException {
         String url = "http://127.0.0.1:8002";
-        String appId = "1589fcbd4a0b4a5cb01094f75dc52ac3";
-        String appSecret = "D4cy5ofnQ46RCCd8FGe1YYbunZadOXAf";
+        String appId = "2d9033f0e76f47ef9af4e25e3d3e161c";
+        String appSecret = "y8rRaheXGw3BUQMzf4fimFz61VdZ28Dy";
 
         OpenApiSdk sdk = new OpenApiSdk(url, appId, appSecret);
+        sdk.setDebug(true);
 
-        String action = "server.time";
 
-        Map<String, Object> params = new TreeMap<>();
-        params.put("format", "yyyy-MM-dd HH:mm:ss");
-        params.put("bbb", "中 国 人");
-        params.put("aaa", "中国人");
-
-        String result = sdk.send(action, params);
-
-        System.out.println("响应的json数据为：" + result);
+        String result = sdk.send("user.name", MapUtil.of("account","superAdmin"));
     }
 
 }
