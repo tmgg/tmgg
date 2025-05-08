@@ -1,8 +1,6 @@
 package io.github.tmgg.openapi.sdk;
 
 import cn.hutool.crypto.SecureUtil;
-import cn.hutool.http.HttpRequest;
-import cn.hutool.http.HttpResponse;
 import cn.hutool.http.HttpUtil;
 import lombok.Setter;
 
@@ -22,7 +20,7 @@ public class OpenApiSdk {
 
 
     @Setter
-    private boolean debug = true;
+    private boolean debug = false;
 
 
     public OpenApiSdk(String baseUrl, String appId, String appSecret) {
@@ -30,7 +28,6 @@ public class OpenApiSdk {
         this.appId = appId;
         this.appSecret = appSecret;
     }
-
 
 
     public String send(String action, Map<String, Object> params) throws IOException {
@@ -49,14 +46,10 @@ public class OpenApiSdk {
         headers.put("x-signature", sign);
 
 
-        HttpRequest http = HttpUtil.createPost(url)
+        String body = HttpUtil.createPost(url)
                 .headerMap(headers, true)
-                .body(postData);
-
-
-        HttpResponse response = http.execute();
-        String body = response.body();
-
+                .body(postData)
+                .execute().body();
         if (debug) {
             System.out.println("响应原始数据");
             System.out.println(body);

@@ -7,6 +7,7 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.CryptoException;
 import cn.hutool.crypto.SecureUtil;
 import cn.hutool.extra.servlet.JakartaServletUtil;
+import cn.hutool.http.HttpUtil;
 import io.tmgg.jackson.JsonTool;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.modules.openapi.ApiResource;
@@ -43,7 +44,6 @@ public class ApiGatewayController {
             @RequestParam Map<String,Object> params,
             HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-
 
         String data =  joinParams(params) ;
 
@@ -146,7 +146,7 @@ public class ApiGatewayController {
 
         String signStr = sb.toString();
         log.debug("签名内容 {}", signStr);
-        return SecureUtil.hmacSha256(appSecret).digestBase64(signStr, false);
+        return SecureUtil.hmacSha256(appSecret).digestHex(signStr);
     }
 
     private String joinParams(Map<String, Object> params) {
@@ -158,7 +158,7 @@ public class ApiGatewayController {
                 sb.append(k).append("=").append(v).append("&");
             }
         });
-        if (sb.length() > 0) {
+        if (!sb.isEmpty()) {
             sb.deleteCharAt(sb.length() - 1);
         }
 
