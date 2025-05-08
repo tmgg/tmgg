@@ -226,6 +226,15 @@
       "path" : "/api/list",
       "seq" : 3,
       "icon" : "ApiOutlined"
+    },
+    {
+      "pid":"api",
+      "id": "apiAccessLog",
+      "name": "访问记录",
+      "perm": "apiAccessLog",
+      "path": "/api/accessLog",
+      "icon" : "ApiOutlined",
+      "seq": 5
     }
   ]
 }

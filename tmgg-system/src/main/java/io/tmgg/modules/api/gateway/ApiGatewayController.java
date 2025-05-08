@@ -4,10 +4,13 @@ import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.SecureUtil;
 import cn.hutool.extra.servlet.JakartaServletUtil;
+import io.tmgg.lang.RequestTool;
 import io.tmgg.lang.SpringTool;
 import io.tmgg.lang.obj.AjaxResult;
+import io.tmgg.modules.api.entity.ApiAccessLog;
 import io.tmgg.modules.api.entity.ApiAccount;
 import io.tmgg.modules.api.entity.ApiAccountResource;
+import io.tmgg.modules.api.service.ApiAccessLogService;
 import io.tmgg.modules.api.service.ApiAccountService;
 import io.tmgg.modules.api.service.ApiResourceService;
 import io.tmgg.modules.api.service.ApiAccountResourceService;
@@ -16,6 +19,7 @@ import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.catalina.util.RequestUtil;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,6 +41,9 @@ public class ApiGatewayController {
     private ApiAccountResourceService accountResourceService;
 
 
+    @Resource
+    private ApiAccessLogService accessLogService;
+
 
     @PostMapping
     public AjaxResult process(
@@ -48,6 +55,8 @@ public class ApiGatewayController {
             @RequestParam Map<String,Object> params,
             HttpServletRequest request,
             HttpServletResponse response) throws Exception {
+
+        long startTime = System.currentTimeMillis();
 
         String data =  joinParams(params) ;
 
@@ -89,6 +98,13 @@ public class ApiGatewayController {
         this.checkSign(action, appId, timestamp, data, signature, appSecret);
 
         Object retValue = dispatch(params, method, request, response);
+
+
+        // 保存日志
+        String ip = JakartaServletUtil.getClientIP(request);
+        long time = System.currentTimeMillis() - startTime;
+        accessLogService.add(account, ar.getResource(), requestId, params, retValue, ip,time);
+
 
         return AjaxResult.ok().data(retValue);
 

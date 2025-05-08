@@ -20,7 +20,7 @@ import jakarta.annotation.Resource;
 
 @RestController
 @RequestMapping("openApiAccountResource")
-public class OpenApiAccountResourceController  extends BaseController<ApiAccountResource>{
+public class ApiAccountResourceController extends BaseController<ApiAccountResource>{
 
     @Resource
     ApiAccountResourceService service;
