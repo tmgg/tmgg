@@ -47,9 +47,8 @@ public class PublishToAliyun {
         }
         log.info("根目录 {}", root.getAbsolutePath());
 
-
+        buildAndPush(root, "jdk", root);
         buildAndPush(root, "java", new File(root, "template-backend"));
-
         buildAndPush(root, "node", new File(root, "web-monorepo/template/web"));
 
     }
