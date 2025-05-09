@@ -26,7 +26,6 @@ public class PdfExportTool<T> {
     private static final Font HEADER_FONT = new Font(getBaseFont(), 12, Font.BOLD, BaseColor.WHITE);
     private static final Font CELL_FONT = new Font(getBaseFont(), 10);
     private static final BaseColor HEADER_BG_COLOR = new BaseColor(70, 130, 180);
-    private static final BaseColor ROW_BG_COLOR = new BaseColor(240, 240, 240);
 
     private static BaseFont getBaseFont(){
         try {
@@ -79,7 +78,7 @@ public class PdfExportTool<T> {
         addUserTableHeader(table,headers);
 
         // 添加数据行
-        addUserTableRows(table);
+        addTableRows(table);
 
         document.add(table);
 
@@ -155,19 +154,12 @@ public class PdfExportTool<T> {
         return headers;
     }
 
-    private  void addUserTableRows(PdfPTable table) throws IllegalAccessException {
+    private  void addTableRows(PdfPTable table) {
         for (int i = 0; i < dataList.size(); i++) {
             T user = dataList.get(i);
 
-            // 交替行背景色
-//            if (i % 2 == 0) {
-//                table.getDefaultCell().setBackgroundColor(BaseColor.WHITE);
-//            } else {
-//                table.getDefaultCell().setBackgroundColor(ROW_BG_COLOR);
-//            }
 
             Field[] declaredFields = cls.getDeclaredFields();
-
 
 
             for (Field declaredField : declaredFields) {
