@@ -1,7 +1,6 @@
 
 package io.tmgg.modules.sys.controller;
 
-import cn.hutool.core.date.DateUtil;
 import io.tmgg.lang.ann.PublicRequest;
 import io.tmgg.lang.dao.specification.JpaQuery;
 import io.tmgg.lang.obj.AjaxResult;
@@ -20,8 +19,6 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Date;
-
 /**
  * 文件
  */
@@ -35,7 +32,7 @@ public class SysFileController {
 
     @Data
     public static class QueryParam {
-        private Date[] dateRange;
+        private String dateRange;
         private String fileOriginName;
         private String fileObjectName;
     }
@@ -44,11 +41,7 @@ public class SysFileController {
     @RequestMapping("page")
     public AjaxResult page(@RequestBody QueryParam param, @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) {
         JpaQuery<SysFile> q = new JpaQuery<>();
-        Date[] dateRange = param.getDateRange();
-        if (dateRange != null) {
-            dateRange[1] = DateUtil.endOfDay(dateRange[1]);
-            q.between(SysFile.FIELD_CREATE_TIME, dateRange);
-        }
+        q.betweenIsoDateRange(SysFile.FIELD_CREATE_TIME, param.dateRange);
 
         q.eq(SysFile.Fields.fileOriginName, param.getFileOriginName());
         q.eq(SysFile.Fields.fileObjectName, param.getFileObjectName());
