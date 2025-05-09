@@ -2,7 +2,10 @@ package io.tmgg.lang.importexport;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.itextpdf.text.*;
-import com.itextpdf.text.pdf.*;
+import com.itextpdf.text.pdf.BaseFont;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 import io.tmgg.commons.poi.excel.annotation.Excel;
 import io.tmgg.lang.ResponseTool;
 import jakarta.servlet.http.HttpServletResponse;
@@ -25,9 +28,9 @@ public class PdfExportTool<T> {
     private static final Font TITLE_FONT = new Font(getBaseFont(), 18, Font.BOLD, BaseColor.BLUE);
     private static final Font HEADER_FONT = new Font(getBaseFont(), 12, Font.BOLD, BaseColor.WHITE);
     private static final Font CELL_FONT = new Font(getBaseFont(), 10);
-    private static final BaseColor HEADER_BG_COLOR = new BaseColor(70, 130, 180);
+    private static final BaseColor HEADER_BG_COLOR = new BaseColor(73, 144, 205);
 
-    private static BaseFont getBaseFont(){
+    private static BaseFont getBaseFont() {
         try {
             BaseFont bfChinese = BaseFont.createFont(
                     "STSong-Light",    // 字体名称
@@ -35,7 +38,7 @@ public class PdfExportTool<T> {
                     BaseFont.NOT_EMBEDDED); // 是否嵌入字体
             return bfChinese;
         } catch (Exception e) {
-            log.info("获取中文字体失败" );
+            log.info("获取中文字体失败");
             throw new RuntimeException(e);
         }
     }
@@ -49,15 +52,10 @@ public class PdfExportTool<T> {
     HttpServletResponse response;
 
 
-
-
-
     /**
      * 导出数据列表为PDF
      */
-    public void exportBeanList()
-            throws DocumentException, IOException, IllegalAccessException {
-
+    public void exportBeanList() throws DocumentException, IOException {
         Document document = new Document(PageSize.A4.rotate()); // 横向页面，更适合多列数据
         PdfWriter writer = PdfWriter.getInstance(document, response.getOutputStream());
 
@@ -75,7 +73,7 @@ public class PdfExportTool<T> {
         PdfPTable table = createUserTable(headers);
 
         // 添加表头
-        addUserTableHeader(table,headers);
+        addTableHeader(table, headers);
 
         // 添加数据行
         addTableRows(table);
@@ -83,7 +81,7 @@ public class PdfExportTool<T> {
         document.add(table);
 
 
-        ResponseTool.setDownloadHeader(title +".pdf", ResponseTool.CONTENT_TYPE_EXCEL, response);
+        ResponseTool.setDownloadHeader(title + ".pdf", ResponseTool.CONTENT_TYPE_EXCEL, response);
 
         document.close();
         writer.close();
@@ -92,14 +90,14 @@ public class PdfExportTool<T> {
         response.getOutputStream().close();
     }
 
-    private  void addTitle(Document document, String title) throws DocumentException {
+    private void addTitle(Document document, String title) throws DocumentException {
         Paragraph p = new Paragraph(title, TITLE_FONT);
         p.setAlignment(Element.ALIGN_CENTER);
         p.setSpacingAfter(20f);
         document.add(p);
     }
 
-    private  void addGenerationInfo(Document document) throws DocumentException {
+    private void addGenerationInfo(Document document) throws DocumentException {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String dateStr = sdf.format(new Date());
 
@@ -110,29 +108,27 @@ public class PdfExportTool<T> {
         document.add(p);
     }
 
-    private  PdfPTable createUserTable(List<String> headers) throws DocumentException {
+    private PdfPTable createUserTable(List<String> headers) {
         PdfPTable table = new PdfPTable(headers.size());
         table.setWidthPercentage(100);
         table.setSpacingBefore(10f);
         table.setSpacingAfter(10f);
 
         // 设置列宽比例
-   //     float[] columnWidths = {1f, 2f, 3f, 2f, 2f, 1f};
-     //   table.setWidths(columnWidths);
+        //     float[] columnWidths = {1f, 2f, 3f, 2f, 2f, 1f};
+        //   table.setWidths(columnWidths);
 
         return table;
     }
 
-    private  void addUserTableHeader(PdfPTable table, List<String> headers) {
-
-
+    private void addTableHeader(PdfPTable table, List<String> headers) {
         for (String header : headers) {
             PdfPCell cell = new PdfPCell(new Phrase(header, HEADER_FONT));
             cell.setHorizontalAlignment(Element.ALIGN_CENTER);
             cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
             cell.setBackgroundColor(HEADER_BG_COLOR);
             cell.setPadding(8);
-            cell.setBorderWidth(1.5f);
+            cell.setBorderWidth(1f);
 
             table.addCell(cell);
         }
@@ -145,7 +141,7 @@ public class PdfExportTool<T> {
         Field[] declaredFields = cls.getDeclaredFields();
         for (Field declaredField : declaredFields) {
             Excel ex = declaredField.getAnnotation(Excel.class);
-            if(ex == null){
+            if (ex == null) {
                 continue;
             }
             String name = ex.name();
@@ -154,35 +150,32 @@ public class PdfExportTool<T> {
         return headers;
     }
 
-    private  void addTableRows(PdfPTable table) {
+    private void addTableRows(PdfPTable table) {
         for (int i = 0; i < dataList.size(); i++) {
             T user = dataList.get(i);
 
-
             Field[] declaredFields = cls.getDeclaredFields();
-
 
             for (Field declaredField : declaredFields) {
                 Excel ex = declaredField.getAnnotation(Excel.class);
-                if(ex == null){
+                if (ex == null) {
                     continue;
                 }
 
 
-
-                Object fieldValue = BeanUtil.getFieldValue(user,declaredField.getName()) ;
-                String value = fieldValue == null ? "": fieldValue.toString();
+                Object fieldValue = BeanUtil.getFieldValue(user, declaredField.getName());
+                String value = fieldValue == null ? "" : fieldValue.toString();
 
                 table.addCell(createCell(value));
             }
         }
     }
 
-    private  PdfPCell createCell(String content) {
+    private PdfPCell createCell(String content) {
         return createCell(content, Element.ALIGN_CENTER);
     }
 
-    private  PdfPCell createCell(String content, int alignment) {
+    private PdfPCell createCell(String content, int alignment) {
         PdfPCell cell = new PdfPCell(new Phrase(content, CELL_FONT));
         cell.setHorizontalAlignment(alignment);
         cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
