@@ -48,7 +48,7 @@ public class SysReportTableController extends BaseController<SysReportTable> {
         JpaQuery<SysReportTable> q = buildQuery(param);
 
         Page<SysReportTable> page = service.findAll(q, pageable);
-        return AjaxResult.ok().data(page);
+        return service.autoRender(page);
     }
 
 

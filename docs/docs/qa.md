@@ -54,7 +54,7 @@
         q.like(SysLog.Fields.name, queryParam.getName());
 
         Page<SysLog> page = sysOpLogService.findAll(q, pageable);
-        return AjaxResult.ok().data(page);
+        return service.autoRender(page);;
     }
  
  ```

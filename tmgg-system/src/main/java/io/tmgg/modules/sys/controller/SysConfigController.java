@@ -37,12 +37,12 @@ public class SysConfigController  {
   @HasPermission
   @RequestMapping("page")
   public AjaxResult page(@RequestBody CommonQueryParam queryParam,
-                         @PageableDefault(sort = {"seq", "id"}) Pageable pageable) {
+                         @PageableDefault(sort = {"seq", "id"}) Pageable pageable) throws Exception {
     JpaQuery<SysConfig> q= new JpaQuery<>();
     q.searchText(queryParam.getKeyword(), SysConfig.Fields.label, "id", SysConfig.Fields.remark);
     Page<SysConfig> page = service.findAll(q, pageable);
 
-    return AjaxResult.ok().data(page);
+    return service.autoRender(page);
   }
 
   @HasPermission

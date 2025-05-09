@@ -1,7 +1,6 @@
 
 package io.tmgg.modules.sys.controller;
 
-import cn.hutool.core.date.DateUtil;
 import io.tmgg.lang.dao.specification.JpaQuery;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.modules.sys.entity.SysLog;
@@ -24,7 +23,7 @@ public class SysLogController {
 
 
     @Resource
-    private SysLogService sysOpLogService;
+    private SysLogService service;
 
     @Data
     public static class QueryParam {
@@ -37,7 +36,7 @@ public class SysLogController {
 
     @HasPermission(log = false)
     @RequestMapping("page")
-    public AjaxResult page(@RequestBody QueryParam queryParam, @PageableDefault(sort = "createTime", direction = Sort.Direction.DESC) Pageable pageable) {
+    public AjaxResult page(@RequestBody QueryParam queryParam, @PageableDefault(sort = "createTime", direction = Sort.Direction.DESC) Pageable pageable) throws Exception {
         String dateRange = queryParam.getDateRange();
 
         JpaQuery<SysLog> q = new JpaQuery<>();
@@ -45,8 +44,8 @@ public class SysLogController {
         q.like(SysLog.Fields.name, queryParam.getName());
         q.like(SysLog.Fields.module, queryParam.getModule());
 
-        Page<SysLog> page = sysOpLogService.findAll(q, pageable);
-        return AjaxResult.ok().data(page);
+        Page<SysLog> page = service.findAll(q, pageable);
+        return service.autoRender(page);
     }
 
 
