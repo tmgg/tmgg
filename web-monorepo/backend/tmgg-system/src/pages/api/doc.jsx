@@ -105,7 +105,7 @@ export default class extends React.Component {
                 <Title level={3}>1.4 签名算法 （signature字段）</Title>
                 <Paragraph>
                     <div>
-                        1、将请求参数按key排序后组装为请求体body
+                        1、将请求参数按key排序后组装为请求体body  , 如 a=1&b=2&c=3
                     </div>
                     <div>
                         2、然后将拼接字符串 action, appId , timestamp , body, 中间使用"\n"连接， 得到待签名内容。
@@ -122,41 +122,6 @@ export default class extends React.Component {
 
                 </Paragraph>
 
-
-
-                <Title level={3}>1.5 SDK</Title>
-                <Paragraph>
-                    如果是Java项目，可直接使用 java版sdk, 当前版本：{this.state.frameworkVersion}
-                    <pre>
-                    {`
-    <dependency>
-        <groupId>io.github.tmgg</groupId>
-        <artifactId>tmgg-openapi-sdk</artifactId>
-        <version>x.x.x</version>
-    </dependency>`
-                    }
-                    </pre>
-                    示例代码：
-                    <pre>
-                        {`
-    public static void main(String[] args) throws IOException {
-        //  初始化
-        String url = "http://127.0.0.1:8002";
-        String appId = "473428cdaeb44e27bb0f45c32a7fc2b5";
-        String appSecret = "cbCaGVuSWWgSExaZTvcVG80IrKKVifI2";
-        OpenApiSdk sdk = new OpenApiSdk(url, appId, appSecret);
-
-        // 请求接口
-        String action = "server.time";
-        Map<String, Object> params = new HashMap<>();
-        params.put("msg", "你好");
-        String result = sdk.send(action, params);
-        
-        System.out.println("响应的json数据为："+ result);
-    }
-                        `}
-                    </pre>
-                </Paragraph>
 
 
                 <Typography.Title level={2}>2 接口列表</Typography.Title>

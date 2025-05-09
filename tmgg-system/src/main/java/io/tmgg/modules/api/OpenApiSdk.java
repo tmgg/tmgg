@@ -1,4 +1,4 @@
-package io.github.tmgg.openapi.sdk;
+package io.tmgg.modules.api;
 
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.IdUtil;

@@ -21,7 +21,6 @@
         <module>tmgg-system-kettle</module>
         <module>tmgg-script</module>
         <module>tmgg-base</module>
-        <module>tmgg-openapi-sdk</module>
         <module>tmgg-system-payment</module>
         <module>template-backend</module>
     </modules>
