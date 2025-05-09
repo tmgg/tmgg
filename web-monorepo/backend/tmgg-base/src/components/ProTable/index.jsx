@@ -144,7 +144,7 @@ export class ProTable extends React.Component {
                 actionRef={actionRef}
                 toolBarRender={this.getToolBarRenderNode(toolBarRender)}
                 onRefresh={() => this.loadData()}
-                onExportExcel={()=>this.exportExcel()}
+                onExport={(type)=>this.exportExcel(type)}
                 showSearch={showSearch == null ? (searchFormNode == null) : showSearch} // 未设置搜索表单的情况下，默认显示搜索Input
                 onSearch={this.onSearch}
                 loading={this.state.loading}

@@ -1,6 +1,8 @@
 
 package io.tmgg.modules.sys.service;
 
+import cn.hutool.core.collection.ListUtil;
+import cn.hutool.core.util.NumberUtil;
 import cn.hutool.core.util.StrUtil;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -18,6 +20,8 @@ import io.tmgg.modules.sys.entity.SysLog;
 import io.tmgg.web.annotion.HasPermission;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.Resource;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityTransaction;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
@@ -30,10 +34,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -59,7 +61,7 @@ public class SysLogService extends BaseService<SysLog> implements Runnable {
     /**
      * 待保存队列
      */
-    private final LinkedList<SysLog> persistList = new LinkedList<>();
+    private final List<SysLog> persistList = Collections.synchronizedList(new LinkedList<>());
 
 
     public void saveOperationLog(final String account, JoinPoint joinPoint, boolean success, final String msg) {
@@ -198,11 +200,17 @@ public class SysLogService extends BaseService<SysLog> implements Runnable {
             if (persistList.isEmpty()) {
                 return;
             }
-            List<SysLog> result = dao.saveAll(persistList);
-            // 移除保存成功的日志 （不使用clear是为了保持）
-            persistList.removeAll(result);
+
+            int batchSize = 1000;
+            List<SysLog> batch = new ArrayList<>(batchSize);
+            int size = NumberUtil.min(batchSize, persistList.size());
+            for(int i = 0; i < size; i ++){
+                SysLog sysLog = persistList.remove(0);
+                batch.add(sysLog);
+            }
+            dao.saveAll(batch);
         } catch (Exception e) {
-            log.info("保存日志失败 {}", e.getMessage());
+            log.info("保存日志失败", e);
         }
 
     }

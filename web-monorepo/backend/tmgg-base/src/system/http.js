@@ -3,6 +3,88 @@ import {message, message as Message, Modal} from "antd";
 import {SysUtil} from "./sys";
 
 
+
+
+
+export const HttpUtil = {
+
+    create() {
+        return new Util();
+    },
+
+
+    get(url, params = null, showMessage, transformData) {
+        const util = new Util();
+        util.enableShowMessage()
+        util.enableTransformData()
+        return util.get(url, params)
+    },
+
+    post(url, data, params = null) {
+        const util = new Util();
+        util.enableShowMessage()
+        util.enableTransformData()
+
+        return util.post(url, data, params)
+    },
+
+
+    postForm(url, data) {
+        console.warn('不推荐调用本方法,设计urlEncode等，对于特殊字符可能会有问题')
+        const util = new Util();
+        util.enableShowMessage()
+        util.enableTransformData()
+
+        let config = {
+            url,
+            method: 'POST',
+            data,
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+        };
+
+        return util.request(config)
+    },
+
+    /**
+     * 分页请求, 为antd的ProTable
+     */
+    pageData(url, params) {
+        const {page, size, sort, ...data} = params;
+        if (params.exportExcel) {
+            return this.downloadFilePost(url, data, {sort, size}, {'X-Export-Type':'Excel'})
+        }
+        return this.post(url, data, {page, size, sort})
+    },
+    /**
+     * 下载
+     * @deprecated
+     */
+    downloadFile(url, params, method = 'GET') {
+        const util = new Util();
+        util.enableShowMessage()
+
+        const get = method === 'GET';
+        if (get) {
+            return this.downloadFileGet(url, params)
+        }
+
+        return this.downloadFilePost(url, params)
+    },
+
+    downloadFilePost(url, data, params, headers) {
+        const util = new Util();
+        util.enableShowMessage()
+        return util.downloadFile(url, data, params, 'POST',headers)
+    },
+    downloadFileGet(url, params) {
+        const util = new Util();
+        util.enableShowMessage()
+        return util.downloadFile(url, null, params, 'GET')
+    }
+}
+
 class Util {
     _showLoading = false
 
@@ -202,84 +284,3 @@ class Util {
         return this
     }
 }
-
-
-export const HttpUtil = {
-
-    create() {
-        return new Util();
-    },
-
-
-    get(url, params = null, showMessage, transformData) {
-        const util = new Util();
-        util.enableShowMessage()
-        util.enableTransformData()
-        return util.get(url, params)
-    },
-
-    post(url, data, params = null) {
-        const util = new Util();
-        util.enableShowMessage()
-        util.enableTransformData()
-
-        return util.post(url, data, params)
-    },
-
-
-    postForm(url, data) {
-        console.warn('不推荐调用本方法,设计urlEncode等，对于特殊字符可能会有问题')
-        const util = new Util();
-        util.enableShowMessage()
-        util.enableTransformData()
-
-        let config = {
-            url,
-            method: 'POST',
-            data,
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
-        };
-
-        return util.request(config)
-    },
-
-    /**
-     * 分页请求, 为antd的ProTable
-     */
-    pageData(url, params) {
-        const {page, size, sort, ...data} = params;
-        if (params.exportExcel) {
-            return this.downloadFilePost(url, data, {sort, size}, {'X-Export-Excel':'true'})
-        }
-        return this.post(url, data, {page, size, sort})
-    },
-    /**
-     * 下载
-     * @deprecated
-     */
-    downloadFile(url, params, method = 'GET') {
-        const util = new Util();
-        util.enableShowMessage()
-
-        const get = method === 'GET';
-        if (get) {
-            return this.downloadFileGet(url, params)
-        }
-
-        return this.downloadFilePost(url, params)
-    },
-
-    downloadFilePost(url, data, params, headers) {
-        const util = new Util();
-        util.enableShowMessage()
-        return util.downloadFile(url, data, params, 'POST',headers)
-    },
-    downloadFileGet(url, params) {
-        const util = new Util();
-        util.enableShowMessage()
-        return util.downloadFile(url, null, params, 'GET')
-    }
-}
-

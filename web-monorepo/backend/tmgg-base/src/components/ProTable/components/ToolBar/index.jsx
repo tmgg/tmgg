@@ -17,7 +17,7 @@ export default class Toolbar extends React.Component {
 
     render = () => {
         const {
-            onExportExcel,
+            onExport,
             onRefresh,
             showSearch,
             toolBarRender,
@@ -42,7 +42,7 @@ export default class Toolbar extends React.Component {
 
             <div className='pro-table-toolbar-option'>
                 {toolBarRender}
-                <button title='导出EXCEL'  className='btn' onClick={onExportExcel}>
+                <button title='导出EXCEL'  className='btn' onClick={()=>onExport('Excel')}>
                     <img src={excel} />
                 </button>
 

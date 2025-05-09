@@ -3,13 +3,10 @@ package io.tmgg.modules.sys.controller;
 import cn.hutool.core.lang.Dict;
 import io.tmgg.framework.session.SysHttpSessionService;
 import io.tmgg.lang.TreeManager;
-import io.tmgg.lang.ann.Msg;
 import io.tmgg.lang.dao.BaseEntity;
 import io.tmgg.lang.dao.specification.JpaQuery;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.obj.Option;
-import io.tmgg.lang.obj.TreeNode;
-import io.tmgg.lang.poi.ExcelImportTool;
 import io.tmgg.modules.sys.entity.SysMenu;
 import io.tmgg.modules.sys.entity.SysRole;
 import io.tmgg.modules.sys.service.SysMenuService;
@@ -22,13 +19,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 /**
  * 系统角色
@@ -56,7 +51,8 @@ public class SysRoleController {
         q.searchText(param.getKeyword(),SysRole.Fields.name, SysRole.Fields.code);
 
         Page<SysRole> page = sysRoleService.findAll(q, pageable);
-        return AjaxResult.ok().data(page).cls(SysRole.class);
+
+      return sysRoleService.autoRenderPage(page);
     }
 
 

@@ -1,5 +1,5 @@
 import React from "react";
-import {HttpUtil, PageLoading} from "@tmgg/tmgg-base";
+import {HttpUtil, PageLoading, SysUtil} from "@tmgg/tmgg-base";
 import {SiteInfoInterceptor} from "./interceptor/SiteInfoInterceptor";
 import {Button, Result} from "antd";
 import {AuthInterceptor} from "./interceptor/AuthInterceptor";
@@ -75,8 +75,8 @@ export class InterceptorWrapper extends React.Component {
     };
 
     reLogin() {
-        localStorage.clear()
         HttpUtil.get('/logout').finally(() => {
+            SysUtil.setToken(null)
             history.push('/login')
         })
     }

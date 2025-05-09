@@ -3,12 +3,17 @@ package io.tmgg.lang.dao;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import io.tmgg.data.domain.PageExt;
+import io.tmgg.lang.HttpServletTool;
+import io.tmgg.lang.ann.Msg;
 import io.tmgg.lang.dao.specification.JpaQuery;
+import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.obj.Option;
 import io.tmgg.lang.obj.Table;
 import io.tmgg.lang.poi.ExcelExportTool;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -19,7 +24,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -43,15 +49,51 @@ public abstract class BaseService<T extends PersistEntity> {
     }
 
 
-
+    /**
+     * 通过注解@Excel导出
+     * @param list
+     * @param filename
+     * @param response
+     * @throws IOException
+     */
     public void exportExcel(List<T> list, String filename, HttpServletResponse response) throws IOException {
-        ExcelExportTool.exportBeanList(filename, list , getEntityClass(), response);
+        ExcelExportTool.exportBeanList(filename, list, getEntityClass(), response);
     }
 
+    /**
+     * 自定义导出
+     * @param table
+     * @param filename
+     * @param response
+     * @throws IOException
+     */
     public void exportExcel(Table<T> table, String filename, HttpServletResponse response) throws IOException {
         ExcelExportTool.exportTable(filename, table, response);
     }
 
+    public <D> AjaxResult autoRenderPage(Page<D> page) throws IOException {
+        HttpServletRequest request = HttpServletTool.getRequest();
+        HttpServletResponse response = HttpServletTool.getResponse();
+        String exportExcel = request.getHeader("X-Export-Type");
+        if (StrUtil.isEmpty(exportExcel)) {
+            return AjaxResult.ok().data(page);
+        }
+
+        Type superClass = getClass().getGenericSuperclass();
+        Type type = ((ParameterizedType) superClass).getActualTypeArguments()[0];
+        Class<D> cls = (Class<D>) type;
+
+        switch (exportExcel) {
+            case "Excel" -> {
+                Msg msg = cls.getAnnotation(Msg.class);
+                String filename = msg != null ? msg.value() : cls.getSimpleName();
+                ExcelExportTool.exportBeanList(filename + ".xlsx", page.getContent(), cls, response);
+                return null;
+            }
+        }
+
+        return null;
+    }
 
 
     public boolean isFieldUnique(String id, String fieldName, Object value) {
@@ -263,26 +305,29 @@ public abstract class BaseService<T extends PersistEntity> {
         return baseDao.dict(spec, keyField, valueField);
     }
 
-    public T findByField(String key,Object value){
+    public T findByField(String key, Object value) {
         JpaQuery<T> q = new JpaQuery<>();
-        q.eq(key,value);
+        q.eq(key, value);
         return this.findOne(q);
     }
-    public T findByField(String key,Object value,String key2,Object value2){
+
+    public T findByField(String key, Object value, String key2, Object value2) {
         JpaQuery<T> q = new JpaQuery<>();
-        q.eq(key,value);
-        q.eq(key2,value2);
+        q.eq(key, value);
+        q.eq(key2, value2);
         return this.findOne(q);
     }
-    public List<T> findAllByField(String key,Object value){
+
+    public List<T> findAllByField(String key, Object value) {
         JpaQuery<T> q = new JpaQuery<>();
-        q.eq(key,value);
+        q.eq(key, value);
         return this.findAll(q);
     }
-    public List<T>  findAllByField(String key,Object value,String key2,Object value2){
+
+    public List<T> findAllByField(String key, Object value, String key2, Object value2) {
         JpaQuery<T> q = new JpaQuery<>();
-        q.eq(key,value);
-        q.eq(key2,value2);
+        q.eq(key, value);
+        q.eq(key2, value2);
         return this.findAll(q);
     }
 }

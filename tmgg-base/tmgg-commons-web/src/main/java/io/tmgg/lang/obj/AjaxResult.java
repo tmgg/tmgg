@@ -36,11 +36,7 @@ public class AjaxResult {
     String message;
 
 
-    /**
-     * 和返回值相关的类，在aop时用
-     */
-    @JsonIgnore
-    Class<?> entityClass;
+
 
     public AjaxResult() {
         this(true);
@@ -93,10 +89,6 @@ public class AjaxResult {
         return this;
     }
 
-    public AjaxResult cls(Class<?> cls) {
-        this.entityClass = cls;
-        return this;
-    }
 
     /**
      * 动态字段，处理实体中不包含的字段

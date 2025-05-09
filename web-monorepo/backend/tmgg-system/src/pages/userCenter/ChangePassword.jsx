@@ -14,7 +14,7 @@ export default class extends React.Component {
                 title: '提示',
                 content: '修改密码成功',
                 onOk: () => {
-                    localStorage.clear()
+                    SysUtil.setToken(null)
                     history.push('/login')
                 }
             })

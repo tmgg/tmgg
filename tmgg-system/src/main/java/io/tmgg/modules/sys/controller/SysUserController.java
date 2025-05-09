@@ -9,9 +9,7 @@ import io.tmgg.lang.dao.BaseEntity;
 import io.tmgg.lang.dao.specification.JpaQuery;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.obj.Option;
-import io.tmgg.lang.obj.Table;
 import io.tmgg.lang.obj.TreeOption;
-import io.tmgg.lang.poi.ExcelExportTool;
 import io.tmgg.modules.sys.dto.GrantPermDto;
 import io.tmgg.modules.sys.entity.OrgType;
 import io.tmgg.modules.sys.entity.SysOrg;
@@ -37,7 +35,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -72,7 +69,7 @@ public class SysUserController {
         Page<SysUser> page = sysUserService.findAll(param.getOrgId(), param.getRoleId(), param.getKeyword(), pageable);
         sysUserService.fillRoleName(page);
 
-        return AjaxResult.ok().data(page).cls(SysUser.class);
+        return sysUserService.autoRenderPage(page);
     }
 
     @HasPermission
