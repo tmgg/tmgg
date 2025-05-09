@@ -1,34 +1,45 @@
 package io.tmgg.lang.importexport;
 
 import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.util.ObjUtil;
-import cn.hutool.core.util.StrUtil;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.*;
 import io.tmgg.commons.poi.excel.annotation.Excel;
-import io.tmgg.lang.DownloadTool;
 import io.tmgg.lang.ResponseTool;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
-import org.apache.commons.beanutils.BeanUtils;
-import org.apache.poi.ss.formula.functions.T;
+import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
-import java.io.OutputStream;
 import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+@Slf4j
 @AllArgsConstructor
 public class PdfExportTool<T> {
 
-    private static final Font TITLE_FONT = new Font(Font.FontFamily.HELVETICA, 18, Font.BOLD, BaseColor.BLUE);
-    private static final Font HEADER_FONT = new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD, BaseColor.WHITE);
-    private static final Font CELL_FONT = new Font(Font.FontFamily.HELVETICA, 10);
+
+    private static final Font TITLE_FONT = new Font(getBaseFont(), 18, Font.BOLD, BaseColor.BLUE);
+    private static final Font HEADER_FONT = new Font(getBaseFont(), 12, Font.BOLD, BaseColor.WHITE);
+    private static final Font CELL_FONT = new Font(getBaseFont(), 10);
     private static final BaseColor HEADER_BG_COLOR = new BaseColor(70, 130, 180);
     private static final BaseColor ROW_BG_COLOR = new BaseColor(240, 240, 240);
+
+    private static BaseFont getBaseFont(){
+        try {
+            BaseFont bfChinese = BaseFont.createFont(
+                    "STSong-Light",    // 字体名称
+                    "UniGB-UCS2-H",   // 编码标识
+                    BaseFont.NOT_EMBEDDED); // 是否嵌入字体
+            return bfChinese;
+        } catch (Exception e) {
+            log.info("获取中文字体失败" );
+            throw new RuntimeException(e);
+        }
+    }
 
     Class<T> cls;
 
@@ -51,10 +62,6 @@ public class PdfExportTool<T> {
         Document document = new Document(PageSize.A4.rotate()); // 横向页面，更适合多列数据
         PdfWriter writer = PdfWriter.getInstance(document, response.getOutputStream());
 
-        // 设置文档属性
-        document.addTitle("数据列表报表");
-        document.addAuthor("系统自动生成");
-        document.addCreator("企业应用系统");
 
         document.open();
 
@@ -65,10 +72,11 @@ public class PdfExportTool<T> {
         addGenerationInfo(document);
 
         // 创建表格
-        PdfPTable table = createUserTable();
+        List<String> headers = getHeaders();
+        PdfPTable table = createUserTable(headers);
 
         // 添加表头
-        addUserTableHeader(table);
+        addUserTableHeader(table,headers);
 
         // 添加数据行
         addUserTableRows(table);
@@ -97,27 +105,42 @@ public class PdfExportTool<T> {
         String dateStr = sdf.format(new Date());
 
         Paragraph p = new Paragraph("生成时间: " + dateStr,
-                new Font(Font.FontFamily.HELVETICA, 10, Font.NORMAL, BaseColor.GRAY));
+                new Font(getBaseFont(), 10, Font.NORMAL, BaseColor.GRAY));
         p.setAlignment(Element.ALIGN_RIGHT);
         p.setSpacingAfter(15f);
         document.add(p);
     }
 
-    private  PdfPTable createUserTable() throws DocumentException {
-        // 6列：ID, 数据名, 邮箱, 部门, 创建时间, 状态
-        PdfPTable table = new PdfPTable(6);
+    private  PdfPTable createUserTable(List<String> headers) throws DocumentException {
+        PdfPTable table = new PdfPTable(headers.size());
         table.setWidthPercentage(100);
         table.setSpacingBefore(10f);
         table.setSpacingAfter(10f);
 
         // 设置列宽比例
-        float[] columnWidths = {1f, 2f, 3f, 2f, 2f, 1f};
-        table.setWidths(columnWidths);
+   //     float[] columnWidths = {1f, 2f, 3f, 2f, 2f, 1f};
+     //   table.setWidths(columnWidths);
 
         return table;
     }
 
-    private  void addUserTableHeader(PdfPTable table) {
+    private  void addUserTableHeader(PdfPTable table, List<String> headers) {
+
+
+        for (String header : headers) {
+            PdfPCell cell = new PdfPCell(new Phrase(header, HEADER_FONT));
+            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+            cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+            cell.setBackgroundColor(HEADER_BG_COLOR);
+            cell.setPadding(8);
+            cell.setBorderWidth(1.5f);
+
+            table.addCell(cell);
+        }
+    }
+
+    @NotNull
+    private List<String> getHeaders() {
         List<String> headers = new ArrayList<>();
 
         Field[] declaredFields = cls.getDeclaredFields();
@@ -129,16 +152,7 @@ public class PdfExportTool<T> {
             String name = ex.name();
             headers.add(name);
         }
-
-        for (String header : headers) {
-            PdfPCell cell = new PdfPCell(new Phrase(header, HEADER_FONT));
-            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-            cell.setBackgroundColor(HEADER_BG_COLOR);
-            cell.setPadding(8);
-            cell.setBorderWidth(1.5f);
-            table.addCell(cell);
-        }
+        return headers;
     }
 
     private  void addUserTableRows(PdfPTable table) throws IllegalAccessException {
@@ -153,6 +167,7 @@ public class PdfExportTool<T> {
 //            }
 
             Field[] declaredFields = cls.getDeclaredFields();
+
 
 
             for (Field declaredField : declaredFields) {
@@ -172,7 +187,7 @@ public class PdfExportTool<T> {
     }
 
     private  PdfPCell createCell(String content) {
-        return createCell(content, Element.ALIGN_LEFT);
+        return createCell(content, Element.ALIGN_CENTER);
     }
 
     private  PdfPCell createCell(String content, int alignment) {
