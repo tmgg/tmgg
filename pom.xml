@@ -264,13 +264,19 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
                 <configuration>
                     <source>${compile.version}</source>
                     <target>${compile.version}</target>
                     <compilerArgument>-Xlint:unchecked</compilerArgument>
                     <encoding>UTF-8</encoding>
+
+                    <!-- 排除开发用到时的启动文件-->
+                    <excludes>
+                        <exclude>io/tmgg/*Application.java</exclude>
+                    </excludes>
                 </configuration>
+
+
             </plugin>
 
 
