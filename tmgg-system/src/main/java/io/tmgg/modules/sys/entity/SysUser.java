@@ -114,13 +114,7 @@ public class SysUser extends BaseEntity {
      */
     private Integer failedAttempts;
 
-    /***
-     * 账户解锁令牌
-     * 用于自助解锁账户的临时令牌, 如邮件，电话等
-     */
-    @JsonIgnore
-    @Column(length = 32)
-    private String unlockToken;
+
 
     // 扩展字段1
     private String extra1;
