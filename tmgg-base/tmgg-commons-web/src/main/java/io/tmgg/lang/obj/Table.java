@@ -7,6 +7,7 @@ import lombok.Setter;
 import org.apache.poi.ss.formula.functions.T;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -27,7 +28,8 @@ public class Table<T> {
 
 
     public Table(List<T> dataSource) {
-        this.dataSource = dataSource;
+        // 传入的列表可能是不可改变的，这里需要
+        this.dataSource = new ArrayList<>(dataSource);
     }
 
     public void addColumn(String title, String dataIndex){

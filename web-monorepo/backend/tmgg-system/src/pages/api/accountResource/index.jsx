@@ -105,7 +105,7 @@ export default class extends React.Component {
 
     render() {
         return <Page>
-            <FieldTableSelect url='openApiResource/tableSelect'/>
+
             <ProTable
                 actionRef={this.tableRef}
                 toolBarRender={() => {
@@ -134,7 +134,7 @@ export default class extends React.Component {
                     <Form.Item name='id' noStyle></Form.Item>
 
                     <Form.Item label='接口' name={['resource', 'id']} rules={[{required: true}]}>
-                        <FieldRemoteSelect url='openApiResource/options'/>
+                        <FieldTableSelect url='openApiResource/tableSelect' labelKey='name'/>
                     </Form.Item>
 
 
