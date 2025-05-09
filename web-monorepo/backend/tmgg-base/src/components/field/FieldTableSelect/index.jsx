@@ -30,6 +30,13 @@ export class FieldTableSelect extends React.Component {
         this.loadData()
     }
 
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        let value = this.props.value;
+        if(value !== prevProps.value){
+            this.setState({value: value,label:null}, this.loadData)
+        }
+    }
+
     loadData(searchText) {
         this.setState({loading: true})
         HttpUtil.get(this.props.url, {searchText, selectedKey: this.state.value}).then(rs => {
