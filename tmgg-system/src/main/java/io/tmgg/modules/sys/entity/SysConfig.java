@@ -1,6 +1,7 @@
 
 package io.tmgg.modules.sys.entity;
 
+import io.tmgg.commons.poi.excel.annotation.Excel;
 import io.tmgg.lang.ann.Msg;
 import io.tmgg.lang.dao.BaseEntity;
 import lombok.Getter;
@@ -25,6 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 @ToString
 public class SysConfig extends BaseEntity {
 
+    @Excel(name = "名称")
     @Msg("名称")
     @Column(length = 30, nullable = false)
     private String label;
@@ -33,6 +35,7 @@ public class SysConfig extends BaseEntity {
     /**
      * 属性值
      */
+    @Excel(name = "值")
     @Msg("值")
     private String value;
 
