@@ -4,7 +4,7 @@ import cn.hutool.core.util.StrUtil;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.tmgg.lang.SpringTool;
 import io.tmgg.lang.ann.Msg;
-import io.tmgg.modules.api.Action;
+import io.tmgg.modules.api.Api;
 import io.tmgg.lang.field.FieldInfo;
 import io.tmgg.modules.api.entity.ApiResourceArgument;
 import io.tmgg.modules.api.entity.ApiResourceArgumentReturn;
@@ -49,7 +49,7 @@ public class ApiInitRunner implements CommandLineRunner {
         Method[] methods = bean.getClass().getMethods();
 
         for (Method method : methods) {
-            Action api = method.getAnnotation(Action.class);
+            Api api = method.getAnnotation(Api.class);
             if (api == null) {
                 return;
             }

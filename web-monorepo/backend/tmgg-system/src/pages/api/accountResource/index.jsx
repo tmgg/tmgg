@@ -13,7 +13,7 @@ import {
     Page,
     HttpUtil,
     ProTable,
-    FieldRemoteSelect, PageUtil, FieldDropdownTable
+    FieldRemoteSelect, PageUtil, FieldTableSelect
 } from "@tmgg/tmgg-base";
 
 
@@ -105,7 +105,7 @@ export default class extends React.Component {
 
     render() {
         return <Page>
-            <FieldDropdownTable url='openApiResource/dropdownTable'/>
+            <FieldTableSelect url='openApiResource/tableSelect'/>
             <ProTable
                 actionRef={this.tableRef}
                 toolBarRender={() => {

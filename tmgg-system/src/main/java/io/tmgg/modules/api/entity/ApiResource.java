@@ -27,7 +27,7 @@ public class ApiResource extends BaseEntity {
     @Column(name = "_desc")
     String desc;
 
-    @Column(length = DBConstants.LEN_NAME,unique = true)
+    @Column(length = DBConstants.LEN_NAME)
     String beanName;
 
     @JsonIgnore

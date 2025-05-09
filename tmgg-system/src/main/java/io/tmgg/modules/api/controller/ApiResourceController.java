@@ -6,6 +6,7 @@ import io.tmgg.lang.dao.specification.JpaQuery;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.obj.Option;
 import io.tmgg.lang.obj.Table;
+import io.tmgg.modules.api.Api;
 import io.tmgg.modules.api.entity.ApiResource;
 import io.tmgg.modules.api.service.ApiResourceService;
 import io.tmgg.web.CommonQueryParam;
@@ -13,6 +14,7 @@ import io.tmgg.web.annotion.HasPermission;
 import jakarta.annotation.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,11 +45,13 @@ public class ApiResourceController {
         return AjaxResult.ok().data(options);
     }
 
-    @GetMapping("dropdownTable")
-    public AjaxResult dropdownTable(String keyword) {
-        List<ApiResource> list = apiResourceService.findAll();
+    @GetMapping("tableSelect")
+    public AjaxResult tableSelect(String searchText,Pageable pageable) {
+        JpaQuery<ApiResource> q = new JpaQuery<>();
+        q.searchText(searchText, ApiResource.Fields.name, ApiResource.Fields.uri, ApiResource.Fields.desc);
+        Page<ApiResource> list = apiResourceService.findAll(q,pageable);
 
-        Table<ApiResource> tb = new Table<>(list);
+        Table<ApiResource> tb = new Table<>(list.getContent());
         tb.addColumn("标识", "id");
         tb.addColumn("名称", ApiResource.Fields.name);
         tb.addColumn("路径", ApiResource.Fields.uri);
