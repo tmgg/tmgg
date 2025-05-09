@@ -71,7 +71,8 @@ public abstract class BaseService<T extends PersistEntity> {
         ExcelExportTool.exportTable(filename, table, response);
     }
 
-    public <D> AjaxResult autoRenderPage(Page<D> page) throws IOException {
+
+    public <D> AjaxResult page(Page<D> page) throws IOException {
         HttpServletRequest request = HttpServletTool.getRequest();
         HttpServletResponse response = HttpServletTool.getResponse();
         String exportExcel = request.getHeader("X-Export-Type");
@@ -84,12 +85,12 @@ public abstract class BaseService<T extends PersistEntity> {
         Class<D> cls = (Class<D>) type;
 
         switch (exportExcel) {
-            case "Excel" -> {
+            case "Excel":
                 Msg msg = cls.getAnnotation(Msg.class);
                 String filename = msg != null ? msg.value() : cls.getSimpleName();
                 ExcelExportTool.exportBeanList(filename + ".xlsx", page.getContent(), cls, response);
-                return null;
-            }
+            break;
+
         }
 
         return null;

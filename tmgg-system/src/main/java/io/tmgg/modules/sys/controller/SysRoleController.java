@@ -52,7 +52,7 @@ public class SysRoleController {
 
         Page<SysRole> page = sysRoleService.findAll(q, pageable);
 
-      return sysRoleService.autoRenderPage(page);
+      return sysRoleService.page(page);
     }
 
 
