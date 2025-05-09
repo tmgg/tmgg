@@ -24,7 +24,7 @@ public class ApiResourceController {
     public AjaxResult page(@RequestBody CommonQueryParam param, @PageableDefault(sort = "uri") Pageable pageable) throws Exception {
         JpaQuery<ApiResource> q = new JpaQuery<>();
         q.searchText(param.getKeyword(), ApiResource.Fields.name, ApiResource.Fields.uri, ApiResource.Fields.desc);
-        Page<ApiResource> page = service.findAll(pageable);
+        Page<ApiResource> page = service.findAll(q,pageable);
 
         return service.autoRender(page);
     }
