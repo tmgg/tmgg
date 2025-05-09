@@ -44,7 +44,7 @@ public class ${name}Controller  extends BaseController<${name}>{
         JpaQuery<${name}> q = buildQuery(param);
 
         Page<${name}> page = service.findAll(q, pageable);
-        return AjaxResult.ok().data(page);
+        return service.autoRender(page);
     }
 
 

@@ -5,7 +5,6 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
-import io.tmgg.data.domain.PageExt;
 import io.tmgg.lang.HttpServletTool;
 import io.tmgg.lang.ann.Msg;
 import io.tmgg.lang.dao.specification.JpaQuery;
@@ -39,15 +38,7 @@ public abstract class BaseService<T extends PersistEntity> {
     protected BaseDao<T> baseDao;
 
 
-    /**
-     * @param spec
-     * @param pageable
-     * @return
-     */
-    public PageExt<T> page(Specification<T> spec, Pageable pageable) {
-        Page<T> page = baseDao.findAll(spec, pageable);
-        return PageExt.of(page);
-    }
+
 
 
     /**
@@ -81,7 +72,7 @@ public abstract class BaseService<T extends PersistEntity> {
      * @param <D>
      * @throws IOException
      */
-    public <D> AjaxResult page(Page<D> page) throws Exception {
+    public <D> AjaxResult autoRender(Page<D> page) throws Exception {
         HttpServletRequest request = HttpServletTool.getRequest();
         HttpServletResponse response = HttpServletTool.getResponse();
         String exportExcel = request.getHeader("X-Export-Type");

@@ -12,6 +12,7 @@ import io.tmgg.web.CommonQueryParam;
 import io.tmgg.web.annotion.HasPermission;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -35,14 +36,9 @@ public class ApiAccountController extends BaseController<ApiAccount> {
     public AjaxResult page(@RequestBody CommonQueryParam param, @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable, HttpServletResponse resp) throws Exception {
         JpaQuery<ApiAccount> q = new JpaQuery<>();
         q.searchText(param.getKeyword(), ApiAccount.Fields.name, ApiAccount.FIELD_ID, ApiAccount.Fields.accessIp);
+        Page<ApiAccount> page = service.findAll(q, pageable);
 
-        if (param.getExportExcel()) {
-            List<ApiAccount> list = service.findAll(q, pageable.getSort());
-            service.exportExcel(list,"list.xlsx", resp);
-            return null;
-        }
-
-        return AjaxResult.ok().data(service.page(q, pageable));
+        return service.autoRender(page);
     }
 
     @HasPermission

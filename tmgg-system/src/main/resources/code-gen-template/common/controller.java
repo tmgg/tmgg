@@ -43,7 +43,7 @@ public class ${name}Controller  extends BaseController<${name}>{
         q.searchText(param.getKeyword(), "字段1","字段2");
 
         Page<${name}> page = service.findAll(q, pageable);
-        return AjaxResult.ok().data(page);
+        return service.autoRender(page);
     }
 
 

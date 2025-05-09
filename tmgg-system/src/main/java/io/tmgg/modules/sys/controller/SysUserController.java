@@ -33,8 +33,6 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
-import java.sql.SQLException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -69,7 +67,7 @@ public class SysUserController {
         Page<SysUser> page = sysUserService.findAll(param.getOrgId(), param.getRoleId(), param.getKeyword(), pageable);
         sysUserService.fillRoleName(page);
 
-        return sysUserService.page(page);
+        return sysUserService.autoRender(page);
     }
 
     @HasPermission
