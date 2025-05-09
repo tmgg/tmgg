@@ -70,7 +70,7 @@ export class ProTable extends React.Component {
             this.setState({loading: false})
         })
     }
-    exportExcel = () => {
+    exportFile = (type) => {
         const {request} = this.props
         const params = {...this.state.params}
         const {sorter} = this.state
@@ -80,7 +80,7 @@ export class ProTable extends React.Component {
             params.sort = field + "," + (order === 'ascend' ? 'asc' : 'desc')
         }
 
-        params.exportExcel = true
+        params._exportType = type
         params.size = -1
 
         const hide = message.loading('下载Excel中...',0)
@@ -144,7 +144,7 @@ export class ProTable extends React.Component {
                 actionRef={actionRef}
                 toolBarRender={this.getToolBarRenderNode(toolBarRender)}
                 onRefresh={() => this.loadData()}
-                onExport={(type)=>this.exportExcel(type)}
+                onExport={(type)=>this.exportFile(type)}
                 showSearch={showSearch == null ? (searchFormNode == null) : showSearch} // 未设置搜索表单的情况下，默认显示搜索Input
                 onSearch={this.onSearch}
                 loading={this.state.loading}

@@ -51,9 +51,9 @@ export const HttpUtil = {
      * 分页请求, 为antd的ProTable
      */
     pageData(url, params) {
-        const {page, size, sort, ...data} = params;
-        if (params.exportExcel) {
-            return this.downloadFilePost(url, data, {sort, size}, {'X-Export-Type':'Excel'})
+        const {page, size, sort, _exportType,...data} = params;
+        if (_exportType) {
+            return this.downloadFilePost(url, data, {sort, size}, {'X-Export-Type':_exportType})
         }
         return this.post(url, data, {page, size, sort})
     },

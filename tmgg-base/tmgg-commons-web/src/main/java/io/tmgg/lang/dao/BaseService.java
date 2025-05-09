@@ -72,6 +72,13 @@ public abstract class BaseService<T extends PersistEntity> {
     }
 
 
+    /**
+     * 通过请求头 X-Export-Type， 自动实现导出
+     * @param page
+     * @return
+     * @param <D>
+     * @throws IOException
+     */
     public <D> AjaxResult page(Page<D> page) throws IOException {
         HttpServletRequest request = HttpServletTool.getRequest();
         HttpServletResponse response = HttpServletTool.getResponse();

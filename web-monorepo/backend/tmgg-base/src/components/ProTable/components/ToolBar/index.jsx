@@ -8,7 +8,7 @@ import './index.less';
 import {DateUtil, StorageUtil} from "@tmgg/tmgg-commons-lang";
 import {PageUtil} from "../../../../system";
 import excel from './excel.svg'
-
+import pdf from './pdf.svg'
 export default class Toolbar extends React.Component {
 
     state = {
@@ -44,6 +44,9 @@ export default class Toolbar extends React.Component {
                 {toolBarRender}
                 <button title='导出EXCEL'  className='btn' onClick={()=>onExport('Excel')}>
                     <img src={excel} />
+                </button>
+                <button title='导出PDF'  className='btn' onClick={()=>onExport('Pdf')}>
+                    <img src={pdf} />
                 </button>
 
                 <Button icon={<ReloadOutlined/>} shape="circle" onClick={onRefresh} title='刷新' loading={loading}/>
