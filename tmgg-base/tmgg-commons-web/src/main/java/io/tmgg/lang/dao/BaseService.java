@@ -9,6 +9,7 @@ import io.tmgg.data.domain.PageExt;
 import io.tmgg.lang.HttpServletTool;
 import io.tmgg.lang.ann.Msg;
 import io.tmgg.lang.dao.specification.JpaQuery;
+import io.tmgg.lang.importexport.PdfExportTool;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.obj.Option;
 import io.tmgg.lang.obj.Table;
@@ -74,12 +75,13 @@ public abstract class BaseService<T extends PersistEntity> {
 
     /**
      * 通过请求头 X-Export-Type， 自动实现导出
+     *
      * @param page
      * @return
      * @param <D>
      * @throws IOException
      */
-    public <D> AjaxResult page(Page<D> page) throws IOException {
+    public <D> AjaxResult page(Page<D> page) throws Exception {
         HttpServletRequest request = HttpServletTool.getRequest();
         HttpServletResponse response = HttpServletTool.getResponse();
         String exportExcel = request.getHeader("X-Export-Type");
@@ -91,14 +93,18 @@ public abstract class BaseService<T extends PersistEntity> {
         Type type = ((ParameterizedType) superClass).getActualTypeArguments()[0];
         Class<D> cls = (Class<D>) type;
 
-        switch (exportExcel) {
-            case "Excel":
-                Msg msg = cls.getAnnotation(Msg.class);
-                String filename = msg != null ? msg.value() : cls.getSimpleName();
-                ExcelExportTool.exportBeanList(filename + ".xlsx", page.getContent(), cls, response);
-            break;
+        Msg msg = cls.getAnnotation(Msg.class);
+        String name = msg != null ? msg.value() : cls.getSimpleName();
 
+        if (exportExcel.equalsIgnoreCase("Excel")) {
+            ExcelExportTool.exportBeanList(name , page.getContent(), cls, response);
+            return null;
         }
+        if (exportExcel.equalsIgnoreCase("Pdf")) {
+            new PdfExportTool<>(cls, page.getContent(), name, response).exportBeanList();
+            return null;
+        }
+
 
         return null;
     }

@@ -2,12 +2,10 @@
 package io.tmgg.lang.poi;
 
 import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.util.ObjUtil;
 import io.tmgg.commons.poi.excel.ExcelExportUtil;
 import io.tmgg.commons.poi.excel.entity.ExportParams;
 import io.tmgg.commons.poi.excel.entity.enmus.ExcelType;
 import io.tmgg.lang.ResponseTool;
-import io.tmgg.lang.data.Array2D;
 import io.tmgg.lang.obj.Table;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +15,9 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.function.Function;
 
 /**
@@ -39,7 +39,7 @@ public class ExcelExportTool {
      * @throws IOException
      */
     public static void exportBeanList(String filename, Collection<?> list, Class<?> pojoClass, HttpServletResponse response) throws IOException {
-list = new ArrayList<>(list);
+        list = new ArrayList<>(list);
         ExportParams param = new ExportParams();
         param.setType(ExcelType.XSSF);
         Workbook workbook = ExcelExportUtil.exportExcel(param, pojoClass, list);
@@ -67,7 +67,7 @@ list = new ArrayList<>(list);
             for (int i = 0; i < columns.size(); i++) {
                 Table.Column<T> column = columns.get(i);
                 String dataIndex = column.getDataIndex();
-                Function<T,Object> render = column.getRender();
+                Function<T, Object> render = column.getRender();
                 Object value = null;
 
                 if (render != null) {
@@ -86,12 +86,10 @@ list = new ArrayList<>(list);
     }
 
 
-
-
-
-
-
     public static void exportWorkbook(String filename, Workbook workbook, HttpServletResponse response) throws IOException {
+        if (!filename.endsWith(".xlsx")) {
+            filename += ".xlsx";
+        }
         ResponseTool.setDownloadHeader(filename, ResponseTool.CONTENT_TYPE_EXCEL, response);
 
         workbook.write(response.getOutputStream());

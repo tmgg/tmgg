@@ -83,7 +83,7 @@ export class ProTable extends React.Component {
         params._exportType = type
         params.size = -1
 
-        const hide = message.loading('下载Excel中...',0)
+        const hide = message.loading('下载中...',0)
         request(params).then(()=>{
             message.info('下载完成')
         }).finally(hide)
