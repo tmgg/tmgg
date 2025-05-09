@@ -4,10 +4,8 @@ import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.SecureUtil;
 import cn.hutool.extra.servlet.JakartaServletUtil;
-import io.tmgg.lang.RequestTool;
 import io.tmgg.lang.SpringTool;
 import io.tmgg.lang.obj.AjaxResult;
-import io.tmgg.modules.api.entity.ApiAccessLog;
 import io.tmgg.modules.api.entity.ApiAccount;
 import io.tmgg.modules.api.entity.ApiAccountResource;
 import io.tmgg.modules.api.service.ApiAccessLogService;
@@ -19,7 +17,6 @@ import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.catalina.util.RequestUtil;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
@@ -82,9 +79,9 @@ public class ApiGatewayController {
 
 
         // 校验权限
-        ApiAccountResource ar = accountResourceService.findByAccountAndAction(account, action);
-        Assert.notNull(ar, "账号没有权限, action: " + action);
-        Assert.state(ar.getEnable(), "您的权限已被禁用, action: " + action);
+        ApiAccountResource ar = accountResourceService.findByAccountAndUri(account, action);
+        Assert.notNull(ar, "账号没有权限, uri: " + action);
+        Assert.state(ar.getEnable(), "您的权限已被禁用, uri: " + action);
 
         Method method = apiResourceService.findMethodByAction(action);
         Assert.notNull(method, "接口不存在,接口：" + action);

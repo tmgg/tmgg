@@ -1,8 +1,11 @@
 package io.tmgg.modules.api.controller;
 
+import io.tmgg.lang.ann.PublicRequest;
+import io.tmgg.lang.dao.BaseEntity;
 import io.tmgg.lang.dao.specification.JpaQuery;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.obj.Option;
+import io.tmgg.lang.obj.Table;
 import io.tmgg.modules.api.entity.ApiResource;
 import io.tmgg.modules.api.service.ApiResourceService;
 import io.tmgg.web.CommonQueryParam;
@@ -22,9 +25,9 @@ public class ApiResourceController {
     private ApiResourceService apiResourceService;
     @HasPermission
     @PostMapping("page")
-    public AjaxResult page(@RequestBody CommonQueryParam param, @PageableDefault(sort = "action") Pageable pageable) throws Exception {
+    public AjaxResult page(@RequestBody CommonQueryParam param, @PageableDefault(sort = "uri") Pageable pageable) throws Exception {
         JpaQuery<ApiResource> q = new JpaQuery<>();
-        q.searchText(param.getKeyword(), ApiResource.Fields.name, ApiResource.Fields.action, ApiResource.Fields.desc);
+        q.searchText(param.getKeyword(), ApiResource.Fields.name, ApiResource.Fields.uri, ApiResource.Fields.desc);
         Page<ApiResource> page = apiResourceService.findAll(pageable);
 
         return AjaxResult.ok().data(page);
@@ -35,8 +38,21 @@ public class ApiResourceController {
     public AjaxResult options() {
         List<ApiResource> list = apiResourceService.findAll();
 
-        List<Option> options = Option.convertList(list, ApiResource::getAction, ApiResource::getName);
+        List<Option> options = Option.convertList(list, ApiResource::getUri, ApiResource::getName);
 
         return AjaxResult.ok().data(options);
+    }
+
+    @GetMapping("dropdownTable")
+    public AjaxResult dropdownTable(String keyword) {
+        List<ApiResource> list = apiResourceService.findAll();
+
+        Table<ApiResource> tb = new Table<>(list);
+        tb.addColumn("标识", "id");
+        tb.addColumn("名称", ApiResource.Fields.name);
+        tb.addColumn("路径", ApiResource.Fields.uri);
+        tb.addColumn("描述", ApiResource.Fields.desc);
+
+        return AjaxResult.ok().data(tb);
     }
 }

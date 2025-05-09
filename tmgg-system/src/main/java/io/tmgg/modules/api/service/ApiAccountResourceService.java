@@ -22,16 +22,16 @@ public class ApiAccountResourceService extends BaseService<ApiAccountResource> {
 
 
         List<ApiResource> resourceList = list.stream().map(ApiAccountResource::getResource)
-                .sorted(Comparator.comparing(ApiResource::getAction))
+                .sorted(Comparator.comparing(ApiResource::getUri))
                 .collect(Collectors.toList());
 
         return resourceList;
     }
 
-    public ApiAccountResource findByAccountAndAction(ApiAccount account, String action) {
+    public ApiAccountResource findByAccountAndUri(ApiAccount account, String uri) {
         JpaQuery<ApiAccountResource> q = new JpaQuery<>();
         q.eq(ApiAccountResource.Fields.account, account);
-        q.eq(ApiAccountResource.Fields.resource + "." + ApiResource.Fields.action, action);
+        q.eq(ApiAccountResource.Fields.resource + "." + ApiResource.Fields.uri, uri);
 
         return this.findOne(q);
 

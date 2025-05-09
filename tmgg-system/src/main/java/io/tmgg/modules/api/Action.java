@@ -16,7 +16,7 @@ public @interface Action {
 	/**
 	 * Api资源定位
 	 */
-	String action();
+	String uri();
 
 
 	/**

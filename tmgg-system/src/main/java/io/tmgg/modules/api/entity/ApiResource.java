@@ -22,7 +22,7 @@ public class ApiResource extends BaseEntity {
     String name;
 
     @Column(length = DBConstants.LEN_NAME,unique = true)
-    String action;
+    String uri;
 
     @Column(name = "_desc")
     String desc;

@@ -46,7 +46,7 @@ export class ButtonList extends React.Component {
         }
         // @ts-ignore
 
-        if (!child ) {
+        if (child ) {
           if(  child.props == null || child.props.perm == null || PermUtil.hasPermission(child.props.perm)){
             menus.push(child);
           }

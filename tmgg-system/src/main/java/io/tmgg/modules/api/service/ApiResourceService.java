@@ -28,14 +28,9 @@ public class ApiResourceService extends BaseService<ApiResource> {
     public Method findMethodByAction(String action) {
         return map.get(action);
     }
-    public ApiResource findByAction(String action) {
-        JpaQuery<ApiResource> q = new JpaQuery<>();
-        q.eq(ApiResource.Fields.action, action);
-        return this.findOne(q);
 
-    }
     public List<ApiResource> findAll() {
-        return dao.findAll(Sort.by(ApiResource.Fields.action));
+        return dao.findAll(Sort.by(ApiResource.Fields.uri));
     }
 
 
@@ -57,7 +52,7 @@ public class ApiResourceService extends BaseService<ApiResource> {
         }
 
         dao.save(r);
-        map.put(r.getAction(), r.getMethod());
+        map.put(r.getUri(), r.getMethod());
     }
 
 

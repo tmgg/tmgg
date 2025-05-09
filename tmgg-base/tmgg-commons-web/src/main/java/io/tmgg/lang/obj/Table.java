@@ -11,6 +11,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
+/**
+ * 表格，用于导出，前端动态展示表格等
+ * 参考了antd的格式
+ * 前端也可以使用
+ * @param <T>
+ */
 @Getter
 public class Table<T> {
 
@@ -24,12 +30,12 @@ public class Table<T> {
         this.dataSource = dataSource;
     }
 
-    public void addColumn(String dataIndex, String title){
-        columns.add(new Column(dataIndex,title));
+    public void addColumn(String title, String dataIndex){
+        columns.add(new Column<>(title,dataIndex));
     }
 
-    public void addColumn(String dataIndex, Function<T,Object> render){
-        columns.add(new Column(dataIndex,render));
+    public void addColumn(String title, Function<T,Object> render){
+        columns.add(new Column<>(title,render));
     }
 
     /**
@@ -53,7 +59,7 @@ public class Table<T> {
             this.dataIndex = dataIndex;
         }
 
-        public Column(String dataIndex, String title) {
+        public Column(String title, String dataIndex) {
             this.dataIndex = dataIndex;
             this.title = title;
         }

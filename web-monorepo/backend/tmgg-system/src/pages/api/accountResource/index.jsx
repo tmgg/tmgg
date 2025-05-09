@@ -13,9 +13,8 @@ import {
     Page,
     HttpUtil,
     ProTable,
-    FieldRemoteSelect, PageUtil
+    FieldRemoteSelect, PageUtil, FieldDropdownTable
 } from "@tmgg/tmgg-base";
-import FieldRemoteTree from "@tmgg/tmgg-base/src/components/FieldRemoteTree";
 
 
 export default class extends React.Component {
@@ -106,6 +105,7 @@ export default class extends React.Component {
 
     render() {
         return <Page>
+            <FieldDropdownTable url='openApiResource/dropdownTable'/>
             <ProTable
                 actionRef={this.tableRef}
                 toolBarRender={() => {
@@ -136,6 +136,9 @@ export default class extends React.Component {
                     <Form.Item label='接口' name={['resource', 'id']} rules={[{required: true}]}>
                         <FieldRemoteSelect url='openApiResource/options'/>
                     </Form.Item>
+
+
+
                     <Form.Item label='启用' name='enable' rules={[{required: true}]}>
                         <FieldRadioBoolean/>
                     </Form.Item>
