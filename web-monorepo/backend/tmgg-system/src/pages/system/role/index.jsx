@@ -160,36 +160,29 @@ export default class extends React.Component {
                 >
                     <Form.Item name='id' noStyle></Form.Item>
 
-                    <Row>
-                        <Col span={12}>
+
                             <Form.Item label='名称' name='name' rules={[{required: true}]}>
                                 <Input/>
                             </Form.Item>
-                        </Col>
-                        <Col span={12}>
+
                             <Form.Item label='编号' name='code' rules={[{required: true}]}>
                                 <Input/>
                             </Form.Item>
-                        </Col>
-                    </Row>
 
-                    <Row>
-                        <Col span={12}> <Form.Item label='排序' name='seq'>
+
+
+                     <Form.Item label='排序' name='seq'>
                             <InputNumber/>
                         </Form.Item>
-                        </Col>
-                        <Col span={12}>
-                            <Form.Item label='启用' name='enabled' rules={[{required: true}]}>
-                                <FieldRadioBoolean/>
-                            </Form.Item>
 
-                        </Col>
-                    </Row>
 
                     <Form.Item label='备注' name='remark'>
                         <Input/>
                     </Form.Item>
 
+                    <Form.Item label='启用' name='enabled' rules={[{required: true}]}>
+                        <FieldRadioBoolean/>
+                    </Form.Item>
 
                     <Form.Item label='菜单权限' name='menuIds' rules={[{required: true}]}>
                         <FieldTree url={'sysRole/permTree'}/>

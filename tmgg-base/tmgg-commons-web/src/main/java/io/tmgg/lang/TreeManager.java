@@ -272,8 +272,11 @@ public class TreeManager<T> {
         T parent = getParent(t);
 
         while (parent != null) {
-            ids.add(0, idFn.apply(parent));
-            parent = getParent(t);
+            String parentId = idFn.apply(parent);
+            ids.add(0, parentId);
+
+            T temp = getParent(parent);
+            parent = temp;
         }
         return ids;
     }

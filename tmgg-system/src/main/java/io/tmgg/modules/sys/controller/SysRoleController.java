@@ -73,7 +73,7 @@ public class SysRoleController {
     public AjaxResult save(@RequestBody SysRole role) throws Exception {
         role.setBuiltin(false);
 
-        List<SysMenu> newMenus = sysMenuService.findAllById(role.getMenuIds());
+        List<SysMenu> newMenus = sysMenuService.findAllAndParent(role.getMenuIds());
         List<String> perms = newMenus.stream().map(SysMenu::getPerm).filter(Objects::nonNull).toList();
         role.setPerms(perms);
 

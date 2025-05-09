@@ -24,7 +24,6 @@ import java.util.List;
 @Getter
 @Setter
 @FieldNameConstants
-
 public class SysMenu extends BaseEntity implements Tree<SysMenu> {
 
 
@@ -86,5 +85,10 @@ public class SysMenu extends BaseEntity implements Tree<SysMenu> {
         }
     }
 
-
+    @Override
+    public String toString() {
+        return "SysMenu{" +
+               "name='" + name + '\'' +
+               '}';
+    }
 }
