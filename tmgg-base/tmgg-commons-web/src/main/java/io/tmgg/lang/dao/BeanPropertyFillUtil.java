@@ -5,9 +5,9 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.ReflectUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
-import io.tmgg.lang.StrTool;
 import jakarta.persistence.Transient;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.util.Assert;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
@@ -39,11 +39,7 @@ public class BeanPropertyFillUtil {
                 continue;
             }
 
-            // 必须是非持久化字段
-            if (!f.isAnnotationPresent(Transient.class) &&
-                !f.isAnnotationPresent(org.springframework.data.annotation.Transient.class)) {
-                continue;
-            }
+
 
             handleAutoFill(obj, f);
 
@@ -60,63 +56,59 @@ public class BeanPropertyFillUtil {
     }
 
     private static void handleAutoFill(Object obj, Field f) {
-        AutoFill autoFill = getAutoFill(f);
+        AutoAppendField autoFill = getAutoFill(f);
         if (autoFill == null) {
             return;
         }
-        Class<? extends AutoFillStrategy> strategyClass = autoFill.value();
+
+        log.debug("自动扩展字段 {} {}", obj.getClass().getSimpleName(), f.getName());
+        String name = f.getName();
+        Assert.state(!name.endsWith("Label"), "Auto注解已调整，请放到原始字段上");
+        Assert.state(!f.isAnnotationPresent(Transient.class), "Auto注解已调整，请放到原始字段上");
+
+
+        Class<? extends AutoAppendStrategy> strategyClass = autoFill.value();
         try {
-            AutoFillStrategy strategy = SpringUtil.getBean(strategyClass);
+            AutoAppendStrategy strategy = SpringUtil.getBean(strategyClass);
 
             // 获取原始字段
             // 规则1. 默认去掉最后一个单词， 例如 userLabel -> user
-            String sourceField = removeLastWords(f.getName());
-
-            if (!ReflectUtil.hasField(obj.getClass(), sourceField)) {
-                sourceField = sourceField + "Id";
+            String targetField = f.getName();
+            if(autoFill.removeIdStr()){
+                targetField = StrUtil.removeSuffix(targetField,"Id");
             }
+            targetField += autoFill.suffix();
 
-            if (!ReflectUtil.hasField(obj.getClass(), sourceField)) {
+
+
+            if (!ReflectUtil.hasField(obj.getClass(), targetField)) {
                 return;
             }
 
-            Object sourceValue = BeanUtil.getFieldValue(obj, sourceField);
+            Object sourceValue = BeanUtil.getFieldValue(obj, f.getName());
             if (sourceValue == null) {
                 return;
             }
 
-            Object value = strategy.getValue(obj, sourceValue, autoFill.param());
-            BeanUtil.setFieldValue(obj, f.getName(), value);
+            Object targetValue = strategy.getAppendValue(obj, sourceValue, autoFill.param());
+            BeanUtil.setFieldValue(obj, targetField, targetValue);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    /**
-     * 去掉最后一个单词
-     *
-     * @param str
-     * @return
-     */
-    private static String removeLastWords(String str) {
-        int i = StrTool.lastUpperLetter(str);
-        if (i == -1) {
-            return str;
-        }
-
-        return StrUtil.sub(str, 0, i);
-    }
 
 
-    private static AutoFill getAutoFill(Field f) {
-        AutoFill autoFill = f.getAnnotation(AutoFill.class);
+
+    private static AutoAppendField getAutoFill(Field f) {
+        AutoAppendField autoFill = f.getAnnotation(AutoAppendField.class);
         if (autoFill != null) {
             return autoFill;
         }
 
         Annotation[] as = f.getAnnotations();
         for (Annotation methodAnn : as) {
-            AutoFill annAnn = methodAnn.annotationType().getAnnotation(AutoFill.class); // 注解的注解
+            AutoAppendField annAnn = methodAnn.annotationType().getAnnotation(AutoAppendField.class); // 注解的注解
             if (annAnn != null) {
                 return annAnn;
             }

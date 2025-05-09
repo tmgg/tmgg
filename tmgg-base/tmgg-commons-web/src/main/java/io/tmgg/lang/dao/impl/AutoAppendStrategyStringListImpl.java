@@ -1,13 +1,13 @@
 package io.tmgg.lang.dao.impl;
 
-import io.tmgg.lang.dao.AutoFillStrategy;
+import io.tmgg.lang.dao.AutoAppendStrategy;
 import cn.hutool.core.util.StrUtil;
 import org.springframework.stereotype.Component;
 
 @Component
-public class AutoFillStrategyStringListImpl implements AutoFillStrategy {
+public class AutoAppendStrategyStringListImpl implements AutoAppendStrategy {
     @Override
-    public Object getValue(Object bean, Object sourceValue, String param) {
+    public Object getAppendValue(Object bean, Object sourceValue, String param) {
         String str = (String) sourceValue;
 
         return StrUtil.split(str, ",");

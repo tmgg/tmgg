@@ -4,13 +4,10 @@ package io.tmgg.modules.sys.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.tmgg.commons.poi.excel.annotation.Excel;
-import io.tmgg.core.jpa.fill.AutoFillFileUrl;
-import io.tmgg.core.jpa.fill.AutoFillFileUrlStrategy;
-import io.tmgg.core.jpa.fill.AutoFillOrgLabelStrategy;
+import io.tmgg.core.jpa.fill.AutoAppendOrgLabelStrategy;
 import io.tmgg.lang.ann.Msg;
-import io.tmgg.lang.dao.AutoFill;
+import io.tmgg.lang.dao.AutoAppendField;
 import io.tmgg.lang.dao.BaseEntity;
-import io.tmgg.lang.dao.DBConstants;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -47,20 +44,19 @@ public class SysUser extends BaseEntity {
      * 所属机构 (公司，单位级别）
      */
     @Msg("所属机构")
+    @AutoAppendField(value = AutoAppendOrgLabelStrategy.class)
     private String unitId;
-
-    @Excel(name = "部门")
-    @Transient
-    @AutoFill(value = AutoFillOrgLabelStrategy.class)
-    private String unitLabel;
-
-
-    @Msg("所属部门")
-    private String deptId;
 
     @Excel(name = "单位")
     @Transient
-    @AutoFill(value = AutoFillOrgLabelStrategy.class)
+    private String unitLabel;
+
+    @AutoAppendField(value = AutoAppendOrgLabelStrategy.class)
+    @Msg("所属部门")
+    private String deptId;
+
+    @Excel(name = "部门")
+    @Transient
     private String deptLabel;
 
 

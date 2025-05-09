@@ -1,6 +1,6 @@
 package io.tmgg.core.jpa.fill;
 
-import io.tmgg.lang.dao.AutoFillStrategy;
+import io.tmgg.lang.dao.AutoAppendStrategy;
 import io.tmgg.modules.sys.entity.SysOrg;
 import io.tmgg.modules.sys.service.SysOrgService;
 import cn.hutool.cache.Cache;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import jakarta.annotation.Resource;
 
 @Component
-public class AutoFillOrgLabelStrategy implements AutoFillStrategy {
+public class AutoAppendOrgLabelStrategy implements AutoAppendStrategy {
 
 
     @Resource
@@ -20,7 +20,7 @@ public class AutoFillOrgLabelStrategy implements AutoFillStrategy {
 
 
     @Override
-    public Object getValue(Object bean, Object sourceValue, String param) {
+    public Object getAppendValue(Object bean, Object sourceValue, String param) {
         String orgId = (String) sourceValue;
 
 

@@ -26,6 +26,7 @@ export default defineUserConfig({
         sidebar: [
             '/get-start',
             '/config',
+            '/feature',
             '/session',
             '/job',
             '/open-api',
