@@ -19,38 +19,57 @@ export class FieldTableSelect extends React.Component {
         value: null,
         label: null,
 
+        // 分页参数
+        totalElements: 0,
+        current: 1,
+        pageSize: 10,
+        sorter: null
+
     }
 
-    constructor(props) {
-        super(props);
-        this.state.value = props.value
-    }
 
     componentDidMount() {
+        let value = this.props.value;
+        this.state.value = value
+        // 首次加载时，将默认的那条数据也下载下来，方便显示label
+        this.initData(value);
+
         this.loadData()
     }
 
+    initData(value) {
+        if (value != null) {
+            const params = {selectedKey: value, size: 1}
+            HttpUtil.get(this.props.url, params).then(({columns, dataSource}) => {
+
+                const record = dataSource[0]
+                if (record) {
+                    this.setState({label: record[this.props.labelKey]})
+                }
+
+            })
+        }
+    }
+
     componentDidUpdate(prevProps, prevState, snapshot) {
-        let value = this.props.value;
-        if(value !== prevProps.value){
-            this.setState({value: value,label:null}, this.loadData)
+        let {value} = this.props;
+        // 表单主动设置value的情况
+        if (value !== prevProps.value && this.state.value !== value) {
+            this.setState({value: value, label: null}, this.loadData)
         }
     }
 
     loadData(searchText) {
         this.setState({loading: true})
-        HttpUtil.get(this.props.url, {searchText, selectedKey: this.state.value}).then(rs => {
-            this.setState(rs)
 
-            if (this.state.label == null) {
-                const selectedRow = rs.dataSource.find(t=>t.id === this.state.value)
-                if(selectedRow){
-                    this.setState({label:selectedRow[this.props.labelKey]})
-                }
+        const params = {
+            searchText,
+            size: this.state.pageSize,
+            page: this.state.current
+        }
 
-
-            }
-
+        HttpUtil.get(this.props.url, params).then(({columns, dataSource, totalElements}) => {
+            this.setState({columns, dataSource, totalElements: parseInt(totalElements)})
         }).finally(() => {
             this.setState({loading: false})
         })
@@ -99,11 +118,28 @@ export class FieldTableSelect extends React.Component {
                                let value = record.id;
                                let label = record[this.props.labelKey]
 
-                               this.setState({label, value, selectedRow: record, open: false})
+                               this.setState({label, value,  open: false})
                                this.props.onChange(value)
                            },
                        }
                    }}
+
+                   pagination={{
+                       total: this.state.totalElements,
+                       pageSize: this.state.pageSize,
+                       current: this.state.current,
+                       showTotal: (total) => `共 ${total} 条`
+                   }}
+
+                   onChange={(pagination, filters, sorter, extra) => {
+                       this.setState({
+                           current: pagination.current,
+                           pageSize: pagination.pageSize,
+                           sorter
+                       }, this.loadData)
+                   }}
+
+
             ></Table>
 
         </div>

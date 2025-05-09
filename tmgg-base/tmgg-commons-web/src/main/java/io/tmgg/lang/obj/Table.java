@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.apache.poi.ss.formula.functions.T;
+import org.springframework.data.domain.Page;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -26,10 +27,18 @@ public class Table<T> {
 
     private List<T> dataSource;
 
+    // 分页时，总数
+    private Long totalElements;
+
 
     public Table(List<T> dataSource) {
+        this.dataSource = dataSource;
+    }
+
+    public Table(Page<T> page) {
         // 传入的列表可能是不可改变的，这里需要
-        this.dataSource = new ArrayList<>(dataSource);
+        this.dataSource = new ArrayList<>(page.getContent());
+        this.totalElements = page.getTotalElements();
     }
 
     public void addColumn(String title, String dataIndex){
