@@ -81,7 +81,7 @@ export default class extends React.Component {
     return <Page>
       <ProTable
           actionRef={this.tableRef}
-          toolBarRender={() => {
+            toolBarRender={(params, {selectedRows,selectedRowKeys}) => {
             return <ButtonList>
               <Button perm='${firstLowerName}:save' type='primary' onClick={this.handleAdd}>
                 <PlusOutlined/> 新增

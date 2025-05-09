@@ -191,7 +191,7 @@ export default class extends React.Component {
                 <Splitter.Panel style={{paddingLeft:16}}>
                     <ProTable
                         actionRef={this.tableRef}
-                        toolBarRender={(action, {selectedRows}) => {
+                        toolBarRender={(params, {selectedRows,selectedRowKeys}) => {
                             return <ButtonList>
                                 <Button
                                     perm={addPerm}
