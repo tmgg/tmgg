@@ -164,24 +164,7 @@
   },
 
 
-    {
-      "pid" : "dev",
-      "id" : "sysReportChart",
-      "name" : "SQL图表",
-      "perm" : "sysReportChart",
-      "path" : "/report/chart",
-      "seq" : 30,
-      "icon" : "FundProjectionScreenOutlined"
-    },
-    {
-      "pid" : "dev",
-      "id" : "sysReportTable",
-      "name" : "SQL表格",
-      "perm" : "sysReportTable",
-      "path" : "/report/table",
-      "seq" : 31,
-      "icon" : "TableOutlined"
-    },
+
     {
       "pid" : "dev",
       "id" : "requestTest",
