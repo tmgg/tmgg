@@ -9,6 +9,8 @@ import io.tmgg.lang.dao.specification.JpaQuery;
 import org.springframework.stereotype.Repository;
 
 import jakarta.annotation.Resource;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,6 +21,8 @@ public class SysUserDao extends BaseDao<SysUser> {
 
     @Resource
     private DbTool dbTool;
+
+
 
     public SysUser findByAccount(String account){
         JpaQuery<SysUser> q = new JpaQuery<>();
@@ -89,5 +93,12 @@ public class SysUserDao extends BaseDao<SysUser> {
         q.isMember(SysUser.Fields.roles, new SysRole(roleId));
 
         return this.findAll(q);
+    }
+
+    @Transactional
+    public SysUser updateFailedAttempts(String id, int newFailAttempts) {
+        SysUser user = this.findOne(id);
+        user.setFailedAttempts(newFailAttempts);
+      return  this.save(user);
     }
 }

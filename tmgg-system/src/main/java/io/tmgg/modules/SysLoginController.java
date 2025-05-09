@@ -87,6 +87,7 @@ public class SysLoginController {
         SysUser sysUser = sysUserService.checkLogin(account, password);
 
 
+
         // 检查是否需要修改密码
         boolean needUpdatePwd = sysUserService.checkNeedUpdatePwd(account, password);
 

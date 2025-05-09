@@ -8,6 +8,18 @@
       "valueType": "password",
       "$update": false
     },
+    {
+      "id": "sys.login.lock.maxFailedAttempts",
+      "label": "登录错误超过多少次锁定",
+      "defaultValue": 5,
+      "$update": false
+    },
+    {
+      "id": "sys.login.lock.timeDuration",
+      "label": "登录锁定时间（分钟）",
+      "defaultValue": 5,
+      "$update": false
+    },
 
     {
       "id": "sys.fileUploadPath.windows",

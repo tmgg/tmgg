@@ -18,10 +18,7 @@ import lombok.Setter;
 import lombok.experimental.FieldNameConstants;
 import org.springframework.context.annotation.Lazy;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Getter
 @Setter
@@ -52,7 +49,7 @@ public class SysUser extends BaseEntity {
     @Msg("所属机构")
     private String unitId;
 
-    @Excel(name = "部门" )
+    @Excel(name = "部门")
     @Transient
     @AutoFill(value = AutoFillOrgLabelStrategy.class)
     private String unitLabel;
@@ -100,6 +97,31 @@ public class SysUser extends BaseEntity {
     @Column(nullable = false)
     private Boolean enabled;
 
+    /**
+     * 密码错误等
+     */
+
+    @Excel(name = "是否锁定")
+    private Boolean locked;
+
+    /**
+     * 账户锁定时间
+     * 当错误尝试达到阈值时记录锁定时间
+     */
+    private Date lockTime;
+    /**
+     * 每次密码错误时递增，成功登录时重置为0
+     */
+    private Integer failedAttempts;
+
+    /***
+     * 账户解锁令牌
+     * 用于自助解锁账户的临时令牌, 如邮件，电话等
+     */
+    @JsonIgnore
+    @Column(length = 32)
+    private String unlockToken;
+
     // 扩展字段1
     private String extra1;
     private String extra2;
@@ -142,8 +164,6 @@ public class SysUser extends BaseEntity {
     public String toString() {
         return name + " " + phone;
     }
-
-
 
 
 }
