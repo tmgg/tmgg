@@ -39,3 +39,4 @@
 - AutoAppendFileViewUrlStrategy 文件预览地址
 - AutoAppendOrgLabelStrategy 机构名称 
 - AutoAppendUserLabelStrategy 用户名称 
+

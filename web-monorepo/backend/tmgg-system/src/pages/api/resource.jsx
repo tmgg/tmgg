@@ -8,11 +8,11 @@ export default class extends React.Component {
         return <ProTable
             columns={[
                 {dataIndex: 'name', title: '名称'},
-                {dataIndex: 'action', title: 'action'},
+                {dataIndex: 'uri', title: '路径'},
                 {dataIndex: 'desc', title: '描述'},
 
             ]}
-            request={(params,) => HttpUtil.pageData('openApiResource/page', params)}
+            request={(params,) => HttpUtil.pageData('apiResource/page', params)}
         />
     }
 }

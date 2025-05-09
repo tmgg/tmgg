@@ -62,11 +62,22 @@ export class FieldTableSelect extends React.Component {
     loadData(searchText) {
         this.setState({loading: true})
 
+
+
+
         const params = {
             searchText,
             size: this.state.pageSize,
             page: this.state.current
         }
+
+        if(this.state.sorter){
+            const {field, order} =  this.state.sorter
+            if (field) {
+                params.sort = field + "," + (order === 'ascend' ? 'asc' : 'desc')
+            }
+        }
+
 
         HttpUtil.get(this.props.url, params).then(({columns, dataSource, totalElements}) => {
             this.setState({columns, dataSource, totalElements: parseInt(totalElements)})

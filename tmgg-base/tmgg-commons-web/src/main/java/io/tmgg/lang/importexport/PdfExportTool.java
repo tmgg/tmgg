@@ -1,12 +1,14 @@
 package io.tmgg.lang.importexport;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.lang.Assert;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import io.tmgg.commons.poi.excel.annotation.Excel;
+import io.tmgg.lang.FontTool;
 import io.tmgg.lang.ResponseTool;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
@@ -30,15 +32,27 @@ public class PdfExportTool<T> {
     private static final Font CELL_FONT = new Font(getBaseFont(), 10);
     private static final BaseColor HEADER_BG_COLOR = new BaseColor(73, 144, 205);
 
+
+    /**
+     * 使用 itext-asian 的字体不好看，这里使用系统安装的字体
+     *
+     * @return
+     */
     private static BaseFont getBaseFont() {
         try {
+            String font = FontTool.getDefaultFontPath();
+            Assert.notNull(font, "系统中不存在中文字体" );
+            log.debug("使用字体文件 {}",font);
+
+
+
             BaseFont bfChinese = BaseFont.createFont(
-                    "STSong-Light",    // 字体名称
-                    "UniGB-UCS2-H",   // 编码标识
-                    BaseFont.NOT_EMBEDDED); // 是否嵌入字体
+                    font,
+                    BaseFont.IDENTITY_H,   // 使用 Unicode 编码
+                    BaseFont.EMBEDDED); // 是否嵌入字体到pdf
             return bfChinese;
         } catch (Exception e) {
-            log.info("获取中文字体失败");
+            log.error("获取中文字体失败",e);
             throw new RuntimeException(e);
         }
     }

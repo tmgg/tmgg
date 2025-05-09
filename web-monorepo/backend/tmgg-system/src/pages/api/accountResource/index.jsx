@@ -45,8 +45,8 @@ export default class extends React.Component {
             dataIndex: ['resource', 'name'],
         },
         {
-            title: 'action',
-            dataIndex: ['resource', 'action'],
+            title: '路径',
+            dataIndex: ['resource', 'uri'],
         }, {
             title: '描述',
             dataIndex: ['resource', 'desc'],
@@ -134,7 +134,7 @@ export default class extends React.Component {
                     <Form.Item name='id' noStyle></Form.Item>
 
                     <Form.Item label='接口' name={['resource', 'id']} rules={[{required: true}]}>
-                        <FieldTableSelect url='openApiResource/tableSelect' labelKey='name'/>
+                        <FieldTableSelect url='apiResource/tableSelect' labelKey='name'/>
                     </Form.Item>
 
 

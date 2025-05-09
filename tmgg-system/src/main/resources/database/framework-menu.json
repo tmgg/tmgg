@@ -206,7 +206,7 @@
       "id" : "apiResource",
       "name" : "接口列表",
       "perm" : "apiResource",
-      "path" : "/api/list",
+      "path" : "/api/resource",
       "seq" : 3,
       "icon" : "ApiOutlined"
     },

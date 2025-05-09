@@ -2,15 +2,12 @@ package io.tmgg.lang.obj;
 
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.apache.poi.ss.formula.functions.T;
+import lombok.experimental.Accessors;
 import org.springframework.data.domain.Page;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.function.Function;
 
 /**
@@ -41,12 +38,16 @@ public class Table<T> {
         this.totalElements = page.getTotalElements();
     }
 
-    public void addColumn(String title, String dataIndex){
-        columns.add(new Column<>(title,dataIndex));
+    public Column<T> addColumn(String title, String dataIndex){
+        Column<T> column = new Column<>(title, dataIndex);
+        columns.add(column);
+        return column;
     }
 
-    public void addColumn(String title, Function<T,Object> render){
-        columns.add(new Column<>(title,render));
+    public Column<T> addColumn(String title, Function<T,Object> render){
+        Column<T> column = new Column<>(title, render);
+        columns.add(column);
+        return column;
     }
 
     /**
@@ -54,6 +55,7 @@ public class Table<T> {
      */
     @Getter
     @Setter
+    @Accessors(chain = true)
     public static class Column<T> {
 
         String title;
@@ -61,6 +63,13 @@ public class Table<T> {
         String dataIndex;
 
         Function<T,Object> render ;
+
+        Integer width;
+
+        /**
+         * 是否允许排序
+         */
+        Boolean sorter;
 
 
         public Column() {
@@ -83,6 +92,8 @@ public class Table<T> {
         public String getTitle() {
             return title == null ? dataIndex : title;
         }
+
+
 
     }
 

@@ -1,14 +1,12 @@
 package io.tmgg.flowable.mgmt.service;
 
 
-import io.tmgg.flowable.FlowableProperties;
-import io.tmgg.flowable.assignment.AssignmentService;
-import io.tmgg.flowable.FlowableMasterDataProvider;
+import io.tmgg.lang.FontTool;
+import jakarta.annotation.Resource;
 import org.flowable.bpmn.model.*;
 import org.flowable.engine.HistoryService;
 import org.flowable.engine.RepositoryService;
 import org.flowable.engine.RuntimeService;
-import org.flowable.engine.TaskService;
 import org.flowable.engine.history.HistoricActivityInstance;
 import org.flowable.engine.history.HistoricProcessInstance;
 import org.flowable.engine.impl.persistence.entity.ExecutionEntity;
@@ -16,7 +14,6 @@ import org.flowable.image.impl.DefaultProcessDiagramGenerator;
 import org.flowable.task.api.Task;
 import org.springframework.stereotype.Service;
 
-import jakarta.annotation.Resource;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -29,7 +26,7 @@ import java.util.stream.Collectors;
 @Service
 public class MyBpmnModelService {
 
-    public static final String FONT_NAME = "宋体";
+    public static final String FONT_NAME = FontTool.getDefaultFontName();
 
     @Resource
     private RuntimeService runtimeService;
@@ -37,20 +34,11 @@ public class MyBpmnModelService {
     @Resource
     private RepositoryService repositoryService;
 
-    @Resource
-    private TaskService taskService;
+
 
     @Resource
     private HistoryService historyService;
 
-    @Resource
-    private AssignmentService assignmentService;
-
-    @Resource
-    private FlowableMasterDataProvider flowableMasterDataProvider;
-
-    @Resource
-    FlowableProperties flowableProperties;
 
     /**
      * 查询任务的上一个节点
