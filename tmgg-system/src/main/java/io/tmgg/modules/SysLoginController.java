@@ -11,10 +11,12 @@ import cn.hutool.core.util.ObjUtil;
 import io.tmgg.lang.PasswordTool;
 import io.tmgg.lang.ann.PublicRequest;
 import io.tmgg.lang.obj.AjaxResult;
+import io.tmgg.modules.auth.LoginAttemptService;
 import io.tmgg.modules.sys.controller.LoginParam;
 import io.tmgg.modules.sys.entity.SysUser;
 import io.tmgg.modules.sys.service.SysConfigService;
 import io.tmgg.modules.sys.service.SysUserService;
+import io.tmgg.web.CodeException;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -25,6 +27,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.security.auth.login.AccountLockedException;
 import java.io.IOException;
 
 /**
@@ -43,6 +46,9 @@ public class SysLoginController {
 
     @Resource
     private SysConfigService sysConfigService;
+
+    @Resource
+    private LoginAttemptService loginAttemptService;
 
 
     @GetMapping("checkLogin")
@@ -70,6 +76,8 @@ public class SysLoginController {
         boolean strengthOk = PasswordTool.isStrengthOk(password);
         Assert.state(strengthOk, "密码强度不够，请联系管理员重置");
 
+        boolean locked = loginAttemptService.isAccountLocked(account);
+        Assert.state(!locked,"账户已被锁定，请30分钟后再试");
 
         ThreadUtil.sleep(1000); // 防止黑客爆破
 
@@ -84,17 +92,26 @@ public class SysLoginController {
             session.removeAttribute(CAPTCHA_CODE);
         }
 
-        SysUser sysUser = sysUserService.checkLogin(account, password);
+        try {
+            SysUser sysUser = sysUserService.checkLogin(account, password);
+            loginAttemptService.loginSucceeded(account); // 登录成功清除记录
 
+            // 检查是否需要修改密码
+            boolean needUpdatePwd = sysUserService.checkNeedUpdatePwd(account, password);
 
+            session.setAttribute("subjectId", sysUser.getId());
+            session.setAttribute("needUpdatePwd", needUpdatePwd);
+            session.setAttribute("isLogin", true);
+            return AjaxResult.ok().msg("登录成功").data(session.getId());
+        }catch (Exception e){
+            if(e instanceof CodeException ce){
+                if(ce.getCode() == SysUserService.CODE_PWD_ERR){
+                    loginAttemptService.loginFailed(account);
+                }
+            }
 
-        // 检查是否需要修改密码
-        boolean needUpdatePwd = sysUserService.checkNeedUpdatePwd(account, password);
-
-        session.setAttribute("subjectId", sysUser.getId());
-        session.setAttribute("needUpdatePwd", needUpdatePwd);
-        session.setAttribute("isLogin", true);
-        return AjaxResult.ok().msg("登录成功").data(session.getId());
+            throw e;
+        }
     }
 
 

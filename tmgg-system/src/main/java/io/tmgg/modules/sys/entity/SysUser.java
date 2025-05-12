@@ -93,22 +93,7 @@ public class SysUser extends BaseEntity {
     @Column(nullable = false)
     private Boolean enabled;
 
-    /**
-     * 密码错误等
-     */
 
-    @Excel(name = "是否锁定")
-    private Boolean locked;
-
-    /**
-     * 账户锁定时间
-     * 当错误尝试达到阈值时记录锁定时间
-     */
-    private Date lockTime;
-    /**
-     * 每次密码错误时递增，成功登录时重置为0
-     */
-    private Integer failedAttempts;
 
 
 

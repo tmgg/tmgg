@@ -23,6 +23,7 @@ import io.tmgg.modules.sys.entity.DataPermType;
 import io.tmgg.modules.sys.entity.SysOrg;
 import io.tmgg.modules.sys.entity.SysRole;
 import io.tmgg.modules.sys.entity.SysUser;
+import io.tmgg.web.CodeAssert;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -40,6 +41,8 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 public class SysUserService extends BaseService<SysUser> implements UserLabelQuery {
+
+    public static final int CODE_PWD_ERR = 4011;
 
 
     @Resource
@@ -60,59 +63,6 @@ public class SysUserService extends BaseService<SysUser> implements UserLabelQue
     @Resource
     private SysHttpSessionService sm;
 
-    @DbValue("sys.login.lock.maxFailedAttempts")
-    private int MAX_FAILED_ATTEMPTS;
-
-    /**
-     * 锁定时间，分钟
-     */
-    @DbValue("sys.login.lock.timeDuration")
-    private long LOCK_TIME_DURATION;
-
-    /**
-     * 增加密码错误次数
-     *
-     * @param user
-     * @return 是否被锁定
-     */
-    public boolean increaseFailedAttempts(SysUser user) {
-        int count = user.getFailedAttempts() == null ? 0 : user.getFailedAttempts();
-        count++;
-        log.info("账户{}登录失败,次数:{}", user.getAccount(), count);
-        sysUserDao.updateFailedAttempts(user.getId(), count);
-
-        if (count >= MAX_FAILED_ATTEMPTS) {
-            lock(user.getId());
-            return true;
-        }
-        return false;
-    }
-
-    public SysUser lock(String id) {
-        SysUser u = sysUserDao.findOne(id);
-        u.setLocked(true);
-        u.setLockTime(new Date());
-        return sysUserDao.save(u);
-    }
-
-    public boolean unlockWhenTimeExpired(SysUser user) {
-        long lockTimeInMillis = user.getLockTime().getTime();
-        long currentTimeInMillis = System.currentTimeMillis();
-
-        if (lockTimeInMillis + LOCK_TIME_DURATION * 60 * 1000 < currentTimeInMillis) {
-            unlock(user);
-            return true;
-        }
-        return false;
-    }
-
-    private void unlock(SysUser user) {
-        user.setLocked(false);
-        user.setLockTime(null);
-        user.setFailedAttempts(0);
-        sysUserDao.save(user);
-    }
-
 
     public SysUser checkLogin(String account, String password) {
         SysUser sysUser = sysUserDao.findByAccount(account);
@@ -125,21 +75,14 @@ public class SysUserService extends BaseService<SysUser> implements UserLabelQue
         String passwordBcrypt = sysUser.getPassword();
         Assert.hasText(passwordBcrypt, "账号未设置密码");
 
-        if (sysUser.getLocked() != null && sysUser.getLocked()) {
-            boolean b = this.unlockWhenTimeExpired(sysUser);
-            Assert.state(b, "登录错误次数过多，已被锁定" + LOCK_TIME_DURATION + "分钟");
-        }
 
 
         boolean checkpw = PasswordTool.checkpw(password, passwordBcrypt);
         if (!checkpw) {
             log.info("登录密码错误,记录错误");
-            boolean locked = this.increaseFailedAttempts(sysUser);
-            Assert.state(!locked, "登录错误，账户被锁定");
         }
-        Assert.state(checkpw, "账号或密码错误");
+        CodeAssert.state(checkpw, CODE_PWD_ERR,"账号或密码错误");
 
-        this.unlock(sysUser);
 
 
         // 多端登录检测

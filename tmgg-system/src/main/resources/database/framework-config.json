@@ -9,13 +9,13 @@
       "$update": false
     },
     {
-      "id": "sys.login.lock.maxFailedAttempts",
+      "id": "sys.login.lock.maxAttempts",
       "label": "登录错误超过多少次锁定",
-      "defaultValue": 5,
+      "defaultValue": 3,
       "$update": false
     },
     {
-      "id": "sys.login.lock.timeDuration",
+      "id": "sys.login.lock.time",
       "label": "登录锁定时间（分钟）",
       "defaultValue": 5,
       "$update": false
