@@ -1,11 +1,12 @@
 package io.tmgg.modules.auth;
 
+import io.tmgg.framework.cache.CacheService;
 import io.tmgg.framework.dbconfig.DbValue;
+import jakarta.annotation.Resource;
+import org.ehcache.Cache;
 import org.springframework.stereotype.Service;
 
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.time.Duration;
 
 @Service
 public class LoginAttemptService {
@@ -19,9 +20,16 @@ public class LoginAttemptService {
     @DbValue("sys.login.lock.time")
     private long LOCK_TIME;
 
-    // 使用ConcurrentMap保证线程安全
-    private static final ConcurrentMap<String, AtomicInteger> attemptsCache = new ConcurrentHashMap<>();
-    private static final ConcurrentMap<String, Long> lockedAccounts = new ConcurrentHashMap<>();
+    private final Cache<String, Integer> loginAttempts;
+    private final Cache<String, Long> lockedAccounts ;
+
+
+    public LoginAttemptService(CacheService cacheService){
+        loginAttempts = cacheService.newCache("loginAttempts", Integer.class, 100, 2, Duration.ofDays(1));
+        lockedAccounts = cacheService.newCache("lockedAccounts", Long.class, 1000, 1, Duration.ofDays(1));
+    }
+
+
 
     /**
      * 记录登录失败
@@ -34,19 +42,16 @@ public class LoginAttemptService {
         }
 
         // 原子性地增加失败次数
-        AtomicInteger attemptCount = attemptsCache.get(username);
+        Integer attemptCount = loginAttempts.get(username);
         if (attemptCount == null) {
-            attemptCount = new AtomicInteger(0);
-            AtomicInteger existingAttempt = attemptsCache.putIfAbsent(username, attemptCount);
-            if (existingAttempt != null) {
-                attemptCount = existingAttempt;
-            }
+            attemptCount = 0;
         }
+        attemptCount++;
 
-        int newCount = attemptCount.incrementAndGet();
+        loginAttempts.put(username, attemptCount);
 
         // 如果失败次数达到阈值，锁定账户
-        if (newCount >= MAX_ATTEMPTS) {
+        if (attemptCount >= MAX_ATTEMPTS) {
             lockAccount(username);
         }
     }
@@ -56,7 +61,7 @@ public class LoginAttemptService {
      * @param username 用户名
      */
     public void loginSucceeded(String username) {
-        attemptsCache.remove(username);
+        loginAttempts.remove(username);
         lockedAccounts.remove(username);
     }
 
@@ -74,7 +79,7 @@ public class LoginAttemptService {
         // 检查锁定是否已过期
         if (System.currentTimeMillis() - lockTime > LOCK_TIME * 60 * 1000) {
             lockedAccounts.remove(username);
-            attemptsCache.remove(username);
+            loginAttempts.remove(username);
             return false;
         }
 
@@ -99,11 +104,11 @@ public class LoginAttemptService {
             return 0;
         }
 
-        AtomicInteger attemptCount = attemptsCache.get(username);
+        Integer attemptCount = loginAttempts.get(username);
         if (attemptCount == null) {
             return MAX_ATTEMPTS;
         }
 
-        return MAX_ATTEMPTS - attemptCount.get();
+        return MAX_ATTEMPTS - attemptCount;
     }
 }

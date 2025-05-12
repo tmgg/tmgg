@@ -104,11 +104,7 @@ public class SysLoginController {
             session.setAttribute("isLogin", true);
             return AjaxResult.ok().msg("登录成功").data(session.getId());
         }catch (Exception e){
-            if(e instanceof CodeException ce){
-                if(ce.getCode() == SysUserService.CODE_PWD_ERR){
-                    loginAttemptService.loginFailed(account);
-                }
-            }
+            loginAttemptService.loginFailed(account);
 
             throw e;
         }
