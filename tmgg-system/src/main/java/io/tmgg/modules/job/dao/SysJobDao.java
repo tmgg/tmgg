@@ -1,8 +1,8 @@
 package io.tmgg.modules.job.dao;
 
 import io.tmgg.modules.job.entity.SysJob;
-import io.tmgg.lang.dao.BaseDao;
-import io.tmgg.lang.dao.specification.JpaQuery;
+import io.tmgg.persistence.BaseDao;
+import io.tmgg.persistence.specification.JpaQuery;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;

@@ -2,8 +2,7 @@
 package io.tmgg.modules.sys.entity;
 
 import io.tmgg.lang.ann.Msg;
-import io.tmgg.lang.dao.BaseEntity;
-import io.tmgg.lang.dao.DBConstants;
+import io.tmgg.persistence.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Lob;
 import jakarta.validation.constraints.NotNull;

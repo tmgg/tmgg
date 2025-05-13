@@ -1,7 +1,7 @@
 package io.tmgg.report.provider;
 
-import io.tmgg.lang.dao.BaseEntity;
-import io.tmgg.lang.dao.DBConstants;
+import io.tmgg.persistence.BaseEntity;
+import io.tmgg.persistence.DBConstants;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Lob;

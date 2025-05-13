@@ -1,13 +1,13 @@
 package ${modulePackageName}.controller;
 
 import cn.hutool.core.bean.BeanUtil;
-import io.tmgg.lang.dao.specification.JpaQuery;
+import io.tmgg.lang.persistence.specification.JpaQuery;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.obj.Option;
 import ${modulePackageName}.entity.${name};
-import ${modulePackageName}.service.${name}Service;
-import io.tmgg.lang.dao.BaseController;
-import io.tmgg.lang.dao.BaseEntity;
+{modulePackageName}.service.${name}Service;
+import io.tmgg.lang.persistence.BaseController;
+import io.tmgg.lang.persistence.BaseEntity;
 import io.tmgg.lang.DateRange;
 
 

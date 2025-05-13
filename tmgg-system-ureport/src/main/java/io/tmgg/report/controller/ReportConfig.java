@@ -1,6 +1,6 @@
 package io.tmgg.report.controller;
 
-import io.tmgg.core.filter.xss.XssFilter;
+import io.tmgg.framework.xss.XssFilter;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Configuration;

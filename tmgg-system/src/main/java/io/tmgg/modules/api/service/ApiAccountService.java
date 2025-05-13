@@ -1,6 +1,6 @@
 package io.tmgg.modules.api.service;
 
-import io.tmgg.lang.dao.BaseService;
+import io.tmgg.persistence.BaseService;
 import io.tmgg.modules.api.dao.ApiAccountDao;
 import io.tmgg.modules.api.entity.ApiAccount;
 import jakarta.annotation.Resource;

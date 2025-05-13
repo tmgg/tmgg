@@ -1,7 +1,7 @@
 package io.tmgg.weixin.dao;
 
 import io.tmgg.weixin.entity.WeixinMp;
-import io.tmgg.lang.dao.BaseDao;
+import io.tmgg.persistence.BaseDao;
 import org.springframework.stereotype.Repository;
 
 @Repository

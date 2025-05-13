@@ -3,7 +3,7 @@ package io.tmgg.config;
 
 import cn.hutool.core.collection.CollUtil;
 import io.tmgg.SysProp;
-import io.tmgg.core.filter.xss.XssFilter;
+import io.tmgg.framework.xss.XssFilter;
 import io.tmgg.framework.interceptor.AppApiJwtInterceptor;
 import io.tmgg.framework.interceptor.LoginInterceptor;
 import io.tmgg.framework.interceptor.PermissionInterceptor;

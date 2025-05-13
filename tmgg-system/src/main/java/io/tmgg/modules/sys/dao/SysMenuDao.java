@@ -3,10 +3,8 @@ package io.tmgg.modules.sys.dao;
 
 
 import cn.hutool.core.lang.Validator;
-import cn.hutool.core.util.StrUtil;
-import io.tmgg.lang.dao.BaseDao;
-import io.tmgg.lang.dao.specification.JpaQuery;
-import io.tmgg.lang.validator.ValidateContainsChinese;
+import io.tmgg.persistence.BaseDao;
+import io.tmgg.persistence.specification.JpaQuery;
 import io.tmgg.modules.sys.entity.SysMenu;
 import io.tmgg.web.enums.MenuType;
 import org.springframework.data.domain.Sort;

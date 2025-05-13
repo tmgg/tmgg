@@ -3,8 +3,7 @@ package io.tmgg.modules.sys.controller;
 
 import cn.hutool.core.util.NumberUtil;
 import cn.hutool.core.util.StrUtil;
-import io.tmgg.lang.ann.Msg;
-import io.tmgg.lang.dao.specification.JpaQuery;
+import io.tmgg.persistence.specification.JpaQuery;
 import io.tmgg.modules.sys.entity.SysDict;
 import io.tmgg.modules.sys.entity.SysDictItem;
 import io.tmgg.modules.sys.service.SysDictItemService;
@@ -13,7 +12,6 @@ import io.tmgg.web.annotion.HasPermission;
 import io.tmgg.lang.obj.AjaxResult;
 import lombok.Data;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;

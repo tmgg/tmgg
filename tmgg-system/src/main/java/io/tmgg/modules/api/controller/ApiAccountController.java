@@ -2,8 +2,8 @@ package io.tmgg.modules.api.controller;
 
 import cn.hutool.core.lang.Dict;
 import io.tmgg.Build;
-import io.tmgg.lang.dao.BaseController;
-import io.tmgg.lang.dao.specification.JpaQuery;
+import io.tmgg.persistence.BaseController;
+import io.tmgg.persistence.specification.JpaQuery;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.modules.api.entity.*;
 import io.tmgg.modules.api.service.ApiAccountService;

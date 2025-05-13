@@ -2,20 +2,14 @@
 package io.tmgg.modules.sys.controller;
 
 
-import cn.hutool.core.util.StrUtil;
-import cn.hutool.extra.spring.SpringUtil;
-import io.tmgg.data.domain.PageExt;
-import io.tmgg.event.SysConfigChangeEvent;
-import io.tmgg.lang.dao.specification.JpaQuery;
+import io.tmgg.persistence.specification.JpaQuery;
 import io.tmgg.modules.sys.service.SysConfigService;
 import io.tmgg.web.CommonQueryParam;
 import io.tmgg.web.annotion.HasPermission;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.modules.sys.entity.SysConfig;
-import lombok.Data;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;

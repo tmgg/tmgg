@@ -40,3 +40,7 @@
 - AutoAppendOrgLabelStrategy 机构名称 
 - AutoAppendUserLabelStrategy 用户名称 
 
+## 动态显示字段
+如果某些字段需要只在后端显示，app端不显示， 如createUser，updateUser等
+
+使用`@AdminOnly` 注解

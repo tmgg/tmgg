@@ -1,7 +1,7 @@
 package io.tmgg.modules.api.entity;
 
 import io.tmgg.lang.ann.Msg;
-import io.tmgg.lang.dao.BaseEntity;
+import io.tmgg.persistence.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Lob;

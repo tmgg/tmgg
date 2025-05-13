@@ -1,7 +1,7 @@
 package io.tmgg.payment.mgmt.service;
 
-import io.tmgg.lang.dao.BaseService;
-import io.tmgg.lang.dao.specification.JpaQuery;
+import io.tmgg.persistence.BaseService;
+import io.tmgg.persistence.specification.JpaQuery;
 import io.tmgg.payment.IPaymentMethodService;
 import io.tmgg.payment.PaymentService;
 import io.tmgg.payment.mgmt.dao.PaymentChannelDao;

@@ -1,7 +1,6 @@
 
 package io.tmgg.modules.sys.service;
 
-import cn.hutool.core.collection.ListUtil;
 import cn.hutool.core.util.NumberUtil;
 import cn.hutool.core.util.StrUtil;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -14,14 +13,12 @@ import io.tmgg.framework.perm.PermissionService;
 import io.tmgg.lang.HttpServletTool;
 import io.tmgg.lang.IpAddressTool;
 import io.tmgg.lang.UserAgentTool;
-import io.tmgg.lang.dao.BaseService;
+import io.tmgg.persistence.BaseService;
 import io.tmgg.modules.sys.dao.SysOpLogDao;
 import io.tmgg.modules.sys.entity.SysLog;
 import io.tmgg.web.annotion.HasPermission;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.Resource;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityTransaction;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
@@ -35,7 +32,6 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;

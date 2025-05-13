@@ -3,7 +3,7 @@ package io.tmgg.modules.sys.entity;
 
 import cn.hutool.core.io.FileUtil;
 import io.tmgg.lang.RequestTool;
-import io.tmgg.lang.dao.BaseEntity;
+import io.tmgg.persistence.BaseEntity;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,7 +14,6 @@ import jakarta.persistence.Transient;
 import jakarta.servlet.http.HttpServletRequest;
 
 import java.io.InputStream;
-import java.io.OutputStream;
 
 /**
  * 文件信息

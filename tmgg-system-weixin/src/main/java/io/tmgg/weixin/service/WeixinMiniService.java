@@ -2,7 +2,7 @@ package io.tmgg.weixin.service;
 
 import cn.binarywang.wx.miniapp.api.WxMaService;
 import cn.binarywang.wx.miniapp.config.impl.WxMaDefaultConfigImpl;
-import io.tmgg.lang.dao.BaseService;
+import io.tmgg.persistence.BaseService;
 import io.tmgg.weixin.entity.WeixinMini;
 import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Service;

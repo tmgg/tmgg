@@ -1,10 +1,8 @@
 package io.tmgg.modules.sys.service;
 
 import cn.hutool.core.collection.CollUtil;
-import io.tmgg.lang.dao.BaseService;
-import io.tmgg.lang.dao.BaseTreeService;
-import io.tmgg.lang.dao.specification.JpaQuery;
-import io.tmgg.lang.obj.DropEvent;
+import io.tmgg.persistence.BaseTreeService;
+import io.tmgg.persistence.specification.JpaQuery;
 import io.tmgg.modules.sys.dao.SysOrgDao;
 import io.tmgg.modules.sys.entity.OrgType;
 import io.tmgg.modules.sys.entity.SysOrg;

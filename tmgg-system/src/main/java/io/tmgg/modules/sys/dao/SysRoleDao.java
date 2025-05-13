@@ -2,8 +2,8 @@
 package io.tmgg.modules.sys.dao;
 
 
-import io.tmgg.lang.dao.BaseDao;
-import io.tmgg.lang.dao.specification.JpaQuery;
+import io.tmgg.persistence.BaseDao;
+import io.tmgg.persistence.specification.JpaQuery;
 import io.tmgg.modules.sys.entity.SysRole;
 import org.springframework.stereotype.Repository;
 

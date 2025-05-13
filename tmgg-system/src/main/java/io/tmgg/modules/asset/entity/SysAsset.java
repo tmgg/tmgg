@@ -1,10 +1,8 @@
 package io.tmgg.modules.asset.entity;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import io.tmgg.lang.ann.Msg;
-import io.tmgg.lang.dao.BaseEntity;
-import io.tmgg.lang.dao.DBConstants;
-import io.tmgg.modules.sys.entity.SysFile;
+import io.tmgg.persistence.BaseEntity;
+import io.tmgg.persistence.DBConstants;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

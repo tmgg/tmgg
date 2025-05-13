@@ -3,7 +3,7 @@ package com.xxx.car.controller;
 
 import com.xxx.car.entity.Car;
 import com.xxx.car.service.CarService;
-import io.tmgg.lang.dao.BaseCURDController;
+import io.tmgg.persistence.BaseCURDController;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

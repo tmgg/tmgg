@@ -1,7 +1,7 @@
 package io.tmgg.modules.sys.controller;
 
 
-import io.tmgg.lang.dao.BaseEntity;
+import io.tmgg.persistence.BaseEntity;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.modules.sys.entity.SysUserMessage;
 import io.tmgg.modules.sys.service.SysUserMessageService;

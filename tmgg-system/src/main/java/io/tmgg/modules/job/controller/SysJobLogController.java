@@ -4,7 +4,7 @@ import io.tmgg.modules.job.entity.SysJob;
 import io.tmgg.modules.job.entity.SysJobLog;
 import io.tmgg.modules.job.service.SysJobLogService;
 import io.tmgg.modules.job.service.SysJobService;
-import io.tmgg.lang.dao.specification.JpaQuery;
+import io.tmgg.persistence.specification.JpaQuery;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.web.CommonQueryParam;
 import io.tmgg.web.annotion.HasPermission;

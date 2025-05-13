@@ -2,10 +2,9 @@
 package io.tmgg.modules.sys.dao;
 
 
-import cn.hutool.extra.spring.SpringUtil;
 import io.tmgg.event.SysConfigChangeEvent;
 import io.tmgg.lang.SpringTool;
-import io.tmgg.lang.dao.BaseDao;
+import io.tmgg.persistence.BaseDao;
 import io.tmgg.modules.sys.entity.SysConfig;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;

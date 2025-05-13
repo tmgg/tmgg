@@ -1,7 +1,7 @@
 package io.tmgg.modules.api.controller;
 
 import cn.hutool.core.util.StrUtil;
-import io.tmgg.lang.dao.specification.JpaQuery;
+import io.tmgg.persistence.specification.JpaQuery;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.obj.Table;
 import io.tmgg.modules.api.entity.ApiResource;

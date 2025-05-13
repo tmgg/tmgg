@@ -1,7 +1,7 @@
 package io.tmgg.weixin.controller;
 
-import io.tmgg.lang.dao.BaseController;
-import io.tmgg.lang.dao.specification.JpaQuery;
+import io.tmgg.persistence.BaseController;
+import io.tmgg.persistence.specification.JpaQuery;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.web.annotion.HasPermission;
 import io.tmgg.weixin.entity.WeixinMp;

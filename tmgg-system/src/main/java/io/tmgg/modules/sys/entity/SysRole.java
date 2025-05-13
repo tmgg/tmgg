@@ -3,9 +3,8 @@ package io.tmgg.modules.sys.entity;
 
 import io.tmgg.commons.poi.excel.annotation.Excel;
 import io.tmgg.lang.ann.Msg;
-import io.tmgg.lang.dao.BaseEntity;
-import io.tmgg.lang.dao.DBConstants;
-import io.tmgg.lang.dao.converter.ToListConverter;
+import io.tmgg.persistence.BaseEntity;
+import io.tmgg.persistence.converter.ToListConverter;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

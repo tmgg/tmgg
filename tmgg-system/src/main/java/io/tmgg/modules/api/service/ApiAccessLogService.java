@@ -3,7 +3,7 @@ package io.tmgg.modules.api.service;
 import io.tmgg.jackson.JsonTool;
 import io.tmgg.modules.api.dao.ApiAccessLogDao;
 import io.tmgg.modules.api.entity.ApiAccessLog;
-import io.tmgg.lang.dao.BaseService;
+import io.tmgg.persistence.BaseService;
 import io.tmgg.modules.api.entity.ApiAccount;
 import io.tmgg.modules.api.entity.ApiResource;
 import jakarta.annotation.Resource;

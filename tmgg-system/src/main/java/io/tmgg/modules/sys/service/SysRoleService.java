@@ -2,11 +2,8 @@
 package io.tmgg.modules.sys.service;
 
 import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.bean.copier.CopyOptions;
-import cn.hutool.core.util.ArrayUtil;
-import io.tmgg.lang.dao.BaseEntity;
-import io.tmgg.lang.dao.BaseService;
-import io.tmgg.lang.dao.specification.JpaQuery;
+import io.tmgg.persistence.BaseService;
+import io.tmgg.persistence.specification.JpaQuery;
 import io.tmgg.modules.sys.dao.SysMenuDao;
 import io.tmgg.modules.sys.entity.SysMenu;
 import io.tmgg.modules.sys.dao.SysRoleDao;
@@ -21,7 +18,6 @@ import jakarta.annotation.Resource;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 

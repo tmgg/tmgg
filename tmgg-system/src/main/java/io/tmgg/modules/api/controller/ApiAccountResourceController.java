@@ -1,10 +1,10 @@
 package io.tmgg.modules.api.controller;
 
-import io.tmgg.lang.dao.specification.JpaQuery;
+import io.tmgg.persistence.specification.JpaQuery;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.modules.api.entity.ApiAccountResource;
 import io.tmgg.modules.api.service.ApiAccountResourceService;
-import io.tmgg.lang.dao.BaseController;
+import io.tmgg.persistence.BaseController;
 import io.tmgg.web.CommonQueryParam;
 
 

@@ -1,8 +1,7 @@
 package io.tmgg.modules.api.service;
 
 import cn.hutool.core.collection.CollUtil;
-import io.tmgg.lang.dao.BaseService;
-import io.tmgg.lang.dao.specification.JpaQuery;
+import io.tmgg.persistence.BaseService;
 import io.tmgg.modules.api.dao.OpenApiResourceDao;
 import io.tmgg.modules.api.entity.ApiResource;
 import io.tmgg.modules.api.entity.ApiResourceArgument;
