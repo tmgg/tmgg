@@ -3,7 +3,7 @@ package io.tmgg.modules.sys.controller;
 
 import cn.hutool.core.util.NumberUtil;
 import cn.hutool.core.util.StrUtil;
-import io.tmgg.persistence.specification.JpaQuery;
+import io.tmgg.web.persistence.specification.JpaQuery;
 import io.tmgg.modules.sys.entity.SysDict;
 import io.tmgg.modules.sys.entity.SysDictItem;
 import io.tmgg.modules.sys.service.SysDictItemService;

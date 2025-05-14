@@ -1,8 +1,8 @@
 package io.tmgg.weixin.entity;
 
 import io.tmgg.lang.ann.Msg;
-import io.tmgg.persistence.BaseEntity;
-import io.tmgg.persistence.DBConstants;
+import io.tmgg.web.persistence.BaseEntity;
+import io.tmgg.web.persistence.DBConstants;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.validation.constraints.NotNull;

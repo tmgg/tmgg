@@ -1,7 +1,7 @@
 package io.tmgg.web.db;
 
-import io.tmgg.persistence.BaseDao;
-import io.tmgg.persistence.specification.JpaQuery;
+import io.tmgg.web.persistence.BaseDao;
+import io.tmgg.web.persistence.specification.JpaQuery;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;

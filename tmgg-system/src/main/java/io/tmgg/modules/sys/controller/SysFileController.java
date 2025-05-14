@@ -2,7 +2,7 @@
 package io.tmgg.modules.sys.controller;
 
 import io.tmgg.lang.ann.PublicRequest;
-import io.tmgg.persistence.specification.JpaQuery;
+import io.tmgg.web.persistence.specification.JpaQuery;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.modules.sys.entity.SysFile;
 import io.tmgg.modules.sys.service.SysFileService;

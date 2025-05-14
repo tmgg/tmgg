@@ -2,14 +2,13 @@
 package io.tmgg.modules.sys.dao;
 
 import io.tmgg.dbtool.DbTool;
-import io.tmgg.persistence.BaseDao;
+import io.tmgg.web.persistence.BaseDao;
 import io.tmgg.modules.sys.entity.SysUser;
 import io.tmgg.modules.sys.entity.SysRole;
-import io.tmgg.persistence.specification.JpaQuery;
+import io.tmgg.web.persistence.specification.JpaQuery;
 import org.springframework.stereotype.Repository;
 
 import jakarta.annotation.Resource;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;

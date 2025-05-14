@@ -1,10 +1,10 @@
 package io.tmgg.payment.mgmt.controller;
 
-import io.tmgg.persistence.specification.JpaQuery;
+import io.tmgg.web.persistence.specification.JpaQuery;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.payment.mgmt.entity.PaymentOrder;
 import io.tmgg.payment.mgmt.service.PaymentOrderService;
-import io.tmgg.persistence.BaseController;
+import io.tmgg.web.persistence.BaseController;
 import io.tmgg.web.CommonQueryParam;
 
 

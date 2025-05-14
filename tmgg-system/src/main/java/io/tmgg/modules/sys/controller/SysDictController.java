@@ -2,8 +2,8 @@
 package io.tmgg.modules.sys.controller;
 
 import io.tmgg.lang.ann.PublicRequest;
-import io.tmgg.persistence.BaseController;
-import io.tmgg.persistence.specification.JpaQuery;
+import io.tmgg.web.persistence.BaseController;
+import io.tmgg.web.persistence.specification.JpaQuery;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.modules.sys.entity.SysDict;
 import io.tmgg.modules.sys.service.SysDictService;

@@ -1,8 +1,8 @@
 package io.tmgg.mgmt;
 
-import io.tmgg.persistence.BaseEntity;
-import io.tmgg.persistence.id.CustomId;
-import io.tmgg.persistence.id.IdStyle;
+import io.tmgg.web.persistence.BaseEntity;
+import io.tmgg.web.persistence.id.CustomId;
+import io.tmgg.web.persistence.id.IdStyle;
 import jakarta.persistence.Entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

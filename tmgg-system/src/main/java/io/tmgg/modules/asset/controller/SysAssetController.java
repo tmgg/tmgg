@@ -1,14 +1,14 @@
 package io.tmgg.modules.asset.controller;
 
 import io.tmgg.lang.ann.PublicRequest;
-import io.tmgg.persistence.specification.JpaQuery;
+import io.tmgg.web.persistence.specification.JpaQuery;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.obj.Option;
 import io.tmgg.lang.obj.TreeOption;
 import io.tmgg.modules.asset.entity.SysAsset;
 import io.tmgg.modules.asset.entity.SysAssetType;
 import io.tmgg.modules.asset.service.SysAssetService;
-import io.tmgg.persistence.BaseController;
+import io.tmgg.web.persistence.BaseController;
 import io.tmgg.web.CommonQueryParam;
 
 

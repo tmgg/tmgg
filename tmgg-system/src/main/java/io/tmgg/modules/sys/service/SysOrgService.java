@@ -1,8 +1,8 @@
 package io.tmgg.modules.sys.service;
 
 import cn.hutool.core.collection.CollUtil;
-import io.tmgg.persistence.BaseTreeService;
-import io.tmgg.persistence.specification.JpaQuery;
+import io.tmgg.web.persistence.BaseTreeService;
+import io.tmgg.web.persistence.specification.JpaQuery;
 import io.tmgg.modules.sys.dao.SysOrgDao;
 import io.tmgg.modules.sys.entity.OrgType;
 import io.tmgg.modules.sys.entity.SysOrg;

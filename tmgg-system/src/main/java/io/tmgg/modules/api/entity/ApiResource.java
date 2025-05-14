@@ -2,8 +2,8 @@ package io.tmgg.modules.api.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.tmgg.commons.poi.excel.annotation.Excel;
-import io.tmgg.persistence.BaseEntity;
-import io.tmgg.persistence.DBConstants;
+import io.tmgg.web.persistence.BaseEntity;
+import io.tmgg.web.persistence.DBConstants;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

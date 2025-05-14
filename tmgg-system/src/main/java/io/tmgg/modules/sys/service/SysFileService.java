@@ -7,7 +7,7 @@ import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import io.tmgg.event.SysConfigChangeEvent;
 import io.tmgg.lang.DownloadTool;
-import io.tmgg.persistence.specification.JpaQuery;
+import io.tmgg.web.persistence.specification.JpaQuery;
 import io.tmgg.modules.sys.dao.SysFileDao;
 import io.tmgg.modules.sys.entity.SysFile;
 import io.tmgg.modules.sys.file.FileOperator;

@@ -2,8 +2,8 @@
 package io.tmgg.modules.sys.service;
 
 import cn.hutool.core.bean.BeanUtil;
-import io.tmgg.persistence.BaseService;
-import io.tmgg.persistence.specification.JpaQuery;
+import io.tmgg.web.persistence.BaseService;
+import io.tmgg.web.persistence.specification.JpaQuery;
 import io.tmgg.modules.sys.dao.SysMenuDao;
 import io.tmgg.modules.sys.entity.SysMenu;
 import io.tmgg.modules.sys.dao.SysRoleDao;

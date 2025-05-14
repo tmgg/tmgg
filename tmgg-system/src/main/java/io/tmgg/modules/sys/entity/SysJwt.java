@@ -1,6 +1,6 @@
 package io.tmgg.modules.sys.entity;
 
-import io.tmgg.persistence.BaseEntity;
+import io.tmgg.web.persistence.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.validation.constraints.NotNull;

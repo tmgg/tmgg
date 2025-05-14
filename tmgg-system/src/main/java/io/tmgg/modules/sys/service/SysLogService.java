@@ -13,7 +13,7 @@ import io.tmgg.framework.perm.PermissionService;
 import io.tmgg.lang.HttpServletTool;
 import io.tmgg.lang.IpAddressTool;
 import io.tmgg.lang.UserAgentTool;
-import io.tmgg.persistence.BaseService;
+import io.tmgg.web.persistence.BaseService;
 import io.tmgg.modules.sys.dao.SysOpLogDao;
 import io.tmgg.modules.sys.entity.SysLog;
 import io.tmgg.web.annotion.HasPermission;

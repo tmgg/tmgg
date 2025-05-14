@@ -1,6 +1,6 @@
 package io.tmgg.weixin.controller;
 
-import io.tmgg.persistence.BaseCURDController;
+import io.tmgg.web.persistence.BaseCURDController;
 import io.tmgg.weixin.entity.WeixinMini;
 import io.tmgg.weixin.service.WeixinMiniService;
 import org.springframework.web.bind.annotation.*;

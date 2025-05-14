@@ -2,9 +2,9 @@
 package io.tmgg.modules.sys.dao;
 
 import io.tmgg.lang.TreeManager;
-import io.tmgg.persistence.BaseDao;
-import io.tmgg.persistence.BaseEntity;
-import io.tmgg.persistence.specification.JpaQuery;
+import io.tmgg.web.persistence.BaseDao;
+import io.tmgg.web.persistence.BaseEntity;
+import io.tmgg.web.persistence.specification.JpaQuery;
 import io.tmgg.modules.sys.entity.SysOrg;
 import io.tmgg.modules.sys.entity.OrgType;
 import cn.hutool.core.collection.CollectionUtil;

@@ -3,8 +3,8 @@ package io.tmgg.modules.sys.entity;
 
 import io.tmgg.framework.dict.DictField;
 import io.tmgg.lang.ann.Msg;
-import io.tmgg.persistence.BaseEntity;
-import io.tmgg.persistence.TreeEntity;
+import io.tmgg.web.persistence.BaseEntity;
+import io.tmgg.web.persistence.TreeEntity;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldNameConstants;

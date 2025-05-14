@@ -1,7 +1,7 @@
 
 package io.tmgg.modules.sys.service;
 
-import io.tmgg.persistence.BaseEntity;
+import io.tmgg.web.persistence.BaseEntity;
 import io.tmgg.lang.obj.Option;
 import io.tmgg.modules.sys.controller.SysDictTreeNode;
 import io.tmgg.modules.sys.dao.SysDictDao;
@@ -9,8 +9,8 @@ import io.tmgg.modules.sys.dao.SysDictItemDao;
 import io.tmgg.modules.sys.entity.SysDict;
 import io.tmgg.modules.sys.entity.SysDictItem;
 import io.tmgg.lang.TreeTool;
-import io.tmgg.persistence.BaseService;
-import io.tmgg.persistence.specification.JpaQuery;
+import io.tmgg.web.persistence.BaseService;
+import io.tmgg.web.persistence.specification.JpaQuery;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import org.springframework.data.domain.Sort;

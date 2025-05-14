@@ -1,8 +1,8 @@
 package io.tmgg.flowable.mgmt.entity;
 
 
-import io.tmgg.persistence.BaseEntity;
-import io.tmgg.persistence.converter.BaseToListConverter;
+import io.tmgg.web.persistence.BaseEntity;
+import io.tmgg.web.persistence.converter.BaseToListConverter;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;

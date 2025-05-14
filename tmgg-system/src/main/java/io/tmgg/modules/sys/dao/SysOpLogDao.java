@@ -1,7 +1,7 @@
 
 package io.tmgg.modules.sys.dao;
 
-import io.tmgg.persistence.BaseDao;
+import io.tmgg.web.persistence.BaseDao;
 import io.tmgg.modules.sys.entity.SysLog;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;

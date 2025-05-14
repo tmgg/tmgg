@@ -3,8 +3,8 @@ package io.tmgg.modules.sys.dao;
 
 
 import cn.hutool.core.lang.Validator;
-import io.tmgg.persistence.BaseDao;
-import io.tmgg.persistence.specification.JpaQuery;
+import io.tmgg.web.persistence.BaseDao;
+import io.tmgg.web.persistence.specification.JpaQuery;
 import io.tmgg.modules.sys.entity.SysMenu;
 import io.tmgg.web.enums.MenuType;
 import org.springframework.data.domain.Sort;

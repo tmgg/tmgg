@@ -108,11 +108,11 @@ export default class extends React.Component {
                         1、将请求参数按key排序后组装为请求体body  , 如 a=1&b=2&c=3
                     </div>
                     <div>
-                        2、然后将拼接字符串 action, appId , timestamp , body, 中间使用"\n"连接， 得到待签名内容。
+                        2、然后将拼接字符串 uri, appId , timestamp , body, 中间使用"\n"连接， 得到待签名内容。
 
                         <div>代码示例：
                         <code>
-                        String signStr = action + "\n" + appId + "\n" + timestamp + "\n" + body;
+                        String signStr = uri + "\n" + appId + "\n" + timestamp + "\n" + body;
                         </code>
                         </div>
                     </div>
@@ -128,7 +128,7 @@ export default class extends React.Component {
                 {apiList.map((api, index) => {
                     return <>
                         <Typography.Title level={3}>{'2.' + (index + 1) + " " + api.name} </Typography.Title>
-                        <p>Action: {api.action}</p>
+                        <p>uri: {api.uri}</p>
                         <p>{api.desc}</p>
 
 
@@ -140,7 +140,7 @@ export default class extends React.Component {
 
                         <Title level={5}>返回参数</Title>
                         <Typography.Text>
-                            返回数据类型：{api.returnType}
+                            返回对象：{api.returnType}
                         </Typography.Text>
 
                         {api.returnList != null && api.returnList.length > 0 &&

@@ -4,7 +4,7 @@ package io.tmgg.modules.sys.dao;
 
 import io.tmgg.event.SysConfigChangeEvent;
 import io.tmgg.lang.SpringTool;
-import io.tmgg.persistence.BaseDao;
+import io.tmgg.web.persistence.BaseDao;
 import io.tmgg.modules.sys.entity.SysConfig;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;

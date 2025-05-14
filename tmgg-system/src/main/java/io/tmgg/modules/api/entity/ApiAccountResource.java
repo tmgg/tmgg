@@ -1,7 +1,7 @@
 package io.tmgg.modules.api.entity;
 
 import io.tmgg.lang.ann.Msg;
-import io.tmgg.persistence.BaseEntity;
+import io.tmgg.web.persistence.BaseEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;

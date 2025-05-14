@@ -1,6 +1,6 @@
 package io.tmgg.framework.data.append;
 
-import io.tmgg.persistence.AutoAppendStrategy;
+import io.tmgg.web.persistence.AutoAppendStrategy;
 import io.tmgg.modules.sys.entity.SysOrg;
 import io.tmgg.modules.sys.service.SysOrgService;
 import cn.hutool.cache.Cache;

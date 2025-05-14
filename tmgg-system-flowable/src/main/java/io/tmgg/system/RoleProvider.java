@@ -4,7 +4,7 @@ package io.tmgg.modules.system;
 
 import io.tmgg.flowable.assignment.AssignmentTypeProvider;
 import io.tmgg.flowable.assignment.Identity;
-import io.tmgg.persistence.BaseEntity;
+import io.tmgg.web.persistence.BaseEntity;
 import io.tmgg.modules.sys.entity.SysUser;
 import io.tmgg.modules.sys.entity.SysRole;
 import io.tmgg.modules.sys.service.SysRoleService;

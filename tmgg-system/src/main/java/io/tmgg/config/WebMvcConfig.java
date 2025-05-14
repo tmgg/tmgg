@@ -8,6 +8,7 @@ import io.tmgg.framework.interceptor.AppApiJwtInterceptor;
 import io.tmgg.framework.interceptor.LoginInterceptor;
 import io.tmgg.framework.interceptor.PermissionInterceptor;
 import io.tmgg.framework.interceptor.SubjectInterceptor;
+import io.tmgg.web.WebConstants;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -56,7 +57,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
             "/openApi/gateway/**",
 
             // 移动端, 小程序
-            AppApiJwtInterceptor.PATTERN
+            WebConstants.APP_API_PATTERN
     };
 
 
@@ -106,7 +107,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
         }
 
 
-        registry.addInterceptor(appApiInterceptor).addPathPatterns(AppApiJwtInterceptor.PATTERN);
+        registry.addInterceptor(appApiInterceptor).addPathPatterns(WebConstants.APP_API_PATTERN);
 
     }
 

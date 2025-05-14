@@ -3,7 +3,7 @@ package io.tmgg.modules.sys.entity;
 
 import cn.hutool.core.io.FileUtil;
 import io.tmgg.lang.RequestTool;
-import io.tmgg.persistence.BaseEntity;
+import io.tmgg.web.persistence.BaseEntity;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;

@@ -1,7 +1,7 @@
 package io.tmgg.report.provider;
 
-import io.tmgg.persistence.BaseDao;
-import io.tmgg.persistence.specification.JpaQuery;
+import io.tmgg.web.persistence.BaseDao;
+import io.tmgg.web.persistence.specification.JpaQuery;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 

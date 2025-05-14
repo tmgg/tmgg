@@ -8,7 +8,6 @@ spring:
     active: default
   jpa:
     show-sql: true
-
 sys:
   cache-dir: /tmgg/framework/cache
 

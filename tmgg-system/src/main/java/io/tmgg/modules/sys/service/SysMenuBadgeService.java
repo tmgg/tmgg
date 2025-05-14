@@ -1,7 +1,7 @@
 package io.tmgg.modules.sys.service;
 
 import io.tmgg.modules.sys.entity.SysMenuBadge;
-import io.tmgg.persistence.BaseService;
+import io.tmgg.web.persistence.BaseService;
 import org.springframework.stereotype.Service;
 
 @Service

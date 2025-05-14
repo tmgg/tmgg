@@ -3,8 +3,8 @@ package io.tmgg.modules.sys.entity;
 
 import io.tmgg.lang.Tree;
 import io.tmgg.lang.ann.Msg;
-import io.tmgg.persistence.BaseEntity;
-import io.tmgg.persistence.DBConstants;
+import io.tmgg.web.persistence.BaseEntity;
+import io.tmgg.web.persistence.DBConstants;
 import io.tmgg.web.enums.MenuType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;

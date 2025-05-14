@@ -1,6 +1,6 @@
 package io.tmgg.weixin.dao;
 
-import io.tmgg.persistence.BaseDao;
+import io.tmgg.web.persistence.BaseDao;
 import io.tmgg.weixin.entity.WeixinMini;
 import org.springframework.stereotype.Repository;
 

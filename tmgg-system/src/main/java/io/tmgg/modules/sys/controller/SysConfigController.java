@@ -2,7 +2,7 @@
 package io.tmgg.modules.sys.controller;
 
 
-import io.tmgg.persistence.specification.JpaQuery;
+import io.tmgg.web.persistence.specification.JpaQuery;
 import io.tmgg.modules.sys.service.SysConfigService;
 import io.tmgg.web.CommonQueryParam;
 import io.tmgg.web.annotion.HasPermission;

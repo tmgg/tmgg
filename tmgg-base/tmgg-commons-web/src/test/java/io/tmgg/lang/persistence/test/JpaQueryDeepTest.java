@@ -1,7 +1,7 @@
 package io.tmgg.lang.persistence.test;
 
 import io.tmgg.TestBootApplication;
-import io.tmgg.persistence.specification.JpaQuery;
+import io.tmgg.web.persistence.specification.JpaQuery;
 import io.tmgg.mgmt.Author;
 import io.tmgg.mgmt.AuthorDao;
 import io.tmgg.mgmt.Book;

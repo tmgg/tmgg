@@ -2,8 +2,8 @@ package io.tmgg.weixin.controller;
 
 import cn.hutool.core.util.StrUtil;
 import io.tmgg.jackson.JsonTool;
-import io.tmgg.persistence.BaseController;
-import io.tmgg.persistence.specification.JpaQuery;
+import io.tmgg.web.persistence.BaseController;
+import io.tmgg.web.persistence.specification.JpaQuery;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.obj.Option;
 import io.tmgg.web.CommonQueryParam;
