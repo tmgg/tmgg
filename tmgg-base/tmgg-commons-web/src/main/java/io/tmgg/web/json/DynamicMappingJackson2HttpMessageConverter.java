@@ -1,22 +1,34 @@
 package io.tmgg.web.json;
 
+import cn.hutool.core.collection.IterUtil;
 import com.fasterxml.jackson.databind.*;
 import io.tmgg.lang.HttpServletTool;
 import io.tmgg.web.WebConstants;
 import io.tmgg.web.json.ignore.JsonIgnoreIntrospector;
+import io.tmgg.web.persistence.BaseEntity;
 import jakarta.servlet.http.HttpServletRequest;
+import org.apache.commons.collections.IteratorUtils;
+import org.apache.commons.io.IOUtils;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpInputMessage;
 import org.springframework.http.HttpOutputMessage;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.http.converter.HttpMessageNotWritableException;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.http.converter.json.MappingJacksonInputMessage;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Type;
+import java.util.Iterator;
+import java.util.List;
 
-public class UrlBasedMappingJackson2HttpMessageConverter extends MappingJackson2HttpMessageConverter {
+public class DynamicMappingJackson2HttpMessageConverter extends MappingJackson2HttpMessageConverter {
 
     private final ChangeMethodPublicJackson2HttpMessageConverter customConverter;
 
-    public UrlBasedMappingJackson2HttpMessageConverter(ObjectMapper objectMapper) {
+    public DynamicMappingJackson2HttpMessageConverter(ObjectMapper objectMapper) {
         super(objectMapper);
 
         ObjectMapper copy = objectMapper.copy();
@@ -25,6 +37,33 @@ public class UrlBasedMappingJackson2HttpMessageConverter extends MappingJackson2
     }
 
 
+    /**
+     * 解析 @RequestBody 的实体，额外存储请求的字段
+     * 如果是
+     */
+    @Override
+    public Object read(Type type, Class<?> contextClass, HttpInputMessage inputMessage) throws IOException, HttpMessageNotReadableException {
+        boolean isEntity = BaseEntity.class.isAssignableFrom((Class<?>) type);
+        if(!isEntity){
+            return super.read(type, contextClass, inputMessage);
+        }
+
+        InputStream is = inputMessage.getBody();
+        byte[] content = IOUtils.toByteArray(is);
+        is.close();
+
+        HttpInputMessage newMessage = new MappingJacksonInputMessage(new ByteArrayInputStream(content),inputMessage.getHeaders());
+        BaseEntity baseEntity = (BaseEntity) super.read(type, contextClass, newMessage);
+
+
+        JsonNode tree = this.getObjectMapper().readTree(content);
+        List<String> names = IterUtil.toList(tree.fieldNames());
+
+        baseEntity.putExtData("_field_name_list",names);
+
+        return baseEntity;
+
+    }
 
     protected void writeInternal(Object object, Type type, HttpOutputMessage outputMessage) throws IOException, HttpMessageNotWritableException {
         if(isAppApi()){

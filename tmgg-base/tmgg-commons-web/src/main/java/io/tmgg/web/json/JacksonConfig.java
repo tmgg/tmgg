@@ -7,7 +7,6 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
 import io.tmgg.web.json.converter.*;
-import io.tmgg.web.json.ignore.JsonIgnoreIntrospector;
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -35,7 +34,7 @@ public class JacksonConfig {
      */
     @Bean
     public MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter(ObjectMapper objectMapper) {
-        return new UrlBasedMappingJackson2HttpMessageConverter(objectMapper);
+        return new DynamicMappingJackson2HttpMessageConverter(objectMapper);
     }
 
 

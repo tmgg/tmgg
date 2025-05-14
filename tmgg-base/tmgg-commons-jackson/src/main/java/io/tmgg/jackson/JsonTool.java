@@ -172,4 +172,8 @@ public class JsonTool {
     }
 
 
+    public static ObjectMapper getObjectMapper(){
+        return  om;
+    }
+
 }
