@@ -22,38 +22,3 @@
 
 推荐使用docker-admin，支持源码构建、部署
 
-## 如何接受前端日期区间
-
-前端传入时间戳数组， 可使用FieldDateRange组件
-后端使用RequestBody接受对象
-
-可参考操作日志
-
-【提示】，查询日期区间数据是，记得将结束日期设置为23.59.59
- ```
-   @Data
-    public static class QueryParam {
-        Date[] dateRange;
-        String name;
-    }
-
-
-
-    @RequestMapping("page")
-    public AjaxResult page(@RequestBody QueryParam queryParam, @PageableDefault(sort = "createTime", direction = Sort.Direction.DESC) Pageable pageable) {
-        Date[] dateRange = queryParam.getDateRange();
-
-        JpaQuery<SysLog> q = new JpaQuery<>();
-        
-        if(dateRange !=null){
-            dateRange[1] = DateUtil.endOfDay(dateRange[1]);
-            q.between("createTime", dateRange);
-        }
-
-        q.like(SysLog.Fields.name, queryParam.getName());
-
-        Page<SysLog> page = sysOpLogService.findAll(q, pageable);
-        return service.autoRender(page);;
-    }
- 
- ```

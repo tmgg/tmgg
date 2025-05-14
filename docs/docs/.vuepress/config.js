@@ -39,15 +39,9 @@ export default defineUserConfig({
                     '/frontend/ui',
                 ]
             },
+            '/qa',
+            '/code-tips',
 
-            {
-
-                text: '其他',
-                children: [
-                    '/code-tips',
-                    '/qa'
-                ]
-            },
 
 
 
