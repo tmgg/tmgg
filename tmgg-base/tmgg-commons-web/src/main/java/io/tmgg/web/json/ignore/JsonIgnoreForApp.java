@@ -6,12 +6,18 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /***
+ * 动态显示字段
  *
- * @doc-title 动态隐藏字段
- * @doc-file feature.md
- * 在非管理后台接口请求时，隐藏字段
- * 只在管理后台渲染json时显示，如createUser，updateTime等字段，不希望app端也能获取
  *
+ * app端请求时隐藏字段， 如createUser，updateTime等字段
+ *
+ * 使用示例:
+ * <pre>
+ * {@literal @}JsonIgnoreForApp
+ * private String updateUser;
+ * </pre>
+ *
+ * @gendoc
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.FIELD, ElementType.METHOD})

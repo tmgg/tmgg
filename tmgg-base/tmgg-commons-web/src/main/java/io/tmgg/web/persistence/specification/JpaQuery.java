@@ -21,7 +21,7 @@ import java.util.function.Consumer;
 
 /**
  * 查询条件
- * <p>
+ *
  * 注意：如果键值对查询，值为空的情况下，会忽略
  */
 public class JpaQuery<T> implements Specification<T> {
@@ -244,11 +244,20 @@ public class JpaQuery<T> implements Specification<T> {
     }
 
     /**
-     * 时间范围的between， 时间范围使用ISO 8601 时间间隔格式
-     *  存储格式：开始时间/结束时间
-     * 2023-01-01/2023-01-01
-     * @param column
-     * @param isoRange
+     *
+     * 时间范围
+     *
+     * 前端可使用组件 FieldDateRange, 参考ISO 8601 时间间隔格式
+     * 存储格式：开始时间/结束时间 如：2023-01-01/2023-01-01
+     * 后端构造查询条件时，可使用
+     *
+     * ```java
+     *         JpaQuery<SysLog> q=new JpaQuery<>();
+     *         q.betweenIsoDateRange("createTime",dateRange);
+     *
+     * ```
+     *
+     * @gendoc
      */
     public void betweenIsoDateRange(String column, String isoRange) {
         if(StrUtil.isEmpty(isoRange)){
