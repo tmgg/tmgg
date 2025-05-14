@@ -99,8 +99,19 @@ public class BaseDao<T extends PersistEntity> {
         return rep.findById(id).orElse(null);
     }
 
-    public T getReferenceById(String id) {
-        return rep.getReferenceById(id);
+    public T findByIdAndRefresh(String id) {
+        T t = this.findById(id);
+        this.refresh(t);
+        return t;
+    }
+
+    /**
+     * 将实体刷新，避免从缓存取
+     */
+    public void refresh(T t) {
+        if (t != null) {
+            entityManager.refresh(t);
+        }
     }
 
     public boolean existsById(String id) {
@@ -224,6 +235,7 @@ public class BaseDao<T extends PersistEntity> {
 
     /**
      * 先判断是否存在，然后再保存
+     *
      * @param entity
      * @return
      */
@@ -412,12 +424,12 @@ public class BaseDao<T extends PersistEntity> {
     }
 
 
-
     /**
      * 分组统计
+     *
      * @return
      */
-    public List<Map> groupStats(Specification<T> spec,  String[] groupFields, StatField... statFields) {
+    public List<Map> groupStats(Specification<T> spec, String[] groupFields, StatField... statFields) {
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Map> query = builder.createQuery(Map.class);
         Root<T> root = query.from(domainClass);
@@ -436,16 +448,16 @@ public class BaseDao<T extends PersistEntity> {
         for (StatField statField : statFields) {
             String fieldName = statField.getName();
             Path<Number> f = root.get(fieldName);
-            Expression<?> statExpr = null ;
+            Expression<?> statExpr = null;
             switch (statField.getType()) {
-                case SUM :
+                case SUM:
                     statExpr = builder.sum(f);
                     break;
                 case COUNT:
                     statExpr = builder.count(f);
                     break;
                 case AVG:
-                    statExpr =builder.avg(f);
+                    statExpr = builder.avg(f);
                     break;
                 case MIN:
                     statExpr = (builder.min(f));
@@ -466,7 +478,7 @@ public class BaseDao<T extends PersistEntity> {
         return entityManager.createQuery(query).getResultList();
     }
 
-    public List<Map> groupStats(Specification<T> spec,  String groupFields, StatField... statFields) {
+    public List<Map> groupStats(Specification<T> spec, String groupFields, StatField... statFields) {
         return this.groupStats(spec, new String[]{groupFields}, statFields);
     }
 
@@ -505,24 +517,25 @@ public class BaseDao<T extends PersistEntity> {
 
     /**
      * 将查找接口转换为map， key为id，value为对象
+     *
      * @param spec
      * @return
      */
-    public Map<String,T> dict(Specification<T> spec){
+    public Map<String, T> dict(Specification<T> spec) {
         List<T> list = this.findAll(spec);
-        Map<String,T> map = new HashMap<>();
+        Map<String, T> map = new HashMap<>();
         for (T t : list) {
             map.put(t.getId(), t);
         }
         return map;
     }
 
-    public Map<String,T> dict(Specification<T> spec,Function<T,String> keyField){
+    public Map<String, T> dict(Specification<T> spec, Function<T, String> keyField) {
         List<T> list = this.findAll(spec);
-        Map<String,T> map = new HashMap<>();
+        Map<String, T> map = new HashMap<>();
         for (T t : list) {
             String key = keyField.apply(t);
-            if(key != null){
+            if (key != null) {
                 map.put(key, t);
             }
         }
@@ -531,18 +544,19 @@ public class BaseDao<T extends PersistEntity> {
 
     /**
      * 将查询结果的两个字段组装成map
+     *
      * @param spec
      * @param keyField
      * @param valueField
-     * @return
      * @param <V>
+     * @return
      */
-    public <V> Map<String,V>  dict(Specification<T> spec,Function<T,String> keyField,Function<T,V> valueField){
+    public <V> Map<String, V> dict(Specification<T> spec, Function<T, String> keyField, Function<T, V> valueField) {
         List<T> list = this.findAll(spec);
-        Map<String,V> map = new HashMap<>();
+        Map<String, V> map = new HashMap<>();
         for (T t : list) {
             String key = keyField.apply(t);
-            if(key != null){
+            if (key != null) {
                 map.put(key, valueField.apply(t));
             }
         }
