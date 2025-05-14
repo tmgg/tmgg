@@ -37,33 +37,8 @@ public class DynamicMappingJackson2HttpMessageConverter extends MappingJackson2H
     }
 
 
-    /**
-     * 解析 @RequestBody 的实体，额外存储请求的字段
-     * 如果是
-     */
-    @Override
-    public Object read(Type type, Class<?> contextClass, HttpInputMessage inputMessage) throws IOException, HttpMessageNotReadableException {
-        boolean isEntity = BaseEntity.class.isAssignableFrom((Class<?>) type);
-        if(!isEntity){
-            return super.read(type, contextClass, inputMessage);
-        }
-
-        InputStream is = inputMessage.getBody();
-        byte[] content = IOUtils.toByteArray(is);
-        is.close();
-
-        HttpInputMessage newMessage = new MappingJacksonInputMessage(new ByteArrayInputStream(content),inputMessage.getHeaders());
-        BaseEntity baseEntity = (BaseEntity) super.read(type, contextClass, newMessage);
 
 
-        JsonNode tree = this.getObjectMapper().readTree(content);
-        List<String> names = IterUtil.toList(tree.fieldNames());
-
-        baseEntity.putExtData("_field_name_list",names);
-
-        return baseEntity;
-
-    }
 
     protected void writeInternal(Object object, Type type, HttpOutputMessage outputMessage) throws IOException, HttpMessageNotWritableException {
         if(isAppApi()){
