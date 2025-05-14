@@ -3,6 +3,7 @@ package io.tmgg.web.persistence;
 import com.fasterxml.jackson.annotation.*;
 import io.tmgg.lang.SpringTool;
 import io.tmgg.lang.ann.Msg;
+import io.tmgg.web.WebConstants;
 import io.tmgg.web.json.ignore.JsonIgnoreForApp;
 import io.tmgg.web.persistence.exports.UserLabelQuery;
 import io.tmgg.web.persistence.id.CustomId;
@@ -11,7 +12,6 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -52,8 +52,6 @@ public abstract class BaseEntity implements PersistEntity, Serializable {
     @JsonIgnoreForApp
     @Column(updatable = false)
     @Msg("创建时间")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
 
 
@@ -83,8 +81,6 @@ public abstract class BaseEntity implements PersistEntity, Serializable {
 
 
     @JsonIgnoreForApp
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date updateTime;
 
 
