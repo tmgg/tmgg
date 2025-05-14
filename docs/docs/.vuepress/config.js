@@ -39,6 +39,7 @@ export default defineUserConfig({
                     '/frontend/ui',
                 ]
             },
+            '/log-file',
             '/qa',
             '/code-tips',
 
