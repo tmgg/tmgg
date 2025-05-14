@@ -6,12 +6,12 @@ package io.tmgg.web.persistence;
  *
  * 页面显示通常会包含更多的字段，例如一个实体存了orgId，但希望显示orgLabel
  * 通常会增加一个字段 orgLabel, 并使用@Transient注解标注，然后手动设置。
- * 【自动设置】，可以在orgId字段上使用自动注解 @AutoAppend
- * ```
- *     @AutoAppendField( AutoAppendOrgLabelStrategy.class)
+ * 可以在orgId字段上使用自动注解 @AutoAppend
+ * ```java
+ *     {@literal @}AutoAppendField(AutoAppendOrgLabelStrategy.class)
  *     private String orgId;
  *
- *     @Transient
+ *     {@literal @}Transient
  *     private String orgLabel;
  * ```
  * 开发者可扩展，秩序实现AutoAppendStrategy接口，

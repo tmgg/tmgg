@@ -23,6 +23,12 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.*;
 
+/***
+ *
+ * 开放接口
+ * @gendoc
+ * @see io.tmgg.modules.api.defaults.PingApi
+ */
 @Component
 public class ApiInitRunner implements CommandLineRunner {
 

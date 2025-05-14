@@ -18,12 +18,8 @@ export default defineUserConfig({
 
         sidebar: [
             '/get-start',
-            '/config',
-            { text: "功能说明", link: "/gendoc.md"},
-            '/feature',
-            '/session',
-            '/job',
-            '/open-api',
+            { text: "编码特性说明", link: "/gendoc.md"},
+
             {
 
                 text: '扩展插件',

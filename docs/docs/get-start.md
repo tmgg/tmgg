@@ -13,9 +13,9 @@
 
 ## 2 项目模板
 ### 下载模板
-源码中包含项目模板，
-template-开头
-改下版本号
+源码中包含项目模板，template-backend， 前端模板位于 web-monorepo/template下
+
+需改下版本号
 
 ### 修改数据库配置
 修改 application-dev.yml ，application-prod.yml 中相关数据库配置

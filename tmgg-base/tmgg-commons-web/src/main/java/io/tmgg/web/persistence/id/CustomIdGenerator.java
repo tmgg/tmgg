@@ -21,6 +21,20 @@ import java.util.Properties;
 
 import static cn.hutool.core.date.DatePattern.PURE_DATETIME_MS_PATTERN;
 
+/**
+ * id生成策略
+ * 默认的id生成策略是uuid， 可通过实体类型上增加注解@CustomId改变
+ *
+ * 支持自定义前缀，长度，类型等
+ *
+ * 支持样式如下，具体可参考IdStyle枚举
+ * - UUID
+ * - DATETIME_UUID
+ * - DATETIME_SEQ
+ * - DAILY_SEQ ：每日id从1重新计数。例子： 用户表，prefix="USR_", idStyle=DAILY_SEQ, length=16的情况 :USR_202504060001,USR_202504060002
+ *
+ * @gendoc
+ */
 public class CustomIdGenerator implements IdentifierGenerator {
 
     private static final int TIME_LEN = PURE_DATETIME_MS_PATTERN.length();

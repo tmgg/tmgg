@@ -12,11 +12,10 @@ import java.lang.annotation.Target;
  * app端请求时隐藏字段， 如createUser，updateTime等字段
  *
  * 使用示例:
- * <pre>
+ * ```java
  * {@literal @}JsonIgnoreForApp
  * private String updateUser;
- * </pre>
- *
+ *```
  * @gendoc
  */
 @Retention(RetentionPolicy.RUNTIME)

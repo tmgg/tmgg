@@ -25,5 +25,7 @@ public class DemoJob implements Job {
         String msg = data.getString("msg");
 
         System.out.println(msg);
+
+        e.setResult("结果：成功");
     }
 }
