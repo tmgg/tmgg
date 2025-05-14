@@ -1,5 +1,6 @@
 package io.tmgg.web.persistence;
 
+import cn.hutool.core.bean.BeanUtil;
 import io.tmgg.web.persistence.specification.ExpressionTool;
 import io.tmgg.web.persistence.specification.Selector;
 import jakarta.annotation.PostConstruct;
@@ -17,6 +18,7 @@ import org.springframework.data.repository.query.FluentQuery;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.*;
@@ -282,6 +284,34 @@ public class BaseDao<T extends PersistEntity> {
     public T update(T entity) {
         return entityManager.merge(entity);
     }
+
+    /**
+     * 更新指定字段
+     *
+     * 对比save方法更新的时所有字段，改方法只更新指定字段
+     *
+     * @gendoc
+     */
+    @Transactional
+    public void updateField(T entity, String... fieldsToUpdate) {
+        Assert.state(fieldsToUpdate.length > 0, "fieldsToUpdate不能为空");
+        String id = entity.getId();
+
+
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaUpdate<T> update = cb.createCriteriaUpdate(getDomainClass());
+        Root<T> root = update.from(getDomainClass());
+
+        for (String f : fieldsToUpdate) {
+            Object value = BeanUtil.getFieldValue(entity, f) ;
+            update.set(root.get(f), value);
+        }
+        update.where(cb.equal(root.get("id"), id));
+
+        // 执行更新
+        entityManager.createQuery(update).executeUpdate();
+    }
+
 
     @Transactional
     public T insert(T entity) {
