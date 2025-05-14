@@ -14,6 +14,10 @@ import java.util.Map;
 
 public class JsonTool {
 
+    public static <T> T convert(Object fromValue, Class<T> toValueType){
+       return om.convertValue(fromValue, toValueType);
+    }
+
     public static String toJson(Object o) throws JsonProcessingException {
         if (o == null) {
             return null;

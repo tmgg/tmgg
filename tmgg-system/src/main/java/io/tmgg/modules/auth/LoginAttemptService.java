@@ -11,7 +11,7 @@ import java.time.Duration;
 @Service
 public class LoginAttemptService {
 
-    @DbValue("sys.login.lock.maxFailedAttempts")
+    @DbValue("sys.login.lock.maxAttempts")
     private int MAX_ATTEMPTS;
 
     /**

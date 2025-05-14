@@ -1,5 +1,5 @@
 
-package io.tmgg.modules;
+package io.tmgg.modules.base;
 
 import cn.hutool.captcha.CaptchaUtil;
 import cn.hutool.captcha.ICaptcha;
@@ -8,15 +8,14 @@ import cn.hutool.captcha.generator.MathGenerator;
 import cn.hutool.captcha.generator.RandomGenerator;
 import cn.hutool.core.thread.ThreadUtil;
 import cn.hutool.core.util.ObjUtil;
+import io.tmgg.framework.dbconfig.DbValue;
 import io.tmgg.lang.PasswordTool;
 import io.tmgg.lang.ann.PublicRequest;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.modules.auth.LoginAttemptService;
-import io.tmgg.modules.sys.controller.LoginParam;
 import io.tmgg.modules.sys.entity.SysUser;
 import io.tmgg.modules.sys.service.SysConfigService;
 import io.tmgg.modules.sys.service.SysUserService;
-import io.tmgg.web.CodeException;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -27,7 +26,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.security.auth.login.AccountLockedException;
 import java.io.IOException;
 
 /**
@@ -50,6 +48,8 @@ public class SysLoginController {
     @Resource
     private LoginAttemptService loginAttemptService;
 
+    @DbValue("sys.login.lock.time")
+    private long LOCK_TIME;
 
     @GetMapping("checkLogin")
     @PublicRequest
@@ -60,7 +60,7 @@ public class SysLoginController {
         isLogin = ObjUtil.defaultIfNull(isLogin, false);
         needUpdatePwd = ObjUtil.defaultIfNull(needUpdatePwd, false);
 
-        return AjaxResult.ok().data("isLogin",isLogin).data("needUpdatePwd",needUpdatePwd);
+        return AjaxResult.ok().data("isLogin", isLogin).data("needUpdatePwd", needUpdatePwd);
     }
 
     /**
@@ -68,7 +68,6 @@ public class SysLoginController {
      */
     @PostMapping("login")
     public AjaxResult login(@RequestBody LoginParam param, HttpSession session) {
-        // 内部系统
         String account = param.getAccount();
         String password = param.getPassword();
 
@@ -77,9 +76,9 @@ public class SysLoginController {
         Assert.state(strengthOk, "密码强度不够，请联系管理员重置");
 
         boolean locked = loginAttemptService.isAccountLocked(account);
-        Assert.state(!locked,"账户已被锁定，请30分钟后再试");
+        Assert.state(!locked, "账户已被锁定，请" + LOCK_TIME + "分钟后再试");
 
-        ThreadUtil.sleep(1000); // 防止黑客爆破
+        ThreadUtil.sleep(1000); // 防止爆破等待
 
         // 验证码校验
         if (sysConfigService.getBoolean("sys.siteInfo.captcha")) {
@@ -103,7 +102,7 @@ public class SysLoginController {
             session.setAttribute("needUpdatePwd", needUpdatePwd);
             session.setAttribute("isLogin", true);
             return AjaxResult.ok().msg("登录成功").data(session.getId());
-        }catch (Exception e){
+        } catch (Exception e) {
             loginAttemptService.loginFailed(account);
 
             throw e;
@@ -125,8 +124,6 @@ public class SysLoginController {
     @GetMapping("captchaImage")
     public void captcha(HttpSession session, HttpServletResponse resp) throws IOException {
         try {
-
-
             CodeGenerator generator = getCodeGenerator();
 
             ICaptcha captcha = CaptchaUtil.createLineCaptcha(100, 50, generator, 100);
@@ -138,7 +135,7 @@ public class SysLoginController {
             session.setAttribute(CAPTCHA_CODE, code);
         } catch (Exception e) {
             log.error("生成验证码失败，将验证码参数设置为禁用");
-            sysConfigService.setBoolean("sys.siteInfo.captcha",false);
+            sysConfigService.setBoolean("sys.siteInfo.captcha", false);
 
         }
     }
