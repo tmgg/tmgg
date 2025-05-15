@@ -1,15 +1,10 @@
 package io.tmgg.modules.asset.service;
 
-import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.bean.copier.CopyOptions;
-import cn.hutool.core.util.ArrayUtil;
-import io.tmgg.web.persistence.BaseEntity;
-import io.tmgg.web.persistence.BaseService;
-import io.tmgg.web.persistence.specification.JpaQuery;
 import io.tmgg.modules.asset.dao.SysAssetDao;
 import io.tmgg.modules.asset.entity.SysAsset;
-import io.tmgg.modules.asset.entity.SysAssetType;
 import io.tmgg.modules.sys.service.SysFileService;
+import io.tmgg.web.persistence.BaseService;
+import io.tmgg.web.persistence.specification.JpaQuery;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Service;
@@ -35,30 +30,20 @@ public class SysAssetService extends BaseService<SysAsset> {
         db.setContent(param.getContent());
     }
 
-    public List<SysAsset> findAll(SysAssetType sysAssetType) {
-        JpaQuery<SysAsset> q = new JpaQuery<>();
-        q.eq(SysAsset.Fields.type, sysAssetType);
-        return sysAssetDao.findAll(q);
-    }
 
-    public void preview(String code, HttpServletResponse resp) throws Exception {
-        SysAsset a = sysAssetDao.findByCode(code);
+
+    public void preview(String name, HttpServletResponse resp) throws Exception {
+        SysAsset a = sysAssetDao.findByName(name);
         String content = a.getContent();
-        SysAssetType type = a.getType();
+       Integer type = a.getType();
 
-        switch (type) {
-            case DIR:
-                return;
-            case IMAGE:
-            case VIDEO:
-                sysFileService.preview(content, resp);
-                return;
-            case TEXT:
-                resp.setContentType("text/html;charset=utf-8");
-                resp.getWriter().write(content);
-                return;
+        if (type==0) {
+            resp.setContentType("text/html;charset=utf-8");
+            resp.getWriter().write(content);
+            return;
         }
-
+        sysFileService.preview(content, resp);
+        return;
 
     }
 }

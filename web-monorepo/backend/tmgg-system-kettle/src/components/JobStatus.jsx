@@ -73,7 +73,7 @@ export default class extends React.Component {
       </div>
 
       <Table columns={this.columns} dataSource={this.state.list} rowKey={'id'} pagination={false} loading={this.state.loading}></Table>
-      <Modal width={'80vw'} title='作业状态' destroyOnClose
+      <Modal width={'80vw'} title='作业状态' destroyOnHidden
              open={this.state.viewOpen}
              onOk={()=>this.setState({viewOpen:false})}
              onCancel={() => this.setState({viewOpen: false})}

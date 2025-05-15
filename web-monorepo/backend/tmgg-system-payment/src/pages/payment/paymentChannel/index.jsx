@@ -172,7 +172,7 @@ export default class extends React.Component {
                    open={this.state.formOpen}
                    onOk={() => this.formRef.current.submit()}
                    onCancel={() => this.setState({formOpen: false})}
-                   destroyOnClose
+                   destroyOnHidden
                    maskClosable={false}
             >
 

@@ -103,14 +103,16 @@ public class JpaQuery<T> implements Specification<T> {
         if (CollUtil.isEmpty(params)) {
             return;
         }
-        params.forEach((k, v) -> {
-            if (v == null ||StrUtil.isBlankIfStr(v)) {
-                return;
+        for (Map.Entry<String, Object> entry : params.entrySet()) {
+            String k = entry.getKey();
+            Object v = entry.getValue();
+            if (v == null || StrUtil.isBlankIfStr(v)) {
+                continue;
             }
 
             if (!(v instanceof String s)) {
                 this.eq(k, v);
-                return;
+                continue;
             }
 
             if (DateTool.isIsoDateRange(s)) {
@@ -118,8 +120,7 @@ public class JpaQuery<T> implements Specification<T> {
             } else {
                 this.like(k, s.trim());
             }
-        });
-
+        }
 
 
     }

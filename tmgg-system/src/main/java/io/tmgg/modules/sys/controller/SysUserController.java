@@ -18,7 +18,6 @@ import io.tmgg.modules.sys.entity.SysUser;
 import io.tmgg.modules.sys.service.SysConfigService;
 import io.tmgg.modules.sys.service.SysOrgService;
 import io.tmgg.modules.sys.service.SysUserService;
-import io.tmgg.web.CommonQueryParam;
 import io.tmgg.web.annotion.HasPermission;
 import io.tmgg.web.perm.SecurityUtils;
 import io.tmgg.web.perm.Subject;
@@ -57,15 +56,15 @@ public class SysUserController {
     private SysHttpSessionService sm;
 
     @Data
-    public static class QueryParam extends CommonQueryParam {
+    public static class QueryParam  {
         String orgId;
         String roleId;
     }
 
     @HasPermission
     @PostMapping("page")
-    public AjaxResult page(@RequestBody QueryParam param, @PageableDefault(sort = SysUser.FIELD_UPDATE_TIME, direction = Sort.Direction.DESC) Pageable pageable, HttpServletResponse resp) throws Exception {
-        Page<SysUser> page = sysUserService.findAll(param.getOrgId(), param.getRoleId(), param.getKeyword(), pageable);
+    public AjaxResult page(@RequestBody QueryParam param, String keyword, @PageableDefault(sort = SysUser.FIELD_UPDATE_TIME, direction = Sort.Direction.DESC) Pageable pageable, HttpServletResponse resp) throws Exception {
+        Page<SysUser> page = sysUserService.findAll(param.getOrgId(), param.getRoleId(), keyword, pageable);
         sysUserService.fillRoleName(page);
 
         return sysUserService.autoRender(page);

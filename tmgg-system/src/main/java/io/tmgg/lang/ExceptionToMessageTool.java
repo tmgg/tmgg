@@ -61,7 +61,7 @@ public class ExceptionToMessageTool {
                 if (msg.startsWith("Duplicate")) {
                     String result = RegexTool.findFirstMatch("\\'(.*?)\\'", msg, 1);
                     if (StrUtil.isNotBlank(result)) {
-                        return "数据重复,操作不能继续进行。 重复数据为：" + result;
+                        return "数据【"+result+"】重复" ;
                     }
                 }
 

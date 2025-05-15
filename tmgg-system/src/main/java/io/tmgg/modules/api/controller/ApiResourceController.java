@@ -1,12 +1,12 @@
 package io.tmgg.modules.api.controller;
 
 import cn.hutool.core.util.StrUtil;
+import io.tmgg.web.persistence.BaseController;
 import io.tmgg.web.persistence.specification.JpaQuery;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.obj.Table;
 import io.tmgg.modules.api.entity.ApiResource;
 import io.tmgg.modules.api.service.ApiResourceService;
-import io.tmgg.web.CommonQueryParam;
 import io.tmgg.web.annotion.HasPermission;
 import jakarta.annotation.Resource;
 import org.springframework.data.domain.Page;
@@ -16,19 +16,9 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("apiResource")
-public class ApiResourceController {
+public class ApiResourceController extends BaseController<ApiResource> {
     @Resource
     private ApiResourceService service;
-    @HasPermission
-    @PostMapping("page")
-    public AjaxResult page(@RequestBody CommonQueryParam param, @PageableDefault(sort = "uri") Pageable pageable) throws Exception {
-        JpaQuery<ApiResource> q = new JpaQuery<>();
-        q.searchText(param.getKeyword(), ApiResource.Fields.name, ApiResource.Fields.uri, ApiResource.Fields.desc);
-        Page<ApiResource> page = service.findAll(q,pageable);
-
-        return service.autoRender(page);
-    }
-
 
 
 

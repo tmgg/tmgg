@@ -8,6 +8,7 @@ import io.tmgg.modules.sys.service.JpaService;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import org.springframework.util.Assert;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -39,39 +40,40 @@ public class DictFieldAnnHandler {
     }
 
     private void handle(Field field) {
-        DictField df = field.getAnnotation(DictField.class);
-        if(df == null){
+        DictField dictField = field.getAnnotation(DictField.class);
+        if(dictField == null){
             return;
         }
-        SysDict old = sysDictDao.findByCode(df.code());
+        SysDict old = sysDictDao.findByCode(dictField.code());
         if(old != null){
            return;
         }
 
         SysDict sysDict = new SysDict();
-        sysDict.setCode(df.code());
-        sysDict.setText(df.label());
+        sysDict.setCode(dictField.code());
+        sysDict.setText(dictField.label());
         sysDict.setIsNumber(true);
         sysDict = sysDictDao.save(sysDict);
 
 
-        int[] value = df.value();
-        String[] label = df.valueLabel();
+        String[] arr = dictField.kvs().split(" ");
+        for (int i = 0; i < arr.length; i++) {
+            String kv = arr[i];
+            String[] kvArr = kv.split("=");
+            Assert.state(kvArr.length ==2, "配置错误");
+            String k = kvArr[0].trim();
+            String v = kvArr[1].trim();
 
-
-        for (int i = 0; i < value.length; i++) {
-            int v = value[i];
-            String l = label[i];
 
             SysDictItem item = new SysDictItem();
-            item.setCode(String.valueOf(v));
-            item.setText(l);
+            item.setCode(k);
+            item.setText(v);
             item.setSeq(i);
             item.setSysDict(sysDict);
             item.setBuiltin(true);
-
             sysDictItemDao.save(item);
         }
+
     }
 
 

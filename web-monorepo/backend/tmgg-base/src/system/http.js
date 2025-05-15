@@ -169,7 +169,7 @@ class Util {
                     }
 
                     Modal.error({
-                        title: '操作失败，操作中遇到异常',
+                        title: '操作失败',
                         content: msg
                     })
                 }

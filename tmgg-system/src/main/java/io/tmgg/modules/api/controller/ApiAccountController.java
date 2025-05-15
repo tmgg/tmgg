@@ -8,7 +8,6 @@ import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.modules.api.entity.*;
 import io.tmgg.modules.api.service.ApiAccountService;
 import io.tmgg.modules.api.service.ApiAccountResourceService;
-import io.tmgg.web.CommonQueryParam;
 import io.tmgg.web.annotion.HasPermission;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletResponse;
@@ -30,16 +29,6 @@ public class ApiAccountController extends BaseController<ApiAccount> {
     @Resource
     private ApiAccountResourceService accountResourceService;
 
-
-    @HasPermission
-    @PostMapping("page")
-    public AjaxResult page(@RequestBody CommonQueryParam param, @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable, HttpServletResponse resp) throws Exception {
-        JpaQuery<ApiAccount> q = new JpaQuery<>();
-        q.searchText(param.getKeyword(), ApiAccount.Fields.name, ApiAccount.FIELD_ID, ApiAccount.Fields.accessIp);
-        Page<ApiAccount> page = service.findAll(q, pageable);
-
-        return service.autoRender(page);
-    }
 
 
 

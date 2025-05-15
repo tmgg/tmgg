@@ -8,9 +8,9 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class SysAssetDao extends BaseDao<SysAsset> {
 
-    public SysAsset findByCode(String code){
+    public SysAsset findByName(String name){
         JpaQuery<SysAsset> q = new JpaQuery<>();
-        q.eq(SysAsset.Fields.code, code);
+        q.eq(SysAsset.Fields.name, name);
         return this.findOne(q);
     }
 

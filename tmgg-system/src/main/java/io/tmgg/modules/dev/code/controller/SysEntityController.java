@@ -5,10 +5,10 @@ import cn.hutool.core.util.StrUtil;
 import io.tmgg.lang.ann.MsgTool;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.modules.sys.service.JpaService;
-import io.tmgg.web.CommonQueryParam;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.web.PagedModel;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,8 +27,7 @@ public class SysEntityController {
 
 
     @RequestMapping("page")
-    public AjaxResult page(@RequestBody CommonQueryParam param) throws IOException {
-        String keyword = param.getKeyword();
+    public AjaxResult page( String keyword) throws IOException {
         List<String> list = tool.findAllNames();
 
         List<Dict> voList = list.stream().map(clsName -> {

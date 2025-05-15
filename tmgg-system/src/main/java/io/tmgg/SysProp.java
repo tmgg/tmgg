@@ -1,5 +1,6 @@
 package io.tmgg;
 
+import io.tmgg.modules.sys.entity.SysMenu;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
@@ -29,7 +30,10 @@ public class SysProp {
     private String cacheDir = "/tmgg/cache" ;
 
 
-
+    /**
+     * 框架菜单
+     */
+    private List<SysMenu> frameworkMenuList;
 
 
 }

@@ -55,7 +55,7 @@ public class SysOrg extends BaseEntity implements TreeEntity<SysOrg> {
 
 
     @NotNull
-    @DictField(code ="orgType", label="机构类型",  value = {10,20}, valueLabel ={"单位", "部门"})
+    @DictField(code ="orgType", label="机构类型", kvs = "10=单位 20=部门")
     private Integer type;
 
 

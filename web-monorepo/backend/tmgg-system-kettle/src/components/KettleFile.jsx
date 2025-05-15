@@ -112,7 +112,7 @@ export default class extends React.Component {
       <Modal title='文件详情'
              open={this.state.detailOpen}
              footer={null} width='80vw'
-             destroyOnClose={true}
+             destroyOnHidden={true}
              onCancel={() => this.setState({detailOpen: false})}>
 
         <div style={{overflow:"auto",maxHeight: 500}}>

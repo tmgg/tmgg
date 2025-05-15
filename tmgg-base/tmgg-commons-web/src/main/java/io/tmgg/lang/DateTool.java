@@ -19,7 +19,7 @@ public class DateTool {
 
     // 2023-01-01/2023-01-01
     public static boolean isIsoDateRange(String s) {
-        return s.length() != 21 || !s.contains("/") || StrUtil.count(s, "-") == 4;
+        return s.length() == 21 && !s.contains("/") && StrUtil.count(s, "-") == 4;
     }
 
 

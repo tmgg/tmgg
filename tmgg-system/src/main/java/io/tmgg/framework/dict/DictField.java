@@ -13,9 +13,11 @@ public @interface DictField {
     String code();
 
 
+    /**
+     * 键值对， 格式为: 1=男 2=女
+     * @return
+     */
+    String kvs();
 
-
-    int [] value();
-    String[] valueLabel();
 
 }

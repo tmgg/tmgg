@@ -192,7 +192,7 @@ export default class extends React.Component {
 
             <Modal title='定时作业'
                    open={this.state.formOpen}
-                   destroyOnClose
+                   destroyOnHidden
                    width={800}
                    onOk={() => this.formRef.current.submit()}
                    onCancel={() => this.setState({formOpen: false})}

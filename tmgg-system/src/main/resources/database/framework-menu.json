@@ -175,14 +175,30 @@
       "seq" : 40
     },
     {
-    "pid" : "sys",
+      "pid" : "sys",
+      "id" : "assetMenuDir",
+      "name" : "素材管理",
+      "perm" : "assetMenuDir",
+      "type": "DIR",
+      "seq" : 20,
+      "icon" : "FileImageOutlined"
+    },
+    {
+    "pid" : "assetMenuDir",
     "id" : "sysAsset",
-    "name" : "文件素材",
+    "name" : "素材管理",
     "perm" : "sysAsset",
     "path" : "/system/asset",
-    "seq" : 20,
-    "icon" : "FileImageOutlined"
+    "seq" : 1
   },
+    {
+      "pid":"assetMenuDir",
+      "id": "sysAssetDir",
+      "name": "文件夹",
+      "perm": "sysAssetDir",
+      "path": "/system/asset/dir",
+      "seq": 2
+    },
     {
       "pid" : "sys",
       "id" : "api",

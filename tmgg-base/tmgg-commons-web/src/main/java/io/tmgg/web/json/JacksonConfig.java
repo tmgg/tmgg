@@ -7,9 +7,11 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
 import io.tmgg.web.json.converter.*;
+import org.apache.poi.ss.formula.functions.T;
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.domain.Page;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 
 import java.text.SimpleDateFormat;
@@ -30,7 +32,7 @@ import java.util.Date;
 public class JacksonConfig {
 
     /**
-     * org.springframework.boot.autoconfigure.http.MappingJackson2HttpMessageConverterConfiguration
+     * @see org.springframework.boot.autoconfigure.http.JacksonHttpMessageConvertersConfiguration
      */
     @Bean
     public MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter(ObjectMapper objectMapper) {
@@ -64,6 +66,9 @@ public class JacksonConfig {
                     .deserializerByType(LocalDate.class, new LocalDateJacksonConverter())
                     .deserializerByType(LocalTime.class, new LocalTimeJacksonConverter())
                     .deserializerByType(LocalDateTime.class, new LocalDateTimeJacksonConverter());
+
+
+            builder.serializerByType(Page.class, new PageJsonSerializer());
         };
     }
 

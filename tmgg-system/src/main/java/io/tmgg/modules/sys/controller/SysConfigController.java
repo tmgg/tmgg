@@ -5,7 +5,6 @@ package io.tmgg.modules.sys.controller;
 import io.tmgg.web.argument.RequestBodyKeys;
 import io.tmgg.web.persistence.specification.JpaQuery;
 import io.tmgg.modules.sys.service.SysConfigService;
-import io.tmgg.web.CommonQueryParam;
 import io.tmgg.web.annotion.HasPermission;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.modules.sys.entity.SysConfig;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 
 import jakarta.annotation.Resource;
 
-import java.util.List;
 
 
 /**
@@ -33,10 +31,10 @@ public class SysConfigController  {
 
   @HasPermission
   @RequestMapping("page")
-  public AjaxResult page(@RequestBody CommonQueryParam queryParam,
+  public AjaxResult page(String keyword,
                          @PageableDefault(sort = {"seq", "id"}) Pageable pageable) throws Exception {
     JpaQuery<SysConfig> q= new JpaQuery<>();
-    q.searchText(queryParam.getKeyword(), SysConfig.Fields.label, "id", SysConfig.Fields.remark);
+    q.searchText(keyword, SysConfig.Fields.label, "id", SysConfig.Fields.remark);
     Page<SysConfig> page = service.findAll(q, pageable);
 
     return service.autoRender(page);

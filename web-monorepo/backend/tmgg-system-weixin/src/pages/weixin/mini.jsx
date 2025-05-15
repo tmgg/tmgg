@@ -98,7 +98,7 @@ export default class extends React.Component {
 
       <Modal title='微信小程序'
              open={this.state.formOpen}
-             destroyOnClose
+             destroyOnHidden
              onOk={() => this.formRef.current.submit()}
              onCancel={() => this.setState({formOpen: false})}
       >

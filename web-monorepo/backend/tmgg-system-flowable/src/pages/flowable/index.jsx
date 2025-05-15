@@ -109,7 +109,7 @@ export default class extends React.Component {
 
       <Modal title='模型基本信息'
              open={this.state.formOpen}
-             destroyOnClose
+             destroyOnHidden
              onOk={() => this.formRef.current.submit()}
              onCancel={() => this.setState({formOpen: false})}
              width={700}

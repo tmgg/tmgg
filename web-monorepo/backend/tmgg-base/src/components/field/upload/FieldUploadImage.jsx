@@ -1,7 +1,6 @@
 import { Modal, Upload } from 'antd';
 
 import React from 'react';
-import ImgCrop from 'antd-img-crop';
 import { PlusOutlined } from '@ant-design/icons';
 import {SysUtil} from "../../../system";
 
@@ -67,12 +66,14 @@ export class FieldUploadImage extends React.Component {
     let fileIds = [];
     fileList.forEach((f) => {
       if (f.status === 'done' ) {
+        debugger
         if( f.response && f.response.id){
           fileIds.push(f.response.id);
         }
       }
     });
     let files = fileIds.join(',');
+    console.debug('图片上传组件 onChange', files)
     this.props.onChange(files);
   };
 
