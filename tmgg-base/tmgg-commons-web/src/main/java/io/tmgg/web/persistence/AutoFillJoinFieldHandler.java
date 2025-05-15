@@ -15,7 +15,7 @@ public class AutoFillJoinFieldHandler {
 
     private static final Cache<Object,String> LRU_CACHE = CacheUtil.newLRUCache(5000, 1000 * 60 * 5);
 
-    public String getTargetValue(AutoFillJoinField field, Object obj) {
+    public String getTargetValue(AutoAppendJoinField field, Object obj) {
         Object sourceValue = BeanUtil.getFieldValue(obj, field.sourceField());
         if(sourceValue == null){
             return null;

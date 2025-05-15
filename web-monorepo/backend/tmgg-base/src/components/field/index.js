@@ -30,6 +30,6 @@ export * from './FieldInput'
 export * from './FieldTree'
 export * from './FieldEditTable'
 export * from './FieldFileBase64'
-export * from './FieldUploadCropImage'
+
 export  * from './upload'
 export  * from './FieldTableSelect'

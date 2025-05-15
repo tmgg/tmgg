@@ -6,7 +6,6 @@ import io.tmgg.web.persistence.BaseController;
 import io.tmgg.web.persistence.specification.JpaQuery;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.obj.Option;
-import io.tmgg.web.CommonQueryParam;
 import io.tmgg.web.annotion.HasPermission;
 import io.tmgg.weixin.entity.WeixinPage;
 import io.tmgg.weixin.service.WeixinPageService;
@@ -32,20 +31,9 @@ public class WeixinPageController extends BaseController<WeixinPage> {
     private  WeixinPageService service;
 
 
-    private JpaQuery<WeixinPage> buildQuery(CommonQueryParam param) {
-        JpaQuery<WeixinPage> q = new JpaQuery<>();
-        q.searchText(param.getKeyword(), WeixinPage.Fields.title,WeixinPage.Fields.appId,WeixinPage.Fields.path, WeixinPage.Fields.root);
-        return q;
-    }
 
-    @HasPermission
-    @PostMapping("page")
-    public AjaxResult page(@RequestBody CommonQueryParam param, @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) throws Exception {
-        JpaQuery<WeixinPage> q = buildQuery(param);
 
-        Page<WeixinPage> page = service.findAll(q, pageable);
-        return AjaxResult.ok().data(page);
-    }
+
 
     @Data
     public static class ImportPagesParam {

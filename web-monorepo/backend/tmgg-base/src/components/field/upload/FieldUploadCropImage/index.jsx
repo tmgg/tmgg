@@ -3,7 +3,7 @@ import {Upload} from 'antd';
 import React from 'react';
 import ImgCrop from 'antd-img-crop';
 import {PlusOutlined} from '@ant-design/icons';
-import {SysUtil} from "../../../system";
+import {SysUtil} from "../../../../system";
 
 
 export class FieldUploadCropImage extends React.Component {
@@ -79,7 +79,6 @@ export class FieldUploadCropImage extends React.Component {
                         maxCount={this.props.maxCount}
                     >
                         {this.renderButton()}
-
                     </Upload>
                 </ImgCrop>
 

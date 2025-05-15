@@ -2,7 +2,7 @@ package io.tmgg.modules.asset.entity;
 
 import io.tmgg.framework.dict.DictField;
 import io.tmgg.lang.ann.Msg;
-import io.tmgg.lang.validator.ValidateGeneral;
+import io.tmgg.web.persistence.AutoAppendJoinField;
 import io.tmgg.web.persistence.BaseEntity;
 import io.tmgg.web.persistence.DBConstants;
 import jakarta.persistence.*;
@@ -18,11 +18,10 @@ import lombok.experimental.FieldNameConstants;
 @FieldNameConstants
 public class SysAsset extends BaseEntity {
 
-    @Msg("文件夹")
-    String dirId;
 
-    @Transient
-    String dirLabel;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    SysAssetDir dir;
 
     @Msg("名称")
     @Column(length = 50,unique = true)

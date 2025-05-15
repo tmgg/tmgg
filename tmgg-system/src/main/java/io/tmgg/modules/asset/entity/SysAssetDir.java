@@ -7,6 +7,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Lob;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldNameConstants;
@@ -19,12 +20,14 @@ import lombok.experimental.FieldNameConstants;
 public class SysAssetDir extends BaseEntity {
 
 
+    @NotNull
     @Msg("名称")
-    @Column(length = 50)
+    @Column(length = 50, unique = true)
     String name;
 
-
+    @NotNull
     @Msg("编码")
+    @Column(unique = true)
     String code;
 
 

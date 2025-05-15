@@ -30,9 +30,9 @@ public class SysAssetController  extends BaseController<SysAsset>{
 
 
     @PublicRequest
-    @GetMapping({"preview/{code}" ,"preview/{code}.*" }) // 可以加后缀，如 /sysAsset/preview/bg.png
-    public void preview(@PathVariable String code, HttpServletResponse resp) throws Exception {
-        service.preview(code, resp);
+    @GetMapping({"preview/{name}" ,"preview/{name}.*" }) // 可以加后缀，如 /sysAsset/preview/bg.png
+    public void preview(@PathVariable String name, HttpServletResponse resp) throws Exception {
+        service.preview(name, resp);
     }
 }
 

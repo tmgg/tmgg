@@ -11,7 +11,7 @@ import java.lang.annotation.*;
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.FIELD})
-public @interface AutoFillJoinField {
+public @interface AutoAppendJoinField {
 
     String sourceField();
 

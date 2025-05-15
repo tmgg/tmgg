@@ -44,8 +44,8 @@ public class BeanPropertyFillUtil {
             handleAutoFill(obj, f);
 
 
-            if (f.isAnnotationPresent(AutoFillJoinField.class)) {
-                AutoFillJoinField autoFill = f.getAnnotation(AutoFillJoinField.class);
+            if (f.isAnnotationPresent(AutoAppendJoinField.class)) {
+                AutoAppendJoinField autoFill = f.getAnnotation(AutoAppendJoinField.class);
                 String label = new AutoFillJoinFieldHandler().getTargetValue(autoFill, obj);
                 if (label != null) {
                     BeanUtil.setFieldValue(obj, f.getName(), label);

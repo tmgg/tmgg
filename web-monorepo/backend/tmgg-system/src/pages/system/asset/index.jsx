@@ -1,4 +1,4 @@
-import {PlusOutlined} from '@ant-design/icons'
+import {PlusOutlined, UploadOutlined} from '@ant-design/icons'
 import {Button, Form, Input, Modal, Popconfirm, Splitter, Tree, Typography} from 'antd'
 import React from 'react'
 import {
@@ -34,21 +34,21 @@ export default class extends React.Component {
     columns = [
         {
             title: '文件夹',
-            dataIndex: 'dirLabel',
+            dataIndex: ['dir','name'],
+            sorter:true
         },
         {
             title: '类型',
             dataIndex: 'type',
             render(v) {
-                return dictValueTag('sys_asset_type', v)
+                return dictValueTag('assetType', v)
             },
         },
         {
             title: '名称',
             dataIndex: 'name',
+            sorter:true
         },
-
-
 
         {
             title: '内容',
@@ -127,7 +127,7 @@ export default class extends React.Component {
                 toolBarRender={() => {
                     return <ButtonList>
                         <Button perm='sysAsset:save' type='primary' onClick={()=>this.handleAdd(1)}>
-                            <PlusOutlined/> 上传文件
+                           <UploadOutlined /> 上传文件
                         </Button>
                         <Button perm='sysAsset:save' type='primary' onClick={()=>this.handleAdd(0)}>
                             <PlusOutlined/> 新增富文本
@@ -160,18 +160,15 @@ export default class extends React.Component {
                     <Form.Item name='id' noStyle />
                     <Form.Item  name='type' noStyle />
 
-                    <Form.Item label='所属文件夹' name='dirId' rules={[{required: true}]}>
-                        <FieldRemoteSelect url={'sysAssetDir/options'}/>
-                    </Form.Item>
-
-                    <Form.Item label='名称' name='name' rules={[{required: true}]}>
-                        <Input/>
-                    </Form.Item>
-
                     <Form.Item label='内容' name='content'>
                         {this.renderContentFormItem(type)}
                     </Form.Item>
-
+                    <Form.Item label='名称' name='name' rules={[{required: true}]}>
+                        <Input />
+                    </Form.Item>
+                    <Form.Item label='所属文件夹' name={['dir','id']} rules={[{required: true}]}>
+                        <FieldRemoteSelect url={'sysAssetDir/options'}/>
+                    </Form.Item>
                 </Form>
             </Modal>
 
@@ -203,25 +200,25 @@ export default class extends React.Component {
     }
 
     renderContentFormItem = type => {
-        if (type === 'TEXT') {
+        if (type === 0) {
             return <FieldEditor/>
         }
 
-            return <FieldUploadFile/>
+        return <FieldUploadFile maxCount={1} onFileChange={fileList => {
+            this.formRef.current.setFieldsValue({name:fileList[0]?.name})
+        }}/>
     };
 
     renderContent(type, value) {
         if (value == null) {
             return
         }
-        if (type === 'TEXT') {
+        if (type ===0) {
             let el = document.createElement('div');
             el.innerHTML = value
             return <Typography.Text ellipsis={true}>{el.innerText}</Typography.Text>
         }
-        if (type === 'IMAGE') {
-            return <ViewImage value={value}></ViewImage>
-        }
+
 
         return <ViewImage value={value} />
     }
