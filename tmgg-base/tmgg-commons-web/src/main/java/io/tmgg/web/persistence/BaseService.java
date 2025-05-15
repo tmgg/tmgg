@@ -2,9 +2,13 @@ package io.tmgg.web.persistence;
 
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.bean.copier.BeanCopier;
 import cn.hutool.core.bean.copier.CopyOptions;
+import cn.hutool.core.lang.func.Func1;
+import cn.hutool.core.util.ReflectUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
+import com.google.common.reflect.Reflection;
 import io.tmgg.lang.HttpServletTool;
 import io.tmgg.lang.ann.Msg;
 import io.tmgg.web.persistence.specification.JpaQuery;
@@ -15,19 +19,23 @@ import io.tmgg.lang.obj.Table;
 import io.tmgg.lang.poi.ExcelExportTool;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.util.ReflectionUtils;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
+import java.util.function.BiPredicate;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -221,6 +229,13 @@ public abstract class BaseService<T extends PersistEntity> {
     }
 
 
+    /**
+     * 弃用，不能指定字段更新
+     * @param input
+     * @return
+     * @throws Exception
+     */
+    @Deprecated
     @Transactional
     public T saveOrUpdate(T input) throws Exception {
         boolean isNew = input.getId() == null;
@@ -233,6 +248,27 @@ public abstract class BaseService<T extends PersistEntity> {
         // 复制到原始数据，如果只想更新部分字段，可调整 ignoreProperties
         BeanUtil.copyProperties(input, old, CopyOptions.create().setIgnoreProperties(BaseEntity.BASE_ENTITY_FIELDS));
         return baseDao.save(old);
+    }
+
+    /**
+     * 更新时，指定字段更新
+     * 防止了全字段更新，以免有些字段非前端输入的情况
+     * @param input
+     * @param updateKeys
+     * @return
+     * @throws Exception
+     */
+    @Transactional
+    public T saveOrUpdate(T input,List<String> updateKeys) throws Exception {
+        boolean isNew = input.getId() == null;
+        if (isNew) {
+            return baseDao.save(input);
+        }
+
+        T old = baseDao.findById(input.getId());
+
+
+        return baseDao.updateField(old,updateKeys);
     }
 
 

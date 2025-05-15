@@ -293,8 +293,8 @@ public class BaseDao<T extends PersistEntity> {
      * @gendoc
      */
     @Transactional
-    public void updateField(T entity, String... fieldsToUpdate) {
-        Assert.state(fieldsToUpdate.length > 0, "fieldsToUpdate不能为空");
+    public void updateField(T entity, List<String> fieldsToUpdate) {
+        Assert.notEmpty(fieldsToUpdate, "fieldsToUpdate不能为空");
         String id = entity.getId();
 
 

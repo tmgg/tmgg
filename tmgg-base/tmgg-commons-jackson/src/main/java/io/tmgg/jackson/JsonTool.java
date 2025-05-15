@@ -155,7 +155,7 @@ public class JsonTool {
         return null;
     }
 
-    public static JsonNode readTreeNode(String json) throws JsonProcessingException {
+    public static JsonNode readTree(String json) throws JsonProcessingException {
         JsonNode node = om.reader().readTree(json);
         return node;
     }

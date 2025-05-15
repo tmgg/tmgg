@@ -9,7 +9,7 @@ import io.tmgg.framework.interceptor.LoginInterceptor;
 import io.tmgg.framework.interceptor.PermissionInterceptor;
 import io.tmgg.framework.interceptor.SubjectInterceptor;
 import io.tmgg.web.WebConstants;
-import io.tmgg.web.json.RequestBodyKeysArgumentResolver;
+import io.tmgg.web.argument_resolver.RequestBodyKeysArgumentResolver;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;

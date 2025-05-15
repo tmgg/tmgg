@@ -37,7 +37,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <doclint>none</doclint>
-        <hutool.version>5.8.32</hutool.version>
+        <hutool.version>5.8.37</hutool.version>
         <poi.version>5.2.3</poi.version>
     </properties>
 

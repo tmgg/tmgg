@@ -5,7 +5,6 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.text.PasswdStrength;
 import cn.hutool.core.util.StrUtil;
 import io.tmgg.framework.session.SysHttpSessionService;
-import io.tmgg.web.json.RequestBodyKeys;
 import io.tmgg.web.persistence.BaseEntity;
 import io.tmgg.web.persistence.specification.JpaQuery;
 import io.tmgg.lang.obj.AjaxResult;
@@ -73,7 +72,7 @@ public class SysUserController {
 
     @HasPermission
     @PostMapping("save")
-    public AjaxResult save(@RequestBody SysUser input, RequestBodyKeys keys) throws Exception {
+    public AjaxResult save(@RequestBody SysUser input, List<String> requestBodyKeys) throws Exception {
         boolean isNew = input.isNew();
         String inputOrgId = input.getDeptId();
         SysOrg org = sysOrgService.findOne(inputOrgId);
@@ -86,7 +85,11 @@ public class SysUserController {
             input.setUnitId(unit.getId());
         }
 
+
         SysUser sysUser = sysUserService.saveOrUpdate(input);
+
+
+
         sm.forceExistBySubjectId(sysUser.getId());
 
         if (isNew) {
