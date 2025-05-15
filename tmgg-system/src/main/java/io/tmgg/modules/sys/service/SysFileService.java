@@ -26,6 +26,7 @@ import org.springframework.util.Assert;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.InputStream;
+import java.io.PrintWriter;
 
 /**
  * 文件服务类
@@ -37,7 +38,7 @@ import java.io.InputStream;
 public class SysFileService {
 
     public static final String PREVIEW_URL_PATTERN = "/sysFile/preview/{id}";
-
+    public static final String DOWNLOAD_URL_PATTERN = "/sysFile/download/{id}";
     public static final String[] PREVIEW_TYPES = new String[]{
             "jpg", "jpeg", "png", "gif", "pdf",
     };
@@ -56,7 +57,11 @@ public class SysFileService {
 
         return baseUrl + PREVIEW_URL_PATTERN.replace("{id}", fileId);
     }
+    public String getDownloadUrl(String fileId, HttpServletRequest request) {
+        String baseUrl = sysConfigService.getOrParseBaseUrl(request);
 
+        return baseUrl + DOWNLOAD_URL_PATTERN.replace("{id}", fileId);
+    }
 
     public void deleteById(String id) throws Exception {
         SysFile sysFile = sysFileDao.findOne(id);
@@ -131,19 +136,28 @@ public class SysFileService {
     }
 
 
-    public void preview(String id, HttpServletResponse response) throws Exception {
+    public void preview(String id, HttpServletRequest req, HttpServletResponse resp) throws Exception {
         //根据文件id获取文件信息结果集
         SysFile f = this.getFileResult(id);
         //获取文件后缀
         String fileSuffix = f.getFileSuffix().toLowerCase();
         InputStream is = f.getInputStream();
         if (StrUtil.equalsAny(fileSuffix, PREVIEW_TYPES)) {
-            IOUtils.copy(is, response.getOutputStream());
-            IOUtils.closeQuietly(is, response.getOutputStream());
+            IOUtils.copy(is, resp.getOutputStream());
+            IOUtils.closeQuietly(is, resp.getOutputStream());
         } else {
 //            // 无法预览, 则下载
+
 //            String fileName = f.getFileOriginName();
 //            DownloadTool.download(fileName, is, f.getFileSize(), response);
+
+            resp.setContentType("text/html;charset=utf-8");
+            PrintWriter writer = resp.getWriter();
+
+            String downloadUrl =  this.getDownloadUrl(id,req);
+            writer.write("文件无法预览！ <a href='%s' >点击下载</a>".formatted(downloadUrl));
+            writer.flush();
+            writer.close();
         }
 
     }
@@ -165,7 +179,7 @@ public class SysFileService {
         return all;
     }
 
-    public Object findOne(String id) {
+    public SysFile findOne(String id) {
         return sysFileDao.findOne(id);
     }
 

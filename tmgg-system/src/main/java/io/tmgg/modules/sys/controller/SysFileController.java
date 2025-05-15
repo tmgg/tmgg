@@ -8,6 +8,7 @@ import io.tmgg.modules.sys.entity.SysFile;
 import io.tmgg.modules.sys.service.SysFileService;
 import io.tmgg.web.annotion.HasPermission;
 import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -84,13 +85,14 @@ public class SysFileController {
      *
      * @param id
      * @param response
+     * @param req
      * @throws Exception
      */
     @PublicRequest
     @GetMapping(value = {"preview/{id}", "preview/{id}.*"})
-    public void previewByPath(@PathVariable String id, HttpServletResponse response) throws Exception {
+    public void previewByPath(@PathVariable String id, HttpServletRequest req, HttpServletResponse response) throws Exception {
         try {
-            service.preview(id, response);
+            service.preview(id, req, response);
         } catch (Exception e) {
             log.error("预览文件失败:{}", e.getMessage());
             // TODO 裂开的图片

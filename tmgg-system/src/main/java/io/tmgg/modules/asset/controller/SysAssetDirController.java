@@ -26,7 +26,7 @@ public class SysAssetDirController  extends BaseController<SysAssetDir> {
 
     @PostConstruct
     public void initData(){
-        SysAssetDir dir = service.findOne("DEFAULT");
+        SysAssetDir dir = service.findByCode("DEFAULT");
         if(dir ==null){
             dir = new SysAssetDir();
             dir.setCode("DEFAULT");

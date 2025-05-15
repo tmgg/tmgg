@@ -4,13 +4,14 @@ import io.tmgg.modules.asset.dao.SysAssetDao;
 import io.tmgg.modules.asset.entity.SysAsset;
 import io.tmgg.modules.sys.service.SysFileService;
 import io.tmgg.web.persistence.BaseService;
-import io.tmgg.web.persistence.specification.JpaQuery;
 import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import java.io.PrintWriter;
 
 @Service
 public class SysAssetService extends BaseService<SysAsset> {
@@ -22,7 +23,16 @@ public class SysAssetService extends BaseService<SysAsset> {
     private SysFileService sysFileService;
 
 
-
+    @Transactional
+    @Override
+    @SneakyThrows
+    public void deleteById(String id) {
+        SysAsset a = sysAssetDao.findOne(id);
+        if(a.getType() ==1){
+            sysFileService.deleteById(a.getContent());
+        }
+        super.deleteById(id);
+    }
 
     @Transactional
     public void saveContent(SysAsset param) {
@@ -32,17 +42,20 @@ public class SysAssetService extends BaseService<SysAsset> {
 
 
 
-    public void preview(String name, HttpServletResponse resp) throws Exception {
+    public void preview(String name, HttpServletRequest req, HttpServletResponse resp) throws Exception {
         SysAsset a = sysAssetDao.findByName(name);
         String content = a.getContent();
        Integer type = a.getType();
 
         if (type==0) {
             resp.setContentType("text/html;charset=utf-8");
-            resp.getWriter().write(content);
+            PrintWriter writer = resp.getWriter();
+            writer.write(content);
+            writer.flush();
+            writer.close();
             return;
         }
-        sysFileService.preview(content, resp);
+        sysFileService.preview(content, req, resp);
         return;
 
     }
