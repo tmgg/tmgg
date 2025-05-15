@@ -66,7 +66,7 @@ export default class extends React.Component {
             title: '操作',
             dataIndex: 'option',
             render: (_, record) => (
-                <ButtonList>
+                <ButtonList maxNum={3}>
                     <Button size='small' type='primary'
                             perm='sysAsset:save'
                             onClick={() => this.handleEditContent(record)}>上传</Button>
@@ -75,7 +75,7 @@ export default class extends React.Component {
                             href={SysUtil.wrapServerUrl('/sysAsset/preview/' + record.name)}
                             target='_blank'>预览</Button>
 
-                    <a perm='sysAsset:save' onClick={() => this.handleEdit(record)}>编辑</a>
+                    <Button size='small' perm='sysAsset:save' onClick={() => this.handleEdit(record)}>编辑</Button>
                     <Popconfirm perm='sysAsset:delete' title='是否确定删除素材'
                                 onConfirm={() => this.handleDelete(record)}>
                         <a>删除</a>

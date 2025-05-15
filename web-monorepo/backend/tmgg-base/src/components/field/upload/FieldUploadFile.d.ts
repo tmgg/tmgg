@@ -6,18 +6,18 @@ import {CropperProps} from "react-easy-crop/Cropper";
 
 declare type FieldUploadFileProps = {
     value?: string; // 文件的值，sysFile的id, 逗号分割
-    onChange?: (v:string)=>{};
-    onFileChange?:(fileList:any[])=>{}
+    onChange?: (v: string) => {};
+    onFileChange?: (fileList: any[]) => {}
 
     /**
      * 是否裁切图片
      */
-    cropImage?:boolean;
+    cropImage?: boolean;
     cropperProps?: CropperProps;
 
     maxCount?: number;
 
-    accept?: string;
+    accept?: "image/*" | ".pdf" | ".docx" | '.xlsx' | string;
 
     children?: React.ReactNode;
 };

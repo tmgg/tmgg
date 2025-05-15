@@ -141,9 +141,9 @@ public class SysFileService {
             IOUtils.copy(is, response.getOutputStream());
             IOUtils.closeQuietly(is, response.getOutputStream());
         } else {
-            // 无法预览, 则下载
-            String fileName = f.getFileOriginName();
-            DownloadTool.download(fileName, is, f.getFileSize(), response);
+//            // 无法预览, 则下载
+//            String fileName = f.getFileOriginName();
+//            DownloadTool.download(fileName, is, f.getFileSize(), response);
         }
 
     }
