@@ -87,9 +87,7 @@ export class FieldUploadFile extends React.Component {
         Modal.info({
             title:'文件预览',
             width:'80vw',
-            content: <div style={{height:'70vh'}}>
-                <ViewFile value={file.id} />
-            </div>
+            content: <ViewFile value={file.id}  height='70vh' />
         })
 
     };
