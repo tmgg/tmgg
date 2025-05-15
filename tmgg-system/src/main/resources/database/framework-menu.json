@@ -67,7 +67,7 @@
   }, {
     "id" : "sysFile",
     "pid" : "sys",
-    "name" : "文件管理",
+    "name" : "存储文件",
     "perm" : "sysFile",
     "path" : "/system/file",
     "seq" : 6,
@@ -177,7 +177,7 @@
     {
     "pid" : "sys",
     "id" : "sysAsset",
-    "name" : "素材管理",
+    "name" : "文件素材",
     "perm" : "sysAsset",
     "path" : "/system/asset",
     "seq" : 20,
