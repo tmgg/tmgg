@@ -124,10 +124,10 @@ public class AjaxResult {
             if (data instanceof Map m) {
                 m.put(key, value);
             } else {
-                throw new IllegalStateException("该方法只支持调用data数据类型为Map");
+                throw new IllegalStateException("data字段已被设置，且非Map类型");
             }
         } else {
-            Map<String, Object> map = new LinkedHashMap<>();
+            Map<String, Object> map = new HashMap<>();
             map.put(key, value);
             this.data = map;
         }

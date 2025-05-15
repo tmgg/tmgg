@@ -4,6 +4,7 @@ import cn.hutool.core.util.ClassUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import io.tmgg.lang.field.Field;
 import io.tmgg.lang.SpringTool;
+import io.tmgg.web.argument.RequestBodyKeys;
 import io.tmgg.web.persistence.specification.JpaQuery;
 import io.tmgg.lang.field.FieldInfo;
 import io.tmgg.lang.obj.AjaxResult;
@@ -87,11 +88,11 @@ public class SysJobController {
 
     @HasPermission
     @PostMapping("save")
-    public AjaxResult save(@RequestBody SysJob param) throws Exception {
+    public AjaxResult save(@RequestBody SysJob param, RequestBodyKeys updateFields) throws Exception {
         Class.forName(param.getJobClass());
 
-        SysJob result = service.saveOrUpdate(param);
-        return AjaxResult.ok().msg("操作成功").data(result.getId());
+        service.saveOrUpdate(param,updateFields);
+        return AjaxResult.ok().msg("操作成功");
     }
 
 

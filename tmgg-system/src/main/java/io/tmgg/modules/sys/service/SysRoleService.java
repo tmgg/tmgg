@@ -1,7 +1,6 @@
 
 package io.tmgg.modules.sys.service;
 
-import cn.hutool.core.bean.BeanUtil;
 import io.tmgg.web.persistence.BaseService;
 import io.tmgg.web.persistence.specification.JpaQuery;
 import io.tmgg.modules.sys.dao.SysMenuDao;
@@ -61,22 +60,8 @@ public class SysRoleService extends BaseService<SysRole> {
     }
 
 
-    @Override
-    public SysRole saveOrUpdate(SysRole input) throws Exception {
-        boolean isNew = input.isNew();
-        if (isNew) {
-            return baseDao.save(input);
-        }
-
-        SysRole old = baseDao.findById(input.getId());
-        Assert.state(!old.getBuiltin(), "内置角色不能修改");
 
 
-
-        BeanUtil.copyProperties(input, old);
-
-        return   baseDao.save(old);
-    }
 
     @Override
     public void deleteById(String id) {

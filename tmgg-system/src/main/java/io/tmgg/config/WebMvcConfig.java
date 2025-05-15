@@ -9,7 +9,8 @@ import io.tmgg.framework.interceptor.LoginInterceptor;
 import io.tmgg.framework.interceptor.PermissionInterceptor;
 import io.tmgg.framework.interceptor.SubjectInterceptor;
 import io.tmgg.web.WebConstants;
-import io.tmgg.web.argument_resolver.RequestBodyKeysArgumentResolver;
+import io.tmgg.web.argument.resolver.RequestBodyKeysArgumentResolver;
+import io.tmgg.web.argument.resolver.UnpagedPageableArgumentResolver;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -143,7 +144,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
-        resolvers.add(0,new UnpagedPageableResolver());
+        resolvers.add(0,new UnpagedPageableArgumentResolver());
         resolvers.add(new RequestBodyKeysArgumentResolver());
     }
 

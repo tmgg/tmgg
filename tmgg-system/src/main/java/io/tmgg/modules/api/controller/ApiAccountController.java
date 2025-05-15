@@ -41,12 +41,7 @@ public class ApiAccountController extends BaseController<ApiAccount> {
         return service.autoRender(page);
     }
 
-    @HasPermission
-    @PostMapping("save")
-    public AjaxResult save(@RequestBody ApiAccount param) throws Exception {
-        ApiAccount result = service.saveOrUpdate(param);
-        return AjaxResult.ok().data(result.getId()).msg("保存成功");
-    }
+
 
 
     @GetMapping("docInfo")

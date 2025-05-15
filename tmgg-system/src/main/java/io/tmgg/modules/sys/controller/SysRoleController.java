@@ -3,6 +3,8 @@ package io.tmgg.modules.sys.controller;
 import cn.hutool.core.lang.Dict;
 import io.tmgg.framework.session.SysHttpSessionService;
 import io.tmgg.lang.TreeManager;
+import io.tmgg.web.argument.RequestBodyKeys;
+import io.tmgg.web.persistence.BaseController;
 import io.tmgg.web.persistence.BaseEntity;
 import io.tmgg.web.persistence.specification.JpaQuery;
 import io.tmgg.lang.obj.AjaxResult;
@@ -30,7 +32,7 @@ import java.util.Objects;
  */
 @RestController
 @RequestMapping("sysRole")
-public class SysRoleController {
+public class SysRoleController extends BaseController<SysRole> {
 
     @Resource
     private SysRoleService sysRoleService;
@@ -42,42 +44,24 @@ public class SysRoleController {
     private SysHttpSessionService sm;
 
 
-    @HasPermission
-    @PostMapping("page")
-    public AjaxResult page(@RequestBody CommonQueryParam param, @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) throws Exception {
-
-
-        JpaQuery<SysRole> q = new JpaQuery<>();
-        q.searchText(param.getKeyword(),SysRole.Fields.name, SysRole.Fields.code);
-
-        Page<SysRole> page = sysRoleService.findAll(q, pageable);
-
-      return sysRoleService.autoRender(page);
-    }
-
-
-    @GetMapping("options")
-    public AjaxResult options() {
-        List<SysRole> list = sysRoleService.findValid();
-
-        List<Option> options = Option.convertList(list, BaseEntity::getId, SysRole::getName);
-
-        return AjaxResult.ok().data(options);
-    }
-
     /**
      * 添加系统角色
      */
+    @Override
     @HasPermission
     @PostMapping("save")
-    public AjaxResult save(@RequestBody SysRole role) throws Exception {
+    public AjaxResult save(@RequestBody SysRole role, RequestBodyKeys updateFields) throws Exception {
         role.setBuiltin(false);
 
         List<SysMenu> newMenus = sysMenuService.findAllAndParent(role.getMenuIds());
         List<String> perms = newMenus.stream().map(SysMenu::getPerm).filter(Objects::nonNull).toList();
         role.setPerms(perms);
 
-        role= sysRoleService.saveOrUpdate(role);
+        updateFields.remove("menuIds");
+        updateFields.add("perms");
+
+
+        role= sysRoleService.saveOrUpdate(role,updateFields);
 
         // 刷新 登录用户的权限
         List<Subject> list = sm.findAllSubject();
@@ -92,17 +76,14 @@ public class SysRoleController {
     }
 
 
-    @HasPermission
-    @GetMapping("delete")
-    public AjaxResult delete(@RequestParam String id) {
-        sysRoleService.deleteById(id);
-        return AjaxResult.ok().msg("删除成功");
+    @GetMapping("options")
+    public AjaxResult options() {
+        List<SysRole> list = sysRoleService.findValid();
+
+        List<Option> options = Option.convertList(list, BaseEntity::getId, SysRole::getName);
+
+        return AjaxResult.ok().data(options);
     }
-
-
-
-
-
 
 
 

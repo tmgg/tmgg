@@ -2,6 +2,7 @@
 package io.tmgg.modules.sys.controller;
 
 
+import io.tmgg.web.argument.RequestBodyKeys;
 import io.tmgg.web.persistence.specification.JpaQuery;
 import io.tmgg.modules.sys.service.SysConfigService;
 import io.tmgg.web.CommonQueryParam;
@@ -15,6 +16,8 @@ import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.annotation.Resource;
+
+import java.util.List;
 
 
 /**
@@ -41,9 +44,9 @@ public class SysConfigController  {
 
   @HasPermission
   @PostMapping("save")
-  public AjaxResult save(@RequestBody SysConfig param) throws Exception {
+  public AjaxResult save(@RequestBody SysConfig param, RequestBodyKeys updateFields) throws Exception {
     Assert.state(!param.isNew(), "仅限修改");
-    SysConfig result = service.saveOrUpdate(param);
+    SysConfig result = service.saveOrUpdate(param,updateFields);
     return AjaxResult.ok().data( result.getId()).msg("保存成功");
   }
 

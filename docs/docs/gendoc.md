@@ -1,3 +1,23 @@
+##  注入json请求的keys
+
+ 如果需要获取前端提交数据的keys
+
+ 通常用于更新指定字段
+
+ 可通过在controller的方法参数中增加 `RequestBodyKeys  updateFields`
+
+ 示例
+ ```
+    @HasPermission
+    @PostMapping("save")
+    public AjaxResult save(@RequestBody T input, RequestBodyKeys updateFields) throws Exception {
+          service.saveOrUpdate(input,updateFields);
+        return AjaxResult.ok().msg("保存成功");
+    }
+ ```
+
+
+
 ##  动态显示字段
 
 
@@ -34,6 +54,12 @@ private String updateUser;
 
 
 
+##  更新指定字段
+
+对比save方法更新的时所有字段，改方法只更新指定字段
+
+
+
 ##  id生成策略
 默认的id生成策略是uuid， 可通过实体类型上增加注解@CustomId改变
 
@@ -48,15 +74,15 @@ private String updateUser;
 
 
 ##  时间范围
-
+<p>
 前端可使用组件 FieldDateRange, 参考ISO 8601 时间间隔格式
 存储格式：开始时间/结束时间 如：2023-01-01/2023-01-01
 后端构造查询条件时，可使用
-
+<p>
 ```java
-        JpaQuery<SysLog> q=new JpaQuery<>();
-        q.betweenIsoDateRange("createTime",dateRange);
-
+JpaQuery<SysLog> q=new JpaQuery<>();
+q.betweenIsoDateRange("createTime",dateRange);
+<p>
 ```
 
 

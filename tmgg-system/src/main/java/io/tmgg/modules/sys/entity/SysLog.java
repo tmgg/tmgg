@@ -41,7 +41,7 @@ public class SysLog extends BaseEntity {
     private Boolean success;
 
 
-    @Column(length = 10000)
+    @Lob
     private String message;
 
 

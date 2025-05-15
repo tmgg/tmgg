@@ -212,7 +212,7 @@ export default class extends React.Component {
                         <Input/>
                     </Form.Item>
 
-                    <Form.Item label='cron表达式' name='cron' help='格式：秒分时日月周,留空表示手动执行'>
+                    <Form.Item label='cron表达式' name='cron' help='格式：秒分时日月周,留空表示手动执行' rules={[{required: true}]}>
                         <AutoComplete placeholder='如 0 */5 * * * ?' options={cronOptions}/>
                     </Form.Item>
 

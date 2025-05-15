@@ -15,6 +15,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("sysDict")
 public class SysDictController extends BaseController<SysDict> {
@@ -23,26 +25,7 @@ public class SysDictController extends BaseController<SysDict> {
     private SysDictService sysDictService;
 
 
-    @HasPermission
-    @RequestMapping("page")
-    public AjaxResult page(@RequestBody SysDict param, String keyword, @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) throws Exception {
-        JpaQuery<SysDict> q = new JpaQuery<>();
-        q.likeExample(param);
 
-        q.searchText(keyword, "name", "code");
-
-        Page<SysDict> page = sysDictService.findAll(q, pageable);
-        return AjaxResult.ok().data(page);
-    }
-
-
-    @HasPermission
-    @PostMapping("save")
-    @Override
-    public AjaxResult save(@RequestBody SysDict param) throws Exception {
-        sysDictService.save(param);
-        return AjaxResult.ok();
-    }
 
     @GetMapping("tree")
     @PublicRequest

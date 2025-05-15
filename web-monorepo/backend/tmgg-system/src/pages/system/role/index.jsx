@@ -105,13 +105,13 @@ export default class extends React.Component {
     }
 
     handleEdit = record => {
-        HttpUtil.get('sysRole/ownMenu', {id: record.id}).then(rs=>{
-           this.formRef.current.setFieldsValue({
-               menuIds: rs
-           })
+        this.setState({formOpen: true, formValues: record},()=>{
+            HttpUtil.get('sysRole/ownMenu', {id: record.id}).then(rs=>{
+                this.formRef.current.setFieldsValue({
+                    menuIds: rs
+                })
+            })
         })
-
-        this.setState({formOpen: true, formValues: record})
     }
 
 
@@ -140,7 +140,7 @@ export default class extends React.Component {
                         </Button>
                     </ButtonList>
                 }}
-                request={(params, sort) => HttpUtil.pageData('sysRole/page', params)}
+                request={(params) => HttpUtil.pageData('sysRole/page', params)}
                 columns={this.columns}
 
             />
@@ -149,7 +149,7 @@ export default class extends React.Component {
                    open={this.state.formOpen}
                    onOk={() => this.formRef.current.submit()}
                    onCancel={() => this.setState({formOpen: false})}
-                   destroyOnClose
+                   destroyOnHidden
                    maskClosable={false}
                    width={600}
             >

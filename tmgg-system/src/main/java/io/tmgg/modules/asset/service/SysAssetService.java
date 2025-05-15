@@ -27,18 +27,7 @@ public class SysAssetService extends BaseService<SysAsset> {
     private SysFileService sysFileService;
 
 
-    @Override
-    public SysAsset saveOrUpdate(SysAsset input) throws Exception {
-        boolean isNew = input.getId() == null;
-        if (isNew) {
-            return baseDao.save(input);
-        }
 
-        SysAsset old = baseDao.findById(input.getId());
-        String[] ignoreProperties = ArrayUtil.append( BaseEntity.BASE_ENTITY_FIELDS, SysAsset.Fields.content, SysAsset.Fields.dimension);
-        BeanUtil.copyProperties(input, old, CopyOptions.create().setIgnoreProperties(ignoreProperties).ignoreNullValue());
-        return baseDao.save(old);
-    }
 
     @Transactional
     public void saveContent(SysAsset param) {

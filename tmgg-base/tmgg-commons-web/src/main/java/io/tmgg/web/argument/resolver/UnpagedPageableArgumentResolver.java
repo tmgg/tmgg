@@ -1,4 +1,4 @@
-package io.tmgg.config;
+package io.tmgg.web.argument.resolver;
 
 import org.springframework.core.MethodParameter;
 import org.springframework.data.domain.Pageable;
@@ -10,19 +10,19 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 /**
  * 支持前端指定size=-1时，Pageable转为无分页的对象
  */
-public class UnpagedPageableResolver extends PageableHandlerMethodArgumentResolver {
+public class UnpagedPageableArgumentResolver extends PageableHandlerMethodArgumentResolver {
 
 
-    public UnpagedPageableResolver() {
+    public UnpagedPageableArgumentResolver() {
         setOneIndexedParameters(true);
     }
 
     @Override
-    public Pageable resolveArgument(MethodParameter methodParameter, 
+    public Pageable resolveArgument(MethodParameter methodParameter,
                                    ModelAndViewContainer mavContainer,
-                                   NativeWebRequest webRequest, 
+                                   NativeWebRequest webRequest,
                                    WebDataBinderFactory binderFactory) {
-        
+
 
         // 使用默认的分页逻辑
         Pageable pageable = super.resolveArgument(methodParameter, mavContainer, webRequest, binderFactory);

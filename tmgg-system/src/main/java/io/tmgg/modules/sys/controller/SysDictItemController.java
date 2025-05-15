@@ -3,6 +3,7 @@ package io.tmgg.modules.sys.controller;
 
 import cn.hutool.core.util.NumberUtil;
 import cn.hutool.core.util.StrUtil;
+import io.tmgg.web.argument.RequestBodyKeys;
 import io.tmgg.web.persistence.specification.JpaQuery;
 import io.tmgg.modules.sys.entity.SysDict;
 import io.tmgg.modules.sys.entity.SysDictItem;
@@ -12,6 +13,7 @@ import io.tmgg.web.annotion.HasPermission;
 import io.tmgg.lang.obj.AjaxResult;
 import lombok.Data;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -19,6 +21,8 @@ import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.annotation.Resource;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("sysDictItem")
@@ -47,13 +51,13 @@ public class SysDictItemController  {
             Page<SysDictItem> page = service.findAll(q, pageable);
             return AjaxResult.ok().data(page);
         }else {
-            return AjaxResult.ok().data(Page.empty());
+            return AjaxResult.ok().data(Page.empty(pageable));
         }
     }
 
     @HasPermission(value = "sysDict:item-save",label = "保存明细")
     @PostMapping("save")
-    public AjaxResult save(@RequestBody SysDictItem param) throws Exception {
+    public AjaxResult save(@RequestBody SysDictItem param, RequestBodyKeys updateFields) throws Exception {
         SysDict dict = sysDictService.findOne(param.getSysDict().getId());
         if(dict.getIsNumber()){
             String code = param.getCode();
@@ -61,7 +65,7 @@ public class SysDictItemController  {
         }
 
         param.setBuiltin(false);
-        SysDictItem result = service.saveOrUpdate(param);
+        SysDictItem result = service.saveOrUpdate(param,updateFields);
         return AjaxResult.ok().data( result.getId()).msg("保存成功");
     }
 

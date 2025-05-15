@@ -42,9 +42,9 @@ public class SysJobService extends BaseService<SysJob> {
     }
 
     @Override
-    public SysJob saveOrUpdate(SysJob input) throws Exception {
+    public SysJob saveOrUpdate(SysJob input, List<String> updateKeys) throws Exception {
         String jobClass = input.getJobClass();
-        SysJob db = super.saveOrUpdate(input);
+        SysJob db= super.saveOrUpdate(input,updateKeys);
 
         try{
             Class<?> cls = Class.forName(jobClass);
@@ -61,8 +61,9 @@ public class SysJobService extends BaseService<SysJob> {
             quartzService.scheduleJob(db);
         }
 
-        return db;
+        return null;
     }
+
 
 
     @Transactional

@@ -1,8 +1,9 @@
-package io.tmgg.web.argument_resolver;
+package io.tmgg.web.argument.resolver;
 
 import cn.hutool.core.collection.IterUtil;
 import com.fasterxml.jackson.databind.JsonNode;
 import io.tmgg.jackson.JsonTool;
+import io.tmgg.web.argument.RequestBodyKeys;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
@@ -12,19 +13,43 @@ import org.springframework.web.util.ContentCachingRequestWrapper;
 
 import java.util.List;
 
+/***
+ *  注入json请求的keys
+ *
+ *  如果需要获取前端提交数据的keys
+ *
+ *  通常用于更新指定字段
+ *
+ *  可通过在controller的方法参数中增加 `RequestBodyKeys  updateFields`
+ *
+ *  示例
+ *  ```
+ *     {@literal @}HasPermission
+ *     {@literal @}PostMapping("save")
+ *     public AjaxResult save({@literal @}RequestBody T input, RequestBodyKeys updateFields) throws Exception {
+ *           service.saveOrUpdate(input,updateFields);
+ *         return AjaxResult.ok().msg("保存成功");
+ *     }
+ *  ```
+ *
+ *
+ *  @gendoc
+ *
+ */
 public class RequestBodyKeysArgumentResolver implements HandlerMethodArgumentResolver {
+
 
     // 判断是否支持该参数类型
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
-        return parameter.getParameterName().equals("requestBodyKeys");
+        return parameter.getParameterType().equals(RequestBodyKeys.class);
     }
 
     // 解析参数
     @Override
-    public Object resolveArgument(MethodParameter parameter, 
+    public Object resolveArgument(MethodParameter parameter,
                                  ModelAndViewContainer mavContainer,
-                                 NativeWebRequest webRequest, 
+                                 NativeWebRequest webRequest,
                                  WebDataBinderFactory binderFactory) throws Exception {
 
         ContentCachingRequestWrapper req = webRequest.getNativeRequest(ContentCachingRequestWrapper.class);
@@ -33,8 +58,6 @@ public class RequestBodyKeysArgumentResolver implements HandlerMethodArgumentRes
         JsonNode tree = JsonTool.readTree(content);
         List<String> fieldNames = IterUtil.toList(tree.fieldNames());
 
-        return fieldNames;
-
-
+        return new RequestBodyKeys(fieldNames) ;
     }
 }

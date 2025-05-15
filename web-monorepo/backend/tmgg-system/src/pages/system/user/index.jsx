@@ -71,6 +71,7 @@ export default class extends React.Component {
             title: '邮箱',
             dataIndex: 'email'
         },
+
         {
             title: '角色',
             dataIndex: 'roleIds',
@@ -91,7 +92,10 @@ export default class extends React.Component {
                 return dictValueTag('dataPermType', v)
             }
         },
-
+        {
+            title: '扩展字段1',
+            dataIndex: 'extra1'
+        },
         {
             title: '更新时间',
             dataIndex: 'updateTime',

@@ -12,6 +12,8 @@ import io.tmgg.modules.sys.entity.SysUser;
 import io.tmgg.modules.sys.service.JwtService;
 import io.tmgg.modules.sys.service.SysUserMessageService;
 import io.tmgg.modules.sys.service.SysUserService;
+import io.tmgg.web.WebConstants;
+import io.tmgg.web.persistence.DBConstants;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -27,7 +29,7 @@ import java.util.Map;
 
 @Slf4j
 @RestController
-@RequestMapping(AppApiJwtInterceptor.APP_API)
+@RequestMapping(WebConstants.APP_API)
 public class AppController {
 
     @Resource
@@ -61,28 +63,7 @@ public class AppController {
         return r;
     }
 
-    @PublicRequest
-    @PostMapping("loginByWeixin")
-    public AjaxResult loginByWeixin(String code) throws WxErrorException {
-        WxMaJscode2SessionResult r = wxMaService.getUserService().getSessionInfo(code);
-        String openid = r.getOpenid();
-        String sessionKey = r.getSessionKey();
 
-        try {
-            DateTime expireTime = DateUtil.offsetDay(DateUtil.date(), 2); // sessionKey最多3天
-            String token = jwtService.createToken(openid, expireTime,Map.of("sessionKey",sessionKey));
-
-            Map<String, Object> data = new HashMap<>();
-            data.put("token", token);
-            data.put("expireTime", expireTime.getTime());
-
-            return AjaxResult.ok().data(data).msg("通过openid登录成功");
-        } catch (Exception e) {
-            log.info("登录失败", e);
-
-            return AjaxResult.err(e.getMessage());
-        }
-    }
 
 
     @PublicRequest

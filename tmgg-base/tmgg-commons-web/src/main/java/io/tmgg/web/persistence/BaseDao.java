@@ -18,7 +18,6 @@ import org.springframework.data.repository.query.FluentQuery;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.*;
@@ -281,7 +280,7 @@ public class BaseDao<T extends PersistEntity> {
 
 
     @Transactional
-    public T update(T entity) {
+    public T merge(T entity) {
         return entityManager.merge(entity);
     }
 
@@ -313,8 +312,14 @@ public class BaseDao<T extends PersistEntity> {
     }
 
 
+    /**
+     * 保存数据
+     * 和save的区别是不再判断实体是否存在
+     * @param entity
+     * @return
+     */
     @Transactional
-    public T insert(T entity) {
+    public T persist(T entity) {
         entityManager.persist(entity);
         return entity;
     }

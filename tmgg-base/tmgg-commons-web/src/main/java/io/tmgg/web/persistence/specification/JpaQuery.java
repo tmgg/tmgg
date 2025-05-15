@@ -4,7 +4,9 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.collection.ListUtil;
 import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.StrUtil;
+import io.tmgg.lang.DateTool;
 import jakarta.persistence.criteria.*;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.Example;
@@ -13,15 +15,12 @@ import org.springframework.data.jpa.convert.QueryByExamplePredicateBuilder;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.util.Assert;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.function.Consumer;
 
 /**
  * 查询条件
- *
+ * <p>
  * 注意：如果键值对查询，值为空的情况下，会忽略
  */
 public class JpaQuery<T> implements Specification<T> {
@@ -39,14 +38,14 @@ public class JpaQuery<T> implements Specification<T> {
         List<Predicate> predicates = new ArrayList<>();
         for (Specification<T> c : specificationList) {
             Predicate predicate = c.toPredicate(root, query, builder);
-            if(predicate != null){
+            if (predicate != null) {
                 predicates.add(predicate);
             }
         }
         if (specificationList.isEmpty()) {
             return builder.conjunction();
         }
-        if(predicates.size() == 1){
+        if (predicates.size() == 1) {
             return predicates.get(0);
         }
 
@@ -58,7 +57,7 @@ public class JpaQuery<T> implements Specification<T> {
         return specificationList.size();
     }
 
-    public void clear(){
+    public void clear() {
         specificationList.clear();
     }
 
@@ -67,10 +66,9 @@ public class JpaQuery<T> implements Specification<T> {
         ExampleMatcher exampleMatcher = ExampleMatcher.matching()
                 .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING) // 遇到string，模糊匹配
                 .withIgnoreCase()
-                .withIgnoreNullValues()
-                ;
+                .withIgnoreNullValues();
 
-        if(ignores.length > 0){
+        if (ignores.length > 0) {
             exampleMatcher.withIgnorePaths(ignores);
         }
         Example<T> example = Example.of(t, exampleMatcher);
@@ -99,6 +97,31 @@ public class JpaQuery<T> implements Specification<T> {
                 qq.like(column, trimText);
             }
         });
+    }
+
+    public void searchMap(Map<String, Object> params) {
+        if (CollUtil.isEmpty(params)) {
+            return;
+        }
+        params.forEach((k, v) -> {
+            if (v == null ||StrUtil.isBlankIfStr(v)) {
+                return;
+            }
+
+            if (!(v instanceof String s)) {
+                this.eq(k, v);
+                return;
+            }
+
+            if (DateTool.isIsoDateRange(s)) {
+                this.betweenIsoDateRange(k, s);
+            } else {
+                this.like(k, s.trim());
+            }
+        });
+
+
+
     }
 
     public void eq(String column, Object v) {
@@ -142,7 +165,7 @@ public class JpaQuery<T> implements Specification<T> {
             @Override
             public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
                 Expression<T> expression = getExpression(column, root);
-                return  builder.notEqual(expression, v);
+                return builder.notEqual(expression, v);
             }
         });
     }
@@ -157,7 +180,7 @@ public class JpaQuery<T> implements Specification<T> {
             @Override
             public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
                 Expression expression = getExpression(column, root);
-                return builder.greaterThan(expression, (Comparable)v);
+                return builder.greaterThan(expression, (Comparable) v);
             }
         });
     }
@@ -171,7 +194,7 @@ public class JpaQuery<T> implements Specification<T> {
             @Override
             public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
                 Expression expression = getExpression(column, root);
-                return builder.greaterThanOrEqualTo(expression, (Comparable)v);
+                return builder.greaterThanOrEqualTo(expression, (Comparable) v);
             }
         });
     }
@@ -184,7 +207,7 @@ public class JpaQuery<T> implements Specification<T> {
             @Override
             public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
                 Expression expression = getExpression(column, root);
-                return builder.lessThan(expression, (Comparable)v);
+                return builder.lessThan(expression, (Comparable) v);
             }
         });
     }
@@ -197,14 +220,15 @@ public class JpaQuery<T> implements Specification<T> {
             @Override
             public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
                 Expression expression = getExpression(column, root);
-                return builder.lessThanOrEqualTo(expression, (Comparable)v);
+                return builder.lessThanOrEqualTo(expression, (Comparable) v);
             }
         });
     }
 
 
     /**
-     *  包含边界
+     * 包含边界
+     *
      * @param column
      * @param v1
      * @param v2
@@ -215,13 +239,12 @@ public class JpaQuery<T> implements Specification<T> {
         }
 
 
-
         if (v1 != null && v2 != null) {
             this.add(new Specification<T>() {
                 @Override
                 public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
                     Expression expression = getExpression(column, root);
-                    return builder.between(expression, (Comparable)v1, (Comparable)v2);
+                    return builder.between(expression, (Comparable) v1, (Comparable) v2);
                 }
             });
             return;
@@ -229,13 +252,13 @@ public class JpaQuery<T> implements Specification<T> {
 
         if (v1 != null) {
             this.ge(column, v1);
-        }else {
+        } else {
             this.le(column, v2);
         }
     }
 
     public void between(String column, Object[] arr) {
-        if(arr != null ){
+        if (arr != null) {
             Assert.state(arr.length == 2, "between参数数组个数必须为2");
             Object v1 = arr[0];
             Object v2 = arr[1];
@@ -244,23 +267,22 @@ public class JpaQuery<T> implements Specification<T> {
     }
 
     /**
-     *
      * 时间范围
-     *
+     * <p>
      * 前端可使用组件 FieldDateRange, 参考ISO 8601 时间间隔格式
      * 存储格式：开始时间/结束时间 如：2023-01-01/2023-01-01
      * 后端构造查询条件时，可使用
-     *
+     * <p>
      * ```java
-     *         JpaQuery<SysLog> q=new JpaQuery<>();
-     *         q.betweenIsoDateRange("createTime",dateRange);
-     *
+     * JpaQuery<SysLog> q=new JpaQuery<>();
+     * q.betweenIsoDateRange("createTime",dateRange);
+     * <p>
      * ```
      *
      * @gendoc
      */
     public void betweenIsoDateRange(String column, String isoRange) {
-        if(StrUtil.isEmpty(isoRange)){
+        if (StrUtil.isEmpty(isoRange)) {
             return;
         }
         String[] arr = isoRange.split("/");
@@ -284,7 +306,7 @@ public class JpaQuery<T> implements Specification<T> {
             @Override
             public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
                 Expression expression = getExpression(column, root);
-                return builder.between(expression, (Comparable)v1, (Comparable)v2).not();
+                return builder.between(expression, (Comparable) v1, (Comparable) v2).not();
             }
         });
     }
@@ -296,7 +318,7 @@ public class JpaQuery<T> implements Specification<T> {
      *
      * @param column1 如开始时间
      * @param column2 如结束时间
-     * @param v   当前时间
+     * @param v       当前时间
      */
     public void valueBetween(String column1, String column2, Object v) {
         if (v == null) {
@@ -328,7 +350,6 @@ public class JpaQuery<T> implements Specification<T> {
     }
 
 
-
     public void notLike(String column, String value) {
         if (StrUtil.isEmpty(value)) {
             return;
@@ -347,14 +368,12 @@ public class JpaQuery<T> implements Specification<T> {
     }
 
 
-
-
     public void in(String column, Object... valueList) {
         this.in(column, ListUtil.of(valueList));
     }
 
     public void in(String column, Collection<?> valueList) {
-        if(CollUtil.isEmpty(valueList)){
+        if (CollUtil.isEmpty(valueList)) {
             // 阻断查询，查询结果为空
             this.add(new Specification<T>() {
                 @Override
@@ -371,10 +390,9 @@ public class JpaQuery<T> implements Specification<T> {
                 Expression expression = ExpressionTool.getExpression(column, root);
 
 
-
                 List<?> list = valueList.stream().filter(Objects::nonNull).toList();
-                boolean containsNull =   CollUtil.hasNull(valueList);
-                if(list.isEmpty() && containsNull){
+                boolean containsNull = CollUtil.hasNull(valueList);
+                if (list.isEmpty() && containsNull) {
                     return expression.isNull();
                 }
 
@@ -390,7 +408,6 @@ public class JpaQuery<T> implements Specification<T> {
     }
 
 
-
     public void notIn(String column, Object... valueList) {
         this.notIn(column, ListUtil.of(valueList));
     }
@@ -402,7 +419,7 @@ public class JpaQuery<T> implements Specification<T> {
      * @param valueList 为空时，相当与查所有
      */
     public void notIn(String column, Collection<?> valueList) {
-        if(CollUtil.isEmpty(valueList)){
+        if (CollUtil.isEmpty(valueList)) {
             // 相当于查所有，不做操作
             return;
         }
@@ -415,17 +432,17 @@ public class JpaQuery<T> implements Specification<T> {
                 List<?> list = valueList.stream().filter(Objects::nonNull).toList();
                 boolean hasNull = CollUtil.hasNull(valueList);
 
-                if(list.isEmpty() && hasNull){
+                if (list.isEmpty() && hasNull) {
                     return expression.isNotNull();
                 }
 
                 CriteriaBuilder.In<Object> in = builder.in(expression);
                 for (Object value : list) {
-                   in.value(value);
+                    in.value(value);
                 }
 
-                if(!hasNull){ // 正常逻辑要剔除值为null的数据，
-                    return  builder.or(in.not(),expression.isNull());
+                if (!hasNull) { // 正常逻辑要剔除值为null的数据，
+                    return builder.or(in.not(), expression.isNull());
                 }
                 return in.not();
             }
@@ -433,10 +450,6 @@ public class JpaQuery<T> implements Specification<T> {
 
 
     }
-
-
-
-
 
 
     public void add(Specification<T> spec) {
@@ -489,8 +502,6 @@ public class JpaQuery<T> implements Specification<T> {
     }
 
 
-
-
     // 去重复
     public void distinct() {
         this.add(new Specification<T>() {
@@ -514,7 +525,7 @@ public class JpaQuery<T> implements Specification<T> {
     }
 
 
-    private Expression getExpression(String column, Root<T> root){
-        return ExpressionTool.getExpression(column,root);
+    private Expression getExpression(String column, Root<T> root) {
+        return ExpressionTool.getExpression(column, root);
     }
 }

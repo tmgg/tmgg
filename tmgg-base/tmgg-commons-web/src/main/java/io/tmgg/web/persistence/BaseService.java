@@ -1,14 +1,9 @@
 package io.tmgg.web.persistence;
 
 
-import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.bean.copier.BeanCopier;
-import cn.hutool.core.bean.copier.CopyOptions;
-import cn.hutool.core.lang.func.Func1;
-import cn.hutool.core.util.ReflectUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
-import com.google.common.reflect.Reflection;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.tmgg.lang.HttpServletTool;
 import io.tmgg.lang.ann.Msg;
 import io.tmgg.web.persistence.specification.JpaQuery;
@@ -17,25 +12,26 @@ import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.obj.Option;
 import io.tmgg.lang.obj.Table;
 import io.tmgg.lang.poi.ExcelExportTool;
+import jakarta.persistence.Transient;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.data.util.ReflectionUtils;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.function.BiPredicate;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -44,9 +40,6 @@ public abstract class BaseService<T extends PersistEntity> {
 
     @Autowired
     protected BaseDao<T> baseDao;
-
-
-
 
 
     /**
@@ -229,46 +222,26 @@ public abstract class BaseService<T extends PersistEntity> {
     }
 
 
-    /**
-     * 弃用，不能指定字段更新
-     * @param input
-     * @return
-     * @throws Exception
-     */
-    @Deprecated
-    @Transactional
-    public T saveOrUpdate(T input) throws Exception {
-        boolean isNew = input.getId() == null;
-        if (isNew) {
-            return baseDao.save(input);
-        }
 
-        T old = baseDao.findById(input.getId());
-
-        // 复制到原始数据，如果只想更新部分字段，可调整 ignoreProperties
-        BeanUtil.copyProperties(input, old, CopyOptions.create().setIgnoreProperties(BaseEntity.BASE_ENTITY_FIELDS));
-        return baseDao.save(old);
-    }
 
     /**
      * 更新时，指定字段更新
      * 防止了全字段更新，以免有些字段非前端输入的情况
+     *
      * @param input
      * @param updateKeys
      * @return
      * @throws Exception
      */
     @Transactional
-    public T saveOrUpdate(T input,List<String> updateKeys) throws Exception {
-        boolean isNew = input.getId() == null;
-        if (isNew) {
-            return baseDao.save(input);
+    public T saveOrUpdate(T input, List<String> updateKeys) throws Exception {
+        String id = input.getId();
+        if (id == null) {
+            return baseDao.persist(input);
         }
 
-        T old = baseDao.findById(input.getId());
-
-
-        return baseDao.updateField(old,updateKeys);
+         baseDao.updateField(input,updateKeys);
+        return baseDao.findById(id);
     }
 
 
@@ -370,5 +343,21 @@ public abstract class BaseService<T extends PersistEntity> {
         q.eq(key, value);
         q.eq(key2, value2);
         return this.findAll(q);
+    }
+
+    public String[] getSearchableFields() {
+        Class<T> cls = getEntityClass();
+        Field[] fs = cls.getDeclaredFields();
+        List<String> fields = new ArrayList<>();
+        for (Field f : fs) {
+            if (f.getType().equals(String.class)
+                && !Modifier.isStatic(f.getModifiers())
+                && !f.isAnnotationPresent(Transient.class) && !f.isAnnotationPresent(org.springframework.data.annotation.Transient.class) ) {
+                String name = f.getName();
+                fields.add(name);
+            }
+        }
+
+        return fields.toArray(String[]::new);
     }
 }

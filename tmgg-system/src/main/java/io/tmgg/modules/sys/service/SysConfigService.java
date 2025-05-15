@@ -44,12 +44,7 @@ public class SysConfigService extends BaseService<SysConfig> {
     }
 
 
-    @Override
-    public SysConfig saveOrUpdate(SysConfig input) throws Exception {
-        SysConfig old = dao.findById(input.getId());
-        old.setValue(input.getValue());
-        return dao.save(old);
-    }
+
 
     public boolean getBoolean(String key) {
         validateKey(key);

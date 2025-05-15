@@ -1,11 +1,8 @@
 
 package io.tmgg.modules.sys.service;
 
-import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.bean.copier.CopyOptions;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.collection.CollectionUtil;
-import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import io.tmgg.framework.session.SysHttpSessionService;
@@ -188,23 +185,18 @@ public class SysUserService extends BaseService<SysUser> implements UserLabelQue
     }
 
     @Override
-    public SysUser saveOrUpdate(SysUser input) throws Exception {
+    public SysUser saveOrUpdate(SysUser input, List<String> updateKeys) throws Exception {
         boolean isNew = input.isNew();
         if (isNew) {
             String password = sysConfigService.getDefaultPassWord();
             input.setPassword(PasswordTool.encode(password));
-            return baseDao.save(input);
         }
 
-
-        SysUser old = baseDao.findById(input.getId());
-        BeanUtil.copyProperties(input, old, CopyOptions.create()
-                .setIgnoreProperties(ArrayUtil.append(BaseEntity.BASE_ENTITY_FIELDS,
-                        SysUser.Fields.roles, SysUser.Fields.password, SysUser.Fields.dataPerms
-                )));
-        return baseDao.save(old);
-
+        super.saveOrUpdate(input, updateKeys);
+        return null;
     }
+
+
 
     @Transactional
     public void delete(String id) {
