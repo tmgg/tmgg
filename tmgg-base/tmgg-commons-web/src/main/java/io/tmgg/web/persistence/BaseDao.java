@@ -304,16 +304,7 @@ public class BaseDao<T extends PersistEntity> {
         String id = entity.getId();
         Assert.hasText(id, "id不能为空");
 
-        // 仅校验需要更新的字段
-        Set<ConstraintViolation<T>> violations = new HashSet<>();
-        for (String field : fieldsToUpdate) {
-            Object value = BeanUtil.getFieldValue(entity, field);
-            violations.addAll(validator.validateValue(getDomainClass(), field, value));
-        }
 
-        if (!violations.isEmpty()) {
-            throw new ConstraintViolationException(violations);
-        }
 
 
 
@@ -327,6 +318,13 @@ public class BaseDao<T extends PersistEntity> {
 
         for (String f : fieldsToUpdate) {
             Object value = BeanUtil.getFieldValue(entity, f) ;
+
+            // 校验数据， 如 @NotNull
+            Set<ConstraintViolation<T>> violations = validator.validateValue(getDomainClass(), f, value);
+            if (!violations.isEmpty()) {
+                throw new ConstraintViolationException(violations);
+            }
+
             update.set(root.get(f), value);
         }
         update.where(cb.equal(root.get("id"), id));
