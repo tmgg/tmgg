@@ -1,7 +1,7 @@
 import React from "react";
 import {Button, Card, Form, Input, Modal, Radio,} from "antd";
 import InstanceInfo from "../../../components/InstanceInfo";
-import {HttpUtil, PageUtil} from "@tmgg/tmgg-base"
+import {HttpUtil, Page, PageUtil} from "@tmgg/tmgg-base"
 import {history} from "umi";
 
 export default class extends React.Component {
@@ -31,7 +31,7 @@ export default class extends React.Component {
     let params = PageUtil.currentLocationQuery()
 
     const {instanceId} = params;
-    return <div style={{background: '#f5f5f5'}}>
+    return <Page padding>
 
       <InstanceInfo id={instanceId}/>
 
@@ -59,7 +59,7 @@ export default class extends React.Component {
           </Form.Item>
         </Form>
       </Card>
-    </div>
+    </Page>
 
 
   }

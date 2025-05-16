@@ -47,6 +47,7 @@ export default class InstanceInfo extends React.Component {
 
     const {data, loading} = this.state
     const {formUrl} = data
+
     const {commentList, img, variables} = data
     if (loading) {
       return <Skeleton/>
@@ -54,7 +55,7 @@ export default class InstanceInfo extends React.Component {
 
     console.log('流程ID', data.id)
 
-    return <div style={{background: '#f5f5f5'}}>
+    return <div >
       <Card>
         <Descriptions title={data.name}>
           <Descriptions.Item label='发起人'>{data.starter}</Descriptions.Item>
