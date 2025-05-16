@@ -71,8 +71,8 @@ export default class extends React.Component {
           <Button disabled={selectedRowKeys.length === 0} onClick={()=>this.clean(selectedRowKeys)} type='primary' >删除{selectedRowKeys.length}条</Button>
         </>}
         actionRef={this.tableRef}
-        request={(params, sort) => {
-          return HttpUtil.pageData('job/jobLog', params, sort);
+        request={(params) => {
+          return HttpUtil.pageData('job/jobLog', params);
         }}
         columns={this.columns}
         rowSelection={{}}

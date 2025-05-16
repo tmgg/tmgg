@@ -3,7 +3,13 @@ import React from "react";
 import {Result} from "antd";
 import {matchRoutes} from "umi";
 
-export default function MyPureOutlet(props) {
+/**
+ * 通过指定 pathname 渲染页面
+ * @param props
+ * @returns {React.JSX.Element|*}
+ * @constructor
+ */
+export default function PageRender(props) {
     let {pathname} = props
     const appData = useAppData()
 

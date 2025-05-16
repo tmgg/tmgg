@@ -91,7 +91,7 @@ export class InterceptorWrapper extends React.Component {
         if (error) {
 
             if (code === 401) {
-                return <Result status='warning' title='401' subTitle='未登录或登录过期,请重新登录'
+                return <Result status="403" title='401' subTitle='未登录或登录已过期,请重新登录'
                                extra={[
                                    <Button type="primary" key="console" size='large' onClick={this.reLogin}>
                                        重新登录
@@ -101,7 +101,6 @@ export class InterceptorWrapper extends React.Component {
             }
             return <Result
                 status="500"
-
                 subTitle={message}
             />
         }

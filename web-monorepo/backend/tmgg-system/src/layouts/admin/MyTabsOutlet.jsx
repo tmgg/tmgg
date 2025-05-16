@@ -2,7 +2,7 @@ import React from "react";
 import {PageUtil} from "@tmgg/tmgg-base";
 import {withRouter} from "umi";
 import {Spin, Tabs} from "antd";
-import MyPureOutlet from "../MyPureOutlet";
+import PageRender from "../PageRender";
 import {UrlUtil} from "@tmgg/tmgg-commons-lang";
 
 class MyTabsOutlet extends React.Component {
@@ -36,7 +36,7 @@ class MyTabsOutlet extends React.Component {
 
         const old = tabs.find(t=>t.key === url)
         if(old == null){
-            const cmp =  <MyPureOutlet pathname={pathname} params={params} search={search}/>
+            const cmp =  <PageRender pathname={pathname} params={params} search={search}/>
             let label = this.getLabel(pathname);
             tabs.push({
                 key: url,

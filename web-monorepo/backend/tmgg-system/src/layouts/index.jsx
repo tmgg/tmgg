@@ -12,7 +12,7 @@ import 'dayjs/locale/zh-cn';
 
 import './index.less'
 import './global.less'
-import MyPureOutlet from "./MyPureOutlet";
+import PageRender from "./PageRender";
 import {InterceptorWrapper} from "./InterceptorWrapper";
 
 dayjs.locale('zh-cn');
@@ -94,7 +94,7 @@ dayjs.locale('zh-cn');
         const params =PageUtil.currentParams()
 
         if(params.hasOwnProperty('_noLayout')){
-            return  <MyPureOutlet pathname={pathname} />
+            return  <PageRender pathname={pathname} />
         }
 
         return <InterceptorWrapper pathname={pathname} >
