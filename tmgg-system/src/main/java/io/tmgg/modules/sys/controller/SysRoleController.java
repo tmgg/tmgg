@@ -14,6 +14,7 @@ import io.tmgg.web.argument.RequestBodyKeys;
 import io.tmgg.web.perm.Subject;
 import io.tmgg.web.persistence.BaseController;
 import io.tmgg.web.persistence.BaseEntity;
+import io.tmgg.web.pojo.param.SelectParam;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
 
@@ -70,14 +71,6 @@ public class SysRoleController extends BaseController<SysRole> {
     }
 
 
-    @GetMapping("options")
-    public AjaxResult options() {
-        List<SysRole> list = sysRoleService.findValid();
-
-        List<Option> options = Option.convertList(list, BaseEntity::getId, SysRole::getName);
-
-        return AjaxResult.ok().data(options);
-    }
 
 
 
@@ -130,6 +123,19 @@ public class SysRoleController extends BaseController<SysRole> {
         return AjaxResult.ok().data(checked);
     }
 
+
+    @PostMapping("options")
+    public AjaxResult options(@RequestBody SelectParam param) {
+        String searchText = param.getSearchText();
+        List<SysRole> list = sysRoleService.findValid();
+        if(searchText != null){
+            list = list.stream().filter(t->t.getName().contains(searchText)).toList();
+        }
+
+        List<Option> options = Option.convertList(list, BaseEntity::getId, SysRole::getName);
+
+        return AjaxResult.ok().data(options);
+    }
 
 }
 

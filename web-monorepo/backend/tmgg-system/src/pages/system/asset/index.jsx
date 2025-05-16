@@ -4,9 +4,8 @@ import React from 'react'
 import {
     ButtonList,
     dictValueTag,
-    FieldDictRadio,
     FieldEditor,
-    FieldRemoteSelect,
+     FieldSelect,
     FieldUploadFile,
     FieldUploadImage,
     HttpUtil,
@@ -167,7 +166,7 @@ export default class extends React.Component {
                         <Input />
                     </Form.Item>
                     <Form.Item label='所属文件夹' name={['dir','id']} rules={[{required: true}]}>
-                        <FieldRemoteSelect url={'sysAssetDir/options'}/>
+                        <FieldSelect url={'sysAssetDir/options'}/>
                     </Form.Item>
                 </Form>
             </Modal>

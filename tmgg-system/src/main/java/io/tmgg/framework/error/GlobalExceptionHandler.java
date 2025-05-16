@@ -167,20 +167,17 @@ public class GlobalExceptionHandler {
      * 拦截未知的运行时异常
      */
     @ExceptionHandler(Throwable.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public AjaxResult serverError(Throwable e) {
         log.error(">>> 服务器运行异常 ", e);
         return AjaxResult.err().msg(ExceptionToMessageTool.convert(e));
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public AjaxResult httpMessageNotReadableException(HttpMessageNotReadableException e) {
-        return AjaxResult.err().msg("请求体内容不可完整读取" + e.getMessage());
+        return AjaxResult.err().msg("请求内容错误：" + e.getMessage());
     }
 
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public AjaxResult serverError(HttpRequestMethodNotSupportedException e) {
         return AjaxResult.err().msg("不支持请求方法" + e.getMethod());
     }

@@ -99,13 +99,12 @@ public class JpaQuery<T> implements Specification<T> {
         });
     }
 
-    public void searchMap(Map<String, Object> params) {
+    public void searchMap(Map<String, Object> params,String... fields) {
         if (CollUtil.isEmpty(params)) {
             return;
         }
-        for (Map.Entry<String, Object> entry : params.entrySet()) {
-            String k = entry.getKey();
-            Object v = entry.getValue();
+        for (String k : fields) {
+            Object v = params.get(k);
             if (v == null || StrUtil.isBlankIfStr(v)) {
                 continue;
             }
@@ -121,7 +120,6 @@ public class JpaQuery<T> implements Specification<T> {
                 this.like(k, s.trim());
             }
         }
-
 
     }
 

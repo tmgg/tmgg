@@ -4,8 +4,7 @@ import React from 'react'
 import {
     ButtonList,
     FieldFileBase64,
-    FieldRadioBoolean,
-    FieldRemoteSelect,
+    FieldRadioBoolean, FieldSelect,
     FieldUploadImage,
     HttpUtil,
     ProTable, ViewBoolean,
@@ -183,7 +182,7 @@ export default class extends React.Component {
                     <Form.Item name='id' noStyle></Form.Item>
 
                     <Form.Item label='支付方式' name='methodCode' rules={[{required: true}]}>
-                        <FieldRemoteSelect url='paymentChannel/paymentMethodOptions'/>
+                        <FieldSelect url='paymentChannel/paymentMethodOptions'/>
                     </Form.Item>
 
                     <Form.Item label='应用ID' name='appId' rules={[{required: true}]}>

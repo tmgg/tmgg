@@ -31,10 +31,9 @@ public class SysConfigController  {
 
   @HasPermission
   @RequestMapping("page")
-  public AjaxResult page(String keyword,
-                         @PageableDefault(sort = {"seq", "id"}) Pageable pageable) throws Exception {
+  public AjaxResult page(String searchText,@PageableDefault(sort = {"seq", "id"}) Pageable pageable) throws Exception {
     JpaQuery<SysConfig> q= new JpaQuery<>();
-    q.searchText(keyword, SysConfig.Fields.label, "id", SysConfig.Fields.remark);
+    q.searchText(searchText, SysConfig.Fields.label, "id", SysConfig.Fields.remark);
     Page<SysConfig> page = service.findAll(q, pageable);
 
     return service.autoRender(page);

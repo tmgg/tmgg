@@ -21,6 +21,7 @@ import io.tmgg.modules.sys.service.SysUserService;
 import io.tmgg.web.annotion.HasPermission;
 import io.tmgg.web.perm.SecurityUtils;
 import io.tmgg.web.perm.Subject;
+import io.tmgg.web.pojo.param.SelectParam;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -63,8 +64,8 @@ public class SysUserController {
 
     @HasPermission
     @PostMapping("page")
-    public AjaxResult page(@RequestBody QueryParam param, String keyword, @PageableDefault(sort = SysUser.FIELD_UPDATE_TIME, direction = Sort.Direction.DESC) Pageable pageable, HttpServletResponse resp) throws Exception {
-        Page<SysUser> page = sysUserService.findAll(param.getOrgId(), param.getRoleId(), keyword, pageable);
+    public AjaxResult page(@RequestBody QueryParam param, String searchText, @PageableDefault(sort = SysUser.FIELD_UPDATE_TIME, direction = Sort.Direction.DESC) Pageable pageable, HttpServletResponse resp) throws Exception {
+        Page<SysUser> page = sysUserService.findAll(param.getOrgId(), param.getRoleId(), searchText, pageable);
         sysUserService.fillRoleName(page);
 
         return sysUserService.autoRender(page);
@@ -151,8 +152,9 @@ public class SysUserController {
     }
 
 
-    @GetMapping("options")
-    public AjaxResult options(String searchText) {
+    @PostMapping("options")
+    public AjaxResult options(@RequestBody SelectParam param) {
+        String searchText = param.getSearchText();
         JpaQuery<SysUser> query = new JpaQuery<>();
 
         if (searchText != null) {

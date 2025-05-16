@@ -33,7 +33,7 @@ export default class Toolbar extends React.Component {
                 {showSearch && <Input.Search
                     style={{width: 200}}
                     placeholder='搜索...'
-                    onSearch={(v) => this.props.onSearch({keyword: v})}
+                    onSearch={(v) => this.props.onSearch({searchText: v})}
                 />
                 }
 

@@ -4,6 +4,7 @@ import {Modal, Upload} from "antd";
 import UploadOutlined from "@ant-design/icons/lib/icons/UploadOutlined";
 import {SysUtil} from "../../../system";
 import {ViewFile} from "../../view/ViewFile";
+import {ObjUtil} from "@tmgg/tmgg-commons-lang";
 
 
 export class FieldUploadFile extends React.Component {
@@ -21,33 +22,42 @@ export class FieldUploadFile extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state.cropImage = this.props.cropImage
-        this.state.maxCount = this.props.maxCount || 5;
-        this.state.value = this.props.value
-        this.state.fileList = this.convertValue2FileList(this.state.value);
-        this.state.accept = this.props.accept
+        ObjUtil.copyPropertyIfPresent(props, this.state)
+        this.state.fileList = this.convertInput(this.state.value);
     }
 
-    convertValue2FileList(value) {
+    convertInput(value) {
         let list = [];
         if (value && value.length > 0) {
             const arr = value.split(",")
             for (const id of arr) {
                 const url = SysUtil.wrapServerUrl('sysFile/preview/' + id)
-                let file = {
-                    id,
-                    url,
-                    uid: id,
-                    name: id,
-                    status: 'done',
-                    fileName: id
-                };
+                let file = {id, url, uid: id, name: id, status: 'done', fileName: id};
                 list.push(file);
             }
         }
 
         return list
     }
+
+    convertOutput(fileList) {
+        let fileIds = [];
+        for (const f of fileList) {
+            if (f.status === 'done' && f.response) {
+                const ajaxResult = f.response
+                if (ajaxResult.success) {
+                    const {id, name} = ajaxResult.data
+                    f.id = id;
+                    fileIds.push(id);
+                } else {
+                    Modal.error({title: '上传文件失败', content: ajaxResult.message})
+                }
+
+            }
+        }
+        return fileIds;
+    }
+
 
     handleChange = ({fileList, event, file}) => {
         const rs = file.response;
@@ -63,31 +73,20 @@ export class FieldUploadFile extends React.Component {
         this.setState({fileList});
 
 
-        let fileIds = [];
-        for (const f of fileList) {
-            if (f.status === 'done' && f.response) {
-                const ajaxResult = f.response
-                if (ajaxResult.success) {
-                    const {id, name} = ajaxResult.data
-                    f.id = id;
-                    fileIds.push(id);
-                } else {
-                    Modal.error({title: '上传文件失败', content: ajaxResult.message})
-                }
-
-            }
-        }
+        let fileIds = this.convertOutput(fileList);
         if (fileIds.length > 0) {
             this.props?.onFileChange(fileList)
         }
         this.props?.onChange(fileIds.join(','));
     };
 
-    handlePreview = (file) => {debugger
+
+    handlePreview = (file) => {
+        debugger
         Modal.info({
-            title:'文件预览',
-            width:'80vw',
-            content: <ViewFile value={file.id}  height='70vh' />
+            title: '文件预览',
+            width: '80vw',
+            content: <ViewFile value={file.id} height='70vh'/>
         })
 
     };

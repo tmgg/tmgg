@@ -37,7 +37,6 @@ public class SysDictItemController  {
 
     @Data
     public static class QueryParam{
-        String keyword;
         String sysDictId;
     }
 

@@ -31,9 +31,9 @@ public class SysJobLogController {
     private SysJobService sysJobService;
 
     @RequestMapping("jobLog")
-    public AjaxResult page(@RequestBody Map<String,Object> param, String keyword, @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) {
+    public AjaxResult page(String searchText, @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) {
         JpaQuery<SysJobLog> q = new JpaQuery<>();
-        q.searchText(keyword, SysJobLog.Fields.sysJob + "." + SysJob.Fields.name);
+        q.searchText(searchText, SysJobLog.Fields.sysJob + "." + SysJob.Fields.name);
 
         Page<SysJobLog> page = service.findAll(q, pageable);
         return AjaxResult.ok().data(page);

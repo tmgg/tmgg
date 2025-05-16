@@ -6,11 +6,10 @@ import io.github.tmgg.kettle.sdk.plugin.RepTreeItem;
 import io.tmgg.lang.TreeManager;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.obj.Option;
+import io.tmgg.web.pojo.param.SelectParam;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.annotation.Resource;
@@ -79,8 +78,8 @@ public class KettleFileController {
     }
 
 
-    @GetMapping("options")
-    public AjaxResult options() {
+    @PostMapping("options")
+    public AjaxResult options(@RequestBody SelectParam param) {
         List<RepTreeItem> list = sdk.getRepositoryObjectTree();
 
         List<Option> options = new ArrayList<>();

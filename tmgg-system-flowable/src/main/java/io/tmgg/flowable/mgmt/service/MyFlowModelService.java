@@ -256,9 +256,9 @@ public class MyFlowModelService {
         sysFlowableModelDao.deleteById(id);
     }
 
-    public Page<SysFlowableModel> findAll(final String keyword, Pageable pageable) {
+    public Page<SysFlowableModel> findAll(final String searchText, Pageable pageable) {
         JpaQuery<SysFlowableModel> q = new JpaQuery<>();
-        q.searchText(keyword, "name","code");
+        q.searchText(searchText, "name","code");
 
         return sysFlowableModelDao.findAll(q, pageable);
     }

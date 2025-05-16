@@ -47,16 +47,13 @@ public class SysJobController {
     @Resource
     private SysJobLogService sysJobLogService;
 
-    @Data
-    public static class QueryParam {
-        String keyword;
-    }
+
 
     @HasPermission
     @RequestMapping("page")
-    public AjaxResult page(@RequestBody QueryParam param, @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) throws SchedulerException {
+    public AjaxResult page(String searchText, @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) throws SchedulerException {
         JpaQuery<SysJob> q = new JpaQuery<>();
-        q.searchText(param.getKeyword(), SysJob.Fields.name, SysJob.Fields.jobClass);
+        q.searchText(searchText, SysJob.Fields.name, SysJob.Fields.jobClass);
         Page<SysJob> page = service.findAll(q, pageable);
 
         List<JobExecutionContext> currentlyExecutingJobs = scheduler.getCurrentlyExecutingJobs();

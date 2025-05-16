@@ -28,11 +28,11 @@ public class PaymentOrderController  extends BaseController<PaymentOrder>{
 
     @HasPermission
     @PostMapping("page")
-    public AjaxResult page(@RequestBody  CommonQueryParam param,  @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) throws Exception {
+    public AjaxResult page(String searchText,  @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) throws Exception {
         JpaQuery<PaymentOrder> q = new JpaQuery<>();
 
         // 关键字搜索，请补全字段
-        q.searchText(param.getKeyword(), PaymentOrder.Fields.outTradeNo, PaymentOrder.Fields.description);
+        q.searchText(searchText, PaymentOrder.Fields.outTradeNo, PaymentOrder.Fields.description);
 
         Page<PaymentOrder> page = service.findAll(q, pageable);
         return AjaxResult.ok().data(page);

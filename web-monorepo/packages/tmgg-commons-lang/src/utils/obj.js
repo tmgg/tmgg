@@ -29,3 +29,29 @@ export function get(obj, path, defaultValue = undefined){
     return result != null ? result : defaultValue;
 
 }
+
+
+export class ObjUtil {
+
+    /**
+     * 复制对象属性
+     * 如果目标对象的属性存在才复制
+     * @param source
+     * @param target
+     */
+   static copyPropertyIfPresent(source, target){
+        if (!source || !target || typeof source !== 'object' || typeof target !== 'object') {
+            return;
+        }
+
+       const keys = Object.keys(target)
+        for (let key of keys) {
+            if(Object.hasOwn(source,key)){
+                let value = source[key];
+                target[key] = value
+            }
+        }
+    }
+
+
+}

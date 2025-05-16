@@ -1,5 +1,7 @@
 package io.tmgg.modules.api.controller;
 
+import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
 import io.tmgg.web.persistence.BaseController;
 import io.tmgg.web.persistence.specification.JpaQuery;
@@ -8,11 +10,14 @@ import io.tmgg.lang.obj.Table;
 import io.tmgg.modules.api.entity.ApiResource;
 import io.tmgg.modules.api.service.ApiResourceService;
 import io.tmgg.web.annotion.HasPermission;
+import io.tmgg.web.pojo.param.SelectParam;
 import jakarta.annotation.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("apiResource")
@@ -22,13 +27,14 @@ public class ApiResourceController extends BaseController<ApiResource> {
 
 
 
-    @GetMapping("tableSelect")
-    public AjaxResult tableSelect(String searchText, String selectedKey, Pageable pageable) {
+    @PostMapping("tableSelect")
+    public AjaxResult tableSelect(@RequestBody SelectParam param, Pageable pageable) {
         JpaQuery<ApiResource> q = new JpaQuery<>();
-        q.searchText(searchText, ApiResource.Fields.name, ApiResource.Fields.uri, ApiResource.Fields.desc);
+        q.searchText(param.getSearchText(), ApiResource.Fields.name, ApiResource.Fields.uri, ApiResource.Fields.desc);
 
-        if(StrUtil.isNotEmpty(selectedKey)){
-          q.eq("id", selectedKey);
+        List<String> selected = param.getSelected();
+        if(CollUtil.isNotEmpty(selected)){
+          q.in("id", selected);
         }
 
         Page<ApiResource> page = service.findAll(q,pageable);

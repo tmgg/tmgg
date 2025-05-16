@@ -7,12 +7,12 @@ import io.tmgg.modules.asset.entity.SysAssetDir;
 import io.tmgg.modules.asset.service.SysAssetDirService;
 import io.tmgg.web.persistence.BaseController;
 import io.tmgg.web.persistence.BaseEntity;
+import io.tmgg.web.persistence.specification.JpaQuery;
+import io.tmgg.web.pojo.param.SelectParam;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.Resource;
 import org.springframework.data.domain.Sort;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -37,9 +37,13 @@ public class SysAssetDirController  extends BaseController<SysAssetDir> {
 
 
 
-    @GetMapping("options")
-    public AjaxResult dirOptions() throws Exception {
-        List<SysAssetDir> list = service.findAll(Sort.by(Sort.Direction.DESC,"updateTime"));
+    @PostMapping("options")
+    public AjaxResult dirOptions(@RequestBody SelectParam param) throws Exception {
+        String searchText = param.getSearchText();
+        JpaQuery<SysAssetDir> q = new JpaQuery<>();
+        q.searchText(searchText, SysAssetDir.Fields.name, SysAssetDir.Fields.code);
+
+        List<SysAssetDir> list = service.findAll(q,Sort.by(Sort.Direction.DESC,"updateTime"));
 
         List<Option> options = Option.convertList(list, BaseEntity::getId,SysAssetDir::getName);
 

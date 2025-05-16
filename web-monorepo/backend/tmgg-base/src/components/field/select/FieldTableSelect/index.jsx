@@ -1,7 +1,7 @@
 import React from "react";
 import {Input, Select, Table} from "antd";
-import {HttpUtil} from "../../../system";
 import {SearchOutlined} from "@ant-design/icons";
+import {HttpUtil} from "../../../../system";
 
 /**
  * 下拉表格
@@ -39,14 +39,13 @@ export class FieldTableSelect extends React.Component {
 
     initData(value) {
         if (value != null) {
-            const params = {selectedKey: value, size: 1}
-            HttpUtil.get(this.props.url, params).then(({columns, dataSource}) => {
-
+            let selected = [value];
+            HttpUtil.post(this.props.url, {selected}, {size:1})
+                .then(({ dataSource}) => {
                 const record = dataSource[0]
                 if (record) {
                     this.setState({label: record[this.props.labelKey]})
                 }
-
             })
         }
     }
@@ -59,16 +58,16 @@ export class FieldTableSelect extends React.Component {
         }
     }
 
-    loadData(searchText) {
+    loadData = searchText => {
         this.setState({loading: true})
 
-
-
-
         const params = {
-            searchText,
+
             size: this.state.pageSize,
             page: this.state.current
+        }
+        const data = {
+            searchText,
         }
 
         if(this.state.sorter){
@@ -79,12 +78,12 @@ export class FieldTableSelect extends React.Component {
         }
 
 
-        HttpUtil.get(this.props.url, params).then(({columns, dataSource, totalElements}) => {
+        HttpUtil.post(this.props.url, data, params).then(({columns, dataSource, totalElements}) => {
             this.setState({columns, dataSource, totalElements: parseInt(totalElements)})
         }).finally(() => {
             this.setState({loading: false})
         })
-    }
+    };
 
 
     onSearch = searchText => {
@@ -130,7 +129,7 @@ export class FieldTableSelect extends React.Component {
                                let label = record[this.props.labelKey]
 
                                this.setState({label, value,  open: false})
-                               this.props.onChange(value)
+                               this.props.onChange?.(value)
                            },
                        }
                    }}

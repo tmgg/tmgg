@@ -34,7 +34,7 @@ export default class extends React.Component {
         params: {
             showDisabled: true,
             showDept: true,
-            keyword: null
+            searchText: null
         },
 
         treeData: [],
@@ -161,8 +161,8 @@ export default class extends React.Component {
                           </Space>}>
                         <Space>
 
-                            <Input.Search placeholder='搜索' value={params.keyword} onChange={e => {
-                                params.keyword = e.target.value
+                            <Input.Search placeholder='搜索' value={params.searchText} onChange={e => {
+                                params.searchText = e.target.value
                                 this.setState({params}, this.loadTree)
                             }}/>
                             <div>

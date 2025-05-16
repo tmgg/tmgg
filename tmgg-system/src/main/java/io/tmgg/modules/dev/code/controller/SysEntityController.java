@@ -27,7 +27,7 @@ public class SysEntityController {
 
 
     @RequestMapping("page")
-    public AjaxResult page( String keyword) throws IOException {
+    public AjaxResult page( String searchText) throws IOException {
         List<String> list = tool.findAllNames();
 
         List<Dict> voList = list.stream().map(clsName -> {
@@ -47,8 +47,8 @@ public class SysEntityController {
             return map;
         }).collect(Collectors.toList());
 
-        if(StrUtil.isNotEmpty(keyword)){
-            voList = voList.stream().filter(s->StrUtil.containsIgnoreCase(s.getStr("name"), keyword) || StrUtil.containsIgnoreCase(s.getStr("remark"),keyword)).collect(Collectors.toList());
+        if(StrUtil.isNotEmpty(searchText)){
+            voList = voList.stream().filter(s->StrUtil.containsIgnoreCase(s.getStr("name"), searchText) || StrUtil.containsIgnoreCase(s.getStr("remark"),searchText)).collect(Collectors.toList());
         }
 
         return AjaxResult.ok().data(new PageImpl<>(voList));

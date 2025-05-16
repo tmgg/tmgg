@@ -28,11 +28,10 @@ public class PaymentRefundOrderController  extends BaseController<PaymentRefundO
 
     @HasPermission
     @PostMapping("page")
-    public AjaxResult page(@RequestBody  CommonQueryParam param,  @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) throws Exception {
+    public AjaxResult page(String searchText,  @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) throws Exception {
         JpaQuery<PaymentRefundOrder> q = new JpaQuery<>();
 
-        // 关键字搜索，请补全字段
-        q.searchText(param.getKeyword(), PaymentRefundOrder.Fields.outRefundNo,PaymentRefundOrder.Fields.outTradeNo);
+        q.searchText(searchText, PaymentRefundOrder.Fields.outRefundNo,PaymentRefundOrder.Fields.outTradeNo);
 
         Page<PaymentRefundOrder> page = service.findAll(q, pageable);
         return AjaxResult.ok().data(page);

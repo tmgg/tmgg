@@ -37,16 +37,12 @@ public class ModelController {
     private MyFlowModelService service;
 
 
-    @Data
-    public static class QueryParam{
-        String keyword;
-    }
+
 
     @HasPermission("flowableModel:page")
     @RequestMapping("page")
-    public AjaxResult page(@RequestBody QueryParam queryParam, Pageable pageable) {
-        String keyword = queryParam.getKeyword();
-        return AjaxResult.ok().data(service.findAll(keyword, pageable));
+    public AjaxResult page(String searchText, Pageable pageable) {
+        return AjaxResult.ok().data(service.findAll(searchText, pageable));
     }
 
 

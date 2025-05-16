@@ -5,12 +5,11 @@ export * from './FieldRadioBoolean';
 export * from './switch-y-n';
 export * from './FieldSelectPosition';
 export * from './input-number-percent';
-export * from './FieldRemoteSelect';
+
 export * from './FieldRemoteTreeSelect';
 
 
 export * from './time';
-export * from './FieldRemoteMultipleSelect';
 export * from './flat-multiple-select';
 export * from './flat-select';
 export * from './dict';
@@ -32,4 +31,5 @@ export * from './FieldEditTable'
 export * from './FieldFileBase64'
 
 export  * from './upload'
-export  * from './FieldTableSelect'
+export  * from './select'
+

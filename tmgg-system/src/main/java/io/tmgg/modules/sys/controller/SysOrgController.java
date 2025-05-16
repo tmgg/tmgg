@@ -78,7 +78,6 @@ public class SysOrgController {
     public static class PageParam{
         boolean showDisabled;
         boolean showDept;
-        String keyword;
     }
 
     /**
@@ -87,13 +86,13 @@ public class SysOrgController {
      * @return
      */
     @PostMapping("pageTree")
-    public AjaxResult pageTree(@RequestBody PageParam param) {
+    public AjaxResult pageTree(@RequestBody PageParam param, String searchText) {
         Subject subject = SecurityUtils.getSubject();
 
         List<SysOrg> list = sysOrgService.findByLoginUser(subject, param.showDept  , param.showDisabled);
 
-        if(StrUtil.isNotEmpty(param.keyword)){
-            list = list.stream().filter(t -> t.getName().contains(param.keyword)).collect(Collectors.toList());
+        if(StrUtil.isNotEmpty(searchText)){
+            list = list.stream().filter(t -> t.getName().contains(searchText)).collect(Collectors.toList());
         }
 
 

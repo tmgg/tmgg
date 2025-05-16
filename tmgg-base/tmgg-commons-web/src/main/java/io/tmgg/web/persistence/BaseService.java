@@ -360,4 +360,19 @@ public abstract class BaseService<T extends PersistEntity> {
 
         return fields.toArray(String[]::new);
     }
+
+    public String[] getFields() {
+        Class<T> cls = getEntityClass();
+        Field[] fs = cls.getDeclaredFields();
+        List<String> fields = new ArrayList<>();
+        for (Field f : fs) {
+            if (!Modifier.isStatic(f.getModifiers())
+                && !f.isAnnotationPresent(Transient.class) && !f.isAnnotationPresent(org.springframework.data.annotation.Transient.class) ) {
+                String name = f.getName();
+                fields.add(name);
+            }
+        }
+
+        return fields.toArray(String[]::new);
+    }
 }

@@ -5,7 +5,6 @@ import {
     ButtonList,
     FieldDateTimePickerString,
     FieldRadioBoolean,
-    FieldRemoteMultipleSelect,
     HttpUtil,
     PageUtil,
     ProTable

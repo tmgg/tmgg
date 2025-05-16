@@ -29,7 +29,9 @@ public class SysAssetService extends BaseService<SysAsset> {
     public void deleteById(String id) {
         SysAsset a = sysAssetDao.findOne(id);
         if(a.getType() ==1){
-            sysFileService.deleteById(a.getContent());
+            if(a.getContent() != null){
+                sysFileService.deleteById(a.getContent());
+            }
         }
         super.deleteById(id);
     }

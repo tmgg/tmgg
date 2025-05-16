@@ -158,7 +158,7 @@ public class SysUserService extends BaseService<SysUser> implements UserLabelQue
     }
 
 
-    public Page<SysUser> findAll(String orgId, String roleId, String keyword, Pageable pageable) throws SQLException {
+    public Page<SysUser> findAll(String orgId, String roleId, String searchText, Pageable pageable) throws SQLException {
         JpaQuery<SysUser> query = new JpaQuery<>();
 
         if (StrUtil.isNotEmpty(orgId)) {
@@ -172,12 +172,12 @@ public class SysUserService extends BaseService<SysUser> implements UserLabelQue
             query.isMember(SysUser.Fields.roles, new SysRole(roleId));
         }
 
-        if (StrUtil.isNotEmpty(keyword)) {
+        if (StrUtil.isNotEmpty(searchText)) {
             query.addSubOr(q -> {
-                q.like(SysUser.Fields.name, keyword);
-                q.like(SysUser.Fields.phone, keyword);
-                q.like(SysUser.Fields.account, keyword);
-                q.like(SysUser.Fields.email, keyword);
+                q.like(SysUser.Fields.name, searchText);
+                q.like(SysUser.Fields.phone, searchText);
+                q.like(SysUser.Fields.account, searchText);
+                q.like(SysUser.Fields.email, searchText);
             });
         }
 
