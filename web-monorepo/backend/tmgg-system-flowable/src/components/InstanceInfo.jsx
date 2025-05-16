@@ -69,7 +69,7 @@ export default class InstanceInfo extends React.Component {
           {
             key: '1',
             label: '表单',
-            children: this.getForm(formUrl)
+            children: this.getForm()
           },
           {
             key: '2', label: '审核记录',
@@ -103,10 +103,14 @@ export default class InstanceInfo extends React.Component {
 
   }
 
-  getForm = formUrl => {
+  getForm = () => {
+    const {data, loading} = this.state
+    const {formUrl,formUrlSearch} = data
+
     if(!formUrl){
       return  <Empty description='表单获取失败'/>
     }
-    return <PageRender pathname={formUrl}></PageRender>
+    console.log('表单路径',formUrl)
+    return <PageRender pathname={formUrl} search={formUrlSearch}></PageRender>
   }
 }

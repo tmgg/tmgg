@@ -5,19 +5,26 @@ import {PageUtil} from "@tmgg/tmgg-base";
 export default class extends React.Component {
 
 
-
-
     render() {
         console.log('测试表单', this.props)
         return <div>
-            <Typography.Title level={3}>测试表单</Typography.Title>
-            <Form>
+            <Typography.Title level={3} >测试表单</Typography.Title>
+            <Form labelCol={{flex:'150px'}}>
                 <Form.Item name='days' label='请假天数'>
                     <Input disabled/>
                 </Form.Item>
+
+                <Form.Item name='pathname' label='pathname' initialValue={this.props.pathname}>
+                    <Input disabled/>
+                </Form.Item>
+
+                <Form.Item name='search' label='search' initialValue={this.props.search}>
+                    <Input disabled/>
+                </Form.Item>
+
             </Form>
 
-            路径：{JSON.stringify(PageUtil.currentParams())}
+
         </div>
     }
 }

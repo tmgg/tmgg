@@ -5,7 +5,7 @@ import {ConfigProvider} from "antd";
 import {PageUtil} from "@tmgg/tmgg-base";
 import {history, Outlet, withRouter} from "umi";
 import zhCN from 'antd/locale/zh_CN';
-import {theme} from "@tmgg/tmgg-commons-lang";
+import {ObjUtil, theme, UrlUtil} from "@tmgg/tmgg-commons-lang";
 import dayjs from 'dayjs';
 import 'dayjs/locale/zh-cn';
 
@@ -81,7 +81,11 @@ dayjs.locale('zh-cn');
 
 
     renderContent = () => {
-        let pathname = this.props.location.pathname;
+        let {pathname,search,match} = this.props.location;
+        let params = UrlUtil.getParams(search);
+        ObjUtil.copyProperty(match.params, params); // 复制动态匹配参数
+
+        const location = {pathname, search, params}
         if (pathname === '/login') {
             return <InterceptorWrapper siteInfoOnly pathname={pathname} >
                 <Outlet/>
@@ -91,14 +95,15 @@ dayjs.locale('zh-cn');
             return <Outlet />
         }
 
-        const params =PageUtil.currentParams()
+
+
 
         if(params.hasOwnProperty('_noLayout')){
-            return  <PageRender pathname={pathname} />
+            return  <PageRender {...location}/>
         }
 
         return <InterceptorWrapper pathname={pathname} >
-                    <MenuLayout pathname={pathname} path={this.state.path} {...this.props}/>
+                    <MenuLayout location={location} path={this.state.path}/>
         </InterceptorWrapper>
     };
 

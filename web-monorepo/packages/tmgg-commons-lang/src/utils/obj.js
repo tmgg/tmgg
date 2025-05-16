@@ -54,4 +54,19 @@ export class ObjUtil {
     }
 
 
+    static copyProperty(source, target){
+        if (!source || !target || typeof source !== 'object' || typeof target !== 'object') {
+            return;
+        }
+
+        const keys = Object.keys(target)
+        for (let key of keys) {
+                let value = source[key];
+                if(value !== undefined){
+                    target[key] = value
+                }
+
+        }
+    }
+
 }

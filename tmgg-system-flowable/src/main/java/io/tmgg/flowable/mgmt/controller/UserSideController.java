@@ -208,9 +208,8 @@ public class UserSideController {
 
             String formUrl = model.getFormUrl();
             if (StringUtils.isNotEmpty(formUrl)) {
-                // 替换 businessKey变量
                 if (instance.getBusinessKey() != null) {
-                    formUrl = formUrl.replace("${businessKey}", instance.getBusinessKey());
+                    data.put("formUrlSearch", "?id="+ instance.getBusinessKey());
                 }
                 data.put("formUrl", formUrl);
             }

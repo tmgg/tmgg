@@ -81,7 +81,6 @@ class MyTabsOutlet extends React.Component {
                 type='editable-card'
                 style={{background: 'white'}}
                 rootClassName='tmgg-layout-tabs'
-                destroyInactiveTabPane={false}
 
                 onTabClick={this.onTabClick}
             >
