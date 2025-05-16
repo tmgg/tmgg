@@ -60,11 +60,8 @@ export default class InstanceInfo extends React.Component {
     return <div >
       <Card title='基本信息'>
         <Descriptions title={data.name}>
-          <Descriptions.Item label='发起人'>{data.starter}</Descriptions.Item>
+          <Descriptions.Item label='发起人' >{data.starter}</Descriptions.Item>
           <Descriptions.Item label='发起时间'>{data.startTime}</Descriptions.Item>
-
-        </Descriptions>
-        <Descriptions>
           <Descriptions.Item label='流程图'>     { img && <img  height={50} src={img} style={{maxWidth: '100%'}}/> }</Descriptions.Item>
         </Descriptions>
       </Card>
