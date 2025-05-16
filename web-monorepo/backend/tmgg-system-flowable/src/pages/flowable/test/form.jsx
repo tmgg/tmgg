@@ -21,7 +21,9 @@ export default class extends React.Component {
                 <Form.Item name='search' label='search' initialValue={this.props.search}>
                     <Input disabled/>
                 </Form.Item>
-
+                <Form.Item name='params' label='路由参数' initialValue={JSON.stringify(this.props.params)}>
+                    <Input disabled/>
+                </Form.Item>
             </Form>
 
 

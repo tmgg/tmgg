@@ -1,8 +1,7 @@
-import MenuLayout from "./admin"
+import AdminLayout from "./admin"
 import React from "react";
 
 import {ConfigProvider} from "antd";
-import {PageUtil} from "@tmgg/tmgg-base";
 import {history, Outlet, withRouter} from "umi";
 import zhCN from 'antd/locale/zh_CN';
 import {ObjUtil, theme, UrlUtil} from "@tmgg/tmgg-commons-lang";
@@ -83,7 +82,12 @@ dayjs.locale('zh-cn');
     renderContent = () => {
         let {pathname,search,match} = this.props.location;
         let params = UrlUtil.getParams(search);
-        ObjUtil.copyProperty(match.params, params); // 复制动态匹配参数
+
+        if(match &&match.params){
+            // 复制动态路由参数，那种基于路径的
+            ObjUtil.copyProperty(match.params, params);
+        }
+
 
         const location = {pathname, search, params}
         if (pathname === '/login') {
@@ -103,7 +107,7 @@ dayjs.locale('zh-cn');
         }
 
         return <InterceptorWrapper pathname={pathname} >
-                    <MenuLayout location={location} path={this.state.path}/>
+                    <AdminLayout  path={this.state.path} {...this.props}/>
         </InterceptorWrapper>
     };
 

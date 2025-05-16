@@ -2,6 +2,7 @@ import {useAppData} from "umi";
 import React from "react";
 import {Result} from "antd";
 import {matchRoutes} from "umi";
+import {UrlUtil} from "@tmgg/tmgg-commons-lang";
 
 /**
  * 通过指定 pathname 渲染页面
@@ -18,13 +19,17 @@ export default function PageRender(props) {
     let {pathname, search,params} = props
     const appData = useAppData()
 
+    if(search && (params == null || Object.keys(params).length === 0)){
+        params = UrlUtil.getParams(search)
+    }
+
 
     console.log('查找到页面', props)
     const map =appData.routeComponents
     const key =pathname.substring(1); // 移除第一个斜杠
     const cmp = map[key]
     if(cmp){
-        return React.createElement(cmp, props)
+        return React.createElement(cmp, {pathname, search,params})
     }
 
 
