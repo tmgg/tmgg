@@ -3,16 +3,13 @@ package io.tmgg.lang;
 import cn.hutool.core.util.CharUtil;
 import io.tmgg.lang.obj.Between;
 import com.google.common.base.CaseFormat;
-import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
 import java.util.List;
 import java.util.UUID;
 
 public class StrTool {
 
-    private static final String CHINESE_REGEX = ".*[\\u4e00-\\u9fa5].*";
 
     /**
      * 最后一个大写字母
@@ -55,13 +52,24 @@ public class StrTool {
         return between;
     }
 
-    public static boolean isChinese(String str) {
-        if (str == null) {
+    /**
+     * 判断是否包含中文
+     * @param text
+     * @return
+     */
+    public static boolean hasChinese(String text) {
+        if (text == null) {
             return false;
         }
+        for (int i = 0; i < text.length(); i++) {
+            char c = text.charAt(i);
+            // 检查是否在基本汉字范围内
+            if (c >= '\u4e00' && c <= '\u9fff') {
+                return true;
+            }
+        }
+        return false;
 
-
-        return str.contains("〇") || str.matches(CHINESE_REGEX);
     }
 
 

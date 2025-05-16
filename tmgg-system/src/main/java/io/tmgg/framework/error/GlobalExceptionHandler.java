@@ -141,7 +141,7 @@ public class GlobalExceptionHandler {
 
 
     @ExceptionHandler(TransactionSystemException.class)
-    public AjaxResult TransactionSystemException(TransactionSystemException e, HttpServletRequest request) {
+    public AjaxResult TransactionSystemException(TransactionSystemException e) {
         log.error("事务异常", e);
         return AjaxResult.err().msg(ExceptionToMessageTool.convert(e));
     }

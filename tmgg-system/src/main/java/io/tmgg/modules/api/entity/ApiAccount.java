@@ -1,6 +1,8 @@
 package io.tmgg.modules.api.entity;
 
 import io.tmgg.lang.ann.Msg;
+import io.tmgg.lang.validator.ValidateDate;
+import io.tmgg.lang.validator.ValidateIpv4;
 import io.tmgg.web.persistence.BaseEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -27,7 +29,9 @@ public class ApiAccount extends BaseEntity {
 
 
 
+
     @Msg("准入IP")
+    @ValidateIpv4
     private String accessIp;
 
 
@@ -38,7 +42,7 @@ public class ApiAccount extends BaseEntity {
 
 
     @Msg("状态")
-    @NotNull
+    @NotNull(message = "状态不能为空")
     private Boolean enable;
 
 

@@ -4,11 +4,16 @@ import cn.hutool.core.bean.BeanUtil;
 import io.tmgg.web.persistence.specification.ExpressionTool;
 import io.tmgg.web.persistence.specification.Selector;
 import jakarta.annotation.PostConstruct;
+import jakarta.annotation.Resource;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.criteria.*;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
+import jakarta.validation.Validator;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.support.JpaEntityInformation;
@@ -41,6 +46,8 @@ public class BaseDao<T extends PersistEntity> {
     protected Class<T> domainClass;
     private SimpleJpaRepository<T, String> rep;
 
+    @Resource
+    private Validator validator;
 
     @PostConstruct
     void init() {
@@ -295,6 +302,23 @@ public class BaseDao<T extends PersistEntity> {
     public void updateField(T entity, List<String> fieldsToUpdate) {
         Assert.notEmpty(fieldsToUpdate, "fieldsToUpdate不能为空");
         String id = entity.getId();
+        Assert.hasText(id, "id不能为空");
+
+        // 仅校验需要更新的字段
+        Set<ConstraintViolation<T>> violations = new HashSet<>();
+        for (String field : fieldsToUpdate) {
+            Object value = BeanUtil.getFieldValue(entity, field);
+            violations.addAll(validator.validateValue(getDomainClass(), field, value));
+        }
+
+        if (!violations.isEmpty()) {
+            throw new ConstraintViolationException(violations);
+        }
+
+
+
+
+
 
 
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
