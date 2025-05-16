@@ -27,7 +27,6 @@ export default class extends React.Component {
   }
 
   render() {
-    debugger
     const {submitLoading} = this.state
     let params = PageUtil.currentLocationQuery()
 

@@ -3,7 +3,6 @@ import {PageUtil} from "@tmgg/tmgg-base";
 import {withRouter} from "umi";
 import {Spin, Tabs} from "antd";
 import PageRender from "../PageRender";
-import {UrlUtil} from "@tmgg/tmgg-commons-lang";
 
 class MyTabsOutlet extends React.Component {
 

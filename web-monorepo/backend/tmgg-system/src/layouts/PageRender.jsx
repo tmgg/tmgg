@@ -23,14 +23,19 @@ export default function PageRender(props) {
         params = UrlUtil.getParams(search)
     }
 
-
-    console.log('查找到页面', props)
-    const map =appData.routeComponents
-    const key =pathname.substring(1); // 移除第一个斜杠
-    const cmp = map[key]
-    if(cmp){
-        return React.createElement(cmp, {pathname, search,params})
+    if(pathname !== '/'){
+        const map =appData.routeComponents
+        const key =pathname.substring(1); // 移除第一个斜杠
+        let cmp = map[key]
+        if(!cmp){
+            cmp = map[key +'/index']
+        }
+        if(cmp){
+            return React.createElement(cmp, {pathname, search,params})
+        }
     }
+
+
 
 
     const mathArr = matchRoutes(appData.clientRoutes, pathname)
@@ -48,11 +53,7 @@ export default function PageRender(props) {
         const mathResult = mathArr[mathArr.length - 1].route
         let element = mathResult.element;
 
-        if (!search) {
             return element;
-        }
-
-
     }
 
     // 如果实在找不到页面组件，则适用自带
