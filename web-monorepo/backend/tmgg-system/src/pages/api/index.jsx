@@ -140,7 +140,7 @@ export default class extends React.Component {
 
 
                     <Form.Item label='准入IP' name='accessIp' >
-                        <Input placeholder='逗号分隔'/>
+                        <Input placeholder='多个用逗号分隔'/>
                     </Form.Item>
                     <Form.Item label='秘钥' name='appSecret' rules={[{required: true},{len:32}]}
                                help={<Button size='small' type='link' onClick={this.randomAppSecret}>随机生成</Button>}

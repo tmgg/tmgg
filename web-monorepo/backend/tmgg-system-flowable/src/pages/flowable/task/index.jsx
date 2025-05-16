@@ -3,7 +3,7 @@ import {Card, Table, Tabs} from "antd";
 import MyInstance from "../../../components/MyInstance";
 import DoneTask from "../../../components/doneTask";
 import TodoTask from "../../../components/todoTask";
-import {PageLoading} from "@tmgg/tmgg-base";
+import {Page, PageLoading} from "@tmgg/tmgg-base";
 
 
 export default class extends React.Component {
@@ -23,10 +23,10 @@ export default class extends React.Component {
       {label: '我发起的', key: '3', children: <MyInstance />},
     ]
 
-    return <>
-      <Tabs defaultActiveKey="1" destroyInactiveTabPane items={items}>
+    return <Page padding>
+      <Tabs defaultActiveKey="1" destroyOnHidden items={items}>
 
       </Tabs>
-    </>
+    </Page>
   }
 }

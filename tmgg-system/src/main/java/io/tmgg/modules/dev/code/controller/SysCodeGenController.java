@@ -22,7 +22,7 @@ import java.util.*;
 @RequestMapping("code/gen")
 public class SysCodeGenController {
 
-    public static final String[] TEMPLATES = {"列表-简单","列表-复杂", "左树右表单"};
+    public static final String[] TEMPLATES = {"列表", "左树右表单"};
 
     public static final String TEMPLATE_FOLDER = "code-gen-template";
 

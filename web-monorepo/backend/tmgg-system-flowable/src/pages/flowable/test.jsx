@@ -28,8 +28,8 @@ export default class extends React.Component {
     }
 
     return <Card title={'流程测试 / 【' + this.state.model.name + "】 / " + this.state.model.code }>
-      <Form onFinish={this.onFinish} labelCol={{flex:'150px'}} >
-        <Form.Item name='id' label='业务标识' rules={[{required: true}]} initialValue={StrUtil.random(32)}>
+      <Form onFinish={this.onFinish} layout='vertical' >
+        <Form.Item name='id' label='业务标识(相当于业务表的id)' rules={[{required: true}]} initialValue={StrUtil.random(32)}>
           <Input />
         </Form.Item>
 

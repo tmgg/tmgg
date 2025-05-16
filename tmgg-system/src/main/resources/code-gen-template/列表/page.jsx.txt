@@ -1,7 +1,7 @@
 import {PlusOutlined} from '@ant-design/icons'
 import {Button, Card,InputNumber, Popconfirm,Modal,Form,Input,message} from 'antd'
 import React from 'react'
-import {ButtonList,dictValueTag, ViewBoolean,FieldDateRange,FieldDictSelect,FieldRadioBoolean, FieldDatePickerString, FieldDateTimePickerString, HttpUtil, ProTable} from "@tmgg/tmgg-base";
+import {ButtonList,dictValueTag, ViewBoolean,FieldDateRange,FieldDictSelect,FieldRadioBoolean, FieldDatePickerString, FieldDateTimePickerString, HttpUtil, Page,ProTable} from "@tmgg/tmgg-base";
 
 
 
@@ -79,7 +79,7 @@ export default class extends React.Component {
   }
 
   render() {
-    return <>
+    return <Page>
       <ProTable
           actionRef={this.tableRef}
             toolBarRender={(params, {selectedRows,selectedRowKeys}) => {
@@ -146,7 +146,7 @@ export default class extends React.Component {
 
     </Form>
   </Modal>
-    </>
+    </Page>
 
 
   }

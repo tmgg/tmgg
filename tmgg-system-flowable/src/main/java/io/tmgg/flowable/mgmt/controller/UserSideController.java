@@ -212,7 +212,7 @@ public class UserSideController {
                 if (instance.getBusinessKey() != null) {
                     formUrl = formUrl.replace("${businessKey}", instance.getBusinessKey());
                 }
-                data.put("formLink", formUrl);
+                data.put("formUrl", formUrl);
             }
         }
 

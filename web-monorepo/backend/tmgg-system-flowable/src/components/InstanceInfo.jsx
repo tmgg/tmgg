@@ -1,6 +1,7 @@
 import React from "react";
 import {Card, Descriptions, Empty, Skeleton, Table, Tabs} from "antd";
 import {HttpUtil, PageLoading} from "@tmgg/tmgg-base";
+import PageRender from "@tmgg/tmgg-system/src/layouts/PageRender";
 
 
 export default class InstanceInfo extends React.Component {
@@ -67,12 +68,13 @@ export default class InstanceInfo extends React.Component {
           {
             key: '1',
             label: '表单',
-            children: formUrl ? <iframe sandbox="allow-scripts allow-same-origin" src={formUrl} width='100%' height='300px' frameBorder={0} marginHeight={0}
-                                         marginWidth={0}></iframe> : <Empty description='获取表单页面中..'/>
+            children: this.getForm(formUrl)
           },
           {
             key: '2', label: '审核记录',
-            children: <Table dataSource={commentList} pagination={false} rowKey='id'
+            children: <Table dataSource={commentList}
+                             bordered
+                             pagination={false} rowKey='id'
                              columns={[
                                {
                                  dataIndex: 'content',
@@ -98,5 +100,12 @@ export default class InstanceInfo extends React.Component {
 
     </div>
 
+  }
+
+  getForm = formUrl => {
+    if(!formUrl){
+      return  <Empty description='表单获取失败'/>
+    }
+    return <PageRender pathname={formUrl}></PageRender>
   }
 }
