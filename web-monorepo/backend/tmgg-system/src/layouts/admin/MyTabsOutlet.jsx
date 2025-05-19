@@ -2,7 +2,7 @@ import React from "react";
 import {PageUtil} from "@tmgg/tmgg-base";
 import {withRouter} from "umi";
 import {Spin, Tabs} from "antd";
-import PageRender from "../PageRender";
+import {PageRender} from "../PageRender";
 
 class MyTabsOutlet extends React.Component {
 

@@ -19,7 +19,7 @@ import {UrlUtil} from "@tmgg/tmgg-commons-lang";
 
 
 
-export default function PageRender(props) {
+export  function PageRender(props) {
     let {pathname, search, passLocation} = props
     const appData = useAppData()
     const matchArr = matchRoutes(appData.clientRoutes, pathname)

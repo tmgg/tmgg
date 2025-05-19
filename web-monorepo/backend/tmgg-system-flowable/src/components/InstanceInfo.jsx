@@ -1,8 +1,7 @@
 import React from "react";
-import {Card, Descriptions, Empty, Modal, Skeleton, Table, Tabs} from "antd";
-import {Gap, HttpUtil, PageLoading, ViewImage} from "@tmgg/tmgg-base";
-import PageRender from "@tmgg/tmgg-system/src/layouts/PageRender";
-import {UrlUtil} from "@tmgg/tmgg-commons-lang";
+import {Card, Descriptions, Empty, Modal, Skeleton, Table} from "antd";
+import {Gap, HttpUtil} from "@tmgg/tmgg-base";
+import {PageRender} from "@tmgg/tmgg-system";
 
 
 export default class InstanceInfo extends React.Component {
@@ -122,6 +121,6 @@ export default class InstanceInfo extends React.Component {
     }
     console.log('表单路径',pathname)
     let search = formUrlSearch;
-    return <PageRender pathname={pathname} search={search} passLocation={true}></PageRender>
+    return <PageRender pathname={pathname} search={search} passLocation={true} />
   }
 }

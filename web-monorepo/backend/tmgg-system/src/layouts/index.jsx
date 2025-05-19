@@ -11,8 +11,8 @@ import 'dayjs/locale/zh-cn';
 
 import './index.less'
 import './global.less'
-import PageRender from "./PageRender";
 import {InterceptorWrapper} from "./InterceptorWrapper";
+import {PageRender} from "./PageRender";
 
 dayjs.locale('zh-cn');
 
@@ -113,3 +113,4 @@ class _Layouts extends React.Component {
 
 export const Layouts = withRouter(_Layouts);
 export default Layouts
+export  * from './PageRender'
