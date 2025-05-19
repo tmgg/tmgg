@@ -48,16 +48,13 @@ export class InterceptorWrapper extends React.Component {
         })
         let interceptors = this.interceptors;
         let siteInfoOnly = this.props.siteInfoOnly;
-        console.log('开始处理拦截器, siteInfoOnly='+siteInfoOnly)
+        if (siteInfoOnly) {
+            interceptors = interceptors.filter(i=>i instanceof SiteInfoInterceptor)
+        }
+
+
         this.setState({loading: true})
         for (let interceptor of interceptors) {
-
-            if (siteInfoOnly) {
-                if (!(interceptor instanceof SiteInfoInterceptor)) {
-                    continue
-                }
-            }
-
             const message = interceptor.getMessage();
             console.debug('拦截器', interceptor, message)
 
