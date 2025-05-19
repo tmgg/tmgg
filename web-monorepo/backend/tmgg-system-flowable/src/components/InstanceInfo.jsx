@@ -1,6 +1,6 @@
 import React from "react";
-import {Card, Descriptions, Empty, Skeleton, Table, Tabs} from "antd";
-import {Gap, HttpUtil, PageLoading} from "@tmgg/tmgg-base";
+import {Card, Descriptions, Empty, Modal, Skeleton, Table, Tabs} from "antd";
+import {Gap, HttpUtil, PageLoading, ViewImage} from "@tmgg/tmgg-base";
 import PageRender from "@tmgg/tmgg-system/src/layouts/PageRender";
 
 
@@ -41,6 +41,15 @@ export default class InstanceInfo extends React.Component {
 
   }
 
+  onImgClick = () => {
+    const {data} = this.state
+
+    const {img} = data
+    Modal.info({
+      title:'流程图',
+      content:<img  width={'100%'} src={img}   />
+    })
+  };
 
   render() {
     if (this.state.errorMsg) {
@@ -62,7 +71,8 @@ export default class InstanceInfo extends React.Component {
         <Descriptions title={data.name}>
           <Descriptions.Item label='发起人' >{data.starter}</Descriptions.Item>
           <Descriptions.Item label='发起时间'>{data.startTime}</Descriptions.Item>
-          <Descriptions.Item label='流程图'>     { img && <img  height={50} src={img} style={{maxWidth: '100%'}}/> }</Descriptions.Item>
+          <Descriptions.Item label='流程图' >
+            { img && <img  height={50} src={img} style={{maxWidth: '100%'}} onClick={this.onImgClick} />}</Descriptions.Item>
         </Descriptions>
       </Card>
 

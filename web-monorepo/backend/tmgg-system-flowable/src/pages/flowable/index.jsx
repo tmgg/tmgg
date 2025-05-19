@@ -127,7 +127,7 @@ export default class extends React.Component {
             <Input/>
           </Form.Item>
 
-          <Form.Item label='表单地址' name='formUrl' rules={[{required: true}]} help={"支持变量， 如 /user/form, 调用时会自动补全id参数，如/user/form/1"}>
+          <Form.Item label='表单地址' name='formUrl' rules={[{required: true}]} help={"如 /user/form, 并支持id参数，如/user/form?id=1"}>
             <Input/>
           </Form.Item>
 
