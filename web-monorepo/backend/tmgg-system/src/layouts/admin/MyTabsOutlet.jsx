@@ -29,13 +29,13 @@ class MyTabsOutlet extends React.Component {
     }
 
     onUrlChange = url => {
-        const {params,location} = this.props
-        const {pathname, search} = location
+        const {location} = this.props
+        const {pathname} = location
         let {tabs} = this.state
 
         const old = tabs.find(t=>t.key === url)
         if(old == null){
-            const cmp =  <PageRender pathname={pathname} params={params} search={search}/>
+            const cmp =  <PageRender {...location}/>
             let label = this.getLabel(pathname);
             tabs.push({
                 key: url,

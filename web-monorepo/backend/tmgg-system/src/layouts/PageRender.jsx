@@ -38,14 +38,13 @@ class _PageRender extends React.Component {
     }
 
     passLocationRender = () => {
-        let {pathname, search, params, appData} = this.props
-        if (search && (params == null || Object.keys(params).length === 0)) {
-            params = UrlUtil.getParams(search)
-        }
+        let {pathname, search,  appData} = this.props
+
         const map = appData.routeComponents
         const key = pathname.substring(1); // 移除第一个斜杠
         let componentType = map[key] || map[key + '/index']
         if (componentType) {
+            let params =search ? UrlUtil.getParams(search): {}
             const location = {pathname, search, params}
             return React.createElement(componentType, {location});
         }
@@ -63,11 +62,12 @@ class _PageRender extends React.Component {
             }
             // 取最匹配的那个
             const mathResult = matchArr[matchArr.length - 1].route
-            let element = mathResult.element;
-            return element;
+            if(mathResult){
+                return mathResult.element;
+            }
         }
 
-        // 如果实在找不到页面组件，则适用自带
+        // 如果实在找不到页面组件，则404
         return <Result
             status={404}
             title='页面不存在！'
