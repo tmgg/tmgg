@@ -1,7 +1,7 @@
 import AdminLayout from "./admin"
 import React from "react";
 
-import {ConfigProvider} from "antd";
+import {ConfigProvider, Modal} from "antd";
 import {Outlet, withRouter} from "umi";
 import zhCN from 'antd/locale/zh_CN';
 import {ObjUtil, theme, UrlUtil} from "@tmgg/tmgg-commons-lang";
@@ -25,8 +25,8 @@ dayjs.locale('zh-cn');
 class _Layouts extends React.Component {
 
     state = {
-        siteInfoLoaded: false,
-        loginDataLoaded: false,
+
+
     }
 
 
@@ -75,6 +75,9 @@ class _Layouts extends React.Component {
 
             {this.renderContent()}
 
+
+            <Modal ></Modal>
+
         </ConfigProvider>
     }
 
@@ -107,6 +110,7 @@ class _Layouts extends React.Component {
             <AdminLayout path={this.state.path} logo={this.props.logo}/>
         </InterceptorWrapper>
     };
+
 
 
 }

@@ -86,7 +86,9 @@ export class InterceptorWrapper extends React.Component {
         if (error) {
 
             if (code === 401) {
-                return <Result status="403" title='401' subTitle='未登录或登录已过期,请重新登录'
+                return <Result status="403"
+                               title='未登录'
+                               subTitle='未登录、或登录失效'
                                extra={[
                                    <Button type="primary" key="console" size='large' onClick={this.reLogin}>
                                        重新登录

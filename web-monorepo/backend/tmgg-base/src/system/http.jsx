@@ -1,9 +1,7 @@
 import axios from "axios";
-import {message, message as Message, Modal} from "antd";
+import {message as Message, Modal} from "antd";
 import {SysUtil} from "./sys";
-
-
-
+import {theme} from "@tmgg/tmgg-commons-lang";
 
 
 export const HttpUtil = {
@@ -51,9 +49,9 @@ export const HttpUtil = {
      * 分页请求, 为antd的ProTable
      */
     pageData(url, params) {
-        const {page, size, sort, _exportType,...data} = params;
+        const {page, size, sort, _exportType, ...data} = params;
         if (_exportType) {
-            return this.downloadFilePost(url, data, {sort, size}, {'X-Export-Type':_exportType})
+            return this.downloadFilePost(url, data, {sort, size}, {'X-Export-Type': _exportType})
         }
         return this.post(url, data, {page, size, sort})
     },
@@ -76,7 +74,7 @@ export const HttpUtil = {
     downloadFilePost(url, data, params, headers) {
         const util = new Util();
         util.enableShowMessage()
-        return util.downloadFile(url, data, params, 'POST',headers)
+        return util.downloadFile(url, data, params, 'POST', headers)
     },
     downloadFileGet(url, params) {
         const util = new Util();
@@ -121,7 +119,7 @@ class Util {
 
             axios(axiosConfig).then(response => {
                 const body = response.data;
-                const {success, message, data} = body;
+                const {success, message, data, code} = body;
 
                 if (this._showMessage) {
                     if (success !== undefined && message !== undefined) { // 有可能是下载
@@ -132,7 +130,12 @@ class Util {
                         } else {
                             Modal.error({
                                 title: '操作失败',
-                                content: message
+                                content: code === 500 ? message : message + ' (' + code + ')',
+                                okText: '确定',
+                                okButtonProps:{
+                                    color: '#ff0',
+                                    type:'primary'
+                                }
                             })
                         }
                     }
@@ -169,7 +172,7 @@ class Util {
                     }
 
                     Modal.error({
-                        title: '操作失败',
+                        title: '处理异常',
                         content: msg
                     })
                 }
@@ -207,7 +210,7 @@ class Util {
         return this.request(config)
     }
 
-    downloadFile(url, data, params, method = 'GET',headers={}) {
+    downloadFile(url, data, params, method = 'GET', headers = {}) {
         let config = {
             url,
             params,

@@ -108,7 +108,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(CodeException.class)
     public AjaxResult systemException(CodeException e) {
-        return AjaxResult.err(e.getCode(), e.getCode() + ":" +e.getMessage());
+        return AjaxResult.err(e.getCode(), e.getMessage());
     }
 
 
