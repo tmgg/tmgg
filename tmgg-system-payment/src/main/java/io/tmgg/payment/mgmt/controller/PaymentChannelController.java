@@ -8,7 +8,6 @@ import io.tmgg.payment.PaymentService;
 import io.tmgg.payment.mgmt.entity.PaymentChannel;
 import io.tmgg.payment.mgmt.service.PaymentChannelService;
 import io.tmgg.web.persistence.BaseController;
-import io.tmgg.web.CommonQueryParam;
 
 
 import io.tmgg.web.annotion.HasPermission;

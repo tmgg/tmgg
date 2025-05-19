@@ -16,14 +16,13 @@ public class WeixinMiniService extends BaseService<WeixinMini> {
     @Resource
   private   WxMaService wxMaService;
 
-
-
     @Override
-    public WeixinMini saveOrUpdate(WeixinMini input) throws Exception {
-        WeixinMini weixinMini = super.saveOrUpdate(input);
+    public WeixinMini saveOrUpdate(WeixinMini input, List<String> updateKeys) throws Exception {
+        WeixinMini weixinMini = super.saveOrUpdate(input,updateKeys);
         this.loadConfig();
         return weixinMini;
     }
+
 
     @PostConstruct
     public void init(){
