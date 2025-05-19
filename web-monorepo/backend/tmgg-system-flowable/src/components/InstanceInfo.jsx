@@ -2,6 +2,7 @@ import React from "react";
 import {Card, Descriptions, Empty, Modal, Skeleton, Table, Tabs} from "antd";
 import {Gap, HttpUtil, PageLoading, ViewImage} from "@tmgg/tmgg-base";
 import PageRender from "@tmgg/tmgg-system/src/layouts/PageRender";
+import {UrlUtil} from "@tmgg/tmgg-commons-lang";
 
 
 export default class InstanceInfo extends React.Component {
@@ -115,11 +116,12 @@ export default class InstanceInfo extends React.Component {
   getForm = () => {
     const {data, loading} = this.state
     const {formUrl,formUrlSearch} = data
-
-    if(!formUrl){
+    let pathname = formUrl;
+    if(!pathname){
       return  <Empty description='表单获取失败'/>
     }
-    console.log('表单路径',formUrl)
-    return <PageRender pathname={formUrl} search={formUrlSearch}></PageRender>
+    console.log('表单路径',pathname)
+    let search = formUrlSearch;
+    return <PageRender pathname={pathname} search={search} passLocation={true}></PageRender>
   }
 }

@@ -9,7 +9,8 @@ import {UrlUtil} from "@tmgg/tmgg-commons-lang";
  * 为了规范，接收参数何router保持一致，
  * pathname： 路径 如 /flowable/task/form
  * search：搜索参数 如 /?id=1
- * ma
+ *
+ * passLocation: 是否把location信息透传到真正页面
  *
  * @returns {React.JSX.Element|*}
  * @constructor
@@ -19,47 +20,40 @@ import {UrlUtil} from "@tmgg/tmgg-commons-lang";
 
 
 export default function PageRender(props) {
-    let {pathname, search, params} = props
+    let {pathname, search, passLocation} = props
     const appData = useAppData()
     const matchArr = matchRoutes(appData.clientRoutes, pathname)
 
-    return <_PageRender appData={appData} matchArr={matchArr} pathname={pathname} search={search} params={params}/>
+    return <_PageRender appData={appData} matchArr={matchArr} pathname={pathname} search={search}
+                        passLocation={passLocation}/>
 }
 
 class _PageRender extends React.Component {
-    cache = {}
 
     render() {
-        let {pathname, search, params, appData, matchArr} = this.props
-        if (search && (params == null || Object.keys(params).length === 0)) {
-            params = UrlUtil.getParams(search)
+        if (this.props.passLocation) {
+            return this.passLocationRender()
         }
-
-        if ( pathname !== '/') {
-            const map = appData.routeComponents
-            const key = pathname.substring(1); // 移除第一个斜杠
-            let componentType = map[key]
-            if (!componentType) {
-                componentType = map[key + '/index']
-            }
-            if (componentType) {
-                if(this.cache[key]){
-                    return this.cache[key]
-                }
-                const component =  React.createElement(componentType, {pathname, search, params})
-                this.cache[key] = component;
-                return component;
-            }
-        }
-
         return this.defaultRender()
     }
 
-
+    passLocationRender = () => {
+        let {pathname, search, params, appData} = this.props
+        if (search && (params == null || Object.keys(params).length === 0)) {
+            params = UrlUtil.getParams(search)
+        }
+        const map = appData.routeComponents
+        const key = pathname.substring(1); // 移除第一个斜杠
+        let componentType = map[key] || map[key + '/index']
+        if (componentType) {
+            const location = {pathname, search, params}
+            return React.createElement(componentType, {location});
+        }
+    };
 
 
     defaultRender = () => {
-        let {pathname, search, params, appData, matchArr} = this.props
+        let {pathname, matchArr} = this.props
         if (matchArr != null) {
             if (pathname === '/') {
                 // 匹配结果为1，表示未定义index.jsx ，导致死循环

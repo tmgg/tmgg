@@ -14,14 +14,14 @@ export default class extends React.Component {
                     <Input disabled/>
                 </Form.Item>
 
-                <Form.Item name='pathname' label='pathname' initialValue={this.props.pathname}>
+                <Form.Item name='pathname' label='pathname' initialValue={this.props.location.pathname}>
                     <Input disabled/>
                 </Form.Item>
 
-                <Form.Item name='search' label='search' initialValue={this.props.search}>
+                <Form.Item name='search' label='search' initialValue={this.props.location.search}>
                     <Input disabled/>
                 </Form.Item>
-                <Form.Item name='params' label='路由参数' initialValue={JSON.stringify(this.props.params)}>
+                <Form.Item name='params' label='路由参数' initialValue={JSON.stringify(this.props.location.params)}>
                     <Input disabled/>
                 </Form.Item>
             </Form>
