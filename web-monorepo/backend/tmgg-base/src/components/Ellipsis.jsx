@@ -9,6 +9,9 @@ export class Ellipsis extends React.Component {
   render() {
     let {length, children} = this.props;
     let text = children;
+    if(!text){
+      return
+    }
     if(text.length < this.props.length){
       return text;
     }
