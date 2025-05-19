@@ -12,7 +12,7 @@ import {DateUtil, isMobileDevice, theme, TreeUtil} from "@tmgg/tmgg-commons-lang
 import HeaderRight from "./HeaderRight";
 
 import {HttpUtil, NamedIcon, PageUtil, SysUtil} from "@tmgg/tmgg-base";
-import MyTabsOutlet from "./MyTabsOutlet";
+import TabPageRender from "./TabPageRender";
 
 const {Header, Footer, Sider, Content} = Layout;
 /**
@@ -218,12 +218,12 @@ export default class extends React.Component {
         }
         if (siteInfo.waterMark === true) {
             return <Watermark content={[loginInfo.name,  loginInfo.account ]}>
-                <MyTabsOutlet pathLabelMap={this.state.pathLabelMap}/>
+                <TabPageRender pathLabelMap={this.state.pathLabelMap}/>
             </Watermark>
         }
 
 
-        return <MyTabsOutlet pathLabelMap={this.state.pathLabelMap}/>
+        return <TabPageRender pathLabelMap={this.state.pathLabelMap}/>
 
     };
 }

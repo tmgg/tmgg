@@ -4,7 +4,7 @@ import {withRouter} from "umi";
 import {Spin, Tabs} from "antd";
 import {PageRender} from "../PageRender";
 
-class MyTabsOutlet extends React.Component {
+class TabPageRender extends React.Component {
 
     state = {
         active: null,
@@ -133,4 +133,4 @@ class MyTabsOutlet extends React.Component {
 
 
 // 让组件有路由相关的参数，如 this.props.location
-export default withRouter(MyTabsOutlet)
+export default withRouter(TabPageRender)
