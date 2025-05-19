@@ -11,7 +11,7 @@ export const HttpUtil = {
     },
 
 
-    get(url, params = null, showMessage, transformData) {
+    get(url, params = null) {
         const util = new Util();
         util.enableShowMessage()
         util.enableTransformData()

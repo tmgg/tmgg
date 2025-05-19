@@ -139,7 +139,7 @@ public class FlowableManager {
         TaskQuery taskQuery = myTaskService.createTodoTaskQuery(me);
         taskQuery.orderByTaskCreateTime().desc();
 
-        List<Task> taskList = taskQuery.listPage((int) pageable.getOffset(), pageable.getPageSize());
+        List<Task> taskList = pageable.isPaged() ? taskQuery.listPage((int) pageable.getOffset(), pageable.getPageSize()) : taskQuery.list();
         long count = taskQuery.count();
 
 
