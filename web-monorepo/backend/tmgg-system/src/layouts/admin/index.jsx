@@ -47,6 +47,7 @@ export default class extends React.Component {
     }
 
     componentDidMount() {
+        console.log('Admin Layout didMount')
         this.initMenu()
         let siteInfo = SysUtil.getSiteInfo();
         this.setState({siteInfo})
@@ -133,7 +134,6 @@ export default class extends React.Component {
         let logo = this.props.logo || defaultLogo
         const {siteInfo, topMenus, loginInfo,leftMenus} = this.state
 
-        console.log('admin layout render', leftMenus)
 
         return <Layout className='main-layout'>
             <Header className='header'>

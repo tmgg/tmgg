@@ -29,7 +29,7 @@ export default class extends React.Component {
 
     return <Card title={'流程测试 / 【' + this.state.model.name + "】 / " + this.state.model.code }>
       <Form onFinish={this.onFinish} layout='vertical' >
-        <Form.Item name='id' label='业务标识(相当于业务表的id)' rules={[{required: true}]} initialValue={StrUtil.random(5)}>
+        <Form.Item name='id' label='业务标识(相当于业务表的id)' rules={[{required: true}]} initialValue={1}>
           <Input />
         </Form.Item>
 

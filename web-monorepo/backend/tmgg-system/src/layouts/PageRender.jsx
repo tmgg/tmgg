@@ -1,7 +1,6 @@
-import {useAppData} from "umi";
+import {matchRoutes, useAppData} from "umi";
 import React from "react";
 import {Result} from "antd";
-import {matchRoutes} from "umi";
 import {UrlUtil} from "@tmgg/tmgg-commons-lang";
 
 /**
@@ -15,51 +14,70 @@ import {UrlUtil} from "@tmgg/tmgg-commons-lang";
  * @returns {React.JSX.Element|*}
  * @constructor
  */
+
+
+
+
 export default function PageRender(props) {
-    let {pathname, search,params} = props
+    let {pathname, search, params} = props
     const appData = useAppData()
+    const matchArr = matchRoutes(appData.clientRoutes, pathname)
 
-    if(search && (params == null || Object.keys(params).length === 0)){
-        params = UrlUtil.getParams(search)
-    }
+    return <_PageRender appData={appData} matchArr={matchArr} pathname={pathname} search={search} params={params}/>
+}
 
-    if(pathname !== '/'){
-        const map =appData.routeComponents
-        const key =pathname.substring(1); // 移除第一个斜杠
-        let cmp = map[key]
-        if(!cmp){
-            cmp = map[key +'/index']
+class _PageRender extends React.Component {
+    cache = {}
+
+    render() {
+        let {pathname, search, params, appData, matchArr} = this.props
+        if (search && (params == null || Object.keys(params).length === 0)) {
+            params = UrlUtil.getParams(search)
         }
-        if(cmp){
-            return React.createElement(cmp, {pathname, search,params})
-        }
-    }
 
-
-
-
-    const mathArr = matchRoutes(appData.clientRoutes, pathname)
-    if (mathArr != null) {
-
-        if (pathname === '/') {
-            // 匹配结果为1，表示未定义index.jsx ，导致死循环
-            if (mathArr.length === 1) { // 如果项目中没有定义index.jsx
-                return <Result icon={null} title='未定义首页'></Result>
+        if ( pathname !== '/') {
+            const map = appData.routeComponents
+            const key = pathname.substring(1); // 移除第一个斜杠
+            let componentType = map[key]
+            if (!componentType) {
+                componentType = map[key + '/index']
+            }
+            if (componentType) {
+                if(this.cache[key]){
+                    return this.cache[key]
+                }
+                const component =  React.createElement(componentType, {pathname, search, params})
+                this.cache[key] = component;
+                return component;
             }
         }
 
-
-        // 取最匹配的那个
-        const mathResult = mathArr[mathArr.length - 1].route
-        let element = mathResult.element;
-
-            return element;
+        return this.defaultRender()
     }
 
-    // 如果实在找不到页面组件，则适用自带
-    return <Result
-        status={404}
-        title='页面不存在！'
-        subTitle={<div>路由地址：{pathname}</div>}
-    />
+
+
+
+    defaultRender = () => {
+        let {pathname, search, params, appData, matchArr} = this.props
+        if (matchArr != null) {
+            if (pathname === '/') {
+                // 匹配结果为1，表示未定义index.jsx ，导致死循环
+                if (matchArr.length === 1) { // 如果项目中没有定义index.jsx
+                    return <Result icon={null} title='未定义首页'></Result>
+                }
+            }
+            // 取最匹配的那个
+            const mathResult = matchArr[matchArr.length - 1].route
+            let element = mathResult.element;
+            return element;
+        }
+
+        // 如果实在找不到页面组件，则适用自带
+        return <Result
+            status={404}
+            title='页面不存在！'
+            subTitle={<div>路由地址：{pathname}</div>}
+        />
+    };
 }

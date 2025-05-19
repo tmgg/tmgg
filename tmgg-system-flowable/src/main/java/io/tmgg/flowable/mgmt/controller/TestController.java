@@ -31,7 +31,7 @@ public class TestController {
 
     @PostMapping("submit")
     public AjaxResult submit(@RequestBody Map<String,Object> params) {
-        String bizKey = (String) params.get("id");
+        String bizKey = params.get("id").toString();
         String modelCode = (String) params.get("modelCode");
 
         fm.start(modelCode,bizKey, params);

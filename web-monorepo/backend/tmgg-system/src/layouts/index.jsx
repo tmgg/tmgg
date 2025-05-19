@@ -2,7 +2,7 @@ import AdminLayout from "./admin"
 import React from "react";
 
 import {ConfigProvider} from "antd";
-import {history, Outlet, withRouter} from "umi";
+import {Outlet, withRouter} from "umi";
 import zhCN from 'antd/locale/zh_CN';
 import {ObjUtil, theme, UrlUtil} from "@tmgg/tmgg-commons-lang";
 import dayjs from 'dayjs';
@@ -22,7 +22,7 @@ dayjs.locale('zh-cn');
  * logo: 自定义的logo图片
  *
  */
- class _Layouts extends React.Component {
+class _Layouts extends React.Component {
 
     state = {
         siteInfoLoaded: false,
@@ -41,7 +41,7 @@ dayjs.locale('zh-cn');
                 colon: false
             }}
             button={{
-                autoInsertSpace:false
+                autoInsertSpace: false
             }}
             locale={zhCN}
             theme={{
@@ -50,7 +50,7 @@ dayjs.locale('zh-cn');
                     colorSuccess: theme["success-color"],
                     colorWarning: theme["warning-color"],
                     colorError: theme["error-color"],
-                    borderRadius:4,
+                    borderRadius: 4,
 
                 },
                 components: {
@@ -80,10 +80,10 @@ dayjs.locale('zh-cn');
 
 
     renderContent = () => {
-        let {pathname,search,match} = this.props.location;
+        let {pathname, search, match} = this.props.location;
         let params = UrlUtil.getParams(search);
 
-        if(match &&match.params){
+        if (match && match.params) {
             // 复制动态路由参数，那种基于路径的
             ObjUtil.copyProperty(match.params, params);
         }
@@ -91,23 +91,20 @@ dayjs.locale('zh-cn');
 
         const location = {pathname, search, params}
         if (pathname === '/login') {
-            return <InterceptorWrapper siteInfoOnly pathname={pathname} >
+            return <InterceptorWrapper siteInfoOnly pathname={pathname}>
                 <Outlet/>
             </InterceptorWrapper>
         }
-        if(pathname === '/test'){
-            return <Outlet />
+        if (pathname === '/test') {
+            return <Outlet/>
         }
 
-
-
-
-        if(params.hasOwnProperty('_noLayout')){
-            return  <PageRender {...location}/>
+        if (params.hasOwnProperty('_noLayout')) {
+            return <PageRender {...location}/>
         }
 
-        return <InterceptorWrapper pathname={pathname} >
-                    <AdminLayout  path={this.state.path} {...this.props}/>
+        return <InterceptorWrapper pathname={pathname}>
+            <AdminLayout path={this.state.path} logo={this.props.logo}/>
         </InterceptorWrapper>
     };
 

@@ -74,7 +74,7 @@ public class FlowableManager {
 
         RuntimeService runtimeService = getEngine().getRuntimeService();
         long instanceCount = runtimeService.createProcessInstanceQuery().processInstanceBusinessKey(bizKey).active().count();
-        Assert.state(instanceCount == 0, "该数据正在流程审批中，请勿重复提交");
+        Assert.state(instanceCount == 0, "流程审批中，请勿重复提交");
 
         if (variables == null) {
             variables = new HashMap<>();
