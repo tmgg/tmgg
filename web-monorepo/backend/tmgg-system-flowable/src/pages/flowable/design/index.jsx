@@ -44,7 +44,7 @@ export default class extends React.Component {
   preXmlRef = React.createRef()
 
   componentDidMount() {
-    let params = this.props.params
+    let params = PageUtil.currentParams()
     this.state.id = params.id
     this.bpmnModeler = new BpmnModeler({
       additionalModules: [

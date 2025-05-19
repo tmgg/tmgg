@@ -49,7 +49,7 @@ export default class InstanceInfo extends React.Component {
     Modal.info({
       title:'流程图',
       width:'70vw',
-      content:<img   src={img}   />
+      content: <div style={{width:'100%', overflow:'auto',maxHeight:'80vh'}}><img   src={img}   /></div>
     })
   };
 
