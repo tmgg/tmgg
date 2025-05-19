@@ -31,7 +31,6 @@ export class InterceptorWrapper extends React.Component {
     componentDidUpdate(prevProps, prevState, snapshot) {
         let pre = prevProps.pathname;
         let cur = this.props.pathname;
-        console.log('比较路由', pre, cur)
         if (pre !== cur) {
             if (pre === '/login' || cur === '/login') {
                 this.process()
@@ -60,11 +59,10 @@ export class InterceptorWrapper extends React.Component {
             }
 
             const message = interceptor.getMessage();
-            console.log('拦截器', interceptor, message)
+            console.debug('拦截器', interceptor, message)
 
             this.setState({message});
             const code = await interceptor.preHandle()
-            console.log('拦截器code', code)
             if (code === 401) {
                 this.setState({error: true, code, loading: false, message: '登录被拦截'})
                 return
