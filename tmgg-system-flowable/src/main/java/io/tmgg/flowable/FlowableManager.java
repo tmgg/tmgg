@@ -3,7 +3,7 @@ package io.tmgg.flowable;
 import io.tmgg.flowable.bean.TaskVo;
 import io.tmgg.flowable.mgmt.entity.ConditionVariable;
 import io.tmgg.flowable.mgmt.entity.SysFlowableModel;
-import io.tmgg.flowable.mgmt.service.MyFlowModelService;
+import io.tmgg.flowable.mgmt.service.SysFlowableModelService;
 import io.tmgg.flowable.mgmt.service.MyTaskService;
 
 import io.tmgg.lang.DateFormatTool;
@@ -48,7 +48,7 @@ public class FlowableManager {
     private ProcessEngine engine;
 
     @Resource
-    private MyFlowModelService modelService;
+    private SysFlowableModelService modelService;
 
     @Resource
     private FlowableLoginUserProvider flowableLoginUserProvider;

@@ -19,12 +19,15 @@ export default class Toolbar extends React.Component {
         const {
             onExport,
             onRefresh,
-            showSearch,
+            toolbarOptions = {},
             toolBarRender,
             loading,
             searchFormNode,
             params
         } = this.props;
+
+        // 未设置搜索表单的情况下，默认显示搜索Input
+       const  showSearch=toolbarOptions.showSearch == null ? (searchFormNode == null) : toolbarOptions.showSearch
 
 
         return <div className='pro-table-toolbar'>

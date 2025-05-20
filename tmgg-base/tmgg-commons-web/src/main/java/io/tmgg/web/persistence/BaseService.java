@@ -4,6 +4,7 @@ package io.tmgg.web.persistence;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.tmgg.commons.poi.excel.annotation.Excel;
 import io.tmgg.lang.HttpServletTool;
 import io.tmgg.lang.ann.Msg;
 import io.tmgg.web.persistence.specification.JpaQuery;
@@ -12,9 +13,13 @@ import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.obj.Option;
 import io.tmgg.lang.obj.Table;
 import io.tmgg.lang.poi.ExcelExportTool;
+import io.tmgg.web.service.ExportImportService;
+import jakarta.annotation.Resource;
+import jakarta.persistence.Lob;
 import jakarta.persistence.Transient;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -28,18 +33,19 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.sql.Blob;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public abstract class BaseService<T extends PersistEntity> {
+@Slf4j
+public abstract class BaseService<T extends PersistEntity> extends ExportImportService{
 
 
     @Autowired
     protected BaseDao<T> baseDao;
+
+
 
 
     /**
@@ -50,56 +56,9 @@ public abstract class BaseService<T extends PersistEntity> {
      * @throws IOException
      */
     public void exportExcel(List<T> list, String filename, HttpServletResponse response) throws IOException {
-        ExcelExportTool.exportBeanList(filename, list, getEntityClass(), response);
+        super.exportExcel(list, filename, getEntityClass(), response);
     }
 
-    /**
-     * 自定义导出
-     * @param table
-     * @param filename
-     * @param response
-     * @throws IOException
-     */
-    public void exportExcel(Table<T> table, String filename, HttpServletResponse response) throws IOException {
-        ExcelExportTool.exportTable(filename, table, response);
-    }
-
-
-    /**
-     * 通过请求头 X-Export-Type， 自动实现导出
-     *
-     * @param page
-     * @return
-     * @param <D>
-     * @throws IOException
-     */
-    public <D> AjaxResult autoRender(Page<D> page) throws Exception {
-        HttpServletRequest request = HttpServletTool.getRequest();
-        HttpServletResponse response = HttpServletTool.getResponse();
-        String exportExcel = request.getHeader("X-Export-Type");
-        if (StrUtil.isEmpty(exportExcel)) {
-            return AjaxResult.ok().data(page);
-        }
-
-        Type superClass = getClass().getGenericSuperclass();
-        Type type = ((ParameterizedType) superClass).getActualTypeArguments()[0];
-        Class<D> cls = (Class<D>) type;
-
-        Msg msg = cls.getAnnotation(Msg.class);
-        String name = msg != null ? msg.value() : cls.getSimpleName();
-
-        if (exportExcel.equalsIgnoreCase("Excel")) {
-            ExcelExportTool.exportBeanList(name , page.getContent(), cls, response);
-            return null;
-        }
-        if (exportExcel.equalsIgnoreCase("Pdf")) {
-            new PdfExportTool<>(cls, page.getContent(), name, response).exportBeanList();
-            return null;
-        }
-
-
-        return null;
-    }
 
 
     public boolean isFieldUnique(String id, String fieldName, Object value) {

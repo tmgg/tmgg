@@ -5,6 +5,7 @@ import io.tmgg.flowable.mgmt.dao.SysFlowableModelDao;
 import io.tmgg.flowable.mgmt.entity.ConditionVariable;
 import io.tmgg.flowable.mgmt.entity.SysFlowableModel;
 
+import io.tmgg.web.persistence.BaseService;
 import io.tmgg.web.persistence.specification.JpaQuery;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -36,7 +37,7 @@ import java.util.Map;
  */
 @Service
 @Slf4j
-public class MyFlowModelService {
+public class SysFlowableModelService extends BaseService<SysFlowableModel> {
 
 
     @Resource
@@ -221,7 +222,7 @@ public class MyFlowModelService {
         return null;
     }
 
-    public void save(SysFlowableModel model) {
+    public SysFlowableModel save(SysFlowableModel model) {
         String code = model.getCode();
         Assert.hasText(code, "编码不能为空");
         Assert.state(!isNumeric(code), "编码不能是纯数字");
@@ -231,11 +232,8 @@ public class MyFlowModelService {
             Assert.hasText(var.getName(), "参数不能为空");
             Assert.hasText(var.getLabel(), "参数显示文本不能为空");
             Assert.notNull(var.getValueType(), "参数类型不能为空");
-
         }
-
-
-        sysFlowableModelDao.save(model);
+        return  sysFlowableModelDao.save(model);
     }
 
     private static boolean isNumeric(String str) {

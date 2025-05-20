@@ -5,16 +5,16 @@ import io.tmgg.flowable.assignment.AssignmentTypeProvider;
 import io.tmgg.flowable.assignment.Identity;
 import io.tmgg.flowable.mgmt.entity.ConditionVariable;
 import io.tmgg.flowable.mgmt.entity.SysFlowableModel;
-import io.tmgg.flowable.mgmt.service.MyFlowModelService;
+import io.tmgg.flowable.mgmt.service.SysFlowableModelService;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import io.tmgg.lang.SpringTool;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.obj.Option;
 import io.tmgg.web.annotion.HasPermission;
-import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
 import org.flowable.engine.delegate.JavaDelegate;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
@@ -34,15 +34,16 @@ public class ModelController {
 
 
     @Resource
-    private MyFlowModelService service;
+    private SysFlowableModelService service;
 
 
 
 
     @HasPermission("flowableModel:page")
     @RequestMapping("page")
-    public AjaxResult page(String searchText, Pageable pageable) {
-        return AjaxResult.ok().data(service.findAll(searchText, pageable));
+    public AjaxResult page(String searchText, Pageable pageable) throws Exception {
+        Page<SysFlowableModel> page = service.findAll(searchText, pageable);
+        return service.autoRender(page);
     }
 
 

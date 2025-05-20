@@ -1,6 +1,7 @@
 package io.tmgg.flowable.mgmt.entity;
 
 
+import io.tmgg.commons.poi.excel.annotation.Excel;
 import io.tmgg.web.persistence.BaseEntity;
 import io.tmgg.web.persistence.converter.BaseToListConverter;
 import jakarta.persistence.Column;
@@ -25,10 +26,12 @@ public class SysFlowableModel extends BaseEntity {
     /**
      * 编码, 流程的key
      */
+    @Excel(name = "编码")
     @NotNull
     private String code;
 
 
+    @Excel(name = "名称")
     private String name;
 
 
@@ -41,6 +44,7 @@ public class SysFlowableModel extends BaseEntity {
     private String content;
 
 
+    @Excel(name = "表单链接")
     private String formUrl;
 
 

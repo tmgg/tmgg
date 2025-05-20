@@ -82,7 +82,7 @@ export default class extends React.Component {
         actionRef={this.tableRef}
         toolBarRender={(action, {selectedRowKeys}) => {
           return <Button type='primary' onClick={() => this.handleAdd()} icon={<PlusOutlined/>}>
-            新建
+            新增
           </Button>
         }}
         request={(params, sort) => {

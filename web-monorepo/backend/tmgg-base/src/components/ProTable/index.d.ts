@@ -21,7 +21,16 @@ declare type ProTableProps = {
      */
     defaultPageSize?:number,
 
-    formRef?: React.Ref<any>
+    formRef?: React.Ref<any>,
+
+    toolbarOptions?:{
+        /**
+         * 显示搜索框
+         */
+        showSearch?:boolean;
+        exportExcel?:boolean;
+        exportPdf?:boolean;
+    }
 };
 
 export class ProTable extends React.Component<ProTableProps, any> {

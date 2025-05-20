@@ -230,7 +230,7 @@ class Util {
                     let rs = JSON.parse(reader.result);
                     Modal.error({
                         title: '下载文件失败',
-                        content: rs.message || '接口不支持下载'
+                        content: rs.message || '不支持下载'
                     })
                 }
                 return;

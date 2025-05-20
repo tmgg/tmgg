@@ -84,8 +84,8 @@ export class ProTable extends React.Component {
         params.size = -1
 
         const hide = message.loading('下载中...',0)
-        request(params).then(()=>{
-            message.info('下载完成')
+        request(params).then((r)=>{
+           console.log('下载完成(不一定成功)')
         }).finally(hide)
 
     };
@@ -121,7 +121,7 @@ export class ProTable extends React.Component {
             columns,
             rowSelection,
             rowKey = "id",
-            showSearch,
+            toolbarOptions,
             searchFormItemsRender,
             formRef
         } = this.props
@@ -145,7 +145,7 @@ export class ProTable extends React.Component {
                 toolBarRender={this.getToolBarRenderNode(toolBarRender)}
                 onRefresh={() => this.loadData()}
                 onExport={(type)=>this.exportFile(type)}
-                showSearch={showSearch == null ? (searchFormNode == null) : showSearch} // 未设置搜索表单的情况下，默认显示搜索Input
+                toolbarOptions={toolbarOptions}
                 onSearch={this.onSearch}
                 loading={this.state.loading}
                 params={this.state.params}

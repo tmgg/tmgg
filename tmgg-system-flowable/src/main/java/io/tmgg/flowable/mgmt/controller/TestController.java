@@ -2,7 +2,7 @@ package io.tmgg.flowable.mgmt.controller;
 
 import io.tmgg.flowable.FlowableManager;
 import io.tmgg.flowable.mgmt.entity.SysFlowableModel;
-import io.tmgg.flowable.mgmt.service.MyFlowModelService;
+import io.tmgg.flowable.mgmt.service.SysFlowableModelService;
 
 import io.tmgg.lang.obj.AjaxResult;
 import org.springframework.util.Assert;
@@ -16,7 +16,7 @@ import java.util.Map;
 public class TestController {
 
     @Resource
-    private MyFlowModelService myFlowModelService;
+    private SysFlowableModelService myFlowModelService;
 
     @Resource
     private FlowableManager fm;
