@@ -2,6 +2,7 @@ package io.tmgg.web.import_export.core.impl;
 
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.lang.Assert;
+import cn.hutool.core.util.StrUtil;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPCell;
@@ -15,6 +16,7 @@ import io.tmgg.web.import_export.core.FileImportExportHandler;
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.poi.ss.formula.functions.T;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -49,24 +51,24 @@ public class PdfImpl implements FileImportExportHandler {
         // 添加生成时间
         addGenerationInfo(document);
 
+        List<Table.Column<T>> columns = tb.getColumns();
 
-        Matrix matrix = tb.getRenderMatrix();
         // 创建表格
-        java.util.List<Object> headers = matrix.get(0);
-        PdfPTable table = createUserTable(headers);
+
+        PdfPTable table = createUserTable(columns.size());
 
         // 添加表头
-        addTableHeader(table, headers);
+        addTableHeader(table, columns);
 
 
         // 添加数据行
-        addTableRows(table,matrix);
+        addTableRows(table, tb);
 
         document.add(table);
 
-        writer.close();
-        document.close();
 
+        document.close();
+        writer.close();
         return tempFile;
     }
 
@@ -132,8 +134,8 @@ public class PdfImpl implements FileImportExportHandler {
         document.add(p);
     }
 
-    private PdfPTable createUserTable(java.util.List<Object> headers) {
-        PdfPTable table = new PdfPTable(headers.size());
+    private PdfPTable createUserTable(int width) {
+        PdfPTable table = new PdfPTable(width);
         table.setWidthPercentage(100);
         table.setSpacingBefore(10f);
         table.setSpacingAfter(10f);
@@ -141,9 +143,9 @@ public class PdfImpl implements FileImportExportHandler {
         return table;
     }
 
-    private void addTableHeader(PdfPTable table, java.util.List<Object> headers) {
-        for (Object header : headers) {
-            PdfPCell cell = new PdfPCell(new Phrase(header.toString(), HEADER_FONT));
+    private <T> void addTableHeader(PdfPTable table,     List<Table.Column<T>> columns) {
+        for (Table.Column<T> column : columns) {
+            PdfPCell cell = new PdfPCell(new Phrase(column.getTitle(), HEADER_FONT));
             cell.setHorizontalAlignment(Element.ALIGN_CENTER);
             cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
             cell.setBackgroundColor(HEADER_BG_COLOR);
@@ -155,18 +157,19 @@ public class PdfImpl implements FileImportExportHandler {
     }
 
 
-    private void addTableRows(PdfPTable table, Matrix matrix) {
-        for (int i = 1; i < matrix.size(); i++) {
-            List<Object> rowData = matrix.get(i);
-            for (int j = 0; j < rowData.size(); j++) {
-                String v = (String) rowData.get(j);
-                String value = v == null ? "" : v;
-                table.addCell(createCell(value));
+    private <T> void addTableRows(PdfPTable table,  Table<T> tb) {
+        for (T bean : tb.getDataSource()) {
+            for (Table.Column<T> column : tb.getColumns()) {
+                String s = tb.getColumnValueFormatted(column, bean);
+                table.addCell(createCell(s));
             }
         }
     }
 
     private PdfPCell createCell(String content) {
+        if(content == null){
+            content = StrUtil.EMPTY;
+        }
         return createCell(content, Element.ALIGN_CENTER);
     }
 
