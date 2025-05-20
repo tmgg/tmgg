@@ -31,6 +31,7 @@ declare type ProTableProps = {
         showSearch?:boolean;
         showExportExcel?:boolean;
         showExportPdf?:boolean;
+        showExportJson?:boolean;
     }|boolean;
 };
 

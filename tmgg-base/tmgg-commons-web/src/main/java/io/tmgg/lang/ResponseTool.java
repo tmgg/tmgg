@@ -23,7 +23,7 @@ public class ResponseTool {
     public static final String CONTENT_TYPE_EXCEL = "application/vnd.ms-excel;charset=utf-8";
     public static final String CONTENT_TYPE_PDF = "application/pdf";
 
-
+    public static final String CONTENT_TYPE_STREAM = "application/octet-stream";
     public static void setDownloadHeader(String filename, String contentType, HttpServletResponse response) throws IOException {
         filename = URLUtil.encode(filename, StandardCharsets.UTF_8);
 

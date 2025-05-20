@@ -79,7 +79,7 @@ public class Table<T> {
      * @param bean
      * @return
      */
-    public String getFormattedColumnValue(Column<T> col, T bean) {
+    public String getColumnValueFormatted(Column<T> col, T bean) {
         Object v = getColumnValue(col, bean);
         if (v == null) {
             return null;
@@ -110,7 +110,7 @@ public class Table<T> {
             T dataRow = dataSource.get(i);
             for (int j = 0; j < columns.size(); j++) {
                 Column<T> column = columns.get(j);
-                String columnValue = getFormattedColumnValue(column, dataRow);
+                String columnValue = getColumnValueFormatted(column, dataRow);
 
                 if (columnValue != null) {
                     m.setValue(i + 1, j, columnValue);

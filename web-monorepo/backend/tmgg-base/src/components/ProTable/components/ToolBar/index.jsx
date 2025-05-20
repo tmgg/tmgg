@@ -1,7 +1,7 @@
 /**
  * 工具栏
  */
-import {HistoryOutlined, ReloadOutlined} from '@ant-design/icons';
+import {DatabaseOutlined, HistoryOutlined, ReloadOutlined} from '@ant-design/icons';
 import {Button, Input, message, Modal, Table} from 'antd';
 import React from 'react';
 import './index.less';
@@ -26,7 +26,7 @@ export default class Toolbar extends React.Component {
             params
         } = this.props;
 
-        let {showSearch,showExportExcel=true,showExportPdf=true} = toolbarOptions
+        let {showSearch,showExportExcel=true,showExportPdf=true,showExportJson=true} = toolbarOptions
         // 未设置搜索表单的情况下，默认显示搜索Input
         if(showSearch == null && searchFormNode == null){
             showSearch = true
@@ -49,12 +49,16 @@ export default class Toolbar extends React.Component {
             <div className='pro-table-toolbar-option'>
                 {toolBarRender}
 
-                {showExportExcel &&  <button title='导出EXCEL'  className='btn' onClick={()=>onExport('Excel')}>
+                {showExportExcel &&  <button title='导出EXCEL'  className='btn' onClick={()=>onExport('EXCEL')}>
                     <img src={excel} />
                 </button>}
 
-                {showExportPdf &&  <button title='导出PDF'  className='btn' onClick={()=>onExport('Pdf')}>
+                {showExportPdf &&  <button title='导出PDF'  className='btn' onClick={()=>onExport('PDF')}>
                     <img src={pdf} />
+                </button>}
+
+                {showExportJson &&  <button title='导出json'  className='btn' onClick={()=>onExport('JSON')}>
+                    <DatabaseOutlined />
                 </button>}
 
 
