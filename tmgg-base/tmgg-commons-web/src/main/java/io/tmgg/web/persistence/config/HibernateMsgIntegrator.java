@@ -18,7 +18,10 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * 自定生成注释，根据注解
+ * 数据库自动生成备注
+ *
+ * 根据注解 @Msg
+ * @gendoc
  */
 @Slf4j
 public class HibernateMsgIntegrator implements Integrator {
