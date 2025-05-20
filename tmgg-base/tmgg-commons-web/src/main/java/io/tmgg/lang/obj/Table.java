@@ -1,12 +1,18 @@
 package io.tmgg.lang.obj;
 
 
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.date.DateUtil;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.tmgg.lang.DateFormatTool;
+import io.tmgg.lang.data.Matrix;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.springframework.data.domain.Page;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.function.Function;
 
@@ -14,6 +20,7 @@ import java.util.function.Function;
  * 表格，用于导出，前端动态展示表格等
  * 参考了antd的格式
  * 前端也可以使用
+ *
  * @param <T>
  */
 @Getter
@@ -38,17 +45,82 @@ public class Table<T> {
         this.totalElements = page.getTotalElements();
     }
 
-    public Column<T> addColumn(String title, String dataIndex){
+    public Column<T> addColumn(String title, String dataIndex) {
         Column<T> column = new Column<>(title, dataIndex);
         columns.add(column);
         return column;
     }
 
-    public Column<T> addColumn(String title, Function<T,Object> render){
+    public Column<T> addColumn(String title, Function<T, Object> render) {
         Column<T> column = new Column<>(title, render);
         columns.add(column);
         return column;
     }
+
+
+    @JsonIgnore
+    public Object getColumnValue(Column<T> col, T bean) {
+        String dataIndex = col.getDataIndex();
+        Function<T, Object> render = col.getRender();
+        Object value = null;
+
+        if (render != null) {
+            value = render.apply(bean);
+        } else if (dataIndex != null) {
+            value = BeanUtil.getFieldValue(bean, dataIndex);
+        }
+
+        return value;
+    }
+
+    /**
+     * 获得用于渲染的字符串
+     *
+     * @param col
+     * @param bean
+     * @return
+     */
+    public String getRenderColumnValue(Column<T> col, T bean) {
+        Object v = getColumnValue(col, bean);
+        if (v == null) {
+            return null;
+        }
+        if (v instanceof Date d) {
+            return DateUtil.formatDateTime(d);
+        }
+
+
+        return v.toString();
+    }
+
+    /**
+     * 获得用于渲染的二维数组
+     *
+     * @return
+     */
+    public Matrix getRenderMatrix() {
+        Matrix m = new Matrix(dataSource.size() + 1, columns.size());
+
+        for (int i = 0; i < columns.size(); i++) {
+            Column<T> column = columns.get(i);
+            m.setValue(0, i, column.getTitle());
+        }
+
+
+        for (int i = 0; i < dataSource.size(); i++) {
+            T dataRow = dataSource.get(i);
+            for (int j = 0; j < columns.size(); j++) {
+                Column<T> column = columns.get(j);
+                Object columnValue = getColumnValue(column, dataRow);
+
+                if (columnValue != null) {
+                    m.setValue(i + 1, j, columnValue);
+                }
+            }
+        }
+        return m;
+    }
+
 
     /**
      * title 必填， render和dataIndex二选一
@@ -62,7 +134,7 @@ public class Table<T> {
 
         String dataIndex;
 
-        Function<T,Object> render ;
+        Function<T, Object> render;
 
         Integer width;
 
@@ -84,7 +156,7 @@ public class Table<T> {
             this.title = title;
         }
 
-        public Column(String title,  Function<T,Object> render) {
+        public Column(String title, Function<T, Object> render) {
             this.title = title;
             this.render = render;
         }
@@ -94,9 +166,7 @@ public class Table<T> {
         }
 
 
-
     }
-
 
 
 }

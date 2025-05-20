@@ -10,13 +10,13 @@ import java.util.List;
 import java.util.Map;
 
 // 二维数组
-public class Array2D extends LinkedList<List<Object>> {
+public class Matrix extends LinkedList<List<Object>> {
 
-    public Array2D() {
+    public Matrix() {
 
     }
 
-    public Array2D(int rows, int cols) {
+    public Matrix(int rows, int cols) {
         for (int r = 0; r < rows; r++) {
             ArrayList<Object> rowData = new ArrayList<>();
             this.add(rowData);
@@ -42,7 +42,7 @@ public class Array2D extends LinkedList<List<Object>> {
      * @param data
      * @return
      */
-    public Array2D add(Array2D data) {
+    public Matrix add(Matrix data) {
         if (!data.isEmpty()) {
             this.addAll(data);
         }
@@ -104,10 +104,10 @@ public class Array2D extends LinkedList<List<Object>> {
     }
 
 
-    public Array2D clone() {
+    public Matrix clone() {
         int rowSize = this.getRowSize();
         int colSize = getColSize();
-        Array2D rs = new Array2D(rowSize, colSize);
+        Matrix rs = new Matrix(rowSize, colSize);
         for (int i = 0; i < rowSize; i++) {
             for (int j = 0; j < colSize; j++) {
                 rs.setValue(i, j , this.getValue(i, j));
@@ -141,14 +141,14 @@ public class Array2D extends LinkedList<List<Object>> {
     }
 
 
-    public List<Array2D> split(int rows){
-        List<Array2D> list = new ArrayList<>();
+    public List<Matrix> split(int rows){
+        List<Matrix> list = new ArrayList<>();
 
         int total = this.size();
         int splitCount = total / rows;
 
         for(int i = 0; i < splitCount; i++){
-            Array2D item = new Array2D();
+            Matrix item = new Matrix();
             for(int j = 0; j < rows; j++){
                 item.add(this.get(i * rows + j));
             }
