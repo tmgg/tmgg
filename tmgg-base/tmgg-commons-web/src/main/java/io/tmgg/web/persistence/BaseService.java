@@ -39,14 +39,34 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Slf4j
-public abstract class BaseService<T extends PersistEntity> extends ExportImportService{
+public abstract class BaseService<T extends PersistEntity> {
 
 
     @Autowired
     protected BaseDao<T> baseDao;
 
+    @Resource
+    private ExportImportService exportImportService;
 
 
+    public <T> AjaxResult autoRender(Page<T> page) throws Exception {
+            Type superClass = getClass().getGenericSuperclass();
+        Type type = ((ParameterizedType) superClass).getActualTypeArguments()[0];
+        Class<T> cls = (Class<T>) type;
+
+        return exportImportService.autoRender(page,cls);
+    }
+
+    /**
+     * 自定渲染，vo的情况
+     */
+    public <VO> AjaxResult autoRender(Page<VO> page,Class<VO> cls ) throws Exception {
+        return exportImportService.autoRender(page,cls);
+    }
+
+    public <D> void exportExcel(Table<D> table, String filename, HttpServletResponse response) throws IOException {
+        exportImportService.exportExcel(table, filename, response);
+    }
 
     /**
      * 通过注解@Excel导出
@@ -56,7 +76,7 @@ public abstract class BaseService<T extends PersistEntity> extends ExportImportS
      * @throws IOException
      */
     public void exportExcel(List<T> list, String filename, HttpServletResponse response) throws IOException {
-        super.exportExcel(list, filename, getEntityClass(), response);
+        exportImportService.exportExcel(list, filename, getEntityClass(), response);
     }
 
 

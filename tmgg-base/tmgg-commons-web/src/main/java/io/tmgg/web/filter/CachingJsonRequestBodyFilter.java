@@ -10,8 +10,15 @@ import org.springframework.web.util.ContentCachingRequestWrapper;
 
 import java.io.IOException;
 
+/***
+ * 缓存json请求体
+ * 方便后续再取出来
+ *
+ * 初因未为了 RequestBodyKeysArgumentResolver
+ *
+ */
 @Component
-public class CachingRequestBodyFilter extends OncePerRequestFilter {
+public class CachingJsonRequestBodyFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,

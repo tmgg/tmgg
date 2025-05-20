@@ -7,9 +7,9 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class FilterConfig {
     @Bean
-    public FilterRegistrationBean<CachingRequestBodyFilter> cachingRequestBodyFilterRegistrationBean(CachingRequestBodyFilter filter) {
+    public FilterRegistrationBean<CachingJsonRequestBodyFilter> cachingRequestBodyFilterRegistrationBean(CachingJsonRequestBodyFilter filter) {
 
-        FilterRegistrationBean<CachingRequestBodyFilter> registration = new FilterRegistrationBean<>(filter);
+        FilterRegistrationBean<CachingJsonRequestBodyFilter> registration = new FilterRegistrationBean<>(filter);
 
         registration.addUrlPatterns("/*");
         return registration;

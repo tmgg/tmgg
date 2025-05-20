@@ -2,28 +2,38 @@ package io.tmgg.web.service;
 
 
 import cn.hutool.core.util.StrUtil;
+import com.google.common.reflect.TypeToken;
 import io.tmgg.commons.poi.excel.annotation.Excel;
 import io.tmgg.lang.HttpServletTool;
+import io.tmgg.lang.Tree;
 import io.tmgg.lang.ann.Msg;
 import io.tmgg.lang.importexport.PdfExportTool;
 import io.tmgg.lang.obj.AjaxResult;
+import io.tmgg.lang.obj.Option;
 import io.tmgg.lang.obj.Table;
 import io.tmgg.lang.poi.ExcelExportTool;
+import io.tmgg.web.WebConstants;
 import jakarta.persistence.Lob;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.poi.ss.formula.functions.T;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * 将导入导出操作统一放到这里
+ */
 @Slf4j
 @Component
 public class ExportImportService {
@@ -59,17 +69,13 @@ public class ExportImportService {
      * @param <D>
      * @throws IOException
      */
-    public <D> AjaxResult autoRender(Page<D> page) throws Exception {
+    public <D> AjaxResult autoRender(Page<D> page, Class<D> cls) throws Exception {
         HttpServletRequest request = HttpServletTool.getRequest();
         HttpServletResponse response = HttpServletTool.getResponse();
-        String exportExcel = request.getHeader("X-Export-Type");
+        String exportExcel = request.getHeader(WebConstants.HEADER_EXPORT_TYPE);
         if (StrUtil.isEmpty(exportExcel)) {
             return AjaxResult.ok().data(page);
         }
-
-        Type superClass = getClass().getGenericSuperclass();
-        Type type = ((ParameterizedType) superClass).getActualTypeArguments()[0];
-        Class<D> cls = (Class<D>) type;
 
         Msg msg = cls.getAnnotation(Msg.class);
         String filename = msg != null ? msg.value() : cls.getSimpleName();
@@ -111,6 +117,8 @@ public class ExportImportService {
 
         return null;
     }
+
+
 
 
 }
