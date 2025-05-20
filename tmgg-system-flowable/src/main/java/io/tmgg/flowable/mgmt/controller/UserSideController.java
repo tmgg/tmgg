@@ -149,7 +149,7 @@ public class UserSideController {
 
         List<HistoricProcessInstance> list = query
                 .listPage(0, 1);
-        Assert.state(list.size() > 0, "暂无流程信息");
+        Assert.state(!list.isEmpty(), "暂无流程信息");
         HistoricProcessInstance instance = list.get(0);
 
 
