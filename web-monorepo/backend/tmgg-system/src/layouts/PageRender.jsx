@@ -16,15 +16,20 @@ import {UrlUtil} from "@tmgg/tmgg-commons-lang";
  * @constructor
  */
 
-
+let APP_DATA_CACHE = null
 
 
 export  function PageRender(props) {
     let {pathname, search, passLocation} = props
-    const appData = useAppData()
-    const matchArr = matchRoutes(appData.clientRoutes, pathname)
 
-    return <_PageRender appData={appData} matchArr={matchArr} pathname={pathname} search={search}
+    let appData = useAppData()
+    if(Object.keys(appData).length === 0){
+        appData = APP_DATA_CACHE
+    }else {
+        APP_DATA_CACHE = appData;
+    }
+
+    return <_PageRender appData={appData}  pathname={pathname} search={search}
                         passLocation={passLocation}/>
 }
 
@@ -52,7 +57,9 @@ class _PageRender extends React.Component {
 
 
     defaultRender = () => {
-        let {pathname, matchArr} = this.props
+        let {pathname, appData} = this.props
+        let matchArr = matchRoutes(appData.clientRoutes, pathname)
+
         if (matchArr != null) {
             if (pathname === '/') {
                 // 匹配结果为1，表示未定义index.jsx ，导致死循环

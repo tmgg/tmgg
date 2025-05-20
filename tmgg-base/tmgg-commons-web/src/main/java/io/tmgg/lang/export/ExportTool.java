@@ -1,11 +1,10 @@
-package io.tmgg.lang;
+package io.tmgg.lang.export;
 
 
 import cn.hutool.core.util.StrUtil;
 import io.tmgg.commons.poi.excel.annotation.Excel;
 import io.tmgg.lang.HttpServletTool;
 import io.tmgg.lang.ann.Msg;
-import io.tmgg.lang.importexport.PdfExportTool;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.obj.Table;
 import io.tmgg.lang.poi.ExcelExportTool;
@@ -26,7 +25,7 @@ import java.util.List;
  * 将导入导出操作统一放到这里
  */
 @Slf4j
-public class ExportImportTool {
+public class ExportTool {
 
     /**
      * 通过注解@Excel导出

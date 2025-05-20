@@ -58,17 +58,14 @@ export default class  extends React.Component {
     render() {
         return <Card variant={"borderless"}>
 
-            <Tabs defaultActiveKey="0" destroyInactiveTabPane
+            <Tabs defaultActiveKey="0" destroyOnHidden
                 >
                 <Tabs.TabPane key='0' tab='所有消息'>
                     <ProTable
                         actionRef={this.tableRef}
                         request={(params) => HttpUtil.pageData("user/msg/page", params)}
                         columns={this.columns}
-                        rowSelection={false}
-                        rowKey='id'
-                        search={false}
-                        options={false}
+                        toolbarOptions={{showSearch:false}}
                         size='small'
                     />
                 </Tabs.TabPane>
@@ -79,8 +76,7 @@ export default class  extends React.Component {
                         columns={this.columns}
                         rowSelection={false}
                         rowKey='id'
-                        search={false}
-                        options={false}
+                        toolbarOptions={{showSearch:false}}
                         size='small'
                     />
 
@@ -93,7 +89,7 @@ export default class  extends React.Component {
                         request={(params) => HttpUtil.pageData("user/msg/page?read=true", params)}
                         rowSelection={false}
                         rowKey='id'
-                        search={false}
+                        toolbarOptions={{showSearch:false}}
                         options={false}
                         size='small'
                         columns={this.columns}

@@ -123,7 +123,6 @@ export class ProTable extends React.Component {
             rowKey = "id",
             toolbarOptions,
             searchFormItemsRender,
-            formRef
         } = this.props
 
         let searchFormNode = null
@@ -139,7 +138,7 @@ export class ProTable extends React.Component {
         }
 
         return <div className='tmgg-pro-table'>
-            <Toolbar
+            {toolbarOptions !==false && <Toolbar
                 searchFormNode={searchFormNode}
                 actionRef={actionRef}
                 toolBarRender={this.getToolBarRenderNode(toolBarRender)}
@@ -150,7 +149,7 @@ export class ProTable extends React.Component {
                 loading={this.state.loading}
                 params={this.state.params}
                 changeFormValues={this.changeFormValues}
-            />
+            />}
 
 
             <Table

@@ -23,14 +23,15 @@ declare type ProTableProps = {
 
     formRef?: React.Ref<any>,
 
+    // 如果是false，则不显示
     toolbarOptions?:{
         /**
          * 显示搜索框
          */
         showSearch?:boolean;
-        exportExcel?:boolean;
-        exportPdf?:boolean;
-    }
+        showExportExcel?:boolean;
+        showExportPdf?:boolean;
+    }|boolean;
 };
 
 export class ProTable extends React.Component<ProTableProps, any> {

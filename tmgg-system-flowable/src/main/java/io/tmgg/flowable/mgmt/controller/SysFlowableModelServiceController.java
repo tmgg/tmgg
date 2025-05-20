@@ -12,6 +12,7 @@ import io.tmgg.lang.SpringTool;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.obj.Option;
 import io.tmgg.web.annotion.HasPermission;
+import io.tmgg.web.argument.RequestBodyKeys;
 import org.apache.commons.lang3.StringUtils;
 import org.flowable.engine.delegate.JavaDelegate;
 import org.springframework.data.domain.Page;
@@ -30,7 +31,7 @@ import java.util.stream.Collectors;
  */
 @RestController
 @RequestMapping("flowable/model")
-public class ModelController {
+public class SysFlowableModelServiceController {
 
 
     @Resource
@@ -49,20 +50,20 @@ public class ModelController {
 
     @HasPermission("flowableModel:delete")
     @GetMapping("delete")
-    public AjaxResult delete(@RequestParam String id) throws SQLException {
+    public AjaxResult delete(@RequestParam String id) {
         service.deleteById(id);
         return AjaxResult.ok();
     }
 
     @HasPermission("flowableModel:save")
     @PostMapping("save")
-    public AjaxResult save(@RequestBody SysFlowableModel param) throws InvocationTargetException, IllegalAccessException, JsonProcessingException {
-        service.save(param);
+    public AjaxResult save(@RequestBody SysFlowableModel param, RequestBodyKeys keys) throws Exception {
+        service.saveOrUpdate(param,keys);
         return AjaxResult.ok();
     }
     @HasPermission("flowableModel:design")
     @PostMapping("saveContent")
-    public AjaxResult saveContent(@RequestBody SysFlowableModel param) throws InvocationTargetException, IllegalAccessException, JsonProcessingException {
+    public AjaxResult saveContent(@RequestBody SysFlowableModel param) {
         SysFlowableModel save = service.saveContent(param);
         return AjaxResult.ok().data(save);
     }

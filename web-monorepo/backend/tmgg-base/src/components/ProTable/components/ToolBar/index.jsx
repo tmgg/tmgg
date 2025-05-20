@@ -26,8 +26,11 @@ export default class Toolbar extends React.Component {
             params
         } = this.props;
 
+        let {showSearch,showExportExcel=true,showExportPdf=true} = toolbarOptions
         // 未设置搜索表单的情况下，默认显示搜索Input
-       const  showSearch=toolbarOptions.showSearch == null ? (searchFormNode == null) : toolbarOptions.showSearch
+        if(showSearch == null && searchFormNode == null){
+            showSearch = true
+        }
 
 
         return <div className='pro-table-toolbar'>
@@ -45,12 +48,15 @@ export default class Toolbar extends React.Component {
 
             <div className='pro-table-toolbar-option'>
                 {toolBarRender}
-                <button title='导出EXCEL'  className='btn' onClick={()=>onExport('Excel')}>
+
+                {showExportExcel &&  <button title='导出EXCEL'  className='btn' onClick={()=>onExport('Excel')}>
                     <img src={excel} />
-                </button>
-                <button title='导出PDF'  className='btn' onClick={()=>onExport('Pdf')}>
+                </button>}
+
+                {showExportPdf &&  <button title='导出PDF'  className='btn' onClick={()=>onExport('Pdf')}>
                     <img src={pdf} />
-                </button>
+                </button>}
+
 
                 <Button icon={<ReloadOutlined/>} shape="circle" onClick={onRefresh} title='刷新' loading={loading}/>
                 <Button icon={<HistoryOutlined/>} shape="circle" onClick={this.onClickHistory} title='查询历史'/>

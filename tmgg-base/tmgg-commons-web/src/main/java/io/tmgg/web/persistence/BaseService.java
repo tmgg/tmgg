@@ -2,12 +2,11 @@ package io.tmgg.web.persistence;
 
 
 import cn.hutool.extra.spring.SpringUtil;
-import io.tmgg.lang.ExportImportTool;
+import io.tmgg.lang.export.ExportTool;
 import io.tmgg.web.persistence.specification.JpaQuery;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.obj.Option;
 import io.tmgg.lang.obj.Table;
-import jakarta.annotation.Resource;
 import jakarta.persistence.Transient;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -42,18 +41,18 @@ public abstract class BaseService<T extends PersistEntity> {
         Type type = ((ParameterizedType) superClass).getActualTypeArguments()[0];
         Class<T> cls = (Class<T>) type;
 
-        return ExportImportTool.autoRender(page,cls);
+        return ExportTool.autoRender(page,cls);
     }
 
     /**
      * 自定渲染，vo的情况
      */
     public <VO> AjaxResult autoRender(Page<VO> page,Class<VO> cls ) throws Exception {
-        return ExportImportTool.autoRender(page,cls);
+        return ExportTool.autoRender(page,cls);
     }
 
     public <D> void exportExcel(Table<D> table, String filename, HttpServletResponse response) throws IOException {
-        ExportImportTool.exportExcel(table, filename, response);
+        ExportTool.exportExcel(table, filename, response);
     }
 
     /**
@@ -64,7 +63,7 @@ public abstract class BaseService<T extends PersistEntity> {
      * @throws IOException
      */
     public void exportExcel(List<T> list, String filename, HttpServletResponse response) throws IOException {
-        ExportImportTool.exportExcel(list, filename, getEntityClass(), response);
+        ExportTool.exportExcel(list, filename, getEntityClass(), response);
     }
 
 

@@ -96,9 +96,8 @@ export default class extends React.Component {
         return <>
             <ProTable
                 actionRef={this.tableRef}
-                request={(params, sort) => HttpUtil.pageData('sysConfig/page', params, sort)}
+                request={(params) => HttpUtil.pageData('sysConfig/page', params)}
                 columns={this.columns}
-                search={false}
                 defaultPageSize={1000}
             />
 
