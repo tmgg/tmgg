@@ -5,6 +5,7 @@ import cn.hutool.core.util.StrUtil;
 import io.tmgg.commons.poi.excel.annotation.Excel;
 import io.tmgg.lang.HttpServletTool;
 import io.tmgg.lang.ann.Msg;
+import io.tmgg.lang.data.Matrix;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.obj.Table;
 import io.tmgg.lang.poi.ExcelExportTool;
@@ -13,6 +14,7 @@ import jakarta.persistence.Lob;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.Page;
 
 import java.io.IOException;
@@ -29,6 +31,7 @@ public class ExportTool {
 
     /**
      * 通过注解@Excel导出
+     *
      * @param list
      * @param filename
      * @param response
@@ -40,6 +43,7 @@ public class ExportTool {
 
     /**
      * 自定义导出
+     *
      * @param table
      * @param filename
      * @param response
@@ -52,7 +56,6 @@ public class ExportTool {
 
     /**
      * 通过请求头 X-Export-Type， 自动实现导出
-     *
      */
     public static <T> AjaxResult autoRender(Page<T> page, Class<T> cls) throws Exception {
         HttpServletRequest request = HttpServletTool.getRequest();
@@ -67,31 +70,19 @@ public class ExportTool {
 
         if (exportExcel.equalsIgnoreCase("Excel")) {
             boolean hasExcelAnn = Arrays.stream(cls.getDeclaredFields()).anyMatch(t -> t.isAnnotationPresent(Excel.class));
-            if(hasExcelAnn){
-                ExcelExportTool.exportBeanList(filename , page.getContent(), cls, response);
+            if (hasExcelAnn) {
+                ExcelExportTool.exportBeanList(filename, page.getContent(), cls, response);
                 return null;
             }
 
-                log.warn("实体上未配置Excel注解，将使用默认导出");
-                Table<T> tb = new Table<>(page.getContent());
-                for (Field f : cls.getDeclaredFields()) {
-                    if(f.isAnnotationPresent(Lob.class)){
-                        continue;
-                    }
+            Table<T> tb = getTable(page, cls);
 
-                    Class<?> type1 = f.getType();
-                    if(type1.isAssignableFrom(String.class) || type1.isAssignableFrom(Number.class) || type1.isAssignableFrom(Date.class)){
-                        String title = f.isAnnotationPresent(Msg.class) ? f.getAnnotation(Msg.class).value() : f.getName();
-                        tb.addColumn(title, f.getName());
-                    }
-                }
-
-                ExcelExportTool.exportTable(filename, tb, response);
-
-
+            ExcelExportTool.exportTable(filename, tb, response);
         }
         if (exportExcel.equalsIgnoreCase("Pdf")) {
-            new PdfExportTool<>(cls, page.getContent(), filename, response).exportBeanList();
+            Table<T> tb = getTable(page, cls);
+            Matrix matrix = tb.getRenderMatrix();
+            new PdfExportTool<>(matrix, filename, response).exportBeanList();
             return null;
         }
 
@@ -99,7 +90,43 @@ public class ExportTool {
         return null;
     }
 
+    @NotNull
+    private static <T> Table<T> getTable(Page<T> page, Class<T> cls) {
+        Table<T> tb = new Table<>(page.getContent());
 
+
+        boolean hasExcelAnn = Arrays.stream(cls.getDeclaredFields()).anyMatch(t -> t.isAnnotationPresent(Excel.class));
+        if (hasExcelAnn) {
+            for (Field f : cls.getDeclaredFields()) {
+                if (!f.isAnnotationPresent(Excel.class)) {
+                    continue;
+                }
+
+                Class<?> type1 = f.getType();
+                if (type1.isAssignableFrom(String.class) || type1.isAssignableFrom(Number.class) || type1.isAssignableFrom(Date.class)) {
+                    String title = f.getAnnotation(Excel.class).name() ;
+                    tb.addColumn(title, f.getName());
+                }
+            }
+            return tb;
+        }
+
+
+        log.warn("实体上未配置Excel注解，将使用默认导出");
+
+        for (Field f : cls.getDeclaredFields()) {
+            if (f.isAnnotationPresent(Lob.class)) {
+                continue;
+            }
+
+            Class<?> type1 = f.getType();
+            if (type1.isAssignableFrom(String.class) || type1.isAssignableFrom(Number.class) || type1.isAssignableFrom(Date.class)) {
+                String title = f.isAnnotationPresent(Msg.class) ? f.getAnnotation(Msg.class).value() : f.getName();
+                tb.addColumn(title, f.getName());
+            }
+        }
+        return tb;
+    }
 
 
 }

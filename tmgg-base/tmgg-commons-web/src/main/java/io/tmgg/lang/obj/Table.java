@@ -4,7 +4,6 @@ package io.tmgg.lang.obj;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.date.DateUtil;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import io.tmgg.lang.DateFormatTool;
 import io.tmgg.lang.data.Matrix;
 import lombok.Getter;
 import lombok.Setter;
@@ -80,7 +79,7 @@ public class Table<T> {
      * @param bean
      * @return
      */
-    public String getRenderColumnValue(Column<T> col, T bean) {
+    public String getFormattedColumnValue(Column<T> col, T bean) {
         Object v = getColumnValue(col, bean);
         if (v == null) {
             return null;
@@ -111,7 +110,7 @@ public class Table<T> {
             T dataRow = dataSource.get(i);
             for (int j = 0; j < columns.size(); j++) {
                 Column<T> column = columns.get(j);
-                Object columnValue = getColumnValue(column, dataRow);
+                String columnValue = getFormattedColumnValue(column, dataRow);
 
                 if (columnValue != null) {
                     m.setValue(i + 1, j, columnValue);

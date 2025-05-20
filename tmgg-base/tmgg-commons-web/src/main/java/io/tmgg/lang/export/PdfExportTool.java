@@ -10,15 +10,16 @@ import com.itextpdf.text.pdf.PdfWriter;
 import io.tmgg.commons.poi.excel.annotation.Excel;
 import io.tmgg.lang.FontTool;
 import io.tmgg.lang.ResponseTool;
+import io.tmgg.lang.data.Matrix;
+import io.tmgg.lang.obj.Table;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.jetbrains.annotations.NotNull;
+import org.apache.commons.math3.linear.MatrixUtils;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -57,9 +58,8 @@ public class PdfExportTool<T> {
         }
     }
 
-    Class<T> cls;
 
-    List<T> dataList;
+    Matrix matrix;
 
     String title;
 
@@ -82,12 +82,15 @@ public class PdfExportTool<T> {
         // 添加生成时间
         addGenerationInfo(document);
 
+
+
         // 创建表格
-        List<String> headers = getHeaders();
+        List<Object> headers = matrix.get(0);
         PdfPTable table = createUserTable(headers);
 
         // 添加表头
         addTableHeader(table, headers);
+
 
         // 添加数据行
         addTableRows(table);
@@ -122,22 +125,18 @@ public class PdfExportTool<T> {
         document.add(p);
     }
 
-    private PdfPTable createUserTable(List<String> headers) {
+    private PdfPTable createUserTable(List<Object> headers) {
         PdfPTable table = new PdfPTable(headers.size());
         table.setWidthPercentage(100);
         table.setSpacingBefore(10f);
         table.setSpacingAfter(10f);
 
-        // 设置列宽比例
-        //     float[] columnWidths = {1f, 2f, 3f, 2f, 2f, 1f};
-        //   table.setWidths(columnWidths);
-
         return table;
     }
 
-    private void addTableHeader(PdfPTable table, List<String> headers) {
-        for (String header : headers) {
-            PdfPCell cell = new PdfPCell(new Phrase(header, HEADER_FONT));
+    private void addTableHeader(PdfPTable table, List<Object> headers) {
+        for (Object header : headers) {
+            PdfPCell cell = new PdfPCell(new Phrase(header.toString(), HEADER_FONT));
             cell.setHorizontalAlignment(Element.ALIGN_CENTER);
             cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
             cell.setBackgroundColor(HEADER_BG_COLOR);
@@ -148,38 +147,14 @@ public class PdfExportTool<T> {
         }
     }
 
-    @NotNull
-    private List<String> getHeaders() {
-        List<String> headers = new ArrayList<>();
 
-        Field[] declaredFields = cls.getDeclaredFields();
-        for (Field declaredField : declaredFields) {
-            Excel ex = declaredField.getAnnotation(Excel.class);
-            if (ex == null) {
-                continue;
-            }
-            String name = ex.name();
-            headers.add(name);
-        }
-        return headers;
-    }
 
     private void addTableRows(PdfPTable table) {
-        for (int i = 0; i < dataList.size(); i++) {
-            T user = dataList.get(i);
-
-            Field[] declaredFields = cls.getDeclaredFields();
-
-            for (Field declaredField : declaredFields) {
-                Excel ex = declaredField.getAnnotation(Excel.class);
-                if (ex == null) {
-                    continue;
-                }
-
-
-                Object fieldValue = BeanUtil.getFieldValue(user, declaredField.getName());
-                String value = fieldValue == null ? "" : fieldValue.toString();
-
+        for (int i = 1; i < matrix.size(); i++) {
+            List<Object> rowData = matrix.get(i);
+            for (int j = 0; j < rowData.size(); j++) {
+                String v = (String) rowData.get(j);
+                String value = v == null ? "" : v;
                 table.addCell(createCell(value));
             }
         }
