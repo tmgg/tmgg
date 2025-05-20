@@ -38,10 +38,9 @@ public class ExportTool {
     private static final Map<ExportType, FileImportExportHandler> HANDLER_MAP = new HashMap<>();
 
 
-
     static {
         HANDLER_MAP.put(EXCEL, new ExcelImpl());
-        HANDLER_MAP.put(PDF,new PdfImpl());
+        HANDLER_MAP.put(PDF, new PdfImpl());
         HANDLER_MAP.put(JSON, new JsonImpl());
     }
 
@@ -57,17 +56,16 @@ public class ExportTool {
             return AjaxResult.ok().data(page);
         }
 
-        Msg msg = cls.getAnnotation(Msg.class);
-        String filename = msg != null ? msg.value() : "导出文件";
+        Msg entityMsg = cls.getAnnotation(Msg.class);
 
         ExportType exportType = valueOf(type);
         FileImportExportHandler handler = HANDLER_MAP.get(exportType);
-        Assert.notNull(handler,"不支持" +exportType + "类型的导出");
+        Assert.notNull(handler, "不支持" + exportType + "类型的导出");
         Table<T> tb = getTable(page, cls);
 
 
-        File file = handler.createFile(tb, msg.value());
-        handler.exportFile(file,filename, response);
+        File file = handler.createFile(tb, entityMsg == null ? null : entityMsg.value());
+        handler.exportFile(file, entityMsg == null ? "导出文件" : entityMsg.value(), response);
         FileUtil.del(file);
 
         return null;
@@ -99,8 +97,6 @@ public class ExportTool {
     }
 
 
-
-
     @NotNull
     private static <T> Table<T> getTable(Page<T> page, Class<T> cls) {
         Table<T> tb = new Table<>(page.getContent());
@@ -115,7 +111,7 @@ public class ExportTool {
 
                 Class<?> type1 = f.getType();
                 if (type1.isAssignableFrom(String.class) || type1.isAssignableFrom(Number.class) || type1.isAssignableFrom(Date.class)) {
-                    String title = f.getAnnotation(Excel.class).name() ;
+                    String title = f.getAnnotation(Excel.class).name();
                     tb.addColumn(title, f.getName());
                 }
             }
