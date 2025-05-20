@@ -103,7 +103,7 @@ public class SysFileService {
 
         // 存储文件信息
         SysFile sysFile = new SysFile();
-        sysFile.setCustomId(fileId);
+        sysFile.setCustomGenerateId(fileId);
         sysFile.setStorageType(parseStorageType());
         sysFile.setFileOriginName(originalFilename);
         sysFile.setFileSuffix(fileSuffix);

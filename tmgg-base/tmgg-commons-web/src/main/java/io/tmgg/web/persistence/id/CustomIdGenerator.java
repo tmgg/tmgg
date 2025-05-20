@@ -123,8 +123,8 @@ public class CustomIdGenerator implements IdentifierGenerator {
                 return e.getId();
             }
 
-            if(e.getCustomId() != null){
-                return e.getCustomId();
+            if(e.getCustomGenerateId() != null){
+                return e.getCustomGenerateId();
             }
         }
         return null;

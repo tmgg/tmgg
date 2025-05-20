@@ -198,12 +198,12 @@ public abstract class BaseEntity implements PersistEntity, Serializable {
 
 
     @Override
-    public String getCustomId() {
+    public String getCustomGenerateId() {
         return (String) extData.get("customerId");
     }
 
     @Override
-    public void setCustomId(String id) {
+    public void setCustomGenerateId(String id) {
         extData.put("customerId",id);
     }
 }

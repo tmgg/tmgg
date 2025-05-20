@@ -13,7 +13,6 @@ import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Validator;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.support.JpaEntityInformation;
@@ -232,7 +231,7 @@ public class BaseDao<T extends PersistEntity> {
 
         // 从3.3升级到3.4后， hibernate也升级了，不能新增是指定id，这里使用customId替换下
         if (!existsById(id)) {
-            entity.setCustomId(id);
+            entity.setCustomGenerateId(id);
             entity.setId(null);
             this.entityManager.persist(entity);
             return entity;
@@ -251,7 +250,7 @@ public class BaseDao<T extends PersistEntity> {
     public T saveIfAbsent(T entity) {
         String id = entity.getId();
         if (!existsById(id)) {
-            entity.setCustomId(id);
+            entity.setCustomGenerateId(id);
             entity.setId(null);
             this.entityManager.persist(entity);
         }
