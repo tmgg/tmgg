@@ -1,23 +1,14 @@
 package io.tmgg.web.persistence;
 
 
-import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import io.tmgg.commons.poi.excel.annotation.Excel;
-import io.tmgg.lang.HttpServletTool;
-import io.tmgg.lang.ann.Msg;
+import io.tmgg.lang.ExportImportTool;
 import io.tmgg.web.persistence.specification.JpaQuery;
-import io.tmgg.lang.importexport.PdfExportTool;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.obj.Option;
 import io.tmgg.lang.obj.Table;
-import io.tmgg.lang.poi.ExcelExportTool;
-import io.tmgg.web.service.ExportImportService;
 import jakarta.annotation.Resource;
-import jakarta.persistence.Lob;
 import jakarta.persistence.Transient;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +24,6 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.sql.Blob;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -45,8 +35,6 @@ public abstract class BaseService<T extends PersistEntity> {
     @Autowired
     protected BaseDao<T> baseDao;
 
-    @Resource
-    private ExportImportService exportImportService;
 
 
     public <T> AjaxResult autoRender(Page<T> page) throws Exception {
@@ -54,18 +42,18 @@ public abstract class BaseService<T extends PersistEntity> {
         Type type = ((ParameterizedType) superClass).getActualTypeArguments()[0];
         Class<T> cls = (Class<T>) type;
 
-        return exportImportService.autoRender(page,cls);
+        return ExportImportTool.autoRender(page,cls);
     }
 
     /**
      * 自定渲染，vo的情况
      */
     public <VO> AjaxResult autoRender(Page<VO> page,Class<VO> cls ) throws Exception {
-        return exportImportService.autoRender(page,cls);
+        return ExportImportTool.autoRender(page,cls);
     }
 
     public <D> void exportExcel(Table<D> table, String filename, HttpServletResponse response) throws IOException {
-        exportImportService.exportExcel(table, filename, response);
+        ExportImportTool.exportExcel(table, filename, response);
     }
 
     /**
@@ -76,7 +64,7 @@ public abstract class BaseService<T extends PersistEntity> {
      * @throws IOException
      */
     public void exportExcel(List<T> list, String filename, HttpServletResponse response) throws IOException {
-        exportImportService.exportExcel(list, filename, getEntityClass(), response);
+        ExportImportTool.exportExcel(list, filename, getEntityClass(), response);
     }
 
 

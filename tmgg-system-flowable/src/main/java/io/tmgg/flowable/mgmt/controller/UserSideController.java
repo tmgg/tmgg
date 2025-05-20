@@ -15,8 +15,10 @@ import io.tmgg.flowable.mgmt.service.MyTaskService;
 
 import io.tmgg.lang.BeanTool;
 import io.tmgg.lang.DateFormatTool;
+import io.tmgg.lang.ExportImportTool;
 import io.tmgg.lang.ImgTool;
 import io.tmgg.lang.obj.AjaxResult;
+import io.tmgg.lang.poi.ExcelExportTool;
 import org.apache.commons.lang3.StringUtils;
 import org.flowable.engine.HistoryService;
 import org.flowable.engine.RuntimeService;
@@ -45,6 +47,8 @@ import java.util.stream.Collectors;
 @RequestMapping("flowable/userside")
 public class UserSideController {
 
+
+
     @Resource
     MyTaskService myTaskService;
 
@@ -69,10 +73,9 @@ public class UserSideController {
     FlowableManager fm;
 
     @PostMapping("todoTaskPage")
-    public AjaxResult todo(Pageable pageable) {
+    public AjaxResult todo(Pageable pageable) throws Exception {
         Page<TaskVo> page = fm.taskTodoList(pageable);
-        AjaxResult data = AjaxResult.ok().data(page);
-        return data;
+        return ExportImportTool.autoRender(page, TaskVo.class);
     }
 
     @PostMapping("doneTaskPage")
