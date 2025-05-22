@@ -1,15 +1,22 @@
 
 package io.tmgg.lang;
 
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.util.ReflectUtil;
 import cn.hutool.core.util.StrUtil;
+import io.tmgg.lang.ann.Msg;
+import io.tmgg.lang.ann.MsgTool;
 import jakarta.persistence.RollbackException;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.beans.BeanUtils;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.transaction.TransactionSystemException;
 
+import java.beans.PropertyDescriptor;
+import java.lang.reflect.Field;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.Set;
 
@@ -24,7 +31,7 @@ public class ExceptionToMessageTool {
         String message = dispatch(throwable);
 
         // 中文则提示中文，非中文则使用默认提示
-        if (!StrTool.isChinese(message)) {
+        if (!StrTool.hasChinese(message)) {
             message = "服务器忙";
         }
         return message;
@@ -61,7 +68,7 @@ public class ExceptionToMessageTool {
                 if (msg.startsWith("Duplicate")) {
                     String result = RegexTool.findFirstMatch("\\'(.*?)\\'", msg, 1);
                     if (StrUtil.isNotBlank(result)) {
-                        return "数据重复,操作不能继续进行。 重复数据为：" + result;
+                        return "数据【"+result+"】重复" ;
                     }
                 }
 
@@ -84,9 +91,18 @@ public class ExceptionToMessageTool {
         StringBuilder sb = new StringBuilder();
 
         for (ConstraintViolation<?> v : constraintViolations) {
-            String property = v.getPropertyPath().toString();
+            String fieldName = v.getPropertyPath().toString();
             String message = v.getMessage();
-            sb.append(property);
+
+            Class<?> cls = v.getRootBeanClass();
+
+            Field field = ReflectUtil.getField(cls, fieldName);
+            String fieldCnName = MsgTool.getMsg(field);
+            if(fieldCnName != null){
+                fieldName = fieldCnName;
+            }
+
+            sb.append("【").append(fieldName).append("】错误：");
             sb.append(message);
             sb.append(" \r\n");
         }

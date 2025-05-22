@@ -1,6 +1,6 @@
 package io.tmgg.payment.mgmt.dao;
 
-import io.tmgg.lang.dao.BaseDao;
+import io.tmgg.web.persistence.BaseDao;
 import io.tmgg.payment.mgmt.entity.PaymentChannel;
 import org.springframework.stereotype.Repository;
 

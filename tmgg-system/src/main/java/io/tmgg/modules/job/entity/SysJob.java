@@ -1,10 +1,10 @@
 package io.tmgg.modules.job.entity;
 
 import io.tmgg.lang.ann.Msg;
-import io.tmgg.lang.dao.BaseEntity;
+import io.tmgg.web.persistence.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import io.tmgg.lang.dao.DBConstants;
-import io.tmgg.lang.dao.converter.ToMapConverter;
+import io.tmgg.web.persistence.DBConstants;
+import io.tmgg.web.persistence.converter.ToMapConverter;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldNameConstants;

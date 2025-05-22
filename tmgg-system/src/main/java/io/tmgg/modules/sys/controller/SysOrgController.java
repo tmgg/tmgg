@@ -7,11 +7,9 @@ import io.tmgg.framework.session.SysHttpSession;
 import io.tmgg.lang.TreeManager;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.obj.DropEvent;
-import io.tmgg.lang.obj.Option;
 import io.tmgg.modules.sys.entity.OrgType;
 import io.tmgg.modules.sys.entity.SysOrg;
 import io.tmgg.modules.sys.service.SysOrgService;
-import io.tmgg.web.CommonQueryParam;
 import io.tmgg.web.annotion.HasPermission;
 import io.tmgg.web.perm.SecurityUtils;
 import io.tmgg.web.perm.Subject;
@@ -51,7 +49,7 @@ public class SysOrgController {
     public AjaxResult delete(@RequestBody SysOrg sysOrg, HttpSession session) {
         sysOrgService.deleteById(sysOrg.getId());
         session.removeAttribute(SysHttpSession.SUBJECT_KEY);
-        return AjaxResult.ok();
+        return AjaxResult.ok().msg("删除机构成功");
     }
 
     @GetMapping("detail")
@@ -80,7 +78,6 @@ public class SysOrgController {
     public static class PageParam{
         boolean showDisabled;
         boolean showDept;
-        String keyword;
     }
 
     /**
@@ -89,13 +86,13 @@ public class SysOrgController {
      * @return
      */
     @PostMapping("pageTree")
-    public AjaxResult pageTree(@RequestBody PageParam param) {
+    public AjaxResult pageTree(@RequestBody PageParam param, String searchText) {
         Subject subject = SecurityUtils.getSubject();
 
         List<SysOrg> list = sysOrgService.findByLoginUser(subject, param.showDept  , param.showDisabled);
 
-        if(StrUtil.isNotEmpty(param.keyword)){
-            list = list.stream().filter(t -> t.getName().contains(param.keyword)).collect(Collectors.toList());
+        if(StrUtil.isNotEmpty(searchText)){
+            list = list.stream().filter(t -> t.getName().contains(searchText)).collect(Collectors.toList());
         }
 
 

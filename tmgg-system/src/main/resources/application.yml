@@ -6,12 +6,16 @@ db_password: 123456
 spring:
   profiles:
     active: default
-
+  jpa:
+    show-sql: true
 sys:
   cache-dir: /tmgg/framework/cache
 
 logging:
   file:
-    path: ../logs/app-log
+    path: ./logs
+    name: ./logs/xxxaaa.log
   pattern:
     dateformat: yyyy-MM-dd HH:mm:ss.SSS
+  level:
+    io.tmgg: debug

@@ -1,122 +1,134 @@
-import { Button, Modal, Upload } from 'antd';
-
-import React, {Component} from 'react';
-import UploadOutlined from '@ant-design/icons/lib/icons/UploadOutlined';
+import React from "react";
+import ImgCrop from "antd-img-crop";
+import {Modal, Upload} from "antd";
+import UploadOutlined from "@ant-design/icons/lib/icons/UploadOutlined";
 import {SysUtil} from "../../../system";
+import {ViewFile} from "../../view/ViewFile";
+import {ObjUtil} from "@tmgg/tmgg-commons-lang";
 
 
+export class FieldUploadFile extends React.Component {
 
+    state = {
+        // 传入的参数
+        maxCount: 5,
+        cropImage: false,
+        accept: ".jpg,.png",
 
+        // 内部参数
+        fileList: [],
+        value: null // 都好分隔的文件id
+    };
 
-
-
-
-/**
- * onChange?: (result: string) => void;
- *   value?: string;
- *   url?: string;
- *   businessKey?: string;
- *   accept?: string;
- *
- *   children:ReactNode;
- */
-export class FieldUploadFile extends Component{
-  state = {
-    fileList: [],
-  };
-
-  componentDidMount() {
-    // 初始值
-    if (this.props.value) {
-      let list = [];
-      let value = this.props.value;
-      if (value instanceof Array) {
-      } else {
-        value = value.split(',');
-      }
-      value.forEach((f, index) => {
-        let file = {};
-
-        file.url = f;
-        file.uid = index;
-        file.name = f.split('/')[f.split('/').length - 1];
-        file.status = 'done';
-        file.fileName = f;
-        list.push(file);
-      });
-      this.setState({ fileList: list });
-    }
-  }
-
-  handleChange = ({ fileList, event, file }) => {
-    const rs = file.response;
-    if (rs != null && rs.success === false) {
-      Modal.error({
-        title: '上传失败',
-        content: rs.message,
-      });
-      return;
+    constructor(props) {
+        super(props);
+        ObjUtil.copyPropertyIfPresent(props, this.state)
+        this.state.fileList = this.convertInput(this.state.value);
     }
 
-    this.setState({ fileList });
-    if (this.props.onChange) {
-      let doneList = [];
-      fileList.forEach((f) => {
-        if (f.status === 'done' && f.response && f.response.code == 0) {
-          doneList.push(f.response.data);
+    convertInput(value) {
+        let list = [];
+        if (value && value.length > 0) {
+            const arr = value.split(",")
+            for (const id of arr) {
+                const url = SysUtil.wrapServerUrl('sysFile/preview/' + id)
+                let file = {id, url, uid: id, name: id, status: 'done', fileName: id};
+                list.push(file);
+            }
         }
-      });
-      if (doneList.length == fileList.length) {
-        this.props.onChange(doneList.join(','));
-      }
-    }
-  };
 
-  render() {
-    const { fileList } = this.state;
-    const { businessKey, mode } = this.props;
-    const defaultURL = SysUtil.getServerUrl() + 'sysFile/upload';
-    let url = defaultURL;
-
-    if (this.props.url != null) {
-      url =  SysUtil.wrapServerUrl(this.props.url)  ;
-
+        return list
     }
 
-    if (businessKey != null) {
-      url += '?businessKey=' + businessKey;
+    convertOutput(fileList) {
+        let fileIds = [];
+        for (const f of fileList) {
+            if (f.status === 'done' && f.response) {
+                const ajaxResult = f.response
+                if (ajaxResult.success) {
+                    const {id, name} = ajaxResult.data
+                    f.id = id;
+                    fileIds.push(id);
+                } else {
+                    Modal.error({title: '上传文件失败', content: ajaxResult.message})
+                }
+
+            }
+        }
+        return fileIds;
     }
 
-    console.log('最终上传url', url)
 
-    if (mode == 'read') {
-      return this.renderReadOnly();
+    handleChange = ({fileList, event, file}) => {
+        const rs = file.response;
+        if (rs != null && rs.success === false) {
+            Modal.error({
+                title: '上传失败',
+                content: rs.message,
+            });
+            return;
+        }
+
+
+        this.setState({fileList});
+
+
+        let fileIds = this.convertOutput(fileList);
+        if (fileIds.length > 0) {
+            this.props?.onFileChange(fileList)
+        }
+        this.props?.onChange(fileIds.join(','));
+    };
+
+
+    handlePreview = (file) => {
+        debugger
+        Modal.info({
+            title: '文件预览',
+            width: '80vw',
+            content: <ViewFile value={file.id} height='70vh'/>
+        })
+
+    };
+
+    render() {
+        if (this.state.cropImage) {
+            return <ImgCrop cropperProps={this.props.cropperProps} modalTitle={'裁剪图片'} fillColor={null}>
+                {this.getUpload()}
+            </ImgCrop>
+        }
+
+        return this.getUpload();
     }
 
-    return (
-      <div className="clearfix">
-        <Upload
-          maxCount={1}
-          multiple={false}
-          action={url}
-          fileList={fileList}
-          listType="text"
-          onChange={this.handleChange}
-          headers={SysUtil.getHeaders()}
-          accept={this.props.accept}
+    getUpload = () => {
+        const {accept, fileList, maxCount} = this.state;
+
+        return <Upload
+            action={SysUtil.wrapServerUrl('sysFile/upload')}
+            listType="picture-card"
+            fileList={fileList}
+            onChange={this.handleChange}
+            headers={SysUtil.getHeaders()}
+            multiple={false}
+            accept={accept}
+            maxCount={maxCount}
+            onPreview={this.handlePreview}
         >
-          <Button>
-            <UploadOutlined /> 选择文件
-          </Button>
-        </Upload>
-      </div>
-    );
-  }
+            {this.renderButton()}
 
-  renderReadOnly() {
-    // TODO 显示
-    return (
-      <a >{this.props.children }</a>
-    );
-  }
+        </Upload>;
+    };
+
+    renderButton = () => {
+        const {fileList, maxCount} = this.state;
+        if (fileList.length >= maxCount) {
+            return
+        }
+
+        return <>
+            <UploadOutlined/>
+            <div className="ant-upload-text">选择文件</div>
+        </>;
+    };
 }

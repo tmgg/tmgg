@@ -3,14 +3,13 @@ package io.tmgg.modules.sys.entity;
 
 import io.tmgg.lang.Tree;
 import io.tmgg.lang.ann.Msg;
-import io.tmgg.lang.dao.BaseEntity;
-import io.tmgg.lang.dao.DBConstants;
+import io.tmgg.web.persistence.BaseEntity;
+import io.tmgg.web.persistence.DBConstants;
 import io.tmgg.web.enums.MenuType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 import lombok.experimental.FieldNameConstants;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -24,7 +23,6 @@ import java.util.List;
 @Getter
 @Setter
 @FieldNameConstants
-
 public class SysMenu extends BaseEntity implements Tree<SysMenu> {
 
 
@@ -86,5 +84,10 @@ public class SysMenu extends BaseEntity implements Tree<SysMenu> {
         }
     }
 
-
+    @Override
+    public String toString() {
+        return "SysMenu{" +
+               "name='" + name + '\'' +
+               '}';
+    }
 }

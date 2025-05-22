@@ -1,7 +1,7 @@
 package io.tmgg.payment.mgmt.entity;
 
 import io.tmgg.lang.ann.Msg;
-import io.tmgg.lang.dao.BaseEntity;
+import io.tmgg.web.persistence.BaseEntity;
 import io.tmgg.payment.enums.PaymentRefundStatus;
 import jakarta.persistence.Entity;
 import lombok.Getter;

@@ -1,19 +1,12 @@
 import {defaultTheme} from '@vuepress/theme-default'
 import {defineUserConfig} from 'vuepress/cli'
 import {viteBundler} from '@vuepress/bundler-vite'
-import { searchPlugin } from '@vuepress/plugin-search'
 
 export default defineUserConfig({
     lang: 'zh-CN',
-
     title: 'TMGG开源',
-    description: '安全稳定，省时省心',
+    description: '小型后台管理框架',
 
-    plugins: [
-        searchPlugin({
-            // 配置项
-        }),
-    ] ,
 
     theme: defaultTheme({
         navbar: ['/'],
@@ -25,10 +18,8 @@ export default defineUserConfig({
 
         sidebar: [
             '/get-start',
-            '/config',
-            '/session',
-            '/job',
-            '/open-api',
+            { text: "编码特性说明", link: "/gendoc.md"},
+
             {
 
                 text: '扩展插件',
@@ -48,15 +39,10 @@ export default defineUserConfig({
                     '/frontend/ui',
                 ]
             },
+            '/log-file',
+            '/qa',
+            '/code-tips',
 
-            {
-
-                text: '其他',
-                children: [
-                    '/code-tips',
-                    '/qa'
-                ]
-            },
 
 
 

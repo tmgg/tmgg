@@ -1,7 +1,7 @@
 package io.tmgg.weixin.entity;
 
 import io.tmgg.lang.ann.Msg;
-import io.tmgg.lang.dao.BaseEntity;
+import io.tmgg.web.persistence.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
 

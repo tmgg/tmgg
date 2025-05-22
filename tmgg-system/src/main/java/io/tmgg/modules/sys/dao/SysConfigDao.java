@@ -2,7 +2,9 @@
 package io.tmgg.modules.sys.dao;
 
 
-import io.tmgg.lang.dao.BaseDao;
+import io.tmgg.event.SysConfigChangeEvent;
+import io.tmgg.lang.SpringTool;
+import io.tmgg.web.persistence.BaseDao;
 import io.tmgg.modules.sys.entity.SysConfig;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
@@ -20,7 +22,9 @@ public class SysConfigDao extends BaseDao<SysConfig> {
     @CacheEvict(allEntries = true)
     @Override
     public SysConfig save(SysConfig entity) {
-        return super.save(entity);
+        SysConfig data = super.save(entity);
+        SpringTool.publishEventAsync(new SysConfigChangeEvent(this, data.getId()));
+        return data;
     }
 
     @Cacheable

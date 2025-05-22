@@ -3,14 +3,17 @@ package io.tmgg.lang;
 
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.extra.spring.SpringUtil;
+import org.apache.poi.ss.formula.functions.T;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Component
 public class SpringTool extends SpringUtil implements ApplicationContextAware {
@@ -38,6 +41,15 @@ public class SpringTool extends SpringUtil implements ApplicationContextAware {
     }
 
 
+
+    public static String[] getBasePackageNames(){
+        return getBasePackageClasses().stream().map(Class::getPackageName).collect(Collectors.toSet()).toArray(String[]::new);
+    }
+
+    /**
+     * 获取基础包名， 主要是框架，加项目设置的
+     * @return
+     */
     public static Set<Class<?>> getBasePackageClasses(){
         Set<Class<?>> clss = new HashSet<>();
         String[] beanNames = applicationContext.getBeanDefinitionNames();
@@ -173,6 +185,19 @@ public class SpringTool extends SpringUtil implements ApplicationContextAware {
     public static void publishEvent(ApplicationEvent event) {
         if (null != applicationContext) {
             applicationContext.publishEvent(event);
+        }
+    }
+
+    public static void publishEventAsync(ApplicationEvent event) {
+        if (null != applicationContext) {
+            Timer timer = new Timer();
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    applicationContext.publishEvent(event);
+                }
+            }, 5);
+
         }
     }
 

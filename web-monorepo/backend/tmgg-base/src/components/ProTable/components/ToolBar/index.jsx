@@ -1,14 +1,14 @@
 /**
  * 工具栏
  */
-import {HistoryOutlined, ReloadOutlined} from '@ant-design/icons';
+import {DatabaseOutlined, HistoryOutlined, ReloadOutlined} from '@ant-design/icons';
 import {Button, Input, message, Modal, Table} from 'antd';
 import React from 'react';
 import './index.less';
 import {DateUtil, StorageUtil} from "@tmgg/tmgg-commons-lang";
 import {PageUtil} from "../../../../system";
-
-
+import excel from './excel.svg'
+import pdf from './pdf.svg'
 export default class Toolbar extends React.Component {
 
     state = {
@@ -17,13 +17,20 @@ export default class Toolbar extends React.Component {
 
     render = () => {
         const {
+            onExport,
             onRefresh,
-            showSearch,
+            toolbarOptions = {},
             toolBarRender,
             loading,
             searchFormNode,
             params
         } = this.props;
+
+        let {showSearch,showExportExcel=true,showExportPdf=true,showExportJson=true} = toolbarOptions
+        // 未设置搜索表单的情况下，默认显示搜索Input
+        if(showSearch == null && searchFormNode == null){
+            showSearch = true
+        }
 
 
         return <div className='pro-table-toolbar'>
@@ -32,7 +39,7 @@ export default class Toolbar extends React.Component {
                 {showSearch && <Input.Search
                     style={{width: 200}}
                     placeholder='搜索...'
-                    onSearch={(v) => this.props.onSearch({keyword: v})}
+                    onSearch={(v) => this.props.onSearch({searchText: v})}
                 />
                 }
 
@@ -41,6 +48,20 @@ export default class Toolbar extends React.Component {
 
             <div className='pro-table-toolbar-option'>
                 {toolBarRender}
+
+                {showExportExcel &&  <button title='导出EXCEL'  className='btn' onClick={()=>onExport('EXCEL')}>
+                    <img src={excel} />
+                </button>}
+
+                {showExportPdf &&  <button title='导出PDF'  className='btn' onClick={()=>onExport('PDF')}>
+                    <img src={pdf} />
+                </button>}
+
+                {showExportJson &&  <button title='导出json'  className='btn' onClick={()=>onExport('JSON')}>
+                    <DatabaseOutlined />
+                </button>}
+
+
                 <Button icon={<ReloadOutlined/>} shape="circle" onClick={onRefresh} title='刷新' loading={loading}/>
                 <Button icon={<HistoryOutlined/>} shape="circle" onClick={this.onClickHistory} title='查询历史'/>
             </div>
@@ -60,7 +81,7 @@ export default class Toolbar extends React.Component {
                       open={this.state.historyOpen}
                       onCancel={() => this.setState({historyOpen: false})}
                       footer={null}
-                      destroyOnClose
+                      destroyOnHidden
         >
 
             <Table

@@ -10,16 +10,16 @@ import io.tmgg.flowable.mgmt.entity.SysFlowableModel;
 import io.tmgg.flowable.FlowableLoginUser;
 import io.tmgg.flowable.FlowableLoginUserProvider;
 import io.tmgg.flowable.FlowableMasterDataProvider;
-import io.tmgg.flowable.mgmt.service.MyFlowModelService;
+import io.tmgg.flowable.mgmt.service.SysFlowableModelService;
 import io.tmgg.flowable.mgmt.service.MyTaskService;
 
 import io.tmgg.lang.BeanTool;
 import io.tmgg.lang.DateFormatTool;
+import io.tmgg.web.import_export.ExportTool;
 import io.tmgg.lang.ImgTool;
 import io.tmgg.lang.obj.AjaxResult;
 import org.apache.commons.lang3.StringUtils;
 import org.flowable.engine.HistoryService;
-import org.flowable.engine.RuntimeService;
 import org.flowable.engine.TaskService;
 import org.flowable.engine.history.HistoricProcessInstance;
 import org.flowable.engine.history.HistoricProcessInstanceQuery;
@@ -27,7 +27,6 @@ import org.flowable.engine.task.Comment;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.config.SpringDataJacksonConfiguration;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
@@ -46,20 +45,21 @@ import java.util.stream.Collectors;
 @RequestMapping("flowable/userside")
 public class UserSideController {
 
+
+
     @Resource
     MyTaskService myTaskService;
 
     @Resource
     TaskService taskService;
 
-    @Resource
-    RuntimeService runtimeService;
+
 
     @Resource
     HistoryService historyService;
 
     @Resource
-    MyFlowModelService myFlowModelService;
+    SysFlowableModelService myFlowModelService;
 
     @Resource
     FlowableLoginUserProvider flowableLoginUserProvider;
@@ -71,9 +71,9 @@ public class UserSideController {
     FlowableManager fm;
 
     @PostMapping("todoTaskPage")
-    public AjaxResult todo(Pageable pageable) {
+    public AjaxResult todo(Pageable pageable) throws Exception {
         Page<TaskVo> page = fm.taskTodoList(pageable);
-        return AjaxResult.ok().data(page);
+        return ExportTool.autoRender(page, TaskVo.class);
     }
 
     @PostMapping("doneTaskPage")
@@ -149,7 +149,7 @@ public class UserSideController {
 
         List<HistoricProcessInstance> list = query
                 .listPage(0, 1);
-        Assert.state(list.size() > 0, "暂无流程信息");
+        Assert.state(!list.isEmpty(), "暂无流程信息");
         HistoricProcessInstance instance = list.get(0);
 
 
@@ -208,11 +208,10 @@ public class UserSideController {
 
             String formUrl = model.getFormUrl();
             if (StringUtils.isNotEmpty(formUrl)) {
-                // 替换 businessKey变量
                 if (instance.getBusinessKey() != null) {
-                    formUrl = formUrl.replace("${businessKey}", instance.getBusinessKey());
+                    data.put("formUrlSearch", "?id="+ instance.getBusinessKey());
                 }
-                data.put("formLink", formUrl);
+                data.put("formUrl", formUrl);
             }
         }
 

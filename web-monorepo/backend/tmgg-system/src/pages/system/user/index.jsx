@@ -71,6 +71,7 @@ export default class extends React.Component {
             title: '邮箱',
             dataIndex: 'email'
         },
+
         {
             title: '角色',
             dataIndex: 'roleIds',
@@ -91,7 +92,10 @@ export default class extends React.Component {
                 return dictValueTag('dataPermType', v)
             }
         },
-
+        {
+            title: '扩展字段1',
+            dataIndex: 'extra1'
+        },
         {
             title: '更新时间',
             dataIndex: 'updateTime',
@@ -139,9 +143,7 @@ export default class extends React.Component {
         })
     }
 
-    handleExport = () => {
-        HttpUtil.downloadFile("sysUser/export")
-    }
+
 
     onSelectOrg = (key) => {
         this.setState({currentOrgId: key}, () => this.tableRef.current.reload())
@@ -193,7 +195,7 @@ export default class extends React.Component {
                 <Splitter.Panel style={{paddingLeft:16}}>
                     <ProTable
                         actionRef={this.tableRef}
-                        toolBarRender={(action, {selectedRows}) => {
+                        toolBarRender={(params, {selectedRows,selectedRowKeys}) => {
                             return <ButtonList>
                                 <Button
                                     perm={addPerm}
@@ -202,8 +204,7 @@ export default class extends React.Component {
                                     <PlusOutlined/> 新增
                                 </Button>
 
-                                <Button perm={addPerm}
-                                        onClick={this.handleExport}>导出</Button>
+
                             </ButtonList>
                         }}
                         request={(params) => {
@@ -224,7 +225,7 @@ export default class extends React.Component {
                    open={this.state.formOpen}
                    onOk={() => this.formRef.current.submit()}
                    onCancel={() => this.setState({formOpen: false})}
-                   destroyOnClose
+                   destroyOnHidden
             >
 
                 <Form ref={this.formRef} labelCol={{flex: '100px'}}

@@ -2,13 +2,14 @@
 package io.tmgg.modules.sys.dao;
 
 import io.tmgg.dbtool.DbTool;
-import io.tmgg.lang.dao.BaseDao;
+import io.tmgg.web.persistence.BaseDao;
 import io.tmgg.modules.sys.entity.SysUser;
 import io.tmgg.modules.sys.entity.SysRole;
-import io.tmgg.lang.dao.specification.JpaQuery;
+import io.tmgg.web.persistence.specification.JpaQuery;
 import org.springframework.stereotype.Repository;
 
 import jakarta.annotation.Resource;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,6 +20,8 @@ public class SysUserDao extends BaseDao<SysUser> {
 
     @Resource
     private DbTool dbTool;
+
+
 
     public SysUser findByAccount(String account){
         JpaQuery<SysUser> q = new JpaQuery<>();
@@ -87,7 +90,8 @@ public class SysUserDao extends BaseDao<SysUser> {
     public List<SysUser> findByRoleId(String roleId) {
         JpaQuery<SysUser> q = new JpaQuery<>();
         q.isMember(SysUser.Fields.roles, new SysRole(roleId));
-
         return this.findAll(q);
     }
+
+
 }

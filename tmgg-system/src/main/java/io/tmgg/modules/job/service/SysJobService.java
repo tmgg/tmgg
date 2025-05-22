@@ -6,8 +6,8 @@ import io.tmgg.modules.job.entity.SysJob;
 import io.tmgg.modules.job.JobDesc;
 import io.tmgg.modules.job.entity.SysJobLog;
 import io.tmgg.modules.job.quartz.QuartzService;
-import io.tmgg.lang.dao.BaseService;
-import io.tmgg.lang.dao.specification.JpaQuery;
+import io.tmgg.web.persistence.BaseService;
+import io.tmgg.web.persistence.specification.JpaQuery;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.SchedulerException;
 import org.springframework.stereotype.Service;
@@ -42,9 +42,9 @@ public class SysJobService extends BaseService<SysJob> {
     }
 
     @Override
-    public SysJob saveOrUpdate(SysJob input) throws Exception {
+    public SysJob saveOrUpdate(SysJob input, List<String> updateKeys) throws Exception {
         String jobClass = input.getJobClass();
-        SysJob db = super.saveOrUpdate(input);
+        SysJob db= super.saveOrUpdate(input,updateKeys);
 
         try{
             Class<?> cls = Class.forName(jobClass);
@@ -61,8 +61,9 @@ public class SysJobService extends BaseService<SysJob> {
             quartzService.scheduleJob(db);
         }
 
-        return db;
+        return null;
     }
+
 
 
     @Transactional

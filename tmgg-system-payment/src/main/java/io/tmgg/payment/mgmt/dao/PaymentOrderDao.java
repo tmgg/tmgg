@@ -1,8 +1,8 @@
 package io.tmgg.payment.mgmt.dao;
 
-import io.tmgg.lang.dao.specification.JpaQuery;
+import io.tmgg.web.persistence.specification.JpaQuery;
 import io.tmgg.payment.mgmt.entity.PaymentOrder;
-import io.tmgg.lang.dao.BaseDao;
+import io.tmgg.web.persistence.BaseDao;
 import org.springframework.stereotype.Repository;
 
 @Repository

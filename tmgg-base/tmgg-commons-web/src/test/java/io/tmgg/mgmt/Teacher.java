@@ -1,18 +1,14 @@
 package io.tmgg.mgmt;
 
-import io.tmgg.lang.dao.BaseEntity;
-import io.tmgg.lang.dao.id.CustomId;
-import io.tmgg.lang.dao.id.IdStyle;
+import io.tmgg.web.persistence.BaseEntity;
+import io.tmgg.web.persistence.id.CustomId;
+import io.tmgg.web.persistence.id.IdStyle;
 import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter

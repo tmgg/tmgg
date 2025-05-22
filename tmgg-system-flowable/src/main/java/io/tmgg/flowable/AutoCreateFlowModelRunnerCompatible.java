@@ -1,7 +1,7 @@
 package io.tmgg.flowable;
 
 import io.tmgg.flowable.mgmt.entity.SysFlowableModel;
-import io.tmgg.flowable.mgmt.service.MyFlowModelService;
+import io.tmgg.flowable.mgmt.service.SysFlowableModelService;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import io.tmgg.jackson.XmlTool;
@@ -24,7 +24,7 @@ import java.nio.charset.StandardCharsets;
 public class AutoCreateFlowModelRunnerCompatible implements ApplicationRunner {
 
     @Resource
-    MyFlowModelService myFlowModelService;
+    SysFlowableModelService myFlowModelService;
 
     @Override
     public void run(ApplicationArguments args) throws Exception {

@@ -12,6 +12,7 @@ export class ViewImage extends React.Component {
       content: <div style={{maxHeight:'70vh',overflow:'auto'}}>
         <img src={url}  style={{maxWidth: '100%'}}/>
       </div>,
+
     });
   };
 

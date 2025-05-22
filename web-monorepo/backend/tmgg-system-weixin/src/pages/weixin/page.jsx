@@ -124,7 +124,7 @@ export default class extends React.Component {
                    open={this.state.formOpen}
                    onOk={() => this.formRef.current.submit()}
                    onCancel={() => this.setState({formOpen: false})}
-                   destroyOnClose
+                   destroyOnHidden
                    maskClosable={false}
                    width={800}
             >
@@ -155,7 +155,7 @@ export default class extends React.Component {
                    open={this.state.importPagesOpen}
                    onOk={() => this.importPagesFormRef.current.submit()}
                    onCancel={() => this.setState({importPagesOpen: false})}
-                   destroyOnClose
+                   destroyOnHidden
                    maskClosable={false}
                    width={800}
             >

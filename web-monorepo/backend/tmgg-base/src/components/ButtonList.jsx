@@ -40,13 +40,17 @@ export class ButtonList extends React.Component {
      {
       const menus = [];
       // 权限过滤
-      for (let c of children) {
-        if (c === null || c === undefined) {
+      for (let child of children) {
+        if (child === null || child === undefined) {
           continue;
         }
         // @ts-ignore
-        if ((c != false && PermUtil.hasPermission(c.props.perm)) || c.props == null || c.props.perm == null) {
-          menus.push(c);
+
+        if (child ) {
+          if(  child.props == null || child.props.perm == null || PermUtil.hasPermission(child.props.perm)){
+            menus.push(child);
+          }
+
         }
       }
 

@@ -3,11 +3,14 @@ package io.tmgg.config;
 
 import cn.hutool.core.collection.CollUtil;
 import io.tmgg.SysProp;
-import io.tmgg.core.filter.xss.XssFilter;
+import io.tmgg.framework.xss.XssFilter;
 import io.tmgg.framework.interceptor.AppApiJwtInterceptor;
 import io.tmgg.framework.interceptor.LoginInterceptor;
 import io.tmgg.framework.interceptor.PermissionInterceptor;
 import io.tmgg.framework.interceptor.SubjectInterceptor;
+import io.tmgg.web.WebConstants;
+import io.tmgg.web.argument.resolver.RequestBodyKeysArgumentResolver;
+import io.tmgg.web.argument.resolver.UnpagedPageableArgumentResolver;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -15,12 +18,11 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.MediaType;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.HandlerInterceptor;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistration;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.*;
 
 import java.util.List;
 
@@ -57,7 +59,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
             "/openApi/gateway/**",
 
             // 移动端, 小程序
-            AppApiJwtInterceptor.PATTERN
+            WebConstants.APP_API_PATTERN
     };
 
 
@@ -107,7 +109,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
         }
 
 
-        registry.addInterceptor(appApiInterceptor).addPathPatterns(AppApiJwtInterceptor.PATTERN);
+        registry.addInterceptor(appApiInterceptor).addPathPatterns(WebConstants.APP_API_PATTERN);
 
     }
 
@@ -140,4 +142,19 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry.addResourceHandler("/**").addResourceLocations(list);
     }
 
+    @Override
+    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
+        resolvers.add(0,new UnpagedPageableArgumentResolver());
+        resolvers.add(new RequestBodyKeysArgumentResolver());
+    }
+
+    /**
+     * 由于引入了 jackson-dataformat-xml， 导致浏览器打开接口时返回xml(浏览器请求头Accept含xml)，这里设置默认返回json
+     * @param configurer
+     */
+    @Override
+    public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
+        configurer.ignoreAcceptHeader(true)
+                .defaultContentType(MediaType.APPLICATION_JSON);
+    }
 }

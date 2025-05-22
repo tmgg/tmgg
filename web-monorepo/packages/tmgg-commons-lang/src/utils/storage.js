@@ -22,6 +22,9 @@ export const StorageUtil = {
     },
 
     set(key, value) {
+        if(value == null){
+            localStorage.removeItem(key)
+        }
         const item = {
             createTime: DateUtil.now(),
             data: value

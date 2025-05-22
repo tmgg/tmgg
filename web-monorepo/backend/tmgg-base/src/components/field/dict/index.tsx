@@ -18,6 +18,7 @@ export interface DictProps {
  * @constructor
  */
 export class DictSelect extends React.Component<DictProps> {
+
   render() {
     let {typeCode, params, mode, value, onChange, placeholder = '请选择', ...restProps} = this.props;
 

@@ -2,7 +2,7 @@ package io.tmgg.modules.sys.controller;
 
 
 import io.tmgg.lang.TreeTool;
-import io.tmgg.lang.dao.specification.JpaQuery;
+import io.tmgg.web.persistence.specification.JpaQuery;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.obj.TreeNode;
 import io.tmgg.modules.sys.entity.SysMenu;

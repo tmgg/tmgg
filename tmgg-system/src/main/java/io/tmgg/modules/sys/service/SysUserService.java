@@ -1,30 +1,27 @@
 
 package io.tmgg.modules.sys.service;
 
-import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.bean.copier.CopyOptions;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.collection.CollectionUtil;
-import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import io.tmgg.framework.session.SysHttpSessionService;
 import io.tmgg.lang.PasswordTool;
-import io.tmgg.lang.dao.BaseEntity;
-import io.tmgg.lang.dao.BaseService;
-import io.tmgg.lang.dao.exports.UserLabelQuery;
-import io.tmgg.lang.dao.specification.JpaQuery;
+import io.tmgg.web.persistence.BaseEntity;
+import io.tmgg.web.persistence.BaseService;
+import io.tmgg.web.persistence.exports.UserLabelQuery;
+import io.tmgg.web.persistence.specification.JpaQuery;
 import io.tmgg.modules.sys.dao.SysOrgDao;
 import io.tmgg.modules.sys.dao.SysRoleDao;
 import io.tmgg.modules.sys.dao.SysUserDao;
 import io.tmgg.modules.sys.dto.GrantPermDto;
+import io.tmgg.modules.sys.entity.DataPermType;
 import io.tmgg.modules.sys.entity.SysOrg;
 import io.tmgg.modules.sys.entity.SysRole;
 import io.tmgg.modules.sys.entity.SysUser;
-import io.tmgg.modules.sys.entity.DataPermType;
+import io.tmgg.web.CodeAssert;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -32,7 +29,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import javax.management.relation.Role;
 import java.sql.SQLException;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -41,6 +37,8 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 public class SysUserService extends BaseService<SysUser> implements UserLabelQuery {
+
+    public static final int CODE_PWD_ERR = 4011;
 
 
     @Resource
@@ -61,8 +59,26 @@ public class SysUserService extends BaseService<SysUser> implements UserLabelQue
     @Resource
     private SysHttpSessionService sm;
 
+
     public SysUser checkLogin(String account, String password) {
-        SysUser sysUser = checkPwd(account, password);
+        SysUser sysUser = sysUserDao.findByAccount(account);
+
+        Assert.hasText(account, "账号不能为空");
+        Assert.hasText(password, "密码不能为空");
+        Assert.notNull(sysUser, "账号不存在");
+
+        Assert.state(sysUser.getEnabled(), "账号已禁用");
+        String passwordBcrypt = sysUser.getPassword();
+        Assert.hasText(passwordBcrypt, "账号未设置密码");
+
+
+
+        boolean checkpw = PasswordTool.checkpw(password, passwordBcrypt);
+        if (!checkpw) {
+            log.info("登录密码错误,记录错误");
+        }
+        CodeAssert.state(checkpw, CODE_PWD_ERR,"账号或密码错误");
+
 
 
         // 多端登录检测
@@ -71,25 +87,20 @@ public class SysUserService extends BaseService<SysUser> implements UserLabelQue
             sm.forceExistBySubjectId(sysUser.getId());
         }
 
-
         return sysUser;
     }
 
-    public SysUser checkPwd(String account, String password) {
-        Assert.hasText(account, "账号不能为空");
-        Assert.hasText(password, "密码不能为空");
-        SysUser sysUser = sysUserDao.findByAccount(account);
 
-        Assert.notNull(sysUser, "账号不存在");
-
-        Assert.state(sysUser.getEnabled(), "账号已禁用");
-        String passwordBcrypt = sysUser.getPassword();
-
-        Assert.hasText(passwordBcrypt, "账号未设置密码");
-
-        boolean checkpw = PasswordTool.checkpw(password, passwordBcrypt);
-        Assert.state(checkpw, "密码错误");
-        return sysUser;
+    /**
+     * 检查是否需要更新密码
+     *
+     * @param account
+     * @param password
+     * @return
+     */
+    public boolean checkNeedUpdatePwd(String account, String password) {
+        String defaultPassWord = sysConfigService.getDefaultPassWord();
+        return Objects.equals(password, defaultPassWord);
     }
 
 
@@ -147,7 +158,7 @@ public class SysUserService extends BaseService<SysUser> implements UserLabelQue
     }
 
 
-    public Page<SysUser> findAll(String orgId,String roleId, String keyword, Pageable pageable) throws SQLException {
+    public Page<SysUser> findAll(String orgId, String roleId, String searchText, Pageable pageable) throws SQLException {
         JpaQuery<SysUser> query = new JpaQuery<>();
 
         if (StrUtil.isNotEmpty(orgId)) {
@@ -161,12 +172,12 @@ public class SysUserService extends BaseService<SysUser> implements UserLabelQue
             query.isMember(SysUser.Fields.roles, new SysRole(roleId));
         }
 
-        if (StrUtil.isNotEmpty(keyword)) {
+        if (StrUtil.isNotEmpty(searchText)) {
             query.addSubOr(q -> {
-                q.like(SysUser.Fields.name, keyword);
-                q.like(SysUser.Fields.phone, keyword);
-                q.like(SysUser.Fields.account, keyword);
-                q.like(SysUser.Fields.email, keyword);
+                q.like(SysUser.Fields.name, searchText);
+                q.like(SysUser.Fields.phone, searchText);
+                q.like(SysUser.Fields.account, searchText);
+                q.like(SysUser.Fields.email, searchText);
             });
         }
 
@@ -174,23 +185,18 @@ public class SysUserService extends BaseService<SysUser> implements UserLabelQue
     }
 
     @Override
-    public SysUser saveOrUpdate(SysUser input) throws Exception {
+    public SysUser saveOrUpdate(SysUser input, List<String> updateKeys) throws Exception {
         boolean isNew = input.isNew();
         if (isNew) {
             String password = sysConfigService.getDefaultPassWord();
             input.setPassword(PasswordTool.encode(password));
-            return baseDao.save(input);
         }
 
-
-        SysUser old = baseDao.findById(input.getId());
-        BeanUtil.copyProperties(input, old, CopyOptions.create()
-                .setIgnoreProperties(ArrayUtil.append(BaseEntity.BASE_ENTITY_FIELDS,
-                        SysUser.Fields.roles, SysUser.Fields.password, SysUser.Fields.dataPerms
-                )));
-        return baseDao.save(old);
-
+        super.saveOrUpdate(input, updateKeys);
+        return null;
     }
+
+
 
     @Transactional
     public void delete(String id) {
@@ -203,18 +209,16 @@ public class SysUserService extends BaseService<SysUser> implements UserLabelQue
     }
 
 
-    public void updatePwd(String userId, String password, String newPassword) {
-        Assert.hasText(password, "请输入密码");
+    @Transactional
+    public void updatePwd(String userId, String newPassword) {
         Assert.hasText(newPassword, "请输入新密码");
         SysUser sysUser = this.findOne(userId);
 
-        Assert.state(!newPassword.equals(password), "新密码与原密码相同，请检查newPassword参数");
-        Assert.state(PasswordTool.checkpw(password, sysUser.getPassword()), "原密码错误");
 
         PasswordTool.validateStrength(newPassword);
 
         sysUser.setPassword(PasswordTool.encode(newPassword));
-        this.save(sysUser);
+        sysUserDao.save(sysUser);
     }
 
 
@@ -301,7 +305,7 @@ public class SysUserService extends BaseService<SysUser> implements UserLabelQue
     @Transactional
     public void grantPerm(String id, List<String> roleIds, DataPermType dataPermType, List<String> orgIdList) {
         SysUser user = this.findOne(id);
-        List<SysOrg> orgs = CollUtil.isNotEmpty(orgIdList)  ? sysOrgDao.findAllById(orgIdList) : Collections.emptyList();
+        List<SysOrg> orgs = CollUtil.isNotEmpty(orgIdList) ? sysOrgDao.findAllById(orgIdList) : Collections.emptyList();
         user.setDataPerms(orgs);
         user.setDataPermType(dataPermType);
 

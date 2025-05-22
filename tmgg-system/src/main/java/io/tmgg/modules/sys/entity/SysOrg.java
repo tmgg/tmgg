@@ -2,8 +2,9 @@
 package io.tmgg.modules.sys.entity;
 
 import io.tmgg.framework.dict.DictField;
-import io.tmgg.lang.dao.BaseEntity;
-import io.tmgg.lang.dao.TreeEntity;
+import io.tmgg.lang.ann.Msg;
+import io.tmgg.web.persistence.BaseEntity;
+import io.tmgg.web.persistence.TreeEntity;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldNameConstants;
@@ -15,6 +16,7 @@ import java.util.List;
 /**
  * 系统组织机构表
  */
+@Msg("组织机构")
 @Getter
 @Setter
 @Entity
@@ -53,7 +55,7 @@ public class SysOrg extends BaseEntity implements TreeEntity<SysOrg> {
 
 
     @NotNull
-    @DictField(code ="orgType", label="机构类型",  value = {10,20}, valueLabel ={"单位", "部门"})
+    @DictField(code ="orgType", label="机构类型", kvs = "10=单位 20=部门")
     private Integer type;
 
 

@@ -11,8 +11,6 @@ export * from './PageLoading'
 export * from './OrgTree'
 export * from './ProTable'
 export * from './DownloadFileButton'
-export * from './report/SysReportChart'
-export * from './report/SysReportTable'
 
 export * from './NamedIcon'
 export * from './EditTable'

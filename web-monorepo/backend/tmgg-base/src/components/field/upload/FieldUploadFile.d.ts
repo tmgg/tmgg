@@ -1,17 +1,32 @@
 // @ts-ignore
 import React from "react";
-import {ColumnsType} from "antd/es/table";
-import {FormInstance} from "antd";
+// @ts-ignore
+import {CropperProps} from "react-easy-crop/Cropper";
+
 
 declare type FieldUploadFileProps = {
-   value?: any;
-    onChange?: ()=>{},
+    value?: string; // 文件的值，sysFile的id, 逗号分割
+    onChange?: (v: string) => {};
+    onFileChange?: (fileList: any[]) => {}
 
     /**
-     * 自定义上传路径
+     * 是否裁切图片
      */
-    url?: string
+    cropImage?: boolean;
+    cropperProps?: CropperProps;
+
+    maxCount?: number;
+
+    accept?: "image/*" | ".pdf" | ".docx" | '.xlsx' | string;
+
+    children?: React.ReactNode;
 };
 
+/**
+ * 上传图片前裁切， 单张图片
+ *
+ * 可参考 react-easy-crop
+ */
 export class FieldUploadFile extends React.Component<FieldUploadFileProps, any> {
+
 }

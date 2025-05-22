@@ -1,4 +1,4 @@
-import {Table} from 'antd';
+import {message, Table} from 'antd';
 import Toolbar from './components/ToolBar';
 import React from "react";
 import SearchForm from "./components/SearchForm";
@@ -70,6 +70,25 @@ export class ProTable extends React.Component {
             this.setState({loading: false})
         })
     }
+    exportFile = (type) => {
+        const {request} = this.props
+        const params = {...this.state.params}
+        const {sorter} = this.state
+
+        const {field, order} = sorter
+        if (field) {
+            params.sort = field + "," + (order === 'ascend' ? 'asc' : 'desc')
+        }
+
+        params._exportType = type
+        params.size = -1
+
+        const hide = message.loading('下载中...',0)
+        request(params).then((r)=>{
+           console.log('下载完成(不一定成功)')
+        }).finally(hide)
+
+    };
 
     // 数据重新加载后，更新toolbar需要的已选择数据行
     updateSelectedRows = list => {
@@ -102,9 +121,8 @@ export class ProTable extends React.Component {
             columns,
             rowSelection,
             rowKey = "id",
-            showSearch,
+            toolbarOptions,
             searchFormItemsRender,
-            formRef
         } = this.props
 
         let searchFormNode = null
@@ -120,17 +138,18 @@ export class ProTable extends React.Component {
         }
 
         return <div className='tmgg-pro-table'>
-            <Toolbar
+            {toolbarOptions !==false && <Toolbar
                 searchFormNode={searchFormNode}
                 actionRef={actionRef}
                 toolBarRender={this.getToolBarRenderNode(toolBarRender)}
                 onRefresh={() => this.loadData()}
-                showSearch={showSearch == null ? (searchFormNode == null) : showSearch} // 未设置搜索表单的情况下，默认显示搜索Input
+                onExport={(type)=>this.exportFile(type)}
+                toolbarOptions={toolbarOptions}
                 onSearch={this.onSearch}
                 loading={this.state.loading}
                 params={this.state.params}
                 changeFormValues={this.changeFormValues}
-            />
+            />}
 
 
             <Table

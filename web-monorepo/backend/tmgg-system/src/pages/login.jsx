@@ -30,6 +30,7 @@ export default class login extends React.Component {
     submit = values => {
         this.setState({logging: true})
         HttpUtil.post('/login', values).then(token => {
+            console.log('登录结果', token)
             SysUtil.setToken(token)
             const login_redirect_path = localStorage.getItem('login_redirect_path') || '/'
             localStorage.removeItem('login_redirect_path')

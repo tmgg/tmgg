@@ -41,11 +41,7 @@ export default class extends React.Component {
 
 
 
-        {
-            title: '备注',
-            dataIndex: 'remark',
-            width: 400
-        },
+
         {
             title: '默认值',
             dataIndex: 'defaultValue',
@@ -53,6 +49,10 @@ export default class extends React.Component {
                 return <FieldComponent type={record.valueType || 'input'} mode='read' value={v}/>
 
             }
+        },   {
+            title: '备注',
+            dataIndex: 'remark',
+            width: 400
         },
         {
             title: '更新时间',
@@ -96,9 +96,8 @@ export default class extends React.Component {
         return <>
             <ProTable
                 actionRef={this.tableRef}
-                request={(params, sort) => HttpUtil.pageData('sysConfig/page', params, sort)}
+                request={(params) => HttpUtil.pageData('sysConfig/page', params)}
                 columns={this.columns}
-                search={false}
                 defaultPageSize={1000}
             />
 
@@ -106,7 +105,7 @@ export default class extends React.Component {
                    open={this.state.formOpen}
                    onOk={() => this.formRef.current.submit()}
                    onCancel={() => this.setState({formOpen: false})}
-                   destroyOnClose
+                   destroyOnHidden
                    maskClosable={false}
                    width={400}
             >

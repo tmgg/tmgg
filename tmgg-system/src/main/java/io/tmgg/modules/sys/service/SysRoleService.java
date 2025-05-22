@@ -1,12 +1,8 @@
 
 package io.tmgg.modules.sys.service;
 
-import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.bean.copier.CopyOptions;
-import cn.hutool.core.util.ArrayUtil;
-import io.tmgg.lang.dao.BaseEntity;
-import io.tmgg.lang.dao.BaseService;
-import io.tmgg.lang.dao.specification.JpaQuery;
+import io.tmgg.web.persistence.BaseService;
+import io.tmgg.web.persistence.specification.JpaQuery;
 import io.tmgg.modules.sys.dao.SysMenuDao;
 import io.tmgg.modules.sys.entity.SysMenu;
 import io.tmgg.modules.sys.dao.SysRoleDao;
@@ -21,7 +17,6 @@ import jakarta.annotation.Resource;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -65,22 +60,8 @@ public class SysRoleService extends BaseService<SysRole> {
     }
 
 
-    @Override
-    public SysRole saveOrUpdate(SysRole input) throws Exception {
-        boolean isNew = input.isNew();
-        if (isNew) {
-            return baseDao.save(input);
-        }
-
-        SysRole old = baseDao.findById(input.getId());
-        Assert.state(!old.getBuiltin(), "内置角色不能修改");
 
 
-
-        BeanUtil.copyProperties(input, old);
-
-        return   baseDao.save(old);
-    }
 
     @Override
     public void deleteById(String id) {

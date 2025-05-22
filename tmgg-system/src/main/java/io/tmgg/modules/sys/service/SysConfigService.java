@@ -4,8 +4,8 @@ package io.tmgg.modules.sys.service;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.system.SystemUtil;
 import io.tmgg.lang.RequestTool;
-import io.tmgg.lang.dao.BaseService;
-import io.tmgg.lang.dao.specification.JpaQuery;
+import io.tmgg.web.persistence.BaseService;
+import io.tmgg.web.persistence.specification.JpaQuery;
 import io.tmgg.modules.sys.dao.SysConfigDao;
 import io.tmgg.modules.sys.entity.SysConfig;
 import jakarta.annotation.Resource;
@@ -44,12 +44,7 @@ public class SysConfigService extends BaseService<SysConfig> {
     }
 
 
-    @Override
-    public SysConfig saveOrUpdate(SysConfig input) throws Exception {
-        SysConfig old = dao.findById(input.getId());
-        old.setValue(input.getValue());
-        return dao.save(old);
-    }
+
 
     public boolean getBoolean(String key) {
         validateKey(key);
@@ -70,6 +65,16 @@ public class SysConfigService extends BaseService<SysConfig> {
         Assert.notNull(sysConfig, "系统配置不存在" + key);
         return parseFinalValue(sysConfig);
     }
+
+    public Object getValueQuietly(String key) {
+        validateKey(key);
+        SysConfig sysConfig = this.findOne(key);
+        if(sysConfig == null){
+            return null;
+        }
+        return parseFinalValue(sysConfig);
+    }
+
 
 
     public String getStr(String key) {

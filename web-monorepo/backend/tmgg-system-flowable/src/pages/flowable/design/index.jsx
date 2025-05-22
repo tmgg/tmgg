@@ -44,10 +44,8 @@ export default class extends React.Component {
   preXmlRef = React.createRef()
 
   componentDidMount() {
-    let params = PageUtil.currentLocationQuery();
-
+    let params = PageUtil.currentParams()
     this.state.id = params.id
-
     this.bpmnModeler = new BpmnModeler({
       additionalModules: [
         // 汉化翻译
@@ -60,18 +58,13 @@ export default class extends React.Component {
       ]
     });
 
-
-
     this.modeling = this.bpmnModeler.get('modeling'); // 建模， 包含很多方法
     this.moddle = this.bpmnModeler.get('moddle'); // 数据模型， 主要存储元数据
 
 
-
-
     HttpUtil.get('flowable/model/detail', {id: this.state.id}).then(rs => {
       let {conditionVariable, model} = rs;
-      this.setState({model, conditionVariable})
-      this.initBpmn(model.content)
+      this.setState({model, conditionVariable},()=>  this.initBpmn(model.content))
     })
 
     window.bpmnModeler = this.bpmnModeler
@@ -220,8 +213,6 @@ export default class extends React.Component {
 
     switch (elementType) {
       case 'SequenceFlow':
-
-
         return <ConditionForm conditionVariable={conditionVariable}
                               moddle={this.moddle}
                               bo={curBo}
@@ -237,14 +228,6 @@ export default class extends React.Component {
           return <TimerEventDefinitionForm bo={curBo}/>
         }
     }
-
-
     return <></>
-
-
   }
-
-
-
-
 }

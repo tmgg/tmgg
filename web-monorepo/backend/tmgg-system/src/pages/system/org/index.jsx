@@ -18,7 +18,7 @@ const baseApi = 'sysOrg/';
 const deleteTitle = '删除' + baseTitle
 
 
-const delApi = baseApi + 'delete'
+const delApi = 'sysOrg/delete'
 const treeApi = baseApi + 'allTree'
 
 
@@ -34,14 +34,14 @@ export default class extends React.Component {
         params: {
             showDisabled: true,
             showDept: true,
-            keyword: null
+            searchText: null
         },
 
         treeData: [],
         treeLoading: false,
         draggable: false,
 
-        expandedKeys:[],
+        expandedKeys: [],
 
 
         enableAllLoading: false,
@@ -70,10 +70,14 @@ export default class extends React.Component {
     }
 
     handleDelete = row => {
-        HttpUtil.post(delApi, row).then(rs => {
-            this.setState({formValues: null})
-            this.loadTree()
-        })
+        HttpUtil.create()
+            .enableShowMessage()
+            .enableShowLoading()
+            .post('sysOrg/delete', row)
+            .then(rs => {
+                this.setState({formValues: null})
+                this.loadTree()
+            })
     }
 
 
@@ -121,9 +125,9 @@ export default class extends React.Component {
     onDraggableChange = e => {
         this.setState({draggable: e})
     };
-    onExpandSelect = v=>{
+    onExpandSelect = v => {
         const keys = TreeUtil.findKeysByLevel(this.state.treeData, v)
-        this.setState({expandedKeys:keys})
+        this.setState({expandedKeys: keys})
     }
 
     render() {
@@ -157,8 +161,8 @@ export default class extends React.Component {
                           </Space>}>
                         <Space>
 
-                            <Input.Search placeholder='搜索' value={params.keyword} onChange={e => {
-                                params.keyword = e.target.value
+                            <Input.Search placeholder='搜索' value={params.searchText} onChange={e => {
+                                params.searchText = e.target.value
                                 this.setState({params}, this.loadTree)
                             }}/>
                             <div>
@@ -194,7 +198,7 @@ export default class extends React.Component {
                               onDrop={this.onDrop}
                               showLine
                               expandedKeys={this.state.expandedKeys}
-                              onExpand={(expandedKeys)=>{
+                              onExpand={(expandedKeys) => {
                                   this.setState({expandedKeys})
                               }}
                               autoExpandParent

@@ -1,19 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
 
-    <!--日志格式应用spring boot默认的格式，也可以自己更改, jar包为：spring-boot-3.3.3.jar -->
+    <!--日志格式应用spring boot默认的格式，也可以自己更改, jar包为：spring-boot-3.x.x.jar -->
     <include resource="org/springframework/boot/logging/logback/base.xml"/>
     <include resource="logback-project.xml"/>
 
-    <root level="INFO">
-        <appender-ref ref="CONSOLE" />
-        <appender-ref ref="FILE" />
-    </root>
-
-    <logger name="io.tmgg" level="DEBUG" />
 
 
-    <!--任务-->
+
+    <!--任务日志，利用的MDC设置变量job_log_id，实现文件分隔-->
     <appender name="JOB-SIFT" class="ch.qos.logback.classic.sift.SiftingAppender">
         <discriminator>
             <key>job_log_id</key>

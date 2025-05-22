@@ -1,9 +1,9 @@
 package io.tmgg.lang;
 
-import cn.hutool.core.util.NumberUtil;
-import io.tmgg.lang.obj.Between;
 import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.util.StrUtil;
+import io.tmgg.lang.obj.Between;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.util.Assert;
@@ -17,8 +17,13 @@ import java.util.List;
 
 public class DateTool {
 
+    // 2023-01-01/2023-01-01
+    public static boolean isIsoDateRange(String s) {
+        return s.length() == 21 && !s.contains("/") && StrUtil.count(s, "-") == 4;
+    }
 
-    public static boolean isBetween(String date, String begin,String end){
+
+    public static boolean isBetween(String date, String begin, String end) {
         Assert.state(date != null, "时间不能为空");
         Assert.state(begin != null, "开始时间不能为空");
         Assert.state(end != null, "结束时间不能为空");
@@ -27,7 +32,7 @@ public class DateTool {
         int d = date.length();
         Assert.state(b == e && d == b, "时间长度不一致");
 
-        return  date.compareTo(begin) >=0 && date.compareTo(end) <=0;
+        return date.compareTo(begin) >= 0 && date.compareTo(end) <= 0;
     }
 
 
@@ -44,7 +49,6 @@ public class DateTool {
         }
 
 
-
         return list;
     }
 
@@ -58,11 +62,10 @@ public class DateTool {
      * 判断时间区间内的个数，包含开闭临界值
      * 支持4种格式， yyyy, yyyy-MM, yyyy-MM-dd， yyyy-Q1,季度，如 2023-Q1， 2023-Q3
      * 如 2023-01 至2023-03， 返回3天
+     *
      * @param begin 开始时间
-     * @param end  结束时间
-     *
+     * @param end   结束时间
      * @return 数量
-     *
      */
     public static long count(String begin, String end) {
         Assert.hasText(begin, "开始时间不能为空");

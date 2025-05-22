@@ -1,11 +1,10 @@
 package io.tmgg.payment.mgmt.controller;
 
-import io.tmgg.lang.dao.specification.JpaQuery;
+import io.tmgg.web.persistence.specification.JpaQuery;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.payment.mgmt.entity.PaymentRefundOrder;
 import io.tmgg.payment.mgmt.service.PaymentRefundOrderService;
-import io.tmgg.lang.dao.BaseController;
-import io.tmgg.web.CommonQueryParam;
+import io.tmgg.web.persistence.BaseController;
 
 
 import io.tmgg.web.annotion.HasPermission;
@@ -28,11 +27,10 @@ public class PaymentRefundOrderController  extends BaseController<PaymentRefundO
 
     @HasPermission
     @PostMapping("page")
-    public AjaxResult page(@RequestBody  CommonQueryParam param,  @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) throws Exception {
+    public AjaxResult page(String searchText,  @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) throws Exception {
         JpaQuery<PaymentRefundOrder> q = new JpaQuery<>();
 
-        // 关键字搜索，请补全字段
-        q.searchText(param.getKeyword(), PaymentRefundOrder.Fields.outRefundNo,PaymentRefundOrder.Fields.outTradeNo);
+        q.searchText(searchText, PaymentRefundOrder.Fields.outRefundNo,PaymentRefundOrder.Fields.outTradeNo);
 
         Page<PaymentRefundOrder> page = service.findAll(q, pageable);
         return AjaxResult.ok().data(page);

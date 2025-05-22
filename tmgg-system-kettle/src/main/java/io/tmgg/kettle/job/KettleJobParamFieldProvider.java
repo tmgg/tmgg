@@ -2,7 +2,7 @@ package io.tmgg.kettle.job;
 
 import cn.hutool.core.util.StrUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import io.tmgg.data.Field;
+import io.tmgg.lang.field.Field;
 import io.tmgg.modules.job.JobDesc;
 import io.tmgg.modules.job.JobParamFieldProvider;
 import io.tmgg.kettle.KettleFileService;

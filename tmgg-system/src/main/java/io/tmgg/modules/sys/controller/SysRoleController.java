@@ -3,38 +3,31 @@ package io.tmgg.modules.sys.controller;
 import cn.hutool.core.lang.Dict;
 import io.tmgg.framework.session.SysHttpSessionService;
 import io.tmgg.lang.TreeManager;
-import io.tmgg.lang.ann.Msg;
-import io.tmgg.lang.dao.BaseEntity;
-import io.tmgg.lang.dao.specification.JpaQuery;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.obj.Option;
-import io.tmgg.lang.obj.TreeNode;
 import io.tmgg.modules.sys.entity.SysMenu;
 import io.tmgg.modules.sys.entity.SysRole;
 import io.tmgg.modules.sys.service.SysMenuService;
 import io.tmgg.modules.sys.service.SysRoleService;
-import io.tmgg.web.CommonQueryParam;
 import io.tmgg.web.annotion.HasPermission;
+import io.tmgg.web.argument.RequestBodyKeys;
 import io.tmgg.web.perm.Subject;
+import io.tmgg.web.persistence.BaseController;
+import io.tmgg.web.persistence.BaseEntity;
+import io.tmgg.web.pojo.param.SelectParam;
 import jakarta.annotation.Resource;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
-import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 /**
  * 系统角色
  */
 @RestController
 @RequestMapping("sysRole")
-public class SysRoleController {
+public class SysRoleController extends BaseController<SysRole> {
 
     @Resource
     private SysRoleService sysRoleService;
@@ -46,40 +39,24 @@ public class SysRoleController {
     private SysHttpSessionService sm;
 
 
-    @HasPermission
-    @PostMapping("page")
-    public AjaxResult page(@RequestBody CommonQueryParam param, @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) throws Exception {
-        JpaQuery<SysRole> q = new JpaQuery<>();
-        q.searchText(param.getKeyword(),SysRole.Fields.name, SysRole.Fields.code);
-
-
-        Page<SysRole> page = sysRoleService.findAll(q, pageable);
-        return AjaxResult.ok().data(page);
-    }
-
-
-    @GetMapping("options")
-    public AjaxResult options() {
-        List<SysRole> list = sysRoleService.findValid();
-
-        List<Option> options = Option.convertList(list, BaseEntity::getId, SysRole::getName);
-
-        return AjaxResult.ok().data(options);
-    }
-
     /**
      * 添加系统角色
      */
+    @Override
     @HasPermission
     @PostMapping("save")
-    public AjaxResult save(@RequestBody SysRole role) throws Exception {
+    public AjaxResult save(@RequestBody SysRole role, RequestBodyKeys updateFields) throws Exception {
         role.setBuiltin(false);
 
-        List<SysMenu> newMenus = sysMenuService.findAllById(role.getMenuIds());
+        List<SysMenu> newMenus = sysMenuService.findAllAndParent(role.getMenuIds());
         List<String> perms = newMenus.stream().map(SysMenu::getPerm).filter(Objects::nonNull).toList();
         role.setPerms(perms);
 
-        role= sysRoleService.saveOrUpdate(role);
+        updateFields.remove("menuIds");
+        updateFields.add("perms");
+
+
+        role= sysRoleService.saveOrUpdate(role,updateFields);
 
         // 刷新 登录用户的权限
         List<Subject> list = sm.findAllSubject();
@@ -92,17 +69,6 @@ public class SysRoleController {
         AjaxResult result = AjaxResult.ok().data(role).msg("保存角色成功");
         return result;
     }
-
-
-    @HasPermission
-    @GetMapping("delete")
-    public AjaxResult delete(@RequestParam String id) {
-        sysRoleService.deleteById(id);
-        return AjaxResult.ok().msg("删除成功");
-    }
-
-
-
 
 
 
@@ -157,6 +123,19 @@ public class SysRoleController {
         return AjaxResult.ok().data(checked);
     }
 
+
+    @PostMapping("options")
+    public AjaxResult options(@RequestBody SelectParam param) {
+        String searchText = param.getSearchText();
+        List<SysRole> list = sysRoleService.findValid();
+        if(searchText != null){
+            list = list.stream().filter(t->t.getName().contains(searchText)).toList();
+        }
+
+        List<Option> options = Option.convertList(list, BaseEntity::getId, SysRole::getName);
+
+        return AjaxResult.ok().data(options);
+    }
 
 }
 

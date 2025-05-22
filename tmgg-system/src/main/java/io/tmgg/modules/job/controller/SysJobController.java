@@ -1,15 +1,12 @@
 package io.tmgg.modules.job.controller;
 
-import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ClassUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import io.tmgg.BasePackage;
-import io.tmgg.data.Field;
-import io.tmgg.data.FieldDesc;
+import io.tmgg.lang.field.Field;
 import io.tmgg.lang.SpringTool;
-import io.tmgg.lang.ann.Msg;
-import io.tmgg.lang.dao.DBConstants;
-import io.tmgg.lang.dao.specification.JpaQuery;
+import io.tmgg.web.argument.RequestBodyKeys;
+import io.tmgg.web.persistence.specification.JpaQuery;
+import io.tmgg.lang.field.FieldInfo;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.obj.Option;
 import io.tmgg.modules.job.JobDesc;
@@ -21,7 +18,6 @@ import io.tmgg.modules.job.service.SysJobLogService;
 import io.tmgg.modules.job.service.SysJobService;
 import io.tmgg.web.annotion.HasPermission;
 import jakarta.annotation.Resource;
-import jakarta.persistence.Column;
 import lombok.Data;
 import org.quartz.*;
 import org.springframework.data.domain.Page;
@@ -51,16 +47,13 @@ public class SysJobController {
     @Resource
     private SysJobLogService sysJobLogService;
 
-    @Data
-    public static class QueryParam {
-        String keyword;
-    }
+
 
     @HasPermission
     @RequestMapping("page")
-    public AjaxResult page(@RequestBody QueryParam param, @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) throws SchedulerException {
+    public AjaxResult page(String searchText, @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) throws SchedulerException {
         JpaQuery<SysJob> q = new JpaQuery<>();
-        q.searchText(param.getKeyword(), SysJob.Fields.name, SysJob.Fields.jobClass);
+        q.searchText(searchText, SysJob.Fields.name, SysJob.Fields.jobClass);
         Page<SysJob> page = service.findAll(q, pageable);
 
         List<JobExecutionContext> currentlyExecutingJobs = scheduler.getCurrentlyExecutingJobs();
@@ -92,11 +85,11 @@ public class SysJobController {
 
     @HasPermission
     @PostMapping("save")
-    public AjaxResult save(@RequestBody SysJob param) throws Exception {
+    public AjaxResult save(@RequestBody SysJob param, RequestBodyKeys updateFields) throws Exception {
         Class.forName(param.getJobClass());
 
-        SysJob result = service.saveOrUpdate(param);
-        return AjaxResult.ok().msg("操作成功").data(result.getId());
+        service.saveOrUpdate(param,updateFields);
+        return AjaxResult.ok().msg("操作成功");
     }
 
 
@@ -140,7 +133,7 @@ public class SysJobController {
 
                     JobDesc jobDesc = cls.getAnnotation(JobDesc.class);
                     if (jobDesc != null) {
-                        option.setLabel(name + " " + jobDesc.name());
+                        option.setLabel(name + " " + jobDesc.label());
                     }
 
                     return option;
@@ -163,10 +156,10 @@ public class SysJobController {
         List<Field> result = new ArrayList<>();
         JobDesc jobDesc = jobCls.getAnnotation(JobDesc.class);
         if (jobDesc != null) {
-            option.setLabel(option.getLabel() + " " + jobDesc.name());
+            option.setLabel(option.getLabel() + " " + jobDesc.label());
 
-            FieldDesc[] params = jobDesc.params();
-            for (FieldDesc param : params) {
+            FieldInfo[] params = jobDesc.params();
+            for (FieldInfo param : params) {
                 Field d = new Field();
                 d.setName(param.name());
                 d.setLabel(param.label());

@@ -1,6 +1,6 @@
 package io.tmgg.modules.sys.entity;
 
-import io.tmgg.lang.dao.PersistEntity;
+import io.tmgg.web.persistence.PersistEntity;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

@@ -1,5 +1,5 @@
 ---
-title: 编码贴士
+title: 其他
 layout: doc
 ---
 

@@ -9,44 +9,43 @@ export default class extends React.Component {
 
 
     onFinish = (values) => {
-        HttpUtil.postForm(SysUtil.getServerUrl() + '/sysUser/updatePwd', values).then(() => {
+        HttpUtil.post('/sysUser/updatePwd', values).then(() => {
             Modal.success({
                 title: '提示',
                 content: '修改密码成功',
                 onOk: () => {
-                    localStorage.clear()
+                    SysUtil.setToken(null)
                     history.push('/login')
                 }
             })
         })
     }
 
+    validator = (rule, value) => {
+        return new Promise((resolve, reject) => {
+            HttpUtil.create().get("/sysUser/pwdStrength", {password: value}).then(response => {
+                const rs = response.data
+                if (!rs.success) {
+                    reject(rs.message)
+                }
+                resolve()
+            })
+        })
+
+    }
+
     render() {
         return <div>
 
             <Form onFinish={this.onFinish} style={{maxWidth: 400}}>
-                <Form.Item name='password' label='原密码'
-                           rules={[{required: true, message: '请输入原密码'}]}>
-                    <Input.Password type='password'></Input.Password>
-                </Form.Item>
+
                 <Form.Item name='newPassword'
                            label='新密码'
                            extra={'请输入字母、数字、特殊字符'}
                            rules={[
-                               {required: true, message: '请输入新密码'},
+                               {required: true},
                                {
-                                   validator: (rule, value) => {
-                                       return new Promise((resolve, reject) => {
-                                           HttpUtil.get("/sysUser/pwdStrength", {password: value}, false, false).then(response => {
-                                               const rs = response.data
-                                               if (!rs.success) {
-                                                   reject(rs.message)
-                                               }
-                                               resolve()
-                                           })
-                                       })
-
-                                   }
+                                   validator: this.validator
                                }
                            ]}
                 >

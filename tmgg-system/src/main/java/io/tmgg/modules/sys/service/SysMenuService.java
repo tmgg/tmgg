@@ -2,9 +2,10 @@
 package io.tmgg.modules.sys.service;
 
 import io.tmgg.lang.SpringTool;
+import io.tmgg.lang.TreeManager;
 import io.tmgg.lang.TreeTool;
-import io.tmgg.lang.dao.BaseEntity;
-import io.tmgg.lang.dao.BaseService;
+import io.tmgg.web.persistence.BaseEntity;
+import io.tmgg.web.persistence.BaseService;
 import io.tmgg.lang.obj.TreeNode;
 import io.tmgg.modules.SysMenuParser;
 import io.tmgg.modules.sys.dao.JsonEntityFileDao;
@@ -17,10 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -128,5 +126,19 @@ public class SysMenuService extends BaseService<SysMenu> {
         entity.getData().put("seq",seq);
 
         jsonEntityFileDao.save(entity);
+    }
+
+    public List<SysMenu> findAllAndParent(List<String> menuIds) {
+        List<SysMenu> list = sysMenuDao.findAll();
+
+        TreeManager<SysMenu> tm = new TreeManager<>(list, BaseEntity::getId, SysMenu::getPid, SysMenu::getChildren, SysMenu::setChildren);
+
+        Set<String> ids = new HashSet<>();
+        for (String menuId : menuIds) {
+            ids.addAll(tm.getParentIdListById(menuId));
+        }
+        ids.addAll(menuIds);
+
+        return list.stream().filter(t->ids.contains(t.getId())).collect(Collectors.toList());
     }
 }

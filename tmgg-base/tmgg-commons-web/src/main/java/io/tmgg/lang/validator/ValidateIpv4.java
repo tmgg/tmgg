@@ -19,7 +19,7 @@ import java.lang.annotation.Target;
 @Constraint(validatedBy = ValidateIpv4.MyValidator.class)
 public @interface ValidateIpv4 {
 
-    String message() default "IP地址(v4)错误";
+    String message() default "IP地址(v4)格式错误";
 
     Class<?>[] groups() default {};
 
@@ -31,6 +31,15 @@ public @interface ValidateIpv4 {
         @Override
         public boolean isValid(String str, ConstraintValidatorContext constraintValidatorContext) {
             if (str != null && !str.isEmpty()) {
+                if(str.contains(",")){
+                    String[] arr = str.split(",");
+                    for (String s : arr) {
+                        boolean ipv4 = Validator.isIpv4(str);
+                        if(!ipv4){
+                            return false;
+                        }
+                    }
+                }
                 return Validator.isIpv4(str);
             }
             return true;

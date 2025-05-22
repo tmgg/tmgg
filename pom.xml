@@ -5,14 +5,14 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.4.4</version>
+        <version>3.4.5</version>
     </parent>
 
     <groupId>io.github.tmgg</groupId>
     <artifactId>tmgg-system-parent</artifactId>
     <version>${revision}</version>
     <packaging>pom</packaging>
-    <description>web开发框架</description>
+    <description>小型后台管理框架</description>
     <modules>
         <module>tmgg-system</module>
         <module>tmgg-system-ureport</module>
@@ -21,7 +21,6 @@
         <module>tmgg-system-kettle</module>
         <module>tmgg-script</module>
         <module>tmgg-base</module>
-        <module>tmgg-openapi-sdk</module>
         <module>tmgg-system-payment</module>
         <module>template-backend</module>
     </modules>
@@ -38,7 +37,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <doclint>none</doclint>
-        <hutool.version>5.8.32</hutool.version>
+        <hutool.version>5.8.37</hutool.version>
         <poi.version>5.2.3</poi.version>
     </properties>
 
@@ -149,11 +148,7 @@
                 <version>${revision}</version>
             </dependency>
 
-            <dependency>
-                <groupId>com.mysql</groupId>
-                <artifactId>mysql-connector-j</artifactId>
-                <version>8.4.0</version>
-            </dependency>
+
             <dependency>
                 <groupId>commons-io</groupId>
                 <artifactId>commons-io</artifactId>
@@ -257,6 +252,27 @@
                             </execution>
                         </executions>
                     </plugin>
+
+
+                    <!--打包时，为了批量修改版本 revision 变成真正的版本号，而不是占位符-->
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>flatten-maven-plugin</artifactId>
+                        <version>1.3.0</version>
+                        <configuration>
+                            <updatePomFile>true</updatePomFile>
+                            <flattenMode>resolveCiFriendliesOnly</flattenMode>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>flatten</id>
+                                <phase>process-resources</phase>
+                                <goals>
+                                    <goal>flatten</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
                 </plugins>
             </build>
 
@@ -269,34 +285,17 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
                 <configuration>
                     <source>${compile.version}</source>
                     <target>${compile.version}</target>
                     <compilerArgument>-Xlint:unchecked</compilerArgument>
                     <encoding>UTF-8</encoding>
-                </configuration>
-            </plugin>
 
-
-            <!--打包时，为了批量修改版本 revision 变成真正的版本号，而不是占位符-->
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>flatten-maven-plugin</artifactId>
-                <version>1.3.0</version>
-                <configuration>
-                    <updatePomFile>true</updatePomFile>
-                    <flattenMode>resolveCiFriendliesOnly</flattenMode>
+                    <!-- 排除开发用到时的启动文件-->
+                    <excludes>
+                        <exclude>io/tmgg/*Application.java</exclude>
+                    </excludes>
                 </configuration>
-                <executions>
-                    <execution>
-                        <id>flatten</id>
-                        <phase>process-resources</phase>
-                        <goals>
-                            <goal>flatten</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>

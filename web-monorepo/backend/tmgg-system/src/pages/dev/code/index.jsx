@@ -115,7 +115,7 @@ export default class extends React.Component {
 
             <Modal title='代码生成' open={this.state.formOpen} onOk={() => this.formRef.current.submit()}
                    onCancel={() => this.setState({formOpen: false})}
-                   destroyOnClose={true}
+                   destroyOnHidden={true}
                    width={'90vw'}
                    maskClosable={false}
                    okText='生成到项目中'

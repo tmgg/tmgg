@@ -1,15 +1,14 @@
 
 package io.tmgg.modules.sys.controller;
 
-import cn.hutool.core.date.DateUtil;
 import io.tmgg.lang.ann.PublicRequest;
-import io.tmgg.lang.dao.specification.JpaQuery;
+import io.tmgg.web.persistence.specification.JpaQuery;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.modules.sys.entity.SysFile;
 import io.tmgg.modules.sys.service.SysFileService;
-import io.tmgg.modules.sys.vo.UploadResult;
 import io.tmgg.web.annotion.HasPermission;
 import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -19,8 +18,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.Date;
 
 /**
  * 文件
@@ -35,7 +32,7 @@ public class SysFileController {
 
     @Data
     public static class QueryParam {
-        private Date[] dateRange;
+        private String dateRange;
         private String fileOriginName;
         private String fileObjectName;
     }
@@ -44,11 +41,7 @@ public class SysFileController {
     @RequestMapping("page")
     public AjaxResult page(@RequestBody QueryParam param, @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) {
         JpaQuery<SysFile> q = new JpaQuery<>();
-        Date[] dateRange = param.getDateRange();
-        if (dateRange != null) {
-            dateRange[1] = DateUtil.endOfDay(dateRange[1]);
-            q.between(SysFile.FIELD_CREATE_TIME, dateRange);
-        }
+        q.betweenIsoDateRange(SysFile.FIELD_CREATE_TIME, param.dateRange);
 
         q.eq(SysFile.Fields.fileOriginName, param.getFileOriginName());
         q.eq(SysFile.Fields.fileObjectName, param.getFileObjectName());
@@ -61,16 +54,16 @@ public class SysFileController {
      * 上传文件
      */
     @PostMapping("upload")
-    public UploadResult upload(@RequestPart("file") MultipartFile file) throws Exception {
+    public AjaxResult upload(@RequestPart("file") MultipartFile file) throws Exception {
         SysFile sysFile = service.uploadFile(file);
 
         String location = "/sysFile/preview/" + sysFile.getId();
-        UploadResult r = new UploadResult();
-        r.setLocation(location);
 
-        r.setId(sysFile.getId());
-        r.setData(sysFile.getId());
-        return r;
+
+        return AjaxResult.ok()
+                .putExtData("location", location)    // 兼容 tiny mce
+                .data("id",sysFile.getId())
+                .data("name",sysFile.getFileOriginName());
     }
 
     /**
@@ -92,13 +85,14 @@ public class SysFileController {
      *
      * @param id
      * @param response
+     * @param req
      * @throws Exception
      */
     @PublicRequest
     @GetMapping(value = {"preview/{id}", "preview/{id}.*"})
-    public void previewByPath(@PathVariable String id, HttpServletResponse response) throws Exception {
+    public void previewByPath(@PathVariable String id, HttpServletRequest req, HttpServletResponse response) throws Exception {
         try {
-            service.preview(id, response);
+            service.preview(id, req, response);
         } catch (Exception e) {
             log.error("预览文件失败:{}", e.getMessage());
             // TODO 裂开的图片

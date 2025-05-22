@@ -1,7 +1,7 @@
 package io.tmgg.modules.sys.entity;
 
 
-import io.tmgg.lang.dao.BaseEntity;
+import io.tmgg.web.persistence.BaseEntity;
 
 /**
  * 国际化消息

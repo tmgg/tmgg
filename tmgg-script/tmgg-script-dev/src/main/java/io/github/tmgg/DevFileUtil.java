@@ -84,4 +84,38 @@ public class DevFileUtil {
     }
 
 
+    public static Collection<File> findJavaFiles(String baseDir) {
+        File dir = new File(baseDir);
+
+        IOFileFilter fileFilter = new IOFileFilter() {
+            @Override
+            public boolean accept(File file) {
+                return file.getName().endsWith(".java");
+            }
+
+            @Override
+            public boolean accept(File file, String name) {
+                return false;
+            }
+        };
+        IOFileFilter dirFilter = new IOFileFilter() {
+            @Override
+            public boolean accept(File file) {
+                if(file.getName().startsWith(".") || file.getName().equals("web-monorepo")){
+                    return false;
+                }
+                return true;
+            }
+
+            @Override
+            public boolean accept(File file, String s) {
+                return false;
+            }
+        };
+        Collection<File> files = FileUtils.listFiles(dir, fileFilter, dirFilter);
+
+        return files;
+    }
+
+
 }

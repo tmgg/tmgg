@@ -1,10 +1,10 @@
 
 package io.tmgg.modules.sys.entity;
 
+import io.tmgg.commons.poi.excel.annotation.Excel;
 import io.tmgg.lang.ann.Msg;
-import io.tmgg.lang.dao.BaseEntity;
-import io.tmgg.lang.dao.DBConstants;
-import io.tmgg.lang.dao.converter.ToListConverter;
+import io.tmgg.web.persistence.BaseEntity;
+import io.tmgg.web.persistence.converter.ToListConverter;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -26,23 +26,27 @@ public class SysRole extends BaseEntity {
 
 
 
+    @Excel(name = "角色名称")
     @Msg("名称")
     @Column(length = 50, unique = true)
     private String name;
 
 
-    @Msg("编号")
+    @Excel(name = "编码")
+    @Msg("编码")
     @Column(unique = true, length = 20)
     private String code;
 
+    @Excel(name = "排序")
     @Msg("排序")
     private Integer seq;
 
 
-
+    @Excel(name = "备注")
     @Msg("备注")
     private String remark;
 
+    @Excel(name = "启用")
     @Msg("启用")
     @Column(nullable = false)
     private Boolean enabled;

@@ -101,7 +101,7 @@ export default class extends React.Component {
                     title: '日志', dataIndex: 'id', render: (_, record) => {
                         let url = SysUtil.getServerUrl() + 'job/log/print?jobId=' + record.id;
 
-                        return <Button size='small' href={url} target='_blank'>查看日志</Button>
+                        return <Button size='small' type='link' href={url} target='_blank'>最新日志</Button>
                     }
                 }
             ]
@@ -177,7 +177,7 @@ export default class extends React.Component {
                 actionRef={this.tableRef}
                 toolBarRender={(action, {selectedRowKeys}) => {
                     return [<Button type='primary' onClick={() => this.handleAdd()} icon={<PlusOutlined/>}>
-                        新建
+                        新增
                     </Button>]
                 }}
                 request={(params, sort) => {
@@ -192,7 +192,7 @@ export default class extends React.Component {
 
             <Modal title='定时作业'
                    open={this.state.formOpen}
-                   destroyOnClose
+                   destroyOnHidden
                    width={800}
                    onOk={() => this.formRef.current.submit()}
                    onCancel={() => this.setState({formOpen: false})}
@@ -212,7 +212,7 @@ export default class extends React.Component {
                         <Input/>
                     </Form.Item>
 
-                    <Form.Item label='cron表达式' name='cron' help='格式：秒分时日月周,留空表示手动执行'>
+                    <Form.Item label='cron表达式' name='cron' help='格式：秒分时日月周,留空表示手动执行' rules={[{required: true}]}>
                         <AutoComplete placeholder='如 0 */5 * * * ?' options={cronOptions}/>
                     </Form.Item>
 

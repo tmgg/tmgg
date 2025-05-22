@@ -1,6 +1,6 @@
 package io.tmgg.payment.mgmt.service;
 
-import io.tmgg.lang.dao.BaseService;
+import io.tmgg.web.persistence.BaseService;
 import io.tmgg.payment.PaymentService;
 import io.tmgg.payment.enums.PaymentStatus;
 import io.tmgg.payment.mgmt.dao.PaymentOrderDao;

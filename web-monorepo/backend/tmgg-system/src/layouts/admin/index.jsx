@@ -12,7 +12,7 @@ import {DateUtil, isMobileDevice, theme, TreeUtil} from "@tmgg/tmgg-commons-lang
 import HeaderRight from "./HeaderRight";
 
 import {HttpUtil, NamedIcon, PageUtil, SysUtil} from "@tmgg/tmgg-base";
-import MyTabsOutlet from "./MyTabsOutlet";
+import TabPageRender from "./TabPageRender";
 
 const {Header, Footer, Sider, Content} = Layout;
 /**
@@ -47,6 +47,7 @@ export default class extends React.Component {
     }
 
     componentDidMount() {
+        console.log('Admin Layout didMount')
         this.initMenu()
         let siteInfo = SysUtil.getSiteInfo();
         this.setState({siteInfo})
@@ -107,7 +108,7 @@ export default class extends React.Component {
     loadBadge = list => {
         for(let item of list){
             const {menuId, url} = item
-            HttpUtil.get(url,null, false).then(rs=>{
+            HttpUtil.get(url,null).then(rs=>{
                 const {leftMenus} = this.state
                 const menu = TreeUtil.findByKey(menuId,leftMenus)
                 if(menu){
@@ -133,7 +134,6 @@ export default class extends React.Component {
         let logo = this.props.logo || defaultLogo
         const {siteInfo, topMenus, loginInfo,leftMenus} = this.state
 
-        console.log('admin layout render', leftMenus)
 
         return <Layout className='main-layout'>
             <Header className='header'>
@@ -218,12 +218,12 @@ export default class extends React.Component {
         }
         if (siteInfo.waterMark === true) {
             return <Watermark content={[loginInfo.name,  loginInfo.account ]}>
-                <MyTabsOutlet pathLabelMap={this.state.pathLabelMap}/>
+                <TabPageRender pathLabelMap={this.state.pathLabelMap}/>
             </Watermark>
         }
 
 
-        return <MyTabsOutlet pathLabelMap={this.state.pathLabelMap}/>
+        return <TabPageRender pathLabelMap={this.state.pathLabelMap}/>
 
     };
 }

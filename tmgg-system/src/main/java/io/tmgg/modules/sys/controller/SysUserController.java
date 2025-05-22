@@ -5,13 +5,12 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.text.PasswdStrength;
 import cn.hutool.core.util.StrUtil;
 import io.tmgg.framework.session.SysHttpSessionService;
-import io.tmgg.lang.dao.BaseEntity;
-import io.tmgg.lang.dao.specification.JpaQuery;
+import io.tmgg.web.argument.RequestBodyKeys;
+import io.tmgg.web.persistence.BaseEntity;
+import io.tmgg.web.persistence.specification.JpaQuery;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.obj.Option;
-import io.tmgg.lang.obj.Table;
 import io.tmgg.lang.obj.TreeOption;
-import io.tmgg.lang.poi.ExcelExportTool;
 import io.tmgg.modules.sys.dto.GrantPermDto;
 import io.tmgg.modules.sys.entity.OrgType;
 import io.tmgg.modules.sys.entity.SysOrg;
@@ -22,6 +21,7 @@ import io.tmgg.modules.sys.service.SysUserService;
 import io.tmgg.web.annotion.HasPermission;
 import io.tmgg.web.perm.SecurityUtils;
 import io.tmgg.web.perm.Subject;
+import io.tmgg.web.pojo.param.SelectParam;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -34,8 +34,6 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
-import java.sql.SQLException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -59,23 +57,23 @@ public class SysUserController {
     private SysHttpSessionService sm;
 
     @Data
-    public static class QueryParam {
-        String keyword;
+    public static class QueryParam  {
         String orgId;
         String roleId;
     }
 
     @HasPermission
     @PostMapping("page")
-    public AjaxResult page(@RequestBody QueryParam queryParam, @PageableDefault(sort = SysUser.FIELD_UPDATE_TIME, direction = Sort.Direction.DESC) Pageable pageable) throws SQLException {
-        Page<SysUser> page = sysUserService.findAll(queryParam.getOrgId(), queryParam.getRoleId(), queryParam.getKeyword(), pageable);
+    public AjaxResult page(@RequestBody QueryParam param, String searchText, @PageableDefault(sort = SysUser.FIELD_UPDATE_TIME, direction = Sort.Direction.DESC) Pageable pageable, HttpServletResponse resp) throws Exception {
+        Page<SysUser> page = sysUserService.findAll(param.getOrgId(), param.getRoleId(), searchText, pageable);
         sysUserService.fillRoleName(page);
-        return AjaxResult.ok().data(page);
+
+        return sysUserService.autoRender(page);
     }
 
     @HasPermission
     @PostMapping("save")
-    public AjaxResult save(@RequestBody SysUser input) throws Exception {
+    public AjaxResult save(@RequestBody SysUser input, RequestBodyKeys updateFields) throws Exception {
         boolean isNew = input.isNew();
         String inputOrgId = input.getDeptId();
         SysOrg org = sysOrgService.findOne(inputOrgId);
@@ -88,11 +86,12 @@ public class SysUserController {
             input.setUnitId(unit.getId());
         }
 
-        SysUser sysUser = sysUserService.saveOrUpdate(input);
-        sm.forceExistBySubjectId(sysUser.getId());
+         sysUserService.saveOrUpdate(input,updateFields);
 
         if (isNew) {
             return AjaxResult.ok().msg("添加成功,密码：" + configService.getDefaultPassWord());
+        }else {
+            sm.forceExistBySubjectId(input.getId());
         }
 
         return AjaxResult.ok();
@@ -114,7 +113,7 @@ public class SysUserController {
      */
     @GetMapping("pwdStrength")
     public AjaxResult pwdStrength(String password) {
-        if (password == null) {
+        if (StrUtil.isEmpty(password)) {
             return AjaxResult.err().msg("请输入密码");
         }
 
@@ -127,11 +126,17 @@ public class SysUserController {
         return AjaxResult.ok().data(level);
     }
 
+    @Data
+    public static class UpdatePwdParam{
+        String newPassword;
+    }
+
     @PostMapping("updatePwd")
     @HasPermission(label = "修改密码")
-    public AjaxResult updatePwd(String password, String newPassword) {
+    public AjaxResult updatePwd(@RequestBody UpdatePwdParam param) {
         String userId = SecurityUtils.getSubject().getId();
-        sysUserService.updatePwd(userId, password, newPassword);
+        String newPassword = param.getNewPassword();
+        sysUserService.updatePwd(userId,  newPassword);
         sm.forceExistBySubjectId(userId);
         return AjaxResult.ok();
     }
@@ -147,27 +152,9 @@ public class SysUserController {
     }
 
 
-    @HasPermission
-    @GetMapping("export")
-    public void export(HttpServletResponse response) throws IOException {
-        List<SysUser> list = sysUserService.findAll();
-
-        sysUserService.fillRoleName(list);
-
-        Table<SysUser> tb = new Table<>(list);
-        tb.addColumn("姓名", SysUser::getName);
-        tb.addColumn("账号", SysUser::getAccount);
-        tb.addColumn("手机号", SysUser::getPhone);
-        tb.addColumn("部门", SysUser::getDeptLabel);
-        tb.addColumn("单位", SysUser::getUnitLabel);
-        tb.addColumn("角色", SysUser::getRoleNames);
-
-        ExcelExportTool.exportTable("用户列表.xlsx", tb,  response);
-    }
-
-
-    @GetMapping("options")
-    public AjaxResult options(String searchText) {
+    @PostMapping("options")
+    public AjaxResult options(@RequestBody SelectParam param) {
+        String searchText = param.getSearchText();
         JpaQuery<SysUser> query = new JpaQuery<>();
 
         if (searchText != null) {

@@ -5,6 +5,8 @@ import {FormInstance} from "antd";
 
 declare type ProTableProps = {
     columns:  ColumnsType,
+    // 请求数据，注意：需处理下载
+    request: (params:any)=>{};
     showSearch?: boolean,
     searchFormItemsRender?:(formInstance: FormInstance)=>{},
 
@@ -19,7 +21,18 @@ declare type ProTableProps = {
      */
     defaultPageSize?:number,
 
-    formRef?: React.Ref<any>
+    formRef?: React.Ref<any>,
+
+    // 如果是false，则不显示
+    toolbarOptions?:{
+        /**
+         * 显示搜索框
+         */
+        showSearch?:boolean;
+        showExportExcel?:boolean;
+        showExportPdf?:boolean;
+        showExportJson?:boolean;
+    }|boolean;
 };
 
 export class ProTable extends React.Component<ProTableProps, any> {

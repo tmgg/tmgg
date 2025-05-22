@@ -1,9 +1,8 @@
-import {Button, Form, Input, message, Modal, Popconfirm, Select, Space} from 'antd';
+import {Button, Form, Input, Modal, Popconfirm, Select, Space} from 'antd';
 import React from 'react';
 import {PageUtil, ProTable} from "@tmgg/tmgg-base";
 import {MinusCircleOutlined, PlusOutlined} from "@ant-design/icons";
 import { HttpUtil} from "@tmgg/tmgg-base";
-import {Link} from "umi";
 
 const baseTitle = "流程模型";
 const baseApi = 'flowable/model/';
@@ -99,8 +98,8 @@ export default class extends React.Component {
       <ProTable
         search={false}
         actionRef={this.actionRef}
-        toolBarRender={() => <Button icon={<PlusOutlined/>} type='primary' onClick={this.handleAdd}>新建</Button>}
-        request={(params, sort) => HttpUtil.pageData(pageApi, params, sort)}
+        toolBarRender={() => <Button icon={<PlusOutlined/>} type='primary' onClick={this.handleAdd}> 新增</Button>}
+        request={(params) => HttpUtil.pageData(pageApi, params)}
         columns={this.columns}
         rowSelection={false}
         rowKey="id"
@@ -109,7 +108,7 @@ export default class extends React.Component {
 
       <Modal title='模型基本信息'
              open={this.state.formOpen}
-             destroyOnClose
+             destroyOnHidden
              onOk={() => this.formRef.current.submit()}
              onCancel={() => this.setState({formOpen: false})}
              width={700}
@@ -127,7 +126,7 @@ export default class extends React.Component {
             <Input/>
           </Form.Item>
 
-          <Form.Item label='表单地址' name='formUrl' rules={[{required: true}]} help={"支持变量， 如 /user/form?id=${businessKey}"}>
+          <Form.Item label='表单地址' name='formUrl' rules={[{required: true}]} help={"如 /flowable/test/form, 并支持id参数，如/flowable/test/form?id=1"}>
             <Input/>
           </Form.Item>
 

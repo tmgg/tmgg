@@ -1,8 +1,8 @@
 package io.tmgg.mgmt;
 
-import io.tmgg.lang.dao.BaseEntity;
-import io.tmgg.lang.dao.id.CustomId;
-import io.tmgg.lang.dao.id.IdStyle;
+import io.tmgg.web.persistence.BaseEntity;
+import io.tmgg.web.persistence.id.CustomId;
+import io.tmgg.web.persistence.id.IdStyle;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;

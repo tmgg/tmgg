@@ -4,6 +4,7 @@ import io.tmgg.jackson.JsonTool;
 import io.tmgg.lang.ann.PublicRequest;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.modules.sys.service.JwtService;
+import io.tmgg.web.WebConstants;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -19,8 +20,7 @@ import java.io.PrintWriter;
 @Component
 public class AppApiJwtInterceptor implements HandlerInterceptor {
 
-    public static final String APP_API = "/app-api";
-    public static final String PATTERN = APP_API + "/**";
+
 
 
     @Resource

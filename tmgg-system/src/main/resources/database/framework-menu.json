@@ -16,15 +16,7 @@
     "path" : "/system/org",
     "icon" : "ApartmentOutlined",
     "seq" : 1
-  }, {
-    "id" : "sysUser",
-    "pid" : "sys",
-    "name" : "用户管理",
-    "perm" : "sysUser",
-    "path" : "/system/user",
-    "icon" : "UserOutlined",
-    "seq" : 3
-  }, {
+  },  {
     "id" : "sysRole",
     "pid" : "sys",
     "name" : "角色管理",
@@ -32,7 +24,28 @@
     "path" : "/system/role",
     "icon" : "IdcardOutlined",
     "seq" : 2
-  }, {
+  },
+    {
+    "id" : "sysUser",
+    "pid" : "sys",
+    "name" : "用户管理",
+    "perm" : "sysUser",
+    "path" : "/system/user",
+    "icon" : "UserOutlined",
+    "seq" : 3
+  },
+
+    {
+      "pid" : "sys",
+      "id" : "assetMenuDir",
+      "name" : "素材管理",
+      "perm" : "assetMenuDir",
+      "type": "DIR",
+      "seq" : 4,
+      "icon" : "FileImageOutlined"
+    },
+
+    {
     "id" : "sysMenu",
     "pid" : "sys",
     "name" : "菜单管理",
@@ -55,7 +68,7 @@
     "perm" : "sysConfig",
     "path" : "/system/config",
     "icon" : "SettingOutlined",
-    "seq" : 4
+    "seq" : 5
   }, {
     "id" : "sysDict",
     "pid" : "sys",
@@ -64,10 +77,29 @@
     "path" : "/system/dict",
     "seq" : 5,
     "icon" : "FileSearchOutlined"
-  }, {
+  },
+
+    {
+      "pid" : "assetMenuDir",
+      "id" : "sysAsset",
+      "name" : "素材管理",
+      "perm" : "sysAsset",
+      "path" : "/system/asset",
+      "seq" : 1
+    },
+    {
+      "pid":"assetMenuDir",
+      "id": "sysAssetDir",
+      "name": "文件夹",
+      "perm": "sysAssetDir",
+      "path": "/system/asset/dir",
+      "seq": 2
+    },
+
+    {
     "id" : "sysFile",
     "pid" : "sys",
-    "name" : "文件管理",
+    "name" : "存储文件",
     "perm" : "sysFile",
     "path" : "/system/file",
     "seq" : 6,
@@ -163,33 +195,8 @@
     "seq" : 10
   },
 
-    {
-      "pid" : "dev",
-      "id" : "openApiAccount",
-      "name" : "开放接口",
-      "perm" : "openApiAccount",
-      "path" : "/openApi",
-      "seq" : 20,
-      "icon" : "ApiOutlined"
-    },
-    {
-      "pid" : "dev",
-      "id" : "sysReportChart",
-      "name" : "SQL图表",
-      "perm" : "sysReportChart",
-      "path" : "/report/chart",
-      "seq" : 30,
-      "icon" : "FundProjectionScreenOutlined"
-    },
-    {
-      "pid" : "dev",
-      "id" : "sysReportTable",
-      "name" : "SQL表格",
-      "perm" : "sysReportTable",
-      "path" : "/report/table",
-      "seq" : 31,
-      "icon" : "TableOutlined"
-    },
+
+
     {
       "pid" : "dev",
       "id" : "requestTest",
@@ -199,13 +206,42 @@
       "icon" : "LinkOutlined",
       "seq" : 40
     },
+
     {
-    "pid" : "sys",
-    "id" : "sysAsset",
-    "name" : "素材管理",
-    "perm" : "sysAsset",
-    "path" : "/system/asset",
-    "seq" : 20,
-    "icon" : "FileImageOutlined"
-  } ]
+      "pid" : "sys",
+      "id" : "api",
+      "name" : "开放接口",
+      "perm" : "api",
+      "type": "DIR",
+      "seq" : 201,
+      "icon" : "ApiOutlined"
+    },
+    {
+      "pid" : "api",
+      "id" : "apiAccount",
+      "name" : "接口账户",
+      "perm" : "apiAccount",
+      "path" : "/api",
+      "seq" : 1,
+      "icon" : "ApiOutlined"
+    },
+    {
+      "pid" : "api",
+      "id" : "apiResource",
+      "name" : "接口列表",
+      "perm" : "apiResource",
+      "path" : "/api/resource",
+      "seq" : 3,
+      "icon" : "ApiOutlined"
+    },
+    {
+      "pid":"api",
+      "id": "apiAccessLog",
+      "name": "访问记录",
+      "perm": "apiAccessLog",
+      "path": "/api/accessLog",
+      "icon" : "ApiOutlined",
+      "seq": 5
+    }
+  ]
 }

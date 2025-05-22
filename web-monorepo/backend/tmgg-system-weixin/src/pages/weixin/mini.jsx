@@ -72,7 +72,7 @@ export default class extends React.Component {
   }
 
   handleDelete = row => {
-    HttpUtil.postForm('weixinMini/delete', null,{id: row.id}).then(rs => {
+    HttpUtil.postForm('weixinMini/delete', null).then(rs => {
       this.tableRef.current.reload();
     })
   }
@@ -82,7 +82,7 @@ export default class extends React.Component {
         actionRef={this.tableRef}
         toolBarRender={(action, {selectedRowKeys}) => {
           return <Button type='primary' onClick={() => this.handleAdd()} icon={<PlusOutlined/>}>
-            新建
+            新增
           </Button>
         }}
         request={(params, sort) => {
@@ -98,7 +98,7 @@ export default class extends React.Component {
 
       <Modal title='微信小程序'
              open={this.state.formOpen}
-             destroyOnClose
+             destroyOnHidden
              onOk={() => this.formRef.current.submit()}
              onCancel={() => this.setState({formOpen: false})}
       >

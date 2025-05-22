@@ -2,7 +2,7 @@
 package io.tmgg.modules.sys.service;
 
 import io.tmgg.modules.sys.entity.SysDictItem;
-import io.tmgg.lang.dao.BaseService;
+import io.tmgg.web.persistence.BaseService;
 import org.springframework.stereotype.Service;
 
 

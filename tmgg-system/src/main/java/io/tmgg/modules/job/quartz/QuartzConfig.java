@@ -13,7 +13,14 @@ import org.springframework.stereotype.Component;
 import jakarta.annotation.Resource;
 import java.util.List;
 
-
+/***
+ * 定时作业
+ *
+ *
+ * @see  io.tmgg.modules.job.builtin.DemoJob
+ *
+ * @gendoc
+ */
 @Slf4j
 @Component
 @Configuration

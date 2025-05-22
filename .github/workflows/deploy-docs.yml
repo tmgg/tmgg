@@ -3,6 +3,8 @@ name: 部署文档
 
 on:
   push:
+    branches:
+      - master
 
 permissions:
   contents: write

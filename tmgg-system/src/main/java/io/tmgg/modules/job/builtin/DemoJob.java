@@ -1,20 +1,16 @@
 package io.tmgg.modules.job.builtin;
 
-import cn.hutool.core.io.FileUtil;
-import cn.hutool.core.thread.ThreadUtil;
-import cn.hutool.system.SystemUtil;
-import io.tmgg.data.FieldDesc;
+import io.tmgg.lang.field.FieldInfo;
 import io.tmgg.modules.job.JobDesc;
 import io.tmgg.modules.job.JobTool;
 import org.quartz.*;
 import org.slf4j.Logger;
-import org.springframework.util.Assert;
 
 /**
  * 示例作业
  */
 @DisallowConcurrentExecution // 不允许并发则加这个注解
-@JobDesc(name = "示例作业-发送系统状态", params = {@FieldDesc(name = "email", label = "接收邮箱", required = true)})
+@JobDesc(label = "示例作业-发送系统状态", params = {@FieldInfo(name = "msg", label = "打印信息")})
 public class DemoJob implements Job {
 
     private static final Logger log = JobTool.getLogger();
@@ -26,16 +22,10 @@ public class DemoJob implements Job {
 
         // 获取参数
         JobDataMap data = JobTool.getData(e);
-        String email = data.getString("email");
-        Assert.hasText(email, "请填写邮箱"); // 抛出异常
+        String msg = data.getString("msg");
 
-        log.info("接收邮箱为：{}", email);
+        System.out.println(msg);
 
-        log.info("空闲内存: {}", FileUtil.readableFileSize(SystemUtil.getFreeMemory()));
-        log.info("总内存：{}", FileUtil.readableFileSize(SystemUtil.getTotalMemory()));
-
-        log.info("模拟发送邮件中给 {} ,暂停3秒", email);
-        ThreadUtil.sleep(3 * 1000);
-        log.info("任务结束");
+        e.setResult("结果：成功");
     }
 }

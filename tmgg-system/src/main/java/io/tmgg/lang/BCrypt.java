@@ -261,7 +261,7 @@ public class BCrypt {
         if (log_rounds >= 4 && log_rounds <= 31) {
             int rounds = 1 << log_rounds;
             if (salt.length != 16) {
-                throw new IllegalArgumentException("Bad salt length");
+                throw new IllegalArgumentException("Bad salt len");
             } else {
                 this.init_key();
                 this.ekskey(salt, password, sign_ext_bug, safety);

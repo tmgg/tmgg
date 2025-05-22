@@ -2,7 +2,7 @@ package io.tmgg.weixin.service;
 
 import cn.binarywang.wx.miniapp.api.WxMaService;
 import cn.binarywang.wx.miniapp.config.impl.WxMaDefaultConfigImpl;
-import io.tmgg.lang.dao.BaseService;
+import io.tmgg.web.persistence.BaseService;
 import io.tmgg.weixin.entity.WeixinMini;
 import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Service;
@@ -16,14 +16,13 @@ public class WeixinMiniService extends BaseService<WeixinMini> {
     @Resource
   private   WxMaService wxMaService;
 
-
-
     @Override
-    public WeixinMini saveOrUpdate(WeixinMini input) throws Exception {
-        WeixinMini weixinMini = super.saveOrUpdate(input);
+    public WeixinMini saveOrUpdate(WeixinMini input, List<String> updateKeys) throws Exception {
+        WeixinMini weixinMini = super.saveOrUpdate(input,updateKeys);
         this.loadConfig();
         return weixinMini;
     }
+
 
     @PostConstruct
     public void init(){

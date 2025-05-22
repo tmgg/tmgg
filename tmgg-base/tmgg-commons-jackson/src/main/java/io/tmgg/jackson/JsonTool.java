@@ -14,11 +14,15 @@ import java.util.Map;
 
 public class JsonTool {
 
+    public static <T> T convert(Object fromValue, Class<T> toValueType){
+       return om.convertValue(fromValue, toValueType);
+    }
+
     public static String toJson(Object o) throws JsonProcessingException {
         if (o == null) {
             return null;
         }
-        return getObjectMapper().writeValueAsString(o);
+        return om.writeValueAsString(o);
     }
 
 
@@ -39,7 +43,7 @@ public class JsonTool {
             return null;
         }
         try {
-            return getObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(o);
+            return om.writerWithDefaultPrettyPrinter().writeValueAsString(o);
         } catch (JsonProcessingException e) {
             e.printStackTrace(); // ignore
         }
@@ -52,7 +56,7 @@ public class JsonTool {
 
         }
 
-        return getObjectMapper().readValue(json, cls);
+        return om.readValue(json, cls);
 
     }
 
@@ -64,7 +68,7 @@ public class JsonTool {
 
         }
 
-        return getObjectMapper().readValue(json, valueTypeRef);
+        return om.readValue(json, valueTypeRef);
     }
 
     public static <T> T jsonToBeanQuietly(String json, Class<T> cls) {
@@ -85,7 +89,7 @@ public class JsonTool {
             return null;
         }
         try {
-            ObjectMapper mapper = getObjectMapper();
+            ObjectMapper mapper = om;
             JavaType javaType = mapper.getTypeFactory().constructParametricType(ArrayList.class, cls);
             return mapper.readValue(json, javaType);
         } catch (Exception e) {
@@ -100,7 +104,7 @@ public class JsonTool {
             return null;
         }
         try {
-            ObjectMapper mapper = getObjectMapper();
+            ObjectMapper mapper = om;
             return mapper.readValue(json, List.class);
         } catch (Exception e) {
             e.printStackTrace(); // ignore
@@ -119,7 +123,7 @@ public class JsonTool {
     public static Map<String, Object> jsonToMapQuietly(String json) {
         if (json != null && !json.isEmpty()) {
             try {
-                return getObjectMapper().readValue(json, new TypeReference<HashMap<String, Object>>() {
+                return om.readValue(json, new TypeReference<HashMap<String, Object>>() {
                 });
             } catch (Exception e) {
                 e.printStackTrace(); // ignore
@@ -132,7 +136,7 @@ public class JsonTool {
     public static Map<String, Object> jsonToMap(String json)
             throws IOException {
         if (json != null && !json.isEmpty()) {
-            return getObjectMapper().readValue(json, new TypeReference<HashMap<String, Object>>() {
+            return om.readValue(json, new TypeReference<HashMap<String, Object>>() {
             });
         }
         return new HashMap<>();
@@ -143,7 +147,7 @@ public class JsonTool {
             return null;
         }
         try {
-            return getObjectMapper().readValue(json, new TypeReference<HashMap<String, String>>() {
+            return om.readValue(json, new TypeReference<HashMap<String, String>>() {
             });
         } catch (IOException e) {
             e.printStackTrace();
@@ -151,27 +155,25 @@ public class JsonTool {
         return null;
     }
 
-    public static JsonNode readTreeNode(String json) throws JsonProcessingException {
-        ObjectMapper om = getObjectMapper();
+    public static JsonNode readTree(String json) throws JsonProcessingException {
         JsonNode node = om.reader().readTree(json);
         return node;
     }
 
 
-    // delay Initialize
-    public static ObjectMapper getObjectMapper() {
-        if (objectMapper == null) {
-            objectMapper = new ObjectMapper();
-            objectMapper.configure(DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES, false);
-            objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-            objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
-            objectMapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
-        }
-        return objectMapper;
-    }
 
     // singleton ,as to initialize need much TIME
-    private static ObjectMapper objectMapper;
+    private static final ObjectMapper om = new ObjectMapper();
+    static {
+        om.configure(DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES, false);
+        om.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        om.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
+        om.setDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
+    }
 
+
+    public static ObjectMapper getObjectMapper(){
+        return  om;
+    }
 
 }

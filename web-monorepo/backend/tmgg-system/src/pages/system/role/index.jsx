@@ -105,13 +105,13 @@ export default class extends React.Component {
     }
 
     handleEdit = record => {
-        HttpUtil.get('sysRole/ownMenu', {id: record.id}).then(rs=>{
-           this.formRef.current.setFieldsValue({
-               menuIds: rs
-           })
+        this.setState({formOpen: true, formValues: record},()=>{
+            HttpUtil.get('sysRole/ownMenu', {id: record.id}).then(rs=>{
+                this.formRef.current.setFieldsValue({
+                    menuIds: rs
+                })
+            })
         })
-
-        this.setState({formOpen: true, formValues: record})
     }
 
 
@@ -140,7 +140,7 @@ export default class extends React.Component {
                         </Button>
                     </ButtonList>
                 }}
-                request={(params, sort) => HttpUtil.pageData('sysRole/page', params)}
+                request={(params) => HttpUtil.pageData('sysRole/page', params)}
                 columns={this.columns}
 
             />
@@ -149,7 +149,7 @@ export default class extends React.Component {
                    open={this.state.formOpen}
                    onOk={() => this.formRef.current.submit()}
                    onCancel={() => this.setState({formOpen: false})}
-                   destroyOnClose
+                   destroyOnHidden
                    maskClosable={false}
                    width={600}
             >
@@ -160,36 +160,29 @@ export default class extends React.Component {
                 >
                     <Form.Item name='id' noStyle></Form.Item>
 
-                    <Row>
-                        <Col span={12}>
+
                             <Form.Item label='名称' name='name' rules={[{required: true}]}>
                                 <Input/>
                             </Form.Item>
-                        </Col>
-                        <Col span={12}>
+
                             <Form.Item label='编号' name='code' rules={[{required: true}]}>
                                 <Input/>
                             </Form.Item>
-                        </Col>
-                    </Row>
 
-                    <Row>
-                        <Col span={12}> <Form.Item label='排序' name='seq'>
+
+
+                     <Form.Item label='排序' name='seq'>
                             <InputNumber/>
                         </Form.Item>
-                        </Col>
-                        <Col span={12}>
-                            <Form.Item label='启用' name='enabled' rules={[{required: true}]}>
-                                <FieldRadioBoolean/>
-                            </Form.Item>
 
-                        </Col>
-                    </Row>
 
                     <Form.Item label='备注' name='remark'>
                         <Input/>
                     </Form.Item>
 
+                    <Form.Item label='启用' name='enabled' rules={[{required: true}]}>
+                        <FieldRadioBoolean/>
+                    </Form.Item>
 
                     <Form.Item label='菜单权限' name='menuIds' rules={[{required: true}]}>
                         <FieldTree url={'sysRole/permTree'}/>
