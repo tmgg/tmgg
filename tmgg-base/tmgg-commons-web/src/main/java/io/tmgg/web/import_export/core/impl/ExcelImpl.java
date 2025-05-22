@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.File;
@@ -23,11 +24,7 @@ public class ExcelImpl implements FileImportExportHandler {
         try (XSSFWorkbook workbook = new XSSFWorkbook()) {
             Sheet sheet = workbook.createSheet();
 
-            if (title != null) {
-                Row row = sheet.createRow(0);
-                Cell cell = row.createCell(0);
-                cell.setCellValue(title);
-            }
+            createTitle(title, table.getColumns().size(), sheet);
 
             Row headerRow = sheet.createRow(sheet.getLastRowNum() + 1);
             List<Table.Column<T>> columns = table.getColumns();
@@ -61,6 +58,14 @@ public class ExcelImpl implements FileImportExportHandler {
         }
     }
 
+    private static void createTitle(String title, int columnSize, Sheet sheet) {
+        if (title != null) {
+            Row row = sheet.createRow(0);
+            Cell cell = row.createCell(0);
+            cell.setCellValue(title);
+            sheet.addMergedRegion(new CellRangeAddress(0,0,0,columnSize));
+        }
+    }
 
 
     @Override
