@@ -18,6 +18,10 @@
 
 
 
+##  前后端交互式，分页从1开始
+
+
+
 ##  动态显示字段
 
 
@@ -60,6 +64,12 @@ private String updateUser;
 
 
 
+##  数据库自动生成备注
+
+根据注解 @Msg
+
+
+
 ##  id生成策略
 默认的id生成策略是uuid， 可通过实体类型上增加注解@CustomId改变
 
@@ -74,15 +84,13 @@ private String updateUser;
 
 
 ##  时间范围
-<p>
+
 前端可使用组件 FieldDateRange, 参考ISO 8601 时间间隔格式
 存储格式：开始时间/结束时间 如：2023-01-01/2023-01-01
 后端构造查询条件时，可使用
-<p>
 ```java
 JpaQuery<SysLog> q=new JpaQuery<>();
 q.betweenIsoDateRange("createTime",dateRange);
-<p>
 ```
 
 
@@ -167,7 +175,7 @@ import org.slf4j.Logger;
  * 示例作业
  */
 @DisallowConcurrentExecution // 不允许并发则加这个注解
-@JobDesc(name = "示例作业-发送系统状态", params = {@FieldInfo(name = "msg", label = "打印信息", required = true)})
+@JobDesc(label = "示例作业-发送系统状态", params = {@FieldInfo(name = "msg", label = "打印信息")})
 public class DemoJob implements Job {
 
     private static final Logger log = JobTool.getLogger();
