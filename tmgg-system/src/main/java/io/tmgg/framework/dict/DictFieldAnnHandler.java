@@ -45,7 +45,8 @@ public class DictFieldAnnHandler {
         }
         SysDict old = sysDictDao.findByCode(dictField.code());
         if(old != null){
-           return;
+            sysDictItemDao.deleteByPid(old.getId());
+            sysDictDao.delete(old);
         }
 
         SysDict sysDict = new SysDict();
