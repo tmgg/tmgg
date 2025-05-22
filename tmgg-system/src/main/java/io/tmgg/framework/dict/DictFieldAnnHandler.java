@@ -12,7 +12,6 @@ import org.springframework.util.Assert;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -56,7 +55,7 @@ public class DictFieldAnnHandler {
         sysDict = sysDictDao.save(sysDict);
 
 
-        String[] arr = dictField.kvs().split(" ");
+        String[] arr = dictField.items().split(" ");
         for (int i = 0; i < arr.length; i++) {
             String kv = arr[i];
             String[] kvArr = kv.split("=");

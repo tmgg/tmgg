@@ -17,7 +17,7 @@ public @interface DictField {
      * 键值对， 格式为: 1=男 2=女
      * @return
      */
-    String kvs();
+    String items();
 
 
 }
