@@ -55,11 +55,12 @@ public class DictFieldAnnHandler {
         sysDict = sysDictDao.save(sysDict);
 
 
-        String[] arr = dictField.items().split(" ");
+        String items = dictField.items();
+        String[] arr = items.split(",");
         for (int i = 0; i < arr.length; i++) {
             String kv = arr[i];
-            String[] kvArr = kv.split("=");
-            Assert.state(kvArr.length ==2, "配置错误");
+            String[] kvArr = kv.split("-");
+            Assert.state(kvArr.length ==2, "配置错误" + items);
             String k = kvArr[0].trim();
             String v = kvArr[1].trim();
 

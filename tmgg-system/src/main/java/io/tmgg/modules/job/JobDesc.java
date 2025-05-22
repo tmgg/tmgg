@@ -17,6 +17,10 @@ public @interface JobDesc {
 
     FieldInfo[] params() default {};
 
+    /**
+     * 动态参数
+     * @return
+     */
     Class<? extends JobParamFieldProvider> paramsProvider() default JobParamFieldProvider.class;
 
 }

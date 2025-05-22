@@ -19,7 +19,7 @@ import java.time.Duration;
 import java.util.List;
 
 
-@JobDesc(name = "kettle状态检查", params = {})
+@JobDesc(label = "kettle状态检查", params = {})
 public class KettleStatusCheckJob implements Job {
 
 

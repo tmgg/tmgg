@@ -29,7 +29,7 @@ public class SysAsset extends BaseEntity {
 
     @NotNull
     @Msg("类型")
-    @DictField(label = "素材类型",code = "assetType", items = "0=富文本 1=文件")
+    @DictField(label = "素材类型",code = "assetType", items = "0-富文本,1-文件")
     Integer type;
 
 

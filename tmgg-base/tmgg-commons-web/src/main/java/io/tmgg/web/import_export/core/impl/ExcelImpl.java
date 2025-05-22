@@ -2,7 +2,8 @@ package io.tmgg.web.import_export.core.impl;
 
 import cn.hutool.core.io.FileUtil;
 import io.tmgg.lang.ResponseTool;
-import io.tmgg.lang.obj.Table;
+import io.tmgg.lang.obj.table.Table;
+import io.tmgg.lang.obj.table.TableColumn;
 import io.tmgg.web.import_export.core.FileImportExportHandler;
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletResponse;
@@ -25,9 +26,9 @@ public class ExcelImpl implements FileImportExportHandler {
             createTitle(title, table.getColumns().size(), workbook, sheet);
 
             Row headerRow = sheet.createRow(sheet.getLastRowNum() + 1);
-            List<Table.Column<T>> columns = table.getColumns();
+            List<TableColumn<T>> columns = table.getColumns();
             for (int i = 0; i < columns.size(); i++) {
-                Table.Column<T> column = columns.get(i);
+                TableColumn<T> column = columns.get(i);
                 String header = column.getTitle();
                 headerRow.createCell(i).setCellValue(header);
             }
@@ -36,7 +37,7 @@ public class ExcelImpl implements FileImportExportHandler {
             for (T bean : table.getDataSource()) {
                 Row row = sheet.createRow(sheet.getLastRowNum() + 1);
                 for (int i = 0; i < columns.size(); i++) {
-                    Table.Column<T> column = columns.get(i);
+                    TableColumn<T> column = columns.get(i);
                     String v = table.getColumnValueFormatted(column, bean);
                     if(v != null){
                         row.createCell(i).setCellValue(v);
