@@ -10,7 +10,7 @@ import java.lang.annotation.*;
 @Target({ ElementType.TYPE})
 public @interface JobDesc {
 
-    String name();
+    String label();
 
     String group() default "默认分组";
 

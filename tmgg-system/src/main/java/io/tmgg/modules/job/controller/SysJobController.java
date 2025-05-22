@@ -133,7 +133,7 @@ public class SysJobController {
 
                     JobDesc jobDesc = cls.getAnnotation(JobDesc.class);
                     if (jobDesc != null) {
-                        option.setLabel(name + " " + jobDesc.name());
+                        option.setLabel(name + " " + jobDesc.label());
                     }
 
                     return option;
@@ -156,7 +156,7 @@ public class SysJobController {
         List<Field> result = new ArrayList<>();
         JobDesc jobDesc = jobCls.getAnnotation(JobDesc.class);
         if (jobDesc != null) {
-            option.setLabel(option.getLabel() + " " + jobDesc.name());
+            option.setLabel(option.getLabel() + " " + jobDesc.label());
 
             FieldInfo[] params = jobDesc.params();
             for (FieldInfo param : params) {
