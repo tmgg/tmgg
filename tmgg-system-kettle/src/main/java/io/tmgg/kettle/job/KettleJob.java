@@ -20,7 +20,7 @@ import java.util.Map;
  * <p>
  * 注意：这里用sysJob的description字段来存储jobName
  */
-@JobDesc(name = "Kettle作业", group = "kettle", paramsProvider = KettleJobParamFieldProvider.class)
+@JobDesc(label = "Kettle作业", group = "kettle", paramsProvider = KettleJobParamFieldProvider.class)
 public class KettleJob implements Job {
 
     private static final Logger log = JobTool.getLogger();
