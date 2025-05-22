@@ -6,9 +6,7 @@ import io.tmgg.lang.obj.Table;
 import io.tmgg.web.import_export.core.FileImportExportHandler;
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletResponse;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
@@ -24,7 +22,7 @@ public class ExcelImpl implements FileImportExportHandler {
         try (XSSFWorkbook workbook = new XSSFWorkbook()) {
             Sheet sheet = workbook.createSheet();
 
-            createTitle(title, table.getColumns().size(), sheet);
+            createTitle(title, table.getColumns().size(), workbook, sheet);
 
             Row headerRow = sheet.createRow(sheet.getLastRowNum() + 1);
             List<Table.Column<T>> columns = table.getColumns();
@@ -58,11 +56,17 @@ public class ExcelImpl implements FileImportExportHandler {
         }
     }
 
-    private static void createTitle(String title, int columnSize, Sheet sheet) {
+    private static void createTitle(String title, int columnSize, Workbook workbook,Sheet sheet) {
         if (title != null) {
+            // 创建样式 - 居中
+            CellStyle centerStyle = workbook.createCellStyle();
+            centerStyle.setAlignment(HorizontalAlignment.CENTER);  // 水平居中
+            centerStyle.setVerticalAlignment(VerticalAlignment.CENTER);  // 垂直居中
+
             Row row = sheet.createRow(0);
             Cell cell = row.createCell(0);
             cell.setCellValue(title);
+            cell.setCellStyle(centerStyle);
             sheet.addMergedRegion(new CellRangeAddress(0,0,0,columnSize));
         }
     }
