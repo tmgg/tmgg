@@ -50,10 +50,13 @@ export const HttpUtil = {
      */
     pageData(url, params) {
         const {page, size, sort, _exportType, ...data} = params;
+        let searchText = params.searchText;
+
         if (_exportType) {
             return this.downloadFilePost(url, data, {sort, size}, {'X-Export-Type': _exportType})
         }
-        return this.post(url, data, {page, size, sort})
+
+        return this.post(url, data, {page, size, sort, searchText})
     },
     /**
      * 下载
