@@ -23,10 +23,10 @@ export class FieldUploadFile extends React.Component {
     constructor(props) {
         super(props);
         ObjUtil.copyPropertyIfPresent(props, this.state)
-        this.state.fileList = this.convertInput(this.state.value);
+        this.state.fileList = this.convertInputToComponentValue(this.state.value);
     }
 
-    convertInput(value) {
+    convertInputToComponentValue(value) {
         let list = [];
         if (value && value.length > 0) {
             const arr = value.split(",")
@@ -40,7 +40,7 @@ export class FieldUploadFile extends React.Component {
         return list
     }
 
-    convertOutput(fileList) {
+    convertComponentValueToOutput(fileList) {
         let fileIds = [];
         for (const f of fileList) {
             if (f.status === 'done' && f.response) {
@@ -73,11 +73,11 @@ export class FieldUploadFile extends React.Component {
         this.setState({fileList});
 
 
-        let fileIds = this.convertOutput(fileList);
+        let fileIds = this.convertComponentValueToOutput(fileList);
         if (fileIds.length > 0) {
-            this.props?.onFileChange(fileList)
+            this.props.onFileChange?.(fileList)
         }
-        this.props?.onChange(fileIds.join(','));
+        this.props.onChange?.(fileIds.join(','));
     };
 
 

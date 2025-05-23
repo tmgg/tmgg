@@ -1,6 +1,8 @@
 package io.tmgg.web.persistence;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.bean.copier.CopyOptions;
+import io.tmgg.lang.BeanTool;
 import io.tmgg.web.persistence.specification.ExpressionTool;
 import io.tmgg.web.persistence.specification.Selector;
 import jakarta.annotation.PostConstruct;
@@ -13,6 +15,8 @@ import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Validator;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.beanutils.BeanUtils;
+import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.data.domain.*;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.support.JpaEntityInformation;
@@ -22,14 +26,15 @@ import org.springframework.data.repository.query.FluentQuery;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.*;
+import java.util.function.BiPredicate;
 import java.util.function.Function;
 
 /**
  * 基础dao
- * <p>
  * BaseDao的查询条件不依赖JpaQuery
  */
 @Slf4j
@@ -291,9 +296,10 @@ public class BaseDao<T extends PersistEntity> {
     }
 
     /**
+     *
      * 更新指定字段
      *
-     * 对比save方法更新的时所有字段，改方法只更新指定字段
+     * 对比save方法更新的时所有字段，只更新指定字段
      *
      * @gendoc
      */
@@ -303,33 +309,54 @@ public class BaseDao<T extends PersistEntity> {
         String id = entity.getId();
         Assert.hasText(id, "id不能为空");
 
+        T db = findById(id);
+        Assert.notNull(db, "数据不存在");
+
+        for (String fieldName : fieldsToUpdate) {
+            Object fieldValue = BeanUtil.getFieldValue(entity, fieldName);
+            BeanUtil.setFieldValue(db, fieldName,fieldValue);
+        }
+    }
 
 
 
-
-
-
-
+    /**
+     *
+     * 直接更新指定字段
+     * 不会先find，再更新
+     * 对比save方法更新的时所有字段，改方法只更新指定字段
+     *
+     * 注意：主要用于更新单个实体的字段， 不能更新多对多等关联关系
+     * @gendoc
+     */
+    @Transactional
+    public void updateFieldDirect(T entity, List<String> fieldsToUpdate) {
+        Assert.notEmpty(fieldsToUpdate, "fieldsToUpdate不能为空");
+        String id = entity.getId();
+        Assert.hasText(id, "id不能为空");
 
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
-        CriteriaUpdate<T> update = cb.createCriteriaUpdate(getDomainClass());
-        Root<T> root = update.from(getDomainClass());
+        Class<T> cls = getDomainClass();
+        CriteriaUpdate<T> update = cb.createCriteriaUpdate(cls);
+        Root<T> root = update.from(cls);
 
-        for (String f : fieldsToUpdate) {
-            Object value = BeanUtil.getFieldValue(entity, f) ;
-
-            // 校验数据， 如 @NotNull
-            Set<ConstraintViolation<T>> violations = validator.validateValue(getDomainClass(), f, value);
-            if (!violations.isEmpty()) {
-                throw new ConstraintViolationException(violations);
+        for (String fieldName : fieldsToUpdate) {
+            Object value = BeanUtil.getFieldValue(entity, fieldName) ;
+            // 校验
+            Set<ConstraintViolation<T>> entityViolations = validator.validateValue(cls,fieldName,value);
+            if (!entityViolations.isEmpty()) {
+                throw new ConstraintViolationException(entityViolations);
             }
 
-            update.set(root.get(f), value);
+            update.set(root.get(fieldName), value);
         }
         update.where(cb.equal(root.get("id"), id));
 
         // 执行更新
-        entityManager.createQuery(update).executeUpdate();
+        int updated = entityManager.createQuery(update).executeUpdate();
+        if (updated == 0) {
+            throw new OptimisticLockingFailureException("更新失败，记录可能已被删除");
+        }
     }
 
 

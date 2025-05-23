@@ -1,7 +1,7 @@
 // @ts-ignore
 import React from "react";
-import {FieldUploadFile} from "./FieldUploadFile";
+import {FieldUploadFileProps} from "./FieldUploadFile";
 
 
-export class FieldUploadImage extends React.Component<FieldUploadFile, any> {
+export class FieldUploadImage extends React.Component<FieldUploadFileProps, any> {
 }

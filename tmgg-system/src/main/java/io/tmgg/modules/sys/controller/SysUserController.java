@@ -21,7 +21,7 @@ import io.tmgg.modules.sys.service.SysUserService;
 import io.tmgg.web.annotion.HasPermission;
 import io.tmgg.web.perm.SecurityUtils;
 import io.tmgg.web.perm.Subject;
-import io.tmgg.web.pojo.param.SelectParam;
+import io.tmgg.web.pojo.param.OptionsParam;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -153,7 +153,7 @@ public class SysUserController {
 
 
     @PostMapping("options")
-    public AjaxResult options(@RequestBody SelectParam param) {
+    public AjaxResult options(@RequestBody OptionsParam param) {
         String searchText = param.getSearchText();
         JpaQuery<SysUser> query = new JpaQuery<>();
 

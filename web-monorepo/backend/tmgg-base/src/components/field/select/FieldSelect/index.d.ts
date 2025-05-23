@@ -21,12 +21,18 @@ declare type FieldSelectProps = {
      * 是否多选
      */
     multiple?:boolean;
+
     /**
-     * 对选时返回对象数组
+     *  多选选时返回对象数组
      *
-     * str:逗号分隔
+     *  primitive 原始值，如123 , 多选时时数组， 如[123,456]
+     *  object  包装成对象的值， 如 {id:123}, 多选时 [{id:123},{id:456}]
+     *  joined  逗号分割的字符串， 如123,456
+     *
      */
-    multipleMode?: 'strArr' | 'objArr'| 'str' | undefined | null
+    valueType?: 'primitive'| 'object'  | 'joined' | undefined | null;
+
+
 };
 
 export class FieldSelect extends React.Component<FieldSelectProps, any> {

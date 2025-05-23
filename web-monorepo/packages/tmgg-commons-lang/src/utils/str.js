@@ -1,4 +1,7 @@
 export const StrUtil = {
+
+
+
     removePrefix(str, ch){
       if(str != null && str.startsWith(ch)){
        return    str.substring(ch.length)
