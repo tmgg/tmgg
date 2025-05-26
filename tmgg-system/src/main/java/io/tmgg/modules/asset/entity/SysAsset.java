@@ -2,7 +2,6 @@ package io.tmgg.modules.asset.entity;
 
 import io.tmgg.framework.dict.DictField;
 import io.tmgg.lang.ann.Msg;
-import io.tmgg.web.persistence.AutoAppendJoinField;
 import io.tmgg.web.persistence.BaseEntity;
 import io.tmgg.web.persistence.DBConstants;
 import jakarta.persistence.*;
@@ -30,7 +29,7 @@ public class SysAsset extends BaseEntity {
 
     @NotNull
     @Msg("类型")
-    @DictField(label = "素材类型",code = "assetType", kvs = "0=富文本 1=文件")
+    @DictField(label = "素材类型",code = "assetType", items = "0-富文本,1-文件")
     Integer type;
 
 

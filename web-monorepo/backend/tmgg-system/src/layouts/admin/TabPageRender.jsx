@@ -30,12 +30,13 @@ class TabPageRender extends React.Component {
 
     onUrlChange = url => {
         const {location} = this.props
-        const {pathname} = location
+
+        const {pathname,search} = location
         let {tabs} = this.state
 
         const old = tabs.find(t=>t.key === url)
         if(old == null){
-            const cmp =  <PageRender {...location}/>
+            const cmp =  <PageRender  pathname={pathname} search={search}/>
             let label = this.getLabel(pathname);
             tabs.push({
                 key: url,

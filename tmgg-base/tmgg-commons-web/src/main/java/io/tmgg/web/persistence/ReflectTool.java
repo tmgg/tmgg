@@ -24,6 +24,17 @@ public class ReflectTool {
 
     private static final Logger logger = LoggerFactory.getLogger(ReflectTool.class);
 
+
+    public static Field getField(Class<?> cls, String fieldName) {
+        Validate.notBlank(fieldName, "fieldName can't be blank");
+        try {
+            return cls.getDeclaredField(fieldName);
+        } catch (NoSuchFieldException e) {
+            throw new IllegalArgumentException("Field Not Exist");
+        }
+    }
+
+
     // 调用Getter方法. 支持多级，如：对象名.对象名.方法
     @SuppressWarnings("unchecked")
     public static <E> E invokeGetter(Object obj, String propertyName) {

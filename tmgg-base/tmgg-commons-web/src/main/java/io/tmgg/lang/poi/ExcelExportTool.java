@@ -1,13 +1,12 @@
 
 package io.tmgg.lang.poi;
 
-import cn.hutool.core.bean.BeanUtil;
 import io.tmgg.commons.poi.excel.ExcelExportUtil;
 import io.tmgg.commons.poi.excel.entity.ExportParams;
 import io.tmgg.commons.poi.excel.entity.enmus.ExcelType;
 import io.tmgg.lang.ResponseTool;
 import io.tmgg.lang.data.Matrix;
-import io.tmgg.lang.obj.Table;
+import io.tmgg.lang.obj.table.Table;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.usermodel.Row;
@@ -19,7 +18,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.function.Function;
 
 /**
  * 简单导入导出工具类

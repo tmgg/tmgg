@@ -7,15 +7,12 @@ import io.tmgg.web.persistence.specification.JpaQuery;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.obj.Option;
 import io.tmgg.web.annotion.HasPermission;
-import io.tmgg.web.pojo.param.SelectParam;
+import io.tmgg.web.pojo.param.OptionsParam;
 import io.tmgg.weixin.entity.WeixinPage;
 import io.tmgg.weixin.service.WeixinPageService;
 import jakarta.annotation.Resource;
 import lombok.Data;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -114,7 +111,7 @@ public class WeixinPageController extends BaseController<WeixinPage> {
 
 
     @PostMapping("options")
-    public AjaxResult options(@RequestBody SelectParam param) {
+    public AjaxResult options(@RequestBody OptionsParam param) {
         String searchText = param.getSearchText();
         JpaQuery<WeixinPage> q = new JpaQuery<>();
         q.searchText(searchText, WeixinPage.Fields.page, WeixinPage.Fields.title);

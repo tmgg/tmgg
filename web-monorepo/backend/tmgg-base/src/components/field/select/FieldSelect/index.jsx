@@ -2,7 +2,7 @@ import {Button, Select, Spin} from 'antd';
 
 import React from 'react';
 import {HttpUtil} from "../../../../system";
-import {ObjUtil} from "@tmgg/tmgg-commons-lang";
+import {ArrUtil, ObjUtil, StrUtil} from "@tmgg/tmgg-commons-lang";
 import {ReloadOutlined} from "@ant-design/icons";
 
 export class FieldSelect extends React.Component {
@@ -11,7 +11,7 @@ export class FieldSelect extends React.Component {
         super(props);
 
         ObjUtil.copyPropertyIfPresent(props, this.state)
-        this.state.componentValue = this.convertInput(this.state.value)
+        this.state.componentValue = this.convertInputToComponentValue(this.state.value)
 
         if (this.state.multiple) {
         }
@@ -29,7 +29,7 @@ export class FieldSelect extends React.Component {
         disabled: false,
 
         multiple: false,
-        multipleMode: 'strArr',
+        valueType: 'primitive',
 
 
         // 内部状态
@@ -45,38 +45,54 @@ export class FieldSelect extends React.Component {
         let {value} = this.props;
         // 表单主动设置value的情况
         if (value !== prevProps.value && this.state.value !== value) {
-            const v = this.convertInput(value);
-            this.setState({componentValue: v, value: v},()=>this.loadData({}))
+            const v = this.convertInputToComponentValue(value);
+            this.setState({componentValue: v, value: v}, () => this.loadData({}))
         }
     }
 
-    convertInput(value) {
-        if (this.state.multiple) {
-            if (this.state.multipleMode === 'objArr') {
-
-            }else if(this.state.multipleMode === 'str'){
-
+    convertInputToComponentValue = value => {
+        if(value != null){
+            if(this.state.multiple){
+                if(this.state.valueType === 'object'){
+                    return value.map(v=>v.id)
+                }
+                if(this.state.valueType === 'joined'){
+                    return value.split(',')
+                }
+            }else {
+                if(this.state.valueType === 'object'){
+                    return value.id
+                }
             }
-        }
-        return value
-    }
 
-    convertOutput(value) {
-        if (this.state.multiple) {
-            if (this.state.multipleMode === 'objArr') {
-
-            }else if(this.state.multipleMode === 'str'){
-
-            }
         }
 
         return value
-    }
+    };
+
+    convertComponentValueToOutput = value => {
+        if(value != null){
+            if(this.state.multiple){
+                if(this.state.valueType === 'object'){
+                    return value.map(v=>{return {id: v}})
+                }
+                if(this.state.valueType === 'joined'){
+                    return value.join(',')
+                }
+            }else {
+                if(this.state.valueType === 'object'){
+                    return {id:value}
+                }
+            }
+        }
+
+        return value
+    };
 
 
     handleChange = (value) => {
         this.setState({componentValue: value, loading: false});
-        this.props.onChange?.(this.convertOutput(value));
+        this.props.onChange?.(this.convertComponentValueToOutput(value));
     }
 
 
@@ -86,7 +102,7 @@ export class FieldSelect extends React.Component {
     };
 
     loadData = ({searchText}) => {
-        const {value: selected,url} = this.state;
+        const {value: selected, url} = this.state;
 
         this.setState({loading: true});
         HttpUtil.post(url, {searchText, selected})

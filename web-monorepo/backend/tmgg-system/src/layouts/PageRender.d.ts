@@ -10,7 +10,7 @@ declare type PageRenderProps = {
    /***
     * 搜索参数 如 /?id=1
     */
-   search:string;
+   search?:string;
 
    /***
     *   是否把location信息透传到真正页面

@@ -6,7 +6,7 @@ import jakarta.persistence.metamodel.Attribute;
 public class ExpressionTool {
 
     // 获得字段路径， 字段包含小数点 .
-    public static Expression getExpression(String fieldName, Root<?> root) {
+    public static Path getExpression(String fieldName, Root<?> root) {
         // 普通字段
         if (!fieldName.contains(".")) {
             Attribute.PersistentAttributeType type = root.getModel().getAttribute(fieldName).getPersistentAttributeType();
@@ -21,11 +21,11 @@ public class ExpressionTool {
                 return root.get(fieldName);
             }
         }
-        Expression expression = root;
+        Path expression = root;
         String[] names = fieldName.split("\\.");
 
         for (String name : names) {
-            expression = ((Path) expression).get(name);
+            expression = ((Path<?>) expression).get(name);
         }
 
         return expression;

@@ -1,20 +1,16 @@
 package io.tmgg.modules.api.controller;
 
 import cn.hutool.core.collection.CollUtil;
-import cn.hutool.core.util.ArrayUtil;
-import cn.hutool.core.util.StrUtil;
 import io.tmgg.web.persistence.BaseController;
 import io.tmgg.web.persistence.specification.JpaQuery;
 import io.tmgg.lang.obj.AjaxResult;
-import io.tmgg.lang.obj.Table;
+import io.tmgg.lang.obj.table.Table;
 import io.tmgg.modules.api.entity.ApiResource;
 import io.tmgg.modules.api.service.ApiResourceService;
-import io.tmgg.web.annotion.HasPermission;
-import io.tmgg.web.pojo.param.SelectParam;
+import io.tmgg.web.pojo.param.OptionsParam;
 import jakarta.annotation.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,7 +24,7 @@ public class ApiResourceController extends BaseController<ApiResource> {
 
 
     @PostMapping("tableSelect")
-    public AjaxResult tableSelect(@RequestBody SelectParam param, Pageable pageable) {
+    public AjaxResult tableSelect(@RequestBody OptionsParam param, Pageable pageable) {
         JpaQuery<ApiResource> q = new JpaQuery<>();
         q.searchText(param.getSearchText(), ApiResource.Fields.name, ApiResource.Fields.uri, ApiResource.Fields.desc);
 

@@ -73,7 +73,11 @@ public class UserSideController {
     @PostMapping("todoTaskPage")
     public AjaxResult todo(Pageable pageable) throws Exception {
         Page<TaskVo> page = fm.taskTodoList(pageable);
-        return ExportTool.autoRender(page, TaskVo.class);
+        if(!ExportTool.isExportRequest()){
+            return AjaxResult.ok().data(page);
+        }
+         ExportTool.export(page.getContent(), TaskVo.class);
+        return null;
     }
 
     @PostMapping("doneTaskPage")

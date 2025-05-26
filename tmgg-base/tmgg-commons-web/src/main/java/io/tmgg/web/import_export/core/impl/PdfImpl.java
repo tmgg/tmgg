@@ -10,13 +10,13 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import io.tmgg.lang.FontTool;
 import io.tmgg.lang.ResponseTool;
-import io.tmgg.lang.data.Matrix;
-import io.tmgg.lang.obj.Table;
+import io.tmgg.lang.obj.table.Table;
+import io.tmgg.lang.obj.table.TableColumn;
 import io.tmgg.web.import_export.core.FileImportExportHandler;
+import jakarta.persistence.Column;
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.poi.ss.formula.functions.T;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -51,7 +51,7 @@ public class PdfImpl implements FileImportExportHandler {
         // 添加生成时间
         addGenerationInfo(document);
 
-        List<Table.Column<T>> columns = tb.getColumns();
+        List<TableColumn<T>> columns = tb.getColumns();
 
         // 创建表格
 
@@ -143,8 +143,8 @@ public class PdfImpl implements FileImportExportHandler {
         return table;
     }
 
-    private <T> void addTableHeader(PdfPTable table,     List<Table.Column<T>> columns) {
-        for (Table.Column<T> column : columns) {
+    private <T> void addTableHeader(PdfPTable table,     List<TableColumn<T>> columns) {
+        for (TableColumn<T> column : columns) {
             PdfPCell cell = new PdfPCell(new Phrase(column.getTitle(), HEADER_FONT));
             cell.setHorizontalAlignment(Element.ALIGN_CENTER);
             cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -159,7 +159,7 @@ public class PdfImpl implements FileImportExportHandler {
 
     private <T> void addTableRows(PdfPTable table,  Table<T> tb) {
         for (T bean : tb.getDataSource()) {
-            for (Table.Column<T> column : tb.getColumns()) {
+            for (TableColumn<T> column : tb.getColumns()) {
                 String s = tb.getColumnValueFormatted(column, bean);
                 table.addCell(createCell(s));
             }

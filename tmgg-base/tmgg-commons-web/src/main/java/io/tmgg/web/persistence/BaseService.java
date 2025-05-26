@@ -6,7 +6,7 @@ import io.tmgg.web.import_export.ExportTool;
 import io.tmgg.web.persistence.specification.JpaQuery;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.obj.Option;
-import io.tmgg.lang.obj.Table;
+import io.tmgg.lang.obj.table.Table;
 import jakarta.persistence.Transient;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -35,37 +35,50 @@ public abstract class BaseService<T extends PersistEntity> {
     protected BaseDao<T> baseDao;
 
 
-
-    public <T> AjaxResult autoRender(Page<T> page) throws Exception {
-            Type superClass = getClass().getGenericSuperclass();
+    public AjaxResult autoRender(Page<T> page) throws Exception {
+        Type superClass = getClass().getGenericSuperclass();
         Type type = ((ParameterizedType) superClass).getActualTypeArguments()[0];
         Class<T> cls = (Class<T>) type;
 
-        return ExportTool.autoRender(page,cls);
+        if (!ExportTool.isExportRequest()) {
+            return AjaxResult.ok().data(page);
+        }
+
+
+        ExportTool.export(page.getContent(), cls);
+
+        return null;
     }
 
     /**
      * 自定渲染，vo的情况
      */
-    public <VO> AjaxResult autoRender(Page<VO> page,Class<VO> cls ) throws Exception {
-        return ExportTool.autoRender(page,cls);
+    public <VO> AjaxResult autoRender(Page<VO> page, Class<VO> cls) throws Exception {
+        if (!ExportTool.isExportRequest()) {
+            return AjaxResult.ok().data(page);
+        }
+
+        ExportTool.export(page.getContent(), cls);
+        return null;
     }
 
+    @Deprecated
     public <D> void exportExcel(Table<D> table, String filename, HttpServletResponse response) throws IOException {
         ExportTool.exportExcel(table, filename, response);
     }
 
     /**
      * 通过注解@Excel导出
+     *
      * @param list
      * @param filename
      * @param response
      * @throws IOException
      */
+    @Deprecated
     public void exportExcel(List<T> list, String filename, HttpServletResponse response) throws IOException {
         ExportTool.exportExcel(list, filename, getEntityClass(), response);
     }
-
 
 
     public boolean isFieldUnique(String id, String fieldName, Object value) {
@@ -188,8 +201,6 @@ public abstract class BaseService<T extends PersistEntity> {
     }
 
 
-
-
     /**
      * 更新时，指定字段更新
      * 防止了全字段更新，以免有些字段非前端输入的情况
@@ -206,7 +217,7 @@ public abstract class BaseService<T extends PersistEntity> {
             return baseDao.persist(input);
         }
 
-         baseDao.updateField(input,updateKeys);
+        baseDao.updateField(input, updateKeys);
         return baseDao.findById(id);
     }
 
@@ -318,7 +329,7 @@ public abstract class BaseService<T extends PersistEntity> {
         for (Field f : fs) {
             if (f.getType().equals(String.class)
                 && !Modifier.isStatic(f.getModifiers())
-                && !f.isAnnotationPresent(Transient.class) && !f.isAnnotationPresent(org.springframework.data.annotation.Transient.class) ) {
+                && !f.isAnnotationPresent(Transient.class) && !f.isAnnotationPresent(org.springframework.data.annotation.Transient.class)) {
                 String name = f.getName();
                 fields.add(name);
             }
@@ -333,7 +344,7 @@ public abstract class BaseService<T extends PersistEntity> {
         List<String> fields = new ArrayList<>();
         for (Field f : fs) {
             if (!Modifier.isStatic(f.getModifiers())
-                && !f.isAnnotationPresent(Transient.class) && !f.isAnnotationPresent(org.springframework.data.annotation.Transient.class) ) {
+                && !f.isAnnotationPresent(Transient.class) && !f.isAnnotationPresent(org.springframework.data.annotation.Transient.class)) {
                 String name = f.getName();
                 fields.add(name);
             }

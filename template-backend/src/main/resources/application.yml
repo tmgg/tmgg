@@ -22,5 +22,4 @@ logging:
     io.tmgg: info
   file:
     path: ./logs/
-    name: ./logs/all.log
 
