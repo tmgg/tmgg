@@ -16,6 +16,7 @@ import io.tmgg.web.io.core.FileImportExportHandler;
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.poi.ss.formula.functions.T;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -26,10 +27,17 @@ import java.util.List;
 
 @Slf4j
 public class PdfImpl implements FileImportExportHandler {
-    private static final Font TITLE_FONT = new Font(getBaseFont(), 18, Font.BOLD, BaseColor.BLUE);
-    private static final Font HEADER_FONT = new Font(getBaseFont(), 12, Font.BOLD, BaseColor.WHITE);
-    private static final Font CELL_FONT = new Font(getBaseFont(), 10);
-    private static final BaseColor HEADER_BG_COLOR = new BaseColor(73, 144, 205);
+    private  final Font TITLE_FONT;
+    private  final Font HEADER_FONT;
+    private  final Font CELL_FONT;
+    private  final BaseColor HEADER_BG_COLOR;
+
+    public PdfImpl() {
+        TITLE_FONT = new Font(getBaseFont(), 18, Font.BOLD, BaseColor.BLUE);
+        HEADER_FONT = new Font(getBaseFont(), 12, Font.BOLD, BaseColor.WHITE);
+        CELL_FONT = new Font(getBaseFont(), 10);
+        HEADER_BG_COLOR = new BaseColor(73, 144, 205);
+    }
 
 
     @Override
@@ -98,7 +106,10 @@ public class PdfImpl implements FileImportExportHandler {
     private static BaseFont getBaseFont() {
         try {
             String font = FontTool.getDefaultFontPath();
-            Assert.notNull(font, "系统中不存在中文字体");
+            log.warn(font, "【警告】系统中不存在中文字体，导出PDF可能会出现中文乱码");
+            if(font == null){
+                return null;
+            }
             log.debug("使用字体文件 {}", font);
 
             BaseFont bfChinese = BaseFont.createFont(

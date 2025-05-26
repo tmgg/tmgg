@@ -5,13 +5,14 @@ on:
   push:
     tags:
       - 'v*'
+
  # push:
 #  schedule:
     # 定时任务，在每天的5点 (时差）
   #  - cron: '0 21 * * *'
 jobs:
   aliyun-docker:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - name: Set up JDK
