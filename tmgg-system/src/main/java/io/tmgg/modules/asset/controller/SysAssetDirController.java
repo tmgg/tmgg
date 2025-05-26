@@ -37,8 +37,8 @@ public class SysAssetDirController  extends BaseController<SysAssetDir> {
 
 
 
-    @PostMapping("options")
-    public AjaxResult dirOptions(@RequestBody OptionsParam param) throws Exception {
+    @RequestMapping("options")
+    public AjaxResult dirOptions( OptionsParam param) throws Exception {
         String searchText = param.getSearchText();
         JpaQuery<SysAssetDir> q = new JpaQuery<>();
         q.searchText(searchText, SysAssetDir.Fields.name, SysAssetDir.Fields.code);

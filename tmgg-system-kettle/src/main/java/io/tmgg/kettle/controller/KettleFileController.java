@@ -78,8 +78,8 @@ public class KettleFileController {
     }
 
 
-    @PostMapping("options")
-    public AjaxResult options(@RequestBody OptionsParam param) {
+    @RequestMapping("options")
+    public AjaxResult options( OptionsParam param) {
         List<RepTreeItem> list = sdk.getRepositoryObjectTree();
 
         List<Option> options = new ArrayList<>();

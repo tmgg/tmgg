@@ -24,7 +24,7 @@ public class ApiResourceController extends BaseController<ApiResource> {
 
 
     @PostMapping("tableSelect")
-    public AjaxResult tableSelect(@RequestBody OptionsParam param, Pageable pageable) {
+    public AjaxResult tableSelect( OptionsParam param, Pageable pageable) {
         JpaQuery<ApiResource> q = new JpaQuery<>();
         q.searchText(param.getSearchText(), ApiResource.Fields.name, ApiResource.Fields.uri, ApiResource.Fields.desc);
 
