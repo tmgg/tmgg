@@ -110,8 +110,8 @@ public class WeixinPageController extends BaseController<WeixinPage> {
     }
 
 
-    @PostMapping("options")
-    public AjaxResult options(@RequestBody OptionsParam param) {
+    @RequestMapping("options")
+    public AjaxResult options( OptionsParam param) {
         String searchText = param.getSearchText();
         JpaQuery<WeixinPage> q = new JpaQuery<>();
         q.searchText(searchText, WeixinPage.Fields.page, WeixinPage.Fields.title);

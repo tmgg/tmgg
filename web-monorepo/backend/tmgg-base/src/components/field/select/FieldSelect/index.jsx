@@ -102,10 +102,12 @@ export class FieldSelect extends React.Component {
     };
 
     loadData = ({searchText}) => {
-        const {value: selected, url} = this.state;
+        const {value, url} = this.state;
+        let selected = value || []
+        selected = selected.join(',')
 
         this.setState({loading: true});
-        HttpUtil.post(url, {searchText, selected})
+        HttpUtil.get(url, {searchText, selected})
             .then(data => {
                 this.setState({data});
                 this.props.onLoadDataFinish?.(data);
