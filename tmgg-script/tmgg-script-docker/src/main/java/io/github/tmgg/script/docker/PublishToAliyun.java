@@ -34,7 +34,7 @@ public class PublishToAliyun {
 
     public static void main(String[] args) throws IOException, InterruptedException {
         Assert.state(args.length == 1);
-        password = args[1];
+        password = args[0];
 
 
         log.info("部署密码为 {}", password);
