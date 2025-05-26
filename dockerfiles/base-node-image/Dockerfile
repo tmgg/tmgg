@@ -1,4 +1,4 @@
-FROM node:20 as web
+FROM node:20
 
 WORKDIR build-node
 
