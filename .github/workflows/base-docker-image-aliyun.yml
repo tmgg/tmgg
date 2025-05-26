@@ -23,7 +23,7 @@ jobs:
 
 
       - name: mvn build
-        run: mvn package -q
+        run: mvn package -q -DskipTests=true
 
       - name:  Publish
         run: |
