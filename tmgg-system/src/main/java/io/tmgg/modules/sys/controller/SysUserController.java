@@ -152,8 +152,8 @@ public class SysUserController {
     }
 
 
-    @PostMapping("options")
-    public AjaxResult options(@RequestBody OptionsParam param) {
+    @RequestMapping("options")
+    public AjaxResult options( OptionsParam param) {
         String searchText = param.getSearchText();
         JpaQuery<SysUser> query = new JpaQuery<>();
 

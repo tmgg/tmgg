@@ -124,8 +124,8 @@ public class SysRoleController extends BaseController<SysRole> {
     }
 
 
-    @PostMapping("options")
-    public AjaxResult options(@RequestBody OptionsParam param) {
+    @RequestMapping("options")
+    public AjaxResult options( OptionsParam param) {
         String searchText = param.getSearchText();
         List<SysRole> list = sysRoleService.findValid();
         if(searchText != null){
