@@ -2,7 +2,7 @@ import {Button, Select, Spin} from 'antd';
 
 import React from 'react';
 import {HttpUtil} from "../../../../system";
-import {ArrUtil, ObjUtil, StrUtil} from "@tmgg/tmgg-commons-lang";
+import {ObjUtil} from "@tmgg/tmgg-commons-lang";
 import {ReloadOutlined} from "@ant-design/icons";
 
 export class FieldSelect extends React.Component {
@@ -51,16 +51,16 @@ export class FieldSelect extends React.Component {
     }
 
     convertInputToComponentValue = value => {
-        if(value != null){
-            if(this.state.multiple){
-                if(this.state.valueType === 'object'){
-                    return value.map(v=>v.id)
+        if (value != null) {
+            if (this.state.multiple) {
+                if (this.state.valueType === 'object') {
+                    return value.map(v => v.id)
                 }
-                if(this.state.valueType === 'joined'){
+                if (this.state.valueType === 'joined') {
                     return value.split(',')
                 }
-            }else {
-                if(this.state.valueType === 'object'){
+            } else {
+                if (this.state.valueType === 'object') {
                     return value.id
                 }
             }
@@ -71,17 +71,19 @@ export class FieldSelect extends React.Component {
     };
 
     convertComponentValueToOutput = value => {
-        if(value != null){
-            if(this.state.multiple){
-                if(this.state.valueType === 'object'){
-                    return value.map(v=>{return {id: v}})
+        if (value != null) {
+            if (this.state.multiple) {
+                if (this.state.valueType === 'object') {
+                    return value.map(v => {
+                        return {id: v}
+                    })
                 }
-                if(this.state.valueType === 'joined'){
+                if (this.state.valueType === 'joined') {
                     return value.join(',')
                 }
-            }else {
-                if(this.state.valueType === 'object'){
-                    return {id:value}
+            } else {
+                if (this.state.valueType === 'object') {
+                    return {id: value}
                 }
             }
         }
@@ -103,8 +105,17 @@ export class FieldSelect extends React.Component {
 
     loadData = ({searchText}) => {
         const {value, url} = this.state;
-        let selected = value || []
-        selected = selected.join(',')
+
+        let selected = null;
+        if (value != null) {
+            const isArray = value instanceof Array
+            if (isArray) {
+                selected = value.join(',')
+            } else {
+                selected = value
+            }
+        }
+
 
         this.setState({loading: true});
         HttpUtil.get(url, {searchText, selected})
