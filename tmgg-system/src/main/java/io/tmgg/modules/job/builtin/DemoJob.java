@@ -10,7 +10,7 @@ import org.slf4j.Logger;
  * 示例作业
  */
 @DisallowConcurrentExecution // 不允许并发则加这个注解
-@JobDesc(label = "示例作业-发送系统状态", params = {@FieldInfo(name = "msg", label = "打印信息")})
+@JobDesc(label = "示例作业", params = {@FieldInfo(name = "msg", label = "打印信息")})
 public class DemoJob implements Job {
 
     private static final Logger log = JobTool.getLogger();
