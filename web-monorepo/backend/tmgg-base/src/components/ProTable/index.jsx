@@ -23,6 +23,14 @@ export class ProTable extends React.Component {
         sorter: {
             field: undefined, // 字段
             order: undefined, // 排序 ascend, descend
+        },
+
+        // 服务端返回的一些额外数据
+        extData:{
+            // 总结栏
+            summary: null,
+            // 自动render相关的，如导出
+            autoRenderEnable:false
         }
     }
 
@@ -62,8 +70,12 @@ export class ProTable extends React.Component {
 
         this.setState({loading: true})
         request(params).then(rs => {
-            const {content, totalElements, extInfo} = rs;
-            this.setState({dataSource: content, total: parseInt(totalElements), extInfo})
+            const {content, totalElements,extData} = rs;
+
+            this.setState({dataSource: content, total: parseInt(totalElements)})
+            if(extData){
+                this.setState({extData})
+            }
             this.updateSelectedRows(content)
 
         }).finally(() => {
@@ -149,6 +161,7 @@ export class ProTable extends React.Component {
                 loading={this.state.loading}
                 params={this.state.params}
                 changeFormValues={this.changeFormValues}
+                autoRenderEnable={this.state.extData.autoRenderEnable}
             />}
 
 
@@ -177,7 +190,7 @@ export class ProTable extends React.Component {
                     }, this.loadData)
                 }}
                 summary={(data) => {
-                    return this.state.extInfo
+                    return this.state.extData.summary
                 }}
                 bordered={this.props.bordered}
             />

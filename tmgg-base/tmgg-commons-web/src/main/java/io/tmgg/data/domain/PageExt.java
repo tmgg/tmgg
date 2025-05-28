@@ -20,12 +20,8 @@ import java.util.stream.Collectors;
 @Setter
 public class PageExt<T> extends org.springframework.data.domain.PageImpl<T> {
 
-    private   String title;
 
-    /**
-     * 通常存放一些汇总数据，有点像excel的合计, pc端会自动显示在表格最下面。
-     */
-    private  String extInfo;
+
 
     private Map<String, Object> extData = new HashMap<>();
 
@@ -51,10 +47,15 @@ public class PageExt<T> extends org.springframework.data.domain.PageImpl<T> {
     }
 
 
-    public static  <T> PageExt<T>  of(Page<T> page,String extInfo){
-        PageExt<T> pageExt = of(page);
-        pageExt.setExtInfo(extInfo);
-        return pageExt;
+    /**
+     *
+     * @param page
+     * @param summary 总结栏数据
+     * @return
+     * @param <T>
+     */
+    public static  <T> PageExt<T>  of(Page<T> page,String summary){
+       return of(page, "summary",summary);
     }
     public static  <T> PageExt<T>  of(Page<T> page,String key, Object value){
         PageExt<T> pageExt = of(page);

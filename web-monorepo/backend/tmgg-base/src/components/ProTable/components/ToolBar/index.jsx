@@ -24,6 +24,7 @@ export default class Toolbar extends React.Component {
             toolBarRender,
             loading,
             searchFormNode,
+            autoRenderEnable,
         } = this.props;
 
         let {showSearch,showExportExcel=true,showExportPdf=true,showExportJson=true} = toolbarOptions
@@ -49,17 +50,8 @@ export default class Toolbar extends React.Component {
             <div className='pro-table-toolbar-option'>
                 {toolBarRender}
 
-                {showExportExcel &&  <button title='导出EXCEL'  className='btn' onClick={()=>onExport('EXCEL')}>
-                    <img src={excel} />
-                </button>}
 
-                {showExportPdf &&  <button title='导出PDF'  className='btn' onClick={()=>onExport('PDF')}>
-                    <img src={pdf} />
-                </button>}
-
-                {showExportJson &&  <button title='导出json'  className='btn' onClick={()=>onExport('JSON')}>
-                    <DatabaseOutlined />
-                </button>}
+                {this.getAutoRenderNode(autoRenderEnable, showExportExcel, onExport, showExportPdf, showExportJson)}
 
 
                 <Button icon={<ReloadOutlined/>} shape="circle" onClick={onRefresh} title='刷新' loading={loading}/>
@@ -69,6 +61,25 @@ export default class Toolbar extends React.Component {
             {this.renderHistory()}
         </div>
     };
+
+    getAutoRenderNode(autoRenderEnable,showExportExcel, onExport, showExportPdf, showExportJson) {
+        if(!autoRenderEnable){
+            return null
+        }
+        return <>
+            {showExportExcel && <button title='导出EXCEL' className='btn' onClick={() => onExport('EXCEL')}>
+                <img src={excel}/>
+            </button>}
+
+            {showExportPdf && <button title='导出PDF' className='btn' onClick={() => onExport('PDF')}>
+                <img src={pdf}/>
+            </button>}
+
+            {showExportJson && <button title='导出json' className='btn' onClick={() => onExport('JSON')}>
+                <DatabaseOutlined/>
+            </button>}
+        </>;
+    }
 
     renderHistory() {
         const {params} = this.props

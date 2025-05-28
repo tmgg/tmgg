@@ -3,6 +3,7 @@ package io.tmgg.web.json.converter;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
+import io.tmgg.data.domain.PageExt;
 import org.springframework.data.domain.Page;
 
 import java.io.IOException;
@@ -18,12 +19,12 @@ public class PageJsonSerializer<T> extends JsonSerializer<Page<T>> {
     /**
      * 前后端交互时，分页是否从1开始的算的
      */
-    private static final boolean   oneIndexed = true;
+    private static final boolean oneIndexed = true;
 
     @Override
     public void serialize(Page<T> page, JsonGenerator gen, SerializerProvider serializerProvider) throws IOException {
         int number = page.getNumber();
-        if(oneIndexed){
+        if (oneIndexed) {
             number++;
         }
 
@@ -42,6 +43,10 @@ public class PageJsonSerializer<T> extends JsonSerializer<Page<T>> {
         gen.writeNumberField("numberOfElements", page.getNumberOfElements());
         gen.writeNumberField("totalPages", page.getTotalPages());
         gen.writeNumberField("totalElements", page.getTotalElements());
+
+        if (page instanceof PageExt<T> ext) {
+            gen.writeObjectField("extData", ext.getExtData());
+        }
 
         gen.writeEndObject();
     }

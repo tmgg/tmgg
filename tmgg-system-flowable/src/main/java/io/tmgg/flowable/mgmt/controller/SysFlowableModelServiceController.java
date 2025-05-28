@@ -43,7 +43,7 @@ public class SysFlowableModelServiceController {
     @RequestMapping("page")
     public AjaxResult page(String searchText, Pageable pageable) throws Exception {
         Page<SysFlowableModel> page = service.findAll(searchText, pageable);
-        return service.autoResponse(page);
+        return service.autoRender(page);
     }
 
 

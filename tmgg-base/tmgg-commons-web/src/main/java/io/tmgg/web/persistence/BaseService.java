@@ -6,7 +6,6 @@ import io.tmgg.data.domain.PageExt;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.obj.Option;
 import io.tmgg.lang.obj.table.Table;
-import io.tmgg.web.enums.YesNo;
 import io.tmgg.web.io.ExportTool;
 import io.tmgg.web.persistence.specification.JpaQuery;
 import jakarta.persistence.Transient;
@@ -37,18 +36,19 @@ public abstract class BaseService<T extends PersistEntity> {
     protected BaseDao<T> baseDao;
 
 
-    public AjaxResult autoResponse(Page<T> page) throws Exception {
+    public AjaxResult autoRender(Page<T> page) throws Exception {
         Class<T> beanClass = baseDao.getDomainClass();
-        return this.autoResponse(page, beanClass);
+        return this.autoRender(page, beanClass);
     }
 
     /**
      * 自定渲染，vo的情况
      */
-    public <VO> AjaxResult autoResponse(Page<VO> page, Class<VO> cls) throws Exception {
+    public <VO> AjaxResult autoRender(Page<VO> page, Class<VO> cls) throws Exception {
         if (!ExportTool.isExportRequest()) {
-            return AjaxResult.ok().data(page)
-                    .putExtData("autoRenderEnable", true); // 增加额外的字段
+             // 增加额外的字段
+            PageExt<VO> pageExt = PageExt.of(page, "autoRenderEnable", true);
+            return AjaxResult.ok().data(pageExt);
         }
 
         ExportTool.export(page.getContent(), cls);

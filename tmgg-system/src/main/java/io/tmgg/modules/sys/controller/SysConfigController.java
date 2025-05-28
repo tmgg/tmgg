@@ -36,7 +36,7 @@ public class SysConfigController  {
     q.searchText(searchText, SysConfig.Fields.label, "id", SysConfig.Fields.remark);
     Page<SysConfig> page = service.findAll(q, pageable);
 
-    return service.autoResponse(page);
+    return service.autoRender(page);
   }
 
   @HasPermission

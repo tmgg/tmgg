@@ -45,7 +45,7 @@ public class SysLogController {
         q.like(SysLog.Fields.module, queryParam.getModule());
 
         Page<SysLog> page = service.findAll(q, pageable);
-        return service.autoResponse(page);
+        return service.autoRender(page);
     }
 
 
