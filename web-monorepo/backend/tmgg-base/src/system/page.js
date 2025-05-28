@@ -77,7 +77,7 @@ export class PageUtil {
 
 
     static currentLabel(){
-        return this.currentParams()['_label'] || this.currentPath()
+        return this.currentParams()['_label']
     }
 
 
