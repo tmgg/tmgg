@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("openApiAccount")
+@RequestMapping("apiAccount")
 public class ApiAccountController extends BaseController<ApiAccount> {
 
     @Resource

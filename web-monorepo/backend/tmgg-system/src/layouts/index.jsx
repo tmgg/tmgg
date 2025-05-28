@@ -79,7 +79,7 @@ class _Layouts extends React.Component {
                     localStorage.setItem("login_redirect_path", pathname)
 
                     Modal.error({
-                        title:'检测登录失败',
+                        title:'登录检测',
                         content: '未登录，请先登录', ok: '去登录', onOk: this.reLogin
                     })
                 }),

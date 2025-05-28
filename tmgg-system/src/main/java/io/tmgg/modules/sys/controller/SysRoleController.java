@@ -1,6 +1,7 @@
 package io.tmgg.modules.sys.controller;
 
 import cn.hutool.core.lang.Dict;
+import cn.hutool.core.util.StrUtil;
 import io.tmgg.framework.session.SysHttpSessionService;
 import io.tmgg.lang.TreeManager;
 import io.tmgg.lang.obj.AjaxResult;
@@ -103,11 +104,9 @@ public class SysRoleController extends BaseController<SysRole> {
         List<Dict> treeList = new ArrayList<>();
         for (SysMenu o : menus) {
             Dict d = new Dict();
-            d.set("title", o.getName());
+            d.set("title", o.getName() + " " + StrUtil.nullToEmpty(o.getPerm()));
             d.set("key", o.getId());
             d.set("parentKey", o.getPid());
-
-
 
             treeList.add(d);
         }

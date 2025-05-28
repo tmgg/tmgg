@@ -33,7 +33,7 @@ export default class extends React.Component {
         const id = PageUtil.currentParams().id
         this.setState({appId: id})
 
-        HttpUtil.get('openApiAccount/docInfo', {id}).then(rs => {
+        HttpUtil.get('apiAccount/docInfo', {id}).then(rs => {
             this.setState({apiList: rs.apiList, frameworkVersion: rs.frameworkVersion})
         })
 

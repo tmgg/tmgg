@@ -67,9 +67,9 @@ export default class extends React.Component {
             dataIndex: 'option',
             render: (_, record) => (
                 <ButtonList>
-                    <Button size='small' perm='openApiAccountResource:save'
+                    <Button size='small' perm='apiAccountResource:save'
                             onClick={() => this.handleEdit(record)}>编辑</Button>
-                    <Popconfirm perm='openApiAccountResource:delete' title='是否确定删除访客权限'
+                    <Popconfirm perm='apiAccountResource:delete' title='是否确定删除访客权限'
                                 onConfirm={() => this.handleDelete(record)}>
                         <Button size='small'>删除</Button>
                     </Popconfirm>
@@ -89,7 +89,7 @@ export default class extends React.Component {
 
     onFinish = values => {
         values.account = {id: this.accountId}
-        HttpUtil.post('openApiAccountResource/save', values).then(rs => {
+        HttpUtil.post('apiAccountResource/save', values).then(rs => {
             this.setState({formOpen: false})
             this.tableRef.current.reload()
         })
@@ -97,7 +97,7 @@ export default class extends React.Component {
 
 
     handleDelete = record => {
-        HttpUtil.postForm('openApiAccountResource/delete', {id: record.id}).then(rs => {
+        HttpUtil.postForm('apiAccountResource/delete', {id: record.id}).then(rs => {
             this.tableRef.current.reload()
         })
     }
@@ -109,12 +109,12 @@ export default class extends React.Component {
                 actionRef={this.tableRef}
                 toolBarRender={() => {
                     return <ButtonList>
-                        <Button perm='openApiAccountResource:save' type='primary' onClick={this.handleAdd}>
+                        <Button perm='apiAccountResource:save' type='primary' onClick={this.handleAdd}>
                             <PlusOutlined/> 新增
                         </Button>
                     </ButtonList>
                 }}
-                request={(params) => HttpUtil.pageData('openApiAccountResource/page', params)}
+                request={(params) => HttpUtil.pageData('apiAccountResource/page', params)}
                 columns={this.columns}
             />
 

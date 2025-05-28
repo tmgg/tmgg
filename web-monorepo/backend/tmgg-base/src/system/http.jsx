@@ -1,7 +1,6 @@
 import axios from "axios";
 import {message as Message, Modal} from "antd";
 import {SysUtil} from "./sys";
-import {theme} from "@tmgg/tmgg-commons-lang";
 
 
 export const HttpUtil = {
@@ -116,7 +115,7 @@ class Util {
         return new Promise((resolve, reject) => {
             let hideLoading = null
             if (this._showLoading) {
-                hideLoading = message.loading('处理中...', 0)
+                hideLoading = Message.loading('处理中...', 0)
             }
 
             axios(axiosConfig).then(response => {
@@ -132,7 +131,7 @@ class Util {
                         } else {
                             Modal.error({
                                 title: '操作失败',
-                                content: code === 500 ? message : message + ' (' + code + ')',
+                                content: code > 1000 ? code + " " + message : message, // code大于1000时，显示code，方便调试
                                 okText: '确定',
                                 okButtonProps:{
                                     color: '#ff0',
@@ -162,9 +161,16 @@ class Util {
 
 
             }).catch(e => {
-                console.log(e)
-                if (this._showMessage) {
-                    let msg = e;
+                if (!this._showMessage) {
+                    reject(e)
+                    return
+                }
+                let title = "请求异常";
+                let msg = '操作失败';
+
+                if(e.status  === 504){
+                    msg = '504 请求后端服务失败'
+                }else {
                     if (e.response && e.response.data) {
                         const rs = e.response.data
                         msg = rs.message
@@ -172,12 +178,12 @@ class Util {
                     if (msg == null && e.message) {
                         msg = e.message
                     }
-
-                    Modal.error({
-                        title: '处理异常',
-                        content: msg
-                    })
                 }
+
+                Modal.error({
+                    title: title,
+                    content: msg
+                })
 
                 reject(e)
             }).finally(() => {

@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import jakarta.annotation.Resource;
 
 @RestController
-@RequestMapping("openApiAccountResource")
+@RequestMapping("apiAccountResource")
 public class ApiAccountResourceController extends BaseController<ApiAccountResource>{
 
     @Resource

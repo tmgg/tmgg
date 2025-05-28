@@ -56,16 +56,11 @@ public class SysUserController {
     @Resource
     private SysHttpSessionService sm;
 
-    @Data
-    public static class QueryParam  {
-        String orgId;
-        String roleId;
-    }
 
     @HasPermission
     @RequestMapping("page")
-    public AjaxResult page(@RequestBody QueryParam param, String searchText, @PageableDefault(sort = SysUser.FIELD_UPDATE_TIME, direction = Sort.Direction.DESC) Pageable pageable, HttpServletResponse resp) throws Exception {
-        Page<SysUser> page = sysUserService.findAll(param.getOrgId(), param.getRoleId(), searchText, pageable);
+    public AjaxResult page( String orgId,    String roleId, String searchText, @PageableDefault(sort = SysUser.FIELD_UPDATE_TIME, direction = Sort.Direction.DESC) Pageable pageable, HttpServletResponse resp) throws Exception {
+        Page<SysUser> page = sysUserService.findAll(orgId, roleId, searchText, pageable);
         sysUserService.fillRoleName(page);
 
         return sysUserService.autoResponse(page);

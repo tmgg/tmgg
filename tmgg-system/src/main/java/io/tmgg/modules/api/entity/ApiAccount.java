@@ -12,7 +12,7 @@ import lombok.experimental.FieldNameConstants;
 
 import java.util.Date;
 
-@Msg("接口访客")
+@Msg("接口账户")
 @Entity
 @FieldNameConstants
 @Getter

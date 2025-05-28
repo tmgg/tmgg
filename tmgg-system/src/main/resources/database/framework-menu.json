@@ -227,6 +227,15 @@
     },
     {
       "pid" : "api",
+      "id" : "apiAccountResource",
+      "name" : "账户授权",
+      "perm" : "apiAccountResource",
+      "seq" : 2,
+      "visible": false,
+      "icon" : "ApiOutlined"
+    },
+    {
+      "pid" : "api",
       "id" : "apiResource",
       "name" : "接口管理",
       "perm" : "apiResource",

@@ -5,7 +5,7 @@ import io.tmgg.web.persistence.BaseDao;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class OpenApiAccountResourceDao extends BaseDao<ApiAccountResource> {
+public class ApiAccountResourceDao extends BaseDao<ApiAccountResource> {
 
 }
 

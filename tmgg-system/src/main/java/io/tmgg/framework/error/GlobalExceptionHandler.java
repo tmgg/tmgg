@@ -174,7 +174,8 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public AjaxResult httpMessageNotReadableException(HttpMessageNotReadableException e) {
-        return AjaxResult.err().msg("请求内容错误：" + e.getMessage());
+        log.error("请求内容错误",e);
+        return AjaxResult.err().msg("请求内容不可读");
     }
 
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
