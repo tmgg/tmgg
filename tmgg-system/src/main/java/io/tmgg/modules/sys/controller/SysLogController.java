@@ -36,7 +36,7 @@ public class SysLogController {
 
     @HasPermission(log = false)
     @RequestMapping("page")
-    public AjaxResult page(@RequestBody QueryParam queryParam, @PageableDefault(sort = "createTime", direction = Sort.Direction.DESC) Pageable pageable) throws Exception {
+    public AjaxResult page( QueryParam queryParam, @PageableDefault(sort = "createTime", direction = Sort.Direction.DESC) Pageable pageable) throws Exception {
         String dateRange = queryParam.getDateRange();
 
         JpaQuery<SysLog> q = new JpaQuery<>();

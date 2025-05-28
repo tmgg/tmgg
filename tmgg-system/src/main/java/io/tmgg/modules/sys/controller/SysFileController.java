@@ -39,7 +39,7 @@ public class SysFileController {
 
     @HasPermission
     @RequestMapping("page")
-    public AjaxResult page(@RequestBody QueryParam param, @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) {
+    public AjaxResult page(QueryParam param, @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) {
         JpaQuery<SysFile> q = new JpaQuery<>();
         q.betweenIsoDateRange(SysFile.FIELD_CREATE_TIME, param.dateRange);
 

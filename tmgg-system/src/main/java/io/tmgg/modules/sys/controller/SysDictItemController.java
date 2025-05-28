@@ -35,15 +35,11 @@ public class SysDictItemController  {
     private SysDictService sysDictService;
 
 
-    @Data
-    public static class QueryParam{
-        String sysDictId;
-    }
+
 
     @HasPermission(value = "sysDict:item-page",label = "查看明细")
     @RequestMapping("page")
-    public AjaxResult page(@RequestBody QueryParam param, @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) {
-        String sysDictId = param.getSysDictId();
+    public AjaxResult page( String sysDictId, @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) {
         JpaQuery<SysDictItem> q = new JpaQuery<>();
         if(StrUtil.isNotEmpty(sysDictId)){
             q.eq(SysDictItem.Fields.sysDict + ".id",  sysDictId);
