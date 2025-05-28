@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.*;
 
 import jakarta.annotation.Resource;
 import java.lang.reflect.InvocationTargetException;
-import java.sql.SQLException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -44,7 +43,7 @@ public class SysFlowableModelServiceController {
     @RequestMapping("page")
     public AjaxResult page(String searchText, Pageable pageable) throws Exception {
         Page<SysFlowableModel> page = service.findAll(searchText, pageable);
-        return service.autoRender(page);
+        return service.autoResponse(page);
     }
 
 

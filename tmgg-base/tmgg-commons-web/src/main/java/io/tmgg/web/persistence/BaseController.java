@@ -28,7 +28,7 @@ public abstract class BaseController<T extends PersistEntity> {
 
     @HasPermission
     @RequestMapping("page")
-    public AjaxResult page(@RequestBody Map<String, Object> param, String searchText, @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) throws Exception {
+    public AjaxResult page(Map<String, Object> param, String searchText, @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) throws Exception {
         JpaQuery<T> q = new JpaQuery<>();
 
         q.searchText(searchText, service.getSearchableFields());
@@ -37,7 +37,7 @@ public abstract class BaseController<T extends PersistEntity> {
         Page<T> page = service.findAll(q, pageable);
 
 
-        return service.autoRender(page);
+        return service.autoResponse(page);
     }
 
     @HasPermission

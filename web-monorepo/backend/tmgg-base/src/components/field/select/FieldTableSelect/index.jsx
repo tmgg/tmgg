@@ -1,5 +1,5 @@
 import React from "react";
-import {Input, Select, Table} from "antd";
+import {Input, Select, Table, Typography} from "antd";
 import {SearchOutlined} from "@ant-design/icons";
 import {HttpUtil} from "../../../../system";
 
@@ -62,13 +62,11 @@ export class FieldTableSelect extends React.Component {
         this.setState({loading: true})
 
         const params = {
-
             size: this.state.pageSize,
-            page: this.state.current
-        }
-        const data = {
+            page: this.state.current,
             searchText,
         }
+
 
         if(this.state.sorter){
             const {field, order} =  this.state.sorter
@@ -78,7 +76,7 @@ export class FieldTableSelect extends React.Component {
         }
 
 
-        HttpUtil.post(this.props.url, data, params).then(({columns, dataSource, totalElements}) => {
+        HttpUtil.get(this.props.url, params).then(({columns, dataSource, totalElements}) => {
             this.setState({columns, dataSource, totalElements: parseInt(totalElements)})
         }).finally(() => {
             this.setState({loading: false})
@@ -148,7 +146,7 @@ export class FieldTableSelect extends React.Component {
                            sorter
                        }, this.loadData)
                    }}
-
+                   summary={()=><Typography.Text>提示：双击选择数据</Typography.Text>}
 
             ></Table>
 

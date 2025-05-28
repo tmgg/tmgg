@@ -26,7 +26,7 @@ public class PaymentRefundOrderController  extends BaseController<PaymentRefundO
 
 
     @HasPermission
-    @PostMapping("page")
+    @RequestMapping("page")
     public AjaxResult page(String searchText,  @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) throws Exception {
         JpaQuery<PaymentRefundOrder> q = new JpaQuery<>();
 

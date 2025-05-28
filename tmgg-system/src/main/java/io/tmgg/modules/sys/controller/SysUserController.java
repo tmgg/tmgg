@@ -21,7 +21,7 @@ import io.tmgg.modules.sys.service.SysUserService;
 import io.tmgg.web.annotion.HasPermission;
 import io.tmgg.web.perm.SecurityUtils;
 import io.tmgg.web.perm.Subject;
-import io.tmgg.web.pojo.param.OptionsParam;
+import io.tmgg.web.pojo.param.DropdownParam;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -63,12 +63,12 @@ public class SysUserController {
     }
 
     @HasPermission
-    @PostMapping("page")
+    @RequestMapping("page")
     public AjaxResult page(@RequestBody QueryParam param, String searchText, @PageableDefault(sort = SysUser.FIELD_UPDATE_TIME, direction = Sort.Direction.DESC) Pageable pageable, HttpServletResponse resp) throws Exception {
         Page<SysUser> page = sysUserService.findAll(param.getOrgId(), param.getRoleId(), searchText, pageable);
         sysUserService.fillRoleName(page);
 
-        return sysUserService.autoRender(page);
+        return sysUserService.autoResponse(page);
     }
 
     @HasPermission
@@ -153,7 +153,7 @@ public class SysUserController {
 
 
     @RequestMapping("options")
-    public AjaxResult options( OptionsParam param) {
+    public AjaxResult options( DropdownParam param) {
         String searchText = param.getSearchText();
         JpaQuery<SysUser> query = new JpaQuery<>();
 

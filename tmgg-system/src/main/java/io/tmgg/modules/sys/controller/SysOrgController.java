@@ -85,7 +85,7 @@ public class SysOrgController {
      *
      * @return
      */
-    @PostMapping("pageTree")
+    @RequestMapping("pageTree")
     public AjaxResult pageTree(@RequestBody PageParam param, String searchText) {
         Subject subject = SecurityUtils.getSubject();
 

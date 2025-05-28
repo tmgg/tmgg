@@ -219,7 +219,7 @@
     {
       "pid" : "api",
       "id" : "apiAccount",
-      "name" : "接口账户",
+      "name" : "账户管理",
       "perm" : "apiAccount",
       "path" : "/api",
       "seq" : 1,
@@ -228,7 +228,7 @@
     {
       "pid" : "api",
       "id" : "apiResource",
-      "name" : "接口列表",
+      "name" : "接口管理",
       "perm" : "apiResource",
       "path" : "/api/resource",
       "seq" : 3,

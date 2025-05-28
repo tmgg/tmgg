@@ -8,7 +8,7 @@ import io.tmgg.modules.asset.service.SysAssetDirService;
 import io.tmgg.web.persistence.BaseController;
 import io.tmgg.web.persistence.BaseEntity;
 import io.tmgg.web.persistence.specification.JpaQuery;
-import io.tmgg.web.pojo.param.OptionsParam;
+import io.tmgg.web.pojo.param.DropdownParam;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.Resource;
 import org.springframework.data.domain.Sort;
@@ -38,7 +38,7 @@ public class SysAssetDirController  extends BaseController<SysAssetDir> {
 
 
     @RequestMapping("options")
-    public AjaxResult dirOptions( OptionsParam param) throws Exception {
+    public AjaxResult dirOptions( DropdownParam param) throws Exception {
         String searchText = param.getSearchText();
         JpaQuery<SysAssetDir> q = new JpaQuery<>();
         q.searchText(searchText, SysAssetDir.Fields.name, SysAssetDir.Fields.code);

@@ -28,7 +28,7 @@ public class UReportController {
 
 
     @HasPermission
-    @PostMapping("page")
+    @RequestMapping("page")
     public AjaxResult page() {
         Collection<ReportProvider> list = SpringTool.getBeans(ReportProvider.class);
 

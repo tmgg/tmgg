@@ -2,11 +2,13 @@ package io.tmgg.web.persistence;
 
 
 import cn.hutool.extra.spring.SpringUtil;
-import io.tmgg.web.io.ExportTool;
-import io.tmgg.web.persistence.specification.JpaQuery;
+import io.tmgg.data.domain.PageExt;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.obj.Option;
 import io.tmgg.lang.obj.table.Table;
+import io.tmgg.web.enums.YesNo;
+import io.tmgg.web.io.ExportTool;
+import io.tmgg.web.persistence.specification.JpaQuery;
 import jakarta.persistence.Transient;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -21,9 +23,9 @@ import org.springframework.util.Assert;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -35,27 +37,18 @@ public abstract class BaseService<T extends PersistEntity> {
     protected BaseDao<T> baseDao;
 
 
-    public AjaxResult autoRender(Page<T> page) throws Exception {
-        Type superClass = getClass().getGenericSuperclass();
-        Type type = ((ParameterizedType) superClass).getActualTypeArguments()[0];
-        Class<T> cls = (Class<T>) type;
-
-        if (!ExportTool.isExportRequest()) {
-            return AjaxResult.ok().data(page);
-        }
-
-
-        ExportTool.export(page.getContent(), cls);
-
-        return null;
+    public AjaxResult autoResponse(Page<T> page) throws Exception {
+        Class<T> beanClass = baseDao.getDomainClass();
+        return this.autoResponse(page, beanClass);
     }
 
     /**
      * 自定渲染，vo的情况
      */
-    public <VO> AjaxResult autoRender(Page<VO> page, Class<VO> cls) throws Exception {
+    public <VO> AjaxResult autoResponse(Page<VO> page, Class<VO> cls) throws Exception {
         if (!ExportTool.isExportRequest()) {
-            return AjaxResult.ok().data(page);
+            return AjaxResult.ok().data(page)
+                    .putExtData("autoRenderEnable", true); // 增加额外的字段
         }
 
         ExportTool.export(page.getContent(), cls);

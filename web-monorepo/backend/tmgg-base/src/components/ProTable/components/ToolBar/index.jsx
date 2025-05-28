@@ -12,6 +12,7 @@ import pdf from './pdf.svg'
 export default class Toolbar extends React.Component {
 
     state = {
+        // 查询历史的模态框
         historyOpen: false
     }
 
@@ -23,7 +24,6 @@ export default class Toolbar extends React.Component {
             toolBarRender,
             loading,
             searchFormNode,
-            params
         } = this.props;
 
         let {showSearch,showExportExcel=true,showExportPdf=true,showExportJson=true} = toolbarOptions

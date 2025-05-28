@@ -35,7 +35,7 @@ public class PaymentChannelController extends BaseController<PaymentChannel> {
 
 
     @HasPermission
-    @PostMapping("page")
+    @RequestMapping("page")
     public AjaxResult page(String searchText, @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) throws Exception {
         JpaQuery<PaymentChannel> q = new JpaQuery<>();
 

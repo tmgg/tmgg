@@ -8,7 +8,7 @@ import java.util.List;
  * 下拉选择后台请求参数
  */
 @Data
-public class OptionsParam {
+public class DropdownParam {
 
     String searchText;
 

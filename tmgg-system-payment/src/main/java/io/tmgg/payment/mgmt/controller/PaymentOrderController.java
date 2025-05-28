@@ -26,7 +26,7 @@ public class PaymentOrderController  extends BaseController<PaymentOrder>{
 
 
     @HasPermission
-    @PostMapping("page")
+    @RequestMapping("page")
     public AjaxResult page(String searchText,  @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) throws Exception {
         JpaQuery<PaymentOrder> q = new JpaQuery<>();
 

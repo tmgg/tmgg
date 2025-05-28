@@ -31,13 +31,8 @@ public class SysMenuBadgeController  extends BaseController<SysMenuBadge>{
     @Resource
     SysMenuService sysMenuService;
 
-
-
-
-    @HasPermission
-    @PostMapping("page")
-    public AjaxResult page( @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) throws Exception {
-
+    @Override
+    public AjaxResult page(Map<String, Object> param, String searchText, Pageable pageable) throws Exception {
         Map<String, SysMenu> menuMap = sysMenuService.findMenuMap();
 
         Page<SysMenuBadge> page = service.findAll( pageable);
@@ -52,6 +47,7 @@ public class SysMenuBadgeController  extends BaseController<SysMenuBadge>{
 
         return AjaxResult.ok().data(page);
     }
+
 
 
 

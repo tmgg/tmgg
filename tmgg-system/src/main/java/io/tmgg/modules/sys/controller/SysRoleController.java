@@ -14,7 +14,7 @@ import io.tmgg.web.argument.RequestBodyKeys;
 import io.tmgg.web.perm.Subject;
 import io.tmgg.web.persistence.BaseController;
 import io.tmgg.web.persistence.BaseEntity;
-import io.tmgg.web.pojo.param.OptionsParam;
+import io.tmgg.web.pojo.param.DropdownParam;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
 
@@ -125,7 +125,7 @@ public class SysRoleController extends BaseController<SysRole> {
 
 
     @RequestMapping("options")
-    public AjaxResult options( OptionsParam param) {
+    public AjaxResult options( DropdownParam param) {
         String searchText = param.getSearchText();
         List<SysRole> list = sysRoleService.findValid();
         if(searchText != null){

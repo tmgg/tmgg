@@ -70,7 +70,7 @@ public class UserSideController {
     @Resource
     FlowableManager fm;
 
-    @PostMapping("todoTaskPage")
+    @RequestMapping("todoTaskPage")
     public AjaxResult todo(Pageable pageable) throws Exception {
         Page<TaskVo> page = fm.taskTodoList(pageable);
         if(!ExportTool.isExportRequest()){
@@ -80,7 +80,7 @@ public class UserSideController {
         return null;
     }
 
-    @PostMapping("doneTaskPage")
+    @RequestMapping("doneTaskPage")
     public AjaxResult doneTaskPage(Pageable pageable) {
         Page<TaskVo> page = fm.taskDoneList(pageable);
         return AjaxResult.ok().data(page);

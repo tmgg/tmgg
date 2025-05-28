@@ -7,7 +7,7 @@ import io.tmgg.web.persistence.specification.JpaQuery;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.obj.Option;
 import io.tmgg.web.annotion.HasPermission;
-import io.tmgg.web.pojo.param.OptionsParam;
+import io.tmgg.web.pojo.param.DropdownParam;
 import io.tmgg.weixin.entity.WeixinPage;
 import io.tmgg.weixin.service.WeixinPageService;
 import jakarta.annotation.Resource;
@@ -111,7 +111,7 @@ public class WeixinPageController extends BaseController<WeixinPage> {
 
 
     @RequestMapping("options")
-    public AjaxResult options( OptionsParam param) {
+    public AjaxResult options( DropdownParam param) {
         String searchText = param.getSearchText();
         JpaQuery<WeixinPage> q = new JpaQuery<>();
         q.searchText(searchText, WeixinPage.Fields.page, WeixinPage.Fields.title);

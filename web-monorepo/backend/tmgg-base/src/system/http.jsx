@@ -49,14 +49,13 @@ export const HttpUtil = {
      * 分页请求, 为antd的ProTable
      */
     pageData(url, params) {
-        const {page, size, sort, _exportType, ...data} = params;
-        let searchText = params.searchText;
+        const { _exportType, ...data} = params;
 
         if (_exportType) {
-            return this.downloadFilePost(url, data, {sort, size}, {'X-Export-Type': _exportType})
+            return this.downloadFileGet(url, data, {'X-Export-Type': _exportType})
         }
 
-        return this.post(url, data, {page, size, sort, searchText})
+        return this.get(url, data)
     },
     /**
      * 下载
@@ -79,10 +78,10 @@ export const HttpUtil = {
         util.enableShowMessage()
         return util.downloadFile(url, data, params, 'POST', headers)
     },
-    downloadFileGet(url, params) {
+    downloadFileGet(url, params,headers) {
         const util = new Util();
         util.enableShowMessage()
-        return util.downloadFile(url, null, params, 'GET')
+        return util.downloadFile(url, null, params, 'GET',headers)
     }
 }
 

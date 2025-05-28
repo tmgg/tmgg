@@ -1,7 +1,7 @@
 import {AutoComplete, Button, Form, Input, message, Modal, Popconfirm, Select, Space, Switch, Tag} from 'antd'
 import React from 'react'
 import {PlusOutlined, ReloadOutlined} from "@ant-design/icons";
-import {FieldComponent, HttpUtil, Page, ProTable, SysUtil} from "@tmgg/tmgg-base";
+import {FieldComponent, HttpUtil, Page, PageUtil, ProTable, SysUtil} from "@tmgg/tmgg-base";
 import {StrUtil} from "@tmgg/tmgg-commons-lang";
 
 
@@ -56,6 +56,9 @@ export default class extends React.Component {
         {
             title: '名称',
             dataIndex: 'name',
+            render:(name, record)=> {
+                return <a onClick={()=>PageUtil.open('/job/logList?jobId=' + record.id, '作业日志-'+name)}>{name}</a>;
+            }
         },
         {
             title: '执行类',
@@ -89,23 +92,7 @@ export default class extends React.Component {
                     <Tag>空闲</Tag>
             },
         },
-        {
-            title: '最新执行记录',
-            children: [
-                {title: '开始时间', dataIndex: 'beginTime'},
-                {title: '结束时间', dataIndex: 'endTime'},
-                {title: '耗时', dataIndex: 'jobRunTime'},
-                {title: '结果', dataIndex: 'result',      width:200},
 
-                {
-                    title: '日志', dataIndex: 'id', render: (_, record) => {
-                        let url = SysUtil.getServerUrl() + 'job/log/print?jobId=' + record.id;
-
-                        return <Button size='small' type='link' href={url} target='_blank'>最新日志</Button>
-                    }
-                }
-            ]
-        },
 
 
         {
@@ -175,16 +162,12 @@ export default class extends React.Component {
         return <Page>
             <ProTable
                 actionRef={this.tableRef}
-                toolBarRender={(action, {selectedRowKeys}) => {
-                    return [<Button type='primary' onClick={() => this.handleAdd()} icon={<PlusOutlined/>}>
+                toolBarRender={() => {
+                    return <Button type='primary' onClick={() => this.handleAdd()} icon={<PlusOutlined/>}>
                         新增
-                    </Button>]
+                    </Button>
                 }}
-                request={(params, sort) => {
-                    return HttpUtil.pageData('job/page', params, sort).then(rs => {
-                        return rs;
-                    });
-                }}
+                request={(params) => HttpUtil.pageData('job/page', params)}
                 columns={this.columns}
                 bordered={true}
             />

@@ -1,6 +1,6 @@
 import {Button} from 'antd'
 import React from 'react'
-import {HttpUtil, ProTable, SysUtil} from "@tmgg/tmgg-base";
+import {HttpUtil, PageUtil, ProTable, SysUtil} from "@tmgg/tmgg-base";
 
 
 export default class extends React.Component {
@@ -72,6 +72,9 @@ export default class extends React.Component {
         </>}
         actionRef={this.tableRef}
         request={(params) => {
+            const jobId = PageUtil.currentParams().jobId
+          params.jobId = jobId;
+
           return HttpUtil.pageData('job/jobLog', params);
         }}
         columns={this.columns}

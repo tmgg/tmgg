@@ -7,7 +7,7 @@ import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.obj.table.Table;
 import io.tmgg.modules.api.entity.ApiResource;
 import io.tmgg.modules.api.service.ApiResourceService;
-import io.tmgg.web.pojo.param.OptionsParam;
+import io.tmgg.web.pojo.param.DropdownParam;
 import jakarta.annotation.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,8 +23,8 @@ public class ApiResourceController extends BaseController<ApiResource> {
 
 
 
-    @PostMapping("tableSelect")
-    public AjaxResult tableSelect( OptionsParam param, Pageable pageable) {
+    @RequestMapping("tableSelect")
+    public AjaxResult tableSelect(DropdownParam param, Pageable pageable) {
         JpaQuery<ApiResource> q = new JpaQuery<>();
         q.searchText(param.getSearchText(), ApiResource.Fields.name, ApiResource.Fields.uri, ApiResource.Fields.desc);
 
