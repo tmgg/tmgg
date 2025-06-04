@@ -8,11 +8,8 @@
     </parent>
 
     <artifactId>tmgg-script-dev</artifactId>
+    <name>tmgg-script-dev</name>
 
-    <properties>
-        <!-- 不发布-->
-        <maven.deploy.skip>true</maven.deploy.skip>
-    </properties>
 
     <dependencies>
         <dependency>

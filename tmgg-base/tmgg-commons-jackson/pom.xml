@@ -10,7 +10,7 @@
 
 
     <artifactId>tmgg-commons-jackson</artifactId>
-
+    <name>tmgg-commons-jackson</name>
 
     <dependencies>
         <dependency>

@@ -10,7 +10,7 @@
 
 
     <artifactId>tmgg-commons-poi</artifactId>
-
+    <name>tmgg-commons-poi</name>
 
     <dependencies>
         <!-- poi 处理 xml部分-->

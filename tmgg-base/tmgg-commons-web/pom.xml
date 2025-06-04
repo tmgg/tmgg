@@ -10,6 +10,7 @@
 
     <artifactId>tmgg-commons-web</artifactId>
 
+    <name>tmgg-commons-web</name>
 
 
     <dependencies>

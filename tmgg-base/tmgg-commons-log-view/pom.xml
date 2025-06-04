@@ -8,6 +8,7 @@
     </parent>
 
     <artifactId>tmgg-commons-log-view</artifactId>
+    <name>tmgg-commons-log-view</name>
     <description>实时显示文件日志，使用websocket技术，前端可使用LazyLog组件</description>
 
     <dependencies>

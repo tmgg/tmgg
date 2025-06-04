@@ -8,11 +8,9 @@
     </parent>
 
     <artifactId>tmgg-script-docker</artifactId>
+    <name>tmgg-script-docker</name>
     <description>用于发布docker相关镜像</description>
-    <properties>
-        <!-- 不发布-->
-        <maven.deploy.skip>true</maven.deploy.skip>
-    </properties>
+
     <dependencies>
         <dependency>
             <groupId>com.github.docker-java</groupId>

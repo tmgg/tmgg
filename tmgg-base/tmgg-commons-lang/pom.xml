@@ -8,6 +8,7 @@
     </parent>
 
     <artifactId>tmgg-commons-lang</artifactId>
+    <name>tmgg-commons-lang</name>
     <description>工具类，方便其他非web项目也可以用，同时也尽量少依赖过重的库</description>
     <properties>
         <maven.build.timestamp.format>yyyy-MM-dd HH:mm:ss</maven.build.timestamp.format>
