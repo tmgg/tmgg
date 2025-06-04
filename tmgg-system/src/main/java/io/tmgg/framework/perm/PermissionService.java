@@ -85,7 +85,7 @@ public class PermissionService {
         // 添加实体的翻译
         List<Class<?>> entityList = jpaService.findAllClass();
         for (Class<?> cls : entityList) {
-            String entityMsg = RemarkTool.getMsg(cls);
+            String entityMsg = RemarkTool.getRemark(cls);
             if (entityMsg != null) {
                 setPermLabel(StrUtil.lowerFirst(cls.getSimpleName()), entityMsg);
             }

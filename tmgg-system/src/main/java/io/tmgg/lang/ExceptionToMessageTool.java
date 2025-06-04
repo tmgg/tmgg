@@ -93,7 +93,7 @@ public class ExceptionToMessageTool {
             Class<?> cls = v.getRootBeanClass();
 
             Field field = ReflectUtil.getField(cls, fieldName);
-            String fieldCnName = RemarkTool.getMsg(field);
+            String fieldCnName = RemarkTool.getRemark(field);
             if(fieldCnName != null){
                 fieldName = fieldCnName;
             }

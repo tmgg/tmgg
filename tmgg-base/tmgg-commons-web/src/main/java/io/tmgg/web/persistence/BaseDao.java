@@ -4,6 +4,7 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
 import io.tmgg.lang.BeanTool;
 import io.tmgg.web.persistence.specification.ExpressionTool;
+import io.tmgg.web.persistence.specification.JpaQuery;
 import io.tmgg.web.persistence.specification.Selector;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.Resource;
@@ -150,10 +151,6 @@ public class BaseDao<T extends PersistEntity> {
         return rep.findAll(pageable);
     }
 
-    public T findOne(Specification<T> spec) {
-        return rep.findOne(spec).orElse(null);
-
-    }
 
     public List<T> findAll(Specification<T> spec) {
         return rep.findAll(spec);
@@ -182,6 +179,28 @@ public class BaseDao<T extends PersistEntity> {
 
     public T findOne(Example<T> example) {
         return rep.findOne(example).orElse(null);
+    }
+    public T findOne(Specification<T> spec) {
+        return rep.findOne(spec).orElse(null);
+    }
+    public T findOne(String key,Object value){
+        JpaQuery<T> q = new JpaQuery<>();
+        q.eq(key,value);
+        return this.findOne(q);
+    }
+    public T findOne(String key,Object value,String key2,Object value2){
+        JpaQuery<T> q = new JpaQuery<>();
+        q.eq(key,value);
+        q.eq(key2,value2);
+        return this.findOne(q);
+    }
+
+    public T findOne(String key,Object value,String key2,Object value2,String key3,Object value3){
+        JpaQuery<T> q = new JpaQuery<>();
+        q.eq(key,value);
+        q.eq(key2,value2);
+        q.eq(key3,value3);
+        return this.findOne(q);
     }
 
     public long count(Example<T> example) {

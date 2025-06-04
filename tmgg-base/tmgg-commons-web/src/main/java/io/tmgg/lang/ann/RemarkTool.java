@@ -4,7 +4,7 @@ import java.lang.reflect.Field;
 
 public class RemarkTool {
 
-    public static String getMsg(Field field) {
+    public static String getRemark(Field field) {
         if (field == null) {
             return null;
         }
@@ -15,7 +15,7 @@ public class RemarkTool {
         return null;
     }
 
-    public static String getMsg(Class<?> t) {
+    public static String getRemark(Class<?> t) {
         if (t == null) {
             return null;
         }
@@ -26,7 +26,7 @@ public class RemarkTool {
         return null;
     }
 
-    public static String getMsg(Enum<?> t) {
+    public static String getRemark(Enum<?> t) {
         if (t == null) {
             return null;
         }
