@@ -52,12 +52,7 @@ public class SysConfigService extends BaseService<SysConfig> {
         return (boolean) value;
     }
 
-    public void setBoolean(String key, boolean b) {
-        SysConfig sysConfig = this.findOne(key);
-        Assert.notNull(sysConfig, "配置不存在" + key);
-        sysConfig.setValue(String.valueOf(b));
-        dao.save(sysConfig);
-    }
+
 
     public Object getValue(String key) {
         validateKey(key);
@@ -85,6 +80,23 @@ public class SysConfigService extends BaseService<SysConfig> {
         }
         return null;
     }
+    public void setBoolean(String key, boolean b) {
+        SysConfig sysConfig = this.findOne(key);
+        Assert.notNull(sysConfig, "配置不存在" + key);
+        sysConfig.setValue(String.valueOf(b));
+        dao.save(sysConfig);
+    }
+
+
+    public void setStr(String key, String value) {
+        SysConfig sysConfig = this.findOne(key);
+        if(sysConfig == null){
+            sysConfig = new SysConfig();
+            sysConfig.setId(key);
+        }
+        sysConfig.setValue(value);
+        dao.save(sysConfig);
+    }
 
     /**
      * 判断某个key是否有已经配置了值（默认值不算）
@@ -97,6 +109,8 @@ public class SysConfigService extends BaseService<SysConfig> {
         long count = dao.count(q);
         return count == keys.length;
     }
+
+
 
     private static void validateKey(String key) {
        // Assert.state(Validator.isLetter(key) , "键必须已sys.开头");

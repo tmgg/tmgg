@@ -60,7 +60,15 @@ private String updateUser;
 
 ##  更新指定字段
 
+对比save方法更新的时所有字段，只更新指定字段
+
+
+
+##  直接更新指定字段
+不会先find，再更新
 对比save方法更新的时所有字段，改方法只更新指定字段
+
+注意：主要用于更新单个实体的字段， 不能更新多对多等关联关系
 
 
 
@@ -105,6 +113,12 @@ q.betweenIsoDateRange("createTime",dateRange);
 @DbValue("sys.sessionIdleTime")
 private int timeToIdleExpiration;
 ```
+
+
+
+##  定义字段为数据字典
+
+在字段上增加 @DictField 注解
 
 
 
@@ -175,7 +189,7 @@ import org.slf4j.Logger;
  * 示例作业
  */
 @DisallowConcurrentExecution // 不允许并发则加这个注解
-@JobDesc(label = "示例作业-发送系统状态", params = {@FieldInfo(name = "msg", label = "打印信息")})
+@JobDesc(label = "示例作业", params = {@FieldInfo(name = "msg", label = "打印信息")})
 public class DemoJob implements Job {
 
     private static final Logger log = JobTool.getLogger();
@@ -183,13 +197,14 @@ public class DemoJob implements Job {
 
     @Override
     public void execute(JobExecutionContext e) throws JobExecutionException {
-        log.info("开始执行任务-邮件发送系统状态");
+        log.info("开始执行任务");
 
         // 获取参数
         JobDataMap data = JobTool.getData(e);
         String msg = data.getString("msg");
 
         System.out.println(msg);
+        log.info("打印信息：{}", msg);
 
         e.setResult("结果：成功");
     }

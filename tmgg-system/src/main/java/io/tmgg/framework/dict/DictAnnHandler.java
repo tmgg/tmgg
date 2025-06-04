@@ -1,8 +1,10 @@
 package io.tmgg.framework.dict;
 
+import cn.hutool.core.lang.Dict;
 import cn.hutool.core.util.ClassUtil;
 import io.tmgg.BasePackage;
 import io.tmgg.lang.SpringTool;
+import io.tmgg.lang.ann.Remark;
 import io.tmgg.modules.sys.dao.SysDictDao;
 import io.tmgg.modules.sys.dao.SysDictItemDao;
 import io.tmgg.modules.sys.entity.SysDict;
@@ -35,30 +37,32 @@ public class DictAnnHandler {
 
         Set<Class<?>> classes = new HashSet<>();
         for (Class<?> cls : SpringTool.getBasePackageClasses()) {
-            classes.addAll(ClassUtil.scanPackageByAnnotation(cls.getPackageName(), Dict.class));
+            classes.addAll(ClassUtil.scanPackageByAnnotation(cls.getPackageName(), Remark.class));
         }
 
         for (Class cls : classes) {
-            Dict dictAnn = (Dict) cls.getAnnotation(Dict.class);
-            String code = dictAnn.code();
-            String label = dictAnn.label();
+            Remark dictAnn = (Remark) cls.getAnnotation(Remark.class);
+
+
+            String code = cls.getSimpleName();
+            String label = dictAnn.value();
 
 
             SysDict sysDict = new SysDict();
             sysDict.setId(code);
             sysDict.setCode(code);
             sysDict.setText(label);
-            sysDict.setIsNumber(dictAnn.isNumber());
+            sysDict.setIsNumber(false);
             sysDict = sysDictDao.save(sysDict);
 
             Field[] fields = cls.getFields();
             for (int i = 0; i < fields.length; i++) {
                 Field field = fields[i];
-                String key = String.valueOf(field.getInt(null));
-                DictItem fieldAnnotation = field.getAnnotation(DictItem.class);
-                Assert.notNull(fieldAnnotation, "需要有" + DictItem.class.getName() + "注解");
+                String key = field.getName();
+                Remark fieldAnnotation = field.getAnnotation(Remark.class);
+                Assert.notNull(fieldAnnotation, "需要有" + Remark.class.getName() + "注解");
 
-                String text = fieldAnnotation.label();
+                String text = fieldAnnotation.value();
 
 
                 SysDictItem data = new SysDictItem();

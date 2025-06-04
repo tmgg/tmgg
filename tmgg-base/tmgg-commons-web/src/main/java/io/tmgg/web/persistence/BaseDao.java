@@ -183,6 +183,9 @@ public class BaseDao<T extends PersistEntity> {
     public T findOne(Specification<T> spec) {
         return rep.findOne(spec).orElse(null);
     }
+    public T findOne(T t) {
+        return rep.findById(t.getId()).orElse(null);
+    }
     public T findOne(String key,Object value){
         JpaQuery<T> q = new JpaQuery<>();
         q.eq(key,value);

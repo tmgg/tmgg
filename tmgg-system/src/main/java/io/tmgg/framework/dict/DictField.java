@@ -3,6 +3,13 @@ package io.tmgg.framework.dict;
 import java.lang.annotation.*;
 
 
+/**
+ * 定义字段为数据字典
+ *
+ * 在字段上增加 @DictField 注解
+ *
+ * @gendoc
+ */
 @Inherited
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.FIELD})

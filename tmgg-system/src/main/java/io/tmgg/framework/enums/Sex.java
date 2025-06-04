@@ -1,22 +1,24 @@
 
 package io.tmgg.framework.enums;
 
-import io.tmgg.framework.dict.Dict;
-import io.tmgg.framework.dict.DictItem;
+import io.tmgg.lang.ann.Remark;
 
 /**
  * 性别常量
  */
-@Dict(code = "sex",label = "性别")
-public interface Sex {
+@Remark("性别常量")
+public enum Sex {
 
-    @DictItem(label = "保密")
-    int NONE = 0;
+    @Remark("男")
+    MALE,
 
-    @DictItem(label ="男")
-    int MAN = 1;
+    @Remark ("女")
+    FEMALE,
 
-    @DictItem(label ="女")
-    int WOMAN = 2;
+    @Remark("未知")
+    UNKNOWN,
+
+    @Remark("其他")
+    OTHER;
 
 }
