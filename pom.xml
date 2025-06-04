@@ -9,7 +9,9 @@
     </parent>
 
     <groupId>io.github.tmgg</groupId>
+
     <artifactId>tmgg-system-parent</artifactId>
+    <name>tmgg-system-parent</name>
     <version>${revision}</version>
     <packaging>pom</packaging>
     <description>小型后台管理框架</description>
