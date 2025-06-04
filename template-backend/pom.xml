@@ -9,6 +9,7 @@
     <description>应用模板</description>
 
     <artifactId>template-backend</artifactId>
+    <name>template-backend</name>
 
     <properties>
         <maven.deploy.skip>true</maven.deploy.skip>

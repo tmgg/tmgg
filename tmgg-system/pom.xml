@@ -8,7 +8,7 @@
     </parent>
 
     <artifactId>tmgg-system</artifactId>
-
+    <name>tmgg-system</name>
 
     <dependencies>
         <dependency>

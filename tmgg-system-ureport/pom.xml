@@ -8,6 +8,7 @@
     </parent>
 
     <artifactId>tmgg-system-ureport</artifactId>
+    <name>tmgg-system-ureport</name>
     <description>基于ureport的报表工具</description>
 
 

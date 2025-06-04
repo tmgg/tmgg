@@ -8,6 +8,7 @@
     </parent>
 
     <artifactId>tmgg-system-weixin</artifactId>
+    <name>tmgg-system-weixin</name>
     <description>微信小程序集成，主要做配置管理，无过多业务代码</description>
 
     <dependencies>

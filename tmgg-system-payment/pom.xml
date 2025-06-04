@@ -8,6 +8,7 @@
     </parent>
 
     <artifactId>tmgg-system-payment</artifactId>
+    <name>tmgg-system-payment</name>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>

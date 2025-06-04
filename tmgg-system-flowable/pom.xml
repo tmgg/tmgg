@@ -8,6 +8,7 @@
     </parent>
 
     <artifactId>tmgg-system-flowable</artifactId>
+    <name>tmgg-system-flowable</name>
     <description>流程引擎</description>
 
     <dependencies>
