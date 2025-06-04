@@ -54,9 +54,6 @@ public class SystemDataInit implements CommandLineRunner {
 
 
     @Resource
-    DictEnumHandler dictEnumHandler;
-
-    @Resource
     DictAnnHandler dictAnnHandler;
 
 
@@ -93,7 +90,6 @@ public class SystemDataInit implements CommandLineRunner {
         }
 
         permissionService.init();
-        dictEnumHandler.run();
         dictAnnHandler.run();
         dictFieldAnnHandler.run();
         jsonEntityService.initOnStartup();

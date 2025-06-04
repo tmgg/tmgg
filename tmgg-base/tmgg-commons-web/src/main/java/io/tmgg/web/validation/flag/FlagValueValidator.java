@@ -26,14 +26,14 @@ public class FlagValueValidator implements ConstraintValidator<FlagValue, String
 
         // 如果是必填的
         if (required) {
-            return YesNo.Y.getCode().equals(flagValue) || YesNo.N.getCode().equals(flagValue);
+            return YesNo.Y.name().equals(flagValue) || YesNo.N.name().equals(flagValue);
         } else {
 
             //如果不是必填，可以为空
             if (StrUtil.isEmpty(flagValue)) {
                 return true;
             } else {
-                return YesNo.Y.getCode().equals(flagValue) || YesNo.N.getCode().equals(flagValue);
+                return YesNo.Y.name().equals(flagValue) || YesNo.N.name().equals(flagValue);
             }
         }
     }

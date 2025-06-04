@@ -2,29 +2,22 @@
 package io.tmgg.web.enums;
 
 import io.tmgg.lang.ann.Remark;
-import io.tmgg.web.base.DictEnum;
 import lombok.Getter;
 
 /**
  * 菜单类型枚举
  */
-@Getter
 @Remark("菜单类型")
-public enum MenuType implements DictEnum {
+public enum MenuType  {
 
 
-    DIR(0, "目录"),
-    MENU(1, "菜单"),
-    BTN(2, "按钮");
+    @Remark("目录")
+    DIR,
 
-    private final Integer code;
+    @Remark("菜单")
+    MENU,
 
-    private final String message;
-
-    MenuType(Integer code, String message) {
-        this.code = code;
-        this.message = message;
-    }
-
+    @Remark("按钮")
+    BTN;
 
 }

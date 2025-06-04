@@ -1,20 +1,23 @@
 package io.tmgg.modules.sys.entity;
 
 import io.tmgg.lang.ann.Remark;
-import io.tmgg.web.base.DictEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Remark("数据权限类型")
-@Getter
-@AllArgsConstructor
-public enum DataPermType implements DictEnum {
+public enum DataPermType  {
 
-    ALL("所有"),
+    @Remark("所有")
+    ALL,
 
-    LEVEL("本级"),
-    CHILDREN("本级和子级"),
-    CUSTOM("自定义");
+    @Remark("本级")
+    LEVEL,
 
-    String message;
+    @Remark("本级和子级")
+    CHILDREN,
+
+
+    @Remark("自定义")
+    CUSTOM;
+
 }

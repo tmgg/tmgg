@@ -11,6 +11,7 @@ import io.tmgg.modules.sys.entity.SysDict;
 import io.tmgg.modules.sys.entity.SysDictItem;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
@@ -32,21 +33,16 @@ public class DictAnnHandler {
 
     public void run() throws IllegalAccessException {
         log.info("开始解析字典注解");
-
-
-
-        Set<Class<?>> classes = new HashSet<>();
-        for (Class<?> cls : SpringTool.getBasePackageClasses()) {
-            classes.addAll(ClassUtil.scanPackageByAnnotation(cls.getPackageName(), Remark.class));
-        }
+        Set<Class<?>> classes = scanEnum();
 
         for (Class cls : classes) {
             Remark dictAnn = (Remark) cls.getAnnotation(Remark.class);
 
-
             String code = cls.getSimpleName();
             String label = dictAnn.value();
 
+            sysDictItemDao.deleteByPid(code);
+            sysDictDao.deleteById(code);
 
             SysDict sysDict = new SysDict();
             sysDict.setId(code);
@@ -55,15 +51,17 @@ public class DictAnnHandler {
             sysDict.setIsNumber(false);
             sysDict = sysDictDao.save(sysDict);
 
+
+
             Field[] fields = cls.getFields();
             for (int i = 0; i < fields.length; i++) {
+
                 Field field = fields[i];
                 String key = field.getName();
                 Remark fieldAnnotation = field.getAnnotation(Remark.class);
                 Assert.notNull(fieldAnnotation, "需要有" + Remark.class.getName() + "注解");
 
                 String text = fieldAnnotation.value();
-
 
                 SysDictItem data = new SysDictItem();
                 data.setCode(key);
@@ -76,6 +74,22 @@ public class DictAnnHandler {
                 sysDictItemDao.save(data);
             }
         }
+    }
+
+    @NotNull
+    private static Set<Class<?>> scanEnum() {
+        Set<Class<?>> result = new HashSet<>();
+        Set<Class<?>> all = SpringTool.getBasePackageClasses();
+
+        for (Class<?> superClass : all) {
+            Set<Class<?>> set = ClassUtil.scanPackageByAnnotation(superClass.getPackageName(), Remark.class);
+            for (Class<?> cls : set) {
+                if(cls.isEnum()){
+                    result.add(cls);
+                }
+            }
+        }
+        return result;
     }
 
 
