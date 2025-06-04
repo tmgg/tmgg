@@ -2,6 +2,7 @@ package io.tmgg.framework.dict;
 
 import cn.hutool.core.lang.Dict;
 import cn.hutool.core.util.ClassUtil;
+import cn.hutool.core.util.StrUtil;
 import io.tmgg.BasePackage;
 import io.tmgg.lang.SpringTool;
 import io.tmgg.lang.ann.Remark;
@@ -38,11 +39,16 @@ public class DictAnnHandler {
         for (Class cls : classes) {
             Remark dictAnn = (Remark) cls.getAnnotation(Remark.class);
 
-            String code = cls.getSimpleName();
+            String code = StrUtil.lowerFirst( cls.getSimpleName());
             String label = dictAnn.value();
 
-            sysDictItemDao.deleteByPid(code);
-            sysDictDao.deleteById(code);
+            SysDict old = sysDictDao.findByIdOrCode(code);
+            if(old != null){
+                sysDictItemDao.deleteByPid(old.getId());
+                sysDictDao.deleteById(old.getId());
+            }
+
+
 
             SysDict sysDict = new SysDict();
             sysDict.setId(code);

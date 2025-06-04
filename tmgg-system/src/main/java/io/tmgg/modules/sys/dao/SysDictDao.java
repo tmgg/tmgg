@@ -5,6 +5,7 @@ import io.tmgg.web.persistence.BaseDao;
 import io.tmgg.web.persistence.specification.JpaQuery;
 import io.tmgg.modules.sys.entity.SysDict;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public class SysDictDao extends BaseDao<SysDict> {
@@ -19,4 +20,16 @@ public class SysDictDao extends BaseDao<SysDict> {
         q.eq("code",code);
         return this.exists(q);
     }
+
+    public SysDict findByIdOrCode(String code) {
+        JpaQuery<SysDict> q = new JpaQuery<>();
+        q.addSubOr(qq->{
+            qq.eq(SysDict.Fields.code, code);
+            qq.eq("id", code);
+        });
+
+        return this.findOne(q);
+    }
+
+
 }
