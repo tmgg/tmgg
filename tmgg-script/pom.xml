@@ -8,6 +8,7 @@
     </parent>
 
     <artifactId>tmgg-script</artifactId>
+    <name>tmgg-script</name>
     <packaging>pom</packaging>
     <description>开发脚本</description>
     <modules>

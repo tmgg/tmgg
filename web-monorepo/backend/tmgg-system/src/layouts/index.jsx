@@ -109,6 +109,7 @@ class _Layouts extends React.Component {
             return <PageLoading message='加载站点信息...'/>
         }
         let {params = {}} = this.props.location;
+        console.log('layout: params', params)
         let simple = this.isSimplePage();
         if (simple || params.hasOwnProperty('_noLayout')) {
             return <Outlet/>
