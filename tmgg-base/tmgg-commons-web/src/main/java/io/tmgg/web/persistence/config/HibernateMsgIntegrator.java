@@ -2,7 +2,7 @@ package io.tmgg.web.persistence.config;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ClassUtil;
-import io.tmgg.lang.ann.Msg;
+import io.tmgg.lang.ann.Remark;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.boot.Metadata;
 import org.hibernate.engine.spi.SessionFactoryImplementor;
@@ -62,8 +62,8 @@ public class HibernateMsgIntegrator implements Integrator {
         for (PersistentClass persistentClass : metadata.getEntityBindings()) {
             // Process the Comment annotation is applied to Class
             Class<?> clz = persistentClass.getMappedClass();
-            if (clz.isAnnotationPresent(Msg.class)) {
-                Msg msg = clz.getAnnotation(Msg.class);
+            if (clz.isAnnotationPresent(Remark.class)) {
+                Remark msg = clz.getAnnotation(Remark.class);
                 persistentClass.getTable().setComment(msg.value());
             }
 
@@ -105,8 +105,8 @@ public class HibernateMsgIntegrator implements Integrator {
             if(field == null){
                 return;
             }
-            if (field.isAnnotationPresent(Msg.class)) {
-                String comment = field.getAnnotation(Msg.class).value();
+            if (field.isAnnotationPresent(Remark.class)) {
+                String comment = field.getAnnotation(Remark.class).value();
 
                 log.debug("设置数据库表的注释 {}.{}：{}", persistentClass.getTable().getName(), columnName, comment);
 

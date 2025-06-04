@@ -5,7 +5,7 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.date.DateUtil;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.tmgg.commons.poi.excel.annotation.Excel;
-import io.tmgg.lang.ann.Msg;
+import io.tmgg.lang.ann.Remark;
 import io.tmgg.lang.data.Matrix;
 import jakarta.persistence.Lob;
 import lombok.Getter;
@@ -160,7 +160,7 @@ public class Table<T> {
 
             Class<?> type1 = f.getType();
             if (type1.isAssignableFrom(String.class) || type1.isAssignableFrom(Number.class) || type1.isAssignableFrom(Date.class)) {
-                String title = f.isAnnotationPresent(Msg.class) ? f.getAnnotation(Msg.class).value() : f.getName();
+                String title = f.isAnnotationPresent(Remark.class) ? f.getAnnotation(Remark.class).value() : f.getName();
                 tb.addColumn(title, f.getName());
             }
         }

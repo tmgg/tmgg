@@ -1,7 +1,6 @@
 package io.tmgg.framework.session;
 
 import cn.hutool.core.util.IdUtil;
-import io.tmgg.lang.ann.Msg;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,7 +9,6 @@ import lombok.experimental.FieldNameConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.session.Session;
 
-import java.io.Serial;
 import java.io.Serializable;
 import java.time.Duration;
 import java.time.Instant;

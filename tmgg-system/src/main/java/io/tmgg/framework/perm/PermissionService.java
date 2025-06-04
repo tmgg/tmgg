@@ -1,14 +1,13 @@
 package io.tmgg.framework.perm;
 
 import cn.hutool.core.util.StrUtil;
-import io.tmgg.lang.ann.MsgTool;
+import io.tmgg.lang.ann.RemarkTool;
 import io.tmgg.modules.sys.dao.SysDictDao;
 import io.tmgg.modules.sys.dao.SysDictItemDao;
 import io.tmgg.modules.sys.entity.SysDict;
 import io.tmgg.modules.sys.entity.SysDictItem;
 import io.tmgg.modules.sys.service.JpaService;
 import io.tmgg.web.annotion.HasPermission;
-import jakarta.annotation.PostConstruct;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
@@ -86,7 +85,7 @@ public class PermissionService {
         // 添加实体的翻译
         List<Class<?>> entityList = jpaService.findAllClass();
         for (Class<?> cls : entityList) {
-            String entityMsg = MsgTool.getMsg(cls);
+            String entityMsg = RemarkTool.getMsg(cls);
             if (entityMsg != null) {
                 setPermLabel(StrUtil.lowerFirst(cls.getSimpleName()), entityMsg);
             }

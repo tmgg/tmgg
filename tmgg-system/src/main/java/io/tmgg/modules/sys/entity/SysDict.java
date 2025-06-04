@@ -1,7 +1,7 @@
 
 package io.tmgg.modules.sys.entity;
 
-import io.tmgg.lang.ann.Msg;
+import io.tmgg.lang.ann.Remark;
 import io.tmgg.web.persistence.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,7 +11,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 
 
-@Msg("数据字典")
+@Remark("数据字典")
 @Getter
 @Setter
 @Entity
@@ -28,7 +28,7 @@ public class SysDict extends BaseEntity {
     @Column(length = 80)
     private String text;
 
-    @Msg("编码")
+    @Remark("编码")
     @Column(nullable = false, unique = true)
     private String code;
 
@@ -36,7 +36,7 @@ public class SysDict extends BaseEntity {
 
 
     // 是否数字类型，如1，2，3
-    @Msg("是否数字类型")
+    @Remark("是否数字类型")
     private Boolean isNumber;
 
 }

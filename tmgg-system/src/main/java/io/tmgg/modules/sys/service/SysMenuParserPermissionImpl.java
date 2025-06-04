@@ -1,19 +1,13 @@
 package io.tmgg.modules.sys.service;
 
-import cn.hutool.core.map.CaseInsensitiveMap;
-import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import io.tmgg.lang.LongTool;
-import io.tmgg.lang.ann.Msg;
-import io.tmgg.lang.ann.MsgTool;
 import io.tmgg.modules.SysMenuParser;
-import io.tmgg.modules.sys.dao.SysMenuDao;
 import io.tmgg.modules.sys.entity.SysMenu;
 import io.tmgg.web.annotion.HasPermission;
 import io.tmgg.web.enums.MenuType;
 import io.tmgg.framework.perm.PermissionService;
 import jakarta.annotation.Resource;
-import jakarta.validation.constraints.AssertTrue;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
@@ -22,7 +16,6 @@ import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
-import java.io.IOException;
 import java.util.*;
 
 @Component

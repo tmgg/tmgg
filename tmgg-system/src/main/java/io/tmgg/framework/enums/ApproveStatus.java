@@ -1,7 +1,7 @@
 
 package io.tmgg.framework.enums;
 
-import io.tmgg.lang.ann.Msg;
+import io.tmgg.lang.ann.Remark;
 import io.tmgg.web.base.DictEnum;
 import io.tmgg.web.base.StatusColor;
 import lombok.Getter;
@@ -9,7 +9,7 @@ import lombok.Getter;
 /**
  * 审核状态
  */
-@Msg("审核状态")
+@Remark("审核状态")
 @Getter
 public enum ApproveStatus implements DictEnum {
 

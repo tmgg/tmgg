@@ -8,7 +8,7 @@ import java.lang.annotation.*;
 @Inherited
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.FIELD, ElementType.TYPE,ElementType.METHOD})
-public @interface Msg {
+public @interface Remark {
 
     String value();
 

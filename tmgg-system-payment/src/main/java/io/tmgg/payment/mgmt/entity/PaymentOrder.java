@@ -1,7 +1,7 @@
 package io.tmgg.payment.mgmt.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import io.tmgg.lang.ann.Msg;
+import io.tmgg.lang.ann.Remark;
 import io.tmgg.web.persistence.BaseEntity;
 import io.tmgg.payment.enums.PaymentStatus;
 import jakarta.persistence.Column;
@@ -17,7 +17,7 @@ import lombok.experimental.FieldNameConstants;
 /***
  * 支付业务类创建订单是
  */
-@Msg("支付订单")
+@Remark("支付订单")
 @Getter
 @Setter
 @Entity
@@ -25,19 +25,19 @@ import lombok.experimental.FieldNameConstants;
 public class PaymentOrder extends BaseEntity {
 
 
-    @Msg("微信用户")
+    @Remark("微信用户")
     private String openId;
 
     @Column(unique = true)
-    @Msg("商户订单号")
+    @Remark("商户订单号")
     private String outTradeNo;
 
 
     @Min(1)
-    @Msg("金额（分）")
+    @Remark("金额（分）")
     private int amount;
 
-    @Msg("描述")
+    @Remark("描述")
     @NotNull
     private String description;
 
@@ -51,12 +51,12 @@ public class PaymentOrder extends BaseEntity {
 
 
 
-    @Msg("状态")
+    @Remark("状态")
     private PaymentStatus status;
 
 
     @NotNull
-    @Msg("业务编码")
+    @Remark("业务编码")
     private String bizCode;
 
 

@@ -2,7 +2,7 @@
 package io.tmgg.modules.sys.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.tmgg.lang.ann.Msg;
+import io.tmgg.lang.ann.Remark;
 import io.tmgg.web.persistence.BaseEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -10,7 +10,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldNameConstants;
 
-@Msg("字典项")
+@Remark("字典项")
 @Getter
 @Setter
 @Entity
@@ -25,14 +25,14 @@ public class SysDictItem extends BaseEntity {
 
 
     @NotNull
-    @Msg("键")
+    @Remark("键")
     @Column(length = 50)
     String code;
 
 
 
 
-    @Msg("文本")
+    @Remark("文本")
     private String text;
 
 
@@ -40,16 +40,16 @@ public class SysDictItem extends BaseEntity {
     @Column(nullable = false)
     private Boolean enabled;
 
-    @Msg("颜色")
+    @Remark("颜色")
     @Column(length = 10)
     private String color;
 
-    @Msg("系统内置")
+    @Remark("系统内置")
     @NotNull
     private Boolean builtin;
 
 
-    @Msg("序号")
+    @Remark("序号")
     private Integer seq;
 
 

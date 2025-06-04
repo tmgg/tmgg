@@ -2,7 +2,7 @@
 package io.tmgg.modules.sys.entity;
 
 import io.tmgg.commons.poi.excel.annotation.Excel;
-import io.tmgg.lang.ann.Msg;
+import io.tmgg.lang.ann.Remark;
 import io.tmgg.web.persistence.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,7 +18,7 @@ import lombok.extern.slf4j.Slf4j;
  * 参数配置
  */
 @Slf4j
-@Msg("系统配置")
+@Remark("系统配置")
 @Getter
 @Setter
 @Entity
@@ -27,7 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 public class SysConfig extends BaseEntity {
 
     @Excel(name = "名称")
-    @Msg("名称")
+    @Remark("名称")
     @Column(length = 30, nullable = false)
     private String label;
 
@@ -36,17 +36,17 @@ public class SysConfig extends BaseEntity {
      * 属性值
      */
     @Excel(name = "值")
-    @Msg("值")
+    @Remark("值")
     private String value;
 
-    @Msg("默认值")
+    @Remark("默认值")
     private String defaultValue;
 
     @Column(length = 20)
     private String valueType;
 
 
-    @Msg("备注")
+    @Remark("备注")
     private String remark;
 
     private Integer seq;

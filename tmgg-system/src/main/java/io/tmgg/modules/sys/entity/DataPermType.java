@@ -1,11 +1,11 @@
 package io.tmgg.modules.sys.entity;
 
-import io.tmgg.lang.ann.Msg;
+import io.tmgg.lang.ann.Remark;
 import io.tmgg.web.base.DictEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-@Msg("数据权限类型")
+@Remark("数据权限类型")
 @Getter
 @AllArgsConstructor
 public enum DataPermType implements DictEnum {

@@ -1,6 +1,6 @@
 package io.tmgg.modules.dev.code.entity;
 
-import io.tmgg.lang.ann.Msg;
+import io.tmgg.lang.ann.Remark;
 import io.tmgg.web.persistence.BaseEntity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Transient;
@@ -9,21 +9,21 @@ import lombok.Setter;
 
 import java.util.Date;
 
-@Msg("测试实体")
+@Remark("测试实体")
 @Entity
 @Getter
 @Setter
 public class CodeTestEntity extends BaseEntity {
 
-    @Msg("姓名")
+    @Remark("姓名")
     String name;
 
-    @Msg("年龄")
+    @Remark("年龄")
     Integer age;
 
     @Transient
     String ageLabel;
 
-    @Msg("入职时间")
+    @Remark("入职时间")
     Date workTime;
 }

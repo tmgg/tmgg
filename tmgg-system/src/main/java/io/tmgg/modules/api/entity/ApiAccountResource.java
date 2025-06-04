@@ -1,6 +1,6 @@
 package io.tmgg.modules.api.entity;
 
-import io.tmgg.lang.ann.Msg;
+import io.tmgg.lang.ann.Remark;
 import io.tmgg.web.persistence.BaseEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -8,7 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldNameConstants;
 
-@Msg("访客权限")
+@Remark("访客权限")
 @Entity
 @FieldNameConstants
 @Getter

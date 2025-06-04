@@ -1,8 +1,7 @@
 package io.tmgg.init;
 
-import io.tmgg.BasePackage;
 import io.tmgg.lang.SpringTool;
-import io.tmgg.lang.ann.Msg;
+import io.tmgg.lang.ann.Remark;
 import io.tmgg.modules.sys.entity.SysDictItem;
 import io.tmgg.web.base.DictEnum;
 import io.tmgg.modules.sys.dao.SysDictItemDao;
@@ -17,9 +16,7 @@ import org.springframework.util.Assert;
 
 import jakarta.annotation.Resource;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -49,9 +46,9 @@ public class DictEnumHandler {
             Object[] enumConstants = cls.getEnumConstants();
 
             String simpleTypeName = cls.getSimpleName();
-            Assert.state(cls.isAnnotationPresent(Msg.class), "枚举" + simpleTypeName + "保存为字典时失败，必须使用" + Msg.class.getSimpleName() + "注解描述");
+            Assert.state(cls.isAnnotationPresent(Remark.class), "枚举" + simpleTypeName + "保存为字典时失败，必须使用" + Remark.class.getSimpleName() + "注解描述");
 
-            Msg annotation = (Msg) cls.getAnnotation(Msg.class);
+            Remark annotation = (Remark) cls.getAnnotation(Remark.class);
             String label = annotation.value();
 
 

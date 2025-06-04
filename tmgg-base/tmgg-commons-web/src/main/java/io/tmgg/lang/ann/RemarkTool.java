@@ -2,13 +2,13 @@ package io.tmgg.lang.ann;
 
 import java.lang.reflect.Field;
 
-public class MsgTool {
+public class RemarkTool {
 
     public static String getMsg(Field field) {
         if (field == null) {
             return null;
         }
-        Msg annotation = field.getAnnotation(Msg.class);
+        Remark annotation = field.getAnnotation(Remark.class);
         if (annotation != null) {
             return annotation.value();
         }
@@ -19,7 +19,7 @@ public class MsgTool {
         if (t == null) {
             return null;
         }
-        Msg annotation = t.getAnnotation(Msg.class);
+        Remark annotation = t.getAnnotation(Remark.class);
         if (annotation != null) {
             return annotation.value();
         }
@@ -32,7 +32,7 @@ public class MsgTool {
         }
         try {
             Field f = t.getClass().getDeclaredField(t.name());
-            Msg ann = f.getAnnotation(Msg.class);
+            Remark ann = f.getAnnotation(Remark.class);
             if (ann == null) {
                 throw new RuntimeException(t.getClass().getSimpleName() + "没有设置注解@Remark");
             }

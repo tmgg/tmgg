@@ -3,7 +3,7 @@ package io.tmgg.modules.api.init;
 import cn.hutool.core.util.StrUtil;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.tmgg.lang.SpringTool;
-import io.tmgg.lang.ann.Msg;
+import io.tmgg.lang.ann.Remark;
 import io.tmgg.modules.api.Api;
 import io.tmgg.lang.field.FieldInfo;
 import io.tmgg.modules.api.entity.ApiResourceArgument;
@@ -156,7 +156,7 @@ public class ApiInitRunner implements CommandLineRunner {
                 dict.setDesc( f.label());
                 dict.setDemo( f.demo());
             } else {
-                Msg msg = field.getAnnotation(Msg.class);
+                Remark msg = field.getAnnotation(Remark.class);
                 if (msg != null) {
                     dict.setDesc(msg.value());
                 }

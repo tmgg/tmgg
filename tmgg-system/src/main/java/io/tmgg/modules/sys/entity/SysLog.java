@@ -1,7 +1,7 @@
 
 package io.tmgg.modules.sys.entity;
 
-import io.tmgg.lang.ann.Msg;
+import io.tmgg.lang.ann.Remark;
 import io.tmgg.web.persistence.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Lob;
@@ -24,7 +24,7 @@ import jakarta.persistence.Entity;
 public class SysLog extends BaseEntity {
 
 
-    @Msg("模块")
+    @Remark("模块")
     @Column(length = 50)
     private String module;
 

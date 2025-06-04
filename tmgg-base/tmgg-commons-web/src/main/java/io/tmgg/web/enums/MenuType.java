@@ -1,7 +1,7 @@
 
 package io.tmgg.web.enums;
 
-import io.tmgg.lang.ann.Msg;
+import io.tmgg.lang.ann.Remark;
 import io.tmgg.web.base.DictEnum;
 import lombok.Getter;
 
@@ -9,7 +9,7 @@ import lombok.Getter;
  * 菜单类型枚举
  */
 @Getter
-@Msg("菜单类型")
+@Remark("菜单类型")
 public enum MenuType implements DictEnum {
 
 

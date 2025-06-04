@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.tmgg.commons.poi.excel.annotation.Excel;
 import io.tmgg.framework.data.append.AutoAppendOrgLabelStrategy;
-import io.tmgg.lang.ann.Msg;
+import io.tmgg.lang.ann.Remark;
 import io.tmgg.web.persistence.AutoAppendField;
 import io.tmgg.web.persistence.BaseEntity;
 import jakarta.persistence.*;
@@ -21,7 +21,7 @@ import java.util.*;
 @Setter
 @Entity
 @FieldNameConstants
-@Msg("系统用户")
+@Remark("系统用户")
 public class SysUser extends BaseEntity {
 
 
@@ -43,7 +43,7 @@ public class SysUser extends BaseEntity {
     /**
      * 所属机构 (公司，单位级别）
      */
-    @Msg("所属机构")
+    @Remark("所属机构")
     @AutoAppendField(value = AutoAppendOrgLabelStrategy.class)
     private String unitId;
 
@@ -52,7 +52,7 @@ public class SysUser extends BaseEntity {
     private String unitLabel;
 
     @AutoAppendField(value = AutoAppendOrgLabelStrategy.class)
-    @Msg("所属部门")
+    @Remark("所属部门")
     private String deptId;
 
     @Excel(name = "部门")
@@ -61,7 +61,7 @@ public class SysUser extends BaseEntity {
 
 
     @Excel(name = "账号")
-    @Msg("账号")
+    @Remark("账号")
     @NotNull(message = "账号不能为空")
     @Column(unique = true)
     private String account;
@@ -69,23 +69,23 @@ public class SysUser extends BaseEntity {
     /**
      * 密码， 转换json时不显示，但可接受前端设置
      */
-    @Msg("密码")
+    @Remark("密码")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
     @Excel(name = "姓名")
-    @Msg("姓名")
+    @Remark("姓名")
     @Column(length = 50)
     private String name;
 
 
     @Excel(name = "电话")
-    @Msg("电话")
+    @Remark("电话")
     @Column(length = 11)
     private String phone;
 
     @Excel(name = "邮箱")
-    @Msg("邮箱")
+    @Remark("邮箱")
     @Column(length = 30)
     private String email;
 

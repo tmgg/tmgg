@@ -1,6 +1,6 @@
 package io.tmgg.modules.job.entity;
 
-import io.tmgg.lang.ann.Msg;
+import io.tmgg.lang.ann.Remark;
 import io.tmgg.web.persistence.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.tmgg.web.persistence.DBConstants;
@@ -14,7 +14,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import java.util.*;
 
-@Msg("作业")
+@Remark("作业")
 @Getter
 @Setter
 @Entity

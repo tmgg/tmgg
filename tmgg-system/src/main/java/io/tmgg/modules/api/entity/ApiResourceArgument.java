@@ -1,7 +1,7 @@
 package io.tmgg.modules.api.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import io.tmgg.lang.ann.Msg;
+import io.tmgg.lang.ann.Remark;
 import io.tmgg.web.persistence.BaseEntity;
 import io.tmgg.web.persistence.DBConstants;
 import jakarta.persistence.Column;
@@ -34,7 +34,7 @@ public class ApiResourceArgument extends BaseEntity {
     String desc;
 
 
-    @Msg("示例")
+    @Remark("示例")
     String demo;
 
 

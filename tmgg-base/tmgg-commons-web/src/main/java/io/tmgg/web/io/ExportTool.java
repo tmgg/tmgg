@@ -3,7 +3,7 @@ package io.tmgg.web.io;
 
 import cn.hutool.core.io.FileUtil;
 import io.tmgg.lang.HttpServletTool;
-import io.tmgg.lang.ann.Msg;
+import io.tmgg.lang.ann.Remark;
 import io.tmgg.lang.obj.table.Table;
 import io.tmgg.lang.poi.ExcelExportTool;
 import io.tmgg.web.WebConstants;
@@ -13,7 +13,6 @@ import io.tmgg.web.io.core.impl.JsonImpl;
 import io.tmgg.web.io.core.impl.PdfImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.Assert;
 
 import java.io.File;
@@ -62,7 +61,7 @@ public class ExportTool {
         String type = request.getHeader(WebConstants.HEADER_EXPORT_TYPE);
         Assert.hasText(type,"导出类型"+WebConstants.HEADER_EXPORT_TYPE+"不能为空");
 
-        Msg entityMsg = cls.getAnnotation(Msg.class);
+        Remark entityMsg = cls.getAnnotation(Remark.class);
 
 
         Table<T> tb = Table.of(data, cls);

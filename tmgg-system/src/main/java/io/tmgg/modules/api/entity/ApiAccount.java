@@ -1,7 +1,6 @@
 package io.tmgg.modules.api.entity;
 
-import io.tmgg.lang.ann.Msg;
-import io.tmgg.lang.validator.ValidateDate;
+import io.tmgg.lang.ann.Remark;
 import io.tmgg.lang.validator.ValidateIpv4;
 import io.tmgg.web.persistence.BaseEntity;
 import jakarta.persistence.*;
@@ -12,7 +11,7 @@ import lombok.experimental.FieldNameConstants;
 
 import java.util.Date;
 
-@Msg("接口账户")
+@Remark("接口账户")
 @Entity
 @FieldNameConstants
 @Getter
@@ -21,7 +20,7 @@ import java.util.Date;
 public class ApiAccount extends BaseEntity {
 
 
-    @Msg("名称")
+    @Remark("名称")
     @Column(length = 50)
     private String name;
 
@@ -30,7 +29,7 @@ public class ApiAccount extends BaseEntity {
 
 
 
-    @Msg("准入IP")
+    @Remark("准入IP")
     @ValidateIpv4
     private String accessIp;
 
@@ -41,12 +40,12 @@ public class ApiAccount extends BaseEntity {
 
 
 
-    @Msg("状态")
+    @Remark("状态")
     @NotNull(message = "状态不能为空")
     private Boolean enable;
 
 
-    @Msg("有效期")
+    @Remark("有效期")
     private Date endTime;
 
 

@@ -1,21 +1,17 @@
 
 package io.tmgg.lang;
 
-import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.ReflectUtil;
 import cn.hutool.core.util.StrUtil;
-import io.tmgg.lang.ann.Msg;
-import io.tmgg.lang.ann.MsgTool;
+import io.tmgg.lang.ann.RemarkTool;
 import jakarta.persistence.RollbackException;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.beans.BeanUtils;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.transaction.TransactionSystemException;
 
-import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.Set;
@@ -97,7 +93,7 @@ public class ExceptionToMessageTool {
             Class<?> cls = v.getRootBeanClass();
 
             Field field = ReflectUtil.getField(cls, fieldName);
-            String fieldCnName = MsgTool.getMsg(field);
+            String fieldCnName = RemarkTool.getMsg(field);
             if(fieldCnName != null){
                 fieldName = fieldCnName;
             }
