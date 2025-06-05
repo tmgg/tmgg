@@ -55,7 +55,7 @@ export default class Toolbar extends React.Component {
 
 
                 <Button icon={<ReloadOutlined/>} shape="circle" onClick={onRefresh} title='刷新' loading={loading}/>
-                <Button icon={<HistoryOutlined/>} shape="circle" onClick={this.onClickHistory} title='查询历史'/>
+                ｛showSearch && <Button icon={<HistoryOutlined/>} shape="circle" onClick={this.onClickHistory} title='查询历史'/>｝
             </div>
 
             {this.renderHistory()}
@@ -112,10 +112,10 @@ export default class Toolbar extends React.Component {
                         render: (v, record) => {
                             if (record.time ==='当前') {
                                 return <Button onClick={this.onSaveHistory}>保存</Button>
+                            }else {
+                                return <Button type='primary' onClick={() => this.onApply(record.params)}>使用</Button>
                             }
-                            return <Button type='primary' onClick={() => this.onApply(record.params)}>使用</Button>
                         }
-
                     }
                 ]}></Table>
 

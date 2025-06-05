@@ -237,9 +237,11 @@ export class ProTable extends React.Component {
     }
 
     changeFormValues = (values) => {
-        this.formRef.current.resetFields()
-        this.formRef.current.setFieldsValue(values)
-        this.formRef.current.submit()
+        if(this.formRef.current){
+            this.formRef.current.resetFields()
+            this.formRef.current.setFieldsValue(values)
+            this.formRef.current.submit()
+        }
     }
 
 }

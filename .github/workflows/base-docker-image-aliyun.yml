@@ -6,12 +6,8 @@ on:
     tags:
       - 'v*'
 
- # push:
-#  schedule:
-    # 定时任务，在每天的5点 (时差）
-  #  - cron: '0 21 * * *'
 jobs:
-  aliyun-docker:
+  base-docker-image:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -29,6 +25,3 @@ jobs:
         run: |
           cd tmgg-script/tmgg-script-docker/target
           java -jar app-jar-with-dependencies.jar  ${{ secrets.ALIYUN_REGISTRY_PASSWORD }} 
-
-
-

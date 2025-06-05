@@ -18,7 +18,6 @@
     "@tmgg/tmgg-base" : "workspace:*",
     "@tmgg/tmgg-commons-lang" : "workspace:*",
     "@tmgg/tmgg-system" : "workspace:*",
-    "@tmgg/tmgg-system-weixin" : "workspace:*",
     "antd" : "^5.20.3",
     "antd-img-crop" : "^4.23.0",
     "axios" : "^1.8.3",
