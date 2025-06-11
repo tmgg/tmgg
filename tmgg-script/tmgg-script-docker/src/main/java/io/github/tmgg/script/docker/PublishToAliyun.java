@@ -8,17 +8,21 @@ import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.api.command.BuildImageResultCallback;
 import com.github.dockerjava.api.model.BuildResponseItem;
 import com.github.dockerjava.api.model.PushResponseItem;
+import com.github.dockerjava.api.model.ResponseItem;
 import com.github.dockerjava.core.DefaultDockerClientConfig;
 import com.github.dockerjava.core.DockerClientConfig;
 import com.github.dockerjava.core.DockerClientImpl;
 import com.github.dockerjava.core.command.PushImageResultCallback;
 import com.github.dockerjava.httpclient5.ApacheDockerHttpClient;
 import com.github.dockerjava.transport.DockerHttpClient;
+import com.google.common.collect.Sets;
 import io.tmgg.lang.FileTool;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * 构建基础镜像，推送阿里云
@@ -26,84 +30,101 @@ import java.io.IOException;
 @Slf4j
 public class PublishToAliyun {
 
-    private static String url = "registry.cn-hangzhou.aliyuncs.com";
-    private static String namespace = "mxvc";
-    private static String username = "hustme";
-    private static String password = "password";
-
+    private  String url = "registry.cn-hangzhou.aliyuncs.com";
+    private  String namespace = "mxvc";
+    private  String username = "hustme";
+    private  String password = "password";
+    File root;
+    private String version;
 
     public static void main(String[] args) throws IOException, InterruptedException {
-        Assert.state(args.length == 1);
-        password = args[0];
+        Assert.state(args.length == 2);
 
+        PublishToAliyun aliyun = new PublishToAliyun();
+        aliyun.password = args[0];
+        aliyun.version = args[1];
 
-        log.info("部署密码为 {}", password);
+        aliyun.process();
+    }
 
-        File root = new File(".");
+    public PublishToAliyun() {
+        root = new File(".");
         root = new File(root.getAbsolutePath());
 
         if (root.getAbsolutePath().contains("tmgg-script-docker")) {
             root = FileTool.findParentByName(root, "tmgg-script").getParentFile();
         }
         log.info("根目录 {}", root.getAbsolutePath());
-
-        buildAndPush(root, "jdk", root);
-        buildAndPush(root, "java", new File(root, "template-backend"));
-        buildAndPush(root, "node", new File(root, "web-monorepo/template/web"));
-
     }
 
-    private static void buildAndPush(File root, String type, File dir) throws InterruptedException {
+    private  void process() throws InterruptedException {
+        File dockerfiles = new File("dockerfiles");
+        for (File dir : dockerfiles.listFiles()) {
+            log.info(dir.getAbsolutePath());
+            buildAndPush(dir);
+        }
+    }
 
-        File dockerfile = new File(root, "dockerfiles/base-" + type + "-image/Dockerfile");
-        log.info("Dockerfile路径 {}", dockerfile.getAbsolutePath());
-        log.info("是否存在 {}", dockerfile.exists());
-        String tag = "%s/%s/tmgg-base-%s:latest".formatted(url, namespace, type);
+    private  void buildAndPush(File dir) throws InterruptedException {
+        String tag1 = "%s/%s/%s:%s".formatted(url, namespace, dir.getName(),"latest");
+        String tag2 = "%s/%s/%s:%s".formatted(url, namespace, dir.getName(), version);
+        log.info("tag1: {}", tag1);
+        log.info("tag2: {}", tag2);
+        Set<String> tags = Sets.newHashSet(tag1, tag2);
 
         DockerClient client = getClient();
 
 
-        String imageId = client.buildImageCmd(dockerfile).withTag(tag)
+
+        String imageId = client.buildImageCmd()
+                .withTags(tags)
                 .withForcerm(true)
-                .withBaseDirectory(dir)
-                .withDockerfile(dockerfile)
+                .withBaseDirectory(root)
+                .withBuildArg("VERSION", version)
+                .withDockerfile(new File(dir, "Dockerfile"))
                 .exec(new BuildImageResultCallback() {
                     @Override
                     public void onNext(BuildResponseItem item) {
                         super.onNext(item);
-                        String stream = item.getStream();
-                        if (StrUtil.isNotEmpty(stream)) {
-                            System.out.println(stream);
-                        }
+                        print(item);
                     }
                 }).awaitImageId();
 
         log.info("构建完成,imageId {}", imageId);
-        client.pushImageCmd(tag).exec(new PushImageResultCallback() {
-            @Override
-            public void onNext(PushResponseItem item) {
-                super.onNext(item);
-                String stream = item.getStream();
-                if (StrUtil.isNotEmpty(stream)) {
-                    System.out.println(stream);
+
+        for (String tag : tags) {
+            client.pushImageCmd(tag).exec(new PushImageResultCallback() {
+                @Override
+                public void onNext(PushResponseItem item) {
+                    super.onNext(item);
+                    print(item);
                 }
-            }
-        }).awaitCompletion();
-        log.info("推送镜像结束");
+            }).awaitCompletion();
+            log.info("推送镜像结束");
+
+        }
+
 
         log.info("阶段结束");
     }
 
+    private  void print(ResponseItem item) {
+        String stream = item.getStream();
+        if (StrUtil.isNotEmpty(stream)) {
+            System.out.println(stream);
+        }
+    }
 
-    public static String getLocalDockerHost() {
+
+    public  String getLocalDockerHost() {
         boolean windows = SystemUtil.getOsInfo().isWindows();
-        System.out.println("windows " + windows);
+        log.info("windows " + windows);
         return windows ? "tcp://localhost:2375" : "unix:///var/run/docker.sock";
     }
 
-    public static DockerClient getClient() {
+    public  DockerClient getClient() {
         String dockerHost = getLocalDockerHost();
-        System.out.println("docker host: " + dockerHost);
+        log.info("docker host: " + dockerHost);
 
         DefaultDockerClientConfig.Builder builder = DefaultDockerClientConfig.createDefaultConfigBuilder()
                 .withDockerHost(dockerHost)
@@ -119,3 +140,4 @@ public class PublishToAliyun {
     }
 
 }
+

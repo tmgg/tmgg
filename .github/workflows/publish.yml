@@ -70,3 +70,28 @@ jobs:
           cnpm sync @tmgg/tmgg-system-flowable
           cnpm sync @tmgg/tmgg-system-weixin
           cnpm sync @tmgg/tmgg-system-payment
+
+  build-base-docker-image:
+    needs: npm
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Extract Tag
+        id: tag
+        uses: aaronbarnaby/get-tag@v1.0.0
+        with:
+          without_prefix_v: true # Remove prefix `v` from tag
+
+      - name: mvn build
+        run: mvn package -q -DskipTests=true
+
+      - name:  run script
+        run: |
+          cd tmgg-script/tmgg-script-docker/target
+          java -jar app-jar-with-dependencies.jar  ${{ secrets.ALIYUN_REGISTRY_PASSWORD }} ${{ steps.tag.outputs.tag }}
