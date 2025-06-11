@@ -3,26 +3,39 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>io.github.tmgg</groupId>
-        <artifactId>tmgg-system-parent</artifactId>
+        <artifactId>tmgg-system-plugins</artifactId>
         <version>${revision}</version>
     </parent>
 
-    <artifactId>tmgg-system-ureport</artifactId>
-    <name>tmgg-system-ureport</name>
-    <description>基于ureport的报表工具</description>
-
+    <artifactId>tmgg-system-flowable</artifactId>
+    <name>tmgg-system-flowable</name>
+    <description>流程引擎</description>
 
     <dependencies>
+
+        <dependency>
+            <groupId>org.flowable</groupId>
+            <artifactId>flowable-spring-boot-starter-process</artifactId>
+            <version>7.0.1</version>
+        </dependency>
+
+
         <dependency>
             <groupId>io.github.tmgg</groupId>
             <artifactId>tmgg-system</artifactId>
         </dependency>
 
+
+
+
+
+
         <dependency>
-            <groupId>io.github.tmgg</groupId>
-            <artifactId>ureport-console</artifactId>
-            <version>1.0.3</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
         </dependency>
+
 
     </dependencies>
 </project>

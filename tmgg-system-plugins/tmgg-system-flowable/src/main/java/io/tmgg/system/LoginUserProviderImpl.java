@@ -1,4 +1,4 @@
-package io.tmgg.modules.system;
+package io.tmgg.system;
 
 import io.tmgg.flowable.FlowableLoginUser;
 import io.tmgg.flowable.FlowableLoginUserProvider;

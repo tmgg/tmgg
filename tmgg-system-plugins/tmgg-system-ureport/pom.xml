@@ -3,24 +3,26 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>io.github.tmgg</groupId>
-        <artifactId>tmgg-system-parent</artifactId>
+        <artifactId>tmgg-system-plugins</artifactId>
         <version>${revision}</version>
     </parent>
 
-    <artifactId>tmgg-system-kettle</artifactId>
-    <name>tmgg-system-kettle</name>
-    <description>数据抽取工具KETTLE的管理。监控，调度等， 注意kettle需要安装一个插件 https://github.com/tmgg/kettle-carte-plugin</description>
+    <artifactId>tmgg-system-ureport</artifactId>
+    <name>tmgg-system-ureport</name>
+    <description>基于ureport的报表工具</description>
+
 
     <dependencies>
         <dependency>
             <groupId>io.github.tmgg</groupId>
             <artifactId>tmgg-system</artifactId>
         </dependency>
+
         <dependency>
             <groupId>io.github.tmgg</groupId>
-            <artifactId>kettle-sdk-java</artifactId>
-            <version>1.0.2</version>
+            <artifactId>ureport-console</artifactId>
+            <version>1.0.3</version>
         </dependency>
-    </dependencies>
 
+    </dependencies>
 </project>

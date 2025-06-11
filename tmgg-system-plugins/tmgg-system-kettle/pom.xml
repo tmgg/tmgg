@@ -3,39 +3,24 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>io.github.tmgg</groupId>
-        <artifactId>tmgg-system-parent</artifactId>
+        <artifactId>tmgg-system-plugins</artifactId>
         <version>${revision}</version>
     </parent>
 
-    <artifactId>tmgg-system-flowable</artifactId>
-    <name>tmgg-system-flowable</name>
-    <description>流程引擎</description>
+    <artifactId>tmgg-system-kettle</artifactId>
+    <name>tmgg-system-kettle</name>
+    <description>数据抽取工具KETTLE的管理。监控，调度等， 注意kettle需要安装一个插件 https://github.com/tmgg/kettle-carte-plugin</description>
 
     <dependencies>
-
-        <dependency>
-            <groupId>org.flowable</groupId>
-            <artifactId>flowable-spring-boot-starter-process</artifactId>
-            <version>7.0.1</version>
-        </dependency>
-
-
         <dependency>
             <groupId>io.github.tmgg</groupId>
             <artifactId>tmgg-system</artifactId>
         </dependency>
-
-
-
-
-
-
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
+            <groupId>io.github.tmgg</groupId>
+            <artifactId>kettle-sdk-java</artifactId>
+            <version>1.0.2</version>
         </dependency>
-
-
     </dependencies>
+
 </project>

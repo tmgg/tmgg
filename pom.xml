@@ -17,15 +17,13 @@
     <description>小型后台管理框架</description>
     <modules>
         <module>tmgg-system</module>
-        <module>tmgg-system-ureport</module>
-        <module>tmgg-system-flowable</module>
-        <module>tmgg-system-weixin</module>
-        <module>tmgg-system-kettle</module>
+
         <module>tmgg-base</module>
-        <module>tmgg-system-payment</module>
+
         <!-- 以下模块可不参与打包-->
         <module>tmgg-script</module>
         <module>template-backend</module>
+        <module>tmgg-system-plugins</module>
     </modules>
 
 

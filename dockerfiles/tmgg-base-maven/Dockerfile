@@ -9,11 +9,8 @@ ADD template-backend ./template-backend
 ADD tmgg-base ./tmgg-base
 ADD tmgg-script ./tmgg-script
 ADD tmgg-system ./tmgg-system
-ADD tmgg-system-flowable ./tmgg-system-flowable
-ADD tmgg-system-kettle ./tmgg-system-kettle
-ADD tmgg-system-payment ./tmgg-system-payment
-ADD tmgg-system-ureport ./tmgg-system-ureport
-ADD tmgg-system-weixin ./tmgg-system-weixin
+ADD tmgg-system-plugins ./tmgg-system-plugins
+
 
 RUN echo "VERSION ARG is: ${VERSION}"
 RUN mvn install -q  -Drevision=${VERSION}  && rm -rf *

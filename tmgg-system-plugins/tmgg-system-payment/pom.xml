@@ -3,29 +3,23 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>io.github.tmgg</groupId>
-        <artifactId>tmgg-system-parent</artifactId>
+        <artifactId>tmgg-system-plugins</artifactId>
         <version>${revision}</version>
     </parent>
 
-    <artifactId>tmgg-system-weixin</artifactId>
-    <name>tmgg-system-weixin</name>
-    <description>微信小程序集成，主要做配置管理，无过多业务代码</description>
+    <artifactId>tmgg-system-payment</artifactId>
+    <name>tmgg-system-payment</name>
+
+    <properties>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
 
     <dependencies>
         <dependency>
             <groupId>io.github.tmgg</groupId>
             <artifactId>tmgg-system</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.github.binarywang</groupId>
-            <artifactId>weixin-java-miniapp</artifactId>
-            <version>4.7.0</version>
-        </dependency>
-        <dependency>
-            <groupId>com.github.binarywang</groupId>
-            <artifactId>weixin-java-mp</artifactId>
-            <version>4.7.0</version>
         </dependency>
         <dependency>
             <groupId>com.github.binarywang</groupId>

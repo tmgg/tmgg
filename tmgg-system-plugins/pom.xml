@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>io.github.tmgg</groupId>
+        <artifactId>tmgg-system-parent</artifactId>
+        <version>${revision}</version>
+    </parent>
+    <packaging>pom</packaging>
+    <artifactId>tmgg-system-plugins</artifactId>
+    <name>tmgg-system-plugins</name>
+    <modules>
+        <module>tmgg-system-ureport</module>
+        <module>tmgg-system-flowable</module>
+        <module>tmgg-system-weixin</module>
+        <module>tmgg-system-kettle</module>
+        <module>tmgg-system-payment</module>
+    </modules>
+</project>
