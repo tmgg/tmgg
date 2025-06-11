@@ -25,17 +25,7 @@ public class PaymentOrderController  extends BaseController<PaymentOrder>{
     PaymentOrderService service;
 
 
-    @HasPermission
-    @RequestMapping("page")
-    public AjaxResult page(String searchText,  @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) throws Exception {
-        JpaQuery<PaymentOrder> q = new JpaQuery<>();
 
-        // 关键字搜索，请补全字段
-        q.searchText(searchText, PaymentOrder.Fields.outTradeNo, PaymentOrder.Fields.description);
-
-        Page<PaymentOrder> page = service.findAll(q, pageable);
-        return AjaxResult.ok().data(page);
-    }
     @HasPermission(label = "查询状态")
     @GetMapping("queryOrder")
     public AjaxResult queryOrder(String id) throws Exception {

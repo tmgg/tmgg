@@ -25,16 +25,7 @@ public class PaymentRefundOrderController  extends BaseController<PaymentRefundO
     PaymentRefundOrderService service;
 
 
-    @HasPermission
-    @RequestMapping("page")
-    public AjaxResult page(String searchText,  @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) throws Exception {
-        JpaQuery<PaymentRefundOrder> q = new JpaQuery<>();
 
-        q.searchText(searchText, PaymentRefundOrder.Fields.outRefundNo,PaymentRefundOrder.Fields.outTradeNo);
-
-        Page<PaymentRefundOrder> page = service.findAll(q, pageable);
-        return AjaxResult.ok().data(page);
-    }
 
     @HasPermission(label = "查询状态")
     @GetMapping("queryOrder")

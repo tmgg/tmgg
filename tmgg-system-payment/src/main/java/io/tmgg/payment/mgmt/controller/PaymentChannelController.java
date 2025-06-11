@@ -34,17 +34,7 @@ public class PaymentChannelController extends BaseController<PaymentChannel> {
     PaymentService paymentService;
 
 
-    @HasPermission
-    @RequestMapping("page")
-    public AjaxResult page(String searchText, @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) throws Exception {
-        JpaQuery<PaymentChannel> q = new JpaQuery<>();
 
-        // 关键字搜索，请补全字段
-        q.searchText(searchText, PaymentChannel.Fields.remark, PaymentChannel.Fields.appId, PaymentChannel.Fields.mchId);
-
-        Page<PaymentChannel> page = service.findAll(q, pageable);
-        return AjaxResult.ok().data(page);
-    }
 
 
     @GetMapping("paymentMethodOptions")
