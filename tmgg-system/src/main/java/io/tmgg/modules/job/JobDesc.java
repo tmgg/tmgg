@@ -1,7 +1,7 @@
 package io.tmgg.modules.job;
 
 
-import io.tmgg.lang.field.FieldInfo;
+import io.tmgg.lang.ann.field.FieldInfo;
 
 import java.lang.annotation.*;
 

@@ -1,7 +1,7 @@
 package io.tmgg.modules.api.defaults;
 
 import cn.hutool.core.date.DateUtil;
-import io.tmgg.lang.field.FieldInfo;
+import io.tmgg.lang.ann.field.FieldInfo;
 import io.tmgg.modules.api.Api;
 import lombok.AllArgsConstructor;
 import lombok.Data;

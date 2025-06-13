@@ -8,7 +8,6 @@ import io.tmgg.lang.obj.Option;
 import ${modulePackageName}.service.${name}Service;
 import io.tmgg.web.persistence.BaseController;
 import io.tmgg.web.persistence.BaseEntity;
-import io.tmgg.web.CommonQueryParam;
 
 
 import io.tmgg.web.annotion.HasPermission;

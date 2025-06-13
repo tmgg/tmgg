@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.tmgg.lang.SpringTool;
 import io.tmgg.lang.ann.Remark;
 import io.tmgg.modules.api.Api;
-import io.tmgg.lang.field.FieldInfo;
+import io.tmgg.lang.ann.field.FieldInfo;
 import io.tmgg.modules.api.entity.ApiResourceArgument;
 import io.tmgg.modules.api.entity.ApiResourceArgumentReturn;
 import io.tmgg.modules.api.entity.ApiResource;

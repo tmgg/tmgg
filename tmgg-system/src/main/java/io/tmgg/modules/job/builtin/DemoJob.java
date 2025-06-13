@@ -1,6 +1,6 @@
 package io.tmgg.modules.job.builtin;
 
-import io.tmgg.lang.field.FieldInfo;
+import io.tmgg.lang.ann.field.FieldInfo;
 import io.tmgg.modules.job.JobDesc;
 import io.tmgg.modules.job.JobTool;
 import org.quartz.*;
