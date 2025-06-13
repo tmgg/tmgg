@@ -11,21 +11,33 @@ import java.util.Properties;
  */
 public class Build {
 
+    private static String version;
 
-    public static final String FRAMEWORK_VERSION;
-    public static final String FRAMEWORK_BUILD_TIME;
+    private static String time;
 
-    static {
-        InputStream is = ResourceUtil.getStream("build.properties");
-        Properties prop = new Properties();
-        try {
-            prop.load(is);
-            FRAMEWORK_VERSION = prop.getProperty("version");
-            FRAMEWORK_BUILD_TIME = prop.getProperty("time");
+    public static String getFrameworkVersion() {
+        init();
+        return version;
+    }
+
+
+    public static String getFrameworkBuildTime() {
+        init();
+        return time;
+    }
+
+    private static void init() {
+        if(version != null){
+            return;
+        }
+        try (InputStream is = ResourceUtil.getStream("build.properties")) {
+            Properties prop = new Properties();
+                prop.load(is);
+                version = prop.getProperty("version");
+                time = prop.getProperty("time");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
-
 
 }

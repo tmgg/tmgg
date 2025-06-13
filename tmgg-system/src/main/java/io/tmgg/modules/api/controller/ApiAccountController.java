@@ -49,7 +49,7 @@ public class ApiAccountController extends BaseController<ApiAccount> {
 
         Dict resultData = new Dict();
         resultData.put("apiList", list);
-        resultData.put("frameworkVersion", Build.FRAMEWORK_VERSION);
+        resultData.put("frameworkVersion", Build.getFrameworkVersion());
 
         return AjaxResult.ok().data(resultData);
     }
