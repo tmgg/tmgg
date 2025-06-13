@@ -12,7 +12,6 @@ ADD tmgg-system ./tmgg-system
 ADD tmgg-system-plugins ./tmgg-system-plugins
 
 
-RUN echo "VERSION ARG is: ${VERSION}"
 RUN mvn install -q  -Drevision=${VERSION}  && rm -rf *
 
 
