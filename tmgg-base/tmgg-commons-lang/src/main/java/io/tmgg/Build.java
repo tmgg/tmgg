@@ -30,7 +30,7 @@ public class Build {
         if(version != null){
             return;
         }
-        try (InputStream is = ResourceUtil.getStream("build.properties")) {
+        try (InputStream is = ResourceUtil.getStream("build-info.properties")) {
             Properties prop = new Properties();
                 prop.load(is);
                 version = prop.getProperty("version");

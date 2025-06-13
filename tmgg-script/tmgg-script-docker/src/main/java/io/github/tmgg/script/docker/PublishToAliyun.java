@@ -21,7 +21,6 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -30,10 +29,10 @@ import java.util.Set;
 @Slf4j
 public class PublishToAliyun {
 
-    private  String url = "registry.cn-hangzhou.aliyuncs.com";
-    private  String namespace = "mxvc";
-    private  String username = "hustme";
-    private  String password = "password";
+    private String url = "registry.cn-hangzhou.aliyuncs.com";
+    private String namespace = "mxvc";
+    private String username = "hustme";
+    private String password = "password";
     File root;
     private String version;
 
@@ -55,25 +54,25 @@ public class PublishToAliyun {
             root = FileTool.findParentByName(root, "tmgg-script").getParentFile();
         }
         log.info("根目录 {}", root.getAbsolutePath());
+
     }
 
-    private  void process() throws InterruptedException {
-        File dockerfiles = new File("dockerfiles");
+    private void process() throws InterruptedException {
+        File dockerfiles = new File(root, "dockerfiles");
         for (File dir : dockerfiles.listFiles()) {
             log.info(dir.getAbsolutePath());
             buildAndPush(dir);
         }
     }
 
-    private  void buildAndPush(File dir) throws InterruptedException {
-        String tag1 = "%s/%s/%s:%s".formatted(url, namespace, dir.getName(),"latest");
+    private void buildAndPush(File dir) throws InterruptedException {
+        String tag1 = "%s/%s/%s:%s".formatted(url, namespace, dir.getName(), "latest");
         String tag2 = "%s/%s/%s:%s".formatted(url, namespace, dir.getName(), version);
         log.info("tag1: {}", tag1);
         log.info("tag2: {}", tag2);
         Set<String> tags = Sets.newHashSet(tag1, tag2);
 
         DockerClient client = getClient();
-
 
 
         String imageId = client.buildImageCmd()
@@ -108,7 +107,7 @@ public class PublishToAliyun {
         log.info("阶段结束");
     }
 
-    private  void print(ResponseItem item) {
+    private void print(ResponseItem item) {
         String stream = item.getStream();
         if (StrUtil.isNotEmpty(stream)) {
             System.out.println(stream);
@@ -116,13 +115,13 @@ public class PublishToAliyun {
     }
 
 
-    public  String getLocalDockerHost() {
+    public String getLocalDockerHost() {
         boolean windows = SystemUtil.getOsInfo().isWindows();
         log.info("windows " + windows);
         return windows ? "tcp://localhost:2375" : "unix:///var/run/docker.sock";
     }
 
-    public  DockerClient getClient() {
+    public DockerClient getClient() {
         String dockerHost = getLocalDockerHost();
         log.info("docker host: " + dockerHost);
 
