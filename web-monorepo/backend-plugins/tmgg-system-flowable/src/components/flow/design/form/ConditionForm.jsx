@@ -3,7 +3,7 @@ import {Button, Form, Input, InputNumber, message, Radio, Switch, Table} from 'a
 import {DeleteOutlined, PlusOutlined} from '@ant-design/icons';
 import {ProModal} from "@tmgg/tmgg-base";
 import BpmnUtils from "../../BpmnUtils";
-import {arr} from "@tmgg/tmgg-base";
+import {ArrUtil} from "@tmgg/tmgg-commons-lang";
 
 /**
  * 条件表单
@@ -118,7 +118,7 @@ constructor(props) {
   handleDelete = (item) => {
     let { conditionList } = this.state;
 
-    arr.remove(conditionList, item)
+    ArrUtil.remove(conditionList, item)
     this.save(conditionList);
   };
 
@@ -159,7 +159,7 @@ constructor(props) {
       case 'digit':
         return key + op + value;
       case 'text':
-        if (op == 'contains') {
+        if (op === 'contains') {
           return key + ".contains('" + value + "')";
         }
         if (op === '!contains') {

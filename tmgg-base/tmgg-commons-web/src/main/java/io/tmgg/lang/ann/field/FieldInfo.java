@@ -24,6 +24,12 @@ public @interface FieldInfo {
 
 	int len() default -1;
 
+	/**
+	 * 字段类型
+	 * @return
+	 */
+	FieldType fieldType() default FieldType.STRING;
+
 
 
 }

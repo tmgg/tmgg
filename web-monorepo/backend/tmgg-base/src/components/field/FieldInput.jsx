@@ -9,6 +9,6 @@ export class FieldInput extends React.Component {
             return this.props.value
         }
 
-        return        <Input value={this.props.value} onChange={this.props.onChange} />
+        return  <Input value={this.props.value} onChange={this.props.onChange} />
     }
 }
