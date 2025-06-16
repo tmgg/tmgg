@@ -27,28 +27,24 @@ public class BeanPropertyFillUtil {
 
 
     /**
-     * @param obj
+     * @param bean
      */
 
-    private static void fillPropertiesByAnn(Object obj) {
-        Field[] declaredFields = obj.getClass().getDeclaredFields();
+    private static void fillPropertiesByAnn(Object bean) {
+        Field[] declaredFields = bean.getClass().getDeclaredFields();
 
         for (Field f : declaredFields) {
             Annotation[] ans = f.getAnnotations();
             if (ans.length == 0) {
                 continue;
             }
+            handleAutoFill(bean, f);
 
-
-
-            handleAutoFill(obj, f);
-
-
-            if (f.isAnnotationPresent(AutoAppendJoinField.class)) {
-                AutoAppendJoinField autoFill = f.getAnnotation(AutoAppendJoinField.class);
-                String label = new AutoFillJoinFieldHandler().getTargetValue(autoFill, obj);
+            if (f.isAnnotationPresent(AutoAppendRelatedField.class)) {
+                AutoAppendRelatedField ann = f.getAnnotation(AutoAppendRelatedField.class);
+                String label = new AutoAppendRelatedFieldHandler().getTargetValue(f.getName(), ann, bean);
                 if (label != null) {
-                    BeanUtil.setFieldValue(obj, f.getName(), label);
+                    BeanUtil.setFieldValue(bean, ann.appendField(), label);
                 }
             }
         }
@@ -65,7 +61,7 @@ public class BeanPropertyFillUtil {
         String name = f.getName();
         Assert.state(!name.endsWith("Label"), "Auto注解已调整，请放到原始字段上");
         Assert.state(!f.isAnnotationPresent(Transient.class), "Auto注解已调整，请放到原始字段上");
-
+        Assert.state(!f.isAnnotationPresent(org.springframework.data.annotation.Transient.class), "Auto注解已调整，请放到原始字段上");
 
         Class<? extends AutoAppendStrategy> strategyClass = autoFill.value();
         try {

@@ -28,7 +28,7 @@ public @interface FieldInfo {
 	 * 字段类型
 	 * @return
 	 */
-	FieldType fieldType() default FieldType.STRING;
+	FieldType type() default FieldType.STRING;
 
 
 

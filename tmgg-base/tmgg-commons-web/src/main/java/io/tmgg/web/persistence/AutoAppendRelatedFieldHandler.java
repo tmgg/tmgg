@@ -10,23 +10,25 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 
 
-public class AutoFillJoinFieldHandler {
+public class AutoAppendRelatedFieldHandler {
 
 
     private static final Cache<Object,String> LRU_CACHE = CacheUtil.newLRUCache(5000, 1000 * 60 * 5);
 
-    public String getTargetValue(AutoAppendJoinField field, Object obj) {
-        Object sourceValue = BeanUtil.getFieldValue(obj, field.sourceField());
+    public String getTargetValue(String sourceField, AutoAppendRelatedField field, Object obj) {
+        Object sourceValue = BeanUtil.getFieldValue(obj, sourceField);
         if(sourceValue == null){
             return null;
         }
 
-        if(LRU_CACHE.containsKey(sourceValue)){
-            return LRU_CACHE.get(sourceValue);
+        String cacheKey = field.relatedEntity().getSimpleName() + "-" + sourceValue;
+
+        if(LRU_CACHE.containsKey(cacheKey)){
+            return LRU_CACHE.get(cacheKey);
         }
 
-        String targetField = field.joinField();
-        Class<? extends BaseEntity> targetEntity = field.joinEntity();
+        String targetField = field.relatedField();
+        Class<? extends BaseEntity> targetEntity = field.relatedEntity();
 
         String name = targetEntity.getSimpleName();
 
@@ -36,7 +38,7 @@ public class AutoFillJoinFieldHandler {
         }
 
 
-        String jpql = "select " + field.returnField() + " from " + name + " where " + targetField + "=" + sourceValue;
+        String jpql = "select " + field.relatedTargetField() + " from " + name + " where " + targetField + "=" + sourceValue;
 
         EntityManager em = SpringUtil.getBean(EntityManager.class);
 

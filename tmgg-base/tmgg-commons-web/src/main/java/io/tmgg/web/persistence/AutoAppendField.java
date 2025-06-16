@@ -17,9 +17,8 @@ public @interface AutoAppendField {
     Class<? extends AutoAppendStrategy> value();
 
 
-
-
     boolean removeIdStr() default true;
+
     String suffix() default "Label";
 
     String param() default "";

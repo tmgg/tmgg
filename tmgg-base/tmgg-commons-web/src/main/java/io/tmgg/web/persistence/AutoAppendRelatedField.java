@@ -11,20 +11,20 @@ import java.lang.annotation.*;
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.FIELD})
-public @interface AutoAppendJoinField {
+public @interface AutoAppendRelatedField {
 
-    String sourceField();
+    String appendField();
 
 
 
     // 关联实体
-    Class<? extends BaseEntity> joinEntity();
+    Class<? extends BaseEntity> relatedEntity();
 
     // 关联字段
-    String joinField() default "id";
+    String relatedField() default "id";
 
     // 查询结果
-    String returnField();
+    String relatedTargetField();
 
 
 }
