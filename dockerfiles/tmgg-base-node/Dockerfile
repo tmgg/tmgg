@@ -10,7 +10,7 @@ RUN pnpm config set registry https://registry.npmmirror.com
 
 ADD web-monorepo/ ./
 RUN pnpm -r exec pnpm version ${VERSION} && \
-    cd web-monorepo/template/web/ && \
+    cd template/web/ && \
     pnpm install --force &&  \
     cd /build && rm -rf *
 
