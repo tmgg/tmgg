@@ -55,7 +55,7 @@ export default class Toolbar extends React.Component {
 
 
                 <Button icon={<ReloadOutlined/>} shape="circle" onClick={onRefresh} title='刷新' loading={loading}/>
-                ｛showSearch && <Button icon={<HistoryOutlined/>} shape="circle" onClick={this.onClickHistory} title='查询历史'/>｝
+                <Button icon={<HistoryOutlined/>} shape="circle" onClick={this.onClickHistory} title='查询历史'/>
             </div>
 
             {this.renderHistory()}

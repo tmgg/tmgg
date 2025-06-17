@@ -8,8 +8,9 @@ import cn.hutool.extra.spring.SpringUtil;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
+import lombok.extern.slf4j.Slf4j;
 
-
+@Slf4j
 public class AutoAppendRelatedFieldHandler {
 
 
@@ -38,19 +39,21 @@ public class AutoAppendRelatedFieldHandler {
         }
 
 
-        String jpql = "select " + field.relatedTargetField() + " from " + name + " where " + targetField + "=" + sourceValue;
-
+        String jpql = "select " + field.relatedTargetField() + " from " + name + " where " + targetField + "=?1";
+        log.debug(jpql);
         EntityManager em = SpringUtil.getBean(EntityManager.class);
 
         Query query = em.createQuery(jpql);
+        query.setParameter(1, sourceValue);
 
         try {
             Object result = query.getSingleResult();
+            log.debug("结果: {}", result);
 
             if(result != null){
                 String resultStr = result.toString();
 
-                LRU_CACHE.put(sourceValue, resultStr);
+                LRU_CACHE.put(cacheKey, resultStr);
 
                 return resultStr;
             }
