@@ -3,6 +3,7 @@ package io.tmgg.framework.dict;
 import cn.hutool.core.lang.Dict;
 import cn.hutool.core.util.ClassUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.crypto.SecureUtil;
 import io.tmgg.BasePackage;
 import io.tmgg.lang.SpringTool;
 import io.tmgg.lang.ann.Remark;
@@ -74,13 +75,14 @@ public class DictAnnHandler {
                 data.setText(text);
                 data.setSeq(i);
                 data.setSysDict(sysDict);
-                data.setId(code + "-" + key);
+                data.setId(SecureUtil.md5(code + "-" + key));
                 data.setBuiltin(true);
 
                 sysDictItemDao.save(data);
             }
         }
     }
+
 
     @NotNull
     private static Set<Class<?>> scanEnum() {

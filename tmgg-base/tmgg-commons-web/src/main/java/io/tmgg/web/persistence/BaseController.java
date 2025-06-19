@@ -49,7 +49,7 @@ public abstract class BaseController<T extends PersistEntity> {
 
 
     @HasPermission
-    @PostMapping("delete")
+    @RequestMapping("delete")
     public AjaxResult delete(String id) {
         service.deleteById(id);
         return AjaxResult.ok().msg("删除成功");
