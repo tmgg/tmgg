@@ -1,7 +1,7 @@
 import axios from "axios";
 import {message as Message, Modal} from "antd";
 import {SysUtil} from "./sys";
-
+import qs from 'qs'
 
 export const HttpUtil = {
 
@@ -100,6 +100,9 @@ class Util {
             headers: {
                 'Content-Type': 'application/json'
             },
+            paramsSerializer: params => {
+                return qs.stringify(params, { indices: false })
+            }
         }
 
 
