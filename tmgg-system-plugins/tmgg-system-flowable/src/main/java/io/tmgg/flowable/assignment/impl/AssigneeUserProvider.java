@@ -1,12 +1,12 @@
 package io.tmgg.flowable.assignment.impl;
 
 
+import io.tmgg.flowable.FlowableMasterDataProvider;
 import io.tmgg.flowable.assignment.AssignmentTypeProvider;
 import io.tmgg.flowable.assignment.Identity;
-import io.tmgg.flowable.FlowableMasterDataProvider;
+import jakarta.annotation.Resource;
 import org.springframework.stereotype.Component;
 
-import jakarta.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;

@@ -1,12 +1,9 @@
 package io.tmgg.flowable.mgmt.dao;
 
 import io.tmgg.flowable.mgmt.entity.SysFlowableModel;
-
 import io.tmgg.web.persistence.BaseDao;
 import io.tmgg.web.persistence.specification.JpaQuery;
 import lombok.extern.slf4j.Slf4j;
-
-
 import org.springframework.stereotype.Repository;
 
 @Repository

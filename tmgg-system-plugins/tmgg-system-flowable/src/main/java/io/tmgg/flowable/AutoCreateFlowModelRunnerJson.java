@@ -1,9 +1,10 @@
 package io.tmgg.flowable;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import io.tmgg.flowable.mgmt.entity.SysFlowableModel;
 import io.tmgg.flowable.mgmt.service.SysFlowableModelService;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import io.tmgg.jackson.JsonTool;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 import org.springframework.boot.ApplicationArguments;
@@ -11,7 +12,6 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.stereotype.Component;
 
-import jakarta.annotation.Resource;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.charset.StandardCharsets;
 

@@ -74,7 +74,7 @@ private String updateUser;
 
 ##  数据库自动生成备注
 
-根据注解 @Msg
+根据注解 @Remark
 
 
 
@@ -141,7 +141,7 @@ private int timeToIdleExpiration;
 package io.tmgg.modules.api.defaults;
 
 import cn.hutool.core.date.DateUtil;
-import io.tmgg.lang.field.FieldInfo;
+import io.tmgg.lang.ann.field.FieldInfo;
 import io.tmgg.modules.api.Api;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -179,7 +179,7 @@ public class PingApi {
 ```java
 package io.tmgg.modules.job.builtin;
 
-import io.tmgg.lang.field.FieldInfo;
+import io.tmgg.lang.ann.field.FieldInfo;
 import io.tmgg.modules.job.JobDesc;
 import io.tmgg.modules.job.JobTool;
 import org.quartz.*;

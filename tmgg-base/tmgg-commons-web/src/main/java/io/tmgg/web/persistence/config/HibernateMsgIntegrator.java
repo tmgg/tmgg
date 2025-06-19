@@ -20,7 +20,7 @@ import java.util.List;
 /**
  * 数据库自动生成备注
  *
- * 根据注解 @Msg
+ * 根据注解 @Remark
  * @gendoc
  */
 @Slf4j

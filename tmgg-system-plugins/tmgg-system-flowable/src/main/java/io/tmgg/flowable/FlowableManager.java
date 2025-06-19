@@ -3,10 +3,10 @@ package io.tmgg.flowable;
 import io.tmgg.flowable.bean.TaskVo;
 import io.tmgg.flowable.mgmt.entity.ConditionVariable;
 import io.tmgg.flowable.mgmt.entity.SysFlowableModel;
-import io.tmgg.flowable.mgmt.service.SysFlowableModelService;
 import io.tmgg.flowable.mgmt.service.MyTaskService;
-
+import io.tmgg.flowable.mgmt.service.SysFlowableModelService;
 import io.tmgg.lang.DateFormatTool;
+import jakarta.annotation.Resource;
 import lombok.Getter;
 import org.flowable.engine.HistoryService;
 import org.flowable.engine.ProcessEngine;
@@ -27,7 +27,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
-import jakarta.annotation.Resource;
 import java.util.*;
 import java.util.stream.Collectors;
 

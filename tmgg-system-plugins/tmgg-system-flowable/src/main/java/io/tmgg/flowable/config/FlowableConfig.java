@@ -1,11 +1,11 @@
 
 package io.tmgg.flowable.config;
 
+import jakarta.annotation.Resource;
 import org.flowable.spring.SpringProcessEngineConfiguration;
 import org.flowable.spring.boot.EngineConfigurationConfigurer;
 import org.springframework.context.annotation.Configuration;
 
-import jakarta.annotation.Resource;
 import java.util.ArrayList;
 import java.util.UUID;
 

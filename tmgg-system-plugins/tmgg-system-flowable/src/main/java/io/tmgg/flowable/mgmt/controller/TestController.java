@@ -3,12 +3,11 @@ package io.tmgg.flowable.mgmt.controller;
 import io.tmgg.flowable.FlowableManager;
 import io.tmgg.flowable.mgmt.entity.SysFlowableModel;
 import io.tmgg.flowable.mgmt.service.SysFlowableModelService;
-
 import io.tmgg.lang.obj.AjaxResult;
+import jakarta.annotation.Resource;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
-import jakarta.annotation.Resource;
 import java.util.Map;
 
 @RestController

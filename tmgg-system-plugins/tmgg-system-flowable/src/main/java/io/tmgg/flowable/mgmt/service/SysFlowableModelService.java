@@ -4,9 +4,9 @@ package io.tmgg.flowable.mgmt.service;
 import io.tmgg.flowable.mgmt.dao.SysFlowableModelDao;
 import io.tmgg.flowable.mgmt.entity.ConditionVariable;
 import io.tmgg.flowable.mgmt.entity.SysFlowableModel;
-
 import io.tmgg.web.persistence.BaseService;
 import io.tmgg.web.persistence.specification.JpaQuery;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.flowable.bpmn.converter.BpmnXMLConverter;
@@ -24,8 +24,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
-
-import jakarta.annotation.Resource;
 
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;

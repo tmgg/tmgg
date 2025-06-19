@@ -21,7 +21,7 @@
 修改 application-dev.yml ，application-prod.yml 中相关数据库配置
 
 ### 创建实体
-参考模板中的Car.java, 使用@Msg注解描述实体及字段
+创建实体，并使用@Remark 备注
 
 ### 生成代码
 启动前后端，默认密码会打印到控制台
