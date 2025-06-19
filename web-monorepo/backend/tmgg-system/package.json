@@ -20,7 +20,8 @@
     "react-amap" : "^1.2.8",
     "react-dom" : "^18.2.0",
     "react-lazylog" : "^4.5.3",
-    "umi" : "^4.0.0"
+    "umi" : "^4.0.0",
+    "qs": "^6.14.0"
   },
   "name" : "@tmgg/tmgg-system",
   "description" : "系统基础功能，如RBAC基于角色的权限管理，组织机构，日志等",
