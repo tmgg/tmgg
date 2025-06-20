@@ -98,6 +98,7 @@ export default class Toolbar extends React.Component {
             <Table
                 dataSource={dataSource}
                 pagination={false}
+                rowKey='time'
                 columns={[
                     {
                         dataIndex: 'time', title: '时间'
