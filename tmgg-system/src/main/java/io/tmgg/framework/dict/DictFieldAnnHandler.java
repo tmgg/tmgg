@@ -1,10 +1,10 @@
 package io.tmgg.framework.dict;
 
-import io.tmgg.modules.sys.dao.SysDictDao;
-import io.tmgg.modules.sys.dao.SysDictItemDao;
-import io.tmgg.modules.sys.entity.SysDict;
-import io.tmgg.modules.sys.entity.SysDictItem;
-import io.tmgg.modules.sys.service.JpaService;
+import io.tmgg.modules.system.dao.SysDictDao;
+import io.tmgg.modules.system.dao.SysDictItemDao;
+import io.tmgg.modules.system.entity.SysDict;
+import io.tmgg.modules.system.entity.SysDictItem;
+import io.tmgg.modules.system.service.JpaService;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

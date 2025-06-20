@@ -5,7 +5,7 @@ import cn.hutool.core.util.StrUtil;
 import io.tmgg.lang.ExceptionToMessageTool;
 import io.tmgg.lang.HttpServletTool;
 import io.tmgg.lang.obj.AjaxResult;
-import io.tmgg.modules.sys.service.SysConfigService;
+import io.tmgg.modules.system.service.SysConfigService;
 import io.tmgg.web.CodeException;
 import io.tmgg.web.consts.AopSortConstant;
 import jakarta.annotation.Resource;

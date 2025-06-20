@@ -1,10 +1,10 @@
 package io.tmgg.init;
 
 import io.tmgg.dbtool.DbTool;
-import io.tmgg.modules.sys.dao.SysDictDao;
-import io.tmgg.modules.sys.dao.SysDictItemDao;
-import io.tmgg.modules.sys.entity.OrgType;
-import io.tmgg.modules.sys.entity.SysDict;
+import io.tmgg.modules.system.dao.SysDictDao;
+import io.tmgg.modules.system.dao.SysDictItemDao;
+import io.tmgg.modules.system.entity.OrgType;
+import io.tmgg.modules.system.entity.SysDict;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;

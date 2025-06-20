@@ -1,6 +1,6 @@
 package io.tmgg.modules;
 
-import io.tmgg.modules.sys.entity.SysMenu;
+import io.tmgg.modules.system.entity.SysMenu;
 
 import java.util.Collection;
 

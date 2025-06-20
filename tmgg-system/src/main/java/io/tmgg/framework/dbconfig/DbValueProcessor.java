@@ -1,23 +1,19 @@
 package io.tmgg.framework.dbconfig;
 
 import cn.hutool.core.util.StrUtil;
-import io.tmgg.BasePackage;
-import io.tmgg.SysProp;
 import io.tmgg.event.SysConfigChangeEvent;
 import io.tmgg.lang.SpringTool;
-import io.tmgg.modules.sys.service.SysConfigService;
+import io.tmgg.modules.system.service.SysConfigService;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.context.event.EventListener;
-import org.springframework.context.event.SmartApplicationListener;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j

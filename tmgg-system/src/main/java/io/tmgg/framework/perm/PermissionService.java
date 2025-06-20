@@ -2,11 +2,11 @@ package io.tmgg.framework.perm;
 
 import cn.hutool.core.util.StrUtil;
 import io.tmgg.lang.ann.RemarkTool;
-import io.tmgg.modules.sys.dao.SysDictDao;
-import io.tmgg.modules.sys.dao.SysDictItemDao;
-import io.tmgg.modules.sys.entity.SysDict;
-import io.tmgg.modules.sys.entity.SysDictItem;
-import io.tmgg.modules.sys.service.JpaService;
+import io.tmgg.modules.system.dao.SysDictDao;
+import io.tmgg.modules.system.dao.SysDictItemDao;
+import io.tmgg.modules.system.entity.SysDict;
+import io.tmgg.modules.system.entity.SysDictItem;
+import io.tmgg.modules.system.service.JpaService;
 import io.tmgg.web.annotion.HasPermission;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Component;
