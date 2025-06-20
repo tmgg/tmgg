@@ -1,7 +1,7 @@
 package io.tmgg.framework.data.append;
 
 import io.tmgg.web.persistence.AutoAppendStrategy;
-import io.tmgg.modules.sys.dao.SysUserDao;
+import io.tmgg.modules.system.dao.SysUserDao;
 import org.springframework.stereotype.Component;
 
 import jakarta.annotation.Resource;

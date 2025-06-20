@@ -1,0 +1,10 @@
+{
+  "SysMenu" : [ {
+    "pid" : "sys",
+    "id" : "sysManual",
+    "name" : "操作手册",
+    "perm" : "sysManual",
+    "path" : "/system/sysManual",
+    "seq" : 4
+  } ]
+}

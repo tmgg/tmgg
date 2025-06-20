@@ -1,5 +1,12 @@
 import {Badge, Dropdown} from "antd";
-import {NotificationOutlined, SettingOutlined, UserOutlined} from "@ant-design/icons";
+import {
+    FileOutlined,
+    NotificationOutlined,
+    QuestionCircleFilled, QuestionCircleOutlined,
+    QuestionOutlined,
+    SettingOutlined,
+    UserOutlined
+} from "@ant-design/icons";
 import React from "react";
 import {history} from "umi";
 import {HttpUtil, PageUtil, SysUtil} from "@tmgg/tmgg-base";
@@ -60,6 +67,11 @@ export default class HeaderRight extends React.Component {
                     <NotificationOutlined/>
                 </Badge>
             </div>
+
+            <div className='item' title='操作手册' onClick={()=>PageUtil.open('/userCenter/manual','操作手册')}>
+                <QuestionCircleOutlined />
+            </div>
+
 
             <div className='item'>
 

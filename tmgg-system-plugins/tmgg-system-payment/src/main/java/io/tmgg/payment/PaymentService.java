@@ -7,7 +7,7 @@ import cn.hutool.core.util.StrUtil;
 import io.tmgg.lang.AmtTool;
 import io.tmgg.lang.RequestTool;
 import io.tmgg.lang.SpringTool;
-import io.tmgg.modules.sys.service.SysConfigService;
+import io.tmgg.modules.system.service.SysConfigService;
 import io.tmgg.payment.enums.PaymentStatus;
 import io.tmgg.payment.mgmt.dao.PaymentChannelDao;
 import io.tmgg.payment.mgmt.dao.PaymentOrderDao;

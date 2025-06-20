@@ -2,7 +2,7 @@ package io.tmgg.modules.asset.service;
 
 import io.tmgg.modules.asset.dao.SysAssetDao;
 import io.tmgg.modules.asset.entity.SysAsset;
-import io.tmgg.modules.sys.service.SysFileService;
+import io.tmgg.modules.system.service.SysFileService;
 import io.tmgg.web.persistence.BaseService;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;

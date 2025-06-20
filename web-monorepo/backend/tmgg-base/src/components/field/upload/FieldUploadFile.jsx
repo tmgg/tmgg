@@ -106,7 +106,7 @@ export class FieldUploadFile extends React.Component {
 
         return <Upload
             action={SysUtil.wrapServerUrl('sysFile/upload')}
-            listType="picture-card"
+            listType={this.props.listType || 'picture-card'}
             fileList={fileList}
             onChange={this.handleChange}
             headers={SysUtil.getHeaders()}
