@@ -8,11 +8,7 @@ RUN npm config set fund false
 RUN npm config set registry https://registry.npmmirror.com
 RUN pnpm config set registry https://registry.npmmirror.com
 
-ADD web-monorepo/ ./
-RUN pnpm -r exec pnpm version ${VERSION} && \
-    cd template/web/ && \
-    pnpm install --force &&  \
-    cd /build && rm -rf *
+
 
 
 
