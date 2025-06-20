@@ -16,7 +16,7 @@
     "path" : "/system/org",
     "icon" : "ApartmentOutlined",
     "seq" : 1
-  },  {
+  }, {
     "id" : "sysRole",
     "pid" : "sys",
     "name" : "角色管理",
@@ -24,8 +24,7 @@
     "path" : "/system/role",
     "icon" : "IdcardOutlined",
     "seq" : 2
-  },
-    {
+  }, {
     "id" : "sysUser",
     "pid" : "sys",
     "name" : "用户管理",
@@ -33,19 +32,15 @@
     "path" : "/system/user",
     "icon" : "UserOutlined",
     "seq" : 3
-  },
-
-    {
-      "pid" : "sys",
-      "id" : "assetMenuDir",
-      "name" : "素材管理",
-      "perm" : "assetMenuDir",
-      "type": "DIR",
-      "seq" : 4,
-      "icon" : "FileImageOutlined"
-    },
-
-    {
+  }, {
+    "pid" : "sys",
+    "id" : "assetMenuDir",
+    "name" : "素材管理",
+    "perm" : "assetMenuDir",
+    "type" : "DIR",
+    "seq" : 5,
+    "icon" : "FileImageOutlined"
+  }, {
     "id" : "sysMenu",
     "pid" : "sys",
     "name" : "菜单管理",
@@ -77,26 +72,21 @@
     "path" : "/system/dict",
     "seq" : 5,
     "icon" : "FileSearchOutlined"
-  },
-
-    {
-      "pid" : "assetMenuDir",
-      "id" : "sysAsset",
-      "name" : "素材管理",
-      "perm" : "sysAsset",
-      "path" : "/system/asset",
-      "seq" : 1
-    },
-    {
-      "pid":"assetMenuDir",
-      "id": "sysAssetDir",
-      "name": "文件夹",
-      "perm": "sysAssetDir",
-      "path": "/system/asset/dir",
-      "seq": 2
-    },
-
-    {
+  }, {
+    "pid" : "assetMenuDir",
+    "id" : "sysAsset",
+    "name" : "素材管理",
+    "perm" : "sysAsset",
+    "path" : "/system/asset",
+    "seq" : 1
+  }, {
+    "pid" : "assetMenuDir",
+    "id" : "sysAssetDir",
+    "name" : "文件夹",
+    "perm" : "sysAssetDir",
+    "path" : "/system/asset/dir",
+    "seq" : 2
+  }, {
     "id" : "sysFile",
     "pid" : "sys",
     "name" : "存储文件",
@@ -193,64 +183,53 @@
     "path" : "/dev/code",
     "icon" : "JavaScriptOutlined",
     "seq" : 10
-  },
-
-
-
-    {
-      "pid" : "dev",
-      "id" : "requestTest",
-      "name" : "请求测试",
-      "perm" : "requestTest",
-      "path" : "/dev/requestTest",
-      "icon" : "LinkOutlined",
-      "seq" : 40
-    },
-
-    {
-      "pid" : "sys",
-      "id" : "api",
-      "name" : "开放接口",
-      "perm" : "api",
-      "type": "DIR",
-      "seq" : 201,
-      "icon" : "ApiOutlined"
-    },
-    {
-      "pid" : "api",
-      "id" : "apiAccount",
-      "name" : "账户管理",
-      "perm" : "apiAccount",
-      "path" : "/api",
-      "seq" : 1,
-      "icon" : "ApiOutlined"
-    },
-    {
-      "pid" : "api",
-      "id" : "apiAccountResource",
-      "name" : "账户授权",
-      "perm" : "apiAccountResource",
-      "seq" : 2,
-      "visible": false,
-      "icon" : "ApiOutlined"
-    },
-    {
-      "pid" : "api",
-      "id" : "apiResource",
-      "name" : "接口管理",
-      "perm" : "apiResource",
-      "path" : "/api/resource",
-      "seq" : 3,
-      "icon" : "ApiOutlined"
-    },
-    {
-      "pid":"api",
-      "id": "apiAccessLog",
-      "name": "访问记录",
-      "perm": "apiAccessLog",
-      "path": "/api/accessLog",
-      "icon" : "ApiOutlined",
-      "seq": 5
-    }
-  ]
+  }, {
+    "pid" : "dev",
+    "id" : "requestTest",
+    "name" : "请求测试",
+    "perm" : "requestTest",
+    "path" : "/dev/requestTest",
+    "icon" : "LinkOutlined",
+    "seq" : 40
+  }, {
+    "pid" : "sys",
+    "id" : "api",
+    "name" : "开放接口",
+    "perm" : "api",
+    "type" : "DIR",
+    "seq" : 201,
+    "icon" : "ApiOutlined"
+  }, {
+    "pid" : "api",
+    "id" : "apiAccount",
+    "name" : "账户管理",
+    "perm" : "apiAccount",
+    "path" : "/api",
+    "seq" : 1,
+    "icon" : "ApiOutlined"
+  }, {
+    "pid" : "api",
+    "id" : "apiAccountResource",
+    "name" : "账户授权",
+    "perm" : "apiAccountResource",
+    "seq" : 2,
+    "visible" : false,
+    "icon" : "ApiOutlined"
+  }, {
+    "pid" : "api",
+    "id" : "apiResource",
+    "name" : "接口管理",
+    "perm" : "apiResource",
+    "path" : "/api/resource",
+    "seq" : 3,
+    "icon" : "ApiOutlined"
+  }, {
+    "pid" : "api",
+    "id" : "apiAccessLog",
+    "name" : "访问记录",
+    "perm" : "apiAccessLog",
+    "path" : "/api/accessLog",
+    "icon" : "ApiOutlined",
+    "seq" : 5
+  } ]
 }

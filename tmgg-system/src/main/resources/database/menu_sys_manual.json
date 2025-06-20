@@ -5,6 +5,7 @@
     "name" : "操作手册",
     "perm" : "sysManual",
     "path" : "/system/sysManual",
-    "seq" : 4
+    "seq" : 4,
+    "icon" : "CopyOutlined"
   } ]
 }
