@@ -32,7 +32,4 @@ spring:
     type: simple
 
 
-sys:
-  framework-menu-list:
-    - name:
 

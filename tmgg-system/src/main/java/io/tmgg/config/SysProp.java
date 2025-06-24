@@ -27,7 +27,7 @@ public class SysProp {
     /**
      * 缓存目录
      */
-    private String cacheDir = "/tmgg/cache" ;
+    private String cacheDir = "/data/cache" ;
 
 
     /**
