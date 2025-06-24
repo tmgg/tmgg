@@ -131,8 +131,12 @@ export default class extends React.Component {
 
 
     render() {
-        let logo = this.props.logo || defaultLogo
         const {siteInfo, topMenus, loginInfo,leftMenus} = this.state
+        let logo = this.props.logo || defaultLogo
+        if(siteInfo.logo){
+            logo = SysUtil.wrapServerUrl('sysFile/preview/' + siteInfo.logo)
+        }
+
 
 
         return <Layout className='main-layout'>
