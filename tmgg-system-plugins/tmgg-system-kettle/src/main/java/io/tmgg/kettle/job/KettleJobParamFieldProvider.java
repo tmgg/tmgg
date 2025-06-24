@@ -31,7 +31,7 @@ public class KettleJobParamFieldProvider implements JobParamFieldProvider {
         field.setLabel("作业文件");
         field.setName(JOB_PARAM_FILE);
         field.setRequired(true);
-        field.setComponentType("remoteSelect");
+        field.setValueType("select");
 
         Map<String, Object> props = new HashMap<>();
         props.put("url", "/kettle/file/options");

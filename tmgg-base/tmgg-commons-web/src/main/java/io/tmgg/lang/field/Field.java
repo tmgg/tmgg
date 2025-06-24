@@ -17,7 +17,7 @@ public class Field {
 
     String defaultValue;
 
-    String componentType ;
+    String valueType ;
 
     Map<String,Object> componentProps ;
 

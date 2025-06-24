@@ -4,7 +4,7 @@ import {
     FieldImageBase64,
     FieldInput,
     FieldPassword,
-    FieldRadioBoolean, FieldUploadImage
+    FieldRadioBoolean, FieldSelect, FieldUploadImage
 } from "../field";
 import {ViewBoolean, ViewImage, ViewPassword, ViewText} from "../view";
 
@@ -18,7 +18,9 @@ export const fieldRegistry = {
     'datetime':FieldDateTimePickerString,
     'boolean':FieldRadioBoolean,
     imageBase64:FieldImageBase64,
-    image:FieldUploadImage
+    image:FieldUploadImage,
+
+    select: FieldSelect
 }
 
 export const viewRegistry = {
