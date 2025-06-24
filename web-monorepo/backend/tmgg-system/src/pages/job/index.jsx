@@ -1,8 +1,9 @@
 import {AutoComplete, Button, Form, Input, message, Modal, Popconfirm, Select, Space, Switch, Tag} from 'antd'
 import React from 'react'
 import {PlusOutlined, ReloadOutlined} from "@ant-design/icons";
-import {FieldComponent, HttpUtil, Page, PageUtil, ProTable, SysUtil} from "@tmgg/tmgg-base";
+import { HttpUtil, Page, PageUtil, ProTable, SysUtil} from "@tmgg/tmgg-base";
 import {StrUtil} from "@tmgg/tmgg-commons-lang";
+import {ValueType} from "@tmgg/tmgg-base/src/components/ValueType";
 
 
 const cronOptions = [
@@ -208,10 +209,7 @@ export default class extends React.Component {
                                    name={['jobData', p.name]}
                                    key={p.name}
                                    rules={[{required: p.required}]}>
-                            <FieldComponent
-                                type={p.componentType}
-                                {...p.componentProps}
-                            ></FieldComponent>
+                            {ValueType.renderField(p.componentType,p.componentProps)}
                         </Form.Item>
                     ))}
                 </Form>

@@ -1,5 +1,7 @@
 package io.tmgg.lang.ann.field;
 
+import io.tmgg.lang.value.type.ValueType;
+
 import java.lang.annotation.*;
 
 @Target({ ElementType.PARAMETER ,ElementType.FIELD,ElementType.ANNOTATION_TYPE})
@@ -28,7 +30,7 @@ public @interface FieldInfo {
 	 * 字段类型
 	 * @return
 	 */
-	FieldType type() default FieldType.STRING;
+	ValueType type() default ValueType.TEXT;
 
 
 

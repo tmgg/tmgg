@@ -24,8 +24,9 @@ public class DemoJob implements Job {
         JobDataMap data = JobTool.getData(e);
         String msg = data.getString("msg");
 
-        System.out.println(msg);
-        log.info("打印信息：{}", msg);
+
+        System.out.println("控制台打印：" +msg);
+        log.info("日志打印信息：{}", msg);
 
         e.setResult("结果：成功");
     }
