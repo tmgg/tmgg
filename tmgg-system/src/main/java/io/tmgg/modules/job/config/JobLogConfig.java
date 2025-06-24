@@ -28,7 +28,6 @@ public class JobLogConfig {
     @PostConstruct
     public void init() {
         LoggerContext context = (LoggerContext) LoggerFactory.getILoggerFactory();
-        context.reset();
 
         // Create and configure the SiftingAppender
         SiftingAppender siftingAppender = new SiftingAppender();
