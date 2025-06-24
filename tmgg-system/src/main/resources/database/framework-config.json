@@ -99,39 +99,7 @@
       "defaultValue": "true",
       "$update": false
     },
-    {
-      "id": "file.minio.enable",
-      "label": "是否启用minio存储服务",
-      "valueType": "boolean",
-      "defaultValue": "false",
-      "remark": "不启用的情况，使用的是本地存储",
-      "seq": 100,
-      "$update": false
-    },
-    {
-      "id": "file.minio.url",
-      "label": "minio服务地址",
-      "seq": 101,
-      "$update": false
-    },
-    {
-      "id": "file.minio.accessKey",
-      "label": "minio服务accessKey",
-      "seq": 102,
-      "$update": false
-    },
-    {
-      "id": "file.minio.secretKey",
-      "label": "minio服务密钥",
-      "seq": 103,
-      "$update": false
-    },
-    {
-      "id": "file.minio.bucketName",
-      "label": "minio服务存储桶",
-      "seq": 104,
-      "$update": false
-    },
+
     {
       "id": "email.from",
       "label": "邮件发送账号",

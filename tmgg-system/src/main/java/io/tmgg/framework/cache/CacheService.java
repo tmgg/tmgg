@@ -1,8 +1,6 @@
 package io.tmgg.framework.cache;
 
-import cn.hutool.cache.CacheUtil;
-import cn.hutool.core.io.FileUtil;
-import io.tmgg.SysProp;
+import io.tmgg.config.SysProp;
 import lombok.extern.slf4j.Slf4j;
 import org.ehcache.Cache;
 import org.ehcache.CacheManager;

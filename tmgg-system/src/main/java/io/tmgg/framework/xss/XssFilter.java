@@ -3,7 +3,7 @@ package io.tmgg.framework.xss;
 
 
 import cn.hutool.core.collection.CollUtil;
-import io.tmgg.SysProp;
+import io.tmgg.config.SysProp;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.AntPathMatcher;
 

@@ -5,6 +5,7 @@ import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
+import io.tmgg.config.MinioProp;
 import io.tmgg.framework.dbconfig.DbValue;
 import io.tmgg.lang.DownloadTool;
 import io.tmgg.modules.system.dao.SysFileDao;
@@ -14,6 +15,7 @@ import io.tmgg.modules.system.file.LocalFileOperator;
 import io.tmgg.modules.system.file.MinioFileOperator;
 import io.tmgg.web.consts.SymbolConstant;
 import io.tmgg.web.persistence.specification.JpaQuery;
+import jakarta.annotation.PostConstruct;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -68,7 +70,7 @@ public class SysFileService {
         sysFileDao.deleteById(id);
 
         // 删除具体文件
-        getFileOperator().delete(sysFile.getFileObjectName());
+        fileOperator.delete(sysFile.getFileObjectName());
     }
 
 
@@ -98,7 +100,7 @@ public class SysFileService {
 
 
         // 存储文件
-        getFileOperator().save(finalName, is);
+        fileOperator.save(finalName, is);
 
 
         // 存储文件信息
@@ -122,7 +124,7 @@ public class SysFileService {
         SysFile sysFile = sysFileDao.findOne(fileId);
         Assert.notNull(sysFile, "文件数据记录不存在");
         // 返回文件字节码
-        InputStream is = getFileOperator().getFileStream(sysFile.getFileObjectName());
+        InputStream is = fileOperator.getFileStream(sysFile.getFileObjectName());
         sysFile.setInputStream(is);
 
         return sysFile;
@@ -132,7 +134,7 @@ public class SysFileService {
         // 获取文件名
         SysFile sysFile = sysFileDao.findOne(fileId);
 
-        return getFileOperator().getFileStream(sysFile.getFileObjectName());
+        return fileOperator.getFileStream(sysFile.getFileObjectName());
     }
 
 
@@ -171,49 +173,30 @@ public class SysFileService {
     }
 
 
-    public Page<SysFile> findByExampleLike(SysFile param, Pageable pageable) {
-        JpaQuery<SysFile> query = new JpaQuery<>();
-        query.likeExample(param);
-
-        Page<SysFile> all = this.sysFileDao.findAll(query, pageable);
-        return all;
-    }
-
     public SysFile findOne(String id) {
         return sysFileDao.findOne(id);
     }
 
+    @Resource
+    MinioProp minioProp;
 
-    @DbValue("file.minio.enable")
-    boolean minioEnable;
+    FileOperator fileOperator;
 
 
-    @DbValue("file.minio.url")
-    String minioUrl;
 
-    @DbValue("file.minio.accessKey")
-    String minioAccessKey;
-
-    @DbValue("file.minio.secretKey")
-    String minioSecretKey;
-
-    @DbValue("file.minio.bucketName")
-    String minioBucketName;
-
-    public FileOperator getFileOperator() {
-        if (minioEnable) {
+    @PostConstruct
+    public void init() {
+        if (minioProp.getEnable()) {
             log.info("配置文件服务为minio模式");
-            Assert.state(StrUtil.isAllNotEmpty(minioUrl, minioAccessKey, minioSecretKey, minioBucketName), "minio配置不全");
-
-            return new MinioFileOperator(minioUrl, minioAccessKey, minioSecretKey, minioBucketName);
+            fileOperator = new MinioFileOperator(minioProp.getUrl(), minioProp.getAccessKey(), minioProp.getSecretKey(), minioProp.getBucketName());
+            return;
         }
         log.info("本地文件模式");
-        return new LocalFileOperator(sysConfigService.getFileUploadPath());
+        fileOperator = new LocalFileOperator(sysConfigService.getFileUploadPath());
     }
 
 
     private Integer parseStorageType() {
-        FileOperator fileOperator = getFileOperator();
         if (fileOperator != null) {
             if (fileOperator instanceof LocalFileOperator) {
                 return 1;

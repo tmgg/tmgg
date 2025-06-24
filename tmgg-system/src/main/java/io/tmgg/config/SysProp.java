@@ -1,4 +1,4 @@
-package io.tmgg;
+package io.tmgg.config;
 
 import io.tmgg.modules.system.entity.SysMenu;
 import lombok.Data;
