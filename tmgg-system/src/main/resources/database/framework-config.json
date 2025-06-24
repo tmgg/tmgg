@@ -54,6 +54,12 @@
       "$update": false
     },
     {
+      "id": "sys.siteInfo.logo",
+      "label": "站点logo",
+      "valueType": "image",
+      "$update": false
+    },
+    {
       "id": "sys.siteInfo.loginBoxBottomTip",
       "label": "登录框下面的提示",
       "defaultValue": "当前非涉密网络，严禁传输处理涉密信息",

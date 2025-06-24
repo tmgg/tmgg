@@ -22,8 +22,6 @@ export * from './FieldOrgTree'
 export * from './FieldAutoTime'
 export * from './FieldRemoteTreeCheckable'
 export * from './FieldPassword'
-export * from './registry'
-export * from  './FieldComponent'
 export * from './FieldInput'
 
 export * from './FieldTree'
@@ -33,3 +31,4 @@ export * from './FieldFileBase64'
 export  * from './upload'
 export  * from './select'
 
+export * from './FieldImageBase64'

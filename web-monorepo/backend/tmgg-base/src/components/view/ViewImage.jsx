@@ -5,16 +5,6 @@ import {SysUtil} from "../../system";
 
 
 export class ViewImage extends React.Component {
-  preview = (url) => {
-    Modal.info({
-      title: '预览图片',
-      width: '70vw',
-      content: <div style={{maxHeight:'70vh',overflow:'auto'}}>
-        <img src={url}  style={{maxWidth: '100%'}}/>
-      </div>,
-
-    });
-  };
 
   render() {
     let vs = this.props.value
@@ -57,4 +47,16 @@ export class ViewImage extends React.Component {
 
     return imgs;
   }
+
+  preview = (url) => {
+    Modal.info({
+      title: '预览图片',
+      width: '70vw',
+      content: <div style={{maxHeight:'70vh',overflow:'auto'}}>
+        <img src={url}  style={{maxWidth: '100%'}}/>
+      </div>,
+
+    });
+  };
+
 }

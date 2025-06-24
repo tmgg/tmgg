@@ -1,43 +1,34 @@
 import React from "react";
-import {fieldRegistry} from "./registry";
-import {Alert, Input, Typography} from "antd";
-import {FieldUploadImage} from "../field";
+import {fieldRegistry, viewRegistry} from "./registry";
+import {Input} from "antd";
+import {ViewText} from "../view";
 
-/**
- *
- * @typedef {Object} FieldComponentProps
- * @property {valueType} string 组件类型
- *
- */
-class FieldValueType extends React.Component{
-
-    render() {
-        const {type, ...rest} = this.props
-
-        switch (type){
-            case 'IMG_BASE64':
-                return  <FieldUploadImage maxCount={1}  {...rest}/>
-            default:
-                return <Input {...rest}></Input>
+function getComponent(registry, type) {
+    if (!type) {
+        return
+    }
+    for (let key in registry) {
+        if (key.toLowerCase() === type.toLowerCase()) {
+            return registry[key]
         }
     }
 }
 
-class ViewValueType extends React.Component{
+function renderField(type, props = {}) {
+    const componentClass = getComponent(fieldRegistry, type) || Input
+    return React.createElement(componentClass, props)
+}
 
-    render() {
-        const {type, value, ...rest} = this.props
+function renderView(type, props = {}) {
+    const componentClass = getComponent(viewRegistry, type) || ViewText
 
-        switch (type){
-            case 'IMG_BASE64':
-                return  <img />
-            default:
-                return <Typography.Text>{value}</Typography.Text>
-        }
-    }
+    return React.createElement(componentClass, props)
 }
 
 export const ValueType = {
-    FieldValueType,
-    ViewValueType
+    renderView,
+    renderField
 }
+
+
+

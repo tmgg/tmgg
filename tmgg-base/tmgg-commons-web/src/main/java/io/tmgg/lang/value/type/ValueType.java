@@ -1,10 +1,10 @@
 package io.tmgg.lang.value.type;
 
 public enum ValueType {
-
+    TEXT, // 字符串，
     BOOLEAN, // 布尔值
 
-    STRING, // 字符串，
+
 
 
     IMG,

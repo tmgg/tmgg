@@ -11,7 +11,7 @@ export class FieldUploadFile extends React.Component {
 
     state = {
         // 传入的参数
-        maxCount: 5,
+        maxCount: 1,
         cropImage: false,
         accept: ".jpg,.png",
 
