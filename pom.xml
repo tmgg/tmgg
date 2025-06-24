@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.4.6</version>
+        <version>3.4.7</version>
     </parent>
 
     <groupId>io.github.tmgg</groupId>
@@ -16,14 +16,13 @@
     <packaging>pom</packaging>
     <description>小型后台管理框架</description>
     <modules>
-        <module>tmgg-system</module>
-
         <module>tmgg-base</module>
+        <module>tmgg-system</module>
+        <module>tmgg-system-plugins</module>
 
         <!-- 以下模块可不参与打包-->
         <module>tmgg-script</module>
         <module>template-backend</module>
-        <module>tmgg-system-plugins</module>
     </modules>
 
 
