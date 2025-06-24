@@ -13,10 +13,6 @@ export default class extends React.Component {
             title: 'id',
             dataIndex: 'id',
         },
-        {
-            title: '存储位置',
-            dataIndex: 'storageType',
-        },
 
         {
             title: '名称',
@@ -90,7 +86,7 @@ export default class extends React.Component {
                     </Form.Item>
 
 
-            
+
                     <Form.Item label='上传时间' name='dateRange'>
                         <FieldDateRange/>
                     </Form.Item>

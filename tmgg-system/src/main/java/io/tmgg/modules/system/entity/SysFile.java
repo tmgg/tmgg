@@ -25,9 +25,6 @@ import java.io.InputStream;
 @FieldNameConstants
 public class SysFile extends BaseEntity {
 
-    // 1 本地，2 minio
-
-    public Integer storageType;
 
 
 

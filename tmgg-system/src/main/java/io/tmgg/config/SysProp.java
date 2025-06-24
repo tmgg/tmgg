@@ -14,9 +14,6 @@ public class SysProp {
 
     public static final String CONFIG_PREFIX = "sys";
 
-
-
-
     /**
      * 不经过xss的路径, 如 /aa/*
      */
@@ -31,9 +28,9 @@ public class SysProp {
 
 
     /**
-     * 框架菜单
+     * 允许上次得文件， 如 docx
      */
-    private List<SysMenu> frameworkMenuList;
+    private String allowUploadFiles = "docx,xlsx,pdf,png,jpg";
 
 
 }

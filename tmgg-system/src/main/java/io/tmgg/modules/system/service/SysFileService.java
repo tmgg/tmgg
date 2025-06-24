@@ -6,7 +6,7 @@ import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import io.tmgg.config.MinioProp;
-import io.tmgg.framework.dbconfig.DbValue;
+import io.tmgg.config.SysProp;
 import io.tmgg.lang.DownloadTool;
 import io.tmgg.modules.system.dao.SysFileDao;
 import io.tmgg.modules.system.entity.SysFile;
@@ -45,6 +45,9 @@ public class SysFileService {
             "jpg", "jpeg", "png", "gif", "pdf",
     };
 
+    @Resource
+    SysProp sysProp;
+
 
     @Resource
     private SysFileDao sysFileDao;
@@ -59,6 +62,7 @@ public class SysFileService {
 
         return baseUrl + PREVIEW_URL_PATTERN.replace("{id}", fileId);
     }
+
     public String getDownloadUrl(String fileId, HttpServletRequest request) {
         String baseUrl = sysConfigService.getOrParseBaseUrl(request);
 
@@ -81,7 +85,6 @@ public class SysFileService {
     }
 
     public SysFile uploadFile(InputStream is, String originalFilename, long size) throws Exception {
-
         log.info("上传文件:{} 大小:{}", originalFilename, FileUtil.readableFileSize(size));
 
 
@@ -90,8 +93,8 @@ public class SysFileService {
 
         if (ObjectUtil.isNotEmpty(originalFilename)) {
             fileSuffix = StrUtil.subAfter(originalFilename, SymbolConstant.PERIOD, true);
+            Assert.state(sysProp.getAllowUploadFiles().contains(fileSuffix), "文件格式" + fileSuffix + "不允许上次");
         }
-
 
         String fileId = IdUtil.getSnowflakeNextIdStr();
 
@@ -106,7 +109,6 @@ public class SysFileService {
         // 存储文件信息
         SysFile sysFile = new SysFile();
         sysFile.setCustomGenerateId(fileId);
-        sysFile.setStorageType(parseStorageType());
         sysFile.setFileOriginName(originalFilename);
         sysFile.setFileSuffix(fileSuffix);
         sysFile.setFileSize(size);
@@ -156,7 +158,7 @@ public class SysFileService {
             resp.setContentType("text/html;charset=utf-8");
             PrintWriter writer = resp.getWriter();
 
-            String downloadUrl =  this.getDownloadUrl(id,req);
+            String downloadUrl = this.getDownloadUrl(id, req);
             writer.write("文件无法预览！ <a href='%s' >点击下载</a>".formatted(downloadUrl));
             writer.flush();
             writer.close();
@@ -183,7 +185,6 @@ public class SysFileService {
     FileOperator fileOperator;
 
 
-
     @PostConstruct
     public void init() {
         if (minioProp.getEnable()) {
@@ -196,17 +197,7 @@ public class SysFileService {
     }
 
 
-    private Integer parseStorageType() {
-        if (fileOperator != null) {
-            if (fileOperator instanceof LocalFileOperator) {
-                return 1;
-            }
-            if (fileOperator instanceof MinioFileOperator) {
-                return 2;
-            }
-        }
-        return null;
-    }
+
 
     public Page<SysFile> findAll(JpaQuery<SysFile> q, Pageable pageable) {
         return sysFileDao.findAll(q, pageable);
