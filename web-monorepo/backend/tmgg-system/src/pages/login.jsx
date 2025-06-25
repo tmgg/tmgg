@@ -17,7 +17,7 @@ export default class login extends React.Component {
 
     componentDidMount() {
         // 内部系统登录
-        let token = PageUtil.currentLocationQuery().token
+        let token = PageUtil.currentParams().token
         if (token) {
             token = window.location.search
             this.submit({token})
@@ -44,8 +44,14 @@ export default class login extends React.Component {
     render() {
         const {siteInfo} = this.state
 
+        const pageStyle = {}
+        if(siteInfo.loginBackground){
+            let url = SysUtil.wrapServerUrl('sysFile/preview/' + siteInfo.loginBackground);
+            pageStyle.backgroundImage = 'url("'+url+'")'
+        }
+
         return (
-            <section className='login-page'>
+            <section className='login-page' style={pageStyle}>
                 <div className="login-content">
                     <h1>{siteInfo.title}</h1>
                     <Form

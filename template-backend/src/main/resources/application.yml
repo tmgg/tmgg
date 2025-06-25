@@ -16,7 +16,6 @@ spring:
 sys:
   cache-dir: /cache/project-cache
 
-
 logging:
   level:
     io.tmgg: info

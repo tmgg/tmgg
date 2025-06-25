@@ -24,7 +24,7 @@
     {
       "id": "sys.fileUploadPath.windows",
       "label": "win本地上传文件路径",
-      "defaultValue": "c:/tmp",
+      "defaultValue": "/data/uploadFiles",
       "$update": false
     },
     {
@@ -56,6 +56,12 @@
     {
       "id": "sys.siteInfo.logo",
       "label": "站点logo",
+      "valueType": "image",
+      "$update": false
+    },
+    {
+      "id": "sys.siteInfo.loginBackground",
+      "label": "登录背景图",
       "valueType": "image",
       "$update": false
     },
