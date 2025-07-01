@@ -2,14 +2,17 @@ import Taro from "@tarojs/taro";
 import {SysUtil} from "./sys";
 
 
-
 function getHeader(){
     const header = {}
-    let token = SysUtil.getToken();
+    let token = getToken();
     if(token){
         header['Authorization'] = "Bearer " + token
     }
     return header
+}
+
+function getToken(){
+  return 'xxx'
 }
 
 function request(url,params,option){
@@ -64,15 +67,6 @@ export class HttpUtil {
         })
     }
 
-    static postForm(url, data) {
-        return request(url,data,{
-            method: 'POST',
-            header: {
-                'content-type': 'application/x-www-form-urlencoded',
-            },
-        })
-
-    }
 
     static uploadFile(url, filePath) {
         return new Promise((resolve, reject) => {
