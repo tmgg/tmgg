@@ -21,7 +21,7 @@ export default class Index extends Component {
   render() {
     return (
       <View className='index'>你好
-        <Button onClick={this.ping}>ping</Button>
+        <Button onClick={this.ping} color='primary'>ping</Button>
       </View>
     )
   }
