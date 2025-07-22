@@ -183,10 +183,8 @@ class Util {
                     }
                 }
 
-                Modal.error({
-                    title: title,
-                    content: msg
-                })
+                Message.error(msg)
+
 
                 reject(e)
             }).finally(() => {

@@ -8,7 +8,7 @@ import {ArrUtil, theme} from "@tmgg/tmgg-commons-lang";
 import dayjs from 'dayjs';
 import 'dayjs/locale/zh-cn';
 
-
+import '../style/global.less'
 import './index.less'
 import {HttpUtil, PageLoading, PageUtil, SysUtil} from "@tmgg/tmgg-base";
 

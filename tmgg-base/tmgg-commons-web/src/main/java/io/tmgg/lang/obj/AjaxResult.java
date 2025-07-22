@@ -1,13 +1,17 @@
 
 package io.tmgg.lang.obj;
 
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.map.MapUtil;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.tmgg.jackson.JsonTool;
 import jakarta.persistence.Transient;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.util.Assert;
 
 import java.util.HashMap;
@@ -120,18 +124,15 @@ public class AjaxResult {
 
     @SuppressWarnings("rawtypes")
     public AjaxResult data(String key, Object value) {
-        if (data != null) {
-            if (data instanceof Map m) {
-                m.put(key, value);
-            } else {
-                throw new IllegalStateException("data字段已被设置，且非Map类型");
-            }
+        if (data == null) {
+            this.data = new HashMap<>();
         } else {
-            Map<String, Object> map = new HashMap<>();
-            map.put(key, value);
-            this.data = map;
+            if (!(data instanceof Map) ) {
+                data = JsonTool.jsonToMapQuietly( JsonTool.toJsonQuietly(data));
+            }
         }
-
+        Map<String, Object> map = (Map<String, Object>) data;
+        map.put(key, value);
         return this;
     }
 

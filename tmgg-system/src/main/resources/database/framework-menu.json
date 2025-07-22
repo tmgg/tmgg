@@ -104,7 +104,7 @@
   }, {
     "id" : "machine",
     "pid" : "sysMonitor",
-    "name" : "环境监控",
+    "name" : "服务监控",
     "perm" : "machine",
     "path" : "/system/machine",
     "seq" : 1
