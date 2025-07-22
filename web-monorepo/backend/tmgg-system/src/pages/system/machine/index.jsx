@@ -1,10 +1,10 @@
-import {Card, Col, Descriptions, Row} from 'antd';
+import {Card, Col, Row} from 'antd';
 import React from 'react';
 
 
 import {HttpUtil, Page} from "@tmgg/tmgg-base";
 
-function Usage(props){
+function Usage(props) {
     const {value} = props;
     return <div style={{color: value > 70 ? 'red' : 'inherit'}}>
         {value} %
@@ -90,7 +90,7 @@ export default class extends React.Component {
                                     用户使用率
                                 </td>
                                 <td>
-                                    <Usage value={this.state.cpuInfo.used} />
+                                    <Usage value={this.state.cpuInfo.used}/>
                                 </td>
                             </tr>
                             <tr>
@@ -98,7 +98,7 @@ export default class extends React.Component {
                                     系统使用率
                                 </td>
                                 <td>
-                                    <Usage value={this.state.cpuInfo.sys} />
+                                    <Usage value={this.state.cpuInfo.sys}/>
                                 </td>
                             </tr>
                             <tr>
@@ -143,11 +143,11 @@ export default class extends React.Component {
                             <tr>
                                 <td>使用率</td>
                                 <td>
-                                    <Usage value={this.state.memInfo.usage} />
+                                    <Usage value={this.state.memInfo.usage}/>
                                 </td>
                                 <td>
 
-                                    <Usage value={this.state.jvmMemInfo.usage} />
+                                    <Usage value={this.state.jvmMemInfo.usage}/>
                                 </td>
                             </tr>
                             </tbody>
@@ -200,12 +200,13 @@ export default class extends React.Component {
 
                 <Col span={12}>
                     <Card title='Java虚拟机信息'>
-                        <table className='tmgg-table'>  <thead>
-                        <tr>
-                            <th>属性</th>
-                            <th>值</th>
-                        </tr>
-                        </thead>
+                        <table className='tmgg-table'>
+                            <thead>
+                            <tr>
+                                <th>属性</th>
+                                <th>值</th>
+                            </tr>
+                            </thead>
                             <tbody>
                             <tr>
                                 <td>
@@ -216,12 +217,14 @@ export default class extends React.Component {
                                 </td>
 
                             </tr>
-                            <tr>   <td>
-                                Java版本
-                            </td>
+                            <tr>
+                                <td>
+                                    Java版本
+                                </td>
                                 <td>
                                     {jvmInfo.version}
-                                </td></tr>
+                                </td>
+                            </tr>
                             <tr>
                                 <td>品牌</td>
                                 <td>{jvmInfo.vendor}</td>
@@ -236,25 +239,27 @@ export default class extends React.Component {
                                 </td>
 
                             </tr>
-                            <tr> <td>
-                                运行时长
-                            </td>
+                            <tr>
+                                <td>
+                                    运行时长
+                                </td>
                                 <td>
                                     {jvmInfo.pastTime}
-                                </td></tr>
+                                </td>
+                            </tr>
                             <tr>
-                                <td colspan="1">
+                                <td >
                                     安装路径
                                 </td>
-                                <td colspan="3">
+                                <td >
                                     {jvmInfo.home}
                                 </td>
                             </tr>
                             <tr>
-                                <td colspan="1">
+                                <td >
                                     项目路径
                                 </td>
-                                <td colspan="3">
+                                <td >
                                     {jvmInfo.userDir}
                                 </td>
                             </tr>
@@ -303,7 +308,7 @@ export default class extends React.Component {
                                     <td>{f.total}</td>
                                     <td>{f.free}</td>
                                     <td>{f.used}</td>
-                                    <td><Usage value={f.usage} /></td>
+                                    <td><Usage value={f.usage}/></td>
                                 </tr>
                             })}
 
