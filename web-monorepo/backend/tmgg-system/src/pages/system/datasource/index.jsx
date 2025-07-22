@@ -3,10 +3,6 @@ import React from 'react';
 
 
 import {HttpUtil, Page} from "@tmgg/tmgg-base";
-
-const {Item} = Descriptions
-
-
 export default class extends React.Component {
 
     state = {
