@@ -21,40 +21,45 @@ import java.util.Map;
 public class SysDatasourceController {
 
 
-
     @Resource
     private DataSource dataSource;
 
+    @HasPermission
+    @GetMapping("config")
+    public AjaxResult config() {
+        Map<String, Object> info = new LinkedHashMap<>();
+
+        if (dataSource instanceof HikariDataSource ds) {
+            info.put("jdbcUrl", ds.getJdbcUrl());
+            info.put("driverClassName", ds.getDriverClassName());
+            info.put("连接池", dataSource.getClass().getName());
+
+            HikariConfigMXBean cfg = ds.getHikariConfigMXBean();
+            info.put("minimumIdle", cfg.getMinimumIdle());
+            info.put("idleTimeout", cfg.getIdleTimeout() / 1000);
+            info.put("maximumPoolSize", cfg.getMaximumPoolSize());
+            info.put("poolName", cfg.getPoolName());
+        }
+
+        return AjaxResult.ok().data(info);
+    }
 
     @HasPermission
     @GetMapping("status")
     public AjaxResult status() {
         Map<String, Object> info = new LinkedHashMap<>();
 
-        if (dataSource instanceof HikariDataSource) {
-            this.parseHikari((HikariDataSource) dataSource, info);
+        if (dataSource instanceof HikariDataSource ds) {
+            HikariPoolMXBean bean = ds.getHikariPoolMXBean();
+
+            info.put("activeConnections", bean.getActiveConnections());
+            info.put("idleConnections", bean.getIdleConnections());
+            info.put("totalConnections", bean.getTotalConnections());
+            info.put("threadsAwaitingConnection", bean.getThreadsAwaitingConnection());
         }
 
         return AjaxResult.ok().data(info);
     }
 
 
-    private void parseHikari(HikariDataSource ds, Map<String, Object> info) {
-        HikariPoolMXBean bean = ds.getHikariPoolMXBean();
-
-        info.put("活动连接数",  bean.getActiveConnections());
-        info.put("空闲连接数",bean.getIdleConnections());
-        info.put("总共连接数",bean.getTotalConnections());
-        info.put("等待获取连接线程数",bean.getThreadsAwaitingConnection());
-
-        info.put("配置-jdbcUrl", ds.getJdbcUrl());
-        info.put("配置-驱动类",ds.getDriverClassName());
-        info.put("配置-连接池类",dataSource.getClass().getName());
-        HikariConfigMXBean cfg = ds.getHikariConfigMXBean();
-        info.put("配置-最小空闲数 (minimumIdle)",cfg.getMinimumIdle());
-        info.put("配置-空闲超时时间秒 (idleTimeout)",  cfg.getIdleTimeout() / 1000);
-        info.put("配置-最大连接数 (maximumPoolSize)",cfg.getMaximumPoolSize());
-        info.put("配置-连接池名称",cfg.getPoolName());
-        bean.softEvictConnections();
-    }
 }
