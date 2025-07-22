@@ -5,6 +5,8 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.text.PasswdStrength;
 import cn.hutool.core.util.StrUtil;
 import io.tmgg.framework.session.SysHttpSessionService;
+import io.tmgg.lang.obj.table.Table;
+import io.tmgg.modules.api.entity.ApiResource;
 import io.tmgg.web.argument.RequestBodyKeys;
 import io.tmgg.web.persistence.BaseEntity;
 import io.tmgg.web.persistence.specification.JpaQuery;
@@ -230,4 +232,32 @@ public class SysUserController {
     }
 
 
+    /**
+     * 下拉表格
+     * @param param
+     * @param pageable
+     * @return
+     */
+    @RequestMapping("tableSelect")
+    public AjaxResult tableSelect(DropdownParam param, Pageable pageable) {
+        JpaQuery<SysUser> q = new JpaQuery<>();
+        q.searchText(param.getSearchText(), SysUser.Fields.name, SysUser.Fields.account);
+
+        List<String> selected = param.getSelected();
+        if(CollUtil.isNotEmpty(selected)){
+            q.in("id", selected);
+        }
+
+        Page<SysUser> page = sysUserService.findAll(q,pageable);
+
+
+
+        Table<SysUser> tb = new Table<>(page);
+        tb.addColumn("标识", "id");
+        tb.addColumn("账号", SysUser.Fields.account).setSorter(true);
+        tb.addColumn("名称", SysUser.Fields.name).setSorter(true);
+
+
+        return AjaxResult.ok().data(tb);
+    }
 }

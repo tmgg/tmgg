@@ -22,6 +22,9 @@ public class RequestTool {
      * @return 基础URL
      */
     public static String getBaseUrl(HttpServletRequest request) {
+        if(request == null){
+            return "/";
+        }
         String scheme = request.getScheme();
         String host = request.getServerName();
         int port = request.getServerPort();

@@ -87,6 +87,12 @@ public class SysRoleService extends BaseService<SysRole> {
         return list.stream().map(SysMenu::getId).collect(Collectors.toList());
     }
 
+    public List<SysUser> findUsers(String roleId) {
+        List<SysUser> userList = sysUserDao.findByRoleId(roleId);
+
+        return userList;
+    }
+
 
     public List<SysRole> findAllByCode(Set<String> roles) {
         JpaQuery<SysRole> q = new JpaQuery<>();

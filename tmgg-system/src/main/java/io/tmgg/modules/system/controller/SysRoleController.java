@@ -8,6 +8,7 @@ import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.obj.Option;
 import io.tmgg.modules.system.entity.SysMenu;
 import io.tmgg.modules.system.entity.SysRole;
+import io.tmgg.modules.system.entity.SysUser;
 import io.tmgg.modules.system.service.SysMenuService;
 import io.tmgg.modules.system.service.SysRoleService;
 import io.tmgg.web.annotion.HasPermission;
@@ -17,6 +18,7 @@ import io.tmgg.web.persistence.BaseController;
 import io.tmgg.web.persistence.BaseEntity;
 import io.tmgg.web.pojo.param.DropdownParam;
 import jakarta.annotation.Resource;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -120,6 +122,13 @@ public class SysRoleController extends BaseController<SysRole> {
     public AjaxResult ownMenu(String id) {
         List<String> checked = sysRoleService.ownMenu(id);
         return AjaxResult.ok().data(checked);
+    }
+
+    @HasPermission("sysRole:save")
+    @RequestMapping("ownUser")
+    public AjaxResult ownUser(String id) {
+        List<SysUser> users = sysRoleService.findUsers(id);
+        return AjaxResult.ok().data(new PageImpl<>(users));
     }
 
 

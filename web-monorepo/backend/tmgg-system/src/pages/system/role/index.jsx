@@ -1,14 +1,25 @@
 import {PlusOutlined} from '@ant-design/icons'
 import {Button, Col, Form, Input, InputNumber, Modal, Popconfirm, Row} from 'antd'
 import React from 'react'
-import {ButtonList, Ellipsis, FieldRadioBoolean, FieldTree, HttpUtil, Page, ProTable} from "@tmgg/tmgg-base";
+import {
+    ButtonList,
+    Ellipsis,
+    FieldRadioBoolean,
+    FieldTableSelect,
+    FieldTree,
+    HttpUtil,
+    Page,
+    ProTable
+} from "@tmgg/tmgg-base";
 
 
 export default class extends React.Component {
 
     state = {
         formValues: {},
-        formOpen: false
+        formOpen: false,
+
+        usersModalOpen:false
     }
 
     formRef = React.createRef()
@@ -84,13 +95,13 @@ export default class extends React.Component {
             title: '操作',
             dataIndex: 'option',
             render: (_, record) => {
-                if(record.builtin){
-                    return
-                }
+
                 return (
                     <ButtonList>
-                        <Button size='small' perm='sysRole:save' onClick={() => this.handleEdit(record)}>编辑</Button>
-                        <Popconfirm perm='sysRole:delete' title='是否确定删除系统角色'
+                        <Button size='small' perm='sysRole:save'  onClick={() => this.handleEditUser(record)}>用户</Button>
+
+                        <Button size='small' perm='sysRole:save' disabled={record.builtin} onClick={() => this.handleEdit(record)}>编辑</Button>
+                        <Popconfirm perm='sysRole:delete' disabled={record.builtin} title='是否确定删除系统角色'
                                     onConfirm={() => this.handleDelete(record)}>
                             <Button size='small'>删除</Button>
                         </Popconfirm>
@@ -114,6 +125,15 @@ export default class extends React.Component {
         })
     }
 
+
+    handleEditUser = record => {
+        this.setState({usersModalOpen: true,formValues: record},()=>{
+
+        })
+    }
+    handleAddUser =()=>{
+        debugger
+    }
 
     onFinish = values => {
         HttpUtil.post('sysRole/save', values).then(rs => {
@@ -165,7 +185,7 @@ export default class extends React.Component {
                                 <Input/>
                             </Form.Item>
 
-                            <Form.Item label='编号' name='code' rules={[{required: true}]}>
+                            <Form.Item label='编码' name='code' rules={[{required: true}]}>
                                 <Input/>
                             </Form.Item>
 
@@ -190,6 +210,41 @@ export default class extends React.Component {
 
 
                 </Form>
+            </Modal>
+
+
+            <Modal title='角色包含的用户'
+                   open={this.state.usersModalOpen}
+                   footer={null}
+                   destroyOnHidden
+                   maskClosable={false}
+                   width={800}
+            >
+
+
+                <ProTable columns={
+                    [
+                        {dataIndex:'account',title:'账号'},
+                        {dataIndex:'name',title:'姓名'},
+                        {dataIndex:'status',title:'状态'},
+                    ]
+                } request={(params)=>{
+                    params.id = this.state.formValues.id
+                    return HttpUtil.pageData('sysRole/ownUser',params)
+                }}
+                          toolBarRender={() => {
+                              return <ButtonList>
+                                  <FieldTableSelect url={'sysUser/tableSelect'} type={'checkbox'} labelKey={'name'} />
+
+                                  <Button perm='sysRole:save' type='primary' onClick={this.handleAddUser}>
+                                       添加用户
+                                  </Button>
+                              </ButtonList>
+                          }}
+                >
+
+                </ProTable>
+
             </Modal>
         </Page>
 

@@ -23,6 +23,7 @@ public class SysUserDao extends BaseDao<SysUser> {
 
 
 
+
     public SysUser findByAccount(String account){
         JpaQuery<SysUser> q = new JpaQuery<>();
         q.eq(SysUser.Fields.account, account);
