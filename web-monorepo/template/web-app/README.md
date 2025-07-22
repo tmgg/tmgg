@@ -1,15 +1,13 @@
-// babel-preset-taro 更多选项和默认值：
-// https://docs.taro.zone/docs/next/babel-config
-module.exports = {
-  presets: [
-    ['taro', {
-      framework: 'react',
-      ts: false,
-      compiler: 'webpack5',
-      useBuiltIns: process.env.TARO_ENV === 'h5' ? 'usage' : false
-    }]
-  ],
-  plugins: [
+# 使用tarojs 
+
+在此基础上，增加了taroify 组件库
+
+- @taroify/core
+- @taroify/icons
+
+并修改 babel.config.js
+```
+plugins: [
     [
       "import",
       {
@@ -31,4 +29,5 @@ module.exports = {
       "@taroify/icons",
     ],
   ],
-}
+```
+
