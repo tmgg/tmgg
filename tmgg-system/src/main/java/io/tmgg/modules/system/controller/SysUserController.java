@@ -260,4 +260,6 @@ public class SysUserController {
 
         return AjaxResult.ok().data(tb);
     }
+
+
 }
