@@ -17,7 +17,7 @@ export default class extends React.Component {
     }
 
     render() {
-        return <Page>
+        return <Page padding>
             <Alert message={<pre>{this.state.summary}</pre>} style={{marginBottom:12}}></Alert>
             <Table
                 title={()=><div>正在执行的Job</div>}
