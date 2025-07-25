@@ -113,9 +113,9 @@ export default class extends React.Component {
                         </Button>
                     </ButtonList>
                 }}
-                request={(params, sort) => {
+                request={(params) => {
                     params.sysDictId = this.props.sysDictId
-                    return HttpUtil.pageData('sysDictItem/page', params, sort);
+                    return HttpUtil.pageData('sysDictItem/page', params);
                 }}
                 columns={this.columns}
                 rowKey='id'
