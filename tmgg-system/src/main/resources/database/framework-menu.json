@@ -33,14 +33,6 @@
     "icon" : "UserOutlined",
     "seq" : 3
   }, {
-    "pid" : "sys",
-    "id" : "assetMenuDir",
-    "name" : "素材管理",
-    "perm" : "assetMenuDir",
-    "type" : "DIR",
-    "seq" : 5,
-    "icon" : "FileImageOutlined"
-  }, {
     "id" : "sysMenu",
     "pid" : "sys",
     "name" : "菜单管理",
@@ -72,21 +64,7 @@
     "path" : "/system/dict",
     "seq" : 5,
     "icon" : "FileSearchOutlined"
-  }, {
-    "pid" : "assetMenuDir",
-    "id" : "sysAsset",
-    "name" : "素材管理",
-    "perm" : "sysAsset",
-    "path" : "/system/asset",
-    "seq" : 1
-  }, {
-    "pid" : "assetMenuDir",
-    "id" : "sysAssetDir",
-    "name" : "文件夹",
-    "perm" : "sysAssetDir",
-    "path" : "/system/asset/dir",
-    "seq" : 2
-  }, {
+  },   {
     "id" : "sysFile",
     "pid" : "sys",
     "name" : "存储文件",
@@ -118,7 +96,7 @@
   }, {
     "id" : "mysqlStatus",
     "pid" : "sysMonitor",
-    "name" : "Mysql",
+    "name" : "Mysql状态",
     "perm" : "mysqlStatus",
     "path" : "/system/mysqlStatus",
     "seq" : 3

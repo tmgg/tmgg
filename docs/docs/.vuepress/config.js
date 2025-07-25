@@ -13,7 +13,7 @@ export default defineUserConfig({
       contributors:false,
 
         repo:'tmgg/tmgg',
-        editLinkPattern:':repo/edit/master/docs/docs/:path',
+        editLinkPattern:':repo/edit/1.1.x/docs/docs/:path',
         editLink:true,
 
         sidebar: [
