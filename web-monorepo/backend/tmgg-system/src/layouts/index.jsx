@@ -75,13 +75,10 @@ class _Layouts extends React.Component {
                     }
 
                     // 缓存路径
-                    let pathname = PageUtil.currentPathname();
+                    let pathname = window.location.href;
                     localStorage.setItem("login_redirect_path", pathname)
 
-                    Modal.error({
-                        title:'登录检测',
-                        content: '未登录，请先登录', ok: '去登录', onOk: this.reLogin
-                    })
+                    this.reLogin()
                 }),
             HttpUtil.get('/getLoginInfo').then(res => {
                 SysUtil.setLoginInfo(res)

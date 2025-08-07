@@ -1,5 +1,5 @@
 import axios from "axios";
-import {message as Message, Modal} from "antd";
+import {message as MsgBox, Modal} from "antd";
 import {SysUtil} from "./sys";
 import qs from 'qs'
 
@@ -118,30 +118,18 @@ class Util {
         return new Promise((resolve, reject) => {
             let hideLoading = null
             if (this._showLoading) {
-                hideLoading = Message.loading('处理中...', 0)
+                hideLoading = MsgBox.loading('处理中...', 0)
             }
 
             axios(axiosConfig).then(response => {
                 const body = response.data;
                 const {success, message, data, code} = body;
 
-                if (this._showMessage) {
-                    if (success !== undefined && message !== undefined) { // 有可能是下载
-                        if (success) {
-                            if (message) {
-                                Message.success(message)
-                            }
-                        } else {
-                            Modal.error({
-                                title: '操作失败',
-                                content: code > 1000 ? code + " " + message : message, // code大于1000时，显示code，方便调试
-                                okText: '确定',
-                                okButtonProps:{
-                                    color: '#ff0',
-                                    type:'primary'
-                                }
-                            })
-                        }
+                if (this._showMessage && success != null && message) { // 有可能是下载
+                    if (success) {
+                        MsgBox.success(message)
+                    } else {
+                        MsgBox.error(message)
                     }
                 }
 
@@ -183,7 +171,7 @@ class Util {
                     }
                 }
 
-                Message.error(msg)
+                MsgBox.error(msg)
 
 
                 reject(e)
