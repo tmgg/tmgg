@@ -4,6 +4,18 @@ import React from "react";
 import SearchForm from "./components/SearchForm";
 import './index.less'
 
+
+function getDefaultPageSize() {
+    const h = window.screen.height;
+    if (h >= 1080) {
+        return 20;
+    }
+    if (h >= 768) {
+        return 15;
+    }
+    return 10;
+}
+
 export class ProTable extends React.Component {
     state = {
         selectedRowKeys: [],
@@ -18,7 +30,7 @@ export class ProTable extends React.Component {
 
         total: 0,
         current: 1, // 当前页
-        pageSize: 10,
+        pageSize: getDefaultPageSize(),
 
         sorter: {
             field: undefined, // 字段
@@ -26,11 +38,11 @@ export class ProTable extends React.Component {
         },
 
         // 服务端返回的一些额外数据
-        extData:{
+        extData: {
             // 总结栏
             summary: null,
             // 自动render相关的，如导出
-            autoRenderEnable:false
+            autoRenderEnable: false
         }
     }
 
@@ -70,10 +82,10 @@ export class ProTable extends React.Component {
 
         this.setState({loading: true})
         request(params).then(rs => {
-            const {content, totalElements,extData} = rs;
+            const {content, totalElements, extData} = rs;
 
             this.setState({dataSource: content, total: parseInt(totalElements)})
-            if(extData){
+            if (extData) {
                 this.setState({extData})
             }
             this.updateSelectedRows(content)
@@ -95,9 +107,9 @@ export class ProTable extends React.Component {
         params._exportType = type
         params.size = -1
 
-        const hide = message.loading('下载中...',0)
-        request(params).then((r)=>{
-           console.log('下载完成(不一定成功)')
+        const hide = message.loading('下载中...', 0)
+        request(params).then((r) => {
+            console.log('下载完成(不一定成功)')
         }).finally(hide)
 
     };
@@ -150,12 +162,12 @@ export class ProTable extends React.Component {
         }
 
         return <div className='tmgg-pro-table'>
-            {toolbarOptions !==false && <Toolbar
+            {toolbarOptions !== false && <Toolbar
                 searchFormNode={searchFormNode}
                 actionRef={actionRef}
                 toolBarRender={this.getToolBarRenderNode(toolBarRender)}
                 onRefresh={() => this.loadData()}
-                onExport={(type)=>this.exportFile(type)}
+                onExport={(type) => this.exportFile(type)}
                 toolbarOptions={toolbarOptions}
                 onSearch={this.onSearch}
                 loading={this.state.loading}
@@ -237,7 +249,7 @@ export class ProTable extends React.Component {
     }
 
     changeFormValues = (values) => {
-        if(this.formRef.current){
+        if (this.formRef.current) {
             this.formRef.current.resetFields()
             this.formRef.current.setFieldsValue(values)
             this.formRef.current.submit()
