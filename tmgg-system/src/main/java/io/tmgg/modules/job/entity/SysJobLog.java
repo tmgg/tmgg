@@ -29,6 +29,9 @@ public class SysJobLog extends BaseEntity {
     @Column(columnDefinition = DBConstants.TYPE_BLOB)
     String result;
 
+    // 是否成功
+    Boolean success;
+
     Long jobRunTime;
 
 

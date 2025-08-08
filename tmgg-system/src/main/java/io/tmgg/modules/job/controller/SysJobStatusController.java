@@ -2,16 +2,17 @@ package io.tmgg.modules.job.controller;
 
 import cn.hutool.core.date.DateUtil;
 import io.tmgg.lang.obj.AjaxResult;
+import io.tmgg.modules.job.service.SysJobLogService;
 import io.tmgg.web.annotion.HasPermission;
 import jakarta.annotation.Resource;
-import org.quartz.*;
+import org.quartz.JobDetail;
+import org.quartz.JobExecutionContext;
+import org.quartz.Scheduler;
+import org.quartz.SchedulerException;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @RequestMapping("jobStatus")
@@ -21,17 +22,19 @@ public class SysJobStatusController {
     @Resource
     private Scheduler scheduler;
 
+    @Resource
+    private SysJobLogService sysJobLogService;
+
 
     @HasPermission
     @RequestMapping("info")
     public AjaxResult info() throws SchedulerException {
-        Map<String,Object> rs = new HashMap<>();
+        Map<String, Object> rs = new HashMap<>();
         List<JobExecutionContext> list = scheduler.getCurrentlyExecutingJobs();
 
 
-
         String summary = scheduler.getMetaData().getSummary();
-        rs.put("summary",summary);
+        rs.put("summary", summary);
 
 
         List<Map<String, Object>> mapList = new ArrayList<>();
@@ -47,11 +50,19 @@ public class SysJobStatusController {
 
             mapList.add(map);
         }
-        rs.put("list",mapList);
-
-
+        rs.put("list", mapList);
 
         return AjaxResult.ok().data(rs);
     }
+
+    @HasPermission(label = "统计")
+    @RequestMapping("statsTotal")
+    public AjaxResult statsTotal() {
+        Date begin = DateUtil.yesterday();
+        Date end = new Date();
+        return AjaxResult.ok().data(sysJobLogService.statsTotal(begin, end));
+
+    }
+
 
 }

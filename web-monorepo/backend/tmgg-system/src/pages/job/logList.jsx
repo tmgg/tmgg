@@ -39,6 +39,15 @@ export default class extends React.Component {
 
     },
     {
+      title: '执行成功',
+      dataIndex: 'success',
+      render:v=>{
+        if(v != null){
+          return v ? '成功':'异常'
+        }
+      }
+    },
+    {
       title: '结果',
       dataIndex: 'result',
       width:300

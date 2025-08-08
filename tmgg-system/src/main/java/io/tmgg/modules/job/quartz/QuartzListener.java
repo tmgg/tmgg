@@ -65,7 +65,8 @@ public class QuartzListener implements JobListener {
         String jobName = context.getJobDetail().getKey().getName();
         String result = (String) context.getResult();
 
-        if (jobException != null) {
+        boolean error = jobException != null;
+        if (error) {
             result = jobException.getMessage();
             Logger log = JobTool.getLogger();
             log.error("任务执行异常", jobException);
@@ -80,36 +81,13 @@ public class QuartzListener implements JobListener {
         if(jobLog != null){ // 可能被手动清理
             jobLog.setJobRunTime(context.getJobRunTime());
             jobLog.setEndTime(now);
-
             jobLog.setResult(result);
+            jobLog.setSuccess(!error);
             sysJobLogDao.save(jobLog);
         }
 
         MDC.clear();
     }
-
-    private static String getStacktrace(JobExecutionContext context, JobExecutionException jobException) {
-        StringWriter out = new StringWriter();
-        out.write("任务key：" + context.getJobDetail().getKey());
-        out.write("\r\n");
-        out.write("任务类名:" + context.getJobDetail().getJobClass().getName());
-        out.write("\r\n");
-
-        out.write("任务触发时间：" + context.getFireTime());
-        out.write("\r\n");
-
-        out.write("异常：" + jobException.getMessage());
-        out.write("\r\n");
-        out.write("\r\n");
-
-        PrintWriter pw = new PrintWriter(out);
-        jobException.printStackTrace(pw);
-        String msg = out.toString();
-        IOUtils.closeQuietly(out, pw);
-        return msg;
-
-    }
-
 
 
 }
