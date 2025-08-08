@@ -108,7 +108,7 @@ public class SysFileService {
 
         // 存储文件信息
         SysFile sysFile = new SysFile();
-        sysFile.setCustomGenerateId(fileId);
+        sysFile.setAssignedId(fileId);
         sysFile.setFileOriginName(originalFilename);
         sysFile.setFileSuffix(fileSuffix);
         sysFile.setFileSize(size);

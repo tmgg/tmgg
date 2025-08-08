@@ -2,7 +2,6 @@ package io.tmgg.mgmt;
 
 import io.tmgg.web.persistence.BaseEntity;
 import io.tmgg.web.persistence.id.CustomId;
-import io.tmgg.web.persistence.id.IdStyle;
 import jakarta.persistence.Entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,10 +13,10 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 @Getter
 @Setter
 @NoArgsConstructor
-@CustomId(prefix = Teacher.PREFIX ,style = IdStyle.DAILY_SEQ,length = 16)
+@CustomId(prefix = Teacher.PREFIX ,style = CustomId.Style.DAILY_SEQ,length = 16)
 public class Teacher extends BaseEntity {
 
-    public static final String PREFIX = "USR_";
+    public static final String PREFIX = "TC_";
 
 
     String name;

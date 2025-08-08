@@ -1,14 +1,13 @@
 package io.tmgg.web.persistence;
 
 import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.bean.copier.CopyOptions;
-import io.tmgg.lang.BeanTool;
 import io.tmgg.web.persistence.specification.ExpressionTool;
 import io.tmgg.web.persistence.specification.JpaQuery;
 import io.tmgg.web.persistence.specification.Selector;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.Resource;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.OptimisticLockException;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.criteria.*;
 import jakarta.validation.ConstraintViolation;
@@ -16,7 +15,6 @@ import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Validator;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.data.domain.*;
 import org.springframework.data.jpa.domain.Specification;
@@ -27,11 +25,9 @@ import org.springframework.data.repository.query.FluentQuery;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.*;
-import java.util.function.BiPredicate;
 import java.util.function.Function;
 
 /**
@@ -180,29 +176,33 @@ public class BaseDao<T extends PersistEntity> {
     public T findOne(Example<T> example) {
         return rep.findOne(example).orElse(null);
     }
+
     public T findOne(Specification<T> spec) {
         return rep.findOne(spec).orElse(null);
     }
+
     public T findOne(T t) {
         return rep.findById(t.getId()).orElse(null);
     }
-    public T findOne(String key,Object value){
+
+    public T findOne(String key, Object value) {
         JpaQuery<T> q = new JpaQuery<>();
-        q.eq(key,value);
-        return this.findOne(q);
-    }
-    public T findOne(String key,Object value,String key2,Object value2){
-        JpaQuery<T> q = new JpaQuery<>();
-        q.eq(key,value);
-        q.eq(key2,value2);
+        q.eq(key, value);
         return this.findOne(q);
     }
 
-    public T findOne(String key,Object value,String key2,Object value2,String key3,Object value3){
+    public T findOne(String key, Object value, String key2, Object value2) {
         JpaQuery<T> q = new JpaQuery<>();
-        q.eq(key,value);
-        q.eq(key2,value2);
-        q.eq(key3,value3);
+        q.eq(key, value);
+        q.eq(key2, value2);
+        return this.findOne(q);
+    }
+
+    public T findOne(String key, Object value, String key2, Object value2, String key3, Object value3) {
+        JpaQuery<T> q = new JpaQuery<>();
+        q.eq(key, value);
+        q.eq(key2, value2);
+        q.eq(key3, value3);
         return this.findOne(q);
     }
 
@@ -249,40 +249,14 @@ public class BaseDao<T extends PersistEntity> {
     @Transactional
     public T save(T entity) {
         Assert.notNull(entity, "Entity must not be null");
-        String id = entity.getId();
 
+        // 新增
         if (this.entityInformation.isNew(entity)) {
             this.entityManager.persist(entity);
             return entity;
         }
 
-        // 从3.3升级到3.4后， hibernate也升级了，不能新增是指定id，这里使用customId替换下
-        if (!existsById(id)) {
-            entity.setCustomGenerateId(id);
-            entity.setId(null);
-            this.entityManager.persist(entity);
-            return entity;
-        }
-
         return this.entityManager.merge(entity);
-    }
-
-    /**
-     * 先判断是否存在，然后再保存
-     *
-     * @param entity
-     * @return
-     */
-    @Transactional
-    public T saveIfAbsent(T entity) {
-        String id = entity.getId();
-        if (!existsById(id)) {
-            entity.setCustomGenerateId(id);
-            entity.setId(null);
-            this.entityManager.persist(entity);
-        }
-
-        return entity;
     }
 
     @Transactional
@@ -318,9 +292,8 @@ public class BaseDao<T extends PersistEntity> {
     }
 
     /**
-     *
      * 更新指定字段
-     *
+     * <p>
      * 对比save方法更新的时所有字段，只更新指定字段
      *
      * @gendoc
@@ -336,19 +309,18 @@ public class BaseDao<T extends PersistEntity> {
 
         for (String fieldName : fieldsToUpdate) {
             Object fieldValue = BeanUtil.getFieldValue(entity, fieldName);
-            BeanUtil.setFieldValue(db, fieldName,fieldValue);
+            BeanUtil.setFieldValue(db, fieldName, fieldValue);
         }
     }
 
 
-
     /**
-     *
      * 直接更新指定字段
      * 不会先find，再更新
      * 对比save方法更新的时所有字段，改方法只更新指定字段
-     *
+     * <p>
      * 注意：主要用于更新单个实体的字段， 不能更新多对多等关联关系
+     *
      * @gendoc
      */
     @Transactional
@@ -363,9 +335,9 @@ public class BaseDao<T extends PersistEntity> {
         Root<T> root = update.from(cls);
 
         for (String fieldName : fieldsToUpdate) {
-            Object value = BeanUtil.getFieldValue(entity, fieldName) ;
+            Object value = BeanUtil.getFieldValue(entity, fieldName);
             // 校验
-            Set<ConstraintViolation<T>> entityViolations = validator.validateValue(cls,fieldName,value);
+            Set<ConstraintViolation<T>> entityViolations = validator.validateValue(cls, fieldName, value);
             if (!entityViolations.isEmpty()) {
                 throw new ConstraintViolationException(entityViolations);
             }
@@ -385,6 +357,7 @@ public class BaseDao<T extends PersistEntity> {
     /**
      * 保存数据
      * 和save的区别是不再判断实体是否存在
+     *
      * @param entity
      * @return
      */

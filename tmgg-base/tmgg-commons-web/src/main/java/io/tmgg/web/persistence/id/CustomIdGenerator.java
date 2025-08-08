@@ -15,10 +15,7 @@ import org.hibernate.type.Type;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Member;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.Properties;
-import java.util.UUID;
+import java.util.*;
 
 import static cn.hutool.core.date.DatePattern.PURE_DATETIME_MS_PATTERN;
 
@@ -57,20 +54,12 @@ public class CustomIdGenerator implements IdentifierGenerator {
         switch (cfg.style()) {
             case DAILY_SEQ -> generator = new DailyTableGenerator(idLen);
             case UUID -> generator = (session, object) -> uuidV7();
-            case DATETIME_UUID -> generator = (session, object) -> time() + uuidV7();
+            case DATETIME_UUID -> generator = (session, object) -> getTime() + uuidV7();
             case DATETIME_SEQ ->
-                    generator = (session, object) -> time() + StrUtil.padPre(String.valueOf(count), idLen - TIME_LEN, '0');
+                    generator = (session, object) -> getTime() + StrUtil.padPre(String.valueOf(count), idLen - TIME_LEN, '0');
         }
     }
 
-    /**
-     * 基于时间序列，对mysql好
-     * @return
-     */
-    private static String uuidV7() {
-        UUID uuid = UuidCreator.getTimeOrderedEpochPlus1();
-        return  uuid.toString().replace("-","");
-    }
 
 
     @Override
@@ -88,6 +77,8 @@ public class CustomIdGenerator implements IdentifierGenerator {
         generator.configure(type, parameters, serviceRegistry);
     }
 
+
+
     @Override
     public Object generate(SharedSessionContractImplementor session, Object entity) {
         String id = getEntityId(entity);
@@ -104,7 +95,7 @@ public class CustomIdGenerator implements IdentifierGenerator {
     }
 
 
-    private static String time() {
+    private static String getTime() {
         return DateUtil.format(new Date(), PURE_DATETIME_MS_PATTERN);
     }
 
@@ -134,8 +125,8 @@ public class CustomIdGenerator implements IdentifierGenerator {
                 return e.getId();
             }
 
-            if (e.getCustomGenerateId() != null) {
-                return e.getCustomGenerateId();
+            if (e.getAssignedId() != null) {
+                return e.getAssignedId();
             }
         }
         return null;
@@ -166,4 +157,12 @@ public class CustomIdGenerator implements IdentifierGenerator {
     }
 
 
+    /**
+     * 基于时间序列，对mysql好
+     * @return
+     */
+    private static String uuidV7() {
+        UUID uuid = UuidCreator.getTimeOrderedEpochPlus1();
+        return  uuid.toString().replace("-","");
+    }
 }

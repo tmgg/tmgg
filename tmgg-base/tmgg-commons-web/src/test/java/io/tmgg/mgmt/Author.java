@@ -2,7 +2,6 @@ package io.tmgg.mgmt;
 
 import io.tmgg.web.persistence.BaseEntity;
 import io.tmgg.web.persistence.id.CustomId;
-import io.tmgg.web.persistence.id.IdStyle;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
@@ -18,7 +17,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-@CustomId(prefix = Author.PREFIX ,style = IdStyle.DAILY_SEQ)
+@CustomId(prefix = Author.PREFIX ,style = CustomId.Style.DAILY_SEQ)
 public class Author extends BaseEntity {
 
     public static final String PREFIX = "STU";

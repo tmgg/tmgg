@@ -15,11 +15,11 @@ public interface PersistEntity {
      * @return
      */
     @JsonIgnore
-    default String getCustomGenerateId() {
+    default String getAssignedId() {
         return null;
     }
 
-    default void setCustomGenerateId(String id) {
+    default void setAssignedId(String id) {
 
     }
 

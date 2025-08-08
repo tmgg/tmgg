@@ -42,7 +42,7 @@ public abstract class BaseEntity implements PersistEntity, Serializable {
 
 
     @Id
-    @CustomId
+    @CustomId(style = CustomId.Style.DATETIME_SEQ)
     @Column(length = DBConstants.LEN_ID)
     private String id;
 
@@ -197,12 +197,12 @@ public abstract class BaseEntity implements PersistEntity, Serializable {
 
 
     @Override
-    public String getCustomGenerateId() {
-        return (String) extData.get("customerId");
+    public String getAssignedId() {
+        return (String) extData.get("assignedId");
     }
 
     @Override
-    public void setCustomGenerateId(String id) {
-        extData.put("customerId",id);
+    public void setAssignedId(String id) {
+        extData.put("assignedId",id);
     }
 }
