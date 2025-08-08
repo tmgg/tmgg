@@ -195,14 +195,20 @@ public abstract class BaseEntity implements PersistEntity, Serializable {
         return hashCode;
     }
 
+    /**
+     * 新增时，自定义ID。
+     */
+    @Transient
+    String assignedId;
+
 
     @Override
     public String getAssignedId() {
-        return (String) extData.get("assignedId");
+        return assignedId;
     }
 
     @Override
     public void setAssignedId(String id) {
-        extData.put("assignedId",id);
+        this.assignedId = null;
     }
 }
