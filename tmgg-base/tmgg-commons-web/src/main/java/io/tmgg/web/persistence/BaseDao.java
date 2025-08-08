@@ -256,6 +256,15 @@ public class BaseDao<T extends PersistEntity> {
             return entity;
         }
 
+        // 有id时也有可能时新增，即新增时指定id
+        String id = entity.getId();
+        if(findById(id) != null){
+            entity.setAssignedId(id);
+            entity.setId(null);
+            entityManager.persist(entity);
+            return entity;
+        }
+
         return this.entityManager.merge(entity);
     }
 
