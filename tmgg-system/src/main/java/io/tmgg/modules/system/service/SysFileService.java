@@ -204,6 +204,9 @@ public class SysFileService {
     }
 
     public boolean isFileExist(String id) {
+        if(StrUtil.isEmpty(id)){
+            return false;
+        }
         SysFile file = sysFileDao.findOne(id);
         if(file == null){
             return false;
