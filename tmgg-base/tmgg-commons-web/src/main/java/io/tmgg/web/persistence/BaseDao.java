@@ -259,7 +259,7 @@ public class BaseDao<T extends PersistEntity> {
         // 有id时也有可能时新增，即新增时指定id
         // 例如json文件初始化到数据库时
         String id = entity.getId();
-        if(findById(id) != null){
+        if(findById(id) == null){
             entity.setAssignedId(id);
             entity.setId(null);
             entityManager.persist(entity);
