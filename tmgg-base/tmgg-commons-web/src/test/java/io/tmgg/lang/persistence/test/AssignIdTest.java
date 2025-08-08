@@ -25,20 +25,14 @@ public class AssignIdTest {
     public void prefixTest() {
         Teacher t = new Teacher();
         String id = "001";
-        t.setId(id);
+        t.setAssignedId(id);
         t.setName("张老师");
         teacherDao.save(t);
 
         Assertions.assertTrue( teacherDao.existsById(id));
 
 
-        Teacher t2 = teacherDao.findOne(id);
-        t2.setName("王老师");
 
-        teacherDao.save(t2);
-
-
-        System.out.println(teacherDao.findAll());
 
     }
 
