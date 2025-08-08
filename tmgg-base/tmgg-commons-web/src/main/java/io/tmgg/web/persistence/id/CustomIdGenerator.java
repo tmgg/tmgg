@@ -1,8 +1,8 @@
 package io.tmgg.web.persistence.id;
 
 import cn.hutool.core.date.DateUtil;
-import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
+import com.github.f4b6a3.uuid.UuidCreator;
 import io.tmgg.web.persistence.PersistEntity;
 import io.tmgg.web.persistence.id.impl.DailyTableGenerator;
 import org.hibernate.boot.model.relational.Database;
@@ -18,15 +18,16 @@ import java.lang.reflect.Member;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Properties;
+import java.util.UUID;
 
 import static cn.hutool.core.date.DatePattern.PURE_DATETIME_MS_PATTERN;
 
 /**
  * id生成策略
  * 默认的id生成策略是uuid， 可通过实体类型上增加注解@CustomId改变
- *
+ * <p>
  * 支持自定义前缀，长度，类型等
- *
+ * <p>
  * 支持样式如下，具体可参考IdStyle枚举
  * - UUID
  * - DATETIME_UUID
@@ -55,25 +56,36 @@ public class CustomIdGenerator implements IdentifierGenerator {
 
         switch (cfg.style()) {
             case DAILY_SEQ -> generator = new DailyTableGenerator(idLen);
-            case UUID -> generator = (session, object) -> IdUtil.simpleUUID();
-            case DATETIME_UUID -> generator = (session, object) -> time() + IdUtil.simpleUUID();
-            case DATETIME_SEQ -> generator = (session, object) -> time() +  StrUtil.padPre( String.valueOf(count),idLen-TIME_LEN,'0')  ;
+            case UUID -> generator = (session, object) -> uuidV7();
+            case DATETIME_UUID -> generator = (session, object) -> time() + uuidV7();
+            case DATETIME_SEQ ->
+                    generator = (session, object) -> time() + StrUtil.padPre(String.valueOf(count), idLen - TIME_LEN, '0');
         }
     }
 
+    /**
+     * 基于时间序列，对mysql好
+     * @return
+     */
+    private static String uuidV7() {
+        UUID uuid = UuidCreator.getTimeOrderedEpochPlus1();
+        return  uuid.toString().replace("-","");
+    }
+
+
     @Override
     public void initialize(SqlStringGenerationContext context) {
-            generator.initialize(context);
+        generator.initialize(context);
     }
 
     @Override
     public void registerExportables(Database database) {
-            generator.registerExportables(database);
+        generator.registerExportables(database);
     }
 
     @Override
     public void configure(Type type, Properties parameters, ServiceRegistry serviceRegistry) {
-            generator.configure(type, parameters, serviceRegistry);
+        generator.configure(type, parameters, serviceRegistry);
     }
 
     @Override
@@ -88,14 +100,13 @@ public class CustomIdGenerator implements IdentifierGenerator {
         String prefix = cfg.prefix();
         Object nextId = generator.generate(session, entity);
 
-        return joinId(prefix,  String.valueOf(nextId));
+        return joinId(prefix, String.valueOf(nextId));
     }
 
 
     private static String time() {
         return DateUtil.format(new Date(), PURE_DATETIME_MS_PATTERN);
     }
-
 
 
     private String joinId(String prefix, String suffix) {
@@ -123,7 +134,7 @@ public class CustomIdGenerator implements IdentifierGenerator {
                 return e.getId();
             }
 
-            if(e.getCustomGenerateId() != null){
+            if (e.getCustomGenerateId() != null) {
                 return e.getCustomGenerateId();
             }
         }
