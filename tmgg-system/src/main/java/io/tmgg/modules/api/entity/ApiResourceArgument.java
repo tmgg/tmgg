@@ -13,24 +13,16 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldNameConstants;
 
-@Entity
 @Getter
 @Setter
-@FieldNameConstants
-@Table(name = "sys_api_resource_argument")
-public class ApiResourceArgument extends BaseEntity {
+public class ApiResourceArgument  {
 
-    @NotNull
-            @Column(length = DBConstants.LEN_NAME)
     String name;
 
-    @NotNull
-    @Column(length = DBConstants.LEN_NAME)
     String type;
     Integer len;
 
 
-    @Column(name = "desc_")
     String desc;
 
 
@@ -41,12 +33,7 @@ public class ApiResourceArgument extends BaseEntity {
 
     Boolean required;
 
-    @JsonIgnore
-    @NotNull
-    @ManyToOne
-    ApiResource resource;
 
-    @NotNull
-    @Column(name = "index_")
+
     Integer index;
 }

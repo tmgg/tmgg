@@ -13,35 +13,22 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldNameConstants;
 
-@Entity
 @Getter
 @Setter
-@FieldNameConstants
-@Table(name = "sys_api_resource_return argument")
-public class ApiResourceArgumentReturn extends BaseEntity {
+public class ApiResourceArgumentReturn {
 
 
-    @Column(length = DBConstants.LEN_NAME)
     String name;
 
-    @Column(length = DBConstants.LEN_NAME)
     String type;
     Integer len;
 
 
-    @Column(name = "desc_")
     String desc;
 
 
-    @Remark("示例")
     String demo;
 
     Boolean required;
-
-    @JsonIgnore
-    @NotNull
-    @ManyToOne
-    ApiResource resource;
-
 
 }

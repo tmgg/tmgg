@@ -2,7 +2,6 @@ package io.tmgg.modules.auth;
 
 import io.tmgg.framework.cache.CacheService;
 import io.tmgg.framework.dbconfig.DbValue;
-import jakarta.annotation.Resource;
 import org.ehcache.Cache;
 import org.springframework.stereotype.Service;
 
@@ -25,8 +24,8 @@ public class LoginAttemptService {
 
 
     public LoginAttemptService(CacheService cacheService){
-        loginAttempts = cacheService.newCache("loginAttempts", Integer.class, 100, 2, Duration.ofDays(1));
-        lockedAccounts = cacheService.newCache("lockedAccounts", Long.class, 1000, 1, Duration.ofDays(1));
+        loginAttempts = cacheService.create("loginAttempts", Integer.class, 100, 2, Duration.ofDays(1));
+        lockedAccounts = cacheService.create("lockedAccounts", Long.class, 1000, 1, Duration.ofDays(1));
     }
 
 

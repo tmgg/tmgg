@@ -4,6 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.tmgg.commons.poi.excel.annotation.Excel;
 import io.tmgg.web.persistence.BaseEntity;
 import io.tmgg.web.persistence.DBConstants;
+import io.tmgg.web.persistence.converter.BaseToListConverter;
+import io.tmgg.web.persistence.converter.ToListComplexConverter;
+import io.tmgg.web.persistence.converter.ToListConverter;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -34,12 +37,14 @@ public class ApiResource extends BaseEntity {
     @Column(length = DBConstants.LEN_NAME)
     String beanName;
 
+    @Lob
     @JsonIgnore
-    @OneToMany(mappedBy = "resource",cascade = CascadeType.ALL,orphanRemoval=true)
+    @Convert(converter = C1.class)
     List<ApiResourceArgument> parameterList;
 
+    @Lob
     @JsonIgnore
-    @OneToMany(mappedBy = "resource",cascade = CascadeType.ALL,orphanRemoval=true)
+    @Convert(converter = C2.class)
     List<ApiResourceArgumentReturn> returnList;
 
 
@@ -53,4 +58,8 @@ public class ApiResource extends BaseEntity {
     @Transient
     @JsonIgnore
     Method method;
+
+
+    public static class C1 extends BaseToListConverter<ApiResourceArgument> {}
+    public static class C2 extends BaseToListConverter<ApiResourceArgumentReturn> {}
 }

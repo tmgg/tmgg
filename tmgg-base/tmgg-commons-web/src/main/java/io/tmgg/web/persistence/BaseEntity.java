@@ -202,13 +202,5 @@ public abstract class BaseEntity implements PersistEntity, Serializable {
     String assignedId;
 
 
-    @Override
-    public String getAssignedId() {
-        return assignedId;
-    }
 
-    @Override
-    public void setAssignedId(String id) {
-        this.assignedId = null;
-    }
 }

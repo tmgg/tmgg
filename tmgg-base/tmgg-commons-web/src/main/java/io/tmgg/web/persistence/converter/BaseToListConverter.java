@@ -21,7 +21,7 @@ public  class BaseToListConverter<T> implements AttributeConverter<List<T>, Stri
 
     @Override
     public List<T> convertToEntityAttribute(String dbData) {
-        if (dbData == null || dbData.length() == 0) {
+        if (dbData == null || dbData.isEmpty()) {
             return null;
         }
 

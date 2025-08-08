@@ -1,6 +1,8 @@
 package io.tmgg.modules.api.service;
 
 import cn.hutool.core.collection.CollUtil;
+import io.tmgg.framework.cache.Cache;
+import io.tmgg.framework.cache.CacheService;
 import io.tmgg.web.persistence.BaseService;
 import io.tmgg.modules.api.dao.OpenApiResourceDao;
 import io.tmgg.modules.api.entity.ApiResource;
@@ -22,6 +24,7 @@ public class ApiResourceService extends BaseService<ApiResource> {
     @Resource
     private OpenApiResourceDao dao;
 
+
     private final Map<String, Method> map = new HashMap<>();
 
     public Method findMethodByAction(String action) {
@@ -35,21 +38,6 @@ public class ApiResourceService extends BaseService<ApiResource> {
 
     @Transactional
     public void add(ApiResource r) {
-        List<ApiResourceArgumentReturn> returnList = r.getReturnList();
-        List<ApiResourceArgument> parameterList = r.getParameterList();
-
-        if (CollUtil.isNotEmpty(returnList)) {
-            for (ApiResourceArgumentReturn a : returnList) {
-                a.setResource(r);
-            }
-        }
-
-        if (CollUtil.isNotEmpty(parameterList)) {
-            for (ApiResourceArgument a : parameterList) {
-                a.setResource(r);
-            }
-        }
-
         dao.save(r);
         map.put(r.getUri(), r.getMethod());
     }

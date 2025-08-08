@@ -1,6 +1,7 @@
 package io.tmgg.init;
 
 import cn.hutool.core.util.ArrayUtil;
+import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import io.tmgg.Build;
@@ -148,7 +149,7 @@ public class FrameworkDataInit implements CommandLineRunner {
         }
 
         if (StrUtil.isBlankIfStr(admin.getPassword())) {
-            String defaultPassWord = sysConfigService.getDefaultPassWord();
+            String defaultPassWord = IdUtil.fastSimpleUUID();
             admin.setPassword(PasswordTool.encode(defaultPassWord));
             log.info("-------------------------------------------");
             log.info("管理员密码为 {}", defaultPassWord);

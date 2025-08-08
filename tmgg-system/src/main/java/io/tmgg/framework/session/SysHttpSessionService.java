@@ -27,7 +27,7 @@ public class SysHttpSessionService {
 
     public SysHttpSessionService(CacheService cacheService) {
         Duration timeout = Duration.ofDays(1); // 缓存这里放宽泛点, 由MySessionRepository精确控制
-        cache = cacheService.newCache(CACHE_NAME, SysHttpSession.class, 1000, 10, timeout);
+        cache = cacheService.create(CACHE_NAME, SysHttpSession.class, 1000, 10, timeout);
     }
 
 
