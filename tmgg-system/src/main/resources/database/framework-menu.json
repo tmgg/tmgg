@@ -118,7 +118,7 @@
     "id" : "jobMgr",
     "pid" : "sys",
     "type" : "DIR",
-    "name" : "定时作业",
+    "name" : "作业调度",
     "seq" : 7,
     "icon" : "FieldTimeOutlined"
   }, {

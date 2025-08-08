@@ -14,7 +14,7 @@ import jakarta.annotation.Resource;
 import java.util.List;
 
 /***
- * 定时作业
+ * 作业调度
  *
  *
  * @see  io.tmgg.modules.job.builtin.DemoJob

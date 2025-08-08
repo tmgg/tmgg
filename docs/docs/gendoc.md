@@ -173,7 +173,7 @@ public class PingApi {
 
 ```
 
-##  定时作业
+##  作业调度
 
 示例代码
 ```java

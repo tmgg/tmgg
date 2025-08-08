@@ -174,7 +174,7 @@ export default class extends React.Component {
             />
 
 
-            <Modal title='定时作业'
+            <Modal title='作业调度'
                    open={this.state.formOpen}
                    destroyOnHidden
                    width={800}
