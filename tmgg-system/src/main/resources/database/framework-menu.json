@@ -124,7 +124,7 @@
   }, {
     "id" : "job",
     "pid" : "jobMgr",
-    "name" : "作业管理",
+    "name" : "作业定义",
     "perm" : "job",
     "path" : "/job",
     "seq" : 1,
@@ -140,7 +140,7 @@
   }, {
     "id" : "jobStatus",
     "pid" : "jobMgr",
-    "name" : "实时状态",
+    "name" : "作业监控",
     "perm" : "jobStatus",
     "path" : "/job/status",
     "seq" : 3,
