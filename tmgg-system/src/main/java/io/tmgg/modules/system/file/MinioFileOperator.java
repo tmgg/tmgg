@@ -56,4 +56,13 @@ public class MinioFileOperator implements FileOperator {
         client.removeObject(RemoveObjectArgs.builder().bucket(bucketName).object(key).build());
     }
 
+    @Override
+    public boolean exist(String key) {
+        try {
+            StatObjectResponse resp = client.statObject(StatObjectArgs.builder().bucket(bucketName).object(key).build());
+            return true;
+        }catch (Exception e){
+            return false;
+        }
+    }
 }

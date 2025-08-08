@@ -30,4 +30,6 @@ public interface FileOperator {
     void delete(String key) throws Exception;
 
 
+    boolean exist(String key) ;
+
 }

@@ -10,10 +10,7 @@ import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.obj.Route;
 import io.tmgg.modules.system.entity.SysMenu;
 import io.tmgg.modules.system.entity.SysRole;
-import io.tmgg.modules.system.service.SysConfigService;
-import io.tmgg.modules.system.service.SysMenuBadgeService;
-import io.tmgg.modules.system.service.SysMenuService;
-import io.tmgg.modules.system.service.SysRoleService;
+import io.tmgg.modules.system.service.*;
 import io.tmgg.web.perm.SecurityUtils;
 import io.tmgg.web.perm.Subject;
 import jakarta.annotation.Resource;
@@ -46,6 +43,8 @@ public class CommonController {
     @Resource
     SysMenuBadgeService sysMenuBadgeService;
 
+    @Resource
+    SysFileService sysFileService;
 
     /**
      * 站点信息， 非登录情况下使用
@@ -54,6 +53,13 @@ public class CommonController {
     @GetMapping("site-info")
     public AjaxResult siteInfo() {
         Map<String, Object> siteInfo = sysConfigService.findSiteInfo();
+        String fileId = (String) siteInfo.get("loginBackground");
+        boolean fileExist = sysFileService.isFileExist(fileId);
+        if(!fileExist){
+            siteInfo.remove("loginBackground");
+        }
+
+
         return AjaxResult.ok().data(siteInfo);
     }
 

@@ -140,7 +140,8 @@ public class SysConfigService extends BaseService<SysConfig> {
 
 
     public Map<String, Object> findSiteInfo() {
-        return this.findByPrefix("sys.siteInfo");
+        Map<String, Object> map = this.findByPrefix("sys.siteInfo");
+        return map;
     }
 
 

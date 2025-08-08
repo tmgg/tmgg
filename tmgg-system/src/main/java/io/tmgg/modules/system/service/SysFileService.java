@@ -186,7 +186,7 @@ public class SysFileService {
 
 
     @PostConstruct
-    public void init() {
+     void init() {
         if (minioProp.getEnable()) {
             log.info("配置文件服务为minio模式");
             fileOperator = new MinioFileOperator(minioProp.getUrl(), minioProp.getAccessKey(), minioProp.getSecretKey(), minioProp.getBucketName());
@@ -201,5 +201,14 @@ public class SysFileService {
 
     public Page<SysFile> findAll(JpaQuery<SysFile> q, Pageable pageable) {
         return sysFileDao.findAll(q, pageable);
+    }
+
+    public boolean isFileExist(String id) {
+        SysFile file = sysFileDao.findOne(id);
+        if(file == null){
+            return false;
+        }
+
+        return fileOperator.exist(file.getFileObjectName());
     }
 }

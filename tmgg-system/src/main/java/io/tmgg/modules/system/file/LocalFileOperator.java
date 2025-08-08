@@ -4,6 +4,7 @@ package io.tmgg.modules.system.file;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -33,14 +34,19 @@ public class LocalFileOperator implements FileOperator {
     @Override
     public void save(String key, InputStream inputStream) {
         // 存储文件
-        String absoluteFile = dir + key;
+        String absoluteFile = getAbsoluteFile(key);
         FileUtil.writeFromStream(inputStream, absoluteFile);
+    }
+
+    @NotNull
+    private String getAbsoluteFile(String key) {
+        return dir + key;
     }
 
     @Override
     public InputStream getFileStream(String key) throws Exception {
         // 判断文件存在不存在
-        String absoluteFile = dir + key;
+        String absoluteFile = getAbsoluteFile(key);
         if (!FileUtil.exist(absoluteFile)) {
             String message = StrUtil.format("本地文件不存在,bucket={},key={} ,path={}", BUCKET_NAME, key, absoluteFile);
             throw new FileNotFoundException(message);
@@ -52,12 +58,18 @@ public class LocalFileOperator implements FileOperator {
     @Override
     public void delete(String key) {
         // 判断文件存在不存在
-        String file = dir + key;
+        String file = getAbsoluteFile(key);
         if (!FileUtil.exist(file)) {
             return;
         }
 
         // 删除文件
         FileUtil.del(file);
+    }
+
+    @Override
+    public boolean exist(String key) {
+        String absoluteFile = getAbsoluteFile(key);
+        return FileUtil.exist(absoluteFile);
     }
 }
