@@ -75,8 +75,7 @@ class _Layouts extends React.Component {
                     }
 
                     // 缓存路径
-                    let pathname = window.location.href;
-                    localStorage.setItem("login_redirect_path", pathname)
+                    localStorage.setItem("pre_href", window.location.href)
 
                     this.reLogin()
                 }),

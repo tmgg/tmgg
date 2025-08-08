@@ -32,11 +32,13 @@ export default class login extends React.Component {
         HttpUtil.post('/login', values).then(token => {
             console.log('登录结果', token)
             SysUtil.setToken(token)
-            const login_redirect_path = localStorage.getItem('login_redirect_path')
-            if(login_redirect_path){
-                localStorage.removeItem('login_redirect_path')
-                window.location = login_redirect_path
+            const pre_href = localStorage.getItem('pre_href')
+            localStorage.removeItem('pre_href')
+            if(pre_href && !pre_href.endsWith("/login")){
+                window.location = pre_href
+                return
             }
+            history.push('/')
         }).finally(() => {
             this.setState({logging: false})
         })
