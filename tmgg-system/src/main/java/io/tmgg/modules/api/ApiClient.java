@@ -60,8 +60,8 @@ public class ApiClient {
         ApiClient client = new ApiClient(url, appId, appSecret);
 
         Map<String,Object> params = new HashMap<>();
-        params.put("a",1);
-        params.put("b",2);
+        params.put("a",2);
+        params.put("b",3);
         client.send("add", params);
     }
 
