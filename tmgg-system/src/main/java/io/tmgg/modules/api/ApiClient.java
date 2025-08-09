@@ -5,6 +5,7 @@ import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.http.HttpResponse;
 import cn.hutool.http.HttpUtil;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -14,6 +15,7 @@ import java.util.TreeMap;
 /**
  * 调用sdk
  */
+@Slf4j
 public class ApiClient {
 
     private String baseUrl;
@@ -43,8 +45,7 @@ public class ApiClient {
                 .form(params)
                 .execute();
 
-        System.out.println("返回参数：");
-        System.out.println(response);
+        log.info("返回：\n{}",response);
 
         // 成功
         return response.body();

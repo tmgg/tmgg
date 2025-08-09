@@ -55,8 +55,8 @@ public class ApiGatewayController {
         long startTime = System.currentTimeMillis();
 
         // 验证时间戳，与服务器时间差异不能超过x分钟
-        long diffTime = (System.currentTimeMillis() - timestamp) / (1000 * 60); // 分钟
-        Assert.state(Math.abs(diffTime) < TIME_DIFF_LIMIT, "时间戳差异大，差距" + diffTime + "分钟");
+        long diffTime = (System.currentTimeMillis() - timestamp) / 1000;
+        Assert.state(Math.abs(diffTime) < TIME_DIFF_LIMIT, "请求时间戳与服务器时间差异过大（" + diffTime + "秒）");
 
 
         ApiAccount account = apiAccountService.findOne(appId);
