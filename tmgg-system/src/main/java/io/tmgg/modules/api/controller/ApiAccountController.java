@@ -2,6 +2,7 @@ package io.tmgg.modules.api.controller;
 
 import cn.hutool.core.lang.Dict;
 import io.tmgg.Build;
+import io.tmgg.modules.api.service.ApiResourceService;
 import io.tmgg.web.persistence.BaseController;
 import io.tmgg.web.persistence.specification.JpaQuery;
 import io.tmgg.lang.obj.AjaxResult;
@@ -30,6 +31,8 @@ public class ApiAccountController extends BaseController<ApiAccount> {
     private ApiAccountResourceService accountResourceService;
 
 
+    @Resource
+    private ApiResourceService apiResourceService;
 
 
 
@@ -37,7 +40,7 @@ public class ApiAccountController extends BaseController<ApiAccount> {
     public AjaxResult docInfo(String id) {
         ApiAccount acc = service.findOne(id);
         List<ApiResource> list = accountResourceService.findByAccount(acc);
-
+        list = apiResourceService.removeNotExist(list);
 
         for (ApiResource r : list) {
             List<ApiResourceArgument> parameterList = r.getParameterList();

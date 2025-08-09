@@ -6,7 +6,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Inherited
 @Documented
-public @interface Api {
+public @interface ApiMapping {
 
 	/**
 	 * Api名称
@@ -16,7 +16,7 @@ public @interface Api {
 	/**
 	 * Api资源定位
 	 */
-	String uri();
+	String path();
 
 
 	/**

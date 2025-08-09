@@ -1,13 +1,8 @@
 package io.tmgg.modules.api.service;
 
-import cn.hutool.core.collection.CollUtil;
-import io.tmgg.framework.cache.Cache;
-import io.tmgg.framework.cache.CacheService;
 import io.tmgg.web.persistence.BaseService;
 import io.tmgg.modules.api.dao.OpenApiResourceDao;
 import io.tmgg.modules.api.entity.ApiResource;
-import io.tmgg.modules.api.entity.ApiResourceArgument;
-import io.tmgg.modules.api.entity.ApiResourceArgumentReturn;
 import jakarta.annotation.Resource;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -25,22 +20,25 @@ public class ApiResourceService extends BaseService<ApiResource> {
     private OpenApiResourceDao dao;
 
 
-    private final Map<String, Method> map = new HashMap<>();
+    private final Map<String, Method> pathBindings = new HashMap<>();
 
     public Method findMethodByAction(String action) {
-        return map.get(action);
+        return pathBindings.get(action);
     }
 
     public List<ApiResource> findAll() {
-        return dao.findAll(Sort.by(ApiResource.Fields.uri));
+        return dao.findAll(Sort.by(ApiResource.Fields.path));
     }
 
 
     @Transactional
     public void add(ApiResource r) {
         dao.save(r);
-        map.put(r.getUri(), r.getMethod());
+        pathBindings.put(r.getPath(), r.getMethod());
     }
 
 
+    public List<ApiResource> removeNotExist(List<ApiResource> list) {
+        return list.stream().filter(t->pathBindings.containsKey(t.getPath())).toList();
+    }
 }

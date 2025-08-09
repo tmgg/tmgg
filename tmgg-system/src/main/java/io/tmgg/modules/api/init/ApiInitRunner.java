@@ -4,8 +4,9 @@ import cn.hutool.core.util.StrUtil;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.tmgg.lang.SpringTool;
 import io.tmgg.lang.ann.Remark;
-import io.tmgg.modules.api.Api;
+import io.tmgg.modules.api.ApiMapping;
 import io.tmgg.lang.field.FieldInfo;
+import io.tmgg.modules.api.defaults.DefaultApi;
 import io.tmgg.modules.api.entity.ApiResourceArgument;
 import io.tmgg.modules.api.entity.ApiResourceArgumentReturn;
 import io.tmgg.modules.api.entity.ApiResource;
@@ -27,7 +28,7 @@ import java.util.*;
  *
  * 开放接口
  * @gendoc
- * @see io.tmgg.modules.api.defaults.PingApi
+ * @see DefaultApi
  */
 @Component
 public class ApiInitRunner implements CommandLineRunner {
@@ -55,15 +56,15 @@ public class ApiInitRunner implements CommandLineRunner {
         Method[] methods = bean.getClass().getMethods();
 
         for (Method method : methods) {
-            Api api = method.getAnnotation(Api.class);
+            ApiMapping api = method.getAnnotation(ApiMapping.class);
             if (api == null) {
                 return;
             }
 
             ApiResource r = new ApiResource();
-            r.setId(api.uri());
+            r.setId(api.path());
             r.setName(api.name());
-            r.setUri(api.uri());
+            r.setPath(api.path());
             r.setDesc(api.desc());
             r.setBeanName(beanName);
 

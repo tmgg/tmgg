@@ -18,9 +18,9 @@ import lombok.experimental.FieldNameConstants;
 @Table(name = "sys_api_access_log")
 public class ApiAccessLog extends BaseEntity {
 
-    @Remark("请求ID")
+    @Remark("时间戳")
     @Column(length = 50)
-    private String requestId;
+    private Long timestamp;
 
     @Remark("接口名称")
     @Column(length = 100)
@@ -28,7 +28,7 @@ public class ApiAccessLog extends BaseEntity {
 
     @Remark("接口")
     @Column(length = 30)
-    private String action;
+    private String path;
 
     @Remark("请求数据")
     @Lob

@@ -28,7 +28,7 @@ public class ApiResource extends BaseEntity {
 
     @Excel(name = "接口地址")
     @Column(length = DBConstants.LEN_NAME,unique = true)
-    String uri;
+    String path;
 
     @Excel(name = "接口描述")
     @Column(name = "_desc")

@@ -26,7 +26,6 @@ export default class extends React.Component {
             }
         },
         {dataIndex: 'desc', title: '描述'},
-        {dataIndex: 'demo', title: '示例值', width: 150}
     ]
 
     componentDidMount() {
@@ -49,8 +48,6 @@ export default class extends React.Component {
         const {apiList} = this.state
         return <div style={{padding: 24}}>
             <Button type='primary' onClick={this.print} className='no-print'>打印文档</Button>
-            <iframe id="iframe1" style={{display: 'none'}}></iframe>
-
             <div id='doc-content'>
                 <Title level={1}>开发接口说明文档</Title>
 
@@ -58,13 +55,13 @@ export default class extends React.Component {
                 <Paragraph>
                     <Descriptions column={1} bordered size='small'>
                         <Descriptions.Item label='请求地址'>
-                            {this.state.url}/openApi/gateway
+                            {this.state.url}/openApi/gateway/路径
                         </Descriptions.Item>
                         <Descriptions.Item label='appId'>
                             {this.state.appId}
                         </Descriptions.Item>
                         <Descriptions.Item label='appSecret'>
-                            ******
+                            ****** (私发给相应)
                         </Descriptions.Item>
                     </Descriptions>
 
@@ -72,55 +69,32 @@ export default class extends React.Component {
 
 
                 <Title level={2}>1 接口说明</Title>
-                <Title level={3}>1.1 接口协议说明</Title>
                 <Paragraph>
                     <Typography.Text>
                         <div>
-                            请求使用HTTP POST发送
+                            请求使用HTTP POST发送,请求参数也使用json格式
                         </div>
                         <div> 响应报文以JSON方式返回</div>
                     </Typography.Text>
                 </Paragraph>
 
 
-                <Title level={4}>1.2 公共请求头 </Title>
+                <Title level={4}>请求公共请求头说明</Title>
 
                 <Table columns={this.columns} bordered dataSource={[
-                    {name: 'x-action', type: 'String', required: true, desc: '接口定义'},
-                    {name: 'x-app-id', type: 'String', required: true, desc: '账号标识,appId'},
-                    {name: 'x-timestamp', type: 'String', required: true, desc: '时间戳'},
-                    {name: 'x-signature', type: 'String', required: true, desc: '数据签名，参考签名算法'},
-                    {name: 'x-request-id', type: 'String', required: true, desc: '请求唯一标识，便于追踪，建议使用uuid'},
+                    {name: 'appId', type: 'String', required: true, desc: '账号标识,appId'},
+                    {name: 'timestamp', type: 'String', required: true, desc: '时间戳，当前UNIX时间戳，13位，精确到毫秒'},
+                    {name: 'sign', type: 'String', required: true, desc: '数据签名，appId + appSecret + timestamp拼接后，进行md5摘要，值为32位小写'},
                 ]} size='small' pagination={false}>
                 </Table>
 
-                <Title level={4}>1.3 公共返回参数 </Title>
+                <Title level={4}>返回公共参数说明 </Title>
                 <Table columns={this.columns} bordered dataSource={[
                     {name: 'code', type: 'int', required: true, desc: '返回码,成功返回0，其他表示操作错误'},
-                    {name: 'message', type: 'String', required: false, desc: '返回码说明'},
+                    {name: 'message', type: 'String', required: false, desc: '结果提示信息'},
                     {name: 'data', type: 'String', required: false, desc: '返回数据JSON'}
                 ]} size='small' pagination={false}>
                 </Table>
-
-                <Title level={3}>1.4 签名算法 （signature字段）</Title>
-                <Paragraph>
-                    <div>
-                        1、将请求参数按key排序后组装为请求体body  , 如 a=1&b=2&c=3
-                    </div>
-                    <div>
-                        2、然后将拼接字符串 uri, appId , timestamp , body, 中间使用"\n"连接， 得到待签名内容。
-
-                        <div>代码示例：
-                        <code>
-                        String signStr = uri + "\n" + appId + "\n" + timestamp + "\n" + body;
-                        </code>
-                        </div>
-                    </div>
-                    <div>
-                        3、使用hmacSha256算法，appSecret为秘钥，进行签名，得到 signature
-                    </div>
-
-                </Paragraph>
 
 
 
@@ -128,17 +102,16 @@ export default class extends React.Component {
                 {apiList.map((api, index) => {
                     return <>
                         <Typography.Title level={3}>{'2.' + (index + 1) + " " + api.name} </Typography.Title>
-                        <p>uri: {api.uri}</p>
-                        <p>{api.desc}</p>
+                        <p>功能描述：{api.desc}</p>
+                        <p>请求路径： /openApi/gateway/{api.path}</p>
 
 
-
-                        <Title level={5}>请求参数</Title>
+                        <Title level={5}>请求参数说明</Title>
                         <Table columns={this.columns} bordered dataSource={api.parameterList}
                                size='small' pagination={false}>
                         </Table>
 
-                        <Title level={5}>返回参数</Title>
+                        <Title level={5}>返回参数说明</Title>
                         <Typography.Text>
                             返回对象：{api.returnType}
                         </Typography.Text>
