@@ -36,12 +36,18 @@ export default class extends React.Component {
                     {
                         name: '成功',
                         type: 'bar',
-                        data: success
+                        data: success,
+                        itemStyle:{
+                            color:'green'
+                        }
                     },
                     {
                         name: '失败',
                         type: 'bar',
-                        data: error
+                        data: error,
+                        itemStyle:{
+                            color:'red'
+                        }
                     }
                 ]
             });
