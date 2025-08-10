@@ -33,28 +33,5 @@ public class SysJobLogService extends BaseService<SysJobLog> {
         return log;
     }
 
-    public Map<String, Integer> statsTotal(Date begin, Date end) {
-        Map<String, Integer> data =new HashMap<>();
-        {
-            JpaQuery<SysJobLog> q = new JpaQuery<>();
-            q.between("createTime", begin, end);
-            q.eq(SysJobLog.Fields.success, true);
 
-            int count = (int) sysJobLogDao.count(q);
-            data.put("success",count);
-        }
-
-        {
-            JpaQuery<SysJobLog> q = new JpaQuery<>();
-            q.between("createTime", begin, end);
-            q.eq(SysJobLog.Fields.success, false);
-
-            int count = (int) sysJobLogDao.count(q);
-            data.put("error",count);
-        }
-
-        return data;
-
-
-    }
 }

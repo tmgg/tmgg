@@ -26,13 +26,15 @@ public class SysJobLog extends BaseEntity {
 
     Date endTime;
 
-    @Column(columnDefinition = DBConstants.TYPE_BLOB)
     String result;
 
     // 是否成功
     Boolean success;
 
     Long jobRunTime;
+
+    @Column(length = 10)
+    String executeDate;
 
 
     @Transient
@@ -44,5 +46,9 @@ public class SysJobLog extends BaseEntity {
         return null;
     }
 
-
+    @Override
+    public void prePersist() {
+        super.prePersist();
+        this.executeDate = DateUtil.formatDate(beginTime);
+    }
 }

@@ -7,6 +7,7 @@ import io.tmgg.web.persistence.specification.JpaQuery;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -46,5 +47,6 @@ public class SysJobLogDao extends BaseDao<SysJobLog> {
         q.eq(SysJobLog.Fields.sysJob, job);
         return this.count(q);
     }
+
 
 }

@@ -1,6 +1,7 @@
 import React from "react";
-import {Alert, Table} from "antd";
+import {Alert, Col, Row, Table} from "antd";
 import {HttpUtil, Page} from "@tmgg/tmgg-base";
+import * as echarts from 'echarts';
 
 export default class extends React.Component {
 
@@ -14,14 +15,58 @@ export default class extends React.Component {
             this.setState({dataSource: rs.list,summary:rs.summary})
         })
 
-        HttpUtil.get("jobStatus/statsTotal").then(rs=>{
-            console.log('statsTotal', rs)
+        HttpUtil.get("jobStatus/statsTotal").then(list=>{
+
+           const dates = list.map(item=>item.date);
+           const success = list.map(item=>item.success);
+           const error = list.map(item=>item.error)
+
+
+            var myChart = echarts.init(document.getElementById('main'));
+            myChart.setOption({
+                title: {
+                    text: '作业执行趋势图'
+                },
+                tooltip: {},
+                xAxis: {
+                    data: dates
+                },
+                yAxis: {},
+                series: [
+                    {
+                        name: '成功',
+                        type: 'bar',
+                        data: success
+                    },
+                    {
+                        name: '失败',
+                        type: 'bar',
+                        data: error
+                    }
+                ]
+            });
         })
+
+
     }
 
     render() {
         return <Page padding>
-            <Alert message={<pre>{this.state.summary}</pre>} style={{marginBottom:12}}></Alert>
+
+            <Row gutter={16}>
+
+                <Col span={12}>
+                    <div id='main' style={{height:300}}></div>
+
+                </Col>  <Col span={12}>
+                <Alert message={<pre>{this.state.summary}</pre>} style={{marginBottom:12}}></Alert>
+
+            </Col>
+            </Row>
+
+
+
+
             <Table
                 title={()=><div>正在执行的Job</div>}
                 bordered

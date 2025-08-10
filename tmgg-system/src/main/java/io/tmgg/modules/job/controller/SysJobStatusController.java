@@ -1,6 +1,7 @@
 package io.tmgg.modules.job.controller;
 
 import cn.hutool.core.date.DateUtil;
+import io.tmgg.dbtool.DbTool;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.modules.job.service.SysJobLogService;
 import io.tmgg.web.annotion.HasPermission;
@@ -24,6 +25,9 @@ public class SysJobStatusController {
 
     @Resource
     private SysJobLogService sysJobLogService;
+
+    @Resource
+    private DbTool db;
 
 
     @HasPermission
@@ -55,12 +59,19 @@ public class SysJobStatusController {
         return AjaxResult.ok().data(rs);
     }
 
-    @HasPermission(label = "统计")
+    @HasPermission(label = "统计报表")
     @RequestMapping("statsTotal")
     public AjaxResult statsTotal() {
-        Date begin = DateUtil.yesterday();
-        Date end = new Date();
-        return AjaxResult.ok().data(sysJobLogService.statsTotal(begin, end));
+        String begin =  DateUtil.offsetDay(new Date(), -30).toDateStr();
+        String end = DateUtil.today();
+        String sql = """
+                SELECT execute_date as date,sum(if(success=1,true,0)) success, sum(if(success=0,true,0)) error\s from sys_job_log 
+                WHERE execute_date BETWEEN ? and ? 
+                GROUP BY execute_date
+                """;
+
+
+        return AjaxResult.ok().data(db.findAll(sql,begin, end));
 
     }
 
