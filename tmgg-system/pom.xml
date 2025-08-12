@@ -30,7 +30,7 @@
 
         <dependency>
             <groupId>io.github.tmgg</groupId>
-            <artifactId>tmgg-commons-web</artifactId>
+            <artifactId>tmgg-commons-web-framework</artifactId>
         </dependency>
 
 
