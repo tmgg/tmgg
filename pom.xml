@@ -22,7 +22,6 @@
 
         <!-- 以下模块可不参与打包-->
         <module>tmgg-script</module>
-        <module>template-backend</module>
     </modules>
 
 
