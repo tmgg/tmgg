@@ -33,6 +33,7 @@ public class BaseDaoTest {
 
     @Test
     public void test() {
+        bookDao.deleteAllInBatch();
         dao.deleteAllInBatch();
         Author d = dao.save(new Author("zhangsan", "张三", 1));
 
