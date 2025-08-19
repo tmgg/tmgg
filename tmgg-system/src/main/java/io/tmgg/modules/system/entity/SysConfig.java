@@ -37,9 +37,11 @@ public class SysConfig extends BaseEntity {
      */
     @Excel(name = "值")
     @Remark("值")
+    @Column(length = 2000)
     private String value;
 
     @Remark("默认值")
+    @Column(length = 2000)
     private String defaultValue;
 
     @Column(length = 20)

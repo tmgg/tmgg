@@ -8,11 +8,15 @@ import cn.hutool.captcha.generator.MathGenerator;
 import cn.hutool.captcha.generator.RandomGenerator;
 import cn.hutool.core.thread.ThreadUtil;
 import cn.hutool.core.util.ObjUtil;
+import cn.hutool.crypto.SecureUtil;
+import cn.hutool.crypto.asymmetric.KeyType;
+import cn.hutool.crypto.asymmetric.RSA;
 import io.tmgg.framework.dbconfig.DbValue;
 import io.tmgg.lang.PasswordTool;
 import io.tmgg.lang.ann.PublicRequest;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.modules.auth.LoginAttemptService;
+import io.tmgg.modules.system.ConfigKeys;
 import io.tmgg.modules.system.entity.SysUser;
 import io.tmgg.modules.system.service.SysConfigService;
 import io.tmgg.modules.system.service.SysUserService;
@@ -51,6 +55,11 @@ public class SysLoginController {
     @DbValue("sys.login.lock.time")
     private long LOCK_TIME;
 
+    @DbValue(ConfigKeys.RSA_PRIVATE_KEY)
+    private String rsaPrivateKey;
+    @DbValue(ConfigKeys.RSA_PUBLIC_KEY)
+    private String rsaPublicKey;
+
     @GetMapping("checkLogin")
     @PublicRequest
     public AjaxResult checkLogin(HttpSession session) {
@@ -67,11 +76,17 @@ public class SysLoginController {
      * 账号密码登录
      */
     @PostMapping("login")
-    public AjaxResult login(@RequestBody LoginParam param, HttpSession session) throws IOException {
+    public AjaxResult login(@RequestBody LoginParam param, HttpSession session) {
         String account = param.getAccount();
         String password = param.getPassword();
 
         Assert.hasText(password, "请输入密码");
+
+        // 解密前端密码
+        RSA rsa = SecureUtil.rsa(rsaPrivateKey, rsaPublicKey);
+        password = rsa.decryptStr(password, KeyType.PrivateKey);
+
+
         boolean strengthOk = PasswordTool.isStrengthOk(password);
         Assert.state(strengthOk, "密码强度不够，请联系管理员重置");
 

@@ -3,6 +3,8 @@ package io.tmgg.init;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.crypto.SecureUtil;
+import cn.hutool.crypto.asymmetric.RSA;
 import cn.hutool.extra.spring.SpringUtil;
 import io.tmgg.Build;
 import io.tmgg.dbtool.DbTool;
@@ -12,12 +14,14 @@ import io.tmgg.framework.dict.DictFieldAnnHandler;
 import io.tmgg.framework.perm.PermissionService;
 import io.tmgg.lang.PasswordTool;
 import io.tmgg.lang.SpringTool;
+import io.tmgg.modules.system.ConfigKeys;
+import io.tmgg.modules.system.dao.SysConfigDao;
 import io.tmgg.modules.system.dao.SysUserDao;
 import io.tmgg.modules.system.entity.DataPermType;
+import io.tmgg.modules.system.entity.SysConfig;
 import io.tmgg.modules.system.entity.SysRole;
 import io.tmgg.modules.system.entity.SysUser;
 import io.tmgg.modules.system.service.JsonEntityService;
-import io.tmgg.modules.system.service.SysConfigService;
 import io.tmgg.modules.system.service.SysMenuService;
 import io.tmgg.modules.system.service.SysRoleService;
 import io.tmgg.web.db.DbCacheDao;
@@ -48,7 +52,7 @@ public class FrameworkDataInit implements CommandLineRunner {
 
 
     @Resource
-    SysConfigService sysConfigService;
+    SysConfigDao sysConfigDao;
 
     @Resource
     SysMenuService sysMenuService;
@@ -107,6 +111,8 @@ public class FrameworkDataInit implements CommandLineRunner {
         SysRole adminRole = sysRoleService.initDefaultAdmin();
         initUser(adminRole);
 
+        initSysConfig();
+
 
         SpringUtil.publishEvent(new SystemDataInitFinishEvent(this));
 
@@ -117,6 +123,22 @@ public class FrameworkDataInit implements CommandLineRunner {
         log.info("系统初始化耗时：{}", System.currentTimeMillis() - time);
 
     }
+
+    private void initSysConfig() {
+        log.info("随机生成RSA的公私钥");
+        SysConfig pub = sysConfigDao.findOne(ConfigKeys.RSA_PUBLIC_KEY);
+        if (pub == null) {
+            RSA rsa = SecureUtil.rsa();
+            sysConfigDao.addDefault("RSA公钥", ConfigKeys.RSA_PUBLIC_KEY, rsa.getPublicKeyBase64()); // 放到siteInfo, 前端可获取
+            sysConfigDao.addDefault("RSA私钥",ConfigKeys.RSA_PRIVATE_KEY,rsa.getPrivateKeyBase64());
+        }
+
+        sysConfigDao.addDefault("默认密码","sys.default.password", IdUtil.fastSimpleUUID(), "password");
+
+
+        sysConfigDao.cleanCache();
+    }
+
 
     private void fixDict() {
         String[] keys = db.getKeys("select * from sys_dict");

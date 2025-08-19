@@ -55,9 +55,14 @@ public class CommonController {
         Map<String, Object> siteInfo = sysConfigService.findSiteInfo();
         String fileId = (String) siteInfo.get("loginBackground");
         boolean fileExist = sysFileService.isFileExist(fileId);
-        if(!fileExist){
+        if (!fileExist) {
             siteInfo.remove("loginBackground");
         }
+
+        String publicKey = sysConfigService.getStr(ConfigKeys.RSA_PUBLIC_KEY);
+        Assert.notNull(publicKey, "服务未初始化密钥信息，无法登录");
+
+        siteInfo.put("rsaPublicKey",publicKey);
 
 
         return AjaxResult.ok().data(siteInfo);
@@ -81,13 +86,10 @@ public class CommonController {
         vo.put("account", subject.getAccount());
 
 
-
-
-
         Set<String> roleIds = subject.getRoles();
         if (!CollectionUtils.isEmpty(roleIds)) {
             List<SysRole> roleList = roleService.findAllByCode(roleIds);
-            Assert.state(roleList.size() ==roleIds.size(),"用户角色已被修改，请重新登录");
+            Assert.state(roleList.size() == roleIds.size(), "用户角色已被修改，请重新登录");
             Set<String> roleNameSet = roleList.stream().map(SysRole::getName).collect(Collectors.toSet());
             String roleNames = StringUtils.join(roleNameSet, ",");
             vo.put("roleNames", roleNames);
@@ -95,11 +97,6 @@ public class CommonController {
 
         return AjaxResult.ok().data(vo);
     }
-
-
-
-
-
 
 
     /**
@@ -149,20 +146,19 @@ public class CommonController {
         }
 
 
-
-        TreeManager<Route> tm = new TreeManager<>(routes,Route::getId, Route::getPid, Route::getChildren, Route::setChildren);
+        TreeManager<Route> tm = new TreeManager<>(routes, Route::getId, Route::getPid, Route::getChildren, Route::setChildren);
         List<Route> tree = tm.getTree();
         // 如果最顶层（topmenu）没有子节点，则不显示
-        tree = tree.stream().filter(t-> CollUtil.isNotEmpty(t.getChildren())).collect(Collectors.toList());
+        tree = tree.stream().filter(t -> CollUtil.isNotEmpty(t.getChildren())).collect(Collectors.toList());
 
 
         Map<String, Route> treeMap = tm.getMap();
         tm.traverseTree(tree, item -> {
-            if(item.getPid() == null){
+            if (item.getPid() == null) {
                 item.setRootid(item.getId());
-            }else {
+            } else {
                 Route parent = treeMap.get(item.getPid());
-                if(parent != null){
+                if (parent != null) {
                     item.setRootid(parent.getRootid());
                 }
             }

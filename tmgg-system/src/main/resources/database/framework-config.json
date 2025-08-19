@@ -1,13 +1,7 @@
 {
   "SysConfig": [
 
-    {
-      "id": "sys.default.password",
-      "label": "默认密码",
-      "defaultValue": "10.Sleep",
-      "valueType": "password",
-      "$update": false
-    },
+
     {
       "id": "sys.login.lock.maxAttempts",
       "label": "登录错误超过多少次锁定",

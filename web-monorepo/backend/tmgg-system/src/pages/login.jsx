@@ -1,9 +1,10 @@
 import React from 'react';
-import {Button, Form, Input, Space} from 'antd';
+import {Button, Form, Input, message, Space} from 'antd';
 import {LockOutlined, SafetyCertificateOutlined, UserOutlined, WarningOutlined} from '@ant-design/icons';
 import "./login.less"
 import {history} from 'umi';
 import {HttpUtil, PageUtil, SysUtil} from "@tmgg/tmgg-base";
+import {JSEncrypt} from "jsencrypt";
 
 
 export default class login extends React.Component {
@@ -29,6 +30,16 @@ export default class login extends React.Component {
 
     submit = values => {
         this.setState({logging: true})
+
+        const crypt = new JSEncrypt();
+        const pubkey = this.state.siteInfo.rsaPublicKey;
+        if(!pubkey){
+            message.error("未获取密钥，请刷新浏览器再试")
+            return
+        }
+        crypt.setPublicKey(pubkey);
+        values.password = crypt.encrypt(values.password)
+
         HttpUtil.post('/login', values).then(token => {
             console.log('登录结果', token)
             SysUtil.setToken(token)
