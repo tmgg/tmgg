@@ -52,6 +52,11 @@ public class SysConfigService extends BaseService<SysConfig> {
         Object value = this.getValue(key);
         return (boolean) value;
     }
+    public int getInt(String key) {
+        validateKey(key);
+        Object value = this.getValue(key);
+     return   Integer.parseInt(value.toString());
+    }
 
 
 

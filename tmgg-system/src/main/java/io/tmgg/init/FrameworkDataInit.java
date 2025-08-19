@@ -14,7 +14,7 @@ import io.tmgg.framework.dict.DictFieldAnnHandler;
 import io.tmgg.framework.perm.PermissionService;
 import io.tmgg.lang.PasswordTool;
 import io.tmgg.lang.SpringTool;
-import io.tmgg.modules.system.ConfigKeys;
+import io.tmgg.modules.system.Configs;
 import io.tmgg.modules.system.dao.SysConfigDao;
 import io.tmgg.modules.system.dao.SysUserDao;
 import io.tmgg.modules.system.entity.DataPermType;
@@ -126,11 +126,11 @@ public class FrameworkDataInit implements CommandLineRunner {
 
     private void initSysConfig() {
         log.info("随机生成RSA的公私钥");
-        SysConfig pub = sysConfigDao.findOne(ConfigKeys.RSA_PUBLIC_KEY);
+        SysConfig pub = sysConfigDao.findOne(Configs.RSA_PUBLIC_KEY);
         if (pub == null) {
             RSA rsa = SecureUtil.rsa();
-            sysConfigDao.addDefault("RSA公钥", ConfigKeys.RSA_PUBLIC_KEY, rsa.getPublicKeyBase64()); // 放到siteInfo, 前端可获取
-            sysConfigDao.addDefault("RSA私钥",ConfigKeys.RSA_PRIVATE_KEY,rsa.getPrivateKeyBase64());
+            sysConfigDao.addDefault("RSA公钥", Configs.RSA_PUBLIC_KEY, rsa.getPublicKeyBase64()); // 放到siteInfo, 前端可获取
+            sysConfigDao.addDefault("RSA私钥", Configs.RSA_PRIVATE_KEY,rsa.getPrivateKeyBase64());
         }
 
         sysConfigDao.addDefault("默认密码","sys.default.password", IdUtil.fastSimpleUUID(), "password");

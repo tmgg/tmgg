@@ -8,12 +8,7 @@
       "defaultValue": 3,
       "$update": false
     },
-    {
-      "id": "sys.login.lock.time",
-      "label": "登录锁定时间（分钟）",
-      "defaultValue": 5,
-      "$update": false
-    },
+
 
     {
       "id": "sys.fileUploadPath.windows",
@@ -119,22 +114,6 @@
       "label": "jwt密码",
       "valueType": "password",
       "seq": 1000,
-      "$update": false
-    },
-    {
-      "id": "sys.sessionIdleTime",
-      "label": "会话(session)空闲过期时间（分钟）",
-      "seq": 1010,
-      "defaultValue": "180",
-      "$update": false
-    },
-
-    {
-      "id": "sys.opLog.enable",
-      "label": "是否保存操作日志到数据库",
-      "seq": 1012,
-      "valueType": "boolean",
-      "defaultValue": "true",
       "$update": false
     }
 

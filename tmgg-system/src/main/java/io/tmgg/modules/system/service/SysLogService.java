@@ -8,15 +8,14 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import io.tmgg.event.SysConfigChangeEvent;
-import io.tmgg.framework.dbconfig.DbValue;
 import io.tmgg.framework.perm.PermissionService;
 import io.tmgg.lang.HttpServletTool;
 import io.tmgg.lang.IpAddressTool;
 import io.tmgg.lang.UserAgentTool;
-import io.tmgg.web.persistence.BaseService;
 import io.tmgg.modules.system.dao.SysOpLogDao;
 import io.tmgg.modules.system.entity.SysLog;
 import io.tmgg.web.annotion.HasPermission;
+import io.tmgg.web.persistence.BaseService;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
@@ -61,9 +60,6 @@ public class SysLogService extends BaseService<SysLog> implements Runnable {
 
 
     public void saveOperationLog(final String account, JoinPoint joinPoint, boolean success, final String msg) {
-        if(!opLogEnable){
-            return;
-        }
         SysLog sysLog = newSysOpLog(HttpServletTool.getRequest(), joinPoint);
 
         sysLog.setAccount(account);
@@ -86,9 +82,7 @@ public class SysLogService extends BaseService<SysLog> implements Runnable {
 
 
     public void saveExceptionLog(final String account, JoinPoint joinPoint, Exception exception) {
-        if(!opLogEnable){
-            return;
-        }
+
         SysLog sysLog = this.newSysOpLog(HttpServletTool.getRequest(), joinPoint);
         sysLog.setAccount(account);
         sysLog.setSuccess(false);
@@ -162,8 +156,7 @@ public class SysLogService extends BaseService<SysLog> implements Runnable {
     }
 
 
-    @DbValue("sys.opLog.enable")
-    boolean opLogEnable;
+
 
 
     private ScheduledExecutorService executorService;
@@ -171,18 +164,10 @@ public class SysLogService extends BaseService<SysLog> implements Runnable {
 
     @PostConstruct
     public void init() {
-        log.info("操作日志是否开启 {}", opLogEnable);
-        if (opLogEnable) {
             executorService = Executors.newScheduledThreadPool(1);
             executorService.scheduleWithFixedDelay(this, 30 , 5, TimeUnit.SECONDS);
             log.info("启动异步保存操作日志线程 ");
-        }else {
-            persistList.clear();
-            if(executorService !=null){
-                executorService.shutdown();
-                executorService = null;
-            }
-        }
+
     }
 
     @EventListener(SysConfigChangeEvent.class)

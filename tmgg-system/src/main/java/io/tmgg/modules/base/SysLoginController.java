@@ -11,12 +11,12 @@ import cn.hutool.core.util.ObjUtil;
 import cn.hutool.crypto.SecureUtil;
 import cn.hutool.crypto.asymmetric.KeyType;
 import cn.hutool.crypto.asymmetric.RSA;
-import io.tmgg.framework.dbconfig.DbValue;
+import io.tmgg.config.SysProp;
 import io.tmgg.lang.PasswordTool;
 import io.tmgg.lang.ann.PublicRequest;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.modules.auth.LoginAttemptService;
-import io.tmgg.modules.system.ConfigKeys;
+import io.tmgg.modules.system.Configs;
 import io.tmgg.modules.system.entity.SysUser;
 import io.tmgg.modules.system.service.SysConfigService;
 import io.tmgg.modules.system.service.SysUserService;
@@ -52,13 +52,11 @@ public class SysLoginController {
     @Resource
     private LoginAttemptService loginAttemptService;
 
-    @DbValue("sys.login.lock.time")
-    private long LOCK_TIME;
+    @Resource
+    SysProp prop;
 
-    @DbValue(ConfigKeys.RSA_PRIVATE_KEY)
-    private String rsaPrivateKey;
-    @DbValue(ConfigKeys.RSA_PUBLIC_KEY)
-    private String rsaPublicKey;
+
+
 
     @GetMapping("checkLogin")
     @PublicRequest
@@ -83,6 +81,8 @@ public class SysLoginController {
         Assert.hasText(password, "请输入密码");
 
         // 解密前端密码
+         String rsaPrivateKey = Configs.get(Configs.RSA_PRIVATE_KEY);
+         String rsaPublicKey =  Configs.get(Configs.RSA_PUBLIC_KEY);
         RSA rsa = SecureUtil.rsa(rsaPrivateKey, rsaPublicKey);
         password = rsa.decryptStr(password, KeyType.PrivateKey);
 
@@ -91,7 +91,7 @@ public class SysLoginController {
         Assert.state(strengthOk, "密码强度不够，请联系管理员重置");
 
         boolean locked = loginAttemptService.isAccountLocked(account);
-        Assert.state(!locked, "账户已被锁定，请" + LOCK_TIME + "分钟后再试");
+        Assert.state(!locked, "账户已被锁定，请" + prop.getLoginLockTime() + "分钟后再试");
 
         ThreadUtil.sleep(1000); // 防止爆破等待
 

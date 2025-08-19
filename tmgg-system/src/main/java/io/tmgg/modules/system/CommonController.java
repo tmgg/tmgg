@@ -59,7 +59,7 @@ public class CommonController {
             siteInfo.remove("loginBackground");
         }
 
-        String publicKey = sysConfigService.getStr(ConfigKeys.RSA_PUBLIC_KEY);
+        String publicKey = sysConfigService.getStr(Configs.RSA_PUBLIC_KEY);
         Assert.notNull(publicKey, "服务未初始化密钥信息，无法登录");
 
         siteInfo.put("rsaPublicKey",publicKey);

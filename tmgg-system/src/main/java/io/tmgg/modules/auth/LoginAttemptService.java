@@ -1,7 +1,8 @@
 package io.tmgg.modules.auth;
 
+import io.tmgg.config.SysProp;
 import io.tmgg.framework.cache.CacheService;
-import io.tmgg.framework.dbconfig.DbValue;
+import jakarta.annotation.Resource;
 import org.ehcache.Cache;
 import org.springframework.stereotype.Service;
 
@@ -10,14 +11,13 @@ import java.time.Duration;
 @Service
 public class LoginAttemptService {
 
-    @DbValue("sys.login.lock.maxAttempts")
-    private int MAX_ATTEMPTS;
 
-    /**
-     * 锁定时间，分钟
-     */
-    @DbValue("sys.login.lock.time")
-    private long LOCK_TIME;
+
+
+
+
+    @Resource
+    SysProp prop;
 
     private final Cache<String, Integer> loginAttempts;
     private final Cache<String, Long> lockedAccounts ;
@@ -50,7 +50,7 @@ public class LoginAttemptService {
         loginAttempts.put(username, attemptCount);
 
         // 如果失败次数达到阈值，锁定账户
-        if (attemptCount >= MAX_ATTEMPTS) {
+        if (attemptCount >= prop.getLoginLockMaxAttempts()) {
             lockAccount(username);
         }
     }
@@ -76,7 +76,7 @@ public class LoginAttemptService {
         }
 
         // 检查锁定是否已过期
-        if (System.currentTimeMillis() - lockTime > LOCK_TIME * 60 * 1000) {
+        if (System.currentTimeMillis() - lockTime > prop.getLoginLockTime() * 60 * 1000L) {
             lockedAccounts.remove(username);
             loginAttempts.remove(username);
             return false;
@@ -105,9 +105,9 @@ public class LoginAttemptService {
 
         Integer attemptCount = loginAttempts.get(username);
         if (attemptCount == null) {
-            return MAX_ATTEMPTS;
+            return prop.getLoginLockMaxAttempts();
         }
 
-        return MAX_ATTEMPTS - attemptCount;
+        return prop.getLoginLockMaxAttempts() - attemptCount;
     }
 }

@@ -1,7 +1,7 @@
 package io.tmgg.framework.session.config;
 
 import cn.hutool.core.util.IdUtil;
-import io.tmgg.framework.dbconfig.DbValue;
+import io.tmgg.config.SysProp;
 import io.tmgg.framework.session.SysHttpSession;
 import io.tmgg.framework.session.SysHttpSessionService;
 import jakarta.annotation.Resource;
@@ -17,12 +17,12 @@ import java.time.Instant;
 @Slf4j
 public class MySessionRepository implements SessionRepository<SysHttpSession> {
 
-    @DbValue("sys.sessionIdleTime")
-    private int timeToIdleExpiration;
 
     @Resource
     private SysHttpSessionService service;
 
+    @Resource
+    SysProp prop;
 
 
 
@@ -30,8 +30,8 @@ public class MySessionRepository implements SessionRepository<SysHttpSession> {
     public SysHttpSession createSession() {
         SysHttpSession session = new SysHttpSession(IdUtil.simpleUUID());
         session.setCreationTime(Instant.now());
-        session.setMaxInactiveInterval(Duration.ofMinutes(timeToIdleExpiration));
-        log.info("创建session {},过期时间 {}分钟", session.getId(), timeToIdleExpiration);
+        session.setMaxInactiveInterval(Duration.ofMinutes(prop.getSessionIdleTime()));
+        log.info("创建session {},过期时间 {}分钟", session.getId(), prop.getSessionIdleTime());
         return session;
     }
 

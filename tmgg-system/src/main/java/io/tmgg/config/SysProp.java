@@ -1,6 +1,5 @@
 package io.tmgg.config;
 
-import io.tmgg.modules.system.entity.SysMenu;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
@@ -24,7 +23,7 @@ public class SysProp {
     /**
      * 缓存目录
      */
-    private String cacheDir = "/data/cache" ;
+    private String cacheDir = "/data/cache";
 
 
     /**
@@ -33,4 +32,19 @@ public class SysProp {
     private String allowUploadFiles = "docx,xlsx,pdf,png,jpg";
 
 
+    /**
+     * session空闲时间（分钟），超过该时间则登录失效
+     */
+    private int sessionIdleTime = 180;
+
+    /***
+     * 登录锁定时间（分钟）
+     */
+    private int loginLockTime = 5;
+
+
+    /**
+     * 登录异常最大次数， 超过则锁定
+     */
+    private int loginLockMaxAttempts = 10;
 }

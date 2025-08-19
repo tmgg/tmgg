@@ -3,7 +3,7 @@ package io.tmgg.dbtool;
 import lombok.Data;
 
 @Data
-public class Config {
+ class Config {
 
     // 默认，不处理 （bean结果集会自动）
     public static final int NAMING_STRATEGY_NONE = -1;
