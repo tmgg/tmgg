@@ -21,12 +21,14 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.PrintWriter;
 
@@ -60,7 +62,16 @@ public class SysFileService {
     public String getPreviewUrl(String fileId, HttpServletRequest request) {
         String baseUrl = sysConfigService.getOrParseBaseUrl(request);
 
-        return baseUrl + PREVIEW_URL_PATTERN.replace("{id}", fileId);
+        return baseUrl + getPreviewUrl(fileId);
+    }
+
+    /**
+     * 获得预览相对url
+     * @param fileId
+     * @return
+     */
+    public  String getPreviewUrl(String fileId) {
+        return PREVIEW_URL_PATTERN.replace("{id}", fileId);
     }
 
     public String getDownloadUrl(String fileId, HttpServletRequest request) {
@@ -75,6 +86,10 @@ public class SysFileService {
 
         // 删除具体文件
         fileOperator.delete(sysFile.getFileObjectName());
+    }
+
+    public SysFile uploadFile(byte[] data,  String originalFilename) throws Exception {
+        return this.uploadFile(new ByteArrayInputStream(data), originalFilename,data.length);
     }
 
 
