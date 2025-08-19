@@ -12,7 +12,7 @@ ADD tmgg-system ./tmgg-system
 ADD tmgg-system-plugins ./tmgg-system-plugins
 
 
-RUN mvn install -q  -Drevision=${VERSION}  && rm -rf *
+RUN mvn install package -q  -Drevision=${VERSION}  && rm -rf *
 
 
 
