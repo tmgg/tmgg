@@ -1,16 +1,23 @@
-import {Form, Input, Popconfirm} from 'antd'
+import {Button, Form, Input, Modal, Popconfirm} from 'antd'
 import React from 'react'
-import {ButtonList, FieldDateRange, HttpUtil, ProTable} from "@tmgg/tmgg-base";
+import {ButtonList, FieldDateRange, FieldUploadFile, HttpUtil, ProTable, SysUtil} from "@tmgg/tmgg-base";
+import {CloudUploadOutlined} from "@ant-design/icons";
 
 
 export default class extends React.Component {
 
+    state = {
+        formOpen: false,
+        formValues: {}
+    }
 
     tableRef = React.createRef()
+    formRef = React.createRef()
+
 
     columns = [
         {
-            title: 'id',
+            title: '标识',
             dataIndex: 'id',
         },
 
@@ -51,6 +58,7 @@ export default class extends React.Component {
             dataIndex: 'option',
             render: (_, record) => (
                 <ButtonList>
+                    <a href={SysUtil.wrapServerUrl( 'sysFile/preview/' + record.id) } target='_blank'>预览</a>
                     <Popconfirm perm='sysFile:delete' title='是否确定删除文件信息'
                                 onConfirm={() => this.handleDelete(record)}>
                         <a>删除</a>
@@ -67,15 +75,29 @@ export default class extends React.Component {
         })
     }
 
+    onFinish = (values) => {
+        HttpUtil.post('sysFile/save', values).then(rs => {
+            this.setState({formOpen: false})
+            this.tableRef.current.reload();
+        })
+    }
 
     render() {
         return <>
             <ProTable
                 actionRef={this.tableRef}
+                toolBarRender={() => {
+                    return <Button type='primary' icon={<CloudUploadOutlined/>}
+                                   onClick={() => this.setState({formOpen: true})}>
+                        上传文件
+                    </Button>
+                }}
                 request={(params) => {
                     return HttpUtil.pageData('sysFile/page', params);
                 }}
+
                 columns={this.columns}
+
                 searchFormItemsRender={() => <>
 
                     <Form.Item label='文件名' name='fileOriginName'>
@@ -86,13 +108,33 @@ export default class extends React.Component {
                     </Form.Item>
 
 
-
                     <Form.Item label='上传时间' name='dateRange'>
                         <FieldDateRange/>
                     </Form.Item>
 
                 </>}
             />
+
+            <Modal open={this.state.formOpen} title='上传文件'
+                   width={800}
+                   onOk={() => this.formRef.current.submit()}
+                   onCancel={() => {
+                       this.setState({formOpen: false})
+                       this.tableRef.current.reload()
+                   }}
+                   footer={null}
+            >
+                <Form ref={this.formRef}
+                      initialValues={this.state.formValues}
+                      onFinish={this.onFinish}>
+                    <Form.Item name='文件'>
+                        <FieldUploadFile/>
+                    </Form.Item>
+
+
+                </Form>
+            </Modal>
+
         </>
     }
 }

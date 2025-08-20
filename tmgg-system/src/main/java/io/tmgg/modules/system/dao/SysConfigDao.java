@@ -39,13 +39,16 @@ public class SysConfigDao extends BaseDao<SysConfig> {
 
     @Transactional
     public void addDefault(String label, String id, String defaultValue) {
-        this.addDefault(label,id,defaultValue,null);
+        this.addDefault(label, id, defaultValue, null);
     }
 
     @Transactional
-    public void addDefault(String label, String id, String defaultValue,String valueType) {
+    public void addDefault(String label, String id, String defaultValue, String valueType) {
         SysConfig cfg = super.findOne(id);
-        if(cfg != null){
+        if (cfg != null) {
+            // 只更新无关痛痒的字段
+            cfg.setValueType(valueType);
+            cfg.setLabel(label);
             return;
         }
         cfg = new SysConfig();
@@ -57,7 +60,7 @@ public class SysConfigDao extends BaseDao<SysConfig> {
     }
 
     @CacheEvict(allEntries = true)
-    public void cleanCache(){
+    public void cleanCache() {
         log.info("清空系统配置缓存");
     }
 }

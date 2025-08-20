@@ -1,6 +1,7 @@
 
 package io.tmgg.modules.system.service;
 
+import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.ObjectUtil;
@@ -21,7 +22,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -31,6 +31,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.util.Date;
 
 /**
  * 文件服务类
@@ -59,18 +60,19 @@ public class SysFileService {
     private SysConfigService sysConfigService;
 
 
-    public String getPreviewUrl(String fileId, HttpServletRequest request) {
+    public String getPreviewUrl(String id, HttpServletRequest request) {
         String baseUrl = sysConfigService.getOrParseBaseUrl(request);
 
-        return baseUrl + getPreviewUrl(fileId);
+        return baseUrl + getPreviewUrl(id);
     }
 
     /**
      * 获得预览相对url
+     *
      * @param fileId
      * @return
      */
-    public  String getPreviewUrl(String fileId) {
+    public String getPreviewUrl(String fileId) {
         return PREVIEW_URL_PATTERN.replace("{id}", fileId);
     }
 
@@ -88,8 +90,8 @@ public class SysFileService {
         fileOperator.delete(sysFile.getFileObjectName());
     }
 
-    public SysFile uploadFile(byte[] data,  String originalFilename) throws Exception {
-        return this.uploadFile(new ByteArrayInputStream(data), originalFilename,data.length);
+    public SysFile uploadFile(byte[] data, String originalFilename) throws Exception {
+        return this.uploadFile(new ByteArrayInputStream(data), originalFilename, data.length);
     }
 
 
@@ -104,30 +106,30 @@ public class SysFileService {
 
 
         // 获取文件后缀
-        String fileSuffix = null;
+        String suffix = null;
 
         if (ObjectUtil.isNotEmpty(originalFilename)) {
-            fileSuffix = StrUtil.subAfter(originalFilename, SymbolConstant.PERIOD, true);
-            Assert.state(sysProp.getAllowUploadFiles().contains(fileSuffix), "文件格式" + fileSuffix + "不允许上次");
+            suffix = StrUtil.subAfter(originalFilename, SymbolConstant.PERIOD, true);
+            Assert.state(sysProp.getAllowUploadFiles().contains(suffix), "文件格式" + suffix + "不允许上次");
         }
 
-        String fileId = IdUtil.getSnowflakeNextIdStr();
+        String id = IdUtil.getSnowflakeNextIdStr();
 
         // 生成文件的最终名称
-        String finalName = fileId + SymbolConstant.PERIOD + fileSuffix;
+        String objectName = DateUtil.format(new Date(),"yyyyMM") + "/" + id + "." + suffix;
 
 
         // 存储文件
-        fileOperator.save(finalName, is);
+        fileOperator.save(objectName, is);
 
 
         // 存储文件信息
         SysFile sysFile = new SysFile();
-        sysFile.setAssignedId(fileId);
+        sysFile.setAssignedId(id);
         sysFile.setFileOriginName(originalFilename);
-        sysFile.setFileSuffix(fileSuffix);
+        sysFile.setFileSuffix(suffix);
         sysFile.setFileSize(size);
-        sysFile.setFileObjectName(finalName);
+        sysFile.setFileObjectName(objectName);
         sysFile = sysFileDao.save(sysFile);
 
 
@@ -135,7 +137,7 @@ public class SysFileService {
     }
 
 
-    public SysFile getFileResult(String fileId) throws Exception {
+    public SysFile getFileAndStream(String fileId) throws Exception {
         Assert.hasText(fileId, "文件id不能为空");
         // 获取文件名
         SysFile sysFile = sysFileDao.findOne(fileId);
@@ -157,10 +159,9 @@ public class SysFileService {
 
     public void preview(String id, HttpServletRequest req, HttpServletResponse resp) throws Exception {
         //根据文件id获取文件信息结果集
-        SysFile f = this.getFileResult(id);
-        //获取文件后缀
-        String fileSuffix = f.getFileSuffix().toLowerCase();
-        InputStream is = f.getInputStream();
+        SysFile sysFile = this.getFileAndStream(id);
+        String fileSuffix = sysFile.getFileSuffix().toLowerCase();
+        InputStream is = sysFile.getInputStream();
         if (StrUtil.equalsAny(fileSuffix, PREVIEW_TYPES)) {
             IOUtils.copy(is, resp.getOutputStream());
             IOUtils.closeQuietly(is, resp.getOutputStream());
@@ -184,7 +185,7 @@ public class SysFileService {
 
     public void download(String id, HttpServletResponse response) throws Exception {
         // 获取文件信息结果集
-        SysFile f = this.getFileResult(id);
+        SysFile f = this.getFileAndStream(id);
         String fileName = f.getFileOriginName();
         DownloadTool.download(fileName, f.getInputStream(), f.getFileSize(), response);
     }
@@ -201,7 +202,7 @@ public class SysFileService {
 
 
     @PostConstruct
-     void init() {
+    void init() {
         if (minioProp.getEnable()) {
             log.info("配置文件服务为minio模式");
             fileOperator = new MinioFileOperator(minioProp.getUrl(), minioProp.getAccessKey(), minioProp.getSecretKey(), minioProp.getBucketName());
@@ -212,18 +213,16 @@ public class SysFileService {
     }
 
 
-
-
     public Page<SysFile> findAll(JpaQuery<SysFile> q, Pageable pageable) {
         return sysFileDao.findAll(q, pageable);
     }
 
     public boolean isFileExist(String id) {
-        if(StrUtil.isEmpty(id)){
+        if (StrUtil.isEmpty(id)) {
             return false;
         }
         SysFile file = sysFileDao.findOne(id);
-        if(file == null){
+        if (file == null) {
             return false;
         }
 

@@ -57,8 +57,7 @@ public class SysFileController {
     public AjaxResult upload(@RequestPart("file") MultipartFile file) throws Exception {
         SysFile sysFile = service.uploadFile(file);
 
-        String location = "/sysFile/preview/" + sysFile.getId();
-
+        String location = service.getPreviewUrl(sysFile.getId());
 
         return AjaxResult.ok()
                 .putExtData("location", location)    // 兼容 tiny mce
@@ -81,7 +80,11 @@ public class SysFileController {
 
 
     /**
-     * 可以加后缀，如 /sysFile/preview/113.png , 这样对某些设备友好
+     * 可以加后缀， 这样对某些设备友好
+     * 支持的格式
+     * /sysFile/preview/123
+     * /sysFile/preview/123.jpg (增加后缀，对浏览器等客户端友好)
+     * /sysFile/preview/202508/123.jpg （原始对象路径，可方便直接使用nginx反向代理）
      *
      * @param id
      * @param response
@@ -89,8 +92,8 @@ public class SysFileController {
      * @throws Exception
      */
     @PublicRequest
-    @GetMapping(value = {"preview/{id}", "preview/{id}.*"})
-    public void previewByPath(@PathVariable String id, HttpServletRequest req, HttpServletResponse response) throws Exception {
+    @GetMapping(value = {"preview/{id}", "preview/{id}.{suffix}","preview/{dir}/{id}.{suffix}"})
+    public void preview(@PathVariable String id, HttpServletRequest req, HttpServletResponse response) throws Exception {
         try {
             service.preview(id, req, response);
         } catch (Exception e) {

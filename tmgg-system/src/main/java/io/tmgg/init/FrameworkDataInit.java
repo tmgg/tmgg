@@ -129,8 +129,8 @@ public class FrameworkDataInit implements CommandLineRunner {
         SysConfig pub = sysConfigDao.findOne(Configs.RSA_PUBLIC_KEY);
         if (pub == null) {
             RSA rsa = SecureUtil.rsa();
-            sysConfigDao.addDefault("RSA公钥", Configs.RSA_PUBLIC_KEY, rsa.getPublicKeyBase64()); // 放到siteInfo, 前端可获取
-            sysConfigDao.addDefault("RSA私钥", Configs.RSA_PRIVATE_KEY,rsa.getPrivateKeyBase64());
+            sysConfigDao.addDefault("RSA公钥", Configs.RSA_PUBLIC_KEY, rsa.getPublicKeyBase64(),"password"); // 放到siteInfo, 前端可获取
+            sysConfigDao.addDefault("RSA私钥", Configs.RSA_PRIVATE_KEY,rsa.getPrivateKeyBase64(),"password");
         }
 
         sysConfigDao.addDefault("默认密码","sys.default.password", IdUtil.fastSimpleUUID(), "password");
