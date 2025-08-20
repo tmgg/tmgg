@@ -42,7 +42,7 @@ public abstract class BaseEntity implements PersistEntity, Serializable {
 
 
     @Id
-    @CustomId(style = CustomId.Style.DATETIME_SEQ)
+    @CustomId(style = CustomId.Style.UUID)
     @Column(length = DBConstants.LEN_ID)
     private String id;
 
