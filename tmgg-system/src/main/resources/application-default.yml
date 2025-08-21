@@ -37,4 +37,7 @@ logging:
     console: UTF-8
   pattern:
     dateformat: yyyy-MM-dd HH:mm:ss
+  file:
+    name: /data/logs/info.log
+    path: /data/logs/
 
