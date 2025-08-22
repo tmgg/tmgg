@@ -7,7 +7,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import io.tmgg.event.SysConfigChangeEvent;
 import io.tmgg.framework.perm.PermissionService;
 import io.tmgg.lang.HttpServletTool;
 import io.tmgg.lang.IpAddressTool;
@@ -170,10 +169,7 @@ public class SysLogService extends BaseService<SysLog> implements Runnable {
 
     }
 
-    @EventListener(SysConfigChangeEvent.class)
-    public void onChange() {
-        this.init();
-    }
+
 
     @Override
     public void run() {
