@@ -3,7 +3,7 @@
 - git push origin 1.1.28
 
 # 删除TAG 
-- tag：git tag -d 1.1.28
+- git tag -d 1.1.28
 - git push origin --delete 1.1.28
 
 
