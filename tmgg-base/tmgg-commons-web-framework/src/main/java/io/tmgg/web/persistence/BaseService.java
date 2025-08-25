@@ -82,16 +82,30 @@ public abstract class BaseService<T extends PersistEntity> {
     }
 
     public List<Option> findOptionList(Function<T, String> labelFn) {
-        List<T> list = this.findAll(Sort.by(Sort.Direction.DESC, "createTime"));
-        return list.stream().map(r -> {
-            String label = labelFn.apply(r);
-            String value = r.getId();
-            return Option.builder().label(label).value(value).build();
-        }).collect(Collectors.toList());
+        Sort defaultSort = Sort.by(Sort.Direction.DESC, "createTime");
+        return this.findOptionList(labelFn,null, defaultSort);
     }
 
+    /**
+     *
+     * @param q
+     * @param labelFn
+     * @return
+     * @deprecated  统一使用labelFn为第一个参数
+     */
+    @Deprecated
     public List<Option> findOptionList(JpaQuery<T> q, Function<T, String> labelFn) {
-        List<T> list = this.findAll(q, Sort.by(Sort.Direction.DESC, "createTime"));
+        Sort defaultSort = Sort.by(Sort.Direction.DESC, "createTime");
+        return this.findOptionList(labelFn, q, defaultSort);
+    }
+
+    public List<Option> findOptionList(Function<T, String> labelFn, JpaQuery<T> q) {
+        Sort defaultSort = Sort.by(Sort.Direction.DESC, "createTime");
+        return this.findOptionList(labelFn, q, defaultSort);
+    }
+
+    public List<Option> findOptionList(Function<T, String> labelFn, JpaQuery<T> q,Sort sort) {
+        List<T> list = this.findAll(q, sort);
         return list.stream().map(r -> {
             String label = labelFn.apply(r);
             String value = r.getId();
