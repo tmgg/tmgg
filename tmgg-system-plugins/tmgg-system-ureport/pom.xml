@@ -19,7 +19,7 @@
         </dependency>
 
         <dependency>
-            <groupId>io.github.tmgg.tmgg</groupId>
+            <groupId>io.github.tmgg</groupId>
             <artifactId>ureport-console</artifactId>
             <version>1.0.3</version>
         </dependency>
