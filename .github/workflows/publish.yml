@@ -25,6 +25,8 @@ jobs:
         uses: aaronbarnaby/get-tag@v1.0.0
         with:
           without_prefix_v: true # Remove prefix `v` from tag
+      - name: 显示版本号
+        run: echo ${{ steps.tag.outputs.tag }}
 
       - name: Publish MAVEN
         run: mvn -q  deploy   -Drevision=${{ steps.tag.outputs.tag }}  -P publishMavenCentral
