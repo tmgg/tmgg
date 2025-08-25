@@ -93,14 +93,7 @@
     "perm" : "sysDatasource",
     "path" : "/system/datasource",
     "seq" : 2
-  }, {
-    "id" : "mysqlStatus",
-    "pid" : "sysMonitor",
-    "name" : "Mysql状态",
-    "perm" : "mysqlStatus",
-    "path" : "/system/mysqlStatus",
-    "seq" : 3
-  }, {
+  },  {
     "id" : "sysOnlineUser",
     "pid" : "sysMonitor",
     "name" : "在线用户",

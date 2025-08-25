@@ -87,26 +87,10 @@ export default class extends React.Component {
                             </tr>
                             <tr>
                                 <td>
-                                    用户使用率
+                                    使用率
                                 </td>
                                 <td>
                                     <Usage value={this.state.cpuInfo.used}/>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    系统使用率
-                                </td>
-                                <td>
-                                    <Usage value={this.state.cpuInfo.sys}/>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    当前空闲率
-                                </td>
-                                <td>
-                                    {this.state.cpuInfo.free}%
                                 </td>
                             </tr>
                             </tbody>

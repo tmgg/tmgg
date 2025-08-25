@@ -1,13 +1,18 @@
 package io.tmgg.modules.monitor;
 
+import cn.hutool.core.io.unit.DataSizeUtil;
+import cn.hutool.system.oshi.CpuInfo;
+import cn.hutool.system.oshi.OshiUtil;
 import com.zaxxer.hikari.HikariDataSource;
 import com.zaxxer.hikari.HikariPoolMXBean;
+import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.modules.job.JobDesc;
 import io.tmgg.modules.job.JobTool;
 import io.tmgg.modules.monitor.dao.SysMetricRecordDao;
 import jakarta.annotation.Resource;
 import org.quartz.*;
 import org.slf4j.Logger;
+import oshi.hardware.GlobalMemory;
 
 import javax.sql.DataSource;
 
@@ -36,10 +41,19 @@ public class MonitorJob implements Job {
         }
 
         // CPU 使用率
+        CpuInfo cpuInfo = OshiUtil.getCpuInfo();
+        System.out.println(cpuInfo);
+        dao.record("cpu.used",cpuInfo.getUsed());
+
+        // 内存
+        GlobalMemory m = OshiUtil.getMemory();
+        long total = m.getTotal();
+        long free = m.getAvailable();
+        long used = total - free;
+        dao.record("mem.used", (used * 1F / total * 100));
 
 
-        // JVM
-
+        dao.clean();
 
     }
 }

@@ -1,5 +1,5 @@
 
-package io.tmgg.modules.system.controller;
+package io.tmgg.modules.monitor;
 
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.io.unit.DataSizeUtil;
@@ -37,9 +37,18 @@ public class SysMachineController {
     @GetMapping("cpu")
     public AjaxResult cpu() {
         CpuInfo cpuInfo = OshiUtil.getCpuInfo();
+        System.out.println(cpuInfo);
 
         return AjaxResult.ok().data(cpuInfo);
     }
+
+    @GetMapping("cpuChart")
+    public AjaxResult cpuChart() {
+        CpuInfo cpuInfo = OshiUtil.getCpuInfo();
+
+        return AjaxResult.ok().data(cpuInfo);
+    }
+
 
     @GetMapping("mem")
     public AjaxResult mem() {
