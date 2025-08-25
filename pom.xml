@@ -8,7 +8,7 @@
         <version>3.5.4</version>
     </parent>
 
-    <groupId>io.github.tmgg</groupId>
+    <groupId>io.github.tmgg.tmgg</groupId>
 
     <artifactId>tmgg-system-parent</artifactId>
     <name>tmgg-system-parent</name>
@@ -77,73 +77,73 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>io.github.tmgg</groupId>
+                <groupId>io.github.tmgg.tmgg</groupId>
                 <artifactId>tmgg-base</artifactId>
                 <version>${revision}</version>
             </dependency>
             <dependency>
-                <groupId>io.github.tmgg</groupId>
+                <groupId>io.github.tmgg.tmgg</groupId>
                 <artifactId>tmgg-system</artifactId>
                 <version>${revision}</version>
             </dependency>
 
             <dependency>
-                <groupId>io.github.tmgg</groupId>
+                <groupId>io.github.tmgg.tmgg</groupId>
                 <artifactId>tmgg-system-flowable</artifactId>
                 <version>${revision}</version>
             </dependency>
             <dependency>
-                <groupId>io.github.tmgg</groupId>
+                <groupId>io.github.tmgg.tmgg</groupId>
                 <artifactId>tmgg-system-kettle</artifactId>
                 <version>${revision}</version>
             </dependency>
             <dependency>
-                <groupId>io.github.tmgg</groupId>
+                <groupId>io.github.tmgg.tmgg</groupId>
                 <artifactId>tmgg-system-ureport</artifactId>
                 <version>${revision}</version>
             </dependency>
             <dependency>
-                <groupId>io.github.tmgg</groupId>
+                <groupId>io.github.tmgg.tmgg</groupId>
                 <artifactId>tmgg-commons-lang</artifactId>
                 <version>${revision}</version>
             </dependency>
             <dependency>
-                <groupId>io.github.tmgg</groupId>
+                <groupId>io.github.tmgg.tmgg</groupId>
                 <artifactId>tmgg-system-weixin</artifactId>
                 <version>${revision}</version>
             </dependency>
             <dependency>
-                <groupId>io.github.tmgg</groupId>
+                <groupId>io.github.tmgg.tmgg</groupId>
                 <artifactId>tmgg-system-payment</artifactId>
                 <version>${revision}</version>
             </dependency>
             <dependency>
-                <groupId>io.github.tmgg</groupId>
+                <groupId>io.github.tmgg.tmgg</groupId>
                 <artifactId>tmgg-commons-jdbc</artifactId>
                 <version>${revision}</version>
             </dependency>
             <dependency>
-                <groupId>io.github.tmgg</groupId>
+                <groupId>io.github.tmgg.tmgg</groupId>
                 <artifactId>tmgg-commons-web-framework</artifactId>
                 <version>${revision}</version>
             </dependency>
             <dependency>
-                <groupId>io.github.tmgg</groupId>
+                <groupId>io.github.tmgg.tmgg</groupId>
                 <artifactId>tmgg-commons-log-view</artifactId>
                 <version>${revision}</version>
             </dependency>
             <dependency>
-                <groupId>io.github.tmgg</groupId>
+                <groupId>io.github.tmgg.tmgg</groupId>
                 <artifactId>tmgg-commons-jackson</artifactId>
                 <version>${revision}</version>
             </dependency>
             <dependency>
-                <groupId>io.github.tmgg</groupId>
+                <groupId>io.github.tmgg.tmgg</groupId>
                 <artifactId>tmgg-commons-poi</artifactId>
                 <version>${revision}</version>
             </dependency>
             <dependency>
-                <groupId>io.github.tmgg</groupId>
+                <groupId>io.github.tmgg.tmgg</groupId>
                 <artifactId>tmgg-openapi-sdk</artifactId>
                 <version>${revision}</version>
             </dependency>

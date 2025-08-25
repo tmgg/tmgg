@@ -20,7 +20,7 @@ windows 上启动 kettle 目录下的 Carte.bat。
 ## 配置pom.xml文件
 ```xml
  <dependency>
-    <groupId>io.github.tmgg</groupId>
+    <groupId>io.github.tmgg.tmgg</groupId>
     <artifactId>tmgg-system-kettle</artifactId>
  </dependency>
 ```
