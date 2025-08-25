@@ -35,9 +35,6 @@ public class MonitorJob implements Job {
         if(dataSource instanceof HikariDataSource d){
             HikariPoolMXBean mx = d.getHikariPoolMXBean();
             dao.record("datasource.connections.active",mx.getActiveConnections());
-            dao.record("datasource.connections.idle",mx.getIdleConnections());
-            dao.record("datasource.connections.total",mx.getTotalConnections());
-            dao.record("datasource.connections.awaiting",mx.getThreadsAwaitingConnection());
         }
 
         // CPU 使用率
