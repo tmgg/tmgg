@@ -43,14 +43,14 @@ public class MonitorJob implements Job {
         // CPU 使用率
         CpuInfo cpuInfo = OshiUtil.getCpuInfo();
         System.out.println(cpuInfo);
-        dao.record("cpu.used",cpuInfo.getUsed());
+        dao.record("cpu.usage",cpuInfo.getUsed());
 
         // 内存
         GlobalMemory m = OshiUtil.getMemory();
         long total = m.getTotal();
         long free = m.getAvailable();
         long used = total - free;
-        dao.record("mem.used", (used * 1F / total * 100));
+        dao.record("mem.usage", (used * 1F / total * 100));
 
 
         dao.clean();
