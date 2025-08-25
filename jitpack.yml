@@ -1,0 +1,9 @@
+jdk:
+  - openjdk9
+before_install:
+  - ./custom_setup.sh
+install:
+  - echo "Running a custom install command"
+  - ./mvnw clean install -DskipTests -Drevision=0.0.2
+env:
+  MYVAR: "custom environment variable"
