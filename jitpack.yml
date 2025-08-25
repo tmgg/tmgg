@@ -3,6 +3,7 @@
 install:
   - env
   - echo "Running a custom install command"
-  - ./mvnw install -DskipTests -Drevision=0.0.2
+  - chmod +x mvnw
+  -  ./mvnw install -DskipTests -Drevision=0.0.2
 env:
   VERSION: "0.0.2"
