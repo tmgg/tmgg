@@ -12,14 +12,14 @@ export default class extends React.Component {
 
     componentDidMount() {
         HttpUtil.get('jobStatus/info').then(rs => {
-            this.setState({dataSource: rs.list,summary:rs.summary})
+            this.setState({dataSource: rs.list, summary: rs.summary})
         })
 
-        HttpUtil.get("jobStatus/statsTotal").then(list=>{
+        HttpUtil.get("jobStatus/statsTotal").then(list => {
 
-           const dates = list.map(item=>item.date);
-           const success = list.map(item=>item.success);
-           const error = list.map(item=>item.error)
+            const dates = list.map(item => item.date);
+            const success = list.map(item => item.success);
+            const error = list.map(item => item.error)
 
 
             var myChart = echarts.init(document.getElementById('main'));
@@ -37,16 +37,16 @@ export default class extends React.Component {
                         name: '成功',
                         type: 'bar',
                         data: success,
-                        itemStyle:{
-                            color:'green'
+                        itemStyle: {
+                            color: 'green'
                         }
                     },
                     {
                         name: '失败',
                         type: 'bar',
                         data: error,
-                        itemStyle:{
-                            color:'red'
+                        itemStyle: {
+                            color: 'red'
                         }
                     }
                 ]
@@ -62,19 +62,16 @@ export default class extends React.Component {
             <Row gutter={16}>
 
                 <Col span={12}>
-                    <div id='main' style={{height:300}}></div>
-
-                </Col>  <Col span={12}>
-                <Alert message={<pre>{this.state.summary}</pre>} style={{marginBottom:12}}></Alert>
-
-            </Col>
+                    <Alert message={<pre>{this.state.summary}</pre>} style={{marginBottom: 12}}></Alert>
+                </Col>
+                <Col span={12}>
+                    <div id='main' style={{height: 300}}></div>
+                </Col>
             </Row>
 
 
-
-
             <Table
-                title={()=><div>正在执行的Job</div>}
+                title={() => <div>正在执行的Job</div>}
                 bordered
                 rowKey='id'
                 pagination={false}
