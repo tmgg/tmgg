@@ -23,8 +23,7 @@ public class SysJobStatusController {
     @Resource
     private Scheduler scheduler;
 
-    @Resource
-    private SysJobLogService sysJobLogService;
+
 
     @Resource
     private DbTool db;
@@ -65,7 +64,7 @@ public class SysJobStatusController {
         String begin =  DateUtil.offsetDay(new Date(), -30).toDateStr();
         String end = DateUtil.today();
         String sql = """
-                SELECT execute_date as date,sum(if(success=1,true,0)) success, sum(if(success=0,true,0)) error\s from sys_job_log 
+                SELECT execute_date as date,sum(if(success=1,true,0)) success, sum(if(success=0,true,0)) error from sys_job_log 
                 WHERE execute_date BETWEEN ? and ? 
                 GROUP BY execute_date
                 """;
