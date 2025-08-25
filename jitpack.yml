@@ -1,5 +1,6 @@
 # gitpack 发布，发布速度比中央仓库要快一些
 # https://jitpack.io/#io.github.tmgg/tmgg
 install:
+  - env
   - echo "Running a custom install command"
   - mvn install -DskipTests -Drevision=0.0.2
