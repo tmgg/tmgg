@@ -23,7 +23,7 @@ public class _Util {
             String key = e.getKey();
             Object value = e.getValue();
             if(key.contains("_")){
-                key = _Util.camel(key);
+                key = StrUtil.toCamelCase(key);
             }
 
             newMap.put(key,value);
@@ -31,65 +31,6 @@ public class _Util {
         }
         return newMap;
     }
-
-
-    // 下划线转驼峰
-    public static String camel(String columnName) {
-        StringBuilder sb = new StringBuilder();
-        boolean match = false;
-        for (int i = 0; i < columnName.length(); i++) {
-            char ch = columnName.charAt(i);
-            if (match && ch >= 97 && ch <= 122)
-                ch -= 32;
-            if (ch != '_') {
-                match = false;
-                sb.append(ch);
-            } else {
-                match = true;
-            }
-        }
-        return sb.toString();
-    }
-
-
-    public static void underline(Map<String, Object> map) {
-        Set<String> keys = map.keySet();
-        String[] keyArr = (String[])keys.toArray(new String[keys.size()]);
-        String[] var3 = keyArr;
-        int var4 = keyArr.length;
-
-        for(int var5 = 0; var5 < var4; ++var5) {
-            String key = var3[var5];
-            String keyUnderline = StrUtil.toUnderlineCase(key);
-            if (!keyUnderline.equals(key)) {
-                Object v = map.get(key);
-                map.put(keyUnderline, v);
-                map.remove(key);
-            }
-        }
-
-    }
-
-    /**
-     * 获取首个泛型类型
-     * @param propertyDescriptor
-     * @return
-     */
-    public static Type getFirstGeneric(PropertyDescriptor propertyDescriptor){
-        Method readMethod = propertyDescriptor.getReadMethod();
-        Type genericReturnType = readMethod.getGenericReturnType();
-
-        if(genericReturnType instanceof ParameterizedType) {
-            ParameterizedType pt = (ParameterizedType) genericReturnType;
-
-            Type argument = pt.getActualTypeArguments()[0];
-
-            return argument;
-        }
-
-        return null;
-    }
-
 
 
 }

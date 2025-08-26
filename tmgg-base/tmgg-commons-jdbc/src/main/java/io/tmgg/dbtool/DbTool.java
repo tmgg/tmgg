@@ -2,8 +2,6 @@ package io.tmgg.dbtool;
 
 
 import cn.hutool.core.util.StrUtil;
-import org.apache.commons.dbutils.MyBeanProcessor;
-import io.tmgg.dbtool.dto.ComplexResult;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.dbutils.*;
 import org.apache.commons.dbutils.handlers.*;
@@ -41,14 +39,12 @@ public class DbTool {
     }
 
 
-
     public QueryRunner getRunner() {
         if (runner == null && ds != null) {
             runner = new QueryRunner(ds);
         }
         return runner;
     }
-
 
 
     public int dropTable(String tableName) {
@@ -185,38 +181,6 @@ public class DbTool {
             list = _Util.camel(list);
         }
         return list;
-    }
-
-
-    public ComplexResult findComplexResult(String sql, Object... params) {
-        List<Map<String, Object>> list = this.findAll(sql, params);
-        String[] keys = this.getKeys(sql);
-        for (int i = 0; i < keys.length; i++) {
-            String key = keys[i];
-            keys[i] = _Util.camel(key);
-        }
-
-
-        ComplexResult result = new ComplexResult();
-        result.setDataList(list);
-        result.setKeys(keys);
-
-
-        for (String key : keys) {
-            result.getKeyedMapList().put(key, new Object[list.size()]);
-        }
-
-        for (int i = 0; i < list.size(); i++) {
-            Map<String, Object> row = list.get(i);
-            for (String key : keys) {
-                Object v = row.get(key);
-                Object[] rowData = result.getKeyedMapList().get(key);
-                rowData[i] = v;
-            }
-        }
-
-
-        return result;
     }
 
 
@@ -557,11 +521,11 @@ public class DbTool {
 
     public int createTable(Class<?> cls, String tableName) {
         String sql = generateCreateTableSql(cls, tableName);
-        log.info("建表SQL：\n{}",sql);
+        log.info("建表SQL：\n{}", sql);
         return this.execute(sql);
     }
 
-    public  String generateCreateTableSql(Class<?> clazz, String tableName) {
+    public String generateCreateTableSql(Class<?> clazz, String tableName) {
         StringBuilder sb = new StringBuilder();
 
 
@@ -599,10 +563,10 @@ public class DbTool {
     }
 
     public static String getSqlType(Class<?> cls) {
-        if(Enum.class.isAssignableFrom(cls)){
+        if (Enum.class.isAssignableFrom(cls)) {
             return "varchar(50)";
         }
-        if(BigDecimal.class.isAssignableFrom(cls)){
+        if (BigDecimal.class.isAssignableFrom(cls)) {
             return "decimal(10,2)";
         }
 

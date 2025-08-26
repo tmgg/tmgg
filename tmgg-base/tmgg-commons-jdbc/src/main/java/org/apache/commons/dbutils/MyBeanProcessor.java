@@ -1,6 +1,7 @@
 package org.apache.commons.dbutils;
 
 import io.tmgg.dbtool._Util;
+import io.tmgg.lang.BeanReflectionTool;
 import io.tmgg.lang.ConvertTool;
 import lombok.extern.slf4j.Slf4j;
 
@@ -28,7 +29,7 @@ public class MyBeanProcessor extends GenerousBeanProcessor {
             return value;
         }
 
-        Type firstGeneric = _Util.getFirstGeneric(prop);
+        Type firstGeneric = BeanReflectionTool.getFirstGeneric(prop);
 
         try {
 
