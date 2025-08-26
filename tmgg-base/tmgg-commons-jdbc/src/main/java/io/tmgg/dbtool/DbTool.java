@@ -2,6 +2,7 @@ package io.tmgg.dbtool;
 
 
 import cn.hutool.core.util.StrUtil;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.dbutils.*;
 import org.apache.commons.dbutils.handlers.*;
@@ -20,30 +21,20 @@ import java.util.*;
 @Slf4j
 public class DbTool {
 
-    private QueryRunner runner;
+    @Getter
+    private final QueryRunner runner;
 
-    private DataSource ds = null;
+    private final DbToolConfig cfg;
 
 
-    private DbToolConfig cfg = null;
-
-    public DbTool() {
-        log.info("执行构造函数：{}", getClass().getName());
-    }
 
     public DbTool(DataSource dataSource) {
-        this();
-        this.ds = dataSource;
-        this.runner = new QueryRunner(dataSource);
-        this.cfg = new DbToolConfig();
+        this(dataSource, new DbToolConfig());
     }
 
-
-    public QueryRunner getRunner() {
-        if (runner == null && ds != null) {
-            runner = new QueryRunner(ds);
-        }
-        return runner;
+    public DbTool(DataSource dataSource,DbToolConfig cfg) {
+        this.runner = new QueryRunner(dataSource);
+        this.cfg =cfg;
     }
 
 
