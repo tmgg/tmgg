@@ -15,6 +15,7 @@ import io.tmgg.modules.monitor.dto.ChartTimeType;
 import io.tmgg.modules.monitor.service.SysMetricRecordService;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import oshi.SystemInfo;
@@ -48,10 +49,8 @@ public class SysMachineController {
         return AjaxResult.ok().data(cpuInfo);
     }
 
-    @GetMapping("cpuChart")
-    public AjaxResult cpuChart(ChartTimeType type) {
-        String name = "cpu.usage";
-
+    @GetMapping("chart/{name}")
+    public AjaxResult chart(@PathVariable String name, ChartTimeType type) {
         List<ChartResult> list = sysMetricRecordService.chart(name, type);
 
         return AjaxResult.ok().data(list);

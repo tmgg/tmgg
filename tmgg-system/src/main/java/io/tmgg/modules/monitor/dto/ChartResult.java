@@ -12,5 +12,4 @@ public class ChartResult {
     private  String time;
     private double value;
 
-    private List<String> test;
 }

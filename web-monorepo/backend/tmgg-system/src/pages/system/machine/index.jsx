@@ -1,4 +1,4 @@
-import {Card, Col, Row} from 'antd';
+import {Card, Col, Radio, Row, Typography} from 'antd';
 import React from 'react';
 
 
@@ -11,42 +11,61 @@ function Usage(props) {
     </div>
 }
 
-class UsageChart extends React.Component{
+class UsageChart extends React.Component {
 
     state = {
-        x:[],
-        s1:[]
+        x: [],
+        s1: [],
+
     }
+
+    defaultType = 'HOUR_1'
 
     componentDidMount() {
-        let url = this.props.url;
-        HttpUtil.get(url).then(list => {
-            const x =list.map(item=>item.time)
-            const s1 = list.map(item=>item.value)
-
-            this.setState({x,s1})
-        })
+        this.loadData(this.defaultType);
 
     }
 
-    render() {
+    loadData = (type) => {
+        let url = this.props.url;
+        HttpUtil.get(url, {type}).then(list => {
+            const x = list.map(item => item.time)
+            const s1 = list.map(item => item.value)
 
-      return  <Echarts height={300} option={{
-            title: {
-                text: this.props.title
-            },
-            tooltip: {},
-            xAxis: {
-                data: this.state.x
-            },
-            yAxis: {},
-            series: [
-                {
-                    type: 'line',
-                    data: this.state.s1,
-                }
-            ]
-        }}/>
+            this.setState({x, s1})
+        })
+    };
+
+    render() {
+        const options = [
+            {label: '近1小时', value: 'HOUR_1'},
+            {label: '24小时', value: 'HOUR_24'},
+            {label: '7天', value: 'DAY_7'},
+            {label: '30天', value: 'DAY_30'},
+        ];
+        return <div>
+            <div style={{display: 'flex', justifyContent: 'space-between'}}>
+                <Typography.Text>{this.props.title}</Typography.Text>
+                <Radio.Group block options={options} defaultValue={this.defaultType} optionType="button" style={{width:350}}
+                             onChange={v => this.loadData(v.target.value)}/>
+            </div>
+
+            <Echarts height={300} option={{
+                tooltip: {
+                    trigger: 'axis',
+
+                },
+                xAxis: {
+                    data: this.state.x
+                },
+                yAxis: {},
+                series: [
+                    {
+                        type: 'line',
+                        data: this.state.s1,
+                    }
+                ]
+            }}/></div>
     }
 
 }
@@ -135,11 +154,11 @@ export default class extends React.Component {
                             </tbody>
                         </table>
 
-                        <UsageChart title='CPU利用率' url='/sysMachine/cpuChart?type=HOUR_1'></UsageChart>
-
-
 
                     </Card>
+                </Col>
+                <Col span={12}>
+                    <UsageChart title='CPU利用率' url='/sysMachine/chart/cpu.usage'></UsageChart>
                 </Col>
                 <Col span={12}>
                     <Card title='内存'>
@@ -181,7 +200,9 @@ export default class extends React.Component {
                         </table>
                     </Card>
                 </Col>
-
+                <Col span={12}>
+                    <UsageChart title='内存使用率' url='/sysMachine/chart/mem.usage'></UsageChart>
+                </Col>
                 <Col span={12}>
                     <Card title='服务器信息'>
                         <table className='tmgg-table'>
