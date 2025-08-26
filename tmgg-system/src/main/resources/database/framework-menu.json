@@ -86,14 +86,7 @@
     "perm" : "machine",
     "path" : "/system/machine",
     "seq" : 1
-  }, {
-    "id" : "sysDatasource",
-    "pid" : "sysMonitor",
-    "name" : "数据源",
-    "perm" : "sysDatasource",
-    "path" : "/system/datasource",
-    "seq" : 2
-  },  {
+  },   {
     "id" : "sysOnlineUser",
     "pid" : "sysMonitor",
     "name" : "在线用户",

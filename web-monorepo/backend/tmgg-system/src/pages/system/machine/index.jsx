@@ -3,6 +3,7 @@ import React from 'react';
 
 
 import {Echarts, HttpUtil, Page} from "@tmgg/tmgg-base";
+import {StrUtil} from "@tmgg/tmgg-commons-lang";
 
 function Usage(props) {
     const {value} = props;
@@ -86,7 +87,9 @@ export default class extends React.Component {
         jvmMemInfo: {},
         osInfo: {},
         jvmInfo: {},
-        disks: []
+        disks: [],
+
+        config: {}
     }
 
 
@@ -111,12 +114,20 @@ export default class extends React.Component {
         HttpUtil.get('sysMachine/disks').then(rs => {
             this.setState({disks: rs})
         })
+
+        HttpUtil.get('sysDatasource/status').then(rs => {
+            this.setState({status: rs})
+        })
+        HttpUtil.get('sysDatasource/config').then(rs => {
+            this.setState({config: rs})
+        })
     }
 
 
     render() {
 
-        const {loading, jvmInfo, disks, osInfo} = this.state
+        const {jvmInfo, disks, osInfo} = this.state
+        const {config} = this.state
 
         return <Page padding>
 
@@ -202,6 +213,49 @@ export default class extends React.Component {
                 </Col>
                 <Col span={12}>
                     <UsageChart title='内存使用率' url='/sysMachine/chart/mem.usage'></UsageChart>
+                </Col>
+
+                <Col span={12}>
+                    <Card title='数据库连接池'>
+                        <table className='tmgg-table'>
+                            <thead>
+                            <tr>
+                                <th width={200}>属性</th>
+                                <th>值</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>连接地址</td>
+                                <td style={{wordBreak:'break-all'}}> {StrUtil.subBefore(config.jdbcUrl,'?')}</td>
+                            </tr>
+                            <tr>
+                                <td>空闲超时时间秒</td>
+                                <td>{config.idleTimeout}</td>
+                            </tr>
+                            <tr>
+                                <td>连接池名称</td>
+                                <td>{config.poolName}</td>
+                            </tr>
+                            <tr>
+                                <td>最小空闲数</td>
+                                <td>{config.minimumIdle}</td>
+                            </tr>
+                            <tr>
+                                <td>最大连接数</td>
+                                <td>{config.maximumPoolSize}</td>
+                            </tr>
+
+
+
+
+                            </tbody>
+                        </table>
+                    </Card>
+                </Col>
+                <Col span={12}>
+                    <UsageChart title='连接趋势图' url='/sysMachine/chart/datasource.connections.active'></UsageChart>
+
                 </Col>
                 <Col span={12}>
                     <Card title='服务器信息'>

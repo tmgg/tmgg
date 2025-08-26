@@ -8,11 +8,15 @@ import cn.hutool.system.OsInfo;
 import cn.hutool.system.SystemUtil;
 import cn.hutool.system.oshi.CpuInfo;
 import cn.hutool.system.oshi.OshiUtil;
+import com.zaxxer.hikari.HikariConfigMXBean;
+import com.zaxxer.hikari.HikariDataSource;
+import com.zaxxer.hikari.HikariPoolMXBean;
 import io.tmgg.lang.PastTimeFormatTool;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.modules.monitor.dto.ChartResult;
 import io.tmgg.modules.monitor.dto.ChartTimeType;
 import io.tmgg.modules.monitor.service.SysMetricRecordService;
+import io.tmgg.web.annotion.HasPermission;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,14 +26,12 @@ import oshi.SystemInfo;
 import oshi.hardware.GlobalMemory;
 import oshi.software.os.OSFileStore;
 
+import javax.sql.DataSource;
 import java.lang.management.ManagementFactory;
 import java.lang.management.RuntimeMXBean;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -41,6 +43,31 @@ public class SysMachineController {
 
     @Resource
     private SysMetricRecordService sysMetricRecordService;
+
+    @Resource
+    private DataSource dataSource;
+
+    @HasPermission
+    @GetMapping("config")
+    public AjaxResult config() {
+        Map<String, Object> info = new LinkedHashMap<>();
+
+        if (dataSource instanceof HikariDataSource ds) {
+            info.put("jdbcUrl", ds.getJdbcUrl());
+            info.put("driverClassName", ds.getDriverClassName());
+            info.put("连接池", dataSource.getClass().getName());
+
+            HikariConfigMXBean cfg = ds.getHikariConfigMXBean();
+            info.put("minimumIdle", cfg.getMinimumIdle());
+            info.put("idleTimeout", cfg.getIdleTimeout() / 1000);
+            info.put("maximumPoolSize", cfg.getMaximumPoolSize());
+            info.put("poolName", cfg.getPoolName());
+        }
+
+        return AjaxResult.ok().data(info);
+    }
+
+
 
     @GetMapping("cpu")
     public AjaxResult cpu() {
