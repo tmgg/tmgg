@@ -71,7 +71,6 @@ public class SysJobStatusController {
 
 
         return AjaxResult.ok().data(db.findAll(sql,begin, end));
-
     }
 
 

@@ -2,7 +2,7 @@ package io.tmgg.flowable.mgmt.entity;
 
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import io.tmgg.dbtool.Converter;
+import io.tmgg.dbtool.converter.Converter;
 import io.tmgg.jackson.JsonTool;
 
 import java.beans.PropertyDescriptor;

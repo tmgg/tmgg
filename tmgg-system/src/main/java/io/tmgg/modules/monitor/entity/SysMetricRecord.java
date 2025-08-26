@@ -22,8 +22,6 @@ public class SysMetricRecord extends BaseEntity {
     private Double metricValue; // 指标数值
 
 
-    @Column(length = 500)
-    private String metricValueStr; // 字符串类型的指标值
 
     @Column(length = 10)
     String date;

@@ -1,5 +1,6 @@
 package io.tmgg.modules.monitor.dao;
 
+import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.DateUtil;
 import io.tmgg.dbtool.DbTool;
 import io.tmgg.modules.monitor.entity.SysMetricRecord;
@@ -30,7 +31,8 @@ public class SysMetricRecordDao extends BaseDao<SysMetricRecord> {
      */
     public void clean() {
         String sql = "delete from sys_metric_record where create_time < ?";
-        int rows = db.execute(sql, DateUtil.lastMonth());
+        DateTime lastMonth = DateUtil.lastMonth();
+        int rows = db.execute(sql, lastMonth);
         log.info("清理一个月前数据 {}条", rows);
     }
 

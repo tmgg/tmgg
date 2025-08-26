@@ -12,13 +12,13 @@ class SqlPageableTool {
 
     public static String getPageSql(int type, String sql, int page, int rows) {
         switch (type) {
-            case Config.DB_TYPE_ORACLE:
+            case DbToolConfig.DB_TYPE_ORACLE:
                 return getPageSqlForOracle(sql, page, rows);
-            case Config.DB_TYPE_MYSQL:
+            case DbToolConfig.DB_TYPE_MYSQL:
                 return getPageSqlForMysql(sql, page, rows);
-            case Config.DB_TYPE_DB2:
+            case DbToolConfig.DB_TYPE_DB2:
                 return getPageSqlForDb2(sql, page, rows);
-            case Config.DB_TYPE_POSTGRES:
+            case DbToolConfig.DB_TYPE_POSTGRES:
                 return getPageSqlForPostgresql(sql, page, rows);
         }
 

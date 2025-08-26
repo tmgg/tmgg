@@ -1,4 +1,4 @@
-package io.tmgg.dbtool.obj;
+package io.tmgg.dbtool.dto;
 
 import lombok.Data;
 

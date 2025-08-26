@@ -1,8 +1,9 @@
 package io.tmgg.dbtool;
 
 
-import io.tmgg.dbtool.dbutil.MyBeanProcessor;
-import io.tmgg.dbtool.obj.ComplexResult;
+import cn.hutool.core.util.StrUtil;
+import org.apache.commons.dbutils.MyBeanProcessor;
+import io.tmgg.dbtool.dto.ComplexResult;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.dbutils.*;
 import org.apache.commons.dbutils.handlers.*;
@@ -11,6 +12,9 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
 import javax.sql.DataSource;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.math.BigDecimal;
 import java.sql.*;
 import java.util.*;
 
@@ -23,7 +27,7 @@ public class DbTool {
     private DataSource ds = null;
 
 
-    private Config cfg = null;
+    private DbToolConfig cfg = null;
 
     public DbTool() {
         log.info("执行构造函数：{}", getClass().getName());
@@ -33,13 +37,9 @@ public class DbTool {
         this();
         this.ds = dataSource;
         this.runner = new QueryRunner(dataSource);
-        this.cfg = new Config();
+        this.cfg = new DbToolConfig();
     }
 
-    public DbTool(DataSource dataSource, Config config) {
-        this(dataSource);
-        this.cfg = config;
-    }
 
 
     public QueryRunner getRunner() {
@@ -49,9 +49,6 @@ public class DbTool {
         return runner;
     }
 
-    public void register(Converter converter) {
-        Converters.getInstance().register(converter);
-    }
 
 
     public int dropTable(String tableName) {
@@ -59,12 +56,7 @@ public class DbTool {
     }
 
     public int createTable(Class<?> cls) {
-        return this.createTable(cls, _Util.underline(cls.getSimpleName()));
-    }
-
-    public int createTable(Class<?> cls, String tableName) {
-        String sql = TableGenerator.generateCreateTableSql(cls, tableName);
-        return this.execute(sql);
+        return this.createTable(cls, StrUtil.toUnderlineCase(cls.getSimpleName()));
     }
 
 
@@ -126,7 +118,7 @@ public class DbTool {
 
         Map<K, Map<String, Object>> result = this.query(sql, handler, params);
 
-        if (cfg.getNamingStrategy() == Config.NAMING_STRATEGY_IMPROVED) {
+        if (cfg.getNamingStrategy() == DbToolConfig.NAMING_STRATEGY_IMPROVED) {
             for (K k : result.keySet()) {
                 Map<String, Object> value = result.get(k);
                 Map<String, Object> cameled = _Util.camel(value);
@@ -189,7 +181,7 @@ public class DbTool {
         if (list == null) {
             return Collections.emptyList();
         }
-        if (cfg.getNamingStrategy() == Config.NAMING_STRATEGY_IMPROVED) {
+        if (cfg.getNamingStrategy() == DbToolConfig.NAMING_STRATEGY_IMPROVED) {
             list = _Util.camel(list);
         }
         return list;
@@ -237,7 +229,7 @@ public class DbTool {
             return null;
         }
 
-        if (cfg.getNamingStrategy() == Config.NAMING_STRATEGY_IMPROVED) {
+        if (cfg.getNamingStrategy() == DbToolConfig.NAMING_STRATEGY_IMPROVED) {
             map = _Util.camel(map);
         }
         return map;
@@ -270,7 +262,7 @@ public class DbTool {
         List<Map<String, Object>> list = this.findAll(pageSql, params);
 
         Page<Map<String, Object>> page = new PageImpl<>(list, pageable, total);
-        if (cfg.getNamingStrategy() == Config.NAMING_STRATEGY_IMPROVED) {
+        if (cfg.getNamingStrategy() == DbToolConfig.NAMING_STRATEGY_IMPROVED) {
             List<Map<String, Object>> content = _Util.camel(page.getContent());
 
             page = new PageImpl<>(content, pageable, page.getTotalElements());
@@ -476,7 +468,7 @@ public class DbTool {
             if (key.equals("id")) {
                 continue;
             }
-            sb.append(_Util.underline(key)).append("=?,");
+            sb.append(StrUtil.toUnderlineCase(key)).append("=?,");
             params.add(data.get(key));
         }
         sb.deleteCharAt(sb.length() - 1);
@@ -561,6 +553,90 @@ public class DbTool {
             }
         }
         return null;
+    }
+
+    public int createTable(Class<?> cls, String tableName) {
+        String sql = generateCreateTableSql(cls, tableName);
+        log.info("建表SQL：\n{}",sql);
+        return this.execute(sql);
+    }
+
+    public  String generateCreateTableSql(Class<?> clazz, String tableName) {
+        StringBuilder sb = new StringBuilder();
+
+
+        sb.append("CREATE TABLE  ").append(tableName).append(" (\n");
+
+        // 获取类以及父类的所有字段
+        List<Field> allFields = new ArrayList<>();
+        Class<?> currentClass = clazz;
+        while (currentClass != null) {
+            Field[] fields = currentClass.getDeclaredFields();
+            for (Field field : fields) {
+                // 排除静态字段
+                if (Modifier.isStatic(field.getModifiers())) {
+                    continue;
+                }
+                allFields.add(field);
+            }
+            currentClass = currentClass.getSuperclass();
+        }
+
+        // 生成字段定义
+        List<String> fieldDefinitions = new ArrayList<>();
+        for (Field field : allFields) {
+            String fieldName = field.getName();
+
+            fieldDefinitions.add(fieldName + " " + getSqlType(field.getType()));
+        }
+
+        // 拼接字段定义
+        sb.append(String.join(",\n", fieldDefinitions));
+
+        sb.append("\n)");
+
+        return sb.toString();
+    }
+
+    public static String getSqlType(Class<?> cls) {
+        if(Enum.class.isAssignableFrom(cls)){
+            return "varchar(50)";
+        }
+        if(BigDecimal.class.isAssignableFrom(cls)){
+            return "decimal(10,2)";
+        }
+
+
+        String typeName = cls.getSimpleName().toLowerCase();
+        switch (typeName) {
+            case "byte":
+            case "short":
+            case "int":
+            case "integer":
+                return "INT";
+            case "long":
+                return "BIGINT";
+            case "float":
+                return "FLOAT";
+            case "double":
+                return "DOUBLE";
+            case "boolean":
+                return "BOOLEAN";
+            case "char":
+            case "string":
+                return "VARCHAR(255)";
+            case "date":
+                return "datetime(6)";
+
+
+            // support collection, convert to string
+            case "list":
+            case "set":
+                return "text";
+
+            default:
+                throw new JdbcException("not support field type " + cls);
+        }
     }
 
 

@@ -1,5 +1,7 @@
 package io.tmgg.dbtool;
 
+import cn.hutool.core.util.StrUtil;
+
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
@@ -48,28 +50,7 @@ public class _Util {
         }
         return sb.toString();
     }
-    public static String underline(String camelCase) {
-        if(camelCase == null){
-            return null;
-        }
-        StringBuilder snakeCase = new StringBuilder();
 
-        for (int i = 0; i < camelCase.length(); i++) {
-            char c = camelCase.charAt(i);
-
-            if (Character.isUpperCase(c)) {
-                snakeCase.append("_");
-                snakeCase.append(Character.toLowerCase(c));
-            } else {
-                snakeCase.append(c);
-            }
-        }
-
-        if(snakeCase.charAt(0) == '_'){
-            snakeCase.deleteCharAt(0);
-        }
-        return snakeCase.toString();
-    }
 
     public static void underline(Map<String, Object> map) {
         Set<String> keys = map.keySet();
@@ -79,7 +60,7 @@ public class _Util {
 
         for(int var5 = 0; var5 < var4; ++var5) {
             String key = var3[var5];
-            String keyUnderline = underline(key);
+            String keyUnderline = StrUtil.toUnderlineCase(key);
             if (!keyUnderline.equals(key)) {
                 Object v = map.get(key);
                 map.put(keyUnderline, v);
@@ -89,6 +70,11 @@ public class _Util {
 
     }
 
+    /**
+     * 获取首个泛型类型
+     * @param propertyDescriptor
+     * @return
+     */
     public static Type getFirstGeneric(PropertyDescriptor propertyDescriptor){
         Method readMethod = propertyDescriptor.getReadMethod();
         Type genericReturnType = readMethod.getGenericReturnType();

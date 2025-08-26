@@ -2,7 +2,7 @@ import {Card, Col, Row} from 'antd';
 import React from 'react';
 
 
-import {HttpUtil, Page} from "@tmgg/tmgg-base";
+import {Echarts, HttpUtil, Page} from "@tmgg/tmgg-base";
 
 function Usage(props) {
     const {value} = props;
@@ -10,6 +10,47 @@ function Usage(props) {
         {value} %
     </div>
 }
+
+class UsageChart extends React.Component{
+
+    state = {
+        x:[],
+        s1:[]
+    }
+
+    componentDidMount() {
+        let url = this.props.url;
+        HttpUtil.get(url).then(list => {
+            const x =list.map(item=>item.time)
+            const s1 = list.map(item=>item.value)
+
+            this.setState({x,s1})
+        })
+
+    }
+
+    render() {
+
+      return  <Echarts height={300} option={{
+            title: {
+                text: this.props.title
+            },
+            tooltip: {},
+            xAxis: {
+                data: this.state.x
+            },
+            yAxis: {},
+            series: [
+                {
+                    type: 'line',
+                    data: this.state.s1,
+                }
+            ]
+        }}/>
+    }
+
+}
+
 
 export default class extends React.Component {
 
@@ -31,8 +72,6 @@ export default class extends React.Component {
 
 
     componentDidMount() {
-
-
         HttpUtil.get('sysMachine/cpu').then(rs => {
             this.setState({cpuInfo: rs})
         })
@@ -95,6 +134,10 @@ export default class extends React.Component {
                             </tr>
                             </tbody>
                         </table>
+
+                        <UsageChart title='CPU利用率' url='/sysMachine/cpuChart?type=HOUR_1'></UsageChart>
+
+
 
                     </Card>
                 </Col>
@@ -232,18 +275,18 @@ export default class extends React.Component {
                                 </td>
                             </tr>
                             <tr>
-                                <td >
+                                <td>
                                     安装路径
                                 </td>
-                                <td >
+                                <td>
                                     {jvmInfo.home}
                                 </td>
                             </tr>
                             <tr>
-                                <td >
+                                <td>
                                     项目路径
                                 </td>
-                                <td >
+                                <td>
                                     {jvmInfo.userDir}
                                 </td>
                             </tr>

@@ -10,6 +10,10 @@ import cn.hutool.system.oshi.CpuInfo;
 import cn.hutool.system.oshi.OshiUtil;
 import io.tmgg.lang.PastTimeFormatTool;
 import io.tmgg.lang.obj.AjaxResult;
+import io.tmgg.modules.monitor.dto.ChartResult;
+import io.tmgg.modules.monitor.dto.ChartTimeType;
+import io.tmgg.modules.monitor.service.SysMetricRecordService;
+import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,6 +29,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 系统属性监控控制器
@@ -33,20 +38,23 @@ import java.util.Map;
 @RequestMapping("sysMachine")
 public class SysMachineController {
 
+    @Resource
+    private SysMetricRecordService sysMetricRecordService;
 
     @GetMapping("cpu")
     public AjaxResult cpu() {
         CpuInfo cpuInfo = OshiUtil.getCpuInfo();
-        System.out.println(cpuInfo);
 
         return AjaxResult.ok().data(cpuInfo);
     }
 
     @GetMapping("cpuChart")
-    public AjaxResult cpuChart() {
-        CpuInfo cpuInfo = OshiUtil.getCpuInfo();
+    public AjaxResult cpuChart(ChartTimeType type) {
+        String name = "cpu.usage";
 
-        return AjaxResult.ok().data(cpuInfo);
+        List<ChartResult> list = sysMetricRecordService.chart(name, type);
+
+        return AjaxResult.ok().data(list);
     }
 
 
