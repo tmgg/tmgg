@@ -18,4 +18,4 @@ echo 正在推送标签到远程仓库...
 git push origin %tag_name%
 
 
-echo 标签 %tag_name% 已成功创建并推送
+echo 标签 %tag_name% 脚本执行完成
