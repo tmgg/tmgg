@@ -2,7 +2,7 @@
 chcp 65001 > nul
 
 
-set /p "tag_name=请输入标签名称如1.1.x: "
+set  "tag_name=v1.1.29"
 
 
 echo 正在删除本地标签（如果存在）...
