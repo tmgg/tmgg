@@ -4,7 +4,7 @@ import cn.hutool.core.bean.BeanUtil;
 import io.tmgg.web.persistence.specification.JpaQuery;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.obj.Option;
-{modulePackageName}.entity.${name};
+import ${modulePackageName}.entity.${name};
 import ${modulePackageName}.service.${name}Service;
 import io.tmgg.web.persistence.BaseController;
 import io.tmgg.web.persistence.BaseEntity;
