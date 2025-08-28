@@ -21,7 +21,23 @@ import java.util.List;
 @Repository
 @CacheConfig(cacheNames = "dict")
 public class SysDictItemDao extends BaseDao<SysDictItem> {
+    @CacheEvict(allEntries = true)
+    @Transactional
+    public SysDictItem add(SysDict dict, String code, String text){
+        SysDictItem item = new SysDictItem();
+        item.setSysDict(dict);
+        item.setCode(code);
+        item.setText(text);
+        item.setBuiltin(false);
 
+        return this.save(item);
+    }
+
+    @CacheEvict(allEntries = true)
+    @Override
+    public void updateField(SysDictItem entity, List<String> fieldsToUpdate) {
+        super.updateField(entity, fieldsToUpdate);
+    }
 
     @CacheEvict(allEntries = true)
     @Transactional
@@ -31,7 +47,6 @@ public class SysDictItemDao extends BaseDao<SysDictItem> {
         q.eq(SysDictItem.Fields.sysDict + ".id", typeId);
 
         List<SysDictItem> list = this.findAll(q);
-
 
         this.deleteAll(list);
     }

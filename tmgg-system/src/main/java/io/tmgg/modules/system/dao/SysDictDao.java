@@ -5,9 +5,19 @@ import io.tmgg.web.persistence.BaseDao;
 import io.tmgg.web.persistence.specification.JpaQuery;
 import io.tmgg.modules.system.entity.SysDict;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public class SysDictDao extends BaseDao<SysDict> {
+
+    @Transactional
+    public SysDict add(String code,String text){
+        SysDict  dict = new SysDict();
+        dict.setCode(code);
+        dict.setText(text);
+        dict = this.save(dict);
+        return dict;
+    }
 
     public SysDict findByCode(String code) {
         JpaQuery<SysDict> q = new JpaQuery<>();
