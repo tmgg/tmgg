@@ -38,7 +38,7 @@ public abstract class BaseController<T extends PersistEntity> {
         Page<T> page = service.findAll(q, pageable);
 
 
-        return service.autoRender(page);
+        return service.autoRender(page, service.getEntityClass());
     }
 
     @HasPermission

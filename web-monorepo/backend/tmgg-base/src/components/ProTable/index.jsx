@@ -41,8 +41,6 @@ export class ProTable extends React.Component {
         extData: {
             // 总结栏
             summary: null,
-            // 自动render相关的，如导出
-            autoRenderEnable: false
         }
     }
 
@@ -173,7 +171,6 @@ export class ProTable extends React.Component {
                 loading={this.state.loading}
                 params={this.state.params}
                 changeFormValues={this.changeFormValues}
-                autoRenderEnable={this.state.extData.autoRenderEnable}
             />}
 
 

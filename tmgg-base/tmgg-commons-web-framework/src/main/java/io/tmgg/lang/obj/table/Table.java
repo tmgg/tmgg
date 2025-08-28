@@ -39,8 +39,7 @@ public class Table<T> {
     // 分页时，总数
     private Long totalElements;
 
-    @Setter
-    private String title;
+
 
 
     public Table(List<T> dataSource) {

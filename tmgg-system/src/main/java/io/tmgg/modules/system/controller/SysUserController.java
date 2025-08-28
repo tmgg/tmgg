@@ -65,7 +65,7 @@ public class SysUserController {
         Page<SysUser> page = sysUserService.findAll(orgId, roleId, searchText, pageable);
         sysUserService.fillRoleName(page);
 
-        return sysUserService.autoRender(page);
+        return sysUserService.autoRender(page,SysUser.class);
     }
 
     @HasPermission

@@ -1,15 +1,19 @@
 package io.tmgg.web.persistence;
 
 
+import cn.hutool.core.date.DatePattern;
+import cn.hutool.core.date.DateUtil;
 import cn.hutool.extra.spring.SpringUtil;
-import io.tmgg.data.domain.PageExt;
+import io.tmgg.lang.HttpServletTool;
+import io.tmgg.lang.ann.RemarkTool;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.obj.Option;
 import io.tmgg.lang.obj.table.Table;
-import io.tmgg.web.io.ExportTool;
+import io.tmgg.lang.poi.ExcelExportTool;
+import io.tmgg.web.WebConstants;
 import io.tmgg.web.persistence.specification.JpaQuery;
 import jakarta.persistence.Transient;
-import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -19,10 +23,11 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -36,41 +41,38 @@ public abstract class BaseService<T extends PersistEntity> {
     protected BaseDao<T> baseDao;
 
 
-    public AjaxResult autoRender(Page<T> page) throws Exception {
-        Class<T> beanClass = baseDao.getDomainClass();
-        return this.autoRender(page, beanClass);
+    public static String getExportType() {
+        HttpServletRequest request = HttpServletTool.getRequest();
+        Assert.notNull(request, "request不能为空");
+
+        return request.getHeader(WebConstants.HEADER_EXPORT_TYPE);
     }
 
     /**
      * 自定渲染，vo的情况
      */
-    public <VO> AjaxResult autoRender(Page<VO> page, Class<VO> cls) throws Exception {
-        if (!ExportTool.isExportRequest()) {
-             // 增加额外的字段
-            PageExt<VO> pageExt = PageExt.of(page, "autoRenderEnable", true);
-            return AjaxResult.ok().data(pageExt);
+    public <T> AjaxResult autoRender(Page<T> page, Class<T> cls) throws Exception {
+        String exportType = getExportType();
+        if (exportType == null) {
+            return AjaxResult.ok().data(page);
         }
 
-        ExportTool.export(page.getContent(), cls);
+        String fileName = RemarkTool.getRemark(cls);
+        if(fileName == null){
+            fileName = cls.getSimpleName();
+        }
+        fileName = fileName + "_" + DateUtil.format(new Date(), DatePattern.PURE_DATETIME_PATTERN);
+
+
+        // 分页数据转换下
+        Table<T> tableData = Table.of(page.getContent(), cls);
+
+        if (exportType.equals("EXCEL")) {
+            ExcelExportTool.exportTable(fileName  +".xlsx", tableData);
+        }
+
+
         return null;
-    }
-
-    @Deprecated
-    public <D> void exportExcel(Table<D> table, String filename, HttpServletResponse response) throws IOException {
-        ExportTool.exportExcel(table, filename, response);
-    }
-
-    /**
-     * 通过注解@Excel导出
-     *
-     * @param list
-     * @param filename
-     * @param response
-     * @throws IOException
-     */
-    @Deprecated
-    public void exportExcel(List<T> list, String filename, HttpServletResponse response) throws IOException {
-        ExportTool.exportExcel(list, filename, getEntityClass(), response);
     }
 
 
@@ -83,15 +85,14 @@ public abstract class BaseService<T extends PersistEntity> {
 
     public List<Option> findOptionList(Function<T, String> labelFn) {
         Sort defaultSort = Sort.by(Sort.Direction.DESC, "createTime");
-        return this.findOptionList(labelFn,null, defaultSort);
+        return this.findOptionList(labelFn, null, defaultSort);
     }
 
     /**
-     *
      * @param q
      * @param labelFn
      * @return
-     * @deprecated  统一使用labelFn为第一个参数
+     * @deprecated 统一使用labelFn为第一个参数
      */
     @Deprecated
     public List<Option> findOptionList(JpaQuery<T> q, Function<T, String> labelFn) {
@@ -104,7 +105,7 @@ public abstract class BaseService<T extends PersistEntity> {
         return this.findOptionList(labelFn, q, defaultSort);
     }
 
-    public List<Option> findOptionList(Function<T, String> labelFn, JpaQuery<T> q,Sort sort) {
+    public List<Option> findOptionList(Function<T, String> labelFn, JpaQuery<T> q, Sort sort) {
         List<T> list = this.findAll(q, sort);
         return list.stream().map(r -> {
             String label = labelFn.apply(r);

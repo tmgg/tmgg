@@ -1,14 +1,14 @@
 /**
  * 工具栏
  */
-import {DatabaseOutlined, HistoryOutlined, ReloadOutlined} from '@ant-design/icons';
+import {HistoryOutlined, ReloadOutlined} from '@ant-design/icons';
 import {Button, Input, message, Modal, Table} from 'antd';
 import React from 'react';
 import './index.less';
 import {DateUtil, StorageUtil} from "@tmgg/tmgg-commons-lang";
 import {PageUtil} from "../../../../system";
 import excel from './excel.svg'
-import pdf from './pdf.svg'
+
 export default class Toolbar extends React.Component {
 
     state = {
@@ -24,12 +24,11 @@ export default class Toolbar extends React.Component {
             toolBarRender,
             loading,
             searchFormNode,
-            autoRenderEnable,
         } = this.props;
 
-        let {showSearch,showExportExcel=true,showExportPdf=true,showExportJson=true} = toolbarOptions
+        let {showSearch, showExportExcel = true} = toolbarOptions
         // 未设置搜索表单的情况下，默认显示搜索Input
-        if(showSearch == null && searchFormNode == null){
+        if (showSearch == null && searchFormNode == null) {
             showSearch = true
         }
 
@@ -51,41 +50,25 @@ export default class Toolbar extends React.Component {
                 {toolBarRender}
 
 
-                {this.getAutoRenderNode(autoRenderEnable, showExportExcel, onExport, showExportPdf, showExportJson)}
+                {showExportExcel && <Button title='导出EXCEL'
+                                            size='small' icon={<img src={excel} style={{width: '100%'}}/>}
+                                            onClick={() => onExport('EXCEL')}/>}
 
 
-                <Button icon={<ReloadOutlined/>} shape="circle" onClick={onRefresh} title='刷新' loading={loading}/>
-                <Button icon={<HistoryOutlined/>} shape="circle" onClick={this.onClickHistory} title='查询历史'/>
+                <Button title='刷新' size='small' icon={<ReloadOutlined/>} onClick={onRefresh} loading={loading}/>
+                <Button title='查询历史' size='small' icon={<HistoryOutlined/>} onClick={this.onClickHistory}/>
             </div>
 
             {this.renderHistory()}
         </div>
     };
 
-    getAutoRenderNode(autoRenderEnable,showExportExcel, onExport, showExportPdf, showExportJson) {
-        if(!autoRenderEnable){
-            return null
-        }
-        return <>
-            {showExportExcel && <button title='导出EXCEL' className='btn' onClick={() => onExport('EXCEL')}>
-                <img src={excel}/>
-            </button>}
-
-            {showExportPdf && <button title='导出PDF' className='btn' onClick={() => onExport('PDF')}>
-                <img src={pdf}/>
-            </button>}
-
-            {showExportJson && <button title='导出json' className='btn' onClick={() => onExport('JSON')}>
-                <DatabaseOutlined/>
-            </button>}
-        </>;
-    }
 
     renderHistory() {
         const {params} = this.props
         const list = StorageUtil.get(this.getParamKey()) || []
 
-        const dataSource = [{params,time:'当前'}, ...list]
+        const dataSource = [{params, time: '当前'}, ...list]
 
         return <Modal title='查询方案'
                       width={800}
@@ -111,9 +94,9 @@ export default class Toolbar extends React.Component {
                     }, {
                         dataIndex: 'option', title: '-',
                         render: (v, record) => {
-                            if (record.time ==='当前') {
+                            if (record.time === '当前') {
                                 return <Button onClick={this.onSaveHistory}>保存</Button>
-                            }else {
+                            } else {
                                 return <Button type='primary' onClick={() => this.onApply(record.params)}>使用</Button>
                             }
                         }
@@ -148,12 +131,12 @@ export default class Toolbar extends React.Component {
         }
         StorageUtil.set(this.getParamKey(), list)
         message.success('保存成功')
-        this.setState({historyOpen:false})
+        this.setState({historyOpen: false})
     }
 
     onApply = (params) => {
         this.props.changeFormValues(params)
-        this.setState({historyOpen:false})
+        this.setState({historyOpen: false})
     }
 }
 

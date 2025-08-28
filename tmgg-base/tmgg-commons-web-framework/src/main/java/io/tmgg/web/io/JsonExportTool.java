@@ -1,23 +1,20 @@
-package io.tmgg.web.io.core.impl;
+package io.tmgg.web.io;
 
 import cn.hutool.core.io.FileUtil;
 import io.tmgg.jackson.JsonTool;
 import io.tmgg.lang.ResponseTool;
 import io.tmgg.lang.obj.table.Table;
-import io.tmgg.web.io.core.FileImportExportHandler;
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.*;
 
-public class JsonImpl implements FileImportExportHandler {
+public class JsonExportTool {
 
 
-    @Override
-    public <T> File createFile(Table<T> table, String title) throws Exception {
+    public static  <T> File createFile(Table<T> table) throws Exception {
         List<T> dataSource = table.getDataSource();
         String json = JsonTool.toPrettyJsonQuietly(dataSource);
 
@@ -31,8 +28,7 @@ public class JsonImpl implements FileImportExportHandler {
 
 
 
-    @Override
-    public void exportFile(File file, String filename, HttpServletResponse response) throws IOException {
+    public static void exportFile(File file, String filename, HttpServletResponse response) throws IOException {
         if (!filename.endsWith(".json")) {
             filename += ".json";
         }
@@ -45,8 +41,5 @@ public class JsonImpl implements FileImportExportHandler {
         }
     }
 
-    @Override
-    public void importFile(InputStream is) {
-        FileImportExportHandler.super.importFile(is);
-    }
+
 }

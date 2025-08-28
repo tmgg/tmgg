@@ -219,6 +219,7 @@ export default class extends React.Component {
                    destroyOnHidden
                    maskClosable={false}
                    width={800}
+                   onCancel={()=>this.setState({usersModalOpen:false})}
             >
 
 

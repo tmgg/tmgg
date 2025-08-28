@@ -4,6 +4,7 @@ package io.tmgg.lang.poi;
 import io.tmgg.commons.poi.excel.ExcelExportUtil;
 import io.tmgg.commons.poi.excel.entity.ExportParams;
 import io.tmgg.commons.poi.excel.entity.enmus.ExcelType;
+import io.tmgg.lang.HttpServletTool;
 import io.tmgg.lang.ResponseTool;
 import io.tmgg.lang.data.Matrix;
 import io.tmgg.lang.obj.table.Table;
@@ -46,6 +47,12 @@ public class ExcelExportTool {
         exportWorkbook(filename, workbook, response);
     }
 
+
+    public static <T> void exportTable(String filename, Table<T> tb) throws IOException {
+        HttpServletResponse response = HttpServletTool.getResponse();
+        exportTable(filename, tb,response);
+    }
+
     public static <T> void exportTable(String filename, Table<T> tb, HttpServletResponse response) throws IOException {
         Workbook workbook = new XSSFWorkbook();
         Sheet sheet = workbook.createSheet();
@@ -59,7 +66,7 @@ public class ExcelExportTool {
             for (int j = 0; j < rowData.size(); j++) {
                 Object value = rowData.get(j);
                 if (value != null) {
-                    row.createCell(i).setCellValue(value.toString());
+                    row.createCell(j).setCellValue(value.toString());
                 }
             }
         }
