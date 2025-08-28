@@ -81,10 +81,10 @@ public class FrameworkDataInit implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        Collection<PreFrameworkDataInit> preSystemDataInits = SpringTool.getBeans(PreFrameworkDataInit.class);
-        for (PreFrameworkDataInit preSystemDataInit : preSystemDataInits) {
-            log.info("在框架初始化数据之前执行: {}", preSystemDataInit.getClass().getName());
-            preSystemDataInit.run();
+        Collection<FrameworkDataInitInterceptor> interceptors = SpringTool.getBeans(FrameworkDataInitInterceptor.class);
+        for (FrameworkDataInitInterceptor it : interceptors) {
+            log.info("在框架初始化数据之前执行: {}", it.getClass().getName());
+            it.beforeInit();
         }
 
 
@@ -121,7 +121,10 @@ public class FrameworkDataInit implements CommandLineRunner {
         dbCacheDao.set(CACHE_KEY_FRAMEWORK_VERSION, Build.getFrameworkVersion());
 
         log.info("系统初始化耗时：{}", System.currentTimeMillis() - time);
-
+        for (FrameworkDataInitInterceptor it : interceptors) {
+            log.info("在框架初始化数据之前执行: {}", it.getClass().getName());
+            it.afterInit();
+        }
     }
 
     private void initSysConfig() {
