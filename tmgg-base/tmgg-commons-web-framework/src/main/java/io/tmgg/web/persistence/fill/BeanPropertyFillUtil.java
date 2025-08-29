@@ -19,7 +19,6 @@ import java.lang.reflect.Field;
 public class BeanPropertyFillUtil {
 
 
-    public static final String TARGET_FIELD_SUFFIX_DISPLAY = "Display";
     public static final String SOURCE_FIELD_SUFFIX_ID = "Id";
 
     /**
@@ -116,13 +115,7 @@ public class BeanPropertyFillUtil {
             AutoAppendStrategy strategy = SpringUtil.getBean(strategyClass);
 
             String targetField = f.getName();
-            String sourceField = StrUtil.removeSuffix(f.getName(), TARGET_FIELD_SUFFIX_DISPLAY);
-
-            if (!targetField.endsWith(TARGET_FIELD_SUFFIX_DISPLAY)) {
-
-                log.warn("推荐自动注入字段使用" + TARGET_FIELD_SUFFIX_DISPLAY + "结尾。字段信息：" + key);
-                sourceField = StrTool.removeLastWord(sourceField);
-            }
+            String sourceField = StrTool.removeLastWord(targetField);
 
 
             if (!ReflectUtil.hasField(obj.getClass(), sourceField)) {

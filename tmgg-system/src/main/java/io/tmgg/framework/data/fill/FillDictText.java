@@ -11,7 +11,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.FIELD, ElementType.ANNOTATION_TYPE})
 @FillField(strategy = AutoAppendDictLabelStrategy.class)
-public @interface FillDictLabel {
+public @interface FillDictText {
 
     @AliasFor(annotation = FillField.class, attribute = "params")
     String typeCode();

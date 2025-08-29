@@ -4,7 +4,7 @@ package io.tmgg.modules.system.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.tmgg.commons.poi.excel.annotation.Excel;
-import io.tmgg.framework.data.fill.FillOrgLabel;
+import io.tmgg.framework.data.fill.FillOrgName;
 import io.tmgg.lang.ann.Remark;
 import io.tmgg.web.persistence.BaseEntity;
 import jakarta.persistence.*;
@@ -45,18 +45,18 @@ public class SysUser extends BaseEntity {
     @Remark("所属机构")
     private String unitId;
 
-    @FillOrgLabel
+    @FillOrgName
     @Excel(name = "单位")
     @Transient
-    private String unitDisplay;
+    private String unitLabel;
 
     @Remark("所属部门")
     private String deptId;
 
-    @FillOrgLabel
+    @FillOrgName
     @Excel(name = "部门")
     @Transient
-    private String deptDisplay;
+    private String deptLabel;
 
 
     @Excel(name = "账号")

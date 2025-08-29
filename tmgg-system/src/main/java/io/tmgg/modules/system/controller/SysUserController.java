@@ -173,8 +173,8 @@ public class SysUserController {
         Page<SysUser> page = sysUserService.findAll(query, PageRequest.of(0, 200));
 
         List<Option> options = Option.convertList(page.getContent(), BaseEntity::getId, t -> {
-            if (t.getDeptDisplay() != null) {
-                return t.getName() + " (" + t.getDeptDisplay() + ")";
+            if (t.getDeptLabel() != null) {
+                return t.getName() + " (" + t.getDeptLabel() + ")";
             }
 
             return t.getName();
