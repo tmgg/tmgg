@@ -83,7 +83,9 @@ public class SysUserController {
             input.setUnitId(unit.getId());
         }
 
-         sysUserService.saveOrUpdate(input,updateFields);
+
+        updateFields.add("unitId");
+        sysUserService.saveOrUpdate(input,updateFields);
 
         if (isNew) {
             return AjaxResult.ok().msg("添加成功,密码：" + configService.getDefaultPassWord());
