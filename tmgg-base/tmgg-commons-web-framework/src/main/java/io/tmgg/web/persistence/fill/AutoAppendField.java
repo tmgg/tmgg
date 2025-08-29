@@ -14,7 +14,7 @@ import java.lang.annotation.*;
 @Target({ElementType.FIELD, ElementType.ANNOTATION_TYPE})
 public @interface AutoAppendField {
 
-    Class<? extends AutoAppendStrategy> value();
+    Class<? extends ValueConvertStrategy> value();
 
 
     boolean removeIdStr() default true;

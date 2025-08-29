@@ -35,31 +35,8 @@ private String updateUser;
 
 
 
-##  自动填充字段
-
-
-页面显示通常会包含更多的字段，例如一个实体存了orgId，但希望显示orgLabel
-通常会增加一个字段 orgLabel, 并使用@Transient注解标注，然后手动设置。
-可以在orgId字段上使用自动注解 @AutoAppend
-```java
-    @AutoAppendField(AutoAppendOrgLabelStrategy.class)
-    private String orgId;
-
-    @Transient
-    private String orgLabel;
-```
-开发者可扩展，秩序实现AutoAppendStrategy接口，
-目前内置的有
-- AutoAppendDictLabelStrategy 字典名称
-- AutoAppendEnumLabelStrategy 枚举注释
-- AutoAppendFileViewUrlStrategy 文件预览地址
-- AutoAppendOrgLabelStrategy 机构名称
-- AutoAppendUserLabelStrategy 用户名称
-
-
-
 ##  更新指定字段
-
+<p>
 对比save方法更新的时所有字段，只更新指定字段
 
 
@@ -67,7 +44,7 @@ private String updateUser;
 ##  直接更新指定字段
 不会先find，再更新
 对比save方法更新的时所有字段，改方法只更新指定字段
-
+<p>
 注意：主要用于更新单个实体的字段， 不能更新多对多等关联关系
 
 
@@ -80,9 +57,9 @@ private String updateUser;
 
 ##  id生成策略
 默认的id生成策略是uuid， 可通过实体类型上增加注解@CustomId改变
-
+<p>
 支持自定义前缀，长度，类型等
-
+<p>
 支持样式如下，具体可参考IdStyle枚举
 - UUID
 - DATETIME_UUID
@@ -100,9 +77,6 @@ private String updateUser;
 JpaQuery<SysLog> q=new JpaQuery<>();
 q.betweenIsoDateRange("createTime",dateRange);
 ```
-
-
-
 
 
 
@@ -126,42 +100,7 @@ q.betweenIsoDateRange("createTime",dateRange);
 ##  开放接口
 
 
-示例代码
-```java
-package io.tmgg.modules.api.defaults;
-
-import cn.hutool.core.date.DateUtil;
-import io.tmgg.lang.ann.field.FieldInfo;
-import io.tmgg.modules.api.Api;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import org.springframework.stereotype.Component;
-
-@Component
-public class PingApi {
-
-	@Api(name = "测试连通性", uri = "ping", desc = "示例接口，为了测试，会返回pong")
-	public String ping(@FieldInfo(label = "信息", len = 50) String msg) {
-		return "pong:" + msg;
-	}
-
-	@Api(name = "获得服务器时间", uri = "time")
-	public TimeInfo time() {
-		return new TimeInfo(DateUtil.now(), System.currentTimeMillis());
-	}
-
-	@Data
-	@AllArgsConstructor
-	public static class TimeInfo {
-		@FieldInfo(label = "格式化时间")
-		String time;
-
-		@FieldInfo(label = "时间戳")
-		long timestamp;
-	}
-}
-
-```
+@see DefaultApi
 
 ##  作业调度
 
@@ -169,7 +108,7 @@ public class PingApi {
 ```java
 package io.tmgg.modules.job.builtin;
 
-import io.tmgg.lang.ann.field.FieldInfo;
+import io.tmgg.lang.field.FieldInfo;
 import io.tmgg.modules.job.JobDesc;
 import io.tmgg.modules.job.JobTool;
 import org.quartz.*;
@@ -193,8 +132,9 @@ public class DemoJob implements Job {
         JobDataMap data = JobTool.getData(e);
         String msg = data.getString("msg");
 
-        System.out.println(msg);
-        log.info("打印信息：{}", msg);
+
+        System.out.println("控制台打印：" +msg);
+        log.info("日志打印信息：{}", msg);
 
         e.setResult("结果：成功");
     }

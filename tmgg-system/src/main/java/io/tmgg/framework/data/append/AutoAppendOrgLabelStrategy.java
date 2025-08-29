@@ -1,6 +1,6 @@
 package io.tmgg.framework.data.append;
 
-import io.tmgg.web.persistence.fill.AutoAppendStrategy;
+import io.tmgg.web.persistence.fill.ValueConvertStrategy;
 import io.tmgg.modules.system.entity.SysOrg;
 import io.tmgg.modules.system.service.SysOrgService;
 import cn.hutool.cache.Cache;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import jakarta.annotation.Resource;
 
 @Component
-public class AutoAppendOrgLabelStrategy implements AutoAppendStrategy {
+public class AutoAppendOrgLabelStrategy implements ValueConvertStrategy {
 
 
     @Resource
@@ -20,7 +20,7 @@ public class AutoAppendOrgLabelStrategy implements AutoAppendStrategy {
 
 
     @Override
-    public Object getAppendValue(Object bean, Object sourceValue, String param) {
+    public Object convertValue(Object bean, Object sourceValue, String param) {
         String orgId = (String) sourceValue;
 
 

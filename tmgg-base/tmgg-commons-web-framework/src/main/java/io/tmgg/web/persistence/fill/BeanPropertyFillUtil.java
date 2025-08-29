@@ -6,7 +6,6 @@ import cn.hutool.core.util.ReflectUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import io.tmgg.lang.StrTool;
-import io.tmgg.web.persistence.fill.*;
 import jakarta.persistence.Transient;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.annotation.AnnotatedElementUtils;
@@ -69,9 +68,9 @@ public class BeanPropertyFillUtil {
         Assert.state(!f.isAnnotationPresent(Transient.class), "Auto注解已调整，请放到原始字段上");
         Assert.state(!f.isAnnotationPresent(org.springframework.data.annotation.Transient.class), "Auto注解已调整，请放到原始字段上");
 
-        Class<? extends AutoAppendStrategy> strategyClass = autoFill.value();
+        Class<? extends ValueConvertStrategy> strategyClass = autoFill.value();
         try {
-            AutoAppendStrategy strategy = SpringUtil.getBean(strategyClass);
+            ValueConvertStrategy strategy = SpringUtil.getBean(strategyClass);
 
             // 获取原始字段
             // 规则1. 默认去掉最后一个单词， 例如 userLabel -> user
@@ -91,7 +90,7 @@ public class BeanPropertyFillUtil {
                 return;
             }
 
-            Object targetValue = strategy.getAppendValue(obj, sourceValue, autoFill.param());
+            Object targetValue = strategy.convertValue(obj, sourceValue, autoFill.param());
             BeanUtil.setFieldValue(obj, targetField, targetValue);
         } catch (Exception e) {
             e.printStackTrace();
@@ -105,14 +104,14 @@ public class BeanPropertyFillUtil {
         if(ff == null){
             return;
         }
-        Class<? extends AutoAppendStrategy> strategyClass = ff.strategy();
+        Class<? extends ValueConvertStrategy> strategyClass = ff.strategy();
         if (strategyClass == null) {
             return;
         }
         Assert.state(f.isAnnotationPresent(org.springframework.data.annotation.Transient.class) || f.isAnnotationPresent(Transient.class), "注解请放到@Transient字段上 " + key);
 
         try {
-            AutoAppendStrategy strategy = SpringUtil.getBean(strategyClass);
+            ValueConvertStrategy strategy = SpringUtil.getBean(strategyClass);
 
             String targetField = f.getName();
             String sourceField = StrTool.removeLastWord(targetField);
@@ -131,7 +130,7 @@ public class BeanPropertyFillUtil {
                 return;
             }
 
-            Object targetValue = strategy.getAppendValue(obj, sourceValue, ff.params());
+            Object targetValue = strategy.convertValue(obj, sourceValue, ff.params());
             BeanUtil.setFieldValue(obj, targetField, targetValue);
         } catch (Exception e) {
             e.printStackTrace();

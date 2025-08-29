@@ -1,13 +1,13 @@
 package io.tmgg.framework.data.append;
 
-import io.tmgg.web.persistence.fill.AutoAppendStrategy;
+import io.tmgg.web.persistence.fill.ValueConvertStrategy;
 import io.tmgg.modules.system.dao.SysUserDao;
 import org.springframework.stereotype.Component;
 
 import jakarta.annotation.Resource;
 
 @Component
-public class AutoAppendUserLabelStrategy implements AutoAppendStrategy {
+public class AutoAppendUserLabelStrategy implements ValueConvertStrategy {
 
 
     @Resource
@@ -15,7 +15,7 @@ public class AutoAppendUserLabelStrategy implements AutoAppendStrategy {
 
 
     @Override
-    public Object getAppendValue(Object bean, Object sourceValue, String param) {
+    public Object convertValue(Object bean, Object sourceValue, String param) {
         String id = (String) sourceValue;
 
 

@@ -19,6 +19,6 @@ public @interface FillField {
 
     String params() default "";
 
-    Class<? extends AutoAppendStrategy> strategy() ;
+    Class<? extends ValueConvertStrategy> strategy() ;
 
 }
