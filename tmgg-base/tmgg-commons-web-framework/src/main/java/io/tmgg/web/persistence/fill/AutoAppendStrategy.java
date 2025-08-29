@@ -1,4 +1,4 @@
-package io.tmgg.web.persistence;
+package io.tmgg.web.persistence.fill;
 
 /**
  * 自动填充字段

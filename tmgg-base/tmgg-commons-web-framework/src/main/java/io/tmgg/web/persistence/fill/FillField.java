@@ -1,4 +1,4 @@
-package io.tmgg.web.persistence;
+package io.tmgg.web.persistence.fill;
 
 
 import java.lang.annotation.*;
@@ -12,14 +12,13 @@ import java.lang.annotation.*;
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.FIELD, ElementType.ANNOTATION_TYPE})
-public @interface AutoAppendField {
-
-    Class<? extends AutoAppendStrategy> value();
+public @interface FillField {
 
 
-    boolean removeIdStr() default true;
+    String sourceField() default "";
 
-    String suffix() default "Label";
+    String params() default "";
 
-    String param() default "";
+    Class<? extends AutoAppendStrategy> strategy() ;
+
 }

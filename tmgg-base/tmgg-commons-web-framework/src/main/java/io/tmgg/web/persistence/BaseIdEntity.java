@@ -2,6 +2,7 @@ package io.tmgg.web.persistence;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import io.tmgg.web.persistence.fill.BeanPropertyFillUtil;
 import io.tmgg.web.persistence.id.CustomId;
 import jakarta.persistence.*;
 import lombok.Getter;

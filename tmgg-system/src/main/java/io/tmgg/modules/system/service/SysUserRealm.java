@@ -52,9 +52,9 @@ public class SysUserRealm implements AuthorizingRealm {
             subject.setName(user.getName());
             subject.setAccount(user.getAccount());
             subject.setUnitId(user.getUnitId());
-            subject.setUnitName(user.getUnitLabel());
+            subject.setUnitName(user.getUnitDisplay());
             subject.setDeptId(user.getDeptId());
-            subject.setDeptName(user.getDeptLabel());
+            subject.setDeptName(user.getDeptDisplay());
 
 
             fillPermissions(subject);

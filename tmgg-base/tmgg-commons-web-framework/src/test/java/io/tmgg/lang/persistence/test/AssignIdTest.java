@@ -25,7 +25,7 @@ public class AssignIdTest {
     public void prefixTest() {
         Teacher t = new Teacher();
         String id = "001";
-        t.setAssignedId(id);
+        t.setTempId(id);
         t.setName("张老师");
         teacherDao.save(t);
 

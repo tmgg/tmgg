@@ -27,7 +27,7 @@ public class CodeGenService {
 
 
     public static final CharSequence[] IGNORE_FIELDS = {"createTime", "updateTime", "updateUser", "createUser",
-            "updateUserLabel", "createTimeLabel", "extData", "assignedId"};
+            "updateUserLabel", "createTimeLabel", "extData", "tempId"};
     public static final CharSequence[] HIDE_IN_FORM = {"id","createUser", "createTime", "updateUser", "updateTime"};
     public static final CharSequence[] HIDE_IN_QUERY = {"id","createUser", "createTime", "updateUser", "updateTime"};
 

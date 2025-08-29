@@ -1,12 +1,15 @@
-package io.tmgg.web.persistence;
+package io.tmgg.web.persistence.fill;
 
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.ReflectUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
+import io.tmgg.lang.StrTool;
+import io.tmgg.web.persistence.fill.*;
 import jakarta.persistence.Transient;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.annotation.AnnotatedElementUtils;
 import org.springframework.util.Assert;
 
 import java.lang.annotation.Annotation;
@@ -15,6 +18,9 @@ import java.lang.reflect.Field;
 @Slf4j
 public class BeanPropertyFillUtil {
 
+
+    public static final String TARGET_FIELD_SUFFIX_DISPLAY = "Display";
+    public static final String SOURCE_FIELD_SUFFIX_ID = "Id";
 
     /**
      * 填充一些字段，如创建人的姓名
@@ -39,7 +45,7 @@ public class BeanPropertyFillUtil {
                 continue;
             }
             handleAutoFill(bean, f);
-
+            handleAutoFill2(bean, f);
             if (f.isAnnotationPresent(AutoAppendRelatedField.class)) {
                 AutoAppendRelatedField ann = f.getAnnotation(AutoAppendRelatedField.class);
                 String label = new AutoAppendRelatedFieldHandler().getTargetValue(f.getName(), ann, bean);
@@ -51,13 +57,14 @@ public class BeanPropertyFillUtil {
 
     }
 
-    private static void handleAutoFill(Object obj, Field f) {
+    private static void handleAutoFill2(Object obj, Field f) {
         AutoAppendField autoFill = getAutoFill(f);
         if (autoFill == null) {
             return;
         }
 
-        log.debug("自动扩展字段 {} {}", obj.getClass().getSimpleName(), f.getName());
+
+        log.warn("AutoAppendField注解已经弃用，请尽快修改为@Fillxxx {} {}", obj.getClass().getSimpleName(), f.getName());
         String name = f.getName();
         Assert.state(!name.endsWith("Label"), "Auto注解已调整，请放到原始字段上");
         Assert.state(!f.isAnnotationPresent(Transient.class), "Auto注解已调整，请放到原始字段上");
@@ -70,11 +77,10 @@ public class BeanPropertyFillUtil {
             // 获取原始字段
             // 规则1. 默认去掉最后一个单词， 例如 userLabel -> user
             String targetField = f.getName();
-            if(autoFill.removeIdStr()){
-                targetField = StrUtil.removeSuffix(targetField,"Id");
+            if (autoFill.removeIdStr()) {
+                targetField = StrUtil.removeSuffix(targetField, SOURCE_FIELD_SUFFIX_ID);
             }
             targetField += autoFill.suffix();
-
 
 
             if (!ReflectUtil.hasField(obj.getClass(), targetField)) {
@@ -93,7 +99,51 @@ public class BeanPropertyFillUtil {
         }
     }
 
+    private static void handleAutoFill(Object obj, Field f) {
+        String key = obj.getClass().getSimpleName() + "." + f.getName();
 
+        FillField ff = AnnotatedElementUtils.findMergedAnnotation(f, FillField.class);
+        if(ff == null){
+            return;
+        }
+        Class<? extends AutoAppendStrategy> strategyClass = ff.strategy();
+        if (strategyClass == null) {
+            return;
+        }
+        Assert.state(f.isAnnotationPresent(org.springframework.data.annotation.Transient.class) || f.isAnnotationPresent(Transient.class), "注解请放到@Transient字段上 " + key);
+
+        try {
+            AutoAppendStrategy strategy = SpringUtil.getBean(strategyClass);
+
+            String targetField = f.getName();
+            String sourceField = StrUtil.removeSuffix(f.getName(), TARGET_FIELD_SUFFIX_DISPLAY);
+
+            if (!targetField.endsWith(TARGET_FIELD_SUFFIX_DISPLAY)) {
+
+                log.warn("推荐自动注入字段使用" + TARGET_FIELD_SUFFIX_DISPLAY + "结尾。字段信息：" + key);
+                sourceField = StrTool.removeLastWord(sourceField);
+            }
+
+
+            if (!ReflectUtil.hasField(obj.getClass(), sourceField)) {
+                // 尝试增加id后缀
+                sourceField = sourceField + SOURCE_FIELD_SUFFIX_ID;
+                if (!ReflectUtil.hasField(obj.getClass(), sourceField)) {
+                    return;
+                }
+            }
+
+            Object sourceValue = BeanUtil.getFieldValue(obj, sourceField);
+            if (sourceValue == null) {
+                return;
+            }
+
+            Object targetValue = strategy.getAppendValue(obj, sourceValue, ff.params());
+            BeanUtil.setFieldValue(obj, targetField, targetValue);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 
     private static AutoAppendField getAutoFill(Field f) {
@@ -112,4 +162,6 @@ public class BeanPropertyFillUtil {
 
         return null;
     }
+
+
 }

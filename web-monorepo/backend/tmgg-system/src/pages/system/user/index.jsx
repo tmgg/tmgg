@@ -45,7 +45,7 @@ export default class extends React.Component {
     columns = [
         {
             title: '单位',
-            dataIndex: 'unitLabel',
+            dataIndex: 'unitDisplay',
         },
         {
             title: '部门',

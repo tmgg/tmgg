@@ -260,7 +260,7 @@ public class BaseDao<T extends PersistEntity> {
         // 例如json文件初始化到数据库时
         String id = entity.getId();
         if(findById(id) == null){
-            entity.setAssignedId(id);
+            entity.setTempId(id);
             entity.setId(null);
             entityManager.persist(entity);
             return entity;

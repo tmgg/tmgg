@@ -1,5 +1,7 @@
-package io.tmgg.web.persistence;
+package io.tmgg.web.persistence.fill;
 
+
+import io.tmgg.web.persistence.BaseEntity;
 
 import java.lang.annotation.*;
 

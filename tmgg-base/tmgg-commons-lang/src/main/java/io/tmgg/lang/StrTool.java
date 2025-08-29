@@ -1,6 +1,7 @@
 package io.tmgg.lang;
 
 import cn.hutool.core.util.CharUtil;
+import cn.hutool.core.util.StrUtil;
 import io.tmgg.lang.obj.Between;
 import com.google.common.base.CaseFormat;
 import org.apache.commons.lang3.StringUtils;
@@ -126,4 +127,18 @@ public class StrTool {
     }
 
 
+    public static String removeLastWord(String str) {
+        if (str == null || str.isEmpty()) {
+            return str;
+        }
+
+        // 找到最后一个大写字母的位置
+        for (int i = str.length() - 1; i >= 0; i--) {
+            if (Character.isUpperCase(str.charAt(i))) {
+                return str.substring(0, i);
+            }
+        }
+
+        return str; // 如果没有大写字母，返回原字符串
+    }
 }

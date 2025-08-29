@@ -125,8 +125,8 @@ public class CustomIdGenerator implements IdentifierGenerator {
                 return e.getId();
             }
 
-            if (e.getAssignedId() != null) {
-                return e.getAssignedId();
+            if (e.getTempId() != null) {
+                return e.getTempId();
             }
         }
         return null;

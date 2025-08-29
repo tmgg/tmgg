@@ -5,6 +5,7 @@ import io.tmgg.lang.SpringTool;
 import io.tmgg.lang.ann.Remark;
 import io.tmgg.web.json.ignore.JsonIgnoreForApp;
 import io.tmgg.web.persistence.exports.UserLabelQuery;
+import io.tmgg.web.persistence.fill.BeanPropertyFillUtil;
 import io.tmgg.web.persistence.id.CustomId;
 import io.tmgg.web.perm.SecurityUtils;
 import jakarta.persistence.*;
@@ -199,7 +200,7 @@ public abstract class BaseEntity implements PersistEntity, Serializable {
      * 新增时，自定义ID。
      */
     @Transient
-    String assignedId;
+    String tempId;
 
 
 

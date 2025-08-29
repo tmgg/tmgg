@@ -3,7 +3,7 @@
 package io.tmgg.framework.data.append;
 
 
-import io.tmgg.web.persistence.AutoAppendStrategy;
+import io.tmgg.web.persistence.fill.AutoAppendStrategy;
 import io.tmgg.modules.system.service.SysDictService;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Component;

@@ -1,6 +1,6 @@
 package io.tmgg.web.persistence.impl;
 
-import io.tmgg.web.persistence.AutoAppendStrategy;
+import io.tmgg.web.persistence.fill.AutoAppendStrategy;
 import cn.hutool.core.util.StrUtil;
 import org.springframework.stereotype.Component;
 
