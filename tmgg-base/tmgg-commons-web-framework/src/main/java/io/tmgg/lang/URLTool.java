@@ -1,7 +1,26 @@
 package io.tmgg.lang;
 
+import cn.hutool.core.util.StrUtil;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 public class URLTool {
 
+    public static Map<String,Object> queryStringToMap(String queryString){
+        Map<String,Object> map = new LinkedHashMap<>();
+        if(StrUtil.isEmpty(queryString)){
+            return map;
+        }
+        queryString = StrUtil.removePrefix(queryString,"?");
+        String[] ps = queryString.split("&");
+        for (String p : ps) {
+            String[] arr = p.split("=");
+            map.put(arr[0],arr[1]);
+        }
+
+        return map;
+    }
 
 
     // 在原有url上增加参数，自动判断添加符号
