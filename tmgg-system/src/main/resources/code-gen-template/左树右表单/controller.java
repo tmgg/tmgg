@@ -3,9 +3,9 @@ package ${modulePackageName}.controller;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.obj.Option;
 import ${modulePackageName}.entity.${name};
-{modulePackageName}.service.${name}Service;
-import io.tmgg.lang.persistence.BaseCURDController;
-import io.tmgg.lang.persistence.BaseEntity;
+import ${modulePackageName}.service.${name}Service;
+import io.tmgg.web.persistence.BaseCURDController;
+import io.tmgg.web.persistence.BaseEntity;
 import io.tmgg.lang.obj.TreeOption;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("${firstLowerName}")
-public class ${name}Controller extends BaseCURDController<${name}> {
+public class ${name}Controller extends BaseController<${name}> {
 
     @Resource
     ${name}Service service;
