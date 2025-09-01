@@ -31,7 +31,7 @@ export default class extends React.Component {
       this.setState({treeLoading: true})
     }
 
-    http.get('${firstLowerName}/tree').then(treeData => {
+    HttpUtil.get('${firstLowerName}/tree').then(treeData => {
       const defaultExpandedKeys = this.getAutoExpand(treeData)
       this.setState({treeData, defaultExpandedKeys})
     }).finally(() => {
@@ -47,7 +47,7 @@ export default class extends React.Component {
   }
 
   handleDelete = row => {
-    http.post('${firstLowerName}/delete', row).then(rs => {
+    HttpUtil.post('${firstLowerName}/delete', row).then(rs => {
       this.setState({formValues: null})
       this.loadTree()
     })
@@ -58,7 +58,7 @@ export default class extends React.Component {
     const key = selectedKeys[0]
 
     this.setState({formLoading: true, formEditing: false})
-    http.get("${firstLowerName}/detail", {id: key}).then(rs => {
+    HttpUtil.get("${firstLowerName}/detail", {id: key}).then(rs => {
       this.setState({formValues: rs})
     }).finally(() => {
       this.setState({formLoading: false})
@@ -67,7 +67,7 @@ export default class extends React.Component {
 
   onFinish = (values) => {
     this.setState({submitLoading: true, formEditing: false})
-    http.post('${firstLowerName}/save', values).then(rs => {
+    HttpUtil.post('${firstLowerName}/save', values).then(rs => {
       this.loadTree()
     }).finally(() => {
       this.setState({submitLoading: false})
