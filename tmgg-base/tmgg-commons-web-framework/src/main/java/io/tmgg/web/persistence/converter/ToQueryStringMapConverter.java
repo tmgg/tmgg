@@ -19,8 +19,14 @@ public class ToQueryStringMapConverter implements AttributeConverter<Map<String,
         if(map == null || map.isEmpty()){
             return null;
         }
-        String query = URLUtil.buildQuery(map, StandardCharsets.UTF_8);
-        return query;
+        StringBuilder sb = new StringBuilder();
+        for (Map.Entry<String, Object> e : map.entrySet()) {
+            sb.append(e.getKey()).append("=").append(e.getValue());
+            sb.append("&");
+        }
+        sb.deleteCharAt(sb.length() -1);
+
+        return sb.toString();
     }
 
 

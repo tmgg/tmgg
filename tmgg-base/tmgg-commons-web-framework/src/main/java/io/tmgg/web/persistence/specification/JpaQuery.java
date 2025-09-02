@@ -4,7 +4,6 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.collection.ListUtil;
 import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.DateUtil;
-import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.StrUtil;
 import io.tmgg.lang.DateTool;
 import jakarta.persistence.criteria.*;
@@ -99,7 +98,7 @@ public class JpaQuery<T> implements Specification<T> {
         });
     }
 
-    public void searchMap(Map<String, Object> params,String... fields) {
+    public void searchMap(Map<String, Object> params, String... fields) {
         if (CollUtil.isEmpty(params)) {
             return;
         }
@@ -113,12 +112,18 @@ public class JpaQuery<T> implements Specification<T> {
                 this.eq(k, v);
                 continue;
             }
+            if (v.equals("true") || v.equals("false")) {
+                v = Boolean.parseBoolean((String) v);
+                this.eq(k, v);
+                continue;
+            }
 
             if (DateTool.isIsoDateRange(s)) {
                 this.betweenIsoDateRange(k, s);
-            } else {
-                this.like(k, s.trim());
+                continue;
             }
+
+            this.like(k, s.trim());
         }
 
     }
@@ -267,7 +272,7 @@ public class JpaQuery<T> implements Specification<T> {
 
     /**
      * 时间范围
-     *
+     * <p>
      * 前端可使用组件 FieldDateRange, 参考ISO 8601 时间间隔格式
      * 存储格式：开始时间/结束时间 如：2023-01-01/2023-01-01
      * 后端构造查询条件时，可使用
