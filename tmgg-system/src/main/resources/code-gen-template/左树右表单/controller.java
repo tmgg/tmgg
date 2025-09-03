@@ -4,7 +4,7 @@ import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.obj.Option;
 import ${modulePackageName}.entity.${name};
 import ${modulePackageName}.service.${name}Service;
-import io.tmgg.web.persistence.BaseCURDController;
+import io.tmgg.web.persistence.BaseController;
 import io.tmgg.web.persistence.BaseEntity;
 import io.tmgg.lang.obj.TreeOption;
 import org.springframework.data.domain.Sort;
