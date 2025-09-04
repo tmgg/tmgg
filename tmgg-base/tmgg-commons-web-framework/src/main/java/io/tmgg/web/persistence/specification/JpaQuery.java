@@ -1,5 +1,7 @@
 package io.tmgg.web.persistence.specification;
 
+import cn.hutool.core.bean.BeanDesc;
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.collection.ListUtil;
 import cn.hutool.core.date.DateTime;
@@ -14,6 +16,7 @@ import org.springframework.data.jpa.convert.QueryByExamplePredicateBuilder;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.util.Assert;
 
+import java.lang.reflect.Field;
 import java.util.*;
 import java.util.function.Consumer;
 
@@ -98,33 +101,50 @@ public class JpaQuery<T> implements Specification<T> {
         });
     }
 
-    public void searchMap(Map<String, Object> params, String... fields) {
+    public void searchParams(Map<String, Object> params, Class<T> domainClass) {
         if (CollUtil.isEmpty(params)) {
             return;
         }
-        for (String k : fields) {
+
+        BeanDesc beanDesc = BeanUtil.getBeanDesc(domainClass);
+
+        for (Map.Entry<String, Object> e : params.entrySet()) {
+            String k = e.getKey();
             Object v = params.get(k);
             if (v == null || StrUtil.isBlankIfStr(v)) {
                 continue;
             }
-
-            if (!(v instanceof String s)) {
-                this.eq(k, v);
-                continue;
-            }
-            if (v.equals("true") || v.equals("false")) {
-                v = Boolean.parseBoolean((String) v);
-                this.eq(k, v);
+            Field f = beanDesc.getField(k);
+            if(f == null){
                 continue;
             }
 
-            if (DateTool.isIsoDateRange(s)) {
-                this.betweenIsoDateRange(k, s);
+
+            if (String.class.isAssignableFrom(f.getType())) {
+                String str = ((String) v).trim();
+
+                if (DateTool.isIsoDateRange(str)) {
+                    this.betweenIsoDateRange(k, str);
+                    continue;
+                }
+
+
+                this.like(k, str);
                 continue;
             }
 
-            this.like(k, s.trim());
+            if(f.getType().equals(Boolean.class)){
+                if(v instanceof String){
+                    v = Boolean.parseBoolean((String) v);
+                }
+            }
+
+
+            this.eq(k, v);
+
+
         }
+
 
     }
 

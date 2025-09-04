@@ -33,7 +33,7 @@ public abstract class BaseController<T extends PersistEntity> {
         JpaQuery<T> q = new JpaQuery<>();
 
         q.searchText(searchText, service.getSearchableFields());
-        q.searchMap(param,service.getFields());
+        q.searchParams(param,service.getEntityClass());
 
         Page<T> page = service.findAll(q, pageable);
 
