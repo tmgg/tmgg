@@ -75,7 +75,7 @@ public class CommonController {
     @GetMapping("getLoginInfo")
     private AjaxResult getLoginInfo(HttpSession session) {
         Subject subject = SecurityUtils.getSubject();
-        log.debug("subject account {}", subject.getAccount());
+        log.info("获取登录信息 {}", subject.getName());
 
         Dict vo = new Dict();
         vo.put("id", subject.getId());
@@ -105,6 +105,7 @@ public class CommonController {
     @GetMapping("menuInfo")
     public AjaxResult menuInfo() {
         Subject subject = SecurityUtils.getSubject();
+        log.debug("用户 {} 获取菜单信息, 权限码： {}",subject.getName(), subject.getPermissions());
         Map<String, SysMenu> map = sysMenuService.findMenuMap();
 
 

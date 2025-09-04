@@ -40,7 +40,7 @@ public class SysUserRealm implements AuthorizingRealm {
         if (subject == null) {
             subject = new Subject();
             SysUser user = sysUserService.findOne(userId);
-            log.trace("查询用户  {}", user);
+            log.debug("初始化登录用户  {}", user);
             if (user == null) {
                 log.error("用户不存在:  {}",subject);
                 throw new CodeException(1001,"用户或密码错误"); // 不直接提示用户不存在，防止暴力遍历
@@ -74,6 +74,7 @@ public class SysUserRealm implements AuthorizingRealm {
             subject.getPermissions().addAll(perms);
         }
 
+        log.debug("用户 {} 的功能权限{}",subject.getName(), subject.getPermissions());
 
         // 数据权限
         Collection<String> loginDataScope = sysUserService.getLoginDataScope(subject.getId());
