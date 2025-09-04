@@ -16,7 +16,7 @@ spring:
     hikari:
       register-mbeans: true # 用于监控连接池的信息
       minimum-idle: 20
-      maximum-pool-size: 100
+      maximum-pool-size: 200
 
   jpa:
     hibernate.ddl-auto: update
