@@ -68,6 +68,7 @@ public class SysUserRealm implements AuthorizingRealm {
     private void fillPermissions(Subject subject) {
         // 角色信息
         Set<SysRole> roles = sysRoleService.getLoginRoles(subject.getId());
+        log.debug("角色数量 {}", roles.size());
         for (SysRole role : roles) {
             log.debug("角色：{} {}", role.getName(), role.getPerms());
             subject.addRole(role.getCode());
