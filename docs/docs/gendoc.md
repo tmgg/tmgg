@@ -69,7 +69,7 @@ private String updateUser;
 
 
 ##  时间范围
-
+<p>
 前端可使用组件 FieldDateRange, 参考ISO 8601 时间间隔格式
 存储格式：开始时间/结束时间 如：2023-01-01/2023-01-01
 后端构造查询条件时，可使用
@@ -77,6 +77,7 @@ private String updateUser;
 JpaQuery<SysLog> q=new JpaQuery<>();
 q.betweenIsoDateRange("createTime",dateRange);
 ```
+</p>
 
 
 

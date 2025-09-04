@@ -300,6 +300,7 @@ public class JpaQuery<T> implements Specification<T> {
      * JpaQuery<SysLog> q=new JpaQuery<>();
      * q.betweenIsoDateRange("createTime",dateRange);
      * ```
+     * </p>
      *
      * @gendoc
      */
