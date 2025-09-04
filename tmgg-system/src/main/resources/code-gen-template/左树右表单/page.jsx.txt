@@ -47,7 +47,7 @@ export default class extends React.Component {
   }
 
   handleDelete = row => {
-    HttpUtil.post('${firstLowerName}/delete', row).then(rs => {
+    HttpUtil.get('${firstLowerName}/delete', row).then(rs => {
       this.setState({formValues: null})
       this.loadTree()
     })
