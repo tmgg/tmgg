@@ -16,6 +16,7 @@ RUN cat package.json
 
 RUN pnpm  install
 
+RUN pnpm store status
 
 
 
