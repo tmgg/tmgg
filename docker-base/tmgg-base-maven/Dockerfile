@@ -2,13 +2,10 @@
 FROM maven:3-openjdk-17
 ARG VERSION=x.y.z
 
-
 WORKDIR build
-RUN ls
-ADD . .
 
 
-RUN mvn install package -q  -Drevision=${VERSION}  && rm -rf *
+RUN mvn install package -q -DskipTests  -Drevision=${VERSION}  && rm -rf *
 
 
 
