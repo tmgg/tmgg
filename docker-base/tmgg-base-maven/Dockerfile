@@ -4,11 +4,7 @@ ARG VERSION=x.y.z
 
 
 WORKDIR build
-ADD pom.xml ./
-ADD tmgg-base ./tmgg-base
-ADD tmgg-script ./tmgg-script
-ADD tmgg-system ./tmgg-system
-ADD tmgg-system-plugins ./tmgg-system-plugins
+ADD . .
 
 
 RUN mvn install package -q  -Drevision=${VERSION}  && rm -rf *
