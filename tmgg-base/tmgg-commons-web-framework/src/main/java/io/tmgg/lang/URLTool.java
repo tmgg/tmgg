@@ -7,16 +7,16 @@ import java.util.Map;
 
 public class URLTool {
 
-    public static Map<String,Object> queryStringToMap(String queryString){
-        Map<String,Object> map = new LinkedHashMap<>();
-        if(StrUtil.isEmpty(queryString)){
+    public static Map<String, Object> queryStringToMap(String queryString) {
+        Map<String, Object> map = new LinkedHashMap<>();
+        if (StrUtil.isEmpty(queryString)) {
             return map;
         }
-        queryString = StrUtil.removePrefix(queryString,"?");
+        queryString = StrUtil.removePrefix(queryString, "?");
         String[] ps = queryString.split("&");
         for (String p : ps) {
             String[] arr = p.split("=");
-            map.put(arr[0],arr[1]);
+            map.put(arr[0], arr[1]);
         }
 
         return map;
@@ -24,10 +24,25 @@ public class URLTool {
 
 
     // 在原有url上增加参数，自动判断添加符号
-    public static String appendParam(String url, String key, String value) {
+    public static String appendParam(String url, String key, Object value) {
         char join = url.contains("?") ? '&' : '?';
 
         return url + join + key + "=" + value;
+    }
+
+    /**
+     * 再原有路径上增加一个路线，但不影响参数， 如 list?name=abc
+     * @param url
+     * @param path
+     * @return
+     */
+    public static String appendPath(String url, String path) {
+        if (url.contains("?")) {
+            String[] arr = StrUtil.splitToArray(url, '?');
+            return arr[0] + path + arr[1];
+        }
+
+        return url +path;
     }
 
 
