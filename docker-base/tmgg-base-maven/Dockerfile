@@ -4,6 +4,7 @@ ARG VERSION=x.y.z
 
 WORKDIR build
 
+ADD . .
 
 RUN mvn install package -q -DskipTests  -Drevision=${VERSION}  && rm -rf *
 
