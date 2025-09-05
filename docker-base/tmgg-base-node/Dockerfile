@@ -15,6 +15,7 @@ RUN cat package.json
 
 RUN pnpm  install
 
+RUN ls ~/.pnpm-store/
 
 
 
