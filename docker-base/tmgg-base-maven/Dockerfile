@@ -9,4 +9,5 @@ ADD . .
 RUN mvn install package -q -DskipTests  -Drevision=${VERSION}  && rm -rf *
 
 
-
+RUN ls /root/.m2/
+RUN ls /root/.m2/repository/io/github/tmgg
