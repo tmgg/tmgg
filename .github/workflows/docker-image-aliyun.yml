@@ -18,7 +18,7 @@ jobs:
         with:
           registry: registry.cn-hangzhou.aliyuncs.com
           username: hustme
-          password: ${{ secrets.ALIYUN_PASSWORD }}
+          password: ${{ secrets.ALIYUN_REGISTRY_PASSWORD }}
 
       - name: Extract metadata (tags, labels) for Docker
         id: meta
