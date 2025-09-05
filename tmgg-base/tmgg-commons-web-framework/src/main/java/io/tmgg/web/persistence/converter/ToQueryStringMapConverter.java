@@ -1,11 +1,10 @@
 package io.tmgg.web.persistence.converter;
 
-import cn.hutool.core.util.URLUtil;
 import io.tmgg.lang.URLTool;
 import jakarta.persistence.AttributeConverter;
 
 import java.io.Serializable;
-import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -32,7 +31,7 @@ public class ToQueryStringMapConverter implements AttributeConverter<Map<String,
 
     @Override
     public Map<String, Object> convertToEntityAttribute(String queryString) {
-        Map<String, Object> map = URLTool.queryStringToMap(queryString);
-        return map;
+        Map<String, String> map = URLTool.getParams(queryString);
+        return new HashMap<>(map);
     }
 }

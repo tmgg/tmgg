@@ -7,19 +7,26 @@ import java.util.Map;
 
 public class URLTool {
 
-    public static Map<String, Object> queryStringToMap(String queryString) {
-        Map<String, Object> map = new LinkedHashMap<>();
-        if (StrUtil.isEmpty(queryString)) {
+    public static Map<String, String> getParams(String url) {
+        Map<String, String> map = new LinkedHashMap<>();
+        if (StrUtil.isEmpty(url)) {
             return map;
         }
-        queryString = StrUtil.removePrefix(queryString, "?");
-        String[] ps = queryString.split("&");
+        if(url.contains("?")){
+            url = StrUtil.subAfter(url, '?',true);
+        }
+
+        String[] ps = url.split("&");
         for (String p : ps) {
             String[] arr = p.split("=");
             map.put(arr[0], arr[1]);
         }
 
         return map;
+    }
+
+    public static String getParam(String url, String key){
+        return getParams(url).get(key);
     }
 
 
