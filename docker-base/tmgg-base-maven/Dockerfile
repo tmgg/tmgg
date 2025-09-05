@@ -5,7 +5,6 @@ ARG VERSION=x.y.z
 
 WORKDIR build
 ADD pom.xml ./
-ADD template-backend ./template-backend
 ADD tmgg-base ./tmgg-base
 ADD tmgg-script ./tmgg-script
 ADD tmgg-system ./tmgg-system
