@@ -4,6 +4,7 @@ ARG VERSION=x.y.z
 
 
 WORKDIR build
+RUN ls
 ADD . .
 
 
