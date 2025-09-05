@@ -1,7 +1,6 @@
 name: Aliyun Docker Base Image
 
 on:
-  workflow_dispatch:
   push:
     tags:
       - 'v*'
