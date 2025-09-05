@@ -30,7 +30,7 @@ jobs:
       - name: tmgg-base-node
         uses: docker/build-push-action@v6
         with:
-          file: ./docker-base/tmgg-base-maven/Dockerfile
+          file: ./docker-base/tmgg-base-node/Dockerfile
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
