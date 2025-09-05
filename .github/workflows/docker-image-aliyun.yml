@@ -34,7 +34,7 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           build-args: |
-            VERSION=1.0.0
+            VERSION=${{ steps.meta.outputs.version }}
 
 
       - name: tmgg-base-node
