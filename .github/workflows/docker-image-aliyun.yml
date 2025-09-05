@@ -27,16 +27,18 @@ jobs:
           images: registry.cn-hangzhou.aliyuncs.com/mxvc/docker-admin
 
       - name: tmgg-base-maven
-        uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
+        uses: docker/build-push-action@v6
         with:
           file: ./docker-base/tmgg-base-maven/Dockerfile
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+          build-args:
+            - VERSION=1.0.0
 
 
       - name: tmgg-base-jdk
-        uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
+        uses: docker/build-push-action@v6
         with:
           file: ./docker-base/tmgg-base-jdk/Dockerfile
           push: true
@@ -46,7 +48,7 @@ jobs:
 
 
       - name: tmgg-base-node
-        uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
+        uses: docker/build-push-action@v6
         with:
           file: ./docker-base/tmgg-base-maven/Dockerfile
           push: true
