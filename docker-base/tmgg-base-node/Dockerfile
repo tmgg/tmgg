@@ -10,7 +10,7 @@ RUN pnpm config set registry https://registry.npmmirror.com
 
 
 ADD ./web-monorepo/backend/tmgg-system/package.json ./
-RUN sed -i '' 's/"workspace:\*"/"${VERSION}"/g' package.json
+RUN sed  's/"workspace:\*"/"${VERSION}"/g' package.json
 RUN cat package.json
 
 RUN pnpm  install
