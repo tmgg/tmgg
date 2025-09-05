@@ -1,4 +1,4 @@
-name: Aliyun Docker
+name: Aliyun Docker Base Image
 
 on:
   workflow_dispatch:
