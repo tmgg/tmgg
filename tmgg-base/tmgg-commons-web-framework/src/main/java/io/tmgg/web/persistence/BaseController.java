@@ -31,8 +31,11 @@ public abstract class BaseController<T extends PersistEntity> {
     @RequestMapping("page")
     public AjaxResult page(@RequestParam  Map<String, Object> param, String searchText, @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) throws Exception {
         JpaQuery<T> q = new JpaQuery<>();
-
         q.searchText(searchText, service.getSearchableFields());
+
+        // 移除分页参数后再查询
+        param.remove("size");
+        param.remove("page");
         q.searchParams(param,service.getEntityClass());
 
         Page<T> page = service.findAll(q, pageable);
