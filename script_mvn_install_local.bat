@@ -1,5 +1,5 @@
 @echo off
-set  "tag_name=1.1.31"
+set  "tag_name=1.1.35"
 
 
 echo install mvn jar to local, version is %tag_name%

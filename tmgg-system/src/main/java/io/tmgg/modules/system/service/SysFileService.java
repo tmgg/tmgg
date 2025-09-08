@@ -195,22 +195,12 @@ public class SysFileService {
         return sysFileDao.findOne(id);
     }
 
-    @Resource
-    MinioProp minioProp;
 
+
+    @Resource
     FileOperator fileOperator;
 
 
-    @PostConstruct
-    void init() {
-        if (minioProp.getEnable()) {
-            log.info("配置文件服务为minio模式");
-            fileOperator = new MinioFileOperator(minioProp.getUrl(), minioProp.getAccessKey(), minioProp.getSecretKey(), minioProp.getBucketName());
-            return;
-        }
-        log.info("本地文件模式");
-        fileOperator = new LocalFileOperator(sysConfigService.getFileUploadPath());
-    }
 
 
     public Page<SysFile> findAll(JpaQuery<SysFile> q, Pageable pageable) {
