@@ -297,7 +297,7 @@ public class JpaQuery<T> implements Specification<T> {
      * 存储格式：开始时间/结束时间 如：2023-01-01/2023-01-01
      * 后端构造查询条件时，可使用
      * ```java
-     * JpaQuery<SysLog> q=new JpaQuery<>();
+     * JpaQuery q=new JpaQuery();
      * q.betweenIsoDateRange("createTime",dateRange);
      * ```
      * </p>

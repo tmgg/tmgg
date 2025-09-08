@@ -57,9 +57,7 @@ private String updateUser;
 
 ##  id生成策略
 默认的id生成策略是uuid， 可通过实体类型上增加注解@CustomId改变
-<p>
 支持自定义前缀，长度，类型等
-<p>
 支持样式如下，具体可参考IdStyle枚举
 - UUID
 - DATETIME_UUID
@@ -74,7 +72,7 @@ private String updateUser;
 存储格式：开始时间/结束时间 如：2023-01-01/2023-01-01
 后端构造查询条件时，可使用
 ```java
-JpaQuery<SysLog> q=new JpaQuery<>();
+JpaQuery q=new JpaQuery();
 q.betweenIsoDateRange("createTime",dateRange);
 ```
 </p>
