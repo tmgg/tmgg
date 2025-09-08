@@ -20,9 +20,11 @@ jobs:
           username: hustme
           password: ${{ secrets.ALIYUN_REGISTRY_PASSWORD }}
 
-      - name: Extract metadata (tags, labels) for Docker
+      - name: Extract Tag
         id: meta
-        uses: docker/metadata-action@v5
+        uses: aaronbarnaby/get-tag@v1.0.0
+        with:
+          without_prefix_v: true # Remove prefix `v` from tag
 
       - name: tmgg-base-maven
         uses: docker/build-push-action@v6
@@ -30,10 +32,10 @@ jobs:
           file: ./docker-base/tmgg-base-maven/Dockerfile
           push: true
           tags: |
-            registry.cn-hangzhou.aliyuncs.com/mxvc/tmgg-base-maven:${{ steps.meta.outputs.version }}
+            registry.cn-hangzhou.aliyuncs.com/mxvc/tmgg-base-maven:${{ steps.meta.outputs.tag }}
             registry.cn-hangzhou.aliyuncs.com/mxvc/tmgg-base-maven:latest
           build-args: |
-            VERSION=${{ steps.meta.outputs.version }}
+            VERSION=${{ steps.meta.outputs.tag }}
 
       - name: tmgg-base-node
         uses: docker/build-push-action@v6
@@ -41,10 +43,10 @@ jobs:
           file: ./docker-base/tmgg-base-node/Dockerfile
           push: true
           tags: |
-            registry.cn-hangzhou.aliyuncs.com/mxvc/tmgg-base-node:${{ steps.meta.outputs.version }}
+            registry.cn-hangzhou.aliyuncs.com/mxvc/tmgg-base-node:${{ steps.meta.outputs.tag }}
             registry.cn-hangzhou.aliyuncs.com/mxvc/tmgg-base-node:latest
           build-args: |
-            VERSION=${{ steps.meta.outputs.version }}
+            VERSION=${{ steps.meta.outputs.tag }}
 
 
 
@@ -57,7 +59,7 @@ jobs:
           file: ./docker-base/tmgg-base-jdk/Dockerfile
           push: true
           tags: |
-            registry.cn-hangzhou.aliyuncs.com/mxvc/tmgg-base-jdk:${{ steps.meta.outputs.version }}
+            registry.cn-hangzhou.aliyuncs.com/mxvc/tmgg-base-jdk:${{ steps.meta.outputs.tag }}
             registry.cn-hangzhou.aliyuncs.com/mxvc/tmgg-base-jdk:latest
           build-args: |
-            VERSION=${{ steps.meta.outputs.version }}
+            VERSION=${{ steps.meta.outputs.tag }}
