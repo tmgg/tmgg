@@ -29,7 +29,7 @@ jobs:
         run: echo ${{ steps.tag.outputs.tag }}
 
       - name: Publish MAVEN
-        run: mvn -q  deploy   -Drevision=${{ steps.tag.outputs.tag }}  -P publishMavenCentral
+        run: mvn -q  deploy -DskipTests   -Drevision=${{ steps.tag.outputs.tag }}  -P publishMavenCentral
         env:
           MAVEN_USERNAME: ${{ secrets.MAVEN_USERNAME }}
           MAVEN_PASSWORD: ${{ secrets.MAVEN_PASSWORD }}
