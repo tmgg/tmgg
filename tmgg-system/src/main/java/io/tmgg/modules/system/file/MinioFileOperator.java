@@ -3,6 +3,8 @@ package io.tmgg.modules.system.file;
 import io.minio.*;
 import lombok.extern.slf4j.Slf4j;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.InputStream;
 
 @Slf4j
@@ -40,6 +42,13 @@ public class MinioFileOperator implements FileOperator {
 
        this.client.putObject(arg);
 
+    }
+
+    @Override
+    public void saveFile(String key, File file) throws Exception {
+        try (InputStream is = new FileInputStream(file)) {
+            this.save(key, is);
+        }
     }
 
     @Override

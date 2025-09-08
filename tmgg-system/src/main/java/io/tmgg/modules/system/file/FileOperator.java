@@ -2,6 +2,7 @@
 package io.tmgg.modules.system.file;
 
 
+import java.io.File;
 import java.io.InputStream;
 
 /**
@@ -19,6 +20,8 @@ public interface FileOperator {
      * @param inputStream 文件流
      */
     void save(String key, InputStream inputStream) throws Exception;
+
+    void saveFile(String key, File file) throws Exception;
 
     InputStream getFileStream( String key) throws Exception;
 

@@ -38,6 +38,12 @@ public class LocalFileOperator implements FileOperator {
         FileUtil.writeFromStream(inputStream, absoluteFile);
     }
 
+    @Override
+    public void saveFile(String key, File file) throws Exception {
+        String absoluteFile = getAbsoluteFile(key);
+        FileUtil.copyFile(file, new File(absoluteFile));
+    }
+
     @NotNull
     private String getAbsoluteFile(String key) {
         return dir + key;
