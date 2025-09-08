@@ -8,13 +8,14 @@ RUN npm install -g pnpm && \
     npm config set registry https://registry.npmmirror.com && \
     pnpm config set registry https://registry.npmmirror.com
 
-RUN pnpm store path
 
 ADD ./web-monorepo/backend/tmgg-system/package.json ./
+
+# 将workspace的版本调整为实际版本
 RUN sed -i "s/workspace:\*/$VERSION/g" package.json
 RUN cat package.json
 
-RUN pnpm  install
+RUN pnpm  install && rm -rf *
 
 RUN pnpm store status
 
