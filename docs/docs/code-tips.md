@@ -1,6 +1,5 @@
 ---
 title: 其他
-layout: doc
 ---
 
 # MD5

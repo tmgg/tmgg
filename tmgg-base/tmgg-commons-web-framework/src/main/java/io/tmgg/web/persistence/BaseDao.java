@@ -303,7 +303,6 @@ public class BaseDao<T extends PersistEntity> {
 
     /**
      * 更新指定字段
-     * <p>
      * 对比save方法更新的时所有字段，只更新指定字段
      *
      * @gendoc
@@ -328,7 +327,6 @@ public class BaseDao<T extends PersistEntity> {
      * 直接更新指定字段
      * 不会先find，再更新
      * 对比save方法更新的时所有字段，改方法只更新指定字段
-     * <p>
      * 注意：主要用于更新单个实体的字段， 不能更新多对多等关联关系
      *
      * @gendoc
