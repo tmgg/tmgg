@@ -24,6 +24,17 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
 
+      - name: tmgg-base-maven
+        uses: docker/build-push-action@v6
+        with:
+          file: ./docker-base/tmgg-base-maven/Dockerfile
+          push: true
+          tags: |
+            registry.cn-hangzhou.aliyuncs.com/mxvc/tmgg-base-maven:${{ steps.meta.outputs.version }}
+            registry.cn-hangzhou.aliyuncs.com/mxvc/tmgg-base-maven:latest
+          build-args: |
+            VERSION=${{ steps.meta.outputs.version }}
+
       - name: tmgg-base-node
         uses: docker/build-push-action@v6
         with:
@@ -37,16 +48,7 @@ jobs:
 
 
 
-      - name: tmgg-base-maven
-        uses: docker/build-push-action@v6
-        with:
-          file: ./docker-base/tmgg-base-maven/Dockerfile
-          push: true
-          tags: |
-            registry.cn-hangzhou.aliyuncs.com/mxvc/tmgg-base-maven:${{ steps.meta.outputs.version }}
-            registry.cn-hangzhou.aliyuncs.com/mxvc/tmgg-base-maven:latest
-          build-args: |
-            VERSION=${{ steps.meta.outputs.version }}
+
 
 
       - name: tmgg-base-jdk
