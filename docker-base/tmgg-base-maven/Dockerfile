@@ -13,4 +13,6 @@ RUN ls /root/.m2/repository/io/github/tmgg
 
 # 只复制下载的依赖包
 FROM maven:3-openjdk-17
+WORKDIR build
+
 COPY --from=BUILD /root/.m2/ /root/.m2/
