@@ -30,8 +30,9 @@ jobs:
         with:
           file: ./docker-base/tmgg-base-node/Dockerfile
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+          tags: |
+            registry.cn-hangzhou.aliyuncs.com/mxvc/tmgg-base-node:${{ steps.meta.outputs.version }}
+            registry.cn-hangzhou.aliyuncs.com/mxvc/tmgg-base-node:latest
           build-args: |
             VERSION=${{ steps.meta.outputs.version }}
 
@@ -42,12 +43,11 @@ jobs:
         with:
           file: ./docker-base/tmgg-base-maven/Dockerfile
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+          tags: |
+            registry.cn-hangzhou.aliyuncs.com/mxvc/tmgg-base-maven:${{ steps.meta.outputs.version }}
+            registry.cn-hangzhou.aliyuncs.com/mxvc/tmgg-base-maven:latest
           build-args: |
             VERSION=${{ steps.meta.outputs.version }}
-
-
 
 
       - name: tmgg-base-jdk
@@ -55,7 +55,8 @@ jobs:
         with:
           file: ./docker-base/tmgg-base-jdk/Dockerfile
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+          tags: |
+            registry.cn-hangzhou.aliyuncs.com/mxvc/tmgg-base-jdk:${{ steps.meta.outputs.version }}
+            registry.cn-hangzhou.aliyuncs.com/mxvc/tmgg-base-jdk:latest
           build-args: |
             VERSION=${{ steps.meta.outputs.version }}
