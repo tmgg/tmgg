@@ -27,16 +27,7 @@ jobs:
           without_prefix_v: true # Remove prefix `v` from tag
 
 
-      - name: tmgg-base-node
-        uses: docker/build-push-action@v6
-        with:
-          file: ./docker-base/tmgg-base-node/Dockerfile
-          push: true
-          tags: |
-            registry.cn-hangzhou.aliyuncs.com/mxvc/tmgg-base-node:${{ steps.meta.outputs.tag }}
-            registry.cn-hangzhou.aliyuncs.com/mxvc/tmgg-base-node:latest
-          build-args: |
-            VERSION=${{ steps.meta.outputs.tag }}
+
 
       - name: tmgg-base-maven
         uses: docker/build-push-action@v6
@@ -50,7 +41,16 @@ jobs:
             VERSION=${{ steps.meta.outputs.tag }}
 
 
-
+      - name: tmgg-base-node
+        uses: docker/build-push-action@v6
+        with:
+          file: ./docker-base/tmgg-base-node/Dockerfile
+          push: true
+          tags: |
+            registry.cn-hangzhou.aliyuncs.com/mxvc/tmgg-base-node:${{ steps.meta.outputs.tag }}
+            registry.cn-hangzhou.aliyuncs.com/mxvc/tmgg-base-node:latest
+          build-args: |
+            VERSION=${{ steps.meta.outputs.tag }}
 
 
 
