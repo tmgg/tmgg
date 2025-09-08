@@ -25,6 +25,8 @@ public interface FileOperator {
 
     InputStream getFileStream( String key) throws Exception;
 
+    void downloadFile(String key, File target) throws Exception;
+
     /**
      * 删除文件
      *

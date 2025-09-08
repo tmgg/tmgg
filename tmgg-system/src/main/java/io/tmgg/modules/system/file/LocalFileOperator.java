@@ -60,6 +60,13 @@ public class LocalFileOperator implements FileOperator {
         return FileUtil.getInputStream(absoluteFile);
     }
 
+    @Override
+    public void downloadFile(String key, File target) throws Exception {
+        // 判断文件存在不存在
+        String absoluteFile = getAbsoluteFile(key);
+        FileUtil.copyFile(new File(absoluteFile), target);
+    }
+
 
     @Override
     public void delete(String key) {

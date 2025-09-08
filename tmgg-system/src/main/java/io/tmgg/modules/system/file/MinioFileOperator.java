@@ -1,5 +1,6 @@
 package io.tmgg.modules.system.file;
 
+import cn.hutool.core.io.FileUtil;
 import io.minio.*;
 import lombok.extern.slf4j.Slf4j;
 
@@ -40,7 +41,7 @@ public class MinioFileOperator implements FileOperator {
                 .stream(inputStream, inputStream.available(), -1)
                 .build();
 
-       this.client.putObject(arg);
+        this.client.putObject(arg);
 
     }
 
@@ -52,13 +53,18 @@ public class MinioFileOperator implements FileOperator {
     }
 
     @Override
-    public InputStream getFileStream( String key) throws Exception {
+    public InputStream getFileStream(String key) throws Exception {
 
         GetObjectResponse response = client.getObject(GetObjectArgs.builder().bucket(bucketName).object(key).build());
         return response;
     }
 
+    @Override
+    public void downloadFile(String key, File target) throws Exception {
+        GetObjectResponse response = client.getObject(GetObjectArgs.builder().bucket(bucketName).object(key).build());
 
+        FileUtil.writeFromStream(response, target, true);
+    }
 
     @Override
     public void delete(String key) throws Exception {
@@ -70,7 +76,7 @@ public class MinioFileOperator implements FileOperator {
         try {
             StatObjectResponse resp = client.statObject(StatObjectArgs.builder().bucket(bucketName).object(key).build());
             return true;
-        }catch (Exception e){
+        } catch (Exception e) {
             return false;
         }
     }
