@@ -7,6 +7,10 @@ import java.util.Map;
 
 public class URLTool {
 
+    public static String removeQueryString(String url){
+        return StrUtil.subBefore(url,'?',true);
+    }
+
     public static Map<String, String> getParams(String url) {
         Map<String, String> map = new LinkedHashMap<>();
         if (StrUtil.isEmpty(url)) {

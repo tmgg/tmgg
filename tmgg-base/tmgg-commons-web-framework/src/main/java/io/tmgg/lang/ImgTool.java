@@ -1,15 +1,48 @@
 package io.tmgg.lang;
 
+import cn.hutool.core.img.ImgUtil;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.util.Base64;
 
 public class ImgTool {
 
+    public static boolean scale(File sourceFile, File targetFile,
+                                int maxWidth, int maxHeight) {
+        try {
+            if (!sourceFile.exists()) {
+                System.out.println("原图文件不存在");
+                return false;
+            }
+
+            Image srcImg = ImgUtil.read(sourceFile);
+            int srcWidth = srcImg.getWidth(null);
+            int srcHeight = srcImg.getHeight(null);
+
+            // 计算缩放比例
+            float widthRatio = (float) maxWidth / srcWidth;
+            float heightRatio = (float) maxHeight / srcHeight;
+            float ratio = Math.min(widthRatio, heightRatio);
+
+            // 如果图片比目标尺寸小，则不放大
+            if (ratio > 1) {
+                ratio = 1;
+            }
+
+
+            ImgUtil.scale(sourceFile, targetFile, ratio);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
     public static String toBase64DataUri(BufferedImage image) throws IOException {
         String mimeType = "image/jpg";
