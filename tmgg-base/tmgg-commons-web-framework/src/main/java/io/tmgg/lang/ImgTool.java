@@ -1,6 +1,7 @@
 package io.tmgg.lang;
 
 import cn.hutool.core.img.ImgUtil;
+import cn.hutool.core.io.FileUtil;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.imageio.ImageIO;
@@ -12,6 +13,14 @@ import java.io.IOException;
 import java.util.Base64;
 
 public class ImgTool {
+
+    public static File scale(File sourceFile, int maxSize) {
+        File targetFile = FileUtil.createTempFile("." + FileUtil.getSuffix(sourceFile),true);
+        if(scale(sourceFile,targetFile,maxSize,maxSize)){
+            return targetFile;
+        }
+        return null;
+    }
 
     public static boolean scale(File sourceFile, File targetFile,
                                 int maxWidth, int maxHeight) {

@@ -11,6 +11,7 @@ public class URLTool {
         return StrUtil.subBefore(url,'?',true);
     }
 
+
     public static Map<String, String> getParams(String url) {
         Map<String, String> map = new LinkedHashMap<>();
         if (StrUtil.isEmpty(url)) {
