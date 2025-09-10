@@ -7,41 +7,34 @@ import java.util.List;
 public class CollectionTool {
 
 
-    public static <T extends Comparable<T>> Collection<T> findForAdd(Collection<T> oldList, Collection<T> list) {
-        List<T> result = new ArrayList<>();
-        for (T t : list) {
-            if (!oldList.contains(t)) {
-                result.add(t);
-            }
-        }
 
+    /**
+     * 找出集合b相对于集合a的新增元素（b中存在但a中不存在的元素）
+     * @param a 原始集合
+     * @param b 目标集合
+     * @param <T> 集合元素类型
+     * @return 包含新增元素的新List
+     */
+    public static <T extends Comparable<T>> Collection<T> findNewElements(Collection<T> a, Collection<T> b) {
+        List<T> result = new ArrayList<>(b);
+        result.removeAll(a);
         return result;
     }
 
 
-
-    public static <T extends Comparable<T>> Collection<T> findForUpdate(Collection<T> oldList, Collection<T> list) {
-        List<T> result = new ArrayList<>();
-        for (T t : list) {
-            if (oldList.contains(t)) {
-                result.add(t);
-            }
-        }
-
+    /**
+     * 找出集合b中已经存在于集合a的元素（交集）
+     * @param a 原始集合
+     * @param b 目标集合
+     * @param <T> 集合元素类型
+     * @return 包含已存在元素的新List
+     */
+    public static <T> List<T> findExistingElements(Collection<T> a, Collection<T> b) {
+        List<T> result = new ArrayList<>(b);
+        result.retainAll(a);
         return result;
     }
 
-
-    public static <T extends Comparable<T>> Collection<T> findForDelete(Collection<T> oldList, Collection<T> list) {
-        List<T> result = new ArrayList<>();
-        for (T t : oldList) {
-            if (!list.contains(t)) {
-                result.add(t);
-            }
-        }
-
-        return result;
-    }
 
     public static <T> void fill(Collection<T> list, T item, int size){
         for (int i = 0; i < size; i++) {

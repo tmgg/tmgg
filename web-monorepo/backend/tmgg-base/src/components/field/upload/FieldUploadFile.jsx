@@ -74,11 +74,15 @@ export class FieldUploadFile extends React.Component {
 
 
         let fileIds = this.convertComponentValueToOutput(fileList);
-        if (fileIds.length > 0) {
-            this.props.onFileChange?.(fileList)
-            message.success('文件上传成功')
+        if (fileIds.length > 0 && this.props.onFileChange) {
+            this.props.onFileChange(fileList)
         }
-        this.props.onChange?.(fileIds.join(','));
+        if(this.props.onChange){
+            let value = fileIds.join(',');
+            console.log('上传文件值', value )
+            this.props.onChange(value);
+        }
+
     };
 
 
