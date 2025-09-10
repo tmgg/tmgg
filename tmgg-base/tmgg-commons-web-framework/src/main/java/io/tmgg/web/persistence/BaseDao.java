@@ -12,6 +12,7 @@ import jakarta.persistence.criteria.*;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Validator;
+import lombok.Getter;
 import org.slf4j.Logger;
 import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.data.domain.*;
@@ -34,11 +35,13 @@ import java.util.function.Function;
  */
 public class BaseDao<T extends PersistEntity> {
 
+    @Getter
     @PersistenceContext
     protected EntityManager entityManager;
 
     protected JpaEntityInformation<T, ?> entityInformation;
 
+    @Getter
     protected Class<T> domainClass;
     private SimpleJpaRepository<T, String> rep;
 
@@ -746,11 +749,4 @@ public class BaseDao<T extends PersistEntity> {
     }
 
 
-    public EntityManager getEntityManager() {
-        return this.entityManager;
-    }
-
-    public Class<T> getDomainClass() {
-        return this.domainClass;
-    }
 }
