@@ -36,12 +36,12 @@ public abstract class BaseController<T extends PersistEntity> {
         // 移除分页参数后再查询
         param.remove("size");
         param.remove("page");
-        q.searchParams(param,service.getEntityClass());
+        q.searchParams(param,service.getDomainClass());
 
         Page<T> page = service.findAll(q, pageable);
 
 
-        return service.autoRender(page, service.getEntityClass());
+        return service.autoRender(page, service.getDomainClass());
     }
 
     @HasPermission

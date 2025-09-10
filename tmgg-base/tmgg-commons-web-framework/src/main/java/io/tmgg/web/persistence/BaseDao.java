@@ -57,6 +57,12 @@ public class BaseDao<T extends PersistEntity> {
         this.rep = new SimpleJpaRepository<>(domainClass, entityManager);
     }
 
+    public boolean isFieldUnique(String id, String fieldName, Object value) {
+        JpaQuery<T> q = new JpaQuery<>();
+        q.ne("id", id);
+        q.eq(fieldName, value);
+        return rep.exists(q);
+    }
     @Transactional
     public void deleteById(String id) {
         rep.deleteById(id);
@@ -112,6 +118,32 @@ public class BaseDao<T extends PersistEntity> {
         T t = this.findById(id);
         this.refresh(t);
         return t;
+    }
+
+    public T findByField(String key, Object value) {
+        JpaQuery<T> q = new JpaQuery<>();
+        q.eq(key, value);
+        return this.findOne(q);
+    }
+
+    public T findByField(String key, Object value, String key2, Object value2) {
+        JpaQuery<T> q = new JpaQuery<>();
+        q.eq(key, value);
+        q.eq(key2, value2);
+        return this.findOne(q);
+    }
+
+    public List<T> findAllByField(String key, Object value) {
+        JpaQuery<T> q = new JpaQuery<>();
+        q.eq(key, value);
+        return this.findAll(q);
+    }
+
+    public List<T> findAllByField(String key, Object value, String key2, Object value2) {
+        JpaQuery<T> q = new JpaQuery<>();
+        q.eq(key, value);
+        q.eq(key2, value2);
+        return this.findAll(q);
     }
 
     /**
@@ -227,9 +259,7 @@ public class BaseDao<T extends PersistEntity> {
         return rep.findAll(example, pageable);
     }
 
-    public <R> R findBy(Example<T> example, Function<FluentQuery.FetchableFluentQuery<T>, R> queryFunction) {
-        return rep.findBy(example, queryFunction);
-    }
+
 
     public long count() {
         return rep.count();
@@ -686,6 +716,19 @@ public class BaseDao<T extends PersistEntity> {
             }
         }
         return map;
+    }
+
+    public List<T> findByExampleLike(T t, Sort sort) {
+        JpaQuery<T> c = new JpaQuery<>();
+        c.likeExample(t);
+        return this.rep.findAll(c, sort);
+    }
+
+
+    public Page<T> findByExampleLike(T example, Pageable pageable) {
+        JpaQuery<T> query = new JpaQuery<>();
+        query.likeExample(example);
+        return this.rep.findAll(query, pageable);
     }
 
     private Class<T> parseDomainClass() {

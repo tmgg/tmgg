@@ -91,6 +91,8 @@ export class FieldEditTable extends React.Component {
                    footer={() => <Button type='dashed' icon={<PlusOutlined/>}
                                          onClick={this.add}>增加一行
                    </Button>}
+
+                   pagination={false}
             >
 
             </Table>
