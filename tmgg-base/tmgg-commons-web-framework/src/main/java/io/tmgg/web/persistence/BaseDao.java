@@ -7,14 +7,12 @@ import io.tmgg.web.persistence.specification.Selector;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.Resource;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.OptimisticLockException;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.criteria.*;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Validator;
-import lombok.Getter;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
 import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.data.domain.*;
 import org.springframework.data.jpa.domain.Specification;
@@ -34,16 +32,14 @@ import java.util.function.Function;
  * 基础dao
  * BaseDao的查询条件不依赖JpaQuery
  */
-@Slf4j
 public class BaseDao<T extends PersistEntity> {
 
-    @Getter
+    private static final Logger log = org.slf4j.LoggerFactory.getLogger(BaseDao.class);
     @PersistenceContext
     protected EntityManager entityManager;
 
     protected JpaEntityInformation<T, ?> entityInformation;
 
-    @Getter
     protected Class<T> domainClass;
     private SimpleJpaRepository<T, String> rep;
 
@@ -63,6 +59,7 @@ public class BaseDao<T extends PersistEntity> {
         q.eq(fieldName, value);
         return rep.exists(q);
     }
+
     @Transactional
     public void deleteById(String id) {
         rep.deleteById(id);
@@ -260,7 +257,6 @@ public class BaseDao<T extends PersistEntity> {
     }
 
 
-
     public long count() {
         return rep.count();
 
@@ -289,7 +285,7 @@ public class BaseDao<T extends PersistEntity> {
         // 有id时也有可能时新增，即新增时指定id
         // 例如json文件初始化到数据库时
         String id = entity.getId();
-        if(findById(id) == null){
+        if (findById(id) == null) {
             entity.setTempId(id);
             entity.setId(null);
             entityManager.persist(entity);
@@ -751,4 +747,11 @@ public class BaseDao<T extends PersistEntity> {
     }
 
 
+    public EntityManager getEntityManager() {
+        return this.entityManager;
+    }
+
+    public Class<T> getDomainClass() {
+        return this.domainClass;
+    }
 }
