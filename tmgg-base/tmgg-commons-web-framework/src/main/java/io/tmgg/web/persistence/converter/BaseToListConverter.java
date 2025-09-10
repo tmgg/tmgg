@@ -6,6 +6,7 @@ import io.tmgg.web.persistence.ReflectTool;
 import jakarta.persistence.AttributeConverter;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public  class BaseToListConverter<T> implements AttributeConverter<List<T>, String>, Serializable {
@@ -15,14 +16,14 @@ public  class BaseToListConverter<T> implements AttributeConverter<List<T>, Stri
 
 
     @Override
-    public String convertToDatabaseColumn(List<T> ts) {
-        return JsonTool.toJsonQuietly(ts);
+    public String convertToDatabaseColumn(List<T> input) {
+        return JsonTool.toJsonQuietly(input);
     }
 
     @Override
     public List<T> convertToEntityAttribute(String dbData) {
         if (dbData == null || dbData.isEmpty()) {
-            return null;
+            return new ArrayList<>();
         }
 
         Class<T> cls = ReflectTool.getClassGenricType(getClass());
