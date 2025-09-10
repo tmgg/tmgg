@@ -3,6 +3,7 @@ package io.tmgg.web.persistence.id;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
 import com.github.f4b6a3.uuid.UuidCreator;
+import io.tmgg.lang.IdTool;
 import io.tmgg.web.persistence.PersistEntity;
 import io.tmgg.web.persistence.id.impl.DailyTableGenerator;
 import org.hibernate.boot.model.relational.Database;
@@ -51,8 +52,8 @@ public class CustomIdGenerator implements IdentifierGenerator {
 
         switch (cfg.style()) {
             case DAILY_SEQ -> generator = new DailyTableGenerator(idLen);
-            case UUID -> generator = (session, object) -> uuidV7();
-            case DATETIME_UUID -> generator = (session, object) -> getTime() + uuidV7();
+            case UUID -> generator = (session, object) -> IdTool.uuidV7();
+            case DATETIME_UUID -> generator = (session, object) -> getTime() +  IdTool.uuidV7();
             case DATETIME_SEQ ->
                     generator = (session, object) -> getTime() + StrUtil.padPre(String.valueOf(count), idLen - TIME_LEN, '0');
         }
@@ -155,12 +156,6 @@ public class CustomIdGenerator implements IdentifierGenerator {
     }
 
 
-    /**
-     * 基于时间序列，对mysql好
-     * @return
-     */
-    private static String uuidV7() {
-        UUID uuid = UuidCreator.getTimeOrderedEpochPlus1();
-        return  uuid.toString().replace("-","");
-    }
+
+
 }

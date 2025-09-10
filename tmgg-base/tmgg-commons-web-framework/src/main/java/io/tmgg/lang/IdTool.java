@@ -2,11 +2,13 @@ package io.tmgg.lang;
 
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.extra.spring.SpringUtil;
+import com.github.f4b6a3.uuid.UuidCreator;
 import io.tmgg.dbtool.DbTool;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.Serializable;
 import java.util.Map;
+import java.util.UUID;
 
 
 public class IdTool implements Serializable {
@@ -46,6 +48,15 @@ public class IdTool implements Serializable {
 
     }
 
+    /**
+     * 按时间排序的uuid
+     * 对于一些数据库主键友好，如mysql
+     * @return
+     */
+    public static String uuidV7(){
+        UUID uuid = UuidCreator.getTimeOrderedEpochPlus1();
+        return  uuid.toString().replace("-","");
+    }
 
 
 }
