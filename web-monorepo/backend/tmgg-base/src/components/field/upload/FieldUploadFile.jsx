@@ -43,15 +43,20 @@ export class FieldUploadFile extends React.Component {
     convertComponentValueToOutput(fileList) {
         let fileIds = [];
         for (const f of fileList) {
-            if (f.status === 'done' && f.response) {
-                const ajaxResult = f.response
-                if (ajaxResult.success) {
-                    const {id, name} = ajaxResult.data
-                    f.id = id;
-                    fileIds.push(id);
-                } else {
-                    Modal.error({title: '上传文件失败', content: ajaxResult.message})
+            if (f.status === 'done') {
+                if(f.response) { // 新上传的
+                    const ajaxResult = f.response
+                    if (ajaxResult.success) {
+                        const {id, name} = ajaxResult.data
+                        f.id = id;
+                        fileIds.push(id);
+                    } else {
+                        Modal.error({title: '上传文件失败', content: ajaxResult.message})
+                    }
+                }else { // 老的
+                    fileIds.push(f.id)
                 }
+
 
             }
         }
@@ -60,6 +65,7 @@ export class FieldUploadFile extends React.Component {
 
 
     handleChange = ({fileList, event, file}) => {
+        console.log('检测到文件变化', fileList)
         const rs = file.response;
         if (rs != null && rs.success === false) {
             Modal.error({
@@ -73,12 +79,12 @@ export class FieldUploadFile extends React.Component {
         this.setState({fileList});
 
 
-        let fileIds = this.convertComponentValueToOutput(fileList);
-        if (fileIds.length > 0 && this.props.onFileChange) {
+        let newIds = this.convertComponentValueToOutput(fileList);
+        if (newIds.length > 0 && this.props.onFileChange) {
             this.props.onFileChange(fileList)
         }
         if(this.props.onChange){
-            let value = fileIds.join(',');
+            let value = newIds.join(',');
             console.log('上传文件值', value )
             this.props.onChange(value);
         }
