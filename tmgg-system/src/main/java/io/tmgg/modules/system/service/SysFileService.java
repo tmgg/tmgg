@@ -7,17 +7,13 @@ import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
-import io.tmgg.config.MinioProp;
 import io.tmgg.config.SysProp;
 import io.tmgg.lang.DownloadTool;
 import io.tmgg.modules.system.dao.SysFileDao;
 import io.tmgg.modules.system.entity.SysFile;
 import io.tmgg.modules.system.file.FileOperator;
-import io.tmgg.modules.system.file.LocalFileOperator;
-import io.tmgg.modules.system.file.MinioFileOperator;
 import io.tmgg.web.consts.SymbolConstant;
 import io.tmgg.web.persistence.specification.JpaQuery;
-import jakarta.annotation.PostConstruct;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -29,17 +25,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.MediaTypeFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
-import org.springframework.util.MimeType;
-import org.springframework.util.MimeTypeUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.PrintWriter;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.io.*;
 import java.util.Date;
 import java.util.Optional;
 
@@ -217,6 +205,27 @@ public class SysFileService {
         DownloadTool.download(fileName, f.getInputStream(), f.getFileSize(), response);
     }
 
+    /**
+     * 下载到所属服务器
+     *
+     * @param id
+     * @param localFile
+     * @return
+     * @throws Exception
+     */
+    public File downloadToLocal(String id, File localFile) throws Exception {
+        SysFile sysFile = sysFileDao.findOne(id);
+        fileOperator.downloadFile(sysFile.getFileObjectName(), localFile);
+        return localFile;
+    }
+
+    public File downloadToLocalTemp(String id) throws Exception {
+        SysFile sysFile = sysFileDao.findOne(id);
+        File tempFile = FileUtil.createTempFile("." + sysFile.getFileSuffix(), true);
+        fileOperator.downloadFile(sysFile.getFileObjectName(), tempFile);
+
+        return tempFile;
+    }
 
     public SysFile findOne(String id) {
         return sysFileDao.findOne(id);
