@@ -47,22 +47,22 @@ public class BaseDao<T extends PersistEntity> {
     private Validator validator;
 
     @PostConstruct
-    void init() {
+    private void init() {
         this.domainClass = parseDomainClass();
         this.entityInformation = JpaEntityInformationSupport.getEntityInformation(domainClass, entityManager);
         this.rep = new SimpleJpaRepository<>(domainClass, entityManager);
     }
 
+
+    @Transactional
+    public void deleteById(String id) {
+        rep.deleteById(id);
+    }
     public boolean isFieldUnique(String id, String fieldName, Object value) {
         JpaQuery<T> q = new JpaQuery<>();
         q.ne("id", id);
         q.eq(fieldName, value);
         return rep.exists(q);
-    }
-
-    @Transactional
-    public void deleteById(String id) {
-        rep.deleteById(id);
     }
 
 
