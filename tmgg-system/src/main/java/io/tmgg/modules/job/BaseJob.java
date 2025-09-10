@@ -19,5 +19,5 @@ public abstract class BaseJob implements Job {
         jobExecutionContext.setResult(result);
     }
 
-    public abstract String execute(JobDataMap data, Logger log);
+    public abstract String execute(JobDataMap data, Logger logger);
 }
