@@ -26,13 +26,6 @@ import java.io.InputStream;
 public class SysFile extends BaseEntity {
 
 
-
-
-    /**
-     * 文件仓库
-     */
-    private String fileBucket;
-
     /**
      * 文件名称（上传时候的文件名）
      */
@@ -54,10 +47,6 @@ public class SysFile extends BaseEntity {
     @NotNull
     private String fileObjectName;
 
-    /**
-     * 存储路径
-     */
-    private String filePath;
 
 
     @Transient
