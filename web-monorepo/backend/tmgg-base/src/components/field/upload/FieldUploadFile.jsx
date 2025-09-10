@@ -3,7 +3,7 @@ import ImgCrop from "antd-img-crop";
 import {message, Modal, Upload} from "antd";
 import UploadOutlined from "@ant-design/icons/lib/icons/UploadOutlined";
 import {SysUtil} from "../../../system";
-import {ViewFile} from "../../view/ViewFile";
+import {ViewFile} from "../../view";
 import {ObjUtil} from "@tmgg/tmgg-commons-lang";
 
 
