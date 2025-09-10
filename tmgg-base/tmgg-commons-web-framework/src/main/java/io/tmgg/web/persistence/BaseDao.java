@@ -34,7 +34,6 @@ import java.util.function.Function;
  */
 public class BaseDao<T extends PersistEntity> {
 
-    private static final Logger log = org.slf4j.LoggerFactory.getLogger(BaseDao.class);
     @PersistenceContext
     protected EntityManager entityManager;
 
