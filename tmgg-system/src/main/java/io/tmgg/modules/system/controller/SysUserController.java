@@ -6,7 +6,6 @@ import cn.hutool.core.text.PasswdStrength;
 import cn.hutool.core.util.StrUtil;
 import io.tmgg.framework.session.SysHttpSessionService;
 import io.tmgg.lang.obj.table.Table;
-import io.tmgg.modules.api.entity.ApiResource;
 import io.tmgg.web.argument.RequestBodyKeys;
 import io.tmgg.web.persistence.BaseEntity;
 import io.tmgg.web.persistence.specification.JpaQuery;
@@ -85,7 +84,7 @@ public class SysUserController {
 
 
         updateFields.add("unitId");
-        sysUserService.saveOrUpdate(input,updateFields);
+        sysUserService.saveOrUpdateFromWeb(input,updateFields);
 
         if (isNew) {
             return AjaxResult.ok().msg("添加成功,密码：" + configService.getDefaultPassWord());

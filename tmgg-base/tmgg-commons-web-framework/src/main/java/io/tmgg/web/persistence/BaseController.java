@@ -47,7 +47,7 @@ public abstract class BaseController<T extends PersistEntity> {
     @HasPermission
     @PostMapping("save")
     public AjaxResult save(@RequestBody T input, RequestBodyKeys updateFields) throws Exception {
-        service.saveOrUpdate(input, updateFields);
+        service.saveOrUpdateFromWeb(input, updateFields);
         return AjaxResult.ok().msg("保存成功");
     }
 
@@ -55,7 +55,7 @@ public abstract class BaseController<T extends PersistEntity> {
     @HasPermission
     @RequestMapping("delete")
     public AjaxResult delete(String id) {
-        service.deleteById(id);
+        service.deleteFromWeb(id);
         return AjaxResult.ok().msg("删除成功");
     }
 

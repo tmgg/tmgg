@@ -185,14 +185,14 @@ public class SysUserService extends BaseService<SysUser> implements UserLabelQue
     }
 
     @Override
-    public SysUser saveOrUpdate(SysUser input, List<String> updateKeys) throws Exception {
+    public SysUser saveOrUpdateFromWeb(SysUser input, List<String> updateKeys) throws Exception {
         boolean isNew = input.isNew();
         if (isNew) {
             String password = sysConfigService.getDefaultPassWord();
             input.setPassword(PasswordTool.encode(password));
         }
 
-        super.saveOrUpdate(input, updateKeys);
+        super.saveOrUpdateFromWeb(input, updateKeys);
         return null;
     }
 

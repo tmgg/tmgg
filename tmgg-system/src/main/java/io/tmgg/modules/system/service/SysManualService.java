@@ -15,13 +15,13 @@ public class SysManualService extends BaseService<SysManual> {
     SysManualDao dao;
 
     @Override
-    public SysManual saveOrUpdate(SysManual input, List<String> updateKeys) throws Exception {
+    public SysManual saveOrUpdateFromWeb(SysManual input, List<String> updateKeys) throws Exception {
         if(input.isNew()){
             int maxVersion = dao.findMaxVersion(input.getName());
             input.setVersion(maxVersion+1);
         }
 
-        return super.saveOrUpdate(input, updateKeys);
+        return super.saveOrUpdateFromWeb(input, updateKeys);
     }
 }
 
