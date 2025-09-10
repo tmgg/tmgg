@@ -4,6 +4,7 @@ package io.tmgg.modules.system.entity;
 import cn.hutool.core.io.FileUtil;
 import io.tmgg.lang.RequestTool;
 import io.tmgg.web.persistence.BaseEntity;
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
@@ -47,6 +48,8 @@ public class SysFile extends BaseEntity {
     @NotNull
     private String fileObjectName;
 
+    @Column(length = 20)
+    private String mimeType;
 
 
     @Transient

@@ -27,9 +27,9 @@ public class SysProp {
 
 
     /**
-     * 允许上次得文件， 如 docx
+     * 允许上传文件的后缀， 如 docx
      */
-    private String allowUploadFiles = "docx,xlsx,pdf,png,jpg";
+    private String allowUploadFiles = "docx,xlsx,pdf,png,jpg,mp3,mp4,wav";
 
 
     /**

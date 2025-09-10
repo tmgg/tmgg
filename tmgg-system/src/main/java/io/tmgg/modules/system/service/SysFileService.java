@@ -2,6 +2,7 @@
 package io.tmgg.modules.system.service;
 
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.io.FileTypeUtil;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.ObjectUtil;
@@ -24,14 +25,23 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.MediaType;
+import org.springframework.http.MediaTypeFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import org.springframework.util.MimeType;
+import org.springframework.util.MimeTypeUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Date;
+import java.util.Optional;
 
 /**
  * 文件服务类
@@ -101,6 +111,7 @@ public class SysFileService {
         return this.uploadFile(is, name, file.getSize());
     }
 
+
     public SysFile uploadFile(InputStream is, String originalFilename, long size) throws Exception {
         log.info("上传文件:{} 大小:{}", originalFilename, FileUtil.readableFileSize(size));
 
@@ -110,8 +121,19 @@ public class SysFileService {
 
         if (ObjectUtil.isNotEmpty(originalFilename)) {
             suffix = StrUtil.subAfter(originalFilename, SymbolConstant.PERIOD, true);
+            Assert.hasText(suffix,"解析后缀失败");
             Assert.state(sysProp.getAllowUploadFiles().contains(suffix), "文件格式" + suffix + "不允许上次");
         }
+
+        if(StrUtil.isEmpty(suffix)){
+            suffix = FileTypeUtil.getType(is);
+            is.reset();
+        }
+
+        Optional<MediaType> mediaType = MediaTypeFactory.getMediaType("."+suffix);
+
+
+
 
         String id = IdUtil.getSnowflakeNextIdStr();
 
@@ -130,6 +152,11 @@ public class SysFileService {
         sysFile.setFileSuffix(suffix);
         sysFile.setFileSize(size);
         sysFile.setFileObjectName(objectName);
+
+        if(mediaType.isPresent()){
+            sysFile.setMimeType(mediaType.get().toString());
+        }
+
         sysFile = sysFileDao.save(sysFile);
 
 

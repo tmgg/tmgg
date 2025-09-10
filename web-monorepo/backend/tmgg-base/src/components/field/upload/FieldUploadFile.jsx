@@ -1,6 +1,6 @@
 import React from "react";
 import ImgCrop from "antd-img-crop";
-import {Modal, Upload} from "antd";
+import {message, Modal, Upload} from "antd";
 import UploadOutlined from "@ant-design/icons/lib/icons/UploadOutlined";
 import {SysUtil} from "../../../system";
 import {ViewFile} from "../../view/ViewFile";
@@ -76,6 +76,7 @@ export class FieldUploadFile extends React.Component {
         let fileIds = this.convertComponentValueToOutput(fileList);
         if (fileIds.length > 0) {
             this.props.onFileChange?.(fileList)
+            message.success('文件上传成功')
         }
         this.props.onChange?.(fileIds.join(','));
     };

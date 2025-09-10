@@ -27,10 +27,6 @@ export default class extends React.Component {
             dataIndex: 'fileOriginName',
         },
 
-        {
-            title: '后缀',
-            dataIndex: 'fileSuffix',
-        },
 
         {
             title: '大小信息',
@@ -43,6 +39,14 @@ export default class extends React.Component {
             tooltip: '文件唯一标识id'
         },
 
+        {
+            title: '文件类型（mime）',
+            dataIndex: 'mimeType',
+        },
+        {
+            title: '扩展名',
+            dataIndex: 'fileSuffix',
+        },
 
         {
             title: '上传时间',
@@ -75,12 +79,7 @@ export default class extends React.Component {
         })
     }
 
-    onFinish = (values) => {
-        HttpUtil.post('sysFile/save', values).then(rs => {
-            this.setState({formOpen: false})
-            this.tableRef.current.reload();
-        })
-    }
+
 
     render() {
         return <>
@@ -117,16 +116,16 @@ export default class extends React.Component {
 
             <Modal open={this.state.formOpen} title='上传文件'
                    width={800}
-                   onOk={() => this.formRef.current.submit()}
                    onCancel={() => {
                        this.setState({formOpen: false})
                        this.tableRef.current.reload()
                    }}
                    footer={null}
+                   destroyOnHidden
             >
                 <Form ref={this.formRef}
                       initialValues={this.state.formValues}
-                      onFinish={this.onFinish}>
+                     >
                     <Form.Item name='文件'>
                         <FieldUploadFile/>
                     </Form.Item>
