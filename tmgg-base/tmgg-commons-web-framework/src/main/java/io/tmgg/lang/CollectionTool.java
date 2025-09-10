@@ -15,7 +15,7 @@ public class CollectionTool {
      * @param <T> 集合元素类型
      * @return 包含新增元素的新List
      */
-    public static <T extends Comparable<T>> Collection<T> findNewElements(Collection<T> a, Collection<T> b) {
+    public static <T extends Comparable<T>> List<T> findNewElements(Collection<T> a, Collection<T> b) {
         List<T> result = new ArrayList<>(b);
         result.removeAll(a);
         return result;
