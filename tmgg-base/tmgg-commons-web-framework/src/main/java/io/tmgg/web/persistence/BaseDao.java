@@ -59,6 +59,7 @@ public class BaseDao<T extends PersistEntity> {
     public void deleteById(String id) {
         rep.deleteById(id);
     }
+
     public boolean isFieldUnique(String id, String fieldName, Object value) {
         JpaQuery<T> q = new JpaQuery<>();
         q.ne("id", id);
