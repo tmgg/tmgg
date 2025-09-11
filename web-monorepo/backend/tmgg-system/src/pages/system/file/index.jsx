@@ -1,6 +1,14 @@
 import {Button, Form, Input, Modal, Popconfirm} from 'antd'
 import React from 'react'
-import {ButtonList, FieldDateRange, FieldUploadFile, HttpUtil, ProTable, SysUtil} from "@tmgg/tmgg-base";
+import {
+    ButtonList,
+    FieldDateRange,
+    FieldDictSelect,
+    FieldUploadFile,
+    HttpUtil,
+    ProTable,
+    SysUtil
+} from "@tmgg/tmgg-base";
 import {CloudUploadOutlined} from "@ant-design/icons";
 
 
@@ -34,9 +42,12 @@ export default class extends React.Component {
         },
 
 
-
         {
-            title: '文件类型（mime）',
+            title: '文件类型',
+            dataIndex: 'typeLabel',
+        },
+        {
+            title: 'mimeType',
             dataIndex: 'mimeType',
         },
         {
@@ -52,13 +63,30 @@ export default class extends React.Component {
             title: '上传者',
             dataIndex: 'createUserLabel',
         },
+        {
+            title: '预览',
+            dataIndex: 'id',
+            render(id,record){
+                const nodes = [  <a href={SysUtil.wrapServerUrl( 'sysFile/preview/' + record.id) } target='_blank'>预览</a>]
 
+
+                if(record.imageUrls?.length > 0){
+                   for(let item of record.imageUrls){
+                       let url = item.url;
+                       let label = item.label;
+                       nodes.push(<a href={SysUtil.wrapServerUrl( url) } target='_blank' style={{marginLeft:8}} >{label}</a>)
+                   }
+                }
+
+                return nodes;
+
+            }
+        },
         {
             title: '操作',
             dataIndex: 'option',
             render: (_, record) => (
                 <ButtonList>
-                    <a href={SysUtil.wrapServerUrl( 'sysFile/preview/' + record.id) } target='_blank'>预览</a>
                     <Popconfirm perm='sysFile:delete' title='是否确定删除文件信息'
                                 onConfirm={() => this.handleDelete(record)}>
                         <a>删除</a>
@@ -101,7 +129,9 @@ export default class extends React.Component {
                     <Form.Item label='对象名称' name='objectName'>
                         <Input/>
                     </Form.Item>
-
+                    <Form.Item label='类型' name='type'>
+                        <FieldDictSelect typeCode='materiaType'/>
+                    </Form.Item>
 
                     <Form.Item label='上传时间' name='dateRange'>
                         <FieldDateRange/>

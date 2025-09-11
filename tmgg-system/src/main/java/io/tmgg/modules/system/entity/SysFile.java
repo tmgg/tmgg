@@ -4,6 +4,7 @@ package io.tmgg.modules.system.entity;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.io.FileUtil;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.tmgg.framework.data.fill.FillDictText;
 import io.tmgg.lang.RequestTool;
 import io.tmgg.common.enums.MaterialType;
 import io.tmgg.web.persistence.BaseEntity;
@@ -58,6 +59,10 @@ public class SysFile extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     private MaterialType type;
+
+    @org.springframework.data.annotation.Transient
+    @FillDictText(typeCode = "materialType")
+    private String typeLabel;
 
     private String description;
     private String hash;

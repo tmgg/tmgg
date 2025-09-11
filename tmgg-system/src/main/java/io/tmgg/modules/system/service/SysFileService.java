@@ -4,6 +4,7 @@ package io.tmgg.modules.system.service;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.io.FileTypeUtil;
 import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.lang.Dict;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import io.tmgg.common.enums.MaterialType;
@@ -35,7 +36,7 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.InputStream;
 import java.io.PrintWriter;
-import java.util.Date;
+import java.util.*;
 
 /**
  * 文件服务类
@@ -52,8 +53,9 @@ public class SysFileService {
             "jpg", "jpeg", "png", "gif", "pdf",
     };
 
-    public static final String[] IMAGE_SIZE_KEY = {"sm", "md", "lg"}; // 小图，中，大图
+
     public static final int[] IMAGE_SIZE = {400, 800, 1200}; // 小图，中，大图
+    public static final String[] IMAGE_SIZE_LABEL = {"小图", "中图", "大图"};
 
     @Resource
     SysProp sysProp;
@@ -273,9 +275,26 @@ public class SysFileService {
     @Resource
     FileOperator fileOperator;
 
+    public void fillAllImageUrl(SysFile sysFile){
+        List<Dict> urls = new ArrayList<>();
+        String url = getPreviewUrl(sysFile.getId());
+        if(sysFile.getType() == MaterialType.IMAGE){
+            for (int i = 0; i < IMAGE_SIZE.length; i++) {
+                int size = IMAGE_SIZE[i];
+                String sizeKey = IMAGE_SIZE_LABEL[i];
+                Dict dict = Dict.of("size", size, "label",sizeKey, "url", url + "?w=" + size);
+                urls.add(dict);
+            }
+        }
+        sysFile.putExtData("imageUrls", urls);
+    }
 
     public Page<SysFile> findAll(JpaQuery<SysFile> q, Pageable pageable) {
-        return sysFileDao.findAll(q, pageable);
+        Page<SysFile> page = sysFileDao.findAll(q, pageable);
+        for (SysFile sysFile : page) {
+            this.fillAllImageUrl(sysFile);
+        }
+        return page;
     }
 
     public boolean isFileExist(String id) {
