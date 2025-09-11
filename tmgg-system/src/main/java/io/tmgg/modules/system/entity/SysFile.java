@@ -21,7 +21,6 @@ import java.util.Date;
 
 /**
  * 文件信息
- *
  */
 @Getter
 @Setter
@@ -52,8 +51,6 @@ public class SysFile extends BaseEntity {
     private Long size;
 
 
-
-
     @Column(length = 20)
     private String mimeType;
 
@@ -68,37 +65,38 @@ public class SysFile extends BaseEntity {
     private String description;
     private String hash;
 
-
-
+    /**
+     * 原始路径，针对那种互联网地址上传的
+     */
+    private String origUrl;
 
 
     @Transient
     private InputStream inputStream;
 
     @Transient
-    public String getName(){
+    public String getName() {
         return originName;
     }
 
     @Transient
     public String getSizeInfo() {
-        if(size != null){
+        if (size != null) {
             return FileUtil.readableFileSize(size);
         }
         return null;
     }
 
     @Transient
-    public String getUrl(){
+    public String getUrl() {
         HttpServletRequest request = RequestTool.currentRequest();
-        if(request != null){
+        if (request != null) {
             String baseUrl = RequestTool.getBaseUrl(request);
             return baseUrl + "/sysFile/preview/" + getId();
         }
 
         return null;
     }
-
 
 
 }
