@@ -4,14 +4,17 @@ package io.tmgg.modules.system.service;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.io.FileTypeUtil;
 import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.io.file.FileNameUtil;
 import cn.hutool.core.lang.Dict;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.http.HttpUtil;
 import io.tmgg.common.enums.MaterialType;
 import io.tmgg.config.SysProp;
 import io.tmgg.lang.DownloadTool;
 import io.tmgg.lang.IdTool;
 import io.tmgg.lang.ImgTool;
+import io.tmgg.lang.URLTool;
 import io.tmgg.modules.system.dao.SysFileDao;
 import io.tmgg.modules.system.entity.SysFile;
 import io.tmgg.modules.system.file.FileOperator;
@@ -100,10 +103,41 @@ public class SysFileService {
         return this.uploadFile(new ByteArrayInputStream(data), originalFilename, data.length);
     }
 
+    /**
+     * 上传网络文件
+     *
+     * @param origUrl
+     * @return
+     * @throws Exception
+     */
+    public SysFile uploadFile(String origUrl) throws Exception {
+        log.info("准备上传网络文件 {}", origUrl);
+        File tempFile = new File(FileUtil.getTmpDir(), FileNameUtil.mainName(origUrl));
+
+
+        long size = HttpUtil.downloadFile(origUrl, tempFile);
+        log.info("下载文件完成 {}", FileUtil.readableFileSize(size));
+
+        String suffix = FileNameUtil.getSuffix(origUrl);
+        if(suffix == null){
+            suffix = FileTypeUtil.getType(tempFile);
+            tempFile = FileUtil.rename(tempFile, tempFile.getName() + "." + suffix, true);
+        }
+
+
+        SysFile sysFile = this.uploadFile(tempFile);
+        FileUtil.del(tempFile);
+
+        sysFile.setOrigUrl(origUrl);
+        sysFileDao.save(sysFile);
+
+        return sysFile;
+    }
+
     public SysFile uploadFile(File file) throws Exception {
         try (InputStream is = new FileInputStream(file)) {
             String name = file.getName();
-            return   this.uploadFile(is, name, file.length());
+            return this.uploadFile(is, name, file.length());
         }
     }
 
@@ -128,7 +162,7 @@ public class SysFileService {
             is.mark(64);
             suffix = FileTypeUtil.getType(is);
             is.reset();
-            originalFilename+='.'+suffix;
+            originalFilename += '.' + suffix;
         }
 
         Assert.hasText(suffix, "解析后缀失败");
@@ -189,7 +223,6 @@ public class SysFileService {
     }
 
 
-
     public SysFile getFileAndStream(String fileId, Integer w) throws Exception {
         Assert.hasText(fileId, "文件id不能为空");
         // 获取文件名
@@ -215,7 +248,7 @@ public class SysFileService {
 
     public void preview(String id, Integer w, HttpServletRequest req, HttpServletResponse resp) throws Exception {
         //根据文件id获取文件信息结果集
-        SysFile sysFile = this.getFileAndStream(id,w);
+        SysFile sysFile = this.getFileAndStream(id, w);
         String fileSuffix = sysFile.getSuffix().toLowerCase();
 
         resp.setContentType(sysFile.getMimeType());
@@ -279,14 +312,14 @@ public class SysFileService {
     @Resource
     FileOperator fileOperator;
 
-    public void fillAllImageUrl(SysFile sysFile){
+    public void fillAllImageUrl(SysFile sysFile) {
         List<Dict> urls = new ArrayList<>();
         String url = getPreviewUrl(sysFile.getId());
-        if(sysFile.getType() == MaterialType.IMAGE){
+        if (sysFile.getType() == MaterialType.IMAGE) {
             for (int i = 0; i < IMAGE_SIZE.length; i++) {
                 int size = IMAGE_SIZE[i];
                 String sizeKey = IMAGE_SIZE_LABEL[i];
-                Dict dict = Dict.of("size", size, "label",sizeKey, "url", url + "?w=" + size);
+                Dict dict = Dict.of("size", size, "label", sizeKey, "url", url + "?w=" + size);
                 urls.add(dict);
             }
         }
