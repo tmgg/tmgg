@@ -11,6 +11,7 @@ import java.util.LinkedHashMap;
 /**
  * 素材类型
  */
+@Remark("materialType")
 public enum MaterialType {
 
 
