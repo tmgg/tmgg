@@ -47,4 +47,7 @@ public class SysProp {
      * 登录异常最大次数， 超过则锁定
      */
     private int loginLockMaxAttempts = 10;
+
+
+
 }

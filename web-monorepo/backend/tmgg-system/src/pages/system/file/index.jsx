@@ -17,27 +17,23 @@ export default class extends React.Component {
 
     columns = [
         {
-            title: '标识',
-            dataIndex: 'id',
-        },
-
-        {
-            title: '名称',
+            title: '原始名称',
             tooltip: '上传时候的文件名',
             dataIndex: 'originName',
+            width:200,
         },
-
-
         {
-            title: '大小信息',
-            dataIndex: 'fileSizeInfo',
-        },
-
-        {
-            title: '对象名称',
-            dataIndex: 'fileObjectName',
+            title: '存储名称',
+            dataIndex: 'objectName',
             tooltip: '文件唯一标识id'
         },
+
+        {
+            title: '文件大小',
+            dataIndex: 'sizeInfo',
+        },
+
+
 
         {
             title: '文件类型（mime）',
@@ -45,7 +41,7 @@ export default class extends React.Component {
         },
         {
             title: '扩展名',
-            dataIndex: 'fileSuffix',
+            dataIndex: 'suffix',
         },
 
         {

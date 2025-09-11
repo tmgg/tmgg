@@ -1,20 +1,22 @@
 
 package io.tmgg.modules.system.entity;
 
+import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.io.FileUtil;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.tmgg.lang.RequestTool;
+import io.tmgg.common.enums.MaterialType;
 import io.tmgg.web.persistence.BaseEntity;
-import jakarta.persistence.Column;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldNameConstants;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Transient;
 import jakarta.servlet.http.HttpServletRequest;
 
 import java.io.InputStream;
+import java.util.Date;
 
 /**
  * 文件信息
@@ -32,7 +34,12 @@ public class SysFile extends BaseEntity {
     @Column(name = "file_origin_name", length = 100)
     private String originName;
 
-
+    /**
+     * 存储到bucket的名称, 支持目录， 如 2024/abc.jpg
+     */
+    @NotNull
+    @Column(name = "file_object_name")
+    private String objectName;
 
     /**
      * 文件后缀
@@ -44,15 +51,19 @@ public class SysFile extends BaseEntity {
     private Long size;
 
 
-    /**
-     * 存储到bucket的名称, 支持目录， 如 2024/abc.jpg
-     */
-    @NotNull
-    @Column(name = "file_object_name")
-    private String objectName;
+
 
     @Column(length = 20)
     private String mimeType;
+
+    @Enumerated(EnumType.STRING)
+    private MaterialType type;
+
+    private String description;
+    private String hash;
+
+
+
 
 
     @Transient
@@ -64,7 +75,7 @@ public class SysFile extends BaseEntity {
     }
 
     @Transient
-    public String getFileSizeInfo() {
+    public String getSizeInfo() {
         if(size != null){
             return FileUtil.readableFileSize(size);
         }

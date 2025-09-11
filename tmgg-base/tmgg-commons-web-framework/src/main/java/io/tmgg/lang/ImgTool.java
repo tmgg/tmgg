@@ -24,7 +24,6 @@ public class ImgTool {
 
     public static boolean scale(File sourceFile, File targetFile,
                                 int maxWidth, int maxHeight) {
-        try {
             if (!sourceFile.exists()) {
                 System.out.println("原图文件不存在");
                 return false;
@@ -47,10 +46,7 @@ public class ImgTool {
 
             ImgUtil.scale(sourceFile, targetFile, ratio);
             return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
+
     }
 
     public static String toBase64DataUri(BufferedImage image) throws IOException {

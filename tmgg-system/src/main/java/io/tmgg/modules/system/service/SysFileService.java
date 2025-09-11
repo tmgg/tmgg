@@ -4,11 +4,14 @@ package io.tmgg.modules.system.service;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.io.FileTypeUtil;
 import cn.hutool.core.io.FileUtil;
-import cn.hutool.core.util.IdUtil;
+import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
+import io.tmgg.common.enums.MaterialType;
 import io.tmgg.config.SysProp;
 import io.tmgg.lang.DownloadTool;
+import io.tmgg.lang.IdTool;
+import io.tmgg.lang.ImgTool;
 import io.tmgg.modules.system.dao.SysFileDao;
 import io.tmgg.modules.system.entity.SysFile;
 import io.tmgg.modules.system.file.FileOperator;
@@ -18,7 +21,9 @@ import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
@@ -27,9 +32,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.InputStream;
+import java.io.PrintWriter;
 import java.util.Date;
-import java.util.Optional;
 
 /**
  * 文件服务类
@@ -45,6 +52,9 @@ public class SysFileService {
     public static final String[] PREVIEW_TYPES = new String[]{
             "jpg", "jpeg", "png", "gif", "pdf",
     };
+
+    public static final String[] IMAGE_SIZE_KEY = {"sm", "md", "lg"}; // 小图，中，大图
+    public static final int[] IMAGE_SIZE = {400, 800, 1200}; // 小图，中，大图
 
     @Resource
     SysProp sysProp;
@@ -103,35 +113,26 @@ public class SysFileService {
     public SysFile uploadFile(InputStream is, String originalFilename, long size) throws Exception {
         log.info("上传文件:{} 大小:{}", originalFilename, FileUtil.readableFileSize(size));
 
-
         // 获取文件后缀
         String suffix = null;
-
         if (ObjectUtil.isNotEmpty(originalFilename)) {
             suffix = StrUtil.subAfter(originalFilename, SymbolConstant.PERIOD, true);
-            Assert.hasText(suffix,"解析后缀失败");
-            Assert.state(sysProp.getAllowUploadFiles().contains(suffix), "文件格式" + suffix + "不允许上次");
         }
 
-        if(StrUtil.isEmpty(suffix)){
+        if (StrUtil.isEmpty(suffix)) {
+            Assert.state(is.markSupported(), "输入流必须支持标记");
+            is.mark(64);
             suffix = FileTypeUtil.getType(is);
             is.reset();
         }
 
-        Optional<MediaType> mediaType = MediaTypeFactory.getMediaType("."+suffix);
+        Assert.hasText(suffix, "解析后缀失败");
+        Assert.state(sysProp.getAllowUploadFiles().contains(suffix), "文件格式" + suffix + "不允许上次");
 
-
-
-
-        String id = IdUtil.getSnowflakeNextIdStr();
+        String id = IdTool.uuidV7();
 
         // 生成文件的最终名称
-        String objectName = DateUtil.format(new Date(),"yyyyMM") + "/" + id + "." + suffix;
-
-
-        // 存储文件
-        fileOperator.save(objectName, is);
-
+        String objectName = buildObjectName(id, suffix, null);
 
         // 存储文件信息
         SysFile sysFile = new SysFile();
@@ -141,14 +142,45 @@ public class SysFileService {
         sysFile.setSize(size);
         sysFile.setObjectName(objectName);
 
-        if(mediaType.isPresent()){
-            sysFile.setMimeType(mediaType.get().toString());
+        MediaType mediaType = MediaTypeFactory.getMediaType("." + suffix).orElse(null);
+        if (mediaType != null) {
+            sysFile.setMimeType(mediaType.toString());
         }
+        sysFile.setType(MaterialType.parseBySuffix(suffix));
+
+
+        File tempFile = FileUtil.createTempFile("." + suffix, true);
+        FileUtils.copyInputStreamToFile(is, tempFile);
+
+
+        // 存储文件
+        fileOperator.saveFile(objectName, tempFile);
+        if (sysFile.getType() == MaterialType.IMAGE) {
+            for (int i = 0; i < IMAGE_SIZE.length; i++) {
+                int imageSize = IMAGE_SIZE[i];
+                File tempImageFile = ImgTool.scale(tempFile, imageSize);
+                if (tempImageFile != null) {
+                    String imageObjectName = buildObjectName(id, suffix, imageSize);
+                    fileOperator.saveFile(imageObjectName, tempImageFile);
+                    FileUtil.del(tempImageFile);
+                }
+            }
+        }
+        FileUtil.del(tempFile);
 
         sysFile = sysFileDao.save(sysFile);
 
 
         return sysFile;
+    }
+
+    @NotNull
+    private String buildObjectName(String id, String suffix, Integer size) {
+        String baseName = id;
+        if (size != null) {
+            baseName += "_" + size;
+        }
+        return DateUtil.format(new Date(), "yyyyMM") + "/" + baseName + "." + suffix;
     }
 
 
@@ -232,11 +264,8 @@ public class SysFileService {
     }
 
 
-
     @Resource
     FileOperator fileOperator;
-
-
 
 
     public Page<SysFile> findAll(JpaQuery<SysFile> q, Pageable pageable) {
