@@ -28,6 +28,12 @@ import java.util.Date;
 @FieldNameConstants
 public class SysFile extends BaseEntity {
 
+    public SysFile() {
+    }
+    public SysFile(String id) {
+        this.setId(id);
+    }
+
     /**
      * 文件名称（上传时候的文件名）
      */

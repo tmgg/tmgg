@@ -32,10 +32,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.InputStream;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.*;
 
 /**
@@ -103,6 +100,12 @@ public class SysFileService {
         return this.uploadFile(new ByteArrayInputStream(data), originalFilename, data.length);
     }
 
+    public SysFile uploadFile(File file) throws Exception {
+        try (InputStream is = new FileInputStream(file)) {
+            String name = file.getName();
+            return   this.uploadFile(is, name, file.length());
+        }
+    }
 
     public SysFile uploadFile(MultipartFile file) throws Exception {
         InputStream is = file.getInputStream();
@@ -125,6 +128,7 @@ public class SysFileService {
             is.mark(64);
             suffix = FileTypeUtil.getType(is);
             is.reset();
+            originalFilename+='.'+suffix;
         }
 
         Assert.hasText(suffix, "解析后缀失败");
