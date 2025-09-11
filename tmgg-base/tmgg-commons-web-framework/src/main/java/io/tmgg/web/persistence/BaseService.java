@@ -16,7 +16,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.experimental.Delegate;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.convert.converter.Converter;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -47,7 +50,7 @@ public abstract class BaseService<T extends PersistEntity> {
      * @throws Exception
      */
     @Transactional
-    public T saveOrUpdateFromWeb(T input, List<String> updateKeys) throws Exception {
+    public T saveOrUpdateByClient(T input, List<String> updateKeys) throws Exception {
         String id = input.getId();
         if (id == null) {
             return baseDao.persist(input);
@@ -59,8 +62,28 @@ public abstract class BaseService<T extends PersistEntity> {
 
 
     @Transactional
-    public void deleteFromWeb(String id) {
+    public void deleteByClient(String id) {
         this.deleteById(id);
+    }
+
+    public Page<T> findAllByClient(JpaQuery<T> q, Pageable pageable) {
+        return this.findAll(q, pageable);
+    }
+
+    public Page<T> findOneByClient(String id) {
+        return this.findOneByClient(id);
+    }
+
+
+    public  <B> Page<B> convertDto(Page<T> pageA, Converter<T, B> converter) {
+        List<B> listB = new ArrayList<>();
+        for (T a : pageA) {
+            B b = converter.convert(a);
+            listB.add(b);
+        }
+
+        PageImpl<B> page = new PageImpl<>(listB,pageA.getPageable(),pageA.getTotalElements());
+        return page;
     }
 
 
@@ -167,6 +190,7 @@ public abstract class BaseService<T extends PersistEntity> {
             return Option.builder().label(label).value(value).build();
         }).collect(Collectors.toList());
     }
+
 
 
 }

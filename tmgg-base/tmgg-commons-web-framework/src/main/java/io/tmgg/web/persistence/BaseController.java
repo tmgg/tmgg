@@ -38,7 +38,7 @@ public abstract class BaseController<T extends PersistEntity> {
         param.remove("page");
         q.searchParams(param,service.getDomainClass());
 
-        Page<T> page = service.findAll(q, pageable);
+        Page<T> page = service.findAllByClient(q, pageable);
 
 
         return service.autoRender(page, service.getDomainClass());
@@ -47,7 +47,7 @@ public abstract class BaseController<T extends PersistEntity> {
     @HasPermission
     @PostMapping("save")
     public AjaxResult save(@RequestBody T input, RequestBodyKeys updateFields) throws Exception {
-        service.saveOrUpdateFromWeb(input, updateFields);
+        service.saveOrUpdateByClient(input, updateFields);
         return AjaxResult.ok().msg("保存成功");
     }
 
@@ -55,7 +55,7 @@ public abstract class BaseController<T extends PersistEntity> {
     @HasPermission
     @RequestMapping("delete")
     public AjaxResult delete(String id) {
-        service.deleteFromWeb(id);
+        service.deleteByClient(id);
         return AjaxResult.ok().msg("删除成功");
     }
 

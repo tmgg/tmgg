@@ -56,7 +56,7 @@ public class SysFlowableModelServiceController {
     @HasPermission("flowableModel:save")
     @PostMapping("save")
     public AjaxResult save(@RequestBody SysFlowableModel param, RequestBodyKeys keys) throws Exception {
-        service.saveOrUpdateFromWeb(param,keys);
+        service.saveOrUpdateByClient(param,keys);
         return AjaxResult.ok();
     }
     @HasPermission("flowableModel:design")

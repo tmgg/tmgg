@@ -56,7 +56,7 @@ public class SysDictItemController  {
         }
 
         param.setBuiltin(false);
-        SysDictItem result = service.saveOrUpdateFromWeb(param,updateFields);
+        SysDictItem result = service.saveOrUpdateByClient(param,updateFields);
         return AjaxResult.ok().data( result.getId()).msg("保存成功");
     }
 

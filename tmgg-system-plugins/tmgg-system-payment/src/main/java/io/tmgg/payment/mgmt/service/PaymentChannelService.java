@@ -25,14 +25,14 @@ public class PaymentChannelService extends BaseService<PaymentChannel> implement
 
 
     @Override
-    public PaymentChannel saveOrUpdateFromWeb(PaymentChannel input, List<String> updateKeys) throws Exception {
+    public PaymentChannel saveOrUpdateByClient(PaymentChannel input, List<String> updateKeys) throws Exception {
         String paymentMethod = input.getMethodCode();
         IPaymentMethodService m = paymentService.getPaymentMethod(paymentMethod);
         input.setMethodName(m.getName());
         input.setMethodCode(m.getCode());
         input.setMethodOffline(m.isOffline());
         input.setMethodDisplayName(m.getDisplayName());
-        PaymentChannel channel = super.saveOrUpdateFromWeb(input,updateKeys);
+        PaymentChannel channel = super.saveOrUpdateByClient(input,updateKeys);
         this.initConfig();
         return channel;
     }

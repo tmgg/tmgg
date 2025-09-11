@@ -1,4 +1,4 @@
-package io.tmgg.common.enums;
+package io.tmgg.lang.enums;
 
 import cn.hutool.core.util.EnumUtil;
 import cn.hutool.core.util.StrUtil;

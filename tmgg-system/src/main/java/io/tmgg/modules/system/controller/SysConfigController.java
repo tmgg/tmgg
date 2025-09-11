@@ -43,7 +43,7 @@ public class SysConfigController  {
   @PostMapping("save")
   public AjaxResult save(@RequestBody SysConfig param, RequestBodyKeys updateFields) throws Exception {
     Assert.state(!param.isNew(), "仅限修改");
-    SysConfig result = service.saveOrUpdateFromWeb(param,updateFields);
+    SysConfig result = service.saveOrUpdateByClient(param,updateFields);
     return AjaxResult.ok().data( result.getId()).msg("保存成功");
   }
 

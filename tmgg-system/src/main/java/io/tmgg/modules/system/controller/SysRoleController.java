@@ -59,7 +59,7 @@ public class SysRoleController extends BaseController<SysRole> {
         updateFields.add("perms");
 
 
-        role= sysRoleService.saveOrUpdateFromWeb(role,updateFields);
+        role= sysRoleService.saveOrUpdateByClient(role,updateFields);
 
         // 刷新 登录用户的权限
         List<Subject> list = sm.findAllSubject();

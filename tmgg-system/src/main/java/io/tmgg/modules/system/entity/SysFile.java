@@ -1,12 +1,10 @@
 
 package io.tmgg.modules.system.entity;
 
-import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.io.FileUtil;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.tmgg.framework.data.fill.FillDictText;
 import io.tmgg.lang.RequestTool;
-import io.tmgg.common.enums.MaterialType;
+import io.tmgg.lang.enums.MaterialType;
 import io.tmgg.web.persistence.BaseEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -17,7 +15,6 @@ import lombok.experimental.FieldNameConstants;
 import jakarta.servlet.http.HttpServletRequest;
 
 import java.io.InputStream;
-import java.util.Date;
 
 /**
  * 文件信息

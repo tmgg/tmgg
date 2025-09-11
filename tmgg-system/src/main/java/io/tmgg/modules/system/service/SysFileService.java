@@ -9,12 +9,11 @@ import cn.hutool.core.lang.Dict;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.http.HttpUtil;
-import io.tmgg.common.enums.MaterialType;
+import io.tmgg.lang.enums.MaterialType;
 import io.tmgg.config.SysProp;
 import io.tmgg.lang.DownloadTool;
 import io.tmgg.lang.IdTool;
 import io.tmgg.lang.ImgTool;
-import io.tmgg.lang.URLTool;
 import io.tmgg.modules.system.dao.SysFileDao;
 import io.tmgg.modules.system.entity.SysFile;
 import io.tmgg.modules.system.file.FileOperator;
@@ -119,7 +118,7 @@ public class SysFileService {
         log.info("下载文件完成 {}", FileUtil.readableFileSize(size));
 
         String suffix = FileNameUtil.getSuffix(origUrl);
-        if(suffix == null){
+        if(StrUtil.isEmpty(suffix)){
             suffix = FileTypeUtil.getType(tempFile);
             tempFile = FileUtil.rename(tempFile, tempFile.getName() + "." + suffix, true);
         }
