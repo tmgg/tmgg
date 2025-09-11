@@ -70,6 +70,10 @@ public class SysFile extends BaseEntity {
      */
     private String origUrl;
 
+    // 预留字段
+    private String extra1;
+    private String extra2;
+    private String extra3;
 
     @Transient
     private InputStream inputStream;
