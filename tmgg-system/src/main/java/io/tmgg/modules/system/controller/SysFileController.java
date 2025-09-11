@@ -1,6 +1,8 @@
 
 package io.tmgg.modules.system.controller;
 
+import cn.hutool.core.io.IoUtil;
+import cn.hutool.core.io.resource.ResourceUtil;
 import io.tmgg.lang.ann.PublicRequest;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.modules.system.entity.SysFile;
@@ -18,6 +20,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.InputStream;
 
 /**
  * 文件
@@ -90,12 +94,14 @@ public class SysFileController {
      */
     @PublicRequest
     @GetMapping(value = {"preview/{id}", "preview/{id}.{suffix}", "preview/{dir}/{id}.{suffix}"})
-    public void preview(@PathVariable String id, HttpServletRequest req, HttpServletResponse response) throws Exception {
+    public void preview(@PathVariable String id, @PathVariable(required = false) String suffix,  @PathVariable(required = false) String dir,Integer w,
+                        HttpServletRequest req, HttpServletResponse response) throws Exception {
         try {
-            service.preview(id, req, response);
+            service.preview(id, w, req, response);
         } catch (Exception e) {
             log.error("预览文件失败:{}", e.getMessage());
-            // TODO 裂开的图片
+            InputStream is = ResourceUtil.getStream("static/404.jpg");
+            IoUtil.copy(is, response.getOutputStream());
         }
 
     }

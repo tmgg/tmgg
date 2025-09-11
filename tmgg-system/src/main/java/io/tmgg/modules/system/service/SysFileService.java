@@ -4,7 +4,6 @@ package io.tmgg.modules.system.service;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.io.FileTypeUtil;
 import cn.hutool.core.io.FileUtil;
-import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import io.tmgg.common.enums.MaterialType;
@@ -184,13 +183,17 @@ public class SysFileService {
     }
 
 
-    public SysFile getFileAndStream(String fileId) throws Exception {
+
+    public SysFile getFileAndStream(String fileId, Integer w) throws Exception {
         Assert.hasText(fileId, "文件id不能为空");
         // 获取文件名
         SysFile sysFile = sysFileDao.findOne(fileId);
         Assert.notNull(sysFile, "文件数据记录不存在");
+
+        String objectName = buildObjectName(fileId, sysFile.getSuffix(), w);
+
         // 返回文件字节码
-        InputStream is = fileOperator.getFileStream(sysFile.getObjectName());
+        InputStream is = fileOperator.getFileStream(objectName);
         sysFile.setInputStream(is);
 
         return sysFile;
@@ -204,10 +207,13 @@ public class SysFileService {
     }
 
 
-    public void preview(String id, HttpServletRequest req, HttpServletResponse resp) throws Exception {
+    public void preview(String id, Integer w, HttpServletRequest req, HttpServletResponse resp) throws Exception {
         //根据文件id获取文件信息结果集
-        SysFile sysFile = this.getFileAndStream(id);
+        SysFile sysFile = this.getFileAndStream(id,w);
         String fileSuffix = sysFile.getSuffix().toLowerCase();
+
+        resp.setContentType(sysFile.getMimeType());
+
         InputStream is = sysFile.getInputStream();
         if (StrUtil.equalsAny(fileSuffix, PREVIEW_TYPES)) {
             IOUtils.copy(is, resp.getOutputStream());
@@ -232,7 +238,7 @@ public class SysFileService {
 
     public void download(String id, HttpServletResponse response) throws Exception {
         // 获取文件信息结果集
-        SysFile f = this.getFileAndStream(id);
+        SysFile f = this.getFileAndStream(id, null);
         String fileName = f.getOriginName();
         DownloadTool.download(fileName, f.getInputStream(), f.getSize(), response);
     }
