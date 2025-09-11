@@ -64,6 +64,7 @@ public class SysFile extends BaseEntity {
     @FillDictText(typeCode = "materialType")
     private String typeLabel;
 
+    private String title;
     private String description;
     private String hash;
 
