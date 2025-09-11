@@ -26,27 +26,30 @@ import java.io.InputStream;
 @FieldNameConstants
 public class SysFile extends BaseEntity {
 
-
     /**
      * 文件名称（上传时候的文件名）
      */
-    private String fileOriginName;
+    @Column(name = "file_origin_name", length = 100)
+    private String originName;
 
 
 
     /**
      * 文件后缀
      */
-    private String fileSuffix;
+    @Column(name = "file_suffix", length = 10)
+    private String suffix;
 
-    private Long fileSize;
+    @Column(name = "file_size")
+    private Long size;
 
 
     /**
-     * 存储到bucket的名称（文件唯一标识id）
+     * 存储到bucket的名称, 支持目录， 如 2024/abc.jpg
      */
     @NotNull
-    private String fileObjectName;
+    @Column(name = "file_object_name")
+    private String objectName;
 
     @Column(length = 20)
     private String mimeType;
@@ -57,13 +60,13 @@ public class SysFile extends BaseEntity {
 
     @Transient
     public String getName(){
-        return fileOriginName;
+        return originName;
     }
 
     @Transient
     public String getFileSizeInfo() {
-        if(fileSize != null){
-            return FileUtil.readableFileSize(fileSize);
+        if(size != null){
+            return FileUtil.readableFileSize(size);
         }
         return null;
     }

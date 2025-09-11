@@ -85,7 +85,7 @@ public class SysFileService {
         sysFileDao.deleteById(id);
 
         // 删除具体文件
-        fileOperator.delete(sysFile.getFileObjectName());
+        fileOperator.delete(sysFile.getObjectName());
     }
 
     public SysFile uploadFile(byte[] data, String originalFilename) throws Exception {
@@ -136,10 +136,10 @@ public class SysFileService {
         // 存储文件信息
         SysFile sysFile = new SysFile();
         sysFile.setTempId(id);
-        sysFile.setFileOriginName(originalFilename);
-        sysFile.setFileSuffix(suffix);
-        sysFile.setFileSize(size);
-        sysFile.setFileObjectName(objectName);
+        sysFile.setOriginName(originalFilename);
+        sysFile.setSuffix(suffix);
+        sysFile.setSize(size);
+        sysFile.setObjectName(objectName);
 
         if(mediaType.isPresent()){
             sysFile.setMimeType(mediaType.get().toString());
@@ -158,7 +158,7 @@ public class SysFileService {
         SysFile sysFile = sysFileDao.findOne(fileId);
         Assert.notNull(sysFile, "文件数据记录不存在");
         // 返回文件字节码
-        InputStream is = fileOperator.getFileStream(sysFile.getFileObjectName());
+        InputStream is = fileOperator.getFileStream(sysFile.getObjectName());
         sysFile.setInputStream(is);
 
         return sysFile;
@@ -168,14 +168,14 @@ public class SysFileService {
         // 获取文件名
         SysFile sysFile = sysFileDao.findOne(fileId);
 
-        return fileOperator.getFileStream(sysFile.getFileObjectName());
+        return fileOperator.getFileStream(sysFile.getObjectName());
     }
 
 
     public void preview(String id, HttpServletRequest req, HttpServletResponse resp) throws Exception {
         //根据文件id获取文件信息结果集
         SysFile sysFile = this.getFileAndStream(id);
-        String fileSuffix = sysFile.getFileSuffix().toLowerCase();
+        String fileSuffix = sysFile.getSuffix().toLowerCase();
         InputStream is = sysFile.getInputStream();
         if (StrUtil.equalsAny(fileSuffix, PREVIEW_TYPES)) {
             IOUtils.copy(is, resp.getOutputStream());
@@ -183,7 +183,7 @@ public class SysFileService {
         } else {
 //            // 无法预览, 则下载
 
-//            String fileName = f.getFileOriginName();
+//            String fileName = f.getOriginName();
 //            DownloadTool.download(fileName, is, f.getFileSize(), response);
 
             resp.setContentType("text/html;charset=utf-8");
@@ -201,8 +201,8 @@ public class SysFileService {
     public void download(String id, HttpServletResponse response) throws Exception {
         // 获取文件信息结果集
         SysFile f = this.getFileAndStream(id);
-        String fileName = f.getFileOriginName();
-        DownloadTool.download(fileName, f.getInputStream(), f.getFileSize(), response);
+        String fileName = f.getOriginName();
+        DownloadTool.download(fileName, f.getInputStream(), f.getSize(), response);
     }
 
     /**
@@ -215,14 +215,14 @@ public class SysFileService {
      */
     public File downloadToLocal(String id, File localFile) throws Exception {
         SysFile sysFile = sysFileDao.findOne(id);
-        fileOperator.downloadFile(sysFile.getFileObjectName(), localFile);
+        fileOperator.downloadFile(sysFile.getObjectName(), localFile);
         return localFile;
     }
 
     public File downloadToLocalTemp(String id) throws Exception {
         SysFile sysFile = sysFileDao.findOne(id);
-        File tempFile = FileUtil.createTempFile("." + sysFile.getFileSuffix(), true);
-        fileOperator.downloadFile(sysFile.getFileObjectName(), tempFile);
+        File tempFile = FileUtil.createTempFile("." + sysFile.getSuffix(), true);
+        fileOperator.downloadFile(sysFile.getObjectName(), tempFile);
 
         return tempFile;
     }
@@ -252,6 +252,6 @@ public class SysFileService {
             return false;
         }
 
-        return fileOperator.exist(file.getFileObjectName());
+        return fileOperator.exist(file.getObjectName());
     }
 }

@@ -24,7 +24,7 @@ export default class extends React.Component {
         {
             title: '名称',
             tooltip: '上传时候的文件名',
-            dataIndex: 'fileOriginName',
+            dataIndex: 'originName',
         },
 
 
@@ -99,10 +99,10 @@ export default class extends React.Component {
 
                 searchFormItemsRender={() => <>
 
-                    <Form.Item label='文件名' name='fileOriginName'>
+                    <Form.Item label='文件名' name='originName'>
                         <Input/>
                     </Form.Item>
-                    <Form.Item label='对象名称' name='fileObjectName'>
+                    <Form.Item label='对象名称' name='objectName'>
                         <Input/>
                     </Form.Item>
 

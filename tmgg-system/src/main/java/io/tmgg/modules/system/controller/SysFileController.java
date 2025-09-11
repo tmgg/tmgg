@@ -2,11 +2,11 @@
 package io.tmgg.modules.system.controller;
 
 import io.tmgg.lang.ann.PublicRequest;
-import io.tmgg.web.persistence.specification.JpaQuery;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.modules.system.entity.SysFile;
 import io.tmgg.modules.system.service.SysFileService;
 import io.tmgg.web.annotion.HasPermission;
+import io.tmgg.web.persistence.specification.JpaQuery;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -30,21 +30,18 @@ public class SysFileController {
     @Resource
     private SysFileService service;
 
-    @Data
-    public static class QueryParam {
-        private String dateRange;
-        private String fileOriginName;
-        private String fileObjectName;
-    }
+
 
     @HasPermission
     @RequestMapping("page")
-    public AjaxResult page(QueryParam param, @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) {
+    public AjaxResult page(String dateRange,
+                           String originName,
+                           String objectName,
+                           @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) {
         JpaQuery<SysFile> q = new JpaQuery<>();
-        q.betweenIsoDateRange(SysFile.FIELD_CREATE_TIME, param.dateRange);
-
-        q.eq(SysFile.Fields.fileOriginName, param.getFileOriginName());
-        q.eq(SysFile.Fields.fileObjectName, param.getFileObjectName());
+        q.betweenIsoDateRange(SysFile.FIELD_CREATE_TIME, dateRange);
+        q.eq(SysFile.Fields.originName, originName);
+        q.eq(SysFile.Fields.objectName, objectName);
         Page<SysFile> page = service.findAll(q, pageable);
         return AjaxResult.ok().data(page);
     }
@@ -61,8 +58,8 @@ public class SysFileController {
 
         return AjaxResult.ok()
                 .putExtData("location", location)    // 兼容 tiny mce
-                .data("id",sysFile.getId())
-                .data("name",sysFile.getFileOriginName());
+                .data("id", sysFile.getId())
+                .data("name", sysFile.getOriginName());
     }
 
     /**
@@ -92,7 +89,7 @@ public class SysFileController {
      * @throws Exception
      */
     @PublicRequest
-    @GetMapping(value = {"preview/{id}", "preview/{id}.{suffix}","preview/{dir}/{id}.{suffix}"})
+    @GetMapping(value = {"preview/{id}", "preview/{id}.{suffix}", "preview/{dir}/{id}.{suffix}"})
     public void preview(@PathVariable String id, HttpServletRequest req, HttpServletResponse response) throws Exception {
         try {
             service.preview(id, req, response);
