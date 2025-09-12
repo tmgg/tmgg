@@ -36,8 +36,8 @@ import java.util.Collection;
  * 系统数据初始化
  */
 @Slf4j
-@Component(FrameworkDataInit.BEAN_NAME)
-public class FrameworkDataInit implements CommandLineRunner {
+@Component(SystemDataInit.BEAN_NAME)
+public class SystemDataInit implements CommandLineRunner {
 
 
     public static final String BEAN_NAME = "sysInit";

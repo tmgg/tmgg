@@ -1,9 +1,11 @@
 
 package io.tmgg.modules.system.service;
 
+import io.tmgg.common.AntDesignIcon;
 import io.tmgg.lang.SpringTool;
 import io.tmgg.lang.TreeManager;
 import io.tmgg.lang.TreeTool;
+import io.tmgg.web.enums.MenuType;
 import io.tmgg.web.persistence.BaseEntity;
 import io.tmgg.web.persistence.BaseService;
 import io.tmgg.lang.obj.TreeNode;
@@ -142,7 +144,7 @@ public class SysMenuService extends BaseService<SysMenu> {
         return list.stream().filter(t->ids.contains(t.getId())).collect(Collectors.toList());
     }
 
-    public void addMenu(String id, String pid, String name, String perm, String path, boolean refreshOnTabClick) {
+    public void addMenu(String id, String pid, String name, String perm, String path, int seq,boolean refreshOnTabClick) {
         SysMenu menu = sysMenuDao.findOne(id);
         if(menu == null){
             menu = new SysMenu();
@@ -154,6 +156,22 @@ public class SysMenuService extends BaseService<SysMenu> {
         menu.setPerm(perm);
         menu.setPath(path);
         menu.setRefreshOnTabClick(refreshOnTabClick);
+
+        sysMenuDao.save(menu);
+    }
+
+    public void addDir(String id, String pid, String name, AntDesignIcon icon, int seq) {
+        SysMenu menu = sysMenuDao.findOne(id);
+        if(menu == null){
+            menu = new SysMenu();
+        }
+
+        menu.setId(id);
+        menu.setPid(pid);
+        menu.setName(name);
+        menu.setType(MenuType.DIR);
+        menu.setIcon(icon.name());
+        menu.setSeq(seq);
 
         sysMenuDao.save(menu);
     }
