@@ -44,6 +44,8 @@ public class FlowableManager {
     public static final String VAR_DEPT_ID = "deptId";
     public static final String VAR_DEPT_NAME = "deptName";
 
+    private static final Map<String, FlowableListener> listeners = new HashMap<>();
+
 
     @Getter
     @Resource
@@ -199,9 +201,9 @@ public class FlowableManager {
 
 
     @Transactional
-    public void init(String code, String name,  List<ConditionVariable> vars) {
-        log.info("初始化流程定义 {} {} {} ", code, name,  vars);
-        SysFlowableModel model = modelService.findByCode(code);
+    public void init(String key, String name,  List<ConditionVariable> vars) {
+        log.info("初始化流程定义 {} {} {} ", key, name,  vars);
+        SysFlowableModel model = modelService.findByCode(key);
         if (model == null) {
             model = new SysFlowableModel();
         }
@@ -210,10 +212,19 @@ public class FlowableManager {
             vars = new ArrayList<>();
         }
 
-        model.setCode(code);
+        model.setCode(key);
         model.setName(name);
         model.setConditionVariableList(vars);
         modelService.save(model);
+    }
+
+    public void setListener(String key, FlowableListener flowableListener){
+        Assert.state(!listeners.containsKey(key), "流程监听器只能设置一个");
+        listeners.put(key,flowableListener);
+    }
+
+    public FlowableListener getListener(String key){
+        return listeners.get(key);
     }
 
 

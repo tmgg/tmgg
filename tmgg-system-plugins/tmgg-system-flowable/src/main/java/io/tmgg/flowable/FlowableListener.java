@@ -7,14 +7,9 @@ import java.util.Map;
 
 /**
  * 流程定义接口
- *
- * @deprecated 请使用FlowableManager的setListener方法
  */
-@Deprecated
-public interface FlowableProcessListener {
+public interface FlowableListener {
 
-
-    String getProcessDefinitionKey();
 
 
     /**

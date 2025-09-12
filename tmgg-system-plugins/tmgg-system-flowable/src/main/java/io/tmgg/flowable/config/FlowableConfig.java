@@ -1,6 +1,7 @@
 
 package io.tmgg.flowable.config;
 
+import io.tmgg.lang.IdTool;
 import jakarta.annotation.Resource;
 import org.flowable.spring.SpringProcessEngineConfiguration;
 import org.flowable.spring.boot.EngineConfigurationConfigurer;
@@ -19,7 +20,7 @@ public class FlowableConfig implements EngineConfigurationConfigurer<SpringProce
     @Override
     public void configure(SpringProcessEngineConfiguration cfg) {
         // 主键生成器，注意：不会影响act_de开头的表主键生成，因为这是流程设计器的，不是工作流引擎的
-        cfg.setIdGenerator(() -> UUID.randomUUID().toString().replace("-", ""));
+        cfg.setIdGenerator(IdTool::uuidV7);
 
 
         if(cfg.getEventListeners() == null){

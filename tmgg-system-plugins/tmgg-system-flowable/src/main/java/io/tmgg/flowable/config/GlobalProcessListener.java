@@ -1,7 +1,10 @@
 package io.tmgg.flowable.config;
 
+import io.tmgg.flowable.FlowableListener;
+import io.tmgg.flowable.FlowableManager;
 import io.tmgg.flowable.FlowableProcessListener;
 import io.tmgg.lang.SpringTool;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.flowable.common.engine.api.delegate.event.FlowableEngineEventType;
 import org.flowable.common.engine.api.delegate.event.FlowableEvent;
@@ -10,6 +13,7 @@ import org.flowable.engine.HistoryService;
 import org.flowable.engine.delegate.event.impl.FlowableProcessEventImpl;
 import org.flowable.engine.history.HistoricProcessInstance;
 import org.flowable.engine.impl.persistence.entity.ExecutionEntityImpl;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
@@ -21,6 +25,10 @@ import static org.flowable.common.engine.api.delegate.event.FlowableEngineEventT
 @Slf4j
 @Component
 public class GlobalProcessListener implements FlowableEventListener {
+
+    @Lazy
+    @Resource
+    FlowableManager flowableManager;
 
 
     @Override
@@ -48,8 +56,10 @@ public class GlobalProcessListener implements FlowableEventListener {
         String definitionKey = execution.getProcessDefinitionKey();
 
 
-        FlowableProcessListener listener = findListener(definitionKey);
-        if (listener == null) {
+        FlowableProcessListener listener1 = findListener(definitionKey);
+        FlowableListener listener2 = flowableManager.getListener(definitionKey);
+
+        if (listener1 == null && listener2 == null) {
             return;
         }
 
@@ -61,7 +71,7 @@ public class GlobalProcessListener implements FlowableEventListener {
         String initiator = (String) variables.get("INITIATOR");
 
         // 兼容性代码
-        if(businessKey == null){
+        if (businessKey == null) {
             HistoryService historyService = SpringTool.getBean(HistoryService.class);
 
             HistoricProcessInstance historicProcessInstance = historyService.createHistoricProcessInstanceQuery().processInstanceId(instanceId).singleResult();
@@ -70,21 +80,24 @@ public class GlobalProcessListener implements FlowableEventListener {
                 return;
             }
 
-             businessKey = historicProcessInstance.getBusinessKey();
+            businessKey = historicProcessInstance.getBusinessKey();
         }
 
 
-
         // 触发
-        listener.onProcessEvent(eventType, initiator, businessKey, variables);
+        if(listener1 != null){
+            listener1.onProcessEvent(eventType, initiator, businessKey, variables);
+
+        }
+        if(listener2 != null){
+            listener2.onProcessEvent(eventType, initiator, businessKey, variables);
+        }
     }
-
-
 
 
     private FlowableProcessListener findListener(String key) {
         Collection<FlowableProcessListener> values = SpringTool.getBeansOfType(FlowableProcessListener.class).values();
-        if(values.isEmpty()){
+        if (values.isEmpty()) {
             return null;
         }
         return values.stream().filter(d -> key.equals(d.getProcessDefinitionKey())).findFirst().orElse(null);

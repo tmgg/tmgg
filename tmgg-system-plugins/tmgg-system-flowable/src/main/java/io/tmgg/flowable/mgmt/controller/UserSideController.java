@@ -86,7 +86,7 @@ public class UserSideController {
 
 
     // 我发起的
-    @PostMapping("myInstance")
+    @GetMapping("myInstance")
     public AjaxResult myInstance(Pageable pageable) {
         FlowableLoginUser loginUser = flowableLoginUserProvider.currentLoginUser();
 
