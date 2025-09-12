@@ -9,9 +9,7 @@ class TabPageRender extends React.Component {
     state = {
         active: null,
         urlLabelMap: {},
-
         tabs: [],
-
     }
 
     componentDidMount() {
@@ -143,7 +141,7 @@ class TabPageRender extends React.Component {
     };
 
     getUrl = props => {
-        const {params, location} = props
+        const {location} = props
         const {pathname, search} = location
         return pathname + search;
     }
