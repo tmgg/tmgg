@@ -14,18 +14,22 @@
     "path" : "/flowable",
     "seq" : 302
   }, {
-    "id" : "flowableTask",
-    "pid" : "flowableMgr",
-    "name" : "我的任务",
-    "perm" : "flowableTask",
-    "path" : "/flowable/task",
-    "seq" : 301
-  }, {
     "id" : "flowableMonitor",
     "pid" : "flowableMgr",
     "name" : "流程监控",
     "perm" : "flowableMonitor",
     "path" : "/flowable/monitor",
     "seq" : 303
-  } ]
+  }
+
+  ,
+    {
+      "id" : "flowableTask",
+      "pid" : "biz",
+      "name" : "我的任务",
+      "perm" : "flowableTask",
+      "path" : "/flowable/task",
+      "seq" : 301
+    }
+  ]
 }

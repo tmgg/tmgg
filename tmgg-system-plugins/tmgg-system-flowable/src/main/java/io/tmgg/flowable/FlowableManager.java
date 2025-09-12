@@ -206,6 +206,10 @@ public class FlowableManager {
             model = new SysFlowableModel();
         }
 
+        if(vars == null){
+            vars = new ArrayList<>();
+        }
+
         model.setCode(code);
         model.setName(name);
         model.setConditionVariableList(vars);
