@@ -39,8 +39,9 @@ export default class extends React.Component {
 
     },
     {
-      title: '执行成功',
+      title: '是否成功',
       dataIndex: 'success',
+      width: 200,
       render:v=>{
         if(v != null){
           return v ? '成功':'异常'
@@ -48,7 +49,7 @@ export default class extends React.Component {
       }
     },
     {
-      title: '结果',
+      title: '返回结果',
       dataIndex: 'result',
       width:300
     },

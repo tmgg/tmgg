@@ -66,13 +66,20 @@ export class ProTable extends React.Component {
             }
         }
 
+        this.resetScrollY();
+
+        setTimeout(this.resetScrollY, 1500)
+
+    }
+
+
+    resetScrollY = () => {
         if (this.props.autoBodyScroll == null || this.props.autoBodyScroll === true) {
             const height = this.calcBodyScrollHeight();
             console.log('计算高度为：', height)
             this.setState({scrollY: height})
         }
-
-    }
+    };
 
     calcBodyScrollHeight() {
         let container = document.getElementById(this.id);
@@ -85,7 +92,10 @@ export class ProTable extends React.Component {
 
         let footerHeight = 43;
 
-        let h = top + footerHeight + page
+        // 预留的
+        let space = 20
+
+        let h = top + footerHeight + page + 56
 
         let height = `calc(100vh - ${h}px)`
         return height
@@ -231,6 +241,7 @@ export class ProTable extends React.Component {
                     return this.state.extData.summary
                 }}
                 bordered={this.props.bordered}
+
 
             />
         </div>
