@@ -20,7 +20,7 @@ public interface FlowableListener {
      * @param variables 变量
      */
     @Transactional
-    void onProcessEvent(FlowableEngineEventType type, String initiator, String businessKey, Map<String, Object> variables);
+    void onProcessEvent(FlowableEventType type, String initiator, String businessKey, Map<String, Object> variables);
 
 
 }

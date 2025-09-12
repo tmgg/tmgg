@@ -38,7 +38,7 @@ export default class extends React.Component {
 
         isMobileDevice: false,
 
-        pathLabelMap: {}
+        pathMenuMap: {}
     }
 
 
@@ -95,7 +95,7 @@ export default class extends React.Component {
 
             this.setState({menus, menuMap, topMenus, leftMenus, currentTopMenuKey, currentMenuKey})
 
-            this.storePathLabel(Object.values(menuMap))
+            this.storePathMenuMap(menuMap)
 
             this.loadBadge(badgeList)
         })
@@ -120,13 +120,14 @@ export default class extends React.Component {
         }
     };
 
-    storePathLabel(menus) {
+    storePathMenuMap(menuMap) {
+        const menus = Object.values(menuMap)
         const map = {}
         for (let menu of menus) {
-            const {label, path} = menu;
-            map[path] = label;
+            const {path} = menu;
+            map[path] = menu;
         }
-        this.setState({pathLabelMap: map})
+        this.setState({pathMenuMap: map})
     }
 
 
@@ -220,14 +221,15 @@ export default class extends React.Component {
         if (this.state.menus.length === 0) { // 加载菜单中
             return
         }
+        let tabPageRenderNode = <TabPageRender pathMenuMap={this.state.pathMenuMap}/>;
         if (siteInfo.waterMark === true) {
             return <Watermark content={[loginInfo.name,  loginInfo.account ]}>
-                <TabPageRender pathLabelMap={this.state.pathLabelMap}/>
+                {tabPageRenderNode}
             </Watermark>
         }
 
 
-        return <TabPageRender pathLabelMap={this.state.pathLabelMap}/>
+        return tabPageRenderNode
 
     };
 }

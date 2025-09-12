@@ -1,6 +1,7 @@
 @echo off
 
-set  "tag_name=1.1.38"
+:: 参数
+set  "tag_name=%~1"
 
 echo %TIME%  %tag_name% start
 

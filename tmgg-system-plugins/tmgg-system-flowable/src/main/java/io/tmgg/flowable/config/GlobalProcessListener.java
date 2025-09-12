@@ -1,5 +1,6 @@
 package io.tmgg.flowable.config;
 
+import io.tmgg.flowable.FlowableEventType;
 import io.tmgg.flowable.FlowableListener;
 import io.tmgg.flowable.FlowableManager;
 import io.tmgg.lang.SpringTool;
@@ -15,6 +16,7 @@ import org.flowable.engine.impl.persistence.entity.ExecutionEntityImpl;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
 
@@ -40,17 +42,15 @@ public class GlobalProcessListener implements FlowableEventListener {
             return;
         }
 
-        String name = flowableEvent.getType().name();
-        if (!name.startsWith("PROCESS")) {
+        log.trace("流程事件 {} ",flowableEvent);
+
+        String typeName = flowableEvent.getType().name();
+        long count = Arrays.stream(FlowableEventType.values()).filter(t -> t.name().equals(typeName)).count();
+        if(count ==0){
             return;
         }
 
-        FlowableEngineEventType eventType = FlowableEngineEventType.valueOf(name);
-        boolean allow = eventType == PROCESS_CANCELLED || eventType == PROCESS_COMPLETED;
-        log.info("流程事件 {} ",eventType);
-        if (!allow) {
-            return;
-        }
+        FlowableEventType eventType = FlowableEventType.valueOf(typeName);
 
         String instanceId = event.getProcessInstanceId();
         ExecutionEntityImpl execution = (ExecutionEntityImpl) event.getExecution();

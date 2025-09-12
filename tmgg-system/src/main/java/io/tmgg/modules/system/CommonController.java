@@ -7,7 +7,7 @@ import cn.hutool.core.util.StrUtil;
 import io.tmgg.lang.TreeManager;
 import io.tmgg.lang.ann.PublicRequest;
 import io.tmgg.lang.obj.AjaxResult;
-import io.tmgg.lang.obj.Route;
+import io.tmgg.modules.system.dto.MenuDto;
 import io.tmgg.modules.system.entity.SysMenu;
 import io.tmgg.modules.system.entity.SysRole;
 import io.tmgg.modules.system.service.*;
@@ -133,32 +133,33 @@ public class CommonController {
         list = list.stream().distinct().sorted(Comparator.comparing(SysMenu::getSeq)).collect(Collectors.toList());
 
 
-        List<Route> routes = new LinkedList<>();
+        List<MenuDto> routes = new LinkedList<>();
         for (SysMenu m : list) {
             String pid = m.getPid();
             // iframe设置完整url
             String url = m.getPath();
 
-            Route route = new Route(String.valueOf(m.getId()), pid, m.getName(), url, null);
-            route.setIcon(m.getIcon());
-            route.setPerm(StrUtil.emptyToNull(m.getPerm()));
-            route.setIframe(m.getIframe());
-            routes.add(route);
+            MenuDto dto = new MenuDto(String.valueOf(m.getId()), pid, m.getName(), url, null);
+            dto.setIcon(m.getIcon());
+            dto.setPerm(StrUtil.emptyToNull(m.getPerm()));
+            dto.setIframe(m.getIframe());
+            dto.setRefreshOnTabClick(m.getRefreshOnTabClick());
+            routes.add(dto);
         }
 
 
-        TreeManager<Route> tm = new TreeManager<>(routes, Route::getId, Route::getPid, Route::getChildren, Route::setChildren);
-        List<Route> tree = tm.getTree();
+        TreeManager<MenuDto> tm = new TreeManager<>(routes, MenuDto::getId, MenuDto::getPid, MenuDto::getChildren, MenuDto::setChildren);
+        List<MenuDto> tree = tm.getTree();
         // 如果最顶层（topmenu）没有子节点，则不显示
         tree = tree.stream().filter(t -> CollUtil.isNotEmpty(t.getChildren())).collect(Collectors.toList());
 
 
-        Map<String, Route> treeMap = tm.getMap();
+        Map<String, MenuDto> treeMap = tm.getMap();
         tm.traverseTree(tree, item -> {
             if (item.getPid() == null) {
                 item.setRootid(item.getId());
             } else {
-                Route parent = treeMap.get(item.getPid());
+                MenuDto parent = treeMap.get(item.getPid());
                 if (parent != null) {
                     item.setRootid(parent.getRootid());
                 }

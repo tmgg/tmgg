@@ -19,6 +19,12 @@ import {UrlUtil} from "@tmgg/tmgg-commons-lang";
 let APP_DATA_CACHE = null
 
 
+/**
+ * 写函数组件主要为了使用hooks
+ * @param props
+ * @returns {Element}
+ * @constructor
+ */
 export  function PageRender(props) {
     let {pathname, search, passLocation} = props
 

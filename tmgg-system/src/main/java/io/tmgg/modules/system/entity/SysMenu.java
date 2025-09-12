@@ -62,7 +62,10 @@ public class SysMenu extends BaseEntity implements Tree<SysMenu> {
     private Integer seq;
 
 
-
+    /**
+     * 在 点击tab时，刷新页面
+     */
+    private Boolean refreshOnTabClick;
 
 
     /**

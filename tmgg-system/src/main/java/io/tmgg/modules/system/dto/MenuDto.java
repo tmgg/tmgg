@@ -1,8 +1,9 @@
-package io.tmgg.lang.obj;
+package io.tmgg.modules.system.dto;
 
 import io.tmgg.lang.Tree;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -10,9 +11,10 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.LinkedList;
 import java.util.List;
 
+@NoArgsConstructor
 @Getter
 @Setter
-public class Route implements Tree<Route> {
+public class MenuDto implements Tree<MenuDto> {
 
   String id;
 
@@ -31,6 +33,8 @@ public class Route implements Tree<Route> {
 
   String key;
 
+  Boolean refreshOnTabClick;
+
 
   // 权限 ,临时字段
   @JsonIgnore
@@ -38,17 +42,15 @@ public class Route implements Tree<Route> {
 
   Boolean iframe;
 
-  List<Route> children = new LinkedList<>();
+  List<MenuDto> children = new LinkedList<>();
 
 
 
 
 
-  public Route() {
-  }
 
 
-  public Route(String id, String pid, String label, String path, String icon) {
+  public MenuDto(String id, String pid, String label, String path, String icon) {
     this.id = id;
     this.pid = pid;
     this.label = label;
@@ -61,8 +63,6 @@ public class Route implements Tree<Route> {
 
 
     this.key = id;
-
-
   }
 
 
@@ -74,7 +74,7 @@ public class Route implements Tree<Route> {
 
     if (o == null || getClass() != o.getClass()) return false;
 
-    Route route = (Route) o;
+    MenuDto route = (MenuDto) o;
 
     return new EqualsBuilder().append(id, route.id).isEquals();
   }
