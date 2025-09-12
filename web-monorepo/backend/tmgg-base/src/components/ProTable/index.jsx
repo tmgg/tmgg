@@ -3,6 +3,7 @@ import Toolbar from './components/ToolBar';
 import React from "react";
 import SearchForm from "./components/SearchForm";
 import './index.less'
+import {StrUtil} from "@tmgg/tmgg-commons-lang";
 
 
 function getDefaultPageSize() {
@@ -41,7 +42,9 @@ export class ProTable extends React.Component {
         extData: {
             // 总结栏
             summary: null,
-        }
+        },
+
+        scrollY: null
     }
 
     constructor(props) {
@@ -49,6 +52,7 @@ export class ProTable extends React.Component {
         if (props.defaultPageSize) {
             this.state.pageSize = props.defaultPageSize
         }
+        this.id = StrUtil.random(32)
     }
 
     formRef = React.createRef()
@@ -61,6 +65,30 @@ export class ProTable extends React.Component {
                 reload: () => this.loadData()
             }
         }
+
+        if (this.props.autoBodyScroll == null || this.props.autoBodyScroll === true) {
+            const height = this.calcBodyScrollHeight();
+            console.log('计算高度为：', height)
+            this.setState({scrollY: height})
+        }
+
+    }
+
+    calcBodyScrollHeight() {
+        let container = document.getElementById(this.id);
+        let body = container.getElementsByClassName("ant-table-tbody")[0]
+        let top = body.getBoundingClientRect().y
+
+
+        // 分页组件高度
+        let page = 24 + 32;
+
+        let footerHeight = 43;
+
+        let h = top + footerHeight + page
+
+        let height = `calc(100vh - ${h}px)`
+        return height
     }
 
 
@@ -159,7 +187,8 @@ export class ProTable extends React.Component {
             </SearchForm>
         }
 
-        return <div className='tmgg-pro-table'>
+
+        return <div className={'tmgg-pro-table '} id={this.id}>
             {toolbarOptions !== false && <Toolbar
                 searchFormNode={searchFormNode}
                 actionRef={actionRef}
@@ -181,7 +210,7 @@ export class ProTable extends React.Component {
                 rowKey={rowKey}
                 size={this.state.tableSize}
                 rowSelection={this.getRowSelectionProps(rowSelection)}
-                scroll={{x: 'max-content'}}
+                scroll={{x: 'max-content', y: this.state.scrollY}}
                 pagination={{
                     showSizeChanger: true,
                     total: this.state.total,
@@ -202,6 +231,7 @@ export class ProTable extends React.Component {
                     return this.state.extData.summary
                 }}
                 bordered={this.props.bordered}
+
             />
         </div>
 

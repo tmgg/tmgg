@@ -31,6 +31,8 @@ declare type ProTableProps = {
         showSearch?:boolean;
         showExportExcel?:boolean;
     }|boolean;
+
+    autoBodyScroll:true
 };
 
 export class ProTable extends React.Component<ProTableProps, any> {
