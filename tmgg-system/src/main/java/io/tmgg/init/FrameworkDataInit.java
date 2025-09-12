@@ -122,7 +122,7 @@ public class FrameworkDataInit implements CommandLineRunner {
 
         log.info("系统初始化耗时：{}", System.currentTimeMillis() - time);
         for (SystemHook it : interceptors) {
-            log.info("在框架初始化数据之前执行: {}", it.getClass().getName());
+            log.info("在框架初始化数据之后执行: {}", it.getClass().getName());
             it.afterDataInit();
         }
     }
