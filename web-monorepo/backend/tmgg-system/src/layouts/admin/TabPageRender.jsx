@@ -44,6 +44,11 @@ class TabPageRender extends React.Component {
                 children: cmp
             });
             this.setState({tabs: [...tabs]})
+        }else {
+            const menu = this.props.pathMenuMap[pathname]
+            if (menu && menu.refreshOnTabClick) {
+                this.refresh(pathname)
+            }
         }
 
         this.setState({active: url})
@@ -99,11 +104,6 @@ class TabPageRender extends React.Component {
         // 双击时刷新
         if (doubleClick) {
             this.refresh(key);
-        } else {
-            const menu = this.props.pathMenuMap[key]
-            if (menu && menu.refreshOnTabClick) {
-                this.refresh(key)
-            }
         }
 
         this.lastTabClickTime = now
@@ -112,12 +112,18 @@ class TabPageRender extends React.Component {
     refresh = key => {
         const tabs = this.state.tabs;
         const tab = tabs.find(t => t.key === key)
-        const old = tab.children
-        tab.children = '刷新中...'
-        this.setState({tabs}, () => {
-            tab.children = old
-            this.setState({tabs})
-        })
+        if(tab != null){
+            const old = tab.children
+            if(old != null){
+                console.log('准备刷新：', key)
+                tab.children = '刷新中...'
+                this.setState({tabs}, () => {
+                    console.log('刷新节点', tab)
+                    tab.children = old
+                    this.setState({tabs})
+                })
+            }
+        }
     };
 
     onChange = url => {

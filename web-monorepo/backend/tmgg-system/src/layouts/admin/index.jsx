@@ -40,6 +40,7 @@ export default class extends React.Component {
 
         pathMenuMap: {}
     }
+    tabPageRenderRef = React.createRef()
 
 
     toggleCollapsed = (v) => {
@@ -120,7 +121,7 @@ export default class extends React.Component {
         }
     };
 
-    storePathMenuMap(menuMap) {
+    storePathMenuMap = menuMap => {
         const menus = Object.values(menuMap)
         const map = {}
         for (let menu of menus) {
@@ -128,7 +129,7 @@ export default class extends React.Component {
             map[path] = menu;
         }
         this.setState({pathMenuMap: map})
-    }
+    };
 
 
     render() {
@@ -164,7 +165,7 @@ export default class extends React.Component {
                           style={{lineHeight: '42px',  borderBottom: 'none', backgroundColor: '#f5f5f5'}}
                     ></Menu>
                 </div>
-                <HeaderRight></HeaderRight>
+                <HeaderRight />
             </Header>
 
             <Layout style={{height: '100%'}}>
@@ -221,7 +222,7 @@ export default class extends React.Component {
         if (this.state.menus.length === 0) { // 加载菜单中
             return
         }
-        let tabPageRenderNode = <TabPageRender pathMenuMap={this.state.pathMenuMap}/>;
+        let tabPageRenderNode = <TabPageRender ref={this.tabPageRenderRef} pathMenuMap={this.state.pathMenuMap}/>;
         if (siteInfo.waterMark === true) {
             return <Watermark content={[loginInfo.name,  loginInfo.account ]}>
                 {tabPageRenderNode}
