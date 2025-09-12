@@ -32,7 +32,10 @@ declare type ProTableProps = {
         showExportExcel?:boolean;
     }|boolean;
 
-    autoBodyScroll:true
+    /**
+     *  垂直滚动条， true自动计算， 也可指定高度
+     */
+    scrollY?: boolean | number
 };
 
 export class ProTable extends React.Component<ProTableProps, any> {
