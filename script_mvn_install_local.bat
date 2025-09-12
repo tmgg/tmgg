@@ -1,6 +1,6 @@
 @echo off
 
-set  "tag_name=1.1.39"
+set  "tag_name=1.1.38"
 
 echo %TIME%  %tag_name% start
 

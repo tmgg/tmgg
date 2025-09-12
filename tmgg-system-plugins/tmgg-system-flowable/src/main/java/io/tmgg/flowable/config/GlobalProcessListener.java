@@ -2,7 +2,6 @@ package io.tmgg.flowable.config;
 
 import io.tmgg.flowable.FlowableListener;
 import io.tmgg.flowable.FlowableManager;
-import io.tmgg.flowable.FlowableProcessListener;
 import io.tmgg.lang.SpringTool;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
@@ -30,10 +29,14 @@ public class GlobalProcessListener implements FlowableEventListener {
     @Resource
     FlowableManager flowableManager;
 
+    @Lazy
+    @Resource
+    HistoryService historyService;
+
 
     @Override
     public void onEvent(FlowableEvent flowableEvent) {
-        if (!(flowableEvent instanceof FlowableProcessEventImpl)) {
+        if (!(flowableEvent instanceof FlowableProcessEventImpl event)) {
             return;
         }
 
@@ -44,22 +47,18 @@ public class GlobalProcessListener implements FlowableEventListener {
 
         FlowableEngineEventType eventType = FlowableEngineEventType.valueOf(name);
         boolean allow = eventType == PROCESS_CANCELLED || eventType == PROCESS_COMPLETED;
-
+        log.info("流程事件 {} ",eventType);
         if (!allow) {
             return;
         }
 
-        FlowableProcessEventImpl event = (FlowableProcessEventImpl) flowableEvent;
         String instanceId = event.getProcessInstanceId();
-
         ExecutionEntityImpl execution = (ExecutionEntityImpl) event.getExecution();
         String definitionKey = execution.getProcessDefinitionKey();
 
 
-        FlowableProcessListener listener1 = findListener(definitionKey);
-        FlowableListener listener2 = flowableManager.getListener(definitionKey);
-
-        if (listener1 == null && listener2 == null) {
+        FlowableListener listener = flowableManager.getListener(definitionKey);
+        if (listener == null) {
             return;
         }
 
@@ -72,36 +71,20 @@ public class GlobalProcessListener implements FlowableEventListener {
 
         // 兼容性代码
         if (businessKey == null) {
-            HistoryService historyService = SpringTool.getBean(HistoryService.class);
-
             HistoricProcessInstance historicProcessInstance = historyService.createHistoricProcessInstanceQuery().processInstanceId(instanceId).singleResult();
-
             if (historicProcessInstance == null) {
                 return;
             }
-
             businessKey = historicProcessInstance.getBusinessKey();
         }
 
 
         // 触发
-        if(listener1 != null){
-            listener1.onProcessEvent(eventType, initiator, businessKey, variables);
-
-        }
-        if(listener2 != null){
-            listener2.onProcessEvent(eventType, initiator, businessKey, variables);
-        }
+        listener.onProcessEvent(eventType, initiator, businessKey, variables);
     }
 
 
-    private FlowableProcessListener findListener(String key) {
-        Collection<FlowableProcessListener> values = SpringTool.getBeansOfType(FlowableProcessListener.class).values();
-        if (values.isEmpty()) {
-            return null;
-        }
-        return values.stream().filter(d -> key.equals(d.getProcessDefinitionKey())).findFirst().orElse(null);
-    }
+
 
     @Override
     public boolean isFailOnException() {
