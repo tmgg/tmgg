@@ -1,10 +1,12 @@
 package io.tmgg.flowable.mgmt.entity;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
 @Data
+@NoArgsConstructor
 public class ConditionVariable implements Serializable {
 
     String name;
@@ -24,16 +26,10 @@ public class ConditionVariable implements Serializable {
     }
 
 
-    public ConditionVariable() {
-
-    }
-
-
-
     public  ConditionVariable(String name, String label,ValueType valueType){
         this.name = name;
         this.label = label;
-        this.valueType= ValueType.text;
+        this.valueType= valueType;
     }
 
 

@@ -8,6 +8,7 @@ import io.tmgg.flowable.mgmt.service.SysFlowableModelService;
 import io.tmgg.lang.DateFormatTool;
 import jakarta.annotation.Resource;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 import org.flowable.engine.HistoryService;
 import org.flowable.engine.ProcessEngine;
 import org.flowable.engine.RepositoryService;
@@ -24,12 +25,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Component
 public class FlowableManager {
 
@@ -195,6 +198,19 @@ public class FlowableManager {
     }
 
 
+    @Transactional
+    public void init(String code, String name,  List<ConditionVariable> vars) {
+        log.info("初始化流程定义 {} {} {} ", code, name,  vars);
+        SysFlowableModel model = modelService.findByCode(code);
+        if (model == null) {
+            model = new SysFlowableModel();
+        }
+
+        model.setCode(code);
+        model.setName(name);
+        model.setConditionVariableList(vars);
+        modelService.save(model);
+    }
 
 
     public String taskFormUrl(TaskInfo task) {
