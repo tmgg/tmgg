@@ -29,7 +29,7 @@
       "name" : "我的任务",
       "perm" : "flowableTask",
       "path" : "/flowable/task",
-      "seq" : 301
+      "seq" : -1
     }
   ]
 }
