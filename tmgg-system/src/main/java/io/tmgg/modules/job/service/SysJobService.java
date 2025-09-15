@@ -1,6 +1,5 @@
 package io.tmgg.modules.job.service;
 
-import io.tmgg.modules.job.dao.SysJobTextDao;
 import io.tmgg.modules.job.dao.SysJobLogDao;
 import io.tmgg.modules.job.entity.SysJob;
 import io.tmgg.modules.job.JobDesc;
@@ -27,9 +26,6 @@ public class SysJobService extends BaseService<SysJob> {
 
     @Resource
     SysJobLogDao sysJobLogDao;
-
-    @Resource
-    SysJobTextDao sysJobTextDao;
 
 
 
@@ -84,7 +80,6 @@ public class SysJobService extends BaseService<SysJob> {
         List<SysJobLog> list = sysJobLogDao.findAllById(ids);
         for (SysJobLog sysJobLog : list) {
             sysJobLogDao.delete(sysJobLog);
-            sysJobTextDao.delete(sysJobLog.getId());
         }
     }
 

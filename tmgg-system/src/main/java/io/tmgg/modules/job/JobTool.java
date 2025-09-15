@@ -1,12 +1,10 @@
 package io.tmgg.modules.job;
 
-import io.tmgg.common.tool.FileShiftLogTool;
 import io.tmgg.modules.job.dao.SysJobDao;
 import io.tmgg.lang.SpringTool;
 import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobKey;
-import org.slf4j.Logger;
 
 public class JobTool {
 

@@ -53,7 +53,10 @@ export default class extends React.Component {
     formRef = React.createRef()
 
     columns = [
-
+        {
+            title: '分组',
+            dataIndex: 'group',
+        },
         {
             title: '名称',
             dataIndex: 'name',
@@ -66,10 +69,7 @@ export default class extends React.Component {
             dataIndex: 'jobClass',
 
         },
-        {
-            title: '分组',
-            dataIndex: 'group',
-        },
+
         {
             title: 'cron',
             dataIndex: 'cron',

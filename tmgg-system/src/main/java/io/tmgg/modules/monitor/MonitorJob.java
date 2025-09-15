@@ -1,16 +1,14 @@
 package io.tmgg.modules.monitor;
 
-import cn.hutool.core.io.unit.DataSizeUtil;
 import cn.hutool.system.oshi.CpuInfo;
 import cn.hutool.system.oshi.OshiUtil;
 import com.zaxxer.hikari.HikariDataSource;
 import com.zaxxer.hikari.HikariPoolMXBean;
-import io.tmgg.lang.obj.AjaxResult;
+import io.tmgg.modules.job.BaseJob;
 import io.tmgg.modules.job.JobDesc;
-import io.tmgg.modules.job.JobTool;
 import io.tmgg.modules.monitor.dao.SysMetricRecordDao;
 import jakarta.annotation.Resource;
-import org.quartz.*;
+import org.quartz.JobDataMap;
 import org.slf4j.Logger;
 import oshi.hardware.GlobalMemory;
 
@@ -19,10 +17,9 @@ import javax.sql.DataSource;
 /**
  * 示例作业
  */
-@JobDesc(label = "系统监控")
-public class MonitorJob implements Job {
+@JobDesc(group = "系统监控", label = "指标数据记录(CPU，内存，数据库等)")
+public class MonitorJob extends BaseJob {
 
-    private static final Logger log = JobTool.getLogger();
 
     @Resource
     DataSource dataSource;
@@ -30,17 +27,18 @@ public class MonitorJob implements Job {
     @Resource
     SysMetricRecordDao dao;
 
+
     @Override
-    public void execute(JobExecutionContext e) throws JobExecutionException {
-        if(dataSource instanceof HikariDataSource d){
+    public String execute(JobDataMap data, Logger logger) {
+        logger.info("开始采集");
+        if (dataSource instanceof HikariDataSource d) {
             HikariPoolMXBean mx = d.getHikariPoolMXBean();
-            dao.record("datasource.connections.active",mx.getActiveConnections());
+            dao.record("datasource.connections.active", mx.getActiveConnections());
         }
 
         // CPU 使用率
         CpuInfo cpuInfo = OshiUtil.getCpuInfo();
-        System.out.println(cpuInfo);
-        dao.record("cpu.usage",cpuInfo.getUsed());
+        dao.record("cpu.usage", cpuInfo.getUsed());
 
         // 内存
         GlobalMemory m = OshiUtil.getMemory();
@@ -51,6 +49,7 @@ public class MonitorJob implements Job {
 
 
         dao.clean();
-
+        logger.info("开始完成");
+        return "采集成功";
     }
 }

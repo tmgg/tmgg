@@ -1,6 +1,5 @@
-package io.tmgg.common.tool;
+package io.tmgg.modules.log.shift.file;
 
-import io.tmgg.config.FileShiftLogConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
@@ -13,11 +12,13 @@ public class FileShiftLogTool {
     }
 
 
-    public static void setFilename(String value){
-        MDC.put(FileShiftLogConfig.DISCRIMINATOR_KEY,value);
+    public static void start(String key) {
+        MDC.put(FileShiftLogConfig.DISCRIMINATOR_KEY, key);
     }
 
-    public static void cleanCurrentThread(){
+    public static void stop() {
         MDC.clear();
     }
+
+
 }

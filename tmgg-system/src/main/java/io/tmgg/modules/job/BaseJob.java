@@ -1,6 +1,6 @@
 package io.tmgg.modules.job;
 
-import io.tmgg.common.tool.FileShiftLogTool;
+import io.tmgg.modules.log.shift.file.FileShiftLogTool;
 import io.tmgg.modules.job.dao.SysJobDao;
 import io.tmgg.modules.job.dao.SysJobLogDao;
 import io.tmgg.modules.job.entity.SysJob;
@@ -8,7 +8,6 @@ import io.tmgg.modules.job.entity.SysJobLog;
 import jakarta.annotation.Resource;
 import org.quartz.*;
 import org.slf4j.Logger;
-import org.slf4j.MDC;
 
 import java.util.Date;
 
@@ -41,7 +40,7 @@ public abstract class BaseJob implements Job {
 
 
         // 2. 设置日志
-        FileShiftLogTool.setFilename(jobLog.getId());
+        FileShiftLogTool.start(jobLog.getId());
 
         String result;
         try {
@@ -57,7 +56,7 @@ public abstract class BaseJob implements Job {
         jobLog.setEndTime(new Date());
         sysJobLogDao.save(jobLog);
 
-        FileShiftLogTool.cleanCurrentThread();
+        FileShiftLogTool.stop();
     }
 
     public abstract String execute(JobDataMap data, Logger logger);
