@@ -1,13 +1,12 @@
 /**
  * 工具栏
  */
-import {HistoryOutlined, ReloadOutlined} from '@ant-design/icons';
+import {FileExcelOutlined, HistoryOutlined, ReloadOutlined} from '@ant-design/icons';
 import {Button, Input, message, Modal, Table} from 'antd';
 import React from 'react';
 import './index.less';
 import {DateUtil, StorageUtil} from "@tmgg/tmgg-commons-lang";
 import {PageUtil} from "../../../../system";
-import excel from './excel.svg'
 
 export default class Toolbar extends React.Component {
 
@@ -51,7 +50,7 @@ export default class Toolbar extends React.Component {
 
 
                 {showExportExcel && <Button title='导出EXCEL'
-                                            size='small' icon={<img src={excel} style={{width: '100%'}}/>}
+                                            size='small' icon={<FileExcelOutlined  />}
                                             onClick={() => onExport('EXCEL')}/>}
 
 

@@ -145,8 +145,8 @@ class _Layouts extends React.Component {
                     Menu: {
                         darkItemBg: theme["primary-color"],
                         darkPopupBg: theme["primary-color"],
-                        darkItemSelectedBg: theme["primary-color-hover"],
-                        darkItemHoverBg: theme["primary-color-click"],
+                        darkItemSelectedBg: theme["primary-color-click"],
+                        darkItemHoverBg: theme["primary-color-hover"],
                         darkSubMenuItemBg: theme["primary-color"]
                     },
                     Layout: {

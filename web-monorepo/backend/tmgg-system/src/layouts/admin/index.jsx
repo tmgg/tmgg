@@ -65,7 +65,7 @@ export default class extends React.Component {
 
     initMenu = () => {
         HttpUtil.get('menuInfo').then(info => {
-            const {menus, topMenus,badgeList} = info
+            const {menus, topMenus, badgeList} = info
 
             let pathname = PageUtil.currentPathname();
             let currentMenuKey = null
@@ -107,14 +107,14 @@ export default class extends React.Component {
 
 
     loadBadge = list => {
-        for(let item of list){
+        for (let item of list) {
             const {menuId, url} = item
-            HttpUtil.get(url,null).then(rs=>{
+            HttpUtil.get(url, null).then(rs => {
                 const {leftMenus} = this.state
-                const menu = TreeUtil.findByKey(menuId,leftMenus)
-                if(menu){
+                const menu = TreeUtil.findByKey(menuId, leftMenus)
+                if (menu) {
                     menu.icon = <Badge dot count={rs} size={"small"}>{menu.icon}</Badge>
-                    this.setState({leftMenus:[...leftMenus]})
+                    this.setState({leftMenus: [...leftMenus]})
                 }
 
             })
@@ -133,12 +133,11 @@ export default class extends React.Component {
 
 
     render() {
-        const {siteInfo, topMenus, loginInfo,leftMenus} = this.state
+        const {siteInfo, topMenus, loginInfo, leftMenus} = this.state
         let logo = this.props.logo || defaultLogo
-        if(siteInfo.logo){
+        if (siteInfo.logo) {
             logo = SysUtil.wrapServerUrl('sysFile/preview/' + siteInfo.logo)
         }
-
 
 
         return <Layout className='main-layout'>
@@ -162,15 +161,18 @@ export default class extends React.Component {
                                   this.setState({currentTopMenuKey, leftMenus})
                               }
                           }}
-                          style={{lineHeight: '42px',  borderBottom: 'none', backgroundColor: '#f5f5f5'}}
+                          style={{lineHeight: '42px', borderBottom: 'none', backgroundColor: '#f5f5f5'}}
                     ></Menu>
                 </div>
-                <HeaderRight />
+                <HeaderRight/>
             </Header>
 
             <Layout style={{height: '100%'}}>
-                <Sider id='left-sider' collapsible collapsed={this.state.collapsed}
-                       onCollapse={(value) => this.toggleCollapsed(value)}>
+                <Sider id='left-sider'
+                       collapsible
+                       collapsed={this.state.collapsed}
+                       onCollapse={(value) => this.toggleCollapsed(value)}
+                       trigger={null}>
 
                     <div style={{
                         color: 'white', fontSize: 16, cursor: "pointer", margin: 12
@@ -224,7 +226,7 @@ export default class extends React.Component {
         }
         let tabPageRenderNode = <TabPageRender ref={this.tabPageRenderRef} pathMenuMap={this.state.pathMenuMap}/>;
         if (siteInfo.waterMark === true) {
-            return <Watermark content={[loginInfo.name,  loginInfo.account ]}>
+            return <Watermark content={[loginInfo.name, loginInfo.account]}>
                 {tabPageRenderNode}
             </Watermark>
         }
