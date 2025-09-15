@@ -115,12 +115,7 @@ export default class extends React.Component {
             this.setState({disks: rs})
         })
 
-        HttpUtil.get('sysDatasource/status').then(rs => {
-            this.setState({status: rs})
-        })
-        HttpUtil.get('sysDatasource/config').then(rs => {
-            this.setState({config: rs})
-        })
+
     }
 
 
