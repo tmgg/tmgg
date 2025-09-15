@@ -13,7 +13,7 @@ import io.tmgg.modules.job.JobDesc;
 import io.tmgg.modules.job.JobParamFieldProvider;
 import io.tmgg.modules.job.entity.SysJob;
 import io.tmgg.modules.job.entity.SysJobLog;
-import io.tmgg.modules.job.quartz.QuartzService;
+import io.tmgg.modules.job.quartz.QuartzManager;
 import io.tmgg.modules.job.service.SysJobLogService;
 import io.tmgg.modules.job.service.SysJobService;
 import io.tmgg.web.annotion.HasPermission;
@@ -41,7 +41,7 @@ public class SysJobController {
     private Scheduler scheduler;
 
     @Resource
-    private QuartzService quartzService;
+    private QuartzManager quartzService;
 
     @Resource
     private SysJobLogService sysJobLogService;

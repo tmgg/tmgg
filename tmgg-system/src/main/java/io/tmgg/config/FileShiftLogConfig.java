@@ -1,4 +1,4 @@
-package io.tmgg.modules.job.config;
+package io.tmgg.config;
 
 
 import ch.qos.logback.classic.Level;
@@ -19,7 +19,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class JobLogConfig {
+public class FileShiftLogConfig {
+
+    public static final String LOGGER_NAME = "FILE-LOGGER";
+    public static final String SIFT_NAME = "FILE-SIFT";
+    public static final String DISCRIMINATOR_KEY = "FILE_LOG_ID";
 
     @Value("${logging.file.path:/data/logs}")
     private String logPath;
@@ -32,11 +36,11 @@ public class JobLogConfig {
         // Create and configure the SiftingAppender
         SiftingAppender siftingAppender = new SiftingAppender();
         siftingAppender.setContext(context);
-        siftingAppender.setName("JOB-SIFT");
+        siftingAppender.setName(SIFT_NAME);
 
         // Configure the discriminator
         MDCBasedDiscriminator discriminator = new MDCBasedDiscriminator();
-        discriminator.setKey("job_log_id");
+        discriminator.setKey(DISCRIMINATOR_KEY);
         discriminator.setDefaultValue("default");
         discriminator.start();
 
@@ -48,8 +52,8 @@ public class JobLogConfig {
             public Appender<ILoggingEvent> buildAppender(Context context, String key) throws JoranException {
                 FileAppender<ch.qos.logback.classic.spi.ILoggingEvent> appender = new FileAppender<>();
                 appender.setContext(context);
-                appender.setName("JOB-" + key);
-                appender.setFile(logPath + "/jobs/" + key + ".log");
+                appender.setName("file-" + key);
+                appender.setFile(logPath + "/" + key + ".log");
 
                 PatternLayoutEncoder encoder = new PatternLayoutEncoder();
                 encoder.setContext(context);
@@ -66,8 +70,8 @@ public class JobLogConfig {
         siftingAppender.start();
 
         // Configure the JOB logger
-        Logger jobLogger = context.getLogger("JOB");
-        jobLogger.setLevel(Level.DEBUG);
+        Logger jobLogger = context.getLogger(LOGGER_NAME);
+        jobLogger.setLevel(Level.TRACE);
         jobLogger.setAdditive(false); // additivity="false"
         jobLogger.addAppender(siftingAppender);
     }

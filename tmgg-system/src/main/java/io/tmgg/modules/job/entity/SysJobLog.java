@@ -50,5 +50,8 @@ public class SysJobLog extends BaseEntity {
     public void prePersist() {
         super.prePersist();
         this.executeDate = DateUtil.formatDate(beginTime);
+        if(success == null){
+            success = true;
+        }
     }
 }

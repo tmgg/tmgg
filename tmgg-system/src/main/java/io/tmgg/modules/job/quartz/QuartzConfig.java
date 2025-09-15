@@ -16,10 +16,6 @@ import java.util.List;
 /***
  * 作业调度
  *
- *
- * @see  io.tmgg.modules.job.builtin.DemoJob
- *
- * @gendoc
  */
 @Slf4j
 @Component
@@ -28,18 +24,15 @@ import java.util.List;
 public class QuartzConfig implements CommandLineRunner {
 
 
-    @Resource
-    private Scheduler scheduler;
 
     @Resource
     private SysJobDao sysJobDao;
 
-    @Resource
-    QuartzListener jobExecuteListener;
 
 
+
     @Resource
-    QuartzService quartzService;
+    QuartzManager quartzService;
 
     @Resource
     JobProp jobProp;
@@ -52,8 +45,6 @@ public class QuartzConfig implements CommandLineRunner {
             return;
         }
 
-        // 1. 添加执行监听器
-        scheduler.getListenerManager().addJobListener(jobExecuteListener);
 
         // 2. 加载数据库任务
         List<SysJob> list = sysJobDao.findAllEnabled();

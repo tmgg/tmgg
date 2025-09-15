@@ -5,7 +5,7 @@ import io.tmgg.modules.job.dao.SysJobLogDao;
 import io.tmgg.modules.job.entity.SysJob;
 import io.tmgg.modules.job.JobDesc;
 import io.tmgg.modules.job.entity.SysJobLog;
-import io.tmgg.modules.job.quartz.QuartzService;
+import io.tmgg.modules.job.quartz.QuartzManager;
 import io.tmgg.web.persistence.BaseService;
 import io.tmgg.web.persistence.specification.JpaQuery;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +23,7 @@ import java.util.List;
 public class SysJobService extends BaseService<SysJob> {
 
     @Resource
-    QuartzService quartzService;
+    QuartzManager quartzService;
 
     @Resource
     SysJobLogDao sysJobLogDao;

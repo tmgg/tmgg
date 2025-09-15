@@ -1,20 +1,16 @@
 package io.tmgg.modules.job;
 
+import io.tmgg.common.tool.FileShiftLogTool;
 import io.tmgg.modules.job.dao.SysJobDao;
 import io.tmgg.lang.SpringTool;
 import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobKey;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class JobTool {
 
 
-    public static Logger getLogger() {
-          return   LoggerFactory.getLogger("JOB");
-
-    }
 
     /**
      * 获得 任务相关参数
