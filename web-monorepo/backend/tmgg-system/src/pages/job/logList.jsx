@@ -59,7 +59,7 @@ export default class extends React.Component {
       dataIndex: 'option',
       fixed:'right',
       render: (_, record) => {
-        let url = SysUtil.getServerUrl() + 'job/log/print?jobLogId='+ record.id;
+        let url = SysUtil.getServerUrl() + 'sys/log/'+ record.id;
         return <a  href={url} target='_blank'>日志</a>;
       },
     },
