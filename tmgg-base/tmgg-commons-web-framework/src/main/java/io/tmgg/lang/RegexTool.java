@@ -5,7 +5,7 @@ import java.util.regex.Pattern;
 
 public class RegexTool {
 
-    public static String findFirstMatch(String regex, String input, int groupIndex) {
+    public static String findMatch(String regex, String input, int groupIndex) {
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(input);
         boolean b = matcher.find();
@@ -17,5 +17,7 @@ public class RegexTool {
 
         return null;
     }
-
+    public static String findFirstMatch(String regex, String input) {
+       return findMatch(regex,input,1);
+    }
 }

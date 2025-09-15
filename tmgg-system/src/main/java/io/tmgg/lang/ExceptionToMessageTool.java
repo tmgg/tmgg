@@ -62,7 +62,7 @@ public class ExceptionToMessageTool {
 
             if (ex instanceof SQLIntegrityConstraintViolationException) {
                 if (msg.startsWith("Duplicate")) {
-                    String result = RegexTool.findFirstMatch("\\'(.*?)\\'", msg, 1);
+                    String result = RegexTool.findMatch("\\'(.*?)\\'", msg, 1);
                     if (StrUtil.isNotBlank(result)) {
                         return "数据【"+result+"】重复" ;
                     }
@@ -71,7 +71,7 @@ public class ExceptionToMessageTool {
                 {
                     // Column 'file_id' cannot be null
                     String regex = "Column '(.*)' cannot be null";
-                    String fieldName = RegexTool.findFirstMatch(regex, msg, 1);
+                    String fieldName = RegexTool.findMatch(regex, msg, 1);
                     if (StrUtil.isNotEmpty(fieldName)) {
                         return "字段" + fieldName + "不能为空";
                     }

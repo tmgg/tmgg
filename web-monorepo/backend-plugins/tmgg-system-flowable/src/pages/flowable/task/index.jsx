@@ -44,11 +44,13 @@ export default class extends React.Component {
             },
             {
                 title: '当前节点',
-                dataIndex: 'taskName'
+                dataIndex: 'taskName',
+                width:100,
             },
             {
                 title: '当前操作人',
-                dataIndex: 'assigneeInfo'
+                dataIndex: 'assigneeInfo',
+                width:100
             },
 
             {
