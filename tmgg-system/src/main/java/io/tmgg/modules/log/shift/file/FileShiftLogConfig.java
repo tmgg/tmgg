@@ -20,6 +20,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 
+import java.io.File;
+
 @Configuration
 public class FileShiftLogConfig {
 
@@ -57,7 +59,7 @@ public class FileShiftLogConfig {
                 FileAppender<ch.qos.logback.classic.spi.ILoggingEvent> appender = new FileAppender<>();
                 appender.setContext(context);
                 appender.setName("file-" + key);
-                appender.setFile(getFile(key));
+                appender.setFile(buildLogFile(key).getAbsolutePath());
 
                 PatternLayoutEncoder encoder = new PatternLayoutEncoder();
                 encoder.setContext(context);
@@ -81,9 +83,10 @@ public class FileShiftLogConfig {
     }
 
     @NotNull
-    public String getFile(String key) {
-        String file = logPath + "/" + key + ".log";
+    public File buildLogFile(String key) {
+        File file = new File(logPath ,  key + ".log");
         System.out.println("计算文件日志地址 " +file);
+        System.out.println("文件存储目录：" + logPath);
         return file;
     }
 }

@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.PrintWriter;
 
 
@@ -30,7 +29,7 @@ public class SysFileShiftLogController {
 
         PrintWriter out = response.getWriter();
 
-        File file = new File(cfg.getFile(key));
+        File file = cfg.buildLogFile(key);
 
 
         if (!file.exists()) {
