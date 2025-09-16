@@ -82,6 +82,8 @@ public class FileShiftLogConfig {
 
     @NotNull
     public String getFile(String key) {
-        return logPath + "/" + key + ".log";
+        String file = logPath + "/" + key + ".log";
+        System.out.println("计算文件日志地址 " +file);
+        return file;
     }
 }
