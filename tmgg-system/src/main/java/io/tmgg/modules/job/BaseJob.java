@@ -59,5 +59,5 @@ public abstract class BaseJob implements Job {
         FileShiftLogTool.stop();
     }
 
-    public abstract String execute(JobDataMap data, Logger logger);
+    public abstract String execute(JobDataMap data, Logger logger) throws Exception;
 }

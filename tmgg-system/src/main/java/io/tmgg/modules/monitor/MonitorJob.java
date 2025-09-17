@@ -29,7 +29,7 @@ public class MonitorJob extends BaseJob {
 
 
     @Override
-    public String execute(JobDataMap data, Logger logger) {
+    public String execute(JobDataMap data, Logger logger) throws Exception{
         logger.info("开始采集");
         if (dataSource instanceof HikariDataSource d) {
             HikariPoolMXBean mx = d.getHikariPoolMXBean();
