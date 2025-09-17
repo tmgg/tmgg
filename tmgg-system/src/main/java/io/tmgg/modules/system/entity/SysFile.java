@@ -32,6 +32,13 @@ public class SysFile extends BaseEntity {
     }
 
     /**
+     *  交易号，由业务方指定
+     */
+    @Column(length = 32)
+    private String tradeNo;
+
+
+    /**
      * 文件名称（上传时候的文件名）
      */
     @Column(name = "file_origin_name", length = 100)

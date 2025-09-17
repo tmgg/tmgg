@@ -9,11 +9,11 @@ import cn.hutool.core.lang.Dict;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.http.HttpUtil;
-import io.tmgg.lang.enums.MaterialType;
 import io.tmgg.config.SysProp;
 import io.tmgg.lang.DownloadTool;
 import io.tmgg.lang.IdTool;
 import io.tmgg.lang.ImgTool;
+import io.tmgg.lang.enums.MaterialType;
 import io.tmgg.modules.system.dao.SysFileDao;
 import io.tmgg.modules.system.entity.SysFile;
 import io.tmgg.modules.system.file.FileOperator;
@@ -34,8 +34,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.*;
-import java.util.*;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * 文件服务类
@@ -49,7 +54,7 @@ public class SysFileService {
     public static final String PREVIEW_URL_PATTERN = "/sysFile/preview/{id}";
     public static final String DOWNLOAD_URL_PATTERN = "/sysFile/download/{id}";
     public static final String[] PREVIEW_TYPES = new String[]{
-            "jpg", "jpeg", "png", "gif", "pdf",
+            "jpg", "jpeg", "png", "gif", "pdf", "mp3", "mp4",
     };
 
 
@@ -67,6 +72,10 @@ public class SysFileService {
     @Resource
     private SysConfigService sysConfigService;
 
+
+    public SysFile findByTradeNo(String tradeNo) {
+        return sysFileDao.findByTradeNo(tradeNo);
+    }
 
     public String getPreviewUrl(String id, HttpServletRequest request) {
         String baseUrl = sysConfigService.getOrParseBaseUrl(request);
@@ -109,7 +118,7 @@ public class SysFileService {
      * @return
      * @throws Exception
      */
-    public SysFile uploadFile(String origUrl) throws Exception {
+    public SysFile uploadWebFile(String origUrl,String tradeNo) throws Exception {
         log.info("准备上传网络文件 {}", origUrl);
         File tempFile = new File(FileUtil.getTmpDir(), FileNameUtil.mainName(origUrl));
 
@@ -118,13 +127,13 @@ public class SysFileService {
         log.info("下载文件完成 {}", FileUtil.readableFileSize(size));
 
         String suffix = FileNameUtil.getSuffix(origUrl);
-        if(StrUtil.isEmpty(suffix)){
+        if (StrUtil.isEmpty(suffix)) {
             suffix = FileTypeUtil.getType(tempFile);
             tempFile = FileUtil.rename(tempFile, tempFile.getName() + "." + suffix, true);
         }
 
 
-        SysFile sysFile = this.uploadFile(tempFile);
+        SysFile sysFile = this.uploadFile(tempFile,tradeNo);
         FileUtil.del(tempFile);
 
         sysFile.setOrigUrl(origUrl);
@@ -134,9 +143,13 @@ public class SysFileService {
     }
 
     public SysFile uploadFile(File file) throws Exception {
+        return this.uploadFile(file, null);
+    }
+
+    public SysFile uploadFile(File file, String tradeNo) throws Exception {
         try (InputStream is = new FileInputStream(file)) {
             String name = file.getName();
-            return this.uploadFile(is, name, file.length());
+            return this.uploadFile(is, name, file.length(), tradeNo);
         }
     }
 
@@ -148,6 +161,10 @@ public class SysFileService {
 
 
     public SysFile uploadFile(InputStream is, String originalFilename, long size) throws Exception {
+        return this.uploadFile(is, originalFilename, size, null);
+    }
+
+    public SysFile uploadFile(InputStream is, String originalFilename, long size, String tradeNo) throws Exception {
         log.info("上传文件:{} 大小:{}", originalFilename, FileUtil.readableFileSize(size));
 
         // 获取文件后缀
@@ -179,6 +196,7 @@ public class SysFileService {
         sysFile.setSuffix(suffix);
         sysFile.setSize(size);
         sysFile.setObjectName(objectName);
+        sysFile.setTradeNo(tradeNo);
 
         MediaType mediaType = MediaTypeFactory.getMediaType("." + suffix).orElse(null);
         if (mediaType != null) {
@@ -257,18 +275,12 @@ public class SysFileService {
             IOUtils.copy(is, resp.getOutputStream());
             IOUtils.closeQuietly(is, resp.getOutputStream());
         } else {
-//            // 无法预览, 则下载
-
-//            String fileName = f.getOriginName();
-//            DownloadTool.download(fileName, is, f.getFileSize(), response);
-
-            resp.setContentType("text/html;charset=utf-8");
-            PrintWriter writer = resp.getWriter();
-
-            String downloadUrl = this.getDownloadUrl(id, req);
-            writer.write("文件无法预览！ <a href='%s' >点击下载</a>".formatted(downloadUrl));
-            writer.flush();
-            writer.close();
+            // 无法预览, 则下载
+            String fileName = sysFile.getOriginName();
+            if (fileName == null) {
+                fileName = sysFile.getId() + "." + sysFile.getSuffix();
+            }
+            DownloadTool.download(fileName, is, sysFile.getSize(), resp);
         }
 
     }
@@ -344,4 +356,6 @@ public class SysFileService {
 
         return fileOperator.exist(file.getObjectName());
     }
+
+
 }
