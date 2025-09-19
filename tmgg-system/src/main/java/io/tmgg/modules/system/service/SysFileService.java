@@ -147,8 +147,14 @@ public class SysFileService {
     }
 
     public SysFile uploadFile(File file, String tradeNo) throws Exception {
+        // 特殊处理后缀，如临时文件
+        String suffix = FileNameUtil.getSuffix(file);
+        if(StrUtil.isEmpty(suffix) || suffix.equals("tmp")){
+            suffix = FileTypeUtil.getType(file, true);
+        }
+
+        String name = FileNameUtil.mainName(file) + "." + suffix;
         try (InputStream is = new FileInputStream(file)) {
-            String name = file.getName();
             return this.uploadFile(is, name, file.length(), tradeNo);
         }
     }
