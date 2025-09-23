@@ -69,7 +69,8 @@ public class ConvertTest {
     public void str2List(){
         String str = "a,b,c";
 
-        List<String> list = Convert.convert(new TypeReference<List<String>>() {}, str);
+        List<String> list = Convert.convert(new TypeReference<>() {
+        }, str);
 
         System.out.println(list);
     }

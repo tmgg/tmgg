@@ -1,9 +1,9 @@
-package org.apache.commons.dbutils;
+package io.tmgg.dbtool.dbutil;
 
-import io.tmgg.dbtool._Util;
 import io.tmgg.lang.BeanReflectionTool;
 import io.tmgg.lang.ConvertTool;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.dbutils.GenerousBeanProcessor;
 
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Type;
@@ -32,7 +32,6 @@ public class MyBeanProcessor extends GenerousBeanProcessor {
         Type firstGeneric = BeanReflectionTool.getFirstGeneric(prop);
 
         try {
-
             Object value2 = ConvertTool.convert(type, value,firstGeneric);
             return value2;
         } catch (Exception e) {
@@ -40,4 +39,6 @@ public class MyBeanProcessor extends GenerousBeanProcessor {
         }
         return target;
     }
+
+
 }

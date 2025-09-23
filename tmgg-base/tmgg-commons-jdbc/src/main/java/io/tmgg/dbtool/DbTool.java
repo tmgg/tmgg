@@ -1,7 +1,10 @@
 package io.tmgg.dbtool;
 
 
+import cn.hutool.core.map.CaseInsensitiveLinkedMap;
 import cn.hutool.core.util.StrUtil;
+import io.tmgg.dbtool.dbutil.MyBeanProcessor;
+import io.tmgg.dbtool.dbutil.MyRowProcessor;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.dbutils.*;
@@ -51,7 +54,7 @@ public class DbTool {
         params = checkParam(params);
 
 
-        ResultSetHandler<T> rsh = this.getBeanHandler(cls);
+        ResultSetHandler<T> rsh = new BeanHandler<>(cls);
 
         return this.query(sql, rsh, params);
     }
@@ -79,7 +82,7 @@ public class DbTool {
     public <K, V> Map<K, V> findBeanMap(Class<V> cls, String sql, Object... params) {
         params = checkParam(params);
 
-        BeanMapHandler<K, V> beanMapHandler = new BeanMapHandler<>(cls, getRowProcessor());
+        BeanMapHandler<K, V> beanMapHandler = new BeanMapHandler<>(cls);
 
         return this.query(sql, beanMapHandler, params);
     }
@@ -105,13 +108,6 @@ public class DbTool {
 
         Map<K, Map<String, Object>> result = this.query(sql, handler, params);
 
-        if (cfg.getNamingStrategy() == DbToolConfig.NAMING_STRATEGY_IMPROVED) {
-            for (K k : result.keySet()) {
-                Map<String, Object> value = result.get(k);
-                Map<String, Object> cameled = _Util.camel(value);
-                result.put(k, cameled);
-            }
-        }
         return result;
     }
 
@@ -132,7 +128,7 @@ public class DbTool {
     public Map<String, Object> findDict(String sql, Object... params) {
         List<Map<String, Object>> list = this.findAll(sql, params);
 
-        LinkedHashMap<String, Object> dict = new LinkedHashMap<>();
+        CaseInsensitiveLinkedMap<String, Object> dict = new CaseInsensitiveLinkedMap<>();
 
         for (Map<String, Object> row : list) {
             if (row.size() < 2) {
@@ -153,7 +149,7 @@ public class DbTool {
 
     public <T> List<T> findAll(Class<T> cls, String sql, Object... params) {
         params = checkParam(params);
-        ResultSetHandler<List<T>> rsh = new BeanListHandler<>(cls, getRowProcessor());
+        ResultSetHandler<List<T>> rsh = new BeanListHandler<>(cls);
 
         List<T> list = this.query(sql, rsh, params);
 
@@ -168,11 +164,12 @@ public class DbTool {
         if (list == null) {
             return Collections.emptyList();
         }
-        if (cfg.getNamingStrategy() == DbToolConfig.NAMING_STRATEGY_IMPROVED) {
-            list = _Util.camel(list);
-        }
+
         return list;
     }
+
+
+
 
 
     public Map<String, Object> findOne(String sql, Object... params) {
@@ -182,10 +179,6 @@ public class DbTool {
 
         if (map == null) {
             return null;
-        }
-
-        if (cfg.getNamingStrategy() == DbToolConfig.NAMING_STRATEGY_IMPROVED) {
-            map = _Util.camel(map);
         }
         return map;
     }
@@ -216,13 +209,7 @@ public class DbTool {
 
         List<Map<String, Object>> list = this.findAll(pageSql, params);
 
-        Page<Map<String, Object>> page = new PageImpl<>(list, pageable, total);
-        if (cfg.getNamingStrategy() == DbToolConfig.NAMING_STRATEGY_IMPROVED) {
-            List<Map<String, Object>> content = _Util.camel(page.getContent());
-
-            page = new PageImpl<>(content, pageable, page.getTotalElements());
-        }
-        return page;
+        return new PageImpl<>(list, pageable, total);
     }
 
 
@@ -446,6 +433,10 @@ public class DbTool {
 
     }
 
+
+
+
+
     // ------------------------------------元数据部分------------------------------
 
     public Set<String> getTableNames() throws SQLException {
@@ -604,15 +595,6 @@ public class DbTool {
         return sql.toLowerCase().contains("order by");
     }
 
-    private <T> ResultSetHandler<T> getBeanHandler(Class<T> cls) {
-        RowProcessor rowProcessor = getRowProcessor();
 
-        return new BeanHandler<>(cls, rowProcessor);
-    }
 
-    private RowProcessor getRowProcessor() {
-        RowProcessor rowProcessor = new BasicRowProcessor(new MyBeanProcessor());
-        return rowProcessor;
-
-    }
 }

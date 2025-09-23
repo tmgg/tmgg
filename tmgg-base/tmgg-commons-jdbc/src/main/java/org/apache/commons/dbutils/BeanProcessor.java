@@ -45,10 +45,8 @@ import java.util.*;
  * @since 1.1
  */
 
-/**
-        * change by jiangtao
- * 简单将 private 字段设置为 protect， 最小侵入源代码， 需要调整的地方通过继承修改
- */
+
+// 简单将 private 字段设置为 protect， 最小侵入源代码， 需要调整的地方通过继承修改
 public class BeanProcessor {
 
     /**
