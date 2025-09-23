@@ -1,6 +1,6 @@
 package io.tmgg.web.persistence.converter;
 
-import io.tmgg.web.enums.EnumCode;
+import io.tmgg.web.enums.CodeEnum;
 import jakarta.persistence.AttributeConverter;
 
 import java.io.Serializable;
@@ -14,11 +14,11 @@ import java.lang.reflect.Type;
  * }
  * @param <E>
  */
-public abstract class BaseEnumCodeConverter<E extends Enum<E> & EnumCode> implements AttributeConverter<E, Integer>, Serializable {
+public abstract class BaseCodeEnumConverter<E extends Enum<E> & CodeEnum> implements AttributeConverter<E, Integer>, Serializable {
 
     private final Class<E> clazz;
 
-    public BaseEnumCodeConverter() {
+    public BaseCodeEnumConverter() {
         Type genericSuperclass = getClass().getGenericSuperclass();
         ParameterizedType parameterizedType = (ParameterizedType) genericSuperclass;
 
