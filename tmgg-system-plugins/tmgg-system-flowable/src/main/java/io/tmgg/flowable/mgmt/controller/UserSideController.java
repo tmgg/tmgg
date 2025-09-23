@@ -206,15 +206,6 @@ public class UserSideController {
                 }
                 data.put("variables",variables);
             }
-
-
-            String formUrl = model.getFormUrl();
-            if (StringUtils.isNotEmpty(formUrl)) {
-                if (instance.getBusinessKey() != null) {
-                    data.put("formUrlSearch", "?id="+ instance.getBusinessKey());
-                }
-                data.put("formUrl", formUrl);
-            }
         }
 
 

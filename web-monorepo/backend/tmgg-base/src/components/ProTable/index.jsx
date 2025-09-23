@@ -77,7 +77,9 @@ export class ProTable extends React.Component {
         if (scrollY == null || scrollY === true) {
             const height = this.calcBodyScrollHeight();
             console.log('计算高度为：', height)
-            this.setState({scrollY: height})
+            if(height){
+                this.setState({scrollY: height})
+            }
         }
         if(typeof scrollY === 'number'){
             this.setState({scrollY: scrollY})
@@ -99,10 +101,16 @@ export class ProTable extends React.Component {
 
 
         let towHeaderLineFixed = 50; // 预留的，防止表头换行
-        let h = top + footerHeight + page + towHeaderLineFixed
+        let h = top + footerHeight + page + towHeaderLineFixed;
 
-        let height = `calc(100vh - ${h}px)`
-        return height
+        let tableHeight = window.innerHeight - h
+
+        if(tableHeight < 300){
+            return null
+        }
+
+  //      let height = `calc(100vh - ${h}px)`
+        return tableHeight
     }
 
 

@@ -44,8 +44,6 @@ public class SysFlowableModel extends BaseEntity {
     private String content;
 
 
-    @Excel(name = "表单链接")
-    private String formUrl;
 
 
 
