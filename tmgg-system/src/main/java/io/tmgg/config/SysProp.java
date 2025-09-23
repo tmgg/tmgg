@@ -11,7 +11,13 @@ import java.util.List;
 @Data
 public class SysProp {
 
+
     public static final String CONFIG_PREFIX = "sys";
+
+    /**
+     * 系统标题
+     */
+    private String title;
 
     /**
      * 不经过xss的路径, 如 /aa/*
