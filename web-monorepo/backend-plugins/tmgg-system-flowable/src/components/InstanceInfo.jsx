@@ -83,7 +83,7 @@ export default class InstanceInfo extends React.Component {
             </Card>
             <Gap/>
             <Card title='处理记录'>
-                {img && <img height={50} src={img} style={{maxWidth: '100%'}}
+                {img && <img  src={img} style={{maxWidth: '100%'}}
                              onClick={this.onImgClick}/>}
                 <Table dataSource={commentList}
                        bordered
