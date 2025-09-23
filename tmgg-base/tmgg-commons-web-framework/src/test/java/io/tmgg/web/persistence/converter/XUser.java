@@ -13,7 +13,6 @@ public class XUser extends BaseEntity {
 
     String userName;
 
-    @Convert(converter = XConverter.class)
     UserType userType;
 
 }
