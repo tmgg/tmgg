@@ -4,6 +4,7 @@ package io.tmgg.modules.system;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.Dict;
 import cn.hutool.core.util.StrUtil;
+import io.tmgg.config.SysProp;
 import io.tmgg.lang.TreeManager;
 import io.tmgg.lang.ann.PublicRequest;
 import io.tmgg.lang.obj.AjaxResult;
@@ -46,6 +47,9 @@ public class CommonController {
     @Resource
     SysFileService sysFileService;
 
+    @Resource
+    SysProp sysProp;
+
     /**
      * 站点信息， 非登录情况下使用
      */
@@ -63,6 +67,11 @@ public class CommonController {
         Assert.notNull(publicKey, "服务未初始化密钥信息，无法登录");
 
         siteInfo.put("rsaPublicKey",publicKey);
+
+        String title = sysProp.getTitle();
+        if(StrUtil.isNotBlank(title)){
+            siteInfo.put("title", title.trim());
+        }
 
 
         return AjaxResult.ok().data(siteInfo);
