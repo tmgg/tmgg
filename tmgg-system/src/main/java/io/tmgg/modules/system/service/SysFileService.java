@@ -8,6 +8,7 @@ import cn.hutool.core.io.file.FileNameUtil;
 import cn.hutool.core.lang.Dict;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.core.util.URLUtil;
 import cn.hutool.http.HttpUtil;
 import io.tmgg.config.SysProp;
 import io.tmgg.lang.DownloadTool;
@@ -271,13 +272,11 @@ public class SysFileService {
     public ResponseEntity<InputStreamResource> preview(String id, Integer w) {
         try {
             SysFile sysFile = this.getFileAndStream(id, w);
-            String fileName = sysFile.getOriginName();
-            if (fileName == null) {
-                fileName = sysFile.getId() + "." + sysFile.getSuffix();
-            }
+            String fileName = sysFile.getId() + "." + sysFile.getSuffix();
+
             return ResponseEntity.ok()
                     .contentType(MediaType.parseMediaType(sysFile.getMimeType()))
-                    .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + fileName + "\"")
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + URLUtil.encode( fileName) + "\"")
                     .body(new InputStreamResource(sysFile.getInputStream()));
         } catch (Exception e) {
             log.error("预览文件失败:{}", e.getMessage());
