@@ -58,7 +58,7 @@ export default class extends React.Component {
     actionRef = React.createRef();
 
     forceExist = record => {
-        HttpUtil.postForm('sysOnlineUser/forceExist', {sessionId: record.sessionId}).then(r => {
+        HttpUtil.get('sysOnlineUser/forceExist', {sessionId: record.sessionId}).then(r => {
             this.actionRef.current.reload()
         })
     }

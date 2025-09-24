@@ -42,7 +42,7 @@ export default class extends React.Component {
         })
     };
     handleDelete = record => {
-        HttpUtil.postForm('sysMenu/delete', {id: record.id}).then(rs => {
+        HttpUtil.get('sysMenu/delete', {id: record.id}).then(rs => {
             this.loadData()
         })
     }

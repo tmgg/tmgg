@@ -98,7 +98,7 @@ export default class extends React.Component {
 
 
     handleDelete = row => {
-        HttpUtil.postForm('sysFile/delete', row).then(rs => {
+        HttpUtil.get('sysFile/delete', row).then(rs => {
             this.tableRef.current.reload()
         })
     }
@@ -130,7 +130,7 @@ export default class extends React.Component {
                         <Input/>
                     </Form.Item>
                     <Form.Item label='类型' name='type'>
-                        <FieldDictSelect typeCode='materiaType'/>
+                        <FieldDictSelect typeCode='materialType'/>
                     </Form.Item>
 
                     <Form.Item label='上传时间' name='dateRange'>

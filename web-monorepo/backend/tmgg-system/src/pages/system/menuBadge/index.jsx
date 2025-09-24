@@ -66,7 +66,7 @@ export default class extends React.Component {
 
 
   handleDelete = record => {
-    HttpUtil.postForm( 'sysMenuBadge/delete', {id:record.id}).then(rs => {
+    HttpUtil.get( 'sysMenuBadge/delete', {id:record.id}).then(rs => {
       this.tableRef.current.reload()
     })
   }

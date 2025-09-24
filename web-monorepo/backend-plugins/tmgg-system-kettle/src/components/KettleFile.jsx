@@ -60,7 +60,7 @@ export default class extends React.Component {
   }
 
   deleteFile = id => {
-    HttpUtil.postForm('/kettle/file/delete', {id}).then(rs => {
+    HttpUtil.get('/kettle/file/delete', {id}).then(rs => {
       this.loadData()
     })
   }
