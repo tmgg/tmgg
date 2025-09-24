@@ -28,8 +28,8 @@ spring:
     timeout: 1H
   servlet:
     multipart:
-      max-file-size: 50MB
-      max-request-size: 100MB
+      max-file-size: 900MB
+      max-request-size: 900MB
   cache:
     type: simple
 logging:

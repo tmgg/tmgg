@@ -153,7 +153,7 @@ export default class extends React.Component {
                       initialValues={this.state.formValues}
                      >
                     <Form.Item name='文件'>
-                        <FieldUploadFile/>
+                        <FieldUploadFile accept="*/*"/>
                     </Form.Item>
 
 
