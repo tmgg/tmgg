@@ -232,6 +232,7 @@ public class SysFileService {
 
         sysFile = sysFileDao.save(sysFile);
 
+        log.debug("上传文件结束 {}", objectName);
 
         return sysFile;
     }

@@ -16,6 +16,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.transaction.TransactionSystemException;
 import org.springframework.validation.BindingResult;
@@ -25,8 +26,10 @@ import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.context.request.async.AsyncRequestNotUsableException;
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
@@ -172,6 +175,16 @@ public class GlobalExceptionHandler {
         return AjaxResult.err().msg(ExceptionToMessageTool.convert(e));
     }
 
+    // io中断，如预览视频
+    @ExceptionHandler(AsyncRequestNotUsableException.class)
+    @ResponseBody
+    public ResponseEntity<Void> asyncRequestNotUsableException(AsyncRequestNotUsableException e) {
+        // 客户端断开连接是正常情况，返回204无内容
+        return ResponseEntity.noContent().build();
+    }
+
+
+
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public AjaxResult httpMessageNotReadableException(HttpMessageNotReadableException e) {
         log.error("请求内容错误",e);
@@ -179,7 +192,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
-    public AjaxResult serverError(HttpRequestMethodNotSupportedException e) {
+    public AjaxResult methodNotSupported(HttpRequestMethodNotSupportedException e) {
         return AjaxResult.err().msg("不支持请求方法" + e.getMethod());
     }
 
