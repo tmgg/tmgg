@@ -24,12 +24,14 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.MediaTypeFactory;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.web.multipart.MultipartFile;
@@ -53,9 +55,6 @@ public class SysFileService {
 
     public static final String PREVIEW_URL_PATTERN = "/sysFile/preview/{id}";
     public static final String DOWNLOAD_URL_PATTERN = "/sysFile/download/{id}";
-    public static final String[] PREVIEW_TYPES = new String[]{
-            "jpg", "jpeg", "png", "gif", "pdf", "mp3", "mp4",
-    };
 
 
     public static final int[] IMAGE_SIZE = {400, 800, 1200}; // 小图，中，大图
@@ -118,7 +117,7 @@ public class SysFileService {
      * @return
      * @throws Exception
      */
-    public SysFile uploadWebFile(String origUrl,String tradeNo) throws Exception {
+    public SysFile uploadWebFile(String origUrl, String tradeNo) throws Exception {
         log.info("准备上传网络文件 {}", origUrl);
         File tempFile = new File(FileUtil.getTmpDir(), FileNameUtil.mainName(origUrl));
 
@@ -133,7 +132,7 @@ public class SysFileService {
         }
 
 
-        SysFile sysFile = this.uploadFile(tempFile,tradeNo);
+        SysFile sysFile = this.uploadFile(tempFile, tradeNo);
         FileUtil.del(tempFile);
 
         sysFile.setOrigUrl(origUrl);
@@ -149,7 +148,7 @@ public class SysFileService {
     public SysFile uploadFile(File file, String tradeNo) throws Exception {
         // 特殊处理后缀，如临时文件
         String suffix = FileNameUtil.getSuffix(file);
-        if(StrUtil.isEmpty(suffix) || suffix.equals("tmp")){
+        if (StrUtil.isEmpty(suffix) || suffix.equals("tmp")) {
             suffix = FileTypeUtil.getType(file, true);
         }
 
@@ -269,27 +268,21 @@ public class SysFileService {
     }
 
 
-    public void preview(String id, Integer w, HttpServletRequest req, HttpServletResponse resp) throws Exception {
-        //根据文件id获取文件信息结果集
-        SysFile sysFile = this.getFileAndStream(id, w);
-        String fileSuffix = sysFile.getSuffix().toLowerCase();
-
-        InputStream is = sysFile.getInputStream();
-        if (StrUtil.equalsAny(fileSuffix, PREVIEW_TYPES)) {
-            resp.setContentType(sysFile.getMimeType());
-            resp.addHeader("Content-Length", String.valueOf(sysFile.getSize()));
-
-            IOUtils.copy(is, resp.getOutputStream());
-            IOUtils.closeQuietly(is, resp.getOutputStream());
-        } else {
-            // 无法预览, 则下载
+    public ResponseEntity<InputStreamResource> preview(String id, Integer w) {
+        try {
+            SysFile sysFile = this.getFileAndStream(id, w);
             String fileName = sysFile.getOriginName();
             if (fileName == null) {
                 fileName = sysFile.getId() + "." + sysFile.getSuffix();
             }
-            DownloadTool.download(fileName, is, sysFile.getSize(), resp);
+            return ResponseEntity.ok()
+                    .contentType(MediaType.parseMediaType(sysFile.getMimeType()))
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + fileName + "\"")
+                    .body(new InputStreamResource(sysFile.getInputStream()));
+        } catch (Exception e) {
+            log.error("预览文件失败:{}", e.getMessage());
+            return ResponseEntity.notFound().build();
         }
-
     }
 
 

@@ -2,7 +2,7 @@
 chcp 65001 > nul
 
 
-set  "tag_name=v1.1.42"
+set  "tag_name=v1.1.43"
 
 
 git tag -d %tag_name%

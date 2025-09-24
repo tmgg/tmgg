@@ -2,7 +2,9 @@
 package io.tmgg.modules.system.controller;
 
 import cn.hutool.core.io.IoUtil;
+import cn.hutool.core.io.resource.InputStreamResource;
 import cn.hutool.core.io.resource.ResourceUtil;
+import io.minio.GetObjectArgs;
 import io.tmgg.lang.ann.PublicRequest;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.modules.system.entity.SysFile;
@@ -18,6 +20,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -80,31 +85,6 @@ public class SysFileController {
     }
 
 
-    /**
-     * 可以加后缀， 这样对某些设备友好
-     * 支持的格式
-     * /sysFile/preview/123
-     * /sysFile/preview/123.jpg (增加后缀，对浏览器等客户端友好)
-     * /sysFile/preview/202508/123.jpg （原始对象路径，可方便直接使用nginx反向代理）
-     *
-     * @param id
-     * @param response
-     * @param req
-     * @throws Exception
-     */
-    @PublicRequest
-    @GetMapping(value = {"preview/{id}", "preview/{id}.{suffix}", "preview/{dir}/{id}.{suffix}"})
-    public void preview(@PathVariable String id, @PathVariable(required = false) String suffix,  @PathVariable(required = false) String dir,Integer w,
-                        HttpServletRequest req, HttpServletResponse response) throws Exception {
-        try {
-            service.preview(id, w, req, response);
-        } catch (Exception e) {
-            log.error("预览文件失败:{}", e.getMessage());
-            InputStream is = ResourceUtil.getStream("static/404.jpg");
-            IoUtil.copy(is, response.getOutputStream());
-        }
-
-    }
 
 
     @GetMapping("detail")
