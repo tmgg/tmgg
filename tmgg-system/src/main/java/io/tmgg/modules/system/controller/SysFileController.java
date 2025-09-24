@@ -6,6 +6,7 @@ import cn.hutool.core.io.resource.InputStreamResource;
 import cn.hutool.core.io.resource.ResourceUtil;
 import io.minio.GetObjectArgs;
 import io.tmgg.lang.ann.PublicRequest;
+import io.tmgg.lang.enums.MaterialType;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.modules.system.entity.SysFile;
 import io.tmgg.modules.system.service.SysFileService;
@@ -46,11 +47,14 @@ public class SysFileController {
     public AjaxResult page(String dateRange,
                            String originName,
                            String objectName,
+                           MaterialType type,
                            @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) {
         JpaQuery<SysFile> q = new JpaQuery<>();
         q.betweenIsoDateRange(SysFile.FIELD_CREATE_TIME, dateRange);
         q.eq(SysFile.Fields.originName, originName);
         q.eq(SysFile.Fields.objectName, objectName);
+        q.eq(SysFile.Fields.type, type);
+
         Page<SysFile> page = service.findAll(q, pageable);
         return AjaxResult.ok().data(page);
     }
