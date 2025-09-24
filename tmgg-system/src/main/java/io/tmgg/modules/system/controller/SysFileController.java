@@ -114,7 +114,7 @@ public class SysFileController {
 
 
     @HasPermission
-    @PostMapping("delete")
+    @RequestMapping("delete")
     public AjaxResult delete(String id) throws Exception {
         service.deleteById(id);
         return AjaxResult.ok();

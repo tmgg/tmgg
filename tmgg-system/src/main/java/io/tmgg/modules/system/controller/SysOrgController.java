@@ -45,7 +45,7 @@ public class SysOrgController {
     }
 
     @HasPermission
-    @PostMapping("delete")
+    @RequestMapping("delete")
     public AjaxResult delete(@RequestBody SysOrg sysOrg, HttpSession session) {
         sysOrgService.deleteById(sysOrg.getId());
         session.removeAttribute(SysHttpSession.SUBJECT_KEY);

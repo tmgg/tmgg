@@ -48,7 +48,7 @@ public class SysConfigController  {
   }
 
   @HasPermission
-  @PostMapping("delete")
+  @RequestMapping("delete")
   public AjaxResult delete(String id) {
     service.deleteById(id);
     return AjaxResult.ok();

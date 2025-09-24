@@ -63,7 +63,7 @@ public class SysDictItemController  {
 
 
     @HasPermission(value = "sysDict:item-delete",label = "删除明细")
-    @PostMapping("delete")
+    @RequestMapping("delete")
     public AjaxResult delete(String id) {
         service.deleteById(id);
         return AjaxResult.ok().msg("删除成功");

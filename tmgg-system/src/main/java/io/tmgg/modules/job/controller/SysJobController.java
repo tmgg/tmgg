@@ -92,7 +92,7 @@ public class SysJobController {
     }
 
 
-    @PostMapping("delete")
+    @RequestMapping("delete")
     public AjaxResult delete(String id) throws SchedulerException {
         service.deleteJob(id);
         return AjaxResult.ok().msg("删除成功");

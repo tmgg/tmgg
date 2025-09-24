@@ -66,7 +66,7 @@ public class SysMenuController {
 
 
     @HasPermission
-    @PostMapping("delete")
+    @RequestMapping("delete")
     public AjaxResult delete(String id) {
         sysMenuService.deleteById(id);
         return AjaxResult.ok().msg("删除成功");
