@@ -19,9 +19,6 @@
         <module>tmgg-base</module>
         <module>tmgg-system</module>
         <module>tmgg-system-plugins</module>
-
-        <!-- 以下模块可不参与打包-->
-        <module>tmgg-script</module>
     </modules>
 
 
