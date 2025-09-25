@@ -4,6 +4,9 @@
 
 ![Maven Central Version](https://img.shields.io/maven-central/v/io.github.tmgg/tmgg-system-parent)
 
+
+使用示例模板快速开始： https://github.com/tmgg/tmgg-demo.git
+
 ## 功能介绍
 
 - 基于角色的权限控制
