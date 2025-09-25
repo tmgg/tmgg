@@ -158,7 +158,7 @@ public class FilePreviewController {
                     IOUtils.copyLarge(inputStream, outputStream);
                 }
             } finally {
-                // IOUtils.close(inputStream, outputStream);
+                 IOUtils.close(inputStream);
             }
         }
     }
