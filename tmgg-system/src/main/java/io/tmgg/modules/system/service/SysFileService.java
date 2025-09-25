@@ -358,10 +358,8 @@ public class SysFileService {
     }
 
     public static void main(String[] args) {
-        String mimeType = FileUtil.getMimeType("D:\\迅雷下载\\0199756bbd047f87a2c44fceff84ca23.mp4");
-        System.out.println(mimeType);
 
-        MediaType mediaType = MediaType.parseMediaType("video/mp4");
+        MediaType mediaType = MediaType.parseMediaType("f87a2c44fceff84ca23.mp4");
         System.out.println(mediaType);
     }
 

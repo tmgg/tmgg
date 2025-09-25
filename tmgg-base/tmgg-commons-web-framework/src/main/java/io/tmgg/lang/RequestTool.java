@@ -71,5 +71,15 @@ public class RequestTool {
         return null;
     }
 
+    public static Map<String,String> getHeaders(HttpServletRequest request){
+        Map<String,String> headers = new HashMap<>();
+        Enumeration<String> headerNames = request.getHeaderNames();
+        while (headerNames.hasMoreElements()){
+            String name = headerNames.nextElement();
+            headers.put(name,request.getHeader(name));
+        }
+        return headers;
+    }
+
 
 }

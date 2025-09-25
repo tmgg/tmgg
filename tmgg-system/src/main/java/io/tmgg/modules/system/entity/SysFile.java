@@ -3,6 +3,7 @@ package io.tmgg.modules.system.entity;
 
 import cn.hutool.core.io.FileUtil;
 import io.tmgg.framework.data.fill.FillDictText;
+import io.tmgg.lang.ContentTypeTool;
 import io.tmgg.lang.RequestTool;
 import io.tmgg.lang.enums.MaterialType;
 import io.tmgg.web.persistence.BaseEntity;
@@ -99,6 +100,11 @@ public class SysFile extends BaseEntity {
             return FileUtil.readableFileSize(size);
         }
         return null;
+    }
+
+    @Transient
+    public String getContentType(){
+        return ContentTypeTool.getContentTypeByExtension(getSuffix());
     }
 
     @Transient

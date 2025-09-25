@@ -2,8 +2,10 @@
 package io.tmgg.framework.error;
 
 import cn.hutool.core.util.StrUtil;
+import io.tmgg.jackson.JsonTool;
 import io.tmgg.lang.ExceptionToMessageTool;
 import io.tmgg.lang.HttpServletTool;
+import io.tmgg.lang.RequestTool;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.modules.system.service.SysConfigService;
 import io.tmgg.web.CodeException;
@@ -53,7 +55,15 @@ public class GlobalExceptionHandler {
     private SysConfigService sysConfigService;
 
 
-
+    /**
+     * 拦截未知的运行时异常
+     */
+    @ExceptionHandler(Throwable.class)
+    public AjaxResult throwable(Throwable e, HttpServletRequest request) {
+        log.error(">>> 服务器运行异常 ", e);
+        log.info("请求地址 {}", request.getRequestURI());
+        return AjaxResult.err().msg(ExceptionToMessageTool.convert(e));
+    }
 
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
@@ -166,14 +176,7 @@ public class GlobalExceptionHandler {
         return AjaxResult.err().msg(ExceptionToMessageTool.convert(e));
     }
 
-    /**
-     * 拦截未知的运行时异常
-     */
-    @ExceptionHandler(Throwable.class)
-    public AjaxResult serverError(Throwable e) {
-        log.error(">>> 服务器运行异常 ", e);
-        return AjaxResult.err().msg(ExceptionToMessageTool.convert(e));
-    }
+
 
     // io中断，如预览视频
     @ExceptionHandler(AsyncRequestNotUsableException.class)
