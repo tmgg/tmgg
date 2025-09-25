@@ -342,9 +342,9 @@ public class SysFileService {
             return file.getObjectName();
         }
 
-        String baseName = FileNameUtil.mainName(file.getObjectName());
-
-        return baseName + "_" + size + "." + file.getSuffix();
+        String end = "." + file.getSuffix();
+        String sizeEnd = "_" + size + "." + file.getSuffix();
+        return file.getObjectName().replace(end, sizeEnd);
     }
 
 }
