@@ -54,7 +54,7 @@ import java.util.List;
 @Slf4j
 public class SysFileService {
 
-    public static final String PREVIEW_URL_PATTERN = "/sysFile/preview/{id}";
+    public static final String PREVIEW_URL_PATTERN = "/preview/{id}";
     public static final String DOWNLOAD_URL_PATTERN = "/sysFile/download/{id}";
 
 
@@ -193,7 +193,7 @@ public class SysFileService {
         String id = IdTool.uuidV7();
 
         // 生成文件的最终名称
-        String objectName = buildObjectName(id, suffix, null);
+        String objectName = genObjectName(id, suffix, null);
 
         // 存储文件信息
         SysFile sysFile = new SysFile();
@@ -222,7 +222,7 @@ public class SysFileService {
                 int imageSize = IMAGE_SIZE[i];
                 File tempImageFile = ImgTool.scale(tempFile, imageSize);
                 if (tempImageFile != null) {
-                    String imageObjectName = buildObjectName(id, suffix, imageSize);
+                    String imageObjectName = genObjectName(id, suffix, imageSize);
                     fileOperator.saveFile(imageObjectName, tempImageFile);
                     FileUtil.del(tempImageFile);
                 }
@@ -237,15 +237,6 @@ public class SysFileService {
         return sysFile;
     }
 
-    @NotNull
-    private String buildObjectName(String id, String suffix, Integer size) {
-        String baseName = id;
-        if (size != null) {
-            baseName += "_" + size;
-        }
-        return DateUtil.format(new Date(), "yyyyMM") + "/" + baseName + "." + suffix;
-    }
-
 
     public SysFile getFileAndStream(String fileId, Integer w) throws Exception {
         Assert.hasText(fileId, "文件id不能为空");
@@ -253,36 +244,15 @@ public class SysFileService {
         SysFile sysFile = sysFileDao.findOne(fileId);
         Assert.notNull(sysFile, "文件数据记录不存在");
 
-        String objectName = buildObjectName(fileId, sysFile.getSuffix(), w);
-
         // 返回文件字节码
-        InputStream is = fileOperator.getFileStream(objectName);
-        sysFile.setInputStream(is);
+        sysFile.setInputStream(getFileStream(sysFile, w));
 
         return sysFile;
     }
 
-    public InputStream getFileStream(String fileId) throws Exception {
-        // 获取文件名
-        SysFile sysFile = sysFileDao.findOne(fileId);
-
-        return fileOperator.getFileStream(sysFile.getObjectName());
-    }
-
-
-    public ResponseEntity<InputStreamResource> preview(String id, Integer w) {
-        try {
-            SysFile sysFile = this.getFileAndStream(id, w);
-            String fileName = sysFile.getId() + "." + sysFile.getSuffix();
-
-            return ResponseEntity.ok()
-                    .contentType(MediaType.parseMediaType(sysFile.getMimeType()))
-                    .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + URLUtil.encode( fileName) + "\"")
-                    .body(new InputStreamResource(sysFile.getInputStream()));
-        } catch (Exception e) {
-            log.error("预览文件失败:{}", e.getMessage());
-            return ResponseEntity.notFound().build();
-        }
+    public InputStream getFileStream(SysFile sysFile, Integer w) throws Exception {
+        String objectName = getObjectName(sysFile, w);
+        return fileOperator.getFileStream(objectName);
     }
 
 
@@ -357,10 +327,24 @@ public class SysFileService {
         return fileOperator.exist(file.getObjectName());
     }
 
-    public static void main(String[] args) {
+    @NotNull
+    private String genObjectName(String id, String suffix, Integer size) {
+        String baseName = id;
+        if (size != null) {
+            baseName += "_" + size;
+        }
+        return DateUtil.format(new Date(), "yyyyMM") + "/" + baseName + "." + suffix;
+    }
 
-        MediaType mediaType = MediaType.parseMediaType("f87a2c44fceff84ca23.mp4");
-        System.out.println(mediaType);
+    @NotNull
+    private String getObjectName(SysFile file, Integer size) {
+        if (size == null) {
+            return file.getObjectName();
+        }
+
+        String baseName = FileNameUtil.mainName(file.getObjectName());
+
+        return baseName + "_" + size + "." + file.getSuffix();
     }
 
 }

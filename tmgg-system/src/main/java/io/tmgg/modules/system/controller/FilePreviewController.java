@@ -1,11 +1,7 @@
 package io.tmgg.modules.system.controller;
 
 import cn.hutool.core.util.URLUtil;
-import io.tmgg.jackson.JsonTool;
-import io.tmgg.lang.ExceptionToMessageTool;
-import io.tmgg.lang.RequestTool;
 import io.tmgg.lang.ann.PublicRequest;
-import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.modules.system.entity.SysFile;
 import io.tmgg.modules.system.service.SysFileService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -45,6 +41,7 @@ public class FilePreviewController {
     @GetMapping({"preview/{id}", "sysFile/preview/{id}", "sysFile/preview/{id}.{suffix}"})
     public ResponseEntity<StreamingResponseBody> previewFile(@PathVariable String id,
                                                              HttpServletRequest request,
+                                                             Integer w, // 图片宽度
                                                              HttpServletResponse response, @PathVariable(required = false) String suffix) {
         SysFile file = sysFileService.findOne(id);
         if (file == null) {
@@ -54,9 +51,8 @@ public class FilePreviewController {
         if (!allowedPreviewTypes.contains(fileExtension)) {
             return ResponseEntity.badRequest().build();
         }
-
         try {
-            InputStream inputStream = sysFileService.getFileStream(file.getId());
+            InputStream inputStream = sysFileService.getFileStream(file, w);
 
             String rangeHeader = request.getHeader("Range");
 
