@@ -54,6 +54,10 @@ public class SysProp {
      */
     private int loginLockMaxAttempts = 10;
 
+    /**
+     * 本地上传文件路径
+     */
+    private String fileUploadPath = "/home/files";
 
 
 }

@@ -113,7 +113,7 @@ public class SysRoleService extends BaseService<SysRole> {
         sysRole.setName("管理员");
         sysRole.setPerms(List.of("*"));
         sysRole.setBuiltin(true);
-        sysRole.setRemark("内置管理员");
+        sysRole.setRemark("系统生成");
 
         return roleDao.save(sysRole);
     }

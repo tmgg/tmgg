@@ -129,15 +129,7 @@ public class SysConfigService extends BaseService<SysConfig> {
         return getStr("sys.default.password");
     }
 
-    /**
-     * 获取自定义的windows或linux环境本地文件上传路径
-     */
-    public String getFileUploadPath() {
-        boolean isWin = SystemUtil.getOsInfo().isWindows();
-        String key = isWin ? "sys.fileUploadPath.windows" : "sys.fileUploadPath.linux";
 
-        return getStr(key);
-    }
 
 
     public boolean getMultiDeviceLogin() {

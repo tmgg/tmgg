@@ -11,6 +11,6 @@ logging:
   file:
     path: ./logs
   level:
-    io.tmgg: debug
+    io.tmgg: trace
 
 

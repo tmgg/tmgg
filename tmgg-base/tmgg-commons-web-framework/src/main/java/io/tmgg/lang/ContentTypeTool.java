@@ -1,10 +1,14 @@
 package io.tmgg.lang;
 
+import cn.hutool.core.util.StrUtil;
 import org.springframework.http.MediaType;
 import org.springframework.util.StringUtils;
 
 public class ContentTypeTool {
 
+    public static boolean isVideo(String contentType){
+        return StrUtil.startWith(contentType, "video");
+    }
 
     /**
      * 根据文件扩展名获取Content-Type字符串

@@ -10,18 +10,7 @@
     },
 
 
-    {
-      "id": "sys.fileUploadPath.windows",
-      "label": "win本地上传文件路径",
-      "defaultValue": "/data/uploadFiles",
-      "$update": false
-    },
-    {
-      "id": "sys.fileUploadPath.linux",
-      "label": "linux/mac本地上传文件路径",
-      "defaultValue": "/home/files",
-      "$update": false
-    },
+
     {
       "id": "sys.multiDeviceLogin",
       "label": "多端登录",

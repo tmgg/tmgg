@@ -1,5 +1,6 @@
 package io.tmgg.init;
 
+import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
@@ -31,6 +32,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
+import java.util.Date;
 
 /**
  * 系统数据初始化
@@ -159,29 +161,34 @@ public class SystemDataInit implements CommandLineRunner {
 
 
     private void initUser(SysRole adminRole) {
-        SysUser admin = sysUserDao.findByAccount("superAdmin");
+        String id = "admin";
+        SysUser admin = sysUserDao.findOne(id);
 
+        log.info("-------------------------------------------");
         if (admin == null) {
-            log.info("创建默认管理员");
+            String account = "admin" + DateUtil.format(new Date(), "yyyyMMdd");
+
             admin = new SysUser();
-            admin.setAccount("superAdmin");
+            admin.setId(id);
+            admin.setAccount(account);
             admin.setName("管理员");
             admin.setEnabled(true);
             admin.getRoles().add(adminRole);
             admin.setDataPermType(DataPermType.ALL);
-
+            String defaultPassWord = IdUtil.fastSimpleUUID();
+            admin.setPassword(PasswordTool.encode(defaultPassWord));
             admin = sysUserDao.save(admin);
+            log.info("创建默认管理员 {}", admin.getAccount());
+            log.info("默认密码为： {}", defaultPassWord);
         }
 
         if (StrUtil.isBlankIfStr(admin.getPassword())) {
             String defaultPassWord = IdUtil.fastSimpleUUID();
             admin.setPassword(PasswordTool.encode(defaultPassWord));
-            log.info("-------------------------------------------");
-            log.info("管理员密码为 {}", defaultPassWord);
-            log.info("-------------------------------------------");
+            log.info("管理员密码重置为 {}", defaultPassWord);
             sysUserDao.save(admin);
         }
-
+        log.info("-------------------------------------------");
     }
 
 

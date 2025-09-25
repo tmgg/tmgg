@@ -83,6 +83,8 @@ public class LocalFileOperator implements FileOperator {
     @Override
     public boolean exist(String key) {
         String absoluteFile = getAbsoluteFile(key);
-        return FileUtil.exist(absoluteFile);
+        boolean exist = FileUtil.exist(absoluteFile);
+        log.trace("判单文件是否存在 {} {}", absoluteFile, exist);
+        return exist;
     }
 }

@@ -37,10 +37,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -252,6 +249,12 @@ public class SysFileService {
 
     public InputStream getFileStream(SysFile sysFile, Integer w) throws Exception {
         String objectName = getObjectName(sysFile, w);
+        boolean exist = fileOperator.exist(objectName);
+        if(!exist){
+            log.error("文件不存在 {}", objectName);
+            throw new FileNotFoundException("文件不存在:" + objectName);
+        }
+
         return fileOperator.getFileStream(objectName);
     }
 
@@ -344,7 +347,9 @@ public class SysFileService {
 
         String end = "." + file.getSuffix();
         String sizeEnd = "_" + size + "." + file.getSuffix();
-        return file.getObjectName().replace(end, sizeEnd);
+        String sizeObjectName = file.getObjectName().replace(end, sizeEnd);
+        log.info("获取截取后的 {}", sizeObjectName);
+        return sizeObjectName;
     }
 
 }
