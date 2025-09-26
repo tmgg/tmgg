@@ -26,23 +26,6 @@ public class SysMenuBadgeController  extends BaseController<SysMenuBadge>{
     @Resource
     SysMenuService sysMenuService;
 
-    @Override
-    public AjaxResult page(Map<String, Object> param, String searchText, Pageable pageable) throws Exception {
-        Map<String, SysMenu> menuMap = sysMenuService.findMenuMap();
-
-        Page<SysMenuBadge> page = service.findAll( pageable);
-
-        for (SysMenuBadge m : page) {
-            String menuId = m.getMenuId();
-            SysMenu sysMenu = menuMap.get(menuId);
-            if(sysMenu !=null){
-                m.setMenuName(sysMenu.getName());
-            }
-        }
-
-        return AjaxResult.ok().data(page);
-    }
-
 
 
 

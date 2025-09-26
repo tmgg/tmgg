@@ -3,16 +3,13 @@ package io.tmgg.web.persistence;
 
 import cn.hutool.core.date.DatePattern;
 import cn.hutool.core.date.DateUtil;
-import io.tmgg.lang.HttpServletTool;
 import io.tmgg.lang.ann.RemarkTool;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.obj.Option;
 import io.tmgg.lang.obj.table.Table;
 import io.tmgg.lang.poi.ExcelExportTool;
-import io.tmgg.web.WebConstants;
 import io.tmgg.web.persistence.specification.JpaQuery;
 import jakarta.persistence.Transient;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.experimental.Delegate;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,35 +72,19 @@ public abstract class BaseService<T extends PersistEntity> {
     }
 
 
-    public  <B> Page<B> convertDto(Page<T> pageA, Converter<T, B> converter) {
+    public <B> Page<B> convertDto(Page<T> pageA, Converter<T, B> converter) {
         List<B> listB = new ArrayList<>();
         for (T a : pageA) {
             B b = converter.convert(a);
             listB.add(b);
         }
 
-        PageImpl<B> page = new PageImpl<>(listB,pageA.getPageable(),pageA.getTotalElements());
+        PageImpl<B> page = new PageImpl<>(listB, pageA.getPageable(), pageA.getTotalElements());
         return page;
     }
 
 
-
-    public static String getExportType() {
-        HttpServletRequest request = HttpServletTool.getRequest();
-        Assert.notNull(request, "request不能为空");
-
-        return request.getHeader(WebConstants.HEADER_EXPORT_TYPE);
-    }
-
-    /**
-     * 自定渲染，vo的情况
-     */
-    public <T> AjaxResult autoRender(Page<T> page, Class<T> cls) throws Exception {
-        String exportType = getExportType();
-        if (exportType == null) {
-            return AjaxResult.ok().data(page);
-        }
-
+    public void exportExcel(Page<T> page, Class<T> cls) throws Exception {
         String fileName = RemarkTool.getRemark(cls);
         if (fileName == null) {
             fileName = cls.getSimpleName();
@@ -114,12 +95,8 @@ public abstract class BaseService<T extends PersistEntity> {
         // 分页数据转换下
         Table<T> tableData = Table.of(page.getContent(), cls);
 
-        if (exportType.equals("EXCEL")) {
-            ExcelExportTool.exportTable(fileName + ".xlsx", tableData);
-        }
+        ExcelExportTool.exportTable(fileName + ".xlsx", tableData);
 
-
-        return null;
     }
 
 
@@ -190,7 +167,6 @@ public abstract class BaseService<T extends PersistEntity> {
             return Option.builder().label(label).value(value).build();
         }).collect(Collectors.toList());
     }
-
 
 
 }

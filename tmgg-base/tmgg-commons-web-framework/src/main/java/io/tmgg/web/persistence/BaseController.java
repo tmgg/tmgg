@@ -1,6 +1,7 @@
 package io.tmgg.web.persistence;
 
 import io.tmgg.lang.obj.AjaxResult;
+import io.tmgg.web.WebConstants;
 import io.tmgg.web.annotion.HasPermission;
 import io.tmgg.web.argument.RequestBodyKeys;
 import io.tmgg.web.persistence.specification.JpaQuery;
@@ -9,10 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
@@ -29,20 +27,27 @@ public abstract class BaseController<T extends PersistEntity> {
 
     @HasPermission
     @RequestMapping("page")
-    public AjaxResult page(@RequestParam  Map<String, Object> param, String searchText, @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) throws Exception {
+    public AjaxResult page(   @RequestParam Map<String, Object> param, String searchText,
+            @RequestHeader(value = WebConstants.HEADER_EXPORT_TYPE, required = false) String exportType, // 导出标志
+            @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) throws Exception {
         JpaQuery<T> q = new JpaQuery<>();
         q.searchText(searchText, service.getSearchableFields());
 
         // 移除分页参数后再查询
         param.remove("size");
         param.remove("page");
-        q.searchParams(param,service.getDomainClass());
+        q.searchParams(param, service.getDomainClass());
 
         Page<T> page = service.findAllByClient(q, pageable);
 
+        if (exportType.equals("EXCEL")) {
+            service.exportExcel(page, service.getDomainClass());
+            return null;
+        }
 
-        return service.autoRender(page, service.getDomainClass());
+        return AjaxResult.ok().data(page);
     }
+
 
     @HasPermission
     @PostMapping("save")
