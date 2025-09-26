@@ -34,6 +34,10 @@ const {info} = this.state;
                                 <td align='right'>{info.name}</td>
                             </tr>
                             <tr>
+                                <td>账号</td>
+                                <td align='right'>{info.account}</td>
+                            </tr>
+                            <tr>
                                 <td>手机号码</td>
                                 <td>{info.phone}</td>
                             </tr>
