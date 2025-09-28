@@ -8,7 +8,6 @@ import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.flowable.engine.HistoryService;
-import org.flowable.engine.RuntimeService;
 import org.flowable.engine.TaskService;
 import org.flowable.engine.history.HistoricProcessInstance;
 import org.flowable.engine.history.HistoricProcessInstanceQuery;
@@ -48,7 +47,7 @@ public class InstanceController {
                     .desc();
             List<HistoricProcessInstance> list = query
                     .listPage(0, 1);
-            Assert.state(list.size() > 0, "暂无流程信息");
+            Assert.state(!list.isEmpty(), "暂无流程信息");
             HistoricProcessInstance instance = list.get(0);
 
             id = instance.getId();
@@ -67,7 +66,7 @@ public class InstanceController {
                     .desc();
             List<HistoricProcessInstance> list = query
                     .listPage(0, 1);
-            Assert.state(list.size() > 0, "暂无流程信息");
+            Assert.state(!list.isEmpty(), "暂无流程信息");
             HistoricProcessInstance instance = list.get(0);
 
             id = instance.getId();
