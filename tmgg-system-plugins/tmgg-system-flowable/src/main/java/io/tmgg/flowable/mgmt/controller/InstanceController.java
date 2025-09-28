@@ -39,9 +39,6 @@ public class InstanceController {
     @Resource
     private TaskService taskService;
 
-    @Resource
-    RuntimeService runtimeService;
-
     @GetMapping("img")
     public void instanceImg(String businessKey, String id, HttpServletResponse response) throws IOException {
         if (StringUtils.isNotEmpty(businessKey)) {
