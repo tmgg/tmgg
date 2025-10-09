@@ -12,6 +12,7 @@ import io.tmgg.modules.api.entity.ApiResourceArgumentReturn;
 import io.tmgg.modules.api.entity.ApiResource;
 import io.tmgg.modules.api.service.ApiResourceService;
 import jakarta.annotation.Resource;
+import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.StandardReflectionParameterNameDiscoverer;
@@ -31,10 +32,14 @@ import java.util.*;
  * @see DefaultApi
  */
 @Component
+@Slf4j
 public class ApiInitRunner implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+        log.info("清空原始接口...");
+        service.deleteAll();
+        log.info("解析接口...");
         init();
     }
 
@@ -47,9 +52,7 @@ public class ApiInitRunner implements CommandLineRunner {
             if (StrUtil.startWithAny(pkg, basePackageNames)) {
                 saveOne(beanName,bean);
             }
-
         });
-
     }
 
     private void saveOne(String beanName, Object bean) {
