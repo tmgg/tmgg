@@ -118,7 +118,7 @@ export default class extends React.Component {
                 columns={this.columns}
             />
 
-            <Modal title='访客权限'
+            <Modal title='账号权限'
                    open={this.state.formOpen}
                    onOk={() => this.formRef.current.submit()}
                    onCancel={() => this.setState({formOpen: false})}
@@ -135,7 +135,6 @@ export default class extends React.Component {
                     <Form.Item label='接口' name={['resource', 'id']} rules={[{required: true}]}>
                         <FieldTableSelect url='apiResource/tableSelect' labelKey='name'/>
                     </Form.Item>
-
 
 
                     <Form.Item label='启用' name='enable' rules={[{required: true}]}>

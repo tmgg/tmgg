@@ -11,6 +11,7 @@ import io.tmgg.web.pojo.param.DropdownParam;
 import jakarta.annotation.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,7 +25,7 @@ public class ApiResourceController extends BaseController<ApiResource> {
 
 
     @RequestMapping("tableSelect")
-    public AjaxResult tableSelect(DropdownParam param, Pageable pageable) {
+    public AjaxResult tableSelect(DropdownParam param, @PageableDefault(sort = "id") Pageable pageable) {
         JpaQuery<ApiResource> q = new JpaQuery<>();
         q.searchText(param.getSearchText(), ApiResource.Fields.name, ApiResource.Fields.path, ApiResource.Fields.desc);
 
@@ -35,11 +36,9 @@ public class ApiResourceController extends BaseController<ApiResource> {
 
         Page<ApiResource> page = service.findAll(q,pageable);
 
-
-
         Table<ApiResource> tb = new Table<>(page);
-        tb.addColumn("标识", "id");
         tb.addColumn("名称", ApiResource.Fields.name).setSorter(true);
+        tb.addColumn("标识", "id");
         tb.addColumn("路径", ApiResource.Fields.path).setSorter(true);
         tb.addColumn("描述", ApiResource.Fields.desc);
 
