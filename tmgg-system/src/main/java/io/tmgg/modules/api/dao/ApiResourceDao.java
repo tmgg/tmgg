@@ -13,4 +13,10 @@ public class ApiResourceDao extends BaseDao<ApiResource> {
         q.eq(ApiResource.Fields.action, action);
         return this.findOne(q);
     }
+
+    public ApiResource findByName(String name){
+        JpaQuery<ApiResource> q = new JpaQuery<>();
+        q.eq(ApiResource.Fields.name, name);
+        return this.findOne(q);
+    }
 }

@@ -37,11 +37,11 @@ export default class extends React.Component {
         },
 
         {
-            title: '资源',
+            title: '接口名称',
             dataIndex: ['resource', 'name'],
         },
         {
-            title: '动作',
+            title: '接口动作',
             dataIndex: ['resource', 'action'],
         },
         {

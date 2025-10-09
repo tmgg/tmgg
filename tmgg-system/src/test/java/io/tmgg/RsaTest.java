@@ -1,4 +1,4 @@
-package io.github.tmgg.test;
+package io.tmgg;
 
 import cn.hutool.crypto.SecureUtil;
 import cn.hutool.crypto.asymmetric.KeyType;

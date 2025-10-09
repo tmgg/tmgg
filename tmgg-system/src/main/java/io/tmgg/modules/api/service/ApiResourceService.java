@@ -4,11 +4,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.tmgg.lang.ann.Remark;
 import io.tmgg.lang.field.FieldInfo;
 import io.tmgg.modules.api.ApiMapping;
+import io.tmgg.modules.api.dao.ApiResourceDao;
+import io.tmgg.modules.api.entity.ApiResource;
 import io.tmgg.modules.api.entity.ApiResourceArgument;
 import io.tmgg.modules.api.entity.ApiResourceArgumentReturn;
 import io.tmgg.web.persistence.BaseService;
-import io.tmgg.modules.api.dao.ApiResourceDao;
-import io.tmgg.modules.api.entity.ApiResource;
 import jakarta.annotation.Resource;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.core.StandardReflectionParameterNameDiscoverer;
@@ -30,6 +30,9 @@ public class ApiResourceService extends BaseService<ApiResource> {
     @Resource
     private ApiResourceDao dao;
 
+    @Resource
+    private ApiAccountResourceService accountResourceService;
+
 
     private final Map<String, Method> pathBindings = new HashMap<>();
 
@@ -44,15 +47,15 @@ public class ApiResourceService extends BaseService<ApiResource> {
 
     @Transactional
     public void add(ApiResource r) {
-        ApiResource old = dao.findByAction(r.getAction());
-        if(old != null){
-
-            try {
+        ApiResource old = dao.findByName(r.getName());
+        if (old != null) {
+            if (!old.getAction().equals(r.getAction())) {
+                accountResourceService.deleteByResource(old);
                 dao.delete(old);
-            }catch (Exception e){
-
+                dao.flush();
             }
         }
+
 
         dao.save(r);
         pathBindings.put(r.getAction(), r.getMethod());
@@ -60,7 +63,7 @@ public class ApiResourceService extends BaseService<ApiResource> {
 
 
     public List<ApiResource> removeNotExist(List<ApiResource> list) {
-        return list.stream().filter(t->pathBindings.containsKey(t.getAction())).toList();
+        return list.stream().filter(t -> pathBindings.containsKey(t.getAction())).toList();
     }
 
     @Transactional
@@ -119,7 +122,7 @@ public class ApiResourceService extends BaseService<ApiResource> {
                     a.setRequired(f.required());
                     a.setDesc(f.label());
                     a.setDemo(f.demo());
-                    if(f.len() > 0){
+                    if (f.len() > 0) {
                         a.setLen(f.len());
                     }
                 }
@@ -131,7 +134,7 @@ public class ApiResourceService extends BaseService<ApiResource> {
     }
 
 
-    public List<ApiResourceArgumentReturn> parseReturnArgs(Method method){
+    public List<ApiResourceArgumentReturn> parseReturnArgs(Method method) {
         Class<?> returnType = method.getReturnType();
 
 
@@ -160,14 +163,14 @@ public class ApiResourceService extends BaseService<ApiResource> {
             }
 
             ApiResourceArgumentReturn dict = new ApiResourceArgumentReturn();
-            dict.setName( field.getName());
+            dict.setName(field.getName());
             dict.setType(field.getType().getSimpleName());
 
             FieldInfo f = field.getAnnotation(FieldInfo.class);
             if (f != null) {
                 dict.setRequired(f.required());
-                dict.setDesc( f.label());
-                dict.setDemo( f.demo());
+                dict.setDesc(f.label());
+                dict.setDemo(f.demo());
             } else {
                 Remark msg = field.getAnnotation(Remark.class);
                 if (msg != null) {
@@ -180,4 +183,7 @@ public class ApiResourceService extends BaseService<ApiResource> {
         return list;
     }
 
+    public ApiResource findAction(String action) {
+        return dao.findByAction(action);
+    }
 }

@@ -28,15 +28,25 @@ public class ApiAccountResourceService extends BaseService<ApiAccountResource> {
         return resourceList;
     }
 
-    public ApiAccountResource findByAccountAndPath(ApiAccount account, String uri) {
+    public ApiAccountResource findByAccountAndAction(ApiAccount account, String action) {
         JpaQuery<ApiAccountResource> q = new JpaQuery<>();
         q.eq(ApiAccountResource.Fields.account, account);
-        q.eq(ApiAccountResource.Fields.resource + "." + ApiResource.Fields.action, uri);
+        q.eq(ApiAccountResource.Fields.resource + "." + ApiResource.Fields.action, action);
 
         return this.findOne(q);
-
     }
 
 
+    public void deleteByResource(ApiResource r) {
+        JpaQuery<ApiAccountResource> q = new JpaQuery<>();
+        q.eq(ApiAccountResource.Fields.resource, r);
+
+        ApiAccountResource old = findOne(q);
+
+        if(old != null){
+            baseDao.delete(old);
+        }
+
+    }
 }
 

@@ -58,8 +58,8 @@ public class ApiGatewayController {
         Assert.state(Math.abs(diffTime) < TIME_DIFF_LIMIT, "请求时间戳与服务器时间差异过大（" + diffTime + "秒）");
 
 
-        ApiAccount account = apiAccountService.findOne(appId);
-        Assert.notNull(account, "账号不存在");
+        ApiAccount account = apiAccountService.findByAppId(appId);
+        Assert.notNull(account, "账号不存在" + account);
         Assert.state(account.getEnable(), "账号已禁用");
 
 
@@ -79,7 +79,7 @@ public class ApiGatewayController {
         Assert.notNull(method, "接口不存在,接口：" + action);
 
         // 校验权限
-        ApiAccountResource ar = accountResourceService.findByAccountAndPath(account, action);
+        ApiAccountResource ar = accountResourceService.findByAccountAndAction(account, action);
         Assert.notNull(ar, "账号没有权限, uri: " + action);
         Assert.state(ar.getEnable(), "您的权限已被禁用, action: " + action);
 

@@ -30,9 +30,9 @@ public class ApiClient {
     }
 
 
-    public String send(String path, Map<String, Object> params) {
+    public String send(String action, Map<String, Object> params) {
         long timestamp = System.currentTimeMillis();
-        String url = baseUrl + "/api/gateway/" + path;
+        String url = baseUrl + "/api/gateway/" + action;
 
 
         String sign = ApiSignTool.sign(appId, appSecret, timestamp);

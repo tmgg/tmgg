@@ -1,4 +1,4 @@
-package io.github.tmgg.test;
+package io.tmgg;
 
 import cn.hutool.setting.yaml.YamlUtil;
 import io.tmgg.modules.system.entity.SysConfig;

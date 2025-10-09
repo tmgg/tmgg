@@ -201,19 +201,6 @@
 
 
 
-        <!-- 测试-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <!-- 文件型数据库，方便cicd测试-->
-        <dependency>
-            <groupId>org.apache.derby</groupId>
-            <artifactId>derby</artifactId>
-            <version>10.14.2.0</version>
-            <scope>test</scope>
-        </dependency>
 
 
         <!-- 主要使用uuid7 (按时间排序，mysql用)-->
