@@ -22,7 +22,7 @@ public class ApiResourceService extends BaseService<ApiResource> {
 
     private final Map<String, Method> pathBindings = new HashMap<>();
 
-    public Method findMethodByPath(String action) {
+    public Method findMethodByAction(String action) {
         return pathBindings.get(action);
     }
 

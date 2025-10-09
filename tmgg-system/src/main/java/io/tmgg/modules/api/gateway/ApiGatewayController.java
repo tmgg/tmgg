@@ -41,9 +41,9 @@ public class ApiGatewayController {
     private ApiAccessLogService accessLogService;
 
 
-    @PostMapping("{path}")
+    @PostMapping("{action}")
     public AjaxResult process(
-            @PathVariable String path,
+            @PathVariable String action,
             @RequestHeader String appId,
             @RequestHeader long timestamp,
             @RequestHeader String sign,
@@ -75,13 +75,13 @@ public class ApiGatewayController {
         String calcSign = ApiSignTool.sign(appId, appSecret, timestamp);
         Assert.state(sign.equals(calcSign), "签名错误");
 
-        Method method = apiResourceService.findMethodByPath(path);
-        Assert.notNull(method, "接口不存在,接口：" + path);
+        Method method = apiResourceService.findMethodByAction(action);
+        Assert.notNull(method, "接口不存在,接口：" + action);
 
         // 校验权限
-        ApiAccountResource ar = accountResourceService.findByAccountAndPath(account, path);
-        Assert.notNull(ar, "账号没有权限, uri: " + path);
-        Assert.state(ar.getEnable(), "您的权限已被禁用, path: " + path);
+        ApiAccountResource ar = accountResourceService.findByAccountAndPath(account, action);
+        Assert.notNull(ar, "账号没有权限, uri: " + action);
+        Assert.state(ar.getEnable(), "您的权限已被禁用, action: " + action);
 
 
 

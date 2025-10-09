@@ -8,7 +8,7 @@ export default class extends React.Component {
         return <ProTable
             columns={[
                 {dataIndex: 'name', title: '名称'},
-                {dataIndex: 'uri', title: '路径'},
+                {dataIndex: 'action', title: '动作'},
                 {dataIndex: 'desc', title: '描述'},
 
             ]}

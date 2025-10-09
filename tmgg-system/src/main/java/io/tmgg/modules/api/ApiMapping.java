@@ -16,7 +16,7 @@ public @interface ApiMapping {
 	/**
 	 * Api资源定位
 	 */
-	String path();
+	String action();
 
 
 	/**

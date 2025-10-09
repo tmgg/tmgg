@@ -66,9 +66,9 @@ public class ApiInitRunner implements CommandLineRunner {
             }
 
             ApiResource r = new ApiResource();
-            r.setId(api.path());
+            r.setId(api.action());
             r.setName(api.name());
-            r.setPath(api.path());
+            r.setPath(api.action());
             r.setDesc(api.desc());
             r.setBeanName(beanName);
 
