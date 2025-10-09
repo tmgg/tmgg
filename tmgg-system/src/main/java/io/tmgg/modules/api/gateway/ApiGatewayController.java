@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.*;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Map;
-import java.util.TreeMap;
 
 @Slf4j
 @RestController
@@ -76,14 +75,15 @@ public class ApiGatewayController {
         String calcSign = ApiSignTool.sign(appId, appSecret, timestamp);
         Assert.state(sign.equals(calcSign), "签名错误");
 
+        Method method = apiResourceService.findMethodByPath(path);
+        Assert.notNull(method, "接口不存在,接口：" + path);
 
         // 校验权限
         ApiAccountResource ar = accountResourceService.findByAccountAndPath(account, path);
         Assert.notNull(ar, "账号没有权限, uri: " + path);
         Assert.state(ar.getEnable(), "您的权限已被禁用, path: " + path);
 
-        Method method = apiResourceService.findMethodByAction(path);
-        Assert.notNull(method, "接口不存在,接口：" + path);
+
 
         String clientIP = JakartaServletUtil.getClientIP(request);
         Assert.state(StrUtil.isEmpty(account.getAccessIp()) || account.getAccessIp().contains(clientIP), "IP访问限制,您的IP为" + clientIP);
