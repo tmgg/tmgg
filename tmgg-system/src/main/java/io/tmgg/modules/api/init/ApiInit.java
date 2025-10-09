@@ -10,6 +10,7 @@ import io.tmgg.modules.api.service.ApiResourceService;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -22,6 +23,7 @@ import java.util.*;
  */
 @Component
 @Slf4j
+@Order(Integer.MAX_VALUE)
 public class ApiInit implements CommandLineRunner {
 
     @Override
