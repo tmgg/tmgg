@@ -11,7 +11,7 @@ export default class extends React.Component {
         appId: null,
         apiList: [],
         frameworkVersion: null,
-
+        errorList:[]
     }
 
     columns = [
@@ -30,10 +30,9 @@ export default class extends React.Component {
 
     componentDidMount() {
         const id = PageUtil.currentParams().id
-        this.setState({appId: id})
 
         HttpUtil.get('apiAccount/docInfo', {id}).then(rs => {
-            this.setState({apiList: rs.apiList, frameworkVersion: rs.frameworkVersion})
+            this.setState(rs)
         })
 
         let url = window.location.protocol + '//' + window.location.host
@@ -124,6 +123,12 @@ export default class extends React.Component {
                     </>
                 })}
 
+                <Typography.Title level={2}>3 公共错误码</Typography.Title>
+                <Table columns={[
+                    {dataIndex:'code',title:'错误码'},
+                    {dataIndex:'message', title:'错误描述'}
+                ]} rowKey='code' bordered dataSource={this.state.errorList} size='small' pagination={false}>
+                </Table>
             </div>
         </div>
     }

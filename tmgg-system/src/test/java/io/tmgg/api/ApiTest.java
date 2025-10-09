@@ -2,6 +2,7 @@ package io.tmgg.api;
 
 import io.tmgg.jackson.JsonTool;
 import io.tmgg.modules.api.ApiClient;
+import io.tmgg.modules.api.ApiErrorCode;
 import io.tmgg.modules.api.entity.ApiAccount;
 import io.tmgg.modules.api.entity.ApiAccountResource;
 import io.tmgg.modules.api.entity.ApiResource;
@@ -13,7 +14,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
 
 import java.io.IOException;
@@ -35,6 +35,7 @@ public class ApiTest {
 
     @LocalServerPort
     private int port;
+    private ApiClient client;
 
 
     @BeforeEach
@@ -58,15 +59,16 @@ public class ApiTest {
         System.out.println("1");
 
         System.out.println("端口号" + port);
+
+        String url = "http://127.0.0.1:" + port;
+        System.out.println("请求地址:" + url);
+        this.client = new ApiClient(url, "appId", "appSecret");
     }
 
 
 
     @Test
     public void test() throws IOException {
-        String url = "http://127.0.0.1:" + port;
-        System.out.println("请求地址:" + url);
-        ApiClient client = new ApiClient(url, "appId", "appSecret");
         String result = client.send("math.add", Map.of("a", 1, "b", 2));
         System.out.println(result);
 
@@ -74,6 +76,17 @@ public class ApiTest {
         Object data = map.get("data");
 
         Assertions.assertEquals(3,data);
+    }
+
+    @Test
+    public void test404() throws IOException {
+        String result = client.send("math.xyz", Map.of("a", 1, "b", 2));
+        System.out.println(result);
+
+        Map<String, Object> map = JsonTool.jsonToMap(result);
+        Object data = map.get("code");
+
+        Assertions.assertEquals(ApiErrorCode.RES_NOT_FOUND.getCode(),data);
     }
 
 }

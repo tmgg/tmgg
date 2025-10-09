@@ -5,6 +5,7 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.servlet.JakartaServletUtil;
 import io.tmgg.lang.SpringTool;
 import io.tmgg.lang.obj.AjaxResult;
+import io.tmgg.modules.api.ApiErrorCode;
 import io.tmgg.modules.api.ApiSignTool;
 import io.tmgg.modules.api.entity.ApiAccount;
 import io.tmgg.modules.api.entity.ApiAccountResource;
@@ -55,38 +56,37 @@ public class ApiGatewayController {
 
         // 验证时间戳，与服务器时间差异不能超过x分钟
         long diffTime = (System.currentTimeMillis() - timestamp) / 1000;
-        Assert.state(Math.abs(diffTime) < TIME_DIFF_LIMIT, "请求时间戳与服务器时间差异过大（" + diffTime + "秒）");
+        this.check(Math.abs(diffTime) < TIME_DIFF_LIMIT, ApiErrorCode.TIME_BIG_DIF);
 
 
         ApiAccount account = apiAccountService.findByAppId(appId);
-        Assert.notNull(account, "账号不存在" + account);
-        Assert.state(account.getEnable(), "账号已禁用");
+        this.check(account != null, ApiErrorCode.ACC_NOT_FOUND);
+        this.check(account.getEnable(), ApiErrorCode.ACC_NOT_FORBIDDEN);
 
+        Method method = apiResourceService.findMethodByAction(action);
+        this.check(method != null, ApiErrorCode.RES_NOT_FOUND);
 
         // 校验是否超期
         if (account.getEndTime() != null) {
-            Assert.state(DateUtil.current() < account.getEndTime().getTime(), "已过有效期");
+            this.check(DateUtil.current() < account.getEndTime().getTime(), ApiErrorCode.ACC_EXPIRE);
         }
-
 
 
         // 校验签名
         String appSecret = account.getAppSecret();
         String calcSign = ApiSignTool.sign(appId, appSecret, timestamp);
-        Assert.state(sign.equals(calcSign), "签名错误");
+        this.check(sign.equals(calcSign),  ApiErrorCode.SIGN_ERROR);
 
-        Method method = apiResourceService.findMethodByAction(action);
-        Assert.notNull(method, "接口不存在,接口：" + action);
 
         // 校验权限
         ApiAccountResource ar = accountResourceService.findByAccountAndAction(account, action);
-        Assert.notNull(ar, "账号没有权限, uri: " + action);
-        Assert.state(ar.getEnable(), "您的权限已被禁用, action: " + action);
-
+        this.check(ar != null, ApiErrorCode.PERM_NOT_FOUND);
+        this.check(ar.getEnable(), ApiErrorCode.PERM_DISABLE);
 
 
         String clientIP = JakartaServletUtil.getClientIP(request);
-        Assert.state(StrUtil.isEmpty(account.getAccessIp()) || account.getAccessIp().contains(clientIP), "IP访问限制,您的IP为" + clientIP);
+
+        this.check(StrUtil.isEmpty(account.getAccessIp()) || account.getAccessIp().contains(clientIP), ApiErrorCode.ACC_IP);
 
 
         Object retValue = dispatch(params, method, request, response);
@@ -95,7 +95,7 @@ public class ApiGatewayController {
         // 保存日志
         String ip = JakartaServletUtil.getClientIP(request);
         long time = System.currentTimeMillis() - startTime;
-        accessLogService.add(timestamp,account, ar.getResource(), params, retValue, ip, time);
+        accessLogService.add(timestamp, account, ar.getResource(), params, retValue, ip, time);
 
 
         return AjaxResult.ok().data(retValue);
@@ -114,6 +114,12 @@ public class ApiGatewayController {
         return retValue;
     }
 
+    private void check(Boolean state, ApiErrorCode errorCode) {
+        if (!state) {
+            throw new CodeException(errorCode.getCode(), errorCode.getMessage());
+        }
+    }
+
     @ExceptionHandler(Exception.class)
     public AjaxResult parseException(Throwable e) {
         e.printStackTrace();
@@ -123,7 +129,7 @@ public class ApiGatewayController {
         }
 
 
-        int code = AjaxResult.FAILURE;
+        int code = ApiErrorCode.GLOBAL_ERROR.getCode();
         String msg = e.getMessage();
 
         if (e instanceof CodeException be) {
@@ -133,8 +139,6 @@ public class ApiGatewayController {
 
         return AjaxResult.err(msg).code(code);
     }
-
-
 
 
     @Resource
