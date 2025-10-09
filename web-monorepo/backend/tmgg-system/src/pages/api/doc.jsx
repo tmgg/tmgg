@@ -103,7 +103,7 @@ export default class extends React.Component {
                     return <>
                         <Typography.Title level={3}>{'2.' + (index + 1) + " " + api.name} </Typography.Title>
                         <p>功能描述：{api.desc}</p>
-                        <p>请求路径： /api/gateway/{api.path}</p>
+                        <p>请求路径： /api/gateway/{api.action}</p>
 
 
                         <Title level={5}>请求参数说明</Title>
