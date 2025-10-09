@@ -17,6 +17,7 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.StandardReflectionParameterNameDiscoverer;
 import org.springframework.stereotype.Component;
+import org.springframework.util.Assert;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
@@ -66,9 +67,11 @@ public class ApiInitRunner implements CommandLineRunner {
             }
 
             ApiResource r = new ApiResource();
-            r.setId(api.action());
+            String action = api.action();
+            Assert.state(!action.contains("/"), "action不能包含斜杠: " + action);
+            r.setId(action);
             r.setName(api.name());
-            r.setPath(api.action());
+            r.setPath(action);
             r.setDesc(api.desc());
             r.setBeanName(beanName);
 
