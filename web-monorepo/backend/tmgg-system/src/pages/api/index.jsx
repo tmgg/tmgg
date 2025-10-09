@@ -29,18 +29,13 @@ export default class extends React.Component {
         },
         {
             title: 'appId',
-            dataIndex: 'id',
-
+            dataIndex: 'appId',
         },
 
         {
             title: 'appSecret',
             dataIndex: 'appSecret',
         },
-
-
-
-
         {
             title: '准入IP',
             dataIndex: 'accessIp',
@@ -139,16 +134,18 @@ export default class extends React.Component {
                     </Form.Item>
 
 
-                    <Form.Item label='准入IP' name='accessIp' >
+                    <Form.Item label='appId' name='appId' >
                         <Input placeholder='多个用逗号分隔'/>
                     </Form.Item>
-                    <Form.Item label='秘钥' name='appSecret' rules={[{required: true},{len:32}]}
+                    <Form.Item label='appSecret' name='appSecret' rules={[{required: true},{len:32}]}
                                help={<Button size='small' type='link' onClick={this.randomAppSecret}>随机生成</Button>}
                     >
                         <Input />
                     </Form.Item>
 
-
+                    <Form.Item label='准入IP' name='accessIp' >
+                        <Input placeholder='多个用逗号分隔'/>
+                    </Form.Item>
                     <Form.Item label='有效期' name='endTime'  style={{marginTop:32}}>
                         <FieldDateTimePickerString />
                     </Form.Item>

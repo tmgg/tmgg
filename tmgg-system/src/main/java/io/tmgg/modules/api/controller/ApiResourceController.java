@@ -27,7 +27,7 @@ public class ApiResourceController extends BaseController<ApiResource> {
     @RequestMapping("tableSelect")
     public AjaxResult tableSelect(DropdownParam param, @PageableDefault(sort = "id") Pageable pageable) {
         JpaQuery<ApiResource> q = new JpaQuery<>();
-        q.searchText(param.getSearchText(), ApiResource.Fields.name, ApiResource.Fields.path, ApiResource.Fields.desc);
+        q.searchText(param.getSearchText(), ApiResource.Fields.name, ApiResource.Fields.action, ApiResource.Fields.desc);
 
         List<String> selected = param.getSelected();
         if(CollUtil.isNotEmpty(selected)){
@@ -37,9 +37,9 @@ public class ApiResourceController extends BaseController<ApiResource> {
         Page<ApiResource> page = service.findAll(q,pageable);
 
         Table<ApiResource> tb = new Table<>(page);
-        tb.addColumn("名称", ApiResource.Fields.name).setSorter(true);
         tb.addColumn("标识", "id");
-        tb.addColumn("路径", ApiResource.Fields.path).setSorter(true);
+        tb.addColumn("名称", ApiResource.Fields.name).setSorter(true);
+        tb.addColumn("动作", ApiResource.Fields.action).setSorter(true);
         tb.addColumn("描述", ApiResource.Fields.desc);
 
         return AjaxResult.ok().data(tb);

@@ -7,7 +7,7 @@ import lombok.Data;
 import org.springframework.stereotype.Component;
 
 @Component
-public class DefaultApi {
+public class MathApi {
 
 
 
@@ -17,15 +17,4 @@ public class DefaultApi {
 	}
 
 
-
-
-	@Data
-	@AllArgsConstructor
-	public static class TimeInfo {
-		@FieldInfo(label = "格式化时间")
-		String time;
-
-		@FieldInfo(label = "时间戳")
-		long timestamp;
-	}
 }

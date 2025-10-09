@@ -1,18 +1,15 @@
 import {PlusOutlined} from '@ant-design/icons'
-import {Button, Card, InputNumber, Popconfirm, Modal, Form, Input, message} from 'antd'
+import {Button, Form, Modal, Popconfirm} from 'antd'
 import React from 'react'
 import {
     ButtonList,
-    dictValueTag,
-    ViewBoolean,
-    FieldDateRange,
-    FieldDictSelect,
     FieldRadioBoolean,
-    FieldDatePickerString,
-    Page,
+    FieldTableSelect,
     HttpUtil,
+    Page,
+    PageUtil,
     ProTable,
- PageUtil, FieldTableSelect
+    ViewBoolean
 } from "@tmgg/tmgg-base";
 
 
@@ -44,22 +41,19 @@ export default class extends React.Component {
             dataIndex: ['resource', 'name'],
         },
         {
-            title: '路径',
-            dataIndex: ['resource', 'uri'],
-        }, {
+            title: '动作',
+            dataIndex: ['resource', 'action'],
+        },
+        {
             title: '描述',
             dataIndex: ['resource', 'desc'],
         },
         {
             title: '启用',
             dataIndex: 'enable',
-
-
             render(v) {
                 return <ViewBoolean value={v}/>
             },
-
-
         },
 
         {

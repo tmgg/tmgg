@@ -34,6 +34,8 @@ public class ApiAccount extends BaseEntity {
     private String accessIp;
 
 
+    @Column(unique = true,length = 32)
+    private String appId;
 
     @Column(unique = true,length = 32)
     private String appSecret;

@@ -21,7 +21,7 @@ public class ApiAccessLogService extends BaseService<ApiAccessLog> {
         ApiAccessLog a = new ApiAccessLog();
         a.setTimestamp(timestamp);
         a.setName(resource.getName());
-        a.setPath(resource.getPath());
+        a.setAction(resource.getAction());
         a.setRequestData(JsonTool.toJsonQuietly(params));
         a.setResponseData(JsonTool.toJsonQuietly(retValue));
         a.setIp(ip);

@@ -28,7 +28,7 @@ public class ApiAccessLog extends BaseEntity {
 
     @Remark("接口")
     @Column(length = 30)
-    private String path;
+    private String action;
 
     @Remark("请求数据")
     @Lob

@@ -3,7 +3,6 @@ package io.tmgg.config;
 import io.tmgg.modules.system.file.FileOperator;
 import io.tmgg.modules.system.file.LocalFileOperator;
 import io.tmgg.modules.system.file.MinioFileOperator;
-import io.tmgg.modules.system.service.SysConfigService;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
