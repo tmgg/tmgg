@@ -29,6 +29,7 @@ import io.tmgg.web.db.DbCacheDao;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
@@ -39,6 +40,7 @@ import java.util.Date;
  */
 @Slf4j
 @Component(SystemDataInit.BEAN_NAME)
+@Order(0)
 public class SystemDataInit implements CommandLineRunner {
 
 
