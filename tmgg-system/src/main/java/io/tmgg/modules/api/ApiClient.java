@@ -52,17 +52,6 @@ public class ApiClient {
     }
 
 
-    public static void main(String[] args) throws IOException {
-        String url = "http://127.0.0.1:8002";
-        String appId = "220e0de1701041a0b8ae029704f09f5f";
-        String appSecret = "nVgyPYn10M6ZYgbdHRKmLIUcbc5LFUly";
 
-        ApiClient client = new ApiClient(url, appId, appSecret);
-
-        Map<String,Object> params = new HashMap<>();
-        params.put("a",2);
-        params.put("b",3);
-        client.send("add", params);
-    }
 
 }

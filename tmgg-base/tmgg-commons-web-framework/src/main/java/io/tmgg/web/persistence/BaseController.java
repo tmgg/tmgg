@@ -40,7 +40,7 @@ public abstract class BaseController<T extends PersistEntity> {
 
         Page<T> page = service.findAllByClient(q, pageable);
 
-        if (exportType.equals("EXCEL")) {
+        if ("EXCEL".equals(exportType)) {
             service.exportExcel(page, service.getDomainClass());
             return null;
         }
