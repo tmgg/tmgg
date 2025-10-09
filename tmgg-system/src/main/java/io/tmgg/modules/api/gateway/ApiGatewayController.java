@@ -27,7 +27,7 @@ import java.util.TreeMap;
 
 @Slf4j
 @RestController
-@RequestMapping("openApi/gateway")
+@RequestMapping("api/gateway")
 public class ApiGatewayController {
 
 

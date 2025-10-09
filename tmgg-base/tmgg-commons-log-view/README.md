@@ -20,7 +20,7 @@ http://127.0.0.1:8080/log-view/index.html?path=D:/demo.log
 请求格式
 
 ```
-ws://127.0.0.1:8080/openApi/log?path=要实时监控的文件路径
+ws://127.0.0.1:8080/ws-log-view?path=要实时监控的文件路径
 ```
 
 

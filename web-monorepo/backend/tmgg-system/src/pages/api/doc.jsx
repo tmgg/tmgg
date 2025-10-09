@@ -55,7 +55,7 @@ export default class extends React.Component {
                 <Paragraph>
                     <Descriptions column={1} bordered size='small'>
                         <Descriptions.Item label='请求地址'>
-                            {this.state.url}/openApi/gateway/路径
+                            {this.state.url}/api/gateway/路径
                         </Descriptions.Item>
                         <Descriptions.Item label='appId'>
                             {this.state.appId}
@@ -103,7 +103,7 @@ export default class extends React.Component {
                     return <>
                         <Typography.Title level={3}>{'2.' + (index + 1) + " " + api.name} </Typography.Title>
                         <p>功能描述：{api.desc}</p>
-                        <p>请求路径： /openApi/gateway/{api.path}</p>
+                        <p>请求路径： /api/gateway/{api.path}</p>
 
 
                         <Title level={5}>请求参数说明</Title>

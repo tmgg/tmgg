@@ -1,7 +1,7 @@
 package io.tmgg.modules.api.service;
 
 import io.tmgg.web.persistence.BaseService;
-import io.tmgg.modules.api.dao.OpenApiResourceDao;
+import io.tmgg.modules.api.dao.ApiResourceDao;
 import io.tmgg.modules.api.entity.ApiResource;
 import jakarta.annotation.Resource;
 import org.springframework.data.domain.Sort;
@@ -17,7 +17,7 @@ import java.util.Map;
 public class ApiResourceService extends BaseService<ApiResource> {
 
     @Resource
-    private OpenApiResourceDao dao;
+    private ApiResourceDao dao;
 
 
     private final Map<String, Method> pathBindings = new HashMap<>();

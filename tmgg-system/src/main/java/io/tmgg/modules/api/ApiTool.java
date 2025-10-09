@@ -4,7 +4,7 @@ import io.tmgg.lang.RequestTool;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.util.Assert;
 
-public class OpenApiTool {
+public class ApiTool {
 
     /**
      * 获取当前请求的appId

@@ -5,5 +5,5 @@ import io.tmgg.modules.api.entity.ApiResource;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class OpenApiResourceDao extends BaseDao<ApiResource> {
+public class ApiResourceDao extends BaseDao<ApiResource> {
 }
