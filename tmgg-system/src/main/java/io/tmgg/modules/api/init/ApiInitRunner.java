@@ -39,6 +39,7 @@ public class ApiInitRunner implements CommandLineRunner {
     public void run(String... args) throws Exception {
         log.info("清空原始接口...");
         service.deleteAll();
+        service.flush();
         log.info("解析接口...");
         init();
     }
