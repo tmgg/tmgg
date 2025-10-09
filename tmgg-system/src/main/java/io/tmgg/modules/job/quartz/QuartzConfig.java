@@ -1,10 +1,9 @@
 package io.tmgg.modules.job.quartz;
 
-import io.tmgg.modules.job.JobProp;
+import io.tmgg.config.SysProp;
 import io.tmgg.modules.job.dao.SysJobDao;
 import io.tmgg.modules.job.entity.SysJob;
 import lombok.extern.slf4j.Slf4j;
-import org.quartz.Scheduler;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -35,12 +34,12 @@ public class QuartzConfig implements CommandLineRunner {
     QuartzManager quartzService;
 
     @Resource
-    JobProp jobProp;
+    SysProp sysProp;
 
 
     @Override
     public void run(String... args) throws Exception {
-        if(!jobProp.isEnable()){
+        if(!sysProp.isJobEnable()){
             log.warn("定时任务模块已设置全局关闭");
             return;
         }
