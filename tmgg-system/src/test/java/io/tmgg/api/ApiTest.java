@@ -23,14 +23,13 @@ import java.util.Map;
 public class ApiTest {
 
     @Resource
-    ApiAccountResourceService accountResourceService;
+    private ApiAccountResourceService accountResourceService;
 
     @Resource
-    ApiAccountService accountService;
+    private ApiAccountService accountService;
 
     @Resource
-    ApiResourceService apiResourceService;
-
+    private ApiResourceService apiResourceService;
 
 
     @LocalServerPort
@@ -57,6 +56,7 @@ public class ApiTest {
             ar.setResource(r);
             accountResourceService.save(ar);
         }
+
         {
             ApiResource r = apiResourceService.findAction("math.add2");
 
@@ -79,7 +79,6 @@ public class ApiTest {
     }
 
 
-
     @Test
     public void add() throws IOException {
         String result = client.send("math.add", Map.of("a", 1, "b", 2));
@@ -88,7 +87,7 @@ public class ApiTest {
         Map<String, Object> map = JsonTool.jsonToMap(result);
         Object data = map.get("data");
 
-        Assertions.assertEquals(3,data);
+        Assertions.assertEquals(3, data);
     }
 
     @Test
@@ -97,9 +96,9 @@ public class ApiTest {
         System.out.println(result);
 
         Map<String, Object> map = JsonTool.jsonToMap(result);
-        Object data = map.get("data");
+        Map<String, Object> data = (Map<String, Object>) map.get("data");
 
-        Assertions.assertEquals(3,data);
+        Assertions.assertEquals(3, data.get("sum"));
     }
 
 
@@ -111,7 +110,7 @@ public class ApiTest {
         Map<String, Object> map = JsonTool.jsonToMap(result);
         Object data = map.get("code");
 
-        Assertions.assertEquals(ApiErrorCode.RES_NOT_FOUND.getCode(),data);
+        Assertions.assertEquals(ApiErrorCode.RES_NOT_FOUND.getCode(), data);
     }
 
 }

@@ -18,7 +18,7 @@ public class MathApi {
 
 
 	@ApiMapping(action = "math.add2", name = "加法计算2", desc = "根据输入参数a，b，计算a+b的结果")
-	public AddOutput add2(@RequestBody AddInput addInput){
+	public AddOutput add2(AddInput addInput){
 		int a = addInput.getA();
 		int b = addInput.getB();
 		int sum = a + b;
