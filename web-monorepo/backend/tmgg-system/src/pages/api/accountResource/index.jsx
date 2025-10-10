@@ -108,7 +108,10 @@ export default class extends React.Component {
                         </Button>
                     </ButtonList>
                 }}
-                request={(params) => HttpUtil.pageData('apiAccountResource/page', params)}
+                request={(params) => {
+                    params.accountId =PageUtil.currentParams().accountId
+                    return HttpUtil.pageData('apiAccountResource/page', params);
+                }}
                 columns={this.columns}
             />
 
