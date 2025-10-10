@@ -63,13 +63,15 @@ public class ApiGatewayController {
         this.check(account != null, ApiErrorCode.ACC_NOT_FOUND);
         this.check(account.getEnable(), ApiErrorCode.ACC_NOT_FORBIDDEN);
 
-        Method method = apiResourceService.findMethodByAction(action);
-        this.check(method != null, ApiErrorCode.RES_NOT_FOUND);
+
 
         // 校验是否超期
         if (account.getEndTime() != null) {
             this.check(DateUtil.current() < account.getEndTime().getTime(), ApiErrorCode.ACC_EXPIRE);
         }
+
+        Method method = apiResourceService.findMethodByAction(action);
+        this.check(method != null, ApiErrorCode.RES_NOT_FOUND);
 
 
         // 校验签名
@@ -97,9 +99,7 @@ public class ApiGatewayController {
         long time = System.currentTimeMillis() - startTime;
         accessLogService.add(timestamp, account, ar.getResource(), params, retValue, ip, time);
 
-
         return AjaxResult.ok().data(retValue);
-
     }
 
     private Object dispatch(Map<String, Object> params, Method method, HttpServletRequest request, HttpServletResponse response) throws InvocationTargetException, IllegalAccessException {

@@ -47,14 +47,27 @@ public class ApiTest {
         a.setEnable(true);
         a = accountService.save(a);
 
-        ApiResource r = apiResourceService.findAction("math.add");
+        {
+            ApiResource r = apiResourceService.findAction("math.add");
 
 
-        ApiAccountResource ar = new ApiAccountResource();
-        ar.setAccount(a);
-        ar.setEnable(true);
-        ar.setResource(r);
-        accountResourceService.save(ar);
+            ApiAccountResource ar = new ApiAccountResource();
+            ar.setAccount(a);
+            ar.setEnable(true);
+            ar.setResource(r);
+            accountResourceService.save(ar);
+        }
+        {
+            ApiResource r = apiResourceService.findAction("math.add2");
+
+
+            ApiAccountResource ar = new ApiAccountResource();
+            ar.setAccount(a);
+            ar.setEnable(true);
+            ar.setResource(r);
+            accountResourceService.save(ar);
+        }
+
 
         System.out.println("1");
 
@@ -68,7 +81,7 @@ public class ApiTest {
 
 
     @Test
-    public void test() throws IOException {
+    public void add() throws IOException {
         String result = client.send("math.add", Map.of("a", 1, "b", 2));
         System.out.println(result);
 
@@ -77,6 +90,18 @@ public class ApiTest {
 
         Assertions.assertEquals(3,data);
     }
+
+    @Test
+    public void add2() throws IOException {
+        String result = client.send("math.add2", Map.of("a", 1, "b", 2));
+        System.out.println(result);
+
+        Map<String, Object> map = JsonTool.jsonToMap(result);
+        Object data = map.get("data");
+
+        Assertions.assertEquals(3,data);
+    }
+
 
     @Test
     public void test404() throws IOException {
