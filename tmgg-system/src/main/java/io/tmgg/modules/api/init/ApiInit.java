@@ -23,7 +23,7 @@ import java.util.*;
  */
 @Component
 @Slf4j
-@Order(Integer.MAX_VALUE)
+@Order
 public class ApiInit implements CommandLineRunner {
 
     @Override
@@ -47,10 +47,7 @@ public class ApiInit implements CommandLineRunner {
     }
 
 
-
     @Resource
     private ApiResourceService service;
 
-    @Resource
-    private ApiAccountResourceService accountResourceService;
 }
