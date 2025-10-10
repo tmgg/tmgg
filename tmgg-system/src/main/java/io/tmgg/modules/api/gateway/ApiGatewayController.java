@@ -110,7 +110,6 @@ public class ApiGatewayController {
 
         Object retValue = method.invoke(bean, paramValues);
 
-        Assert.notNull(retValue, "接口必须有返回值");
         return retValue;
     }
 
