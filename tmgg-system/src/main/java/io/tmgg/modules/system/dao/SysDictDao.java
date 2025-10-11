@@ -4,11 +4,35 @@ package io.tmgg.modules.system.dao;
 import io.tmgg.web.persistence.BaseDao;
 import io.tmgg.web.persistence.specification.JpaQuery;
 import io.tmgg.modules.system.entity.SysDict;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-@Repository
+@Slf4j
+@Component
 public class SysDictDao extends BaseDao<SysDict> {
+
+    /**
+     * 初始一个数据字典
+     * 先判断是否存在
+     * @param code
+     * @param text
+     * @return
+     */
+    @Transactional
+    public SysDict init(String code,String text){
+        SysDict old = this.findByCode(code);
+        if(old != null){
+            log.info("字典已存在，忽略初始化。 {}={}",code, text);
+            return old;
+        }
+        SysDict  dict = new SysDict();
+        dict.setCode(code);
+        dict.setText(text);
+        dict = this.save(dict);
+        return dict;
+    }
 
     @Transactional
     public SysDict add(String code,String text){
