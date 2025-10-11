@@ -30,7 +30,7 @@ public class StarterHandler implements AssignmentTypeProvider {
 
     @Override
     public String getLabel() {
-        return "分配给发起人";
+        return "分配给流程发起人";
     }
 
 

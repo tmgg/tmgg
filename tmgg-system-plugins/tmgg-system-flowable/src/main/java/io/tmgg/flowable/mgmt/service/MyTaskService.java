@@ -112,7 +112,7 @@ public class MyTaskService {
 
         //获取流程实例id
         String processInstanceId = task.getProcessInstanceId();
-        comment = task.getName() + "：" + result.getMessage() + "。" + comment;
+        comment = "【" +task.getName() + "】：" + result.getMessage() + "。" + comment;
         addComment(processInstanceId, taskId, userId, comment);
 
         String assignee = task.getAssignee();

@@ -65,15 +65,9 @@ export default class extends React.Component {
 constructor(props) {
   super(props);
 
-  let genNodeLabel = this.props.bo.get(PREFIX + 'genNodeLabel'); // 自动生成节点名称
 
-  // 默认自动生成
-  if(genNodeLabel == null){
-    genNodeLabel = true
-    this.props.bo.set(PREFIX + 'genNodeLabel',true)
-  }
 
-  this.state.genNodeLabel = genNodeLabel;
+
 
   let conditionList = this.props.bo.get('flowable:conditionList');
   conditionList = conditionList ? JSON.parse(conditionList) : []
@@ -84,7 +78,6 @@ constructor(props) {
   state = {
     expression: null,
     conditionList:[],
-    genNodeLabel: true,
     modalForm: {
       key: null,
       keyLabel: null,
@@ -203,27 +196,7 @@ constructor(props) {
       ),
     },
   ];
-  onGenNodeLabelChange = v=>{
-    let key = PREFIX + 'genNodeLabel';
 
-    this.setState({genNodeLabel: v})
-
-    if (v) {
-      this.props.bo.set(key, v);
-    } else {
-      BpmnUtils.removeProperty(this.props.bo, key);
-
-    }
-
-    this.setNodeLabel();
-  }
-  setNodeLabel = () => {
-    const {expression: label, genNodeLabel} = this.state;
-    if (genNodeLabel) {
-      this.props.bo.set('name', label);
-      this.props.modeling.updateLabel(this.props.node, label);
-    }
-  };
   setConditionData = (expression, conditionList) => {
     if (expression != null && expression != '') {
       expression = '${' + expression + '}'
@@ -275,9 +248,7 @@ constructor(props) {
 
         <div>条件表达式: {this.state.expression}</div>
         <div className="q-my-md"></div>
-        <div>自动生成节点名称:
-          <Switch checked={this.state.genNodeLabel} onChange={(v)=>this.onGenNodeLabelChange(v)}></Switch>
-        </div>
+
 
         <ProModal actionRef={this.addRef} title="添加条件">
           <Form onFinish={this.handleAdd} layout="vertical">
