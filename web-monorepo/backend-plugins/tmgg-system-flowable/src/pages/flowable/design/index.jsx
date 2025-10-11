@@ -172,6 +172,8 @@ export default class extends React.Component {
                    <Button type='primary' icon={<SaveOutlined />} onClick={this.handleSubmit}>暂存</Button>
                    <Button type='primary' danger icon={<CloudUploadOutlined />} onClick={this.handleDeploy}>保存并部署</Button>
                    <Button icon={<EditOutlined />} onClick={this.showXML}>编辑文本</Button>
+                   <Button  onClick={()=>PageUtil.open('/flowable/test?id=' + this.state.id)}> 测试 </Button>
+
                  </Space>}>
 
 

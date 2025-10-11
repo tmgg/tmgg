@@ -55,7 +55,6 @@ export default class extends React.Component {
       render: (_, record) => (
         <Space>
           <Button size='small' type='primary' onClick={()=>PageUtil.open('/flowable/design?id=' + record.id,'流程设计'+ record.name)}> 设计 </Button>
-          <Button size='small' onClick={()=>PageUtil.open('/flowable/test?id=' + record.id,'流程测试'+ record.name)}> 测试 </Button>
           <Button size='small' onClick={()=>this.handleEdit(record)}> 编辑 </Button>
           <Popconfirm perm={delPerm} title={'是否确定' + deleteTitle} onConfirm={() => this.handleDelete(record)}>
             <Button size='small' danger>删除</Button>
@@ -126,9 +125,7 @@ export default class extends React.Component {
             <Input/>
           </Form.Item>
 
-          <Form.Item label='表单地址' name='formUrl' rules={[{required: true}]} help={"如 /flowable/test/form, 并支持id参数，如/flowable/test/form?id=1"}>
-            <Input/>
-          </Form.Item>
+
 
 
           <Form.List label='变量定义' name='conditionVariableList'>
