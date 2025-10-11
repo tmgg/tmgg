@@ -1,24 +1,27 @@
 
 package io.tmgg.modules.system.service;
 
-import io.tmgg.web.persistence.BaseEntity;
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.collection.CollectionUtil;
+import io.tmgg.lang.TreeTool;
 import io.tmgg.lang.obj.Option;
 import io.tmgg.modules.system.controller.SysDictTreeNode;
 import io.tmgg.modules.system.dao.SysDictDao;
 import io.tmgg.modules.system.dao.SysDictItemDao;
 import io.tmgg.modules.system.entity.SysDict;
 import io.tmgg.modules.system.entity.SysDictItem;
-import io.tmgg.lang.TreeTool;
+import io.tmgg.web.persistence.BaseEntity;
 import io.tmgg.web.persistence.BaseService;
 import io.tmgg.web.persistence.specification.JpaQuery;
-import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.collection.CollectionUtil;
+import jakarta.annotation.Resource;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import jakarta.annotation.Resource;
 import java.util.List;
 
+@Slf4j
 @Service
 public class SysDictService extends BaseService<SysDict> {
 
@@ -28,13 +31,40 @@ public class SysDictService extends BaseService<SysDict> {
     @Resource
     private SysDictDao sysDictDao;
 
+    /**
+     * 初始一个数据字典
+     * 先判断是否存在
+     *
+     * @param code
+     * @param text
+     * @return
+     */
+    @Transactional
+    public SysDict init(String code, String text, String... itemCodeTextArr) {
+        SysDict old = sysDictDao.findByCode(code);
+        if (old != null) {
+            log.info("字典已存在，忽略初始化。 {}={}", code, text);
+            return old;
+        }
+        SysDict dict = new SysDict();
+        dict.setCode(code);
+        dict.setText(text);
+        dict = this.save(dict);
 
+        for (int i = 0; i < itemCodeTextArr.length; i = i + 2) {
+            String itemCode = itemCodeTextArr[i];
+            String itemValue = itemCodeTextArr[i];
+            sysDictItemDao.add(dict, itemCode, itemValue);
+        }
 
-    public String findTextByDictCodeAndKey(String code, String key){
-       return sysDictItemDao.findText(code, key);
+        return dict;
     }
 
-    public List<Option> findOptions(String code){
+    public String findTextByDictCodeAndKey(String code, String key) {
+        return sysDictItemDao.findText(code, key);
+    }
+
+    public List<Option> findOptions(String code) {
         List<SysDictItem> list = sysDictItemDao.findAllByDictCode(code);
 
         return Option.convertList(list, BaseEntity::getId, SysDictItem::getText);
@@ -56,7 +86,7 @@ public class SysDictService extends BaseService<SysDict> {
         }
 
 
-        List<SysDictItem> dictData = sysDictItemDao.findAll( Sort.by(SysDictItem.Fields.seq));
+        List<SysDictItem> dictData = sysDictItemDao.findAll(Sort.by(SysDictItem.Fields.seq));
         for (SysDictItem item : dictData) {
             SysDictTreeNode node = new SysDictTreeNode();
             node.setId(item.getId());
@@ -66,12 +96,12 @@ public class SysDictService extends BaseService<SysDict> {
             node.setColor(item.getColor());
             resultList.add(node);
         }
-        return  TreeTool.buildTree(resultList);
+        return TreeTool.buildTree(resultList);
     }
 
-    public Object getFinalKey(SysDict dict, SysDictItem item){
+    public Object getFinalKey(SysDict dict, SysDictItem item) {
         String code = item.getCode();
-        if(dict.getIsNumber() != null && dict.getIsNumber()){
+        if (dict.getIsNumber() != null && dict.getIsNumber()) {
             return Integer.parseInt(code);
         }
         return code;
