@@ -1,13 +1,17 @@
 package io.tmgg.framework.data.append;
 
-import io.tmgg.web.persistence.fill.ValueConvertStrategy;
-import io.tmgg.modules.system.entity.SysOrg;
-import io.tmgg.modules.system.service.SysOrgService;
 import cn.hutool.cache.Cache;
 import cn.hutool.cache.CacheUtil;
+import io.tmgg.dbtool.DbTool;
+import io.tmgg.modules.system.entity.SysOrg;
+import io.tmgg.modules.system.service.SysOrgService;
+import io.tmgg.web.persistence.fill.ValueConvertStrategy;
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.Resource;
 import org.springframework.stereotype.Component;
 
-import jakarta.annotation.Resource;
+import java.util.List;
+import java.util.Map;
 
 @Component
 public class AutoAppendOrgLabelStrategy implements ValueConvertStrategy {
@@ -16,7 +20,20 @@ public class AutoAppendOrgLabelStrategy implements ValueConvertStrategy {
     @Resource
     SysOrgService service;
 
-    Cache<String,String> cache = CacheUtil.newLRUCache(100, 1000 * 60 * 5);
+    Cache<String, String> cache = CacheUtil.newLRUCache(100, 1000 * 60 * 5);
+
+    @Resource
+    DbTool db;
+
+    @PostConstruct
+    public void init() {
+        List<Map<String, Object>> list = db.findAll("select id,name from sys_org");
+        for (Map<String, Object> item : list) {
+            String id = (String) item.get("id");
+            String name = (String) item.get("name");
+            cache.put(id, name);
+        }
+    }
 
 
     @Override
@@ -24,21 +41,19 @@ public class AutoAppendOrgLabelStrategy implements ValueConvertStrategy {
         String orgId = (String) sourceValue;
 
 
-        if(orgId == null){
+        if (orgId == null) {
             return null;
         }
 
-        if(cache.containsKey(orgId)){
+        if (cache.containsKey(orgId)) {
             return cache.get(orgId);
         }
 
-        SysOrg org = service.findOne(orgId);
-
-        if(org == null){
-            return null;
+        init();
+        if (cache.containsKey(orgId)) {
+            return cache.get(orgId);
         }
 
-        cache.put(orgId, org.getName());
-        return org.getName();
+        return null;
     }
 }
