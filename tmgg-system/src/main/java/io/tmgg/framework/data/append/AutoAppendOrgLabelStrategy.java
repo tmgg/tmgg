@@ -17,9 +17,6 @@ import java.util.Map;
 public class AutoAppendOrgLabelStrategy implements ValueConvertStrategy {
 
 
-    @Resource
-    SysOrgService service;
-
     Cache<String, String> cache = CacheUtil.newLRUCache(100, 1000 * 60 * 5);
 
     @Resource
