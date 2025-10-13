@@ -4,7 +4,7 @@ import React from 'react';
 import {
     FieldDictRadio,
     FieldRadioBoolean,
-    FieldRemoteTreeSelect,
+    FieldRemoteTreeSelect, FieldSelect, FieldUserSelect,
     Gap,
     HttpUtil,
     NamedIcon,
@@ -18,7 +18,6 @@ const baseApi = 'sysOrg/';
 const deleteTitle = '删除' + baseTitle
 
 
-const delApi = 'sysOrg/delete'
 const treeApi = baseApi + 'allTree'
 
 
@@ -266,7 +265,7 @@ export default class extends React.Component {
                                 <FieldRemoteTreeSelect url={treeApi}/>
                             </Form.Item>
                             <Form.Item label='名称' name='name' rules={[{required: true}]}>
-                                <Input></Input>
+                                <Input />
                             </Form.Item>
 
 
@@ -274,10 +273,23 @@ export default class extends React.Component {
                                 <FieldDictRadio typeCode='orgType'/>
                             </Form.Item>
 
-
+                            <Form.Item label='领导' name={['leader','id']} >
+                                <FieldUserSelect />
+                            </Form.Item>
                             <Form.Item label='启用' name='enabled' rules={[{required: true}]}>
                                 <FieldRadioBoolean/>
                             </Form.Item>
+                            <Form.Item label='扩展字段1' name='extra1'>
+                                <Input />
+                            </Form.Item>
+                            <Form.Item label='扩展字段2' name='extra2'>
+                                <Input />
+                            </Form.Item>
+                            <Form.Item label='扩展字段3' name='extra3'>
+                                <Input />
+                            </Form.Item>
+
+
 
 
                             <Form.Item label=' ' colon={false}>

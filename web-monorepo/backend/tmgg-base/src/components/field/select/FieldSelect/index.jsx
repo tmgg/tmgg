@@ -26,7 +26,6 @@ export class FieldSelect extends React.Component {
         searchText: '',
         showRefresh: false,
         placeholder: '请选择',
-        disabled: false,
 
         multiple: false,
         valueType: 'primitive',
@@ -130,9 +129,11 @@ export class FieldSelect extends React.Component {
 
 
     render() {
+        console.log(this.props.disabled)
         return (
             <div style={{display: 'flex', alignItems: 'center'}}>
                 <Select
+                    {...this.props}
                     allowClear
                     showSearch
                     style={{width: '100%', minWidth: 200}}
@@ -143,15 +144,12 @@ export class FieldSelect extends React.Component {
                     placeholder={this.state.placeholder}
                     value={this.state.componentValue}
                     options={this.state.data}
-                    disabled={this.state.disabled}
                     mode={this.state.multiple ? 'multiple' : undefined}
                 >
                 </Select>
                 {this.state.showRefresh &&
-                    <Button onClick={this.loadData}
-                            autoInsertSpace={false}
-                            icon={<ReloadOutlined/>}
-                            size='small'> </Button>}
+                    <Button onClick={this.loadData} autoInsertSpace={false} icon={<ReloadOutlined/>}
+                            size='small'/>}
             </div>
         );
     }
