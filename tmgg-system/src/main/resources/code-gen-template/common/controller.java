@@ -37,12 +37,12 @@ public class ${name}Controller  {
 
     @HasPermission
     @RequestMapping("page")
-    public AjaxResult page(   ${name} ${firstLowerName}, String searchText, @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) throws Exception {
-        JpaQuery<T> q = new JpaQuery<>();
+    public AjaxResult page(${name} ${firstLowerName}, String searchText, @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) throws Exception {
+        JpaQuery<${name}> q = new JpaQuery<>();
         q.searchText(searchText, service.getSearchableFields());
         q.searchParams(param, service.getDomainClass());
 
-        Page<T> page = service.findAllByClient(q, pageable);
+        Page<${name}> page = service.findAllByClient(q, pageable);
 
         return AjaxResult.ok().data(page);
    }
