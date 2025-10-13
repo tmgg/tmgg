@@ -163,10 +163,12 @@ public class SystemDataInit implements CommandLineRunner {
 
 
     private void initUser(SysRole adminRole) {
+        log.info("-------------------------------------------");
+        log.info("初始化管理员中....");
         String id = "admin";
         SysUser admin = sysUserDao.findOne(id);
 
-        log.info("-------------------------------------------");
+
         if (admin == null) {
             String account = "admin" + DateUtil.format(new Date(), "yyyyMMdd");
 
