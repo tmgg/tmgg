@@ -53,7 +53,7 @@ public class SysDictService extends BaseService<SysDict> {
 
         for (int i = 0; i < itemCodeTextArr.length; i = i + 2) {
             String itemCode = itemCodeTextArr[i];
-            String itemValue = itemCodeTextArr[i];
+            String itemValue = itemCodeTextArr[i + 1];
             sysDictItemDao.add(dict, itemCode, itemValue);
         }
 

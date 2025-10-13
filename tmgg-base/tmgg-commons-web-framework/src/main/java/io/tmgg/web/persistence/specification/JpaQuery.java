@@ -101,6 +101,12 @@ public class JpaQuery<T> implements Specification<T> {
         });
     }
 
+    public void searchParams(T bean, Class<T> domainClass) {
+        Map<String, Object> params = BeanUtil.beanToMap(bean, "size", "page");
+        this.searchParams(params, domainClass);
+    }
+
+
     public void searchParams(Map<String, Object> params, Class<T> domainClass) {
         if (CollUtil.isEmpty(params)) {
             return;
@@ -115,7 +121,7 @@ public class JpaQuery<T> implements Specification<T> {
                 continue;
             }
             Field f = beanDesc.getField(k);
-            if(f == null){
+            if (f == null) {
                 continue;
             }
 
@@ -133,8 +139,8 @@ public class JpaQuery<T> implements Specification<T> {
                 continue;
             }
 
-            if(f.getType().equals(Boolean.class)){
-                if(v instanceof String){
+            if (f.getType().equals(Boolean.class)) {
+                if (v instanceof String) {
                     v = Boolean.parseBoolean((String) v);
                 }
             }
