@@ -178,7 +178,7 @@ export default class extends React.Component {
                     </Form.Item>
 
                     {assignmentTypeInfo && (
-                        <Form.Item label="人员" name="assignmentObject">
+                        <Form.Item label="分配目标" name="assignmentObject">
                             <Select
                                 mode={assignmentTypeInfo.multiple ? 'multiple' : false}
                                 allowClear={true}

@@ -44,6 +44,8 @@ public class FlowableManager {
     public static final String VAR_DEPT_ID = "deptId";
     public static final String VAR_DEPT_NAME = "deptName";
 
+    public static final String VAR_DEPT_LEADER= "INITIATOR_DEPT_LEADER";
+
     private static final Map<String, FlowableListener> listeners = new HashMap<>();
 
 
@@ -102,16 +104,7 @@ public class FlowableManager {
 
 
         // 添加一些发起人的相关信息
-        String startUserId = loginUser.getId();
-        Assert.hasText(startUserId, "当前登录人员ID不能为空");
-        variables.put(VAR_USER_ID, startUserId);
-        variables.put(VAR_USER_NAME, loginUser.getName());
-
-        variables.put(VAR_UNIT_ID, loginUser.getUnitId());
-        variables.put(VAR_UNIT_NAME, loginUser.getUnitName());
-        variables.put(VAR_DEPT_ID, loginUser.getDeptId());
-        variables.put(VAR_DEPT_NAME, loginUser.getDeptName());
-        variables.put("BUSINESS_KEY", bizKey);
+        String startUserId = initVariable(bizKey, variables, loginUser);
 
         // 流程名称
         ProcessDefinition def = repositoryService.createProcessDefinitionQuery()
@@ -136,6 +129,8 @@ public class FlowableManager {
                 .name(title)
                 .start();
     }
+
+
 
 
     public Page<TaskVo> taskTodoList(Pageable pageable) {
@@ -228,10 +223,31 @@ public class FlowableManager {
     }
 
 
-    public String taskFormUrl(TaskInfo task) {
-        String url = "/#/flowable/task/todoTaskForm?taskId=" + task.getId() + "&instanceId=" + task.getProcessInstanceId();
-        return url;
-    }
+    /***
+     * 初始化变量
+     * @param bizKey
+     * @param variables
+     * @param user
+     * @return
+     */
+    private  String initVariable(String bizKey, Map<String, Object> variables, FlowableLoginUser user) {
+        String startUserId = user.getId();
+        Assert.hasText(startUserId, "当前登录人员ID不能为空");
+        variables.put(VAR_USER_ID, startUserId);
+        variables.put(VAR_USER_NAME, user.getName());
 
+        variables.put(VAR_UNIT_ID, user.getUnitId());
+        variables.put(VAR_UNIT_NAME, user.getUnitName());
+        variables.put(VAR_DEPT_ID, user.getDeptId());
+        variables.put(VAR_DEPT_NAME, user.getDeptName());
+        variables.put("BUSINESS_KEY", bizKey);
+
+        // 部门领导
+        variables.put(VAR_DEPT_LEADER, user.getDeptLeaderId());
+
+
+
+        return startUserId;
+    }
 
 }

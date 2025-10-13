@@ -13,6 +13,8 @@ public class FlowableLoginUser {
     String deptId;
     String deptName;
 
+    String deptLeaderId;
+
 
     boolean superAdmin;
 }
