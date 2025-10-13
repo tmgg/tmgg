@@ -40,7 +40,7 @@ public class ${name}Controller  {
     public AjaxResult page(${name} ${firstLowerName}, String searchText, @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) throws Exception {
         JpaQuery<${name}> q = new JpaQuery<>();
         q.searchText(searchText, service.getSearchableFields());
-        q.searchParams(param, service.getDomainClass());
+        q.searchParams(${firstLowerName}, service.getDomainClass());
 
         Page<${name}> page = service.findAllByClient(q, pageable);
 
