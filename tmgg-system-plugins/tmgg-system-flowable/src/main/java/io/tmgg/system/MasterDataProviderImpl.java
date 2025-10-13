@@ -41,4 +41,13 @@ public class MasterDataProviderImpl implements FlowableMasterDataProvider {
         }
         return map;
     }
+
+    @Override
+    public String getDeptLeader(String userId) {
+        SysUser deptLeader = sysOrgService.getDeptLeader(userId);
+        if(deptLeader != null){
+            return deptLeader.getDeptId();
+        }
+        return null;
+    }
 }

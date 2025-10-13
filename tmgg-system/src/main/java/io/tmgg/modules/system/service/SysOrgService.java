@@ -1,12 +1,14 @@
 package io.tmgg.modules.system.service;
 
 import cn.hutool.core.collection.CollUtil;
-import io.tmgg.web.persistence.BaseTreeService;
-import io.tmgg.web.persistence.specification.JpaQuery;
 import io.tmgg.modules.system.dao.SysOrgDao;
+import io.tmgg.modules.system.dao.SysUserDao;
 import io.tmgg.modules.system.entity.OrgType;
 import io.tmgg.modules.system.entity.SysOrg;
+import io.tmgg.modules.system.entity.SysUser;
 import io.tmgg.web.perm.Subject;
+import io.tmgg.web.persistence.BaseTreeService;
+import io.tmgg.web.persistence.specification.JpaQuery;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheConfig;
@@ -29,6 +31,8 @@ public class SysOrgService extends BaseTreeService<SysOrg> {
 
     @Resource
     private SysOrgDao dao;
+    @Resource
+    private SysUserDao sysUserDao;
 
 
     @Override
@@ -56,7 +60,7 @@ public class SysOrgService extends BaseTreeService<SysOrg> {
      */
     public List<SysOrg> findByLoginUser(Subject subject, boolean showDept, boolean showDisabled) {
         Collection<String> orgPermissions = subject.getOrgPermissions();
-        if(CollUtil.isEmpty(orgPermissions)){
+        if (CollUtil.isEmpty(orgPermissions)) {
             return Collections.emptyList();
         }
 
@@ -66,7 +70,7 @@ public class SysOrgService extends BaseTreeService<SysOrg> {
         if (!showDisabled) {
             q.eq(SysOrg.Fields.enabled, true);
         }
-        if(!showDept){
+        if (!showDept) {
             q.ne(SysOrg.Fields.type, OrgType.DEPT);
         }
 
@@ -98,7 +102,7 @@ public class SysOrgService extends BaseTreeService<SysOrg> {
             Assert.state(!childIdListById.contains(input.getId()), "父节点不能为本节点的子节点，请重新选择父节点");
 
             SysOrg old = dao.findOne(input.getId());
-            if(input.getSeq() == null){
+            if (input.getSeq() == null) {
                 input.setSeq(old.getSeq());
             }
         }
@@ -203,5 +207,25 @@ public class SysOrgService extends BaseTreeService<SysOrg> {
     }
 
 
+    public SysUser getDeptLeader(String userId) {
+        SysUser user = sysUserDao.findOne(userId);
+        String deptId = user.getDeptId();
 
+        // 如果没有找到部门领导，则机构树的上一级部门找
+        while (deptId != null){
+            SysOrg dept = dao.findOne(deptId);
+            if(dept == null || dept.getType() != OrgType.UNIT){
+                break;
+            }
+            SysUser leader = dept.getLeader();
+            if (leader != null) {
+                return leader;
+            }
+
+            deptId = dept.getPid();
+        }
+
+
+        return null;
+    }
 }

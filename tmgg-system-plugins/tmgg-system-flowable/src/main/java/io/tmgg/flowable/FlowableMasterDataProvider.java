@@ -13,4 +13,7 @@ public interface FlowableMasterDataProvider {
 
     Map<String,String> getUserMap();
 
+
+   String getDeptLeader(String userId);
+
 }
