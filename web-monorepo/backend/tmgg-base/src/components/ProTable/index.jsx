@@ -59,61 +59,17 @@ export class ProTable extends React.Component {
 
     componentDidMount() {
         this.loadData()
-
         if (this.props.actionRef) {
             this.props.actionRef.current = {
                 reload: () => this.loadData()
             }
         }
 
-        this.resetScrollY();
-
-
-    }
-
-
-    resetScrollY = () => {
         let scrollY = this.props.scrollY;
-        if (scrollY == null || scrollY === true) {
-            const height = this.calcBodyScrollHeight();
-            console.log('计算高度为：', height)
-            if(height){
-                this.setState({scrollY: height})
-            }
-        }
-        if(typeof scrollY === 'number'){
+        if(scrollY){
             this.setState({scrollY: scrollY})
-
         }
-
-    };
-
-    calcBodyScrollHeight() {
-        let container = document.getElementById(this.id);
-        let body = container.getElementsByClassName("ant-table-tbody")[0]
-        let top = body.getBoundingClientRect().y
-
-
-        // 分页组件高度
-        let page = 24 + 32;
-
-        let footerHeight = 43;
-
-
-        let towHeaderLineFixed = 50; // 预留的，防止表头换行
-        let h = top + footerHeight + page + towHeaderLineFixed;
-
-        let tableHeight = window.innerHeight - h
-
-        if(tableHeight < 300){
-            return null
-        }
-
-  //      let height = `calc(100vh - ${h}px)`
-        return tableHeight
     }
-
-
     loadData = () => {
         const {request} = this.props
         const params = {...this.state.params}
