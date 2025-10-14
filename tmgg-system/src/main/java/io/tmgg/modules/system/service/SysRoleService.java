@@ -117,4 +117,13 @@ public class SysRoleService extends BaseService<SysRole> {
 
         return roleDao.save(sysRole);
     }
+
+    @Transactional
+    public void grantUsers(String id, List<String> userIdList) {
+        SysRole role = roleDao.findOne(id);
+        role.getUsers().clear();
+
+        List<SysUser> users = sysUserDao.findAllById(userIdList);
+        role.getUsers().addAll(users);
+    }
 }

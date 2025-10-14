@@ -1,5 +1,5 @@
 import {PlusOutlined} from '@ant-design/icons'
-import {Button, Form, Input, InputNumber, Modal, Popconfirm} from 'antd'
+import {Button, Form, Input, InputNumber, Modal, Popconfirm, Transfer, Typography} from 'antd'
 import React from 'react'
 import {
     ButtonList,
@@ -19,7 +19,11 @@ export default class extends React.Component {
         formValues: {},
         formOpen: false,
 
-        usersModalOpen: false
+        usersModalOpen: false,
+
+        userList: [],
+        targetKeys: [],
+        selectedKeys: []
     }
 
     formRef = React.createRef()
@@ -99,7 +103,7 @@ export default class extends React.Component {
                 return (
                     <ButtonList>
                         <Button size='small' perm='sysRole:save'
-                                onClick={() => this.handleEditUser(record)}>用户</Button>
+                                onClick={() => this.handleEditUser(record)} type='primary'>用户管理</Button>
 
                         <Button size='small' perm='sysRole:save' disabled={record.builtin}
                                 onClick={() => this.handleEdit(record)}>编辑</Button>
@@ -129,11 +133,14 @@ export default class extends React.Component {
 
 
     handleEditUser = record => {
-        this.setState({usersModalOpen: true, formValues: record}, () => {
-
+        this.setState({usersModalOpen: true, formValues: record})
+        HttpUtil.get('sysRole/userList', {id: record.id}).then(rs => {
+            this.setState({userList: rs.list, targetKeys: rs.selectedKeys})
         })
     }
+
     handleAddUser = () => {
+
         debugger
     }
 
@@ -150,6 +157,17 @@ export default class extends React.Component {
             this.tableRef.current.reload()
         })
     }
+
+    handleSaveUsers =()=>{
+        const params = {
+            id: this.state.formValues.id,
+            userIdList:this.state.targetKeys
+        }
+        HttpUtil.post('sysRole/grantUsers', params).then(rs => {
+            this.setState({usersModalOpen:false})
+        })
+    }
+
 
     render() {
         return <Page>
@@ -214,38 +232,34 @@ export default class extends React.Component {
             </Modal>
 
 
-            <Modal title='角色包含的用户管理'
-                   open={this.state.usersModalOpen}
-                   footer={null}
+            <Modal title={'角色用户' +"【" +this.state.formValues?.name + '】'}
+                   open={this.state.usersModalOpen }
                    destroyOnHidden
                    maskClosable={false}
                    width={800}
                    onCancel={() => this.setState({usersModalOpen: false})}
+                   onOk={this.handleSaveUsers}
             >
-                <ProTable
-                    columns={
-                        [
-                            {dataIndex: 'account', title: '账号'},
-                            {dataIndex: 'name', title: '姓名'},
-                            {dataIndex: 'status', title: '状态'},
-                        ]
-                    }
-                    request={(params) => {
-                        params.id = this.state.formValues.id
-                        return HttpUtil.pageData('sysRole/ownUser', params)
-                    }}
-                    toolBarRender={() => {
-                        return <ButtonList>
-                            <FieldTableSelect url={'sysUser/tableSelect'} type={'checkbox'} labelKey={'name'}/>
 
-                            <Button perm='sysRole:save' type='primary' onClick={this.handleAddUser}>
-                                添加用户
-                            </Button>
-                        </ButtonList>
+                <Transfer
+                    dataSource={this.state.userList} titles={["未选择", "已选择"]}
+                    targetKeys={this.state.targetKeys}
+                    selectedKeys={this.state.selectedKeys}
+                    render={item => item.title}
+                    onChange={(nextTargetKeys, direction, moveKeys) => {
+                        this.setState({
+                            targetKeys: nextTargetKeys
+                        })
                     }}
-                >
+                    onSelectChange={(sourceSelectedKeys, targetSelectedKeys)=>{
+                        this.setState({
+                            selectedKeys: [...sourceSelectedKeys, ...targetSelectedKeys]
+                        })
+                    }}
+                    showSearch
+                />
 
-                </ProTable>
+
 
             </Modal>
         </Page>

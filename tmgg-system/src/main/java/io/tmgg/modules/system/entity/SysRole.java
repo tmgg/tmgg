@@ -1,6 +1,7 @@
 
 package io.tmgg.modules.system.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.tmgg.commons.poi.excel.annotation.Excel;
 import io.tmgg.lang.ann.Remark;
 import io.tmgg.web.persistence.BaseEntity;
@@ -10,7 +11,9 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldNameConstants;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 /**
@@ -64,6 +67,14 @@ public class SysRole extends BaseEntity {
     @Remark("是否内置")
     @Column(nullable = false)
     Boolean builtin;
+
+
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "sys_user_role",
+            inverseJoinColumns = @JoinColumn(name = "user_id", nullable = false),
+            joinColumns = @JoinColumn(name = "role_id", nullable = false))
+    Set<SysUser> users = new HashSet<>();
 
 
     @Transient

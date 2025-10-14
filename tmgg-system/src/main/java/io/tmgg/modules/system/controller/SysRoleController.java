@@ -11,6 +11,7 @@ import io.tmgg.modules.system.entity.SysRole;
 import io.tmgg.modules.system.entity.SysUser;
 import io.tmgg.modules.system.service.SysMenuService;
 import io.tmgg.modules.system.service.SysRoleService;
+import io.tmgg.modules.system.service.SysUserService;
 import io.tmgg.web.annotion.HasPermission;
 import io.tmgg.web.argument.RequestBodyKeys;
 import io.tmgg.web.perm.Subject;
@@ -18,12 +19,11 @@ import io.tmgg.web.persistence.BaseController;
 import io.tmgg.web.persistence.BaseEntity;
 import io.tmgg.web.pojo.param.DropdownParam;
 import jakarta.annotation.Resource;
+import lombok.Data;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * 系统角色
@@ -40,6 +40,9 @@ public class SysRoleController extends BaseController<SysRole> {
 
     @Resource
     private SysHttpSessionService sm;
+
+    @Resource
+    private SysUserService sysUserService;
 
 
     /**
@@ -59,12 +62,12 @@ public class SysRoleController extends BaseController<SysRole> {
         updateFields.add("perms");
 
 
-        role= sysRoleService.saveOrUpdateByClient(role,updateFields);
+        role = sysRoleService.saveOrUpdateByClient(role, updateFields);
 
         // 刷新 登录用户的权限
         List<Subject> list = sm.findAllSubject();
         for (Subject subject : list) {
-            if(subject.hasRole(role.getCode())){
+            if (subject.hasRole(role.getCode())) {
                 sm.forceExistBySubjectId(subject.getId());
             }
         }
@@ -72,9 +75,6 @@ public class SysRoleController extends BaseController<SysRole> {
         AjaxResult result = AjaxResult.ok().data(role).msg("保存角色成功");
         return result;
     }
-
-
-
 
 
     @RequestMapping("bizTree")
@@ -95,6 +95,7 @@ public class SysRoleController extends BaseController<SysRole> {
 
     /**
      * 权限树 （菜单）
+     *
      * @return
      */
     @HasPermission("sysRole:save")
@@ -124,20 +125,43 @@ public class SysRoleController extends BaseController<SysRole> {
         return AjaxResult.ok().data(checked);
     }
 
+
     @HasPermission("sysRole:save")
-    @RequestMapping("ownUser")
-    public AjaxResult ownUser(String id) {
-        List<SysUser> users = sysRoleService.findUsers(id);
-        return AjaxResult.ok().data(new PageImpl<>(users));
+    @RequestMapping("userList")
+    public AjaxResult userList(String id) {
+        List<SysUser> users = sysUserService.findAll();
+        List<Dict> list = users.stream().map(u -> Dict.of("key", u.getId(), "title", u.getName())).toList();
+
+        List<SysUser> ownUser = sysRoleService.findUsers(id);
+        List<String> ownList = ownUser.stream().map(BaseEntity::getId).toList();
+
+        Map<String, Object> data = new HashMap<>();
+        data.put("list", list);
+        data.put("selectedKeys", ownList);
+
+        return AjaxResult.ok().data(data);
     }
 
 
+    @Data
+    public static class SaveUserListParam {
+        String id;
+        List<String> userIdList;
+    }
+
+    @HasPermission("sysRole:save")
+    @RequestMapping("grantUsers")
+    public AjaxResult saveUserList(@RequestBody SaveUserListParam param) {
+        sysRoleService.grantUsers(param.getId(), param.getUserIdList());
+        return AjaxResult.ok().msg("授权用户成功");
+    }
+
     @RequestMapping("options")
-    public AjaxResult options( DropdownParam param) {
+    public AjaxResult options(DropdownParam param) {
         String searchText = param.getSearchText();
         List<SysRole> list = sysRoleService.findValid();
-        if(searchText != null){
-            list = list.stream().filter(t->t.getName().contains(searchText)).toList();
+        if (searchText != null) {
+            list = list.stream().filter(t -> t.getName().contains(searchText)).toList();
         }
 
         List<Option> options = Option.convertList(list, BaseEntity::getId, SysRole::getName);
