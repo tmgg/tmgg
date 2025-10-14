@@ -24,7 +24,7 @@
 
     <properties>
        <!-- 这个表示版本号，构建时动态指定参数即可 如 mvn package -Drevision=1.1.1-->
-        <revision>0.0.1024</revision>
+        <revision>0.0.1024-SNAPSHOT</revision>
         <java.version>17</java.version>
         <compile.version>17</compile.version>
         <maven.compiler.source>17</maven.compiler.source>
@@ -208,16 +208,6 @@
             </build>
 
 
-        </profile>
-        <!-- 快照仓库 -->
-        <profile>
-            <id>snapshot</id>
-            <distributionManagement>
-                <snapshotRepository>
-                    <id>nexus</id>
-                    <url>http://10.79.43.231:8081/repository/mvn/</url>
-                </snapshotRepository>
-            </distributionManagement>
         </profile>
     </profiles>
 
