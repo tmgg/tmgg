@@ -1,5 +1,6 @@
-package io.tmgg.flowable;
+package io.tmgg.flowable.listener;
 
+import io.tmgg.flowable.FlowableEventType;
 import org.flowable.common.engine.api.delegate.event.FlowableEngineEventType;
 import org.springframework.transaction.annotation.Transactional;
 

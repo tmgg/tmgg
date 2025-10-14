@@ -1,12 +1,11 @@
 package io.tmgg.flowable.config;
 
 import io.tmgg.flowable.FlowableEventType;
-import io.tmgg.flowable.FlowableListener;
+import io.tmgg.flowable.listener.FlowableListener;
 import io.tmgg.flowable.FlowableManager;
-import io.tmgg.lang.SpringTool;
+import io.tmgg.flowable.listener.FlowableListenerRegistry;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
-import org.flowable.common.engine.api.delegate.event.FlowableEngineEventType;
 import org.flowable.common.engine.api.delegate.event.FlowableEvent;
 import org.flowable.common.engine.api.delegate.event.FlowableEventListener;
 import org.flowable.engine.HistoryService;
@@ -17,11 +16,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Map;
-
-import static org.flowable.common.engine.api.delegate.event.FlowableEngineEventType.PROCESS_CANCELLED;
-import static org.flowable.common.engine.api.delegate.event.FlowableEngineEventType.PROCESS_COMPLETED;
 
 @Slf4j
 @Component
@@ -29,11 +24,10 @@ public class GlobalProcessListener implements FlowableEventListener {
 
     @Lazy
     @Resource
-    FlowableManager flowableManager;
-
-    @Lazy
-    @Resource
     HistoryService historyService;
+
+    @Resource
+    FlowableListenerRegistry flowableListenerRegistry;
 
 
     @Override
@@ -57,7 +51,7 @@ public class GlobalProcessListener implements FlowableEventListener {
         String definitionKey = execution.getProcessDefinitionKey();
 
 
-        FlowableListener listener = flowableManager.getListener(definitionKey);
+        FlowableListener listener = flowableListenerRegistry.getListener(definitionKey);
         if (listener == null) {
             return;
         }

@@ -1,6 +1,7 @@
 package io.tmgg.flowable;
 
 import io.tmgg.flowable.bean.TaskVo;
+import io.tmgg.flowable.listener.FlowableListener;
 import io.tmgg.flowable.mgmt.entity.ConditionVariable;
 import io.tmgg.flowable.mgmt.entity.SysFlowableModel;
 import io.tmgg.flowable.mgmt.service.MyTaskService;
@@ -17,7 +18,6 @@ import org.flowable.engine.history.HistoricProcessInstance;
 import org.flowable.engine.repository.ProcessDefinition;
 import org.flowable.engine.runtime.ProcessInstance;
 import org.flowable.task.api.Task;
-import org.flowable.task.api.TaskInfo;
 import org.flowable.task.api.TaskQuery;
 import org.flowable.task.api.history.HistoricTaskInstance;
 import org.flowable.task.api.history.HistoricTaskInstanceQuery;
@@ -46,7 +46,7 @@ public class FlowableManager {
 
     public static final String VAR_DEPT_LEADER= "INITIATOR_DEPT_LEADER";
 
-    private static final Map<String, FlowableListener> listeners = new HashMap<>();
+
 
 
     @Getter
@@ -213,14 +213,7 @@ public class FlowableManager {
         modelService.save(model);
     }
 
-    public void setListener(String key, FlowableListener flowableListener){
-        Assert.state(!listeners.containsKey(key), "流程监听器只能设置一个");
-        listeners.put(key,flowableListener);
-    }
 
-    public FlowableListener getListener(String key){
-        return listeners.get(key);
-    }
 
 
     /***

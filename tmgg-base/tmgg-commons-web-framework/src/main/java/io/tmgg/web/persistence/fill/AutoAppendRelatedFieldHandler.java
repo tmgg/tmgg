@@ -15,7 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 public class AutoAppendRelatedFieldHandler {
 
 
-    private static final Cache<Object,String> LRU_CACHE = CacheUtil.newLRUCache(5000, 1000 * 60 * 5);
+    private static final Cache<Object,String> CACHE = CacheUtil.newTimedCache(1000 * 60 * 5);
 
     public String getTargetValue(String sourceField, AutoAppendRelatedField field, Object obj) {
         Object sourceValue = BeanUtil.getFieldValue(obj, sourceField);
@@ -25,8 +25,8 @@ public class AutoAppendRelatedFieldHandler {
 
         String cacheKey = field.relatedEntity().getSimpleName() + "-" + sourceValue;
 
-        if(LRU_CACHE.containsKey(cacheKey)){
-            return LRU_CACHE.get(cacheKey);
+        if(CACHE.containsKey(cacheKey)){
+            return CACHE.get(cacheKey);
         }
 
         String targetField = field.relatedField();
@@ -54,7 +54,7 @@ public class AutoAppendRelatedFieldHandler {
             if(result != null){
                 String resultStr = result.toString();
 
-                LRU_CACHE.put(cacheKey, resultStr);
+                CACHE.put(cacheKey, resultStr);
 
                 return resultStr;
             }
