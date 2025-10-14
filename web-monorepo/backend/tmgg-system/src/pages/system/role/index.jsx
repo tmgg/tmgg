@@ -1,5 +1,5 @@
 import {PlusOutlined} from '@ant-design/icons'
-import {Button, Col, Form, Input, InputNumber, Modal, Popconfirm, Row} from 'antd'
+import {Button, Form, Input, InputNumber, Modal, Popconfirm} from 'antd'
 import React from 'react'
 import {
     ButtonList,
@@ -19,7 +19,7 @@ export default class extends React.Component {
         formValues: {},
         formOpen: false,
 
-        usersModalOpen:false
+        usersModalOpen: false
     }
 
     formRef = React.createRef()
@@ -83,8 +83,8 @@ export default class extends React.Component {
             dataIndex: 'perms',
             width: 300,
             render(v) {
-                if(v){
-                    return <Ellipsis>{ v.join(',')}</Ellipsis>
+                if (v) {
+                    return <Ellipsis>{v.join(',')}</Ellipsis>
                 }
             }
 
@@ -98,9 +98,11 @@ export default class extends React.Component {
 
                 return (
                     <ButtonList>
-                        <Button size='small' perm='sysRole:save'  onClick={() => this.handleEditUser(record)}>用户</Button>
+                        <Button size='small' perm='sysRole:save'
+                                onClick={() => this.handleEditUser(record)}>用户</Button>
 
-                        <Button size='small' perm='sysRole:save' disabled={record.builtin} onClick={() => this.handleEdit(record)}>编辑</Button>
+                        <Button size='small' perm='sysRole:save' disabled={record.builtin}
+                                onClick={() => this.handleEdit(record)}>编辑</Button>
                         <Popconfirm perm='sysRole:delete' disabled={record.builtin} title='是否确定删除系统角色'
                                     onConfirm={() => this.handleDelete(record)}>
                             <Button size='small'>删除</Button>
@@ -116,8 +118,8 @@ export default class extends React.Component {
     }
 
     handleEdit = record => {
-        this.setState({formOpen: true, formValues: record},()=>{
-            HttpUtil.get('sysRole/ownMenu', {id: record.id}).then(rs=>{
+        this.setState({formOpen: true, formValues: record}, () => {
+            HttpUtil.get('sysRole/ownMenu', {id: record.id}).then(rs => {
                 this.formRef.current.setFieldsValue({
                     menuIds: rs
                 })
@@ -127,11 +129,11 @@ export default class extends React.Component {
 
 
     handleEditUser = record => {
-        this.setState({usersModalOpen: true,formValues: record},()=>{
+        this.setState({usersModalOpen: true, formValues: record}, () => {
 
         })
     }
-    handleAddUser =()=>{
+    handleAddUser = () => {
         debugger
     }
 
@@ -150,7 +152,7 @@ export default class extends React.Component {
     }
 
     render() {
-        return <Page >
+        return <Page>
             <ProTable
                 actionRef={this.tableRef}
                 toolBarRender={() => {
@@ -181,19 +183,18 @@ export default class extends React.Component {
                     <Form.Item name='id' noStyle></Form.Item>
 
 
-                            <Form.Item label='名称' name='name' rules={[{required: true}]}>
-                                <Input/>
-                            </Form.Item>
+                    <Form.Item label='名称' name='name' rules={[{required: true}]}>
+                        <Input/>
+                    </Form.Item>
 
-                            <Form.Item label='编码' name='code' rules={[{required: true}]}>
-                                <Input/>
-                            </Form.Item>
+                    <Form.Item label='编码' name='code' rules={[{required: true}]}>
+                        <Input/>
+                    </Form.Item>
 
 
-
-                     <Form.Item label='排序' name='seq'>
-                            <InputNumber/>
-                        </Form.Item>
+                    <Form.Item label='排序' name='seq'>
+                        <InputNumber/>
+                    </Form.Item>
 
 
                     <Form.Item label='备注' name='remark'>
@@ -213,35 +214,35 @@ export default class extends React.Component {
             </Modal>
 
 
-            <Modal title='角色包含的用户'
+            <Modal title='角色包含的用户管理'
                    open={this.state.usersModalOpen}
                    footer={null}
                    destroyOnHidden
                    maskClosable={false}
                    width={800}
-                   onCancel={()=>this.setState({usersModalOpen:false})}
+                   onCancel={() => this.setState({usersModalOpen: false})}
             >
+                <ProTable
+                    columns={
+                        [
+                            {dataIndex: 'account', title: '账号'},
+                            {dataIndex: 'name', title: '姓名'},
+                            {dataIndex: 'status', title: '状态'},
+                        ]
+                    }
+                    request={(params) => {
+                        params.id = this.state.formValues.id
+                        return HttpUtil.pageData('sysRole/ownUser', params)
+                    }}
+                    toolBarRender={() => {
+                        return <ButtonList>
+                            <FieldTableSelect url={'sysUser/tableSelect'} type={'checkbox'} labelKey={'name'}/>
 
-
-                <ProTable columns={
-                    [
-                        {dataIndex:'account',title:'账号'},
-                        {dataIndex:'name',title:'姓名'},
-                        {dataIndex:'status',title:'状态'},
-                    ]
-                } request={(params)=>{
-                    params.id = this.state.formValues.id
-                    return HttpUtil.pageData('sysRole/ownUser',params)
-                }}
-                          toolBarRender={() => {
-                              return <ButtonList>
-                                  <FieldTableSelect url={'sysUser/tableSelect'} type={'checkbox'} labelKey={'name'} />
-
-                                  <Button perm='sysRole:save' type='primary' onClick={this.handleAddUser}>
-                                       添加用户
-                                  </Button>
-                              </ButtonList>
-                          }}
+                            <Button perm='sysRole:save' type='primary' onClick={this.handleAddUser}>
+                                添加用户
+                            </Button>
+                        </ButtonList>
+                    }}
                 >
 
                 </ProTable>
