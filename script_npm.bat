@@ -12,6 +12,7 @@ call pnpm publish -r --access public --no-git-checks --tag beta --registry http:
 
 echo %TIME%   finish
 
+pause
 
 
 
