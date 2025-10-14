@@ -15,7 +15,7 @@
   "scripts": {
     "dev-ureport": "umi dev"
   },
-  "version": "0.0.1024",
+  "version": "0.0.1024-beta.0",
   "dependencies": {
     "@ant-design/icons": "^5.4.0",
     "@tmgg/tmgg-base": "workspace:*",

@@ -14,7 +14,7 @@
     "plugins/*"
   ],
   "main": "src/index.js",
-  "version": "0.0.1024",
+  "version": "0.0.1024-beta.0",
   "peerDependencies": {
     "@ant-design/icons": "^5.4.0",
     "@tinymce/tinymce-react": "^5.0.0",
