@@ -143,8 +143,10 @@ public class SysFlowableModelServiceController {
             Class<? extends JavaDelegate> cls = value.getClass();
             log.info("{}: {}", beanName, cls);
             String remark = RemarkTool.getRemark(cls);
+
             String label = remark == null ? beanName : remark;
-            options.add(Option.of(beanName, label));
+            String key = "${"+beanName+"}";
+            options.add(Option.of(key, label));
         }
 
         return AjaxResult.ok().data(options);

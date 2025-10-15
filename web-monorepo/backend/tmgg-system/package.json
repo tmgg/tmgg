@@ -35,5 +35,5 @@
     "dev": "umi dev",
     "build": "umi build"
   },
-  "version": "0.0.1024-beta.6"
+  "version": "1.1.58-beta.2"
 }
