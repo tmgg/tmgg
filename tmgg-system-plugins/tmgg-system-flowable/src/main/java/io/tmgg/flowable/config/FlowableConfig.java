@@ -1,25 +1,23 @@
 
 package io.tmgg.flowable.config;
 
-import cn.hutool.core.annotation.AnnotationUtil;
 import io.tmgg.flowable.listener.FlowableListener;
-import io.tmgg.flowable.FlowableManager;
-import io.tmgg.flowable.listener.FlowableListenerDesc;
+import io.tmgg.flowable.listener.FlowableListenerRegister;
 import io.tmgg.flowable.listener.FlowableListenerRegistry;
 import io.tmgg.lang.IdTool;
 import jakarta.annotation.Resource;
 import org.flowable.spring.SpringProcessEngineConfiguration;
 import org.flowable.spring.boot.EngineConfigurationConfigurer;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.util.Assert;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
 @Configuration
-public class FlowableConfig implements EngineConfigurationConfigurer<SpringProcessEngineConfiguration>, CommandLineRunner {
+public class FlowableConfig implements EngineConfigurationConfigurer<SpringProcessEngineConfiguration> {
 
     @Resource
     private GlobalProcessListener globalProcessListener;
@@ -29,7 +27,7 @@ public class FlowableConfig implements EngineConfigurationConfigurer<SpringProce
 
     @Resource
     @Lazy
-    FlowableListenerRegistry flowableListenerRegistry;
+    private  FlowableListenerRegistry flowableListenerRegistry;
 
     @Override
     public void configure(SpringProcessEngineConfiguration cfg) {
@@ -41,16 +39,13 @@ public class FlowableConfig implements EngineConfigurationConfigurer<SpringProce
             cfg.setEventListeners(new ArrayList<>());
         }
         cfg.getEventListeners().add(globalProcessListener);
-    }
 
 
-    @Override
-    public void run(String... args) throws Exception {
         for (FlowableListener listener : listeners) {
-            FlowableListenerDesc desc = listener.getClass().getAnnotation(FlowableListenerDesc.class);
-            if(desc != null){
-                flowableListenerRegistry.addListener(desc.processDefinitionKey(),listener);
-            }
+            FlowableListenerRegister register = listener.getClass().getAnnotation(FlowableListenerRegister.class);
+            Assert.notNull(register, "监听器必须使用注解" + FlowableListenerRegistry.class.getSimpleName() + "描述");
+            flowableListenerRegistry.addListener(register.processDefinitionKey(), listener);
         }
     }
+
 }
