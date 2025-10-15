@@ -8,11 +8,13 @@ import io.tmgg.flowable.mgmt.entity.ConditionVariable;
 import io.tmgg.flowable.mgmt.entity.SysFlowableModel;
 import io.tmgg.flowable.mgmt.service.SysFlowableModelService;
 import io.tmgg.lang.SpringTool;
+import io.tmgg.lang.ann.RemarkTool;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.obj.Option;
 import io.tmgg.web.annotion.HasPermission;
 import io.tmgg.web.argument.RequestBodyKeys;
 import jakarta.annotation.Resource;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.flowable.engine.delegate.JavaDelegate;
 import org.springframework.data.domain.Page;
@@ -27,6 +29,7 @@ import java.util.stream.Collectors;
 /**
  * 流程模型控制器
  */
+@Slf4j
 @RestController
 @RequestMapping("flowable/model")
 public class SysFlowableModelServiceController {
@@ -34,8 +37,6 @@ public class SysFlowableModelServiceController {
 
     @Resource
     private SysFlowableModelService service;
-
-
 
 
     @HasPermission("flowableModel:page")
@@ -56,9 +57,10 @@ public class SysFlowableModelServiceController {
     @HasPermission("flowableModel:save")
     @PostMapping("save")
     public AjaxResult save(@RequestBody SysFlowableModel param, RequestBodyKeys keys) throws Exception {
-        service.saveOrUpdateByClient(param,keys);
+        service.saveOrUpdateByClient(param, keys);
         return AjaxResult.ok();
     }
+
     @HasPermission("flowableModel:design")
     @PostMapping("saveContent")
     public AjaxResult saveContent(@RequestBody SysFlowableModel param) {
@@ -133,9 +135,17 @@ public class SysFlowableModelServiceController {
 
     @GetMapping("javaDelegateOptions")
     public AjaxResult javaDelegateOptions() {
-        Collection<JavaDelegate> beans = SpringTool.getBeans(JavaDelegate.class);
-
-        List<Option> options = Option.convertList(beans, b -> b.getClass().getName(), b -> b.getClass().getSimpleName() + " (" + b.getClass().getName() + ")");
+        Map<String, JavaDelegate> beans = SpringTool.getBeansOfType(JavaDelegate.class);
+        List<Option> options = new ArrayList<>();
+        for (Map.Entry<String, JavaDelegate> e : beans.entrySet()) {
+            String beanName = e.getKey();
+            JavaDelegate value = e.getValue();
+            Class<? extends JavaDelegate> cls = value.getClass();
+            log.info("{}: {}", beanName, cls);
+            String remark = RemarkTool.getRemark(cls);
+            String label = remark == null ? beanName : remark;
+            options.add(Option.of(beanName, label));
+        }
 
         return AjaxResult.ok().data(options);
     }

@@ -18,8 +18,7 @@ export default class extends React.Component {
     this.bo = props.bo;
 
     const data = {};
-    data['flowable:class'] = this.bo.get('flowable:class');
-
+    data['flowable:delegateExpression'] = this.bo.get('flowable:delegateExpression');
     this.state.data = data;
   }
 
@@ -44,7 +43,9 @@ export default class extends React.Component {
           initialValues={this.state.data}
           layout={'vertical'}
         >
-          <Form.Item label="监听类" name="flowable:class" extra="需实现JavaDelegate接口">
+
+
+          <Form.Item label="监听类(表达式)" name="flowable:delegateExpression" extra="需实现JavaDelegate接口">
             <Select options={this.state.javaDelegateOptions} ></Select>
           </Form.Item>
         </Form>

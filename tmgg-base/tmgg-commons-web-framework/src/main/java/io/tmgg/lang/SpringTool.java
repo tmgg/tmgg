@@ -3,13 +3,11 @@ package io.tmgg.lang;
 
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.extra.spring.SpringUtil;
-import org.apache.poi.ss.formula.functions.T;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -41,16 +39,16 @@ public class SpringTool extends SpringUtil implements ApplicationContextAware {
     }
 
 
-
-    public static String[] getBasePackageNames(){
+    public static String[] getBasePackageNames() {
         return getBasePackageClasses().stream().map(Class::getPackageName).collect(Collectors.toSet()).toArray(String[]::new);
     }
 
     /**
      * 获取基础包名， 主要是框架，加项目设置的
+     *
      * @return
      */
-    public static Set<Class<?>> getBasePackageClasses(){
+    public static Set<Class<?>> getBasePackageClasses() {
         Set<Class<?>> clss = new HashSet<>();
         String[] beanNames = applicationContext.getBeanDefinitionNames();
         for (String beanName : beanNames) {
@@ -124,6 +122,14 @@ public class SpringTool extends SpringUtil implements ApplicationContextAware {
         return applicationContext.getBeansOfType(type);
     }
 
+    public static <T> Collection<String> getBeanNames(Class<T> type) {
+        Map<String, T> beansOfType = applicationContext.getBeansOfType(type);
+        Set<String> beanNames = beansOfType.keySet();
+        return beanNames;
+
+    }
+
+
     public static <T> Collection<T> getBeans(Class<T> type) {
         return applicationContext.getBeansOfType(type).values();
     }
@@ -177,9 +183,8 @@ public class SpringTool extends SpringUtil implements ApplicationContextAware {
     }
 
     public static boolean hasProfile(String name) {
-        return ArrayUtil.contains(applicationContext.getEnvironment().getActiveProfiles(),name);
+        return ArrayUtil.contains(applicationContext.getEnvironment().getActiveProfiles(), name);
     }
-
 
 
     public static void publishEvent(ApplicationEvent event) {

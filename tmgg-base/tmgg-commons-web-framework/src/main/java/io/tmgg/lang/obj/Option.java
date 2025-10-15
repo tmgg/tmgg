@@ -22,6 +22,13 @@ public class Option {
     public Option() {
     }
 
+    public static Option of(Object value, String label) {
+        Option option = new Option();
+        option.setValue(value);
+        option.setLabel(label);
+        return option;
+    }
+
     @Deprecated
     public Option(String label, Object value) {
         this.label = label;
