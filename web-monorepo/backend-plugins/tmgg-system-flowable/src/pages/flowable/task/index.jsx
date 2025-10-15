@@ -31,7 +31,7 @@ export default class extends React.Component {
 
     renderTodo = () => <ProTable
         toolbarOptions={{showSearch: false}}
-        request={(params) => HttpUtil.pageData("flowable/userside/todoTaskPage", params)}
+        request={(params) => HttpUtil.pageData("flowable/userClient/todoTaskPage", params)}
         columns={[
 
             {
@@ -71,7 +71,7 @@ export default class extends React.Component {
                 title: '操作',
                 dataIndex: 'option',
                 render: (_, record) => (
-                    <LinkButton path={'/flowable/task/form?taskId=' + record.id + '&instanceId=' + record.instanceId}
+                    <LinkButton path={'/flowable/task/form?taskId=' + record.id + '&instanceId=' + record.instanceId +"&formKey="+ record.formKey}
                                 label='处理任务'>处理</LinkButton>
                 ),
             },
@@ -81,7 +81,7 @@ export default class extends React.Component {
 
     renderDone = () => <ProTable
 
-        request={(params) => HttpUtil.pageData("flowable/userside/doneTaskPage", params)}
+        request={(params) => HttpUtil.pageData("flowable/userClient/doneTaskPage", params)}
         columns={[
             {
                 title: '流程名称',
@@ -140,7 +140,7 @@ export default class extends React.Component {
     />;
 
     renderMyStart = () => <ProTable
-        request={(params) => HttpUtil.pageData("flowable/userside/myInstance", params)}
+        request={(params) => HttpUtil.pageData("flowable/userClient/myInstance", params)}
         columns={[
 
             {

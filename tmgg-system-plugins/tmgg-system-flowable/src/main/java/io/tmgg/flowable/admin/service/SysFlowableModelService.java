@@ -1,9 +1,9 @@
 
-package io.tmgg.flowable.mgmt.service;
+package io.tmgg.flowable.admin.service;
 
-import io.tmgg.flowable.mgmt.dao.SysFlowableModelDao;
-import io.tmgg.flowable.mgmt.entity.ConditionVariable;
-import io.tmgg.flowable.mgmt.entity.SysFlowableModel;
+import io.tmgg.flowable.admin.dao.SysFlowableModelDao;
+import io.tmgg.flowable.admin.entity.ConditionVariable;
+import io.tmgg.flowable.admin.entity.SysFlowableModel;
 import io.tmgg.web.persistence.BaseService;
 import io.tmgg.web.persistence.specification.JpaQuery;
 import jakarta.annotation.Resource;
@@ -18,6 +18,7 @@ import org.flowable.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import org.flowable.validation.ProcessValidator;
 import org.flowable.validation.ProcessValidatorFactory;
 import org.flowable.validation.ValidationError;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -47,7 +48,11 @@ public class SysFlowableModelService extends BaseService<SysFlowableModel> {
 
 
     @Resource
+    @Lazy
     protected ProcessEngineConfigurationImpl processEngineConfiguration;
+
+
+
 
 
     public SysFlowableModel findByCode(String code) {

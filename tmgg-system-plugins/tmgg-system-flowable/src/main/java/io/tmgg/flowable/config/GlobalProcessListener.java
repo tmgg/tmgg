@@ -1,9 +1,8 @@
 package io.tmgg.flowable.config;
 
 import io.tmgg.flowable.FlowableEventType;
-import io.tmgg.flowable.listener.FlowableListener;
-import io.tmgg.flowable.FlowableManager;
-import io.tmgg.flowable.listener.FlowableListenerRegistry;
+import io.tmgg.flowable.listener.ProcessDefinition;
+import io.tmgg.flowable.listener.ProcessDefinitionRegistry;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.flowable.common.engine.api.delegate.event.FlowableEvent;
@@ -27,7 +26,7 @@ public class GlobalProcessListener implements FlowableEventListener {
     HistoryService historyService;
 
     @Resource
-    FlowableListenerRegistry flowableListenerRegistry;
+    ProcessDefinitionRegistry flowableListenerRegistry;
 
 
     @Override
@@ -51,7 +50,7 @@ public class GlobalProcessListener implements FlowableEventListener {
         String definitionKey = execution.getProcessDefinitionKey();
 
 
-        FlowableListener listener = flowableListenerRegistry.getListener(definitionKey);
+        ProcessDefinition listener = flowableListenerRegistry.getListener(definitionKey);
         if (listener == null) {
             return;
         }

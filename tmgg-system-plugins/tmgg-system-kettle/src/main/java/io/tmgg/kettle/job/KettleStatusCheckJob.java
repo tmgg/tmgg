@@ -6,7 +6,7 @@ import com.google.common.cache.CacheBuilder;
 import io.github.tmgg.kettle.sdk.KettleSdk;
 import io.github.tmgg.kettle.sdk.response.SlaveServerJobStatus;
 import io.github.tmgg.kettle.sdk.response.SlaveServerStatus;
-import io.tmgg.modules.job.JobDesc;
+import io.tmgg.modules.job.JobDescription;
 import org.apache.commons.io.IOUtils;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
@@ -21,7 +21,7 @@ import java.util.List;
 
 
 
-@JobDesc(label = "kettle状态检查")
+@JobDescription(label = "kettle状态检查")
 public class KettleStatusCheckJob implements Job {
 
 

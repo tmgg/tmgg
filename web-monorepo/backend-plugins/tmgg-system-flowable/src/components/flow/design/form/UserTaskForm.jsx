@@ -1,12 +1,11 @@
 import React from 'react';
-import {Card, Form, Input, Select} from 'antd';
+import {Card, Divider, Form, Input, Select} from 'antd';
 import BpmnUtils from '../../BpmnUtils';
 import {HttpUtil} from "@tmgg/tmgg-base";
 
 const PREFIX = 'flowable:';
-/**
- * onFinish
- */
+
+
 export default class extends React.Component {
     state = {
         assignmentType: null,
@@ -18,6 +17,8 @@ export default class extends React.Component {
         initData: {},
 
         loading: true,
+
+        formKeyOptions:[]
     };
 
     formRef = React.createRef();
@@ -31,9 +32,19 @@ export default class extends React.Component {
         data.assignmentType = this.props.bo.get('flowable:assignmentType');
         data.assignmentObject = this.props.bo.get('flowable:assignmentObject');
         data['flowable:assignee'] = this.props.bo.get('flowable:assignee');
-
+        data['flowable:formKey'] = this.props.bo.get('flowable:formKey');
         this.state.initData = data;
         this.state.assignmentType = data.assignmentType
+
+        if(this.props.model.formKeyList){
+            this.state.formKeyOptions = props.model.formKeyList.map(k=>{
+                return {
+                    label:k.label,
+                    value:k.value
+                }
+            })
+        }
+
     }
 
     componentDidMount() {
@@ -144,11 +155,8 @@ export default class extends React.Component {
         }
 
         const {assignmentTypeList, assignmentObjectList} = this.state;
-
         const assignmentType = this.state.assignmentType;
-
         const assignmentTypeInfo = this.state.assignmentTypeMap[assignmentType];
-
         const assignmentObjectOptions = assignmentObjectList.map((t) => ({
                 key: t.value,
                 label: t.label,
@@ -156,46 +164,47 @@ export default class extends React.Component {
             }
         ))
 
-        return (
-            <div>
-                <Form
-                    ref={this.formRef}
-                    onValuesChange={this.onValuesChange}
-                    initialValues={this.state.initData}
-                    layout={'vertical'}
-                >
-                    <Form.Item label="人员分配方式" name="assignmentType">
-                        <Select allowClear={true}>
-                            {assignmentTypeList.map((t) => (
-                                <Select.Option key={t.code} value={t.code}>
-                                    {t.label}
-                                </Select.Option>
-                            ))}
-                            <Select.Option key='assigneeExpression'
-                                           value='assigneeExpression'>分配给单个用户（表达式）</Select.Option>
+        return <>
+            <Form
+                ref={this.formRef}
+                onValuesChange={this.onValuesChange}
+                initialValues={this.state.initData}
+                layout={'vertical'}
+            >
+                <Form.Item label="人员分配方式" name="assignmentType">
+                    <Select allowClear={true}>
+                        {assignmentTypeList.map((t) => <Select.Option key={t.code} value={t.code}>
+                                {t.label}
+                            </Select.Option>)}
+                        <Select.Option key='assigneeExpression'
+                                       value='assigneeExpression'>分配给单个用户（表达式）</Select.Option>
+                    </Select>
+
+                </Form.Item>
+
+                {assignmentTypeInfo && <Form.Item label="分配目标" name="assignmentObject">
+                        <Select
+                            mode={assignmentTypeInfo.multiple ? 'multiple' : false}
+                            allowClear={true}
+                            showSearch={true}
+                            filterOption={(input, option) => option.label.includes(input)}
+                            options={assignmentObjectOptions}
+                        >
                         </Select>
-
-                    </Form.Item>
-
-                    {assignmentTypeInfo && (
-                        <Form.Item label="分配目标" name="assignmentObject">
-                            <Select
-                                mode={assignmentTypeInfo.multiple ? 'multiple' : false}
-                                allowClear={true}
-                                showSearch={true}
-                                filterOption={(input, option) => option.label.includes(input)}
-                                options={assignmentObjectOptions}
-                            >
-                            </Select>
-                        </Form.Item>
-                    )}
-                    {assignmentType === 'assigneeExpression' && <Form.Item label='表达式' name='flowable:assignee'>
-                        <Input/>
                     </Form.Item>}
+                {assignmentType === 'assigneeExpression' && <Form.Item label='表达式' name='flowable:assignee'>
+                    <Input/>
+                </Form.Item>}
 
 
-                </Form>
-            </div>
-        );
+
+                <Divider />
+
+                <Form.Item label='指定表单' name='flowable:formKey'>
+                    <Select options={this.state.formKeyOptions} placeholder='请选择表单' allowClear/>
+                </Form.Item>
+
+            </Form>
+        </>;
     }
 }

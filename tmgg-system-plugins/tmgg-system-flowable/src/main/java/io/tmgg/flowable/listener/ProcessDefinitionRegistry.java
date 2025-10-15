@@ -8,16 +8,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Component
-public class FlowableListenerRegistry {
+public class ProcessDefinitionRegistry {
 
-    private static final Map<String, FlowableListener> LISTENERS = new HashMap<>();
+    private static final Map<String, ProcessDefinition> LISTENERS = new HashMap<>();
 
-    public void addListener(String key, FlowableListener flowableListener){
+    public void add(String key, ProcessDefinition flowableListener){
         Assert.state(!LISTENERS.containsKey(key), "流程监听器只能设置一个");
         LISTENERS.put(key,flowableListener);
     }
 
-    public FlowableListener getListener(String key){
+    public ProcessDefinition getListener(String key){
         return LISTENERS.get(key);
     }
 }

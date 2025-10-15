@@ -4,7 +4,7 @@ public enum ValueType {
     TEXT, // 字符串，
     BOOLEAN, // 布尔值
 
-
+    DIGIT,
 
 
     IMG,

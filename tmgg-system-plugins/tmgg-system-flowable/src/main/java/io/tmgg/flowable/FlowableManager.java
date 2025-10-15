@@ -1,11 +1,10 @@
 package io.tmgg.flowable;
 
 import io.tmgg.flowable.bean.TaskVo;
-import io.tmgg.flowable.listener.FlowableListener;
-import io.tmgg.flowable.mgmt.entity.ConditionVariable;
-import io.tmgg.flowable.mgmt.entity.SysFlowableModel;
-import io.tmgg.flowable.mgmt.service.MyTaskService;
-import io.tmgg.flowable.mgmt.service.SysFlowableModelService;
+import io.tmgg.flowable.admin.entity.ConditionVariable;
+import io.tmgg.flowable.admin.entity.SysFlowableModel;
+import io.tmgg.flowable.admin.service.MyTaskService;
+import io.tmgg.flowable.admin.service.SysFlowableModelService;
 import io.tmgg.lang.DateFormatTool;
 import jakarta.annotation.Resource;
 import lombok.Getter;
@@ -21,11 +20,11 @@ import org.flowable.task.api.Task;
 import org.flowable.task.api.TaskQuery;
 import org.flowable.task.api.history.HistoricTaskInstance;
 import org.flowable.task.api.history.HistoricTaskInstanceQuery;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
@@ -51,9 +50,11 @@ public class FlowableManager {
 
     @Getter
     @Resource
+    @Lazy
     private ProcessEngine engine;
 
     @Resource
+    @Lazy
     private SysFlowableModelService modelService;
 
     @Resource
@@ -195,23 +196,7 @@ public class FlowableManager {
     }
 
 
-    @Transactional
-    public void init(String key, String name,  List<ConditionVariable> vars) {
-        log.info("初始化流程定义 {} {} {} ", key, name,  vars);
-        SysFlowableModel model = modelService.findByCode(key);
-        if (model == null) {
-            model = new SysFlowableModel();
-        }
 
-        if(vars == null){
-            vars = new ArrayList<>();
-        }
-
-        model.setCode(key);
-        model.setName(name);
-        model.setConditionVariableList(vars);
-        modelService.save(model);
-    }
 
 
 

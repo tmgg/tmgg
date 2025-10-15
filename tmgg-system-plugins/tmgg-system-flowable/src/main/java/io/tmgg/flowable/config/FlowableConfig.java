@@ -1,10 +1,17 @@
 
 package io.tmgg.flowable.config;
 
-import io.tmgg.flowable.listener.FlowableListener;
-import io.tmgg.flowable.listener.FlowableListenerRegister;
-import io.tmgg.flowable.listener.FlowableListenerRegistry;
+import io.tmgg.flowable.listener.FormKeyDescription;
+import io.tmgg.flowable.listener.ProcessDefinition;
+import io.tmgg.flowable.listener.ProcessDefinitionDescription;
+import io.tmgg.flowable.listener.ProcessDefinitionRegistry;
+import io.tmgg.flowable.admin.dao.SysFlowableModelDao;
+import io.tmgg.flowable.admin.entity.ConditionVariable;
+import io.tmgg.flowable.admin.entity.FormKey;
 import io.tmgg.lang.IdTool;
+import io.tmgg.lang.SpringTool;
+import io.tmgg.lang.field.FieldDescription;
+import io.tmgg.lang.field.ValueType;
 import jakarta.annotation.Resource;
 import org.flowable.spring.SpringProcessEngineConfiguration;
 import org.flowable.spring.boot.EngineConfigurationConfigurer;
@@ -22,30 +29,59 @@ public class FlowableConfig implements EngineConfigurationConfigurer<SpringProce
     @Resource
     private GlobalProcessListener globalProcessListener;
 
-    @Resource
-    private List<FlowableListener> listeners;
 
     @Resource
     @Lazy
-    private  FlowableListenerRegistry flowableListenerRegistry;
+    private ProcessDefinitionRegistry registry;
+
+    @Resource
+    @Lazy
+    private SysFlowableModelDao sysFlowableModelDao;
+
 
     @Override
     public void configure(SpringProcessEngineConfiguration cfg) {
         // 主键生成器，注意：不会影响act_de开头的表主键生成，因为这是流程设计器的，不是工作流引擎的
         cfg.setIdGenerator(IdTool::uuidV7);
-
-
         if (cfg.getEventListeners() == null) {
             cfg.setEventListeners(new ArrayList<>());
         }
         cfg.getEventListeners().add(globalProcessListener);
 
+        initDefinition();
+    }
 
-        for (FlowableListener listener : listeners) {
-            FlowableListenerRegister register = listener.getClass().getAnnotation(FlowableListenerRegister.class);
-            Assert.notNull(register, "监听器必须使用注解" + FlowableListenerRegistry.class.getSimpleName() + "描述");
-            flowableListenerRegistry.addListener(register.processDefinitionKey(), listener);
+    private void initDefinition() {
+        List<ProcessDefinition> definitions = SpringTool.getBeans(ProcessDefinition.class);
+        for (ProcessDefinition definition : definitions) {
+            ProcessDefinitionDescription ann = definition.getClass().getAnnotation(ProcessDefinitionDescription.class);
+            Assert.notNull(ann, "监听器必须使用注解" + ProcessDefinitionRegistry.class.getSimpleName() + "描述");
+            registry.add(ann.key(), definition);
+
+
+            // 持久化到数据库
+            FieldDescription[] fs = ann.conditionVars();
+            List<ConditionVariable> vars = new ArrayList<>();
+            for (FieldDescription f : fs) {
+                ConditionVariable v = new ConditionVariable();
+                v.setName(f.name());
+                v.setLabel(f.label());
+                v.setValueType(f.type() == ValueType.DIGIT ? ConditionVariable.ValueType.digit : ConditionVariable.ValueType.text);
+                vars.add(v);
+            }
+
+            FormKeyDescription[] formKeys = ann.formKeys();
+            List<FormKey> formKeyList = new ArrayList<>();
+            for (FormKeyDescription formKey : formKeys) {
+                FormKey fk = new FormKey();
+                fk.setValue(formKey.value());
+                fk.setLabel(formKey.label());
+                formKeyList.add(fk);
+            }
+
+            sysFlowableModelDao.init(ann.key(), ann.name(), vars, formKeyList);
         }
     }
+
 
 }

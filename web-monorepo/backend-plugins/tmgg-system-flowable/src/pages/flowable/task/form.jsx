@@ -1,5 +1,5 @@
 import React from "react";
-import {Button, Card, Form, Input, Modal, Radio,} from "antd";
+import {Button, Card, Form, Input, Modal, Radio, Spin,} from "antd";
 import InstanceInfo from "../../../components/InstanceInfo";
 import {HttpUtil, Page, PageUtil} from "@tmgg/tmgg-base"
 import {history} from "umi";
@@ -8,18 +8,25 @@ export default class extends React.Component {
 
   state = {
     submitLoading: false,
+    taskId: null,
+    instanceId:null,
+    formKey:null
   }
 
+  constructor(props) {
+    super(props);
+  }
+
+  componentDidMount() {
+    const {taskId,instanceId,formKey} = PageUtil.currentParams()
+    this.setState({taskId,instanceId,formKey})
+  }
 
   handleTask = value => {
     this.setState({submitLoading: true});
-    const {taskId} = PageUtil.currentLocationQuery()
-
-
-    value.taskId = taskId
-    HttpUtil.post("/flowable/userside/handleTask", value).then(rs => {
+    value.taskId = this.state.taskId
+    HttpUtil.post("/flowable/userClient/handleTask", value).then(rs => {
        history.replace('/flowable/task')
-
     }).finally(() => {
       this.setState({submitLoading: false})
     })
@@ -28,15 +35,15 @@ export default class extends React.Component {
 
   render() {
     const {submitLoading} = this.state
-    let params = PageUtil.currentLocationQuery()
-
-    const {instanceId} = params;
+    const instanceId = this.state.instanceId
+    if(!instanceId){
+      return <Spin />
+    }
     return <Page padding>
 
-      <InstanceInfo id={instanceId}/>
+      <InstanceInfo id={instanceId} formKey={this.state.formKey}/>
 
       <Card style={{marginTop: 12}} title='审批'>
-
 
         <Form
           labelCol={{flex: '100px'}}

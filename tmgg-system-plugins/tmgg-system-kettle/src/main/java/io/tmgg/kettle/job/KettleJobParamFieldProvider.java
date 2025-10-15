@@ -3,7 +3,7 @@ package io.tmgg.kettle.job;
 import cn.hutool.core.util.StrUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import io.tmgg.lang.field.Field;
-import io.tmgg.modules.job.JobDesc;
+import io.tmgg.modules.job.JobDescription;
 import io.tmgg.modules.job.JobParamFieldProvider;
 import io.tmgg.kettle.KettleFileService;
 import io.tmgg.kettle.controller.JobXmlInfo;
@@ -24,7 +24,7 @@ public class KettleJobParamFieldProvider implements JobParamFieldProvider {
     KettleFileService kettleFileService;
 
     @Override
-    public List<Field> getFields(JobDesc jobDesc, Map<String, Object> jobData) throws JsonProcessingException {
+    public List<Field> getFields(JobDescription jobDesc, Map<String, Object> jobData) throws JsonProcessingException {
         List<Field> list = new ArrayList<>();
 
         Field field = new Field();

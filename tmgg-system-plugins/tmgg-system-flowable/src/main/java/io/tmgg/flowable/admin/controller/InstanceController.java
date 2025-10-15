@@ -1,8 +1,8 @@
-package io.tmgg.flowable.mgmt.controller;
+package io.tmgg.flowable.admin.controller;
 
 
 import io.tmgg.flowable.bean.TaskVo;
-import io.tmgg.flowable.mgmt.service.MyTaskService;
+import io.tmgg.flowable.admin.service.MyTaskService;
 import io.tmgg.lang.obj.AjaxResult;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletResponse;

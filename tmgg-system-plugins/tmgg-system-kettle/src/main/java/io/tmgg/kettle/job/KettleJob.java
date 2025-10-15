@@ -3,14 +3,10 @@ package io.tmgg.kettle.job;
 import io.github.tmgg.kettle.sdk.KettleSdk;
 import io.github.tmgg.kettle.sdk.LogLevel;
 import io.tmgg.modules.job.BaseJob;
-import io.tmgg.modules.job.JobDesc;
-import io.tmgg.modules.job.JobTool;
+import io.tmgg.modules.job.JobDescription;
 import jakarta.annotation.Resource;
 import org.apache.commons.io.FilenameUtils;
-import org.quartz.Job;
 import org.quartz.JobDataMap;
-import org.quartz.JobExecutionContext;
-import org.quartz.JobExecutionException;
 import org.slf4j.Logger;
 import org.springframework.util.Assert;
 
@@ -21,7 +17,7 @@ import java.util.Map;
  * <p>
  * 注意：这里用sysJob的description字段来存储jobName
  */
-@JobDesc(label = "Kettle作业", group = "kettle", paramsProvider = KettleJobParamFieldProvider.class)
+@JobDescription(label = "Kettle作业", group = "kettle", paramsProvider = KettleJobParamFieldProvider.class)
 public class KettleJob extends BaseJob {
 
     public static final String JOB_PARAM_FILE = "file";

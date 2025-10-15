@@ -1,7 +1,6 @@
 package io.tmgg.flowable.listener;
 
 import io.tmgg.flowable.FlowableEventType;
-import org.flowable.common.engine.api.delegate.event.FlowableEngineEventType;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Map;
@@ -9,7 +8,8 @@ import java.util.Map;
 /**
  * 流程定义接口
  */
-public interface FlowableListener {
+public interface ProcessDefinition {
+
 
 
 

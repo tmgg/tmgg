@@ -6,10 +6,10 @@ import io.tmgg.lang.field.Field;
 import io.tmgg.lang.SpringTool;
 import io.tmgg.web.argument.RequestBodyKeys;
 import io.tmgg.web.persistence.specification.JpaQuery;
-import io.tmgg.lang.field.FieldInfo;
+import io.tmgg.lang.field.FieldDescription;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.obj.Option;
-import io.tmgg.modules.job.JobDesc;
+import io.tmgg.modules.job.JobDescription;
 import io.tmgg.modules.job.JobParamFieldProvider;
 import io.tmgg.modules.job.entity.SysJob;
 import io.tmgg.modules.job.entity.SysJobLog;
@@ -130,7 +130,7 @@ public class SysJobController {
                     option.setValue(name);
                     option.setLabel(name);
 
-                    JobDesc jobDesc = cls.getAnnotation(JobDesc.class);
+                    JobDescription jobDesc = cls.getAnnotation(JobDescription.class);
                     if (jobDesc != null) {
                         option.setLabel(name + " " + jobDesc.label());
                     }
@@ -153,12 +153,12 @@ public class SysJobController {
 
 
         List<Field> result = new ArrayList<>();
-        JobDesc jobDesc = jobCls.getAnnotation(JobDesc.class);
+        JobDescription jobDesc = jobCls.getAnnotation(JobDescription.class);
         if (jobDesc != null) {
             option.setLabel(option.getLabel() + " " + jobDesc.label());
 
-            FieldInfo[] params = jobDesc.params();
-            for (FieldInfo param : params) {
+            FieldDescription[] params = jobDesc.params();
+            for (FieldDescription param : params) {
                 Field d = new Field();
                 d.setName(param.name());
                 d.setLabel(param.label());

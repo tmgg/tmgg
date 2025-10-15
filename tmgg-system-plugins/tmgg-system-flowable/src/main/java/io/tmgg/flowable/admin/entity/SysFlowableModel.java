@@ -1,4 +1,4 @@
-package io.tmgg.flowable.mgmt.entity;
+package io.tmgg.flowable.admin.entity;
 
 
 import io.tmgg.commons.poi.excel.annotation.Excel;
@@ -44,12 +44,15 @@ public class SysFlowableModel extends BaseEntity {
     private String content;
 
 
+    @Convert(converter = FormKeyConverter.class)
+    private List<FormKey> formKeyList = new ArrayList<>();
+
 
 
 
     public static class ConditionVariableConverter extends BaseToListConverter<ConditionVariable>{}
 
-
+    public static class FormKeyConverter extends BaseToListConverter<FormKey>{}
 
 
 }

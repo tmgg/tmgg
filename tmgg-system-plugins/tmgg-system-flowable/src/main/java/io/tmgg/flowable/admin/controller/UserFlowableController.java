@@ -1,4 +1,4 @@
-package io.tmgg.flowable.mgmt.controller;
+package io.tmgg.flowable.admin.controller;
 
 
 import io.tmgg.flowable.FlowableManager;

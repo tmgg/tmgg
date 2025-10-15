@@ -1,4 +1,4 @@
-package io.tmgg.flowable.mgmt.service;
+package io.tmgg.flowable.admin.service;
 
 import io.tmgg.flowable.FlowableLoginUser;
 import io.tmgg.flowable.FlowableMasterDataProvider;

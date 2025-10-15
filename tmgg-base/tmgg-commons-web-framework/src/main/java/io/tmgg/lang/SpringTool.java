@@ -130,8 +130,9 @@ public class SpringTool extends SpringUtil implements ApplicationContextAware {
     }
 
 
-    public static <T> Collection<T> getBeans(Class<T> type) {
-        return applicationContext.getBeansOfType(type).values();
+    public static <T> List<T> getBeans(Class<T> type) {
+        Collection<T> values = applicationContext.getBeansOfType(type).values();
+        return new ArrayList<>(values);
     }
 
     /**

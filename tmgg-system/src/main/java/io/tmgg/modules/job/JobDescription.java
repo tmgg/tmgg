@@ -1,21 +1,21 @@
 package io.tmgg.modules.job;
 
 
-import io.tmgg.lang.field.FieldInfo;
+import io.tmgg.lang.field.FieldDescription;
 
 import java.lang.annotation.*;
 
 @Inherited
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ ElementType.TYPE})
-public @interface JobDesc {
+public @interface JobDescription {
 
     String label();
 
     String group() default "默认分组";
 
 
-    FieldInfo[] params() default {};
+    FieldDescription[] params() default {};
 
     /**
      * 动态参数

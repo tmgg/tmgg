@@ -16,7 +16,6 @@ import palette from "../../../components/flow/design/palette";
 import contextPad from "../../../components/flow/design/contextPad";
 import {CloudUploadOutlined, EditOutlined, SaveOutlined} from "@ant-design/icons";
 import {HttpUtil, PageUtil} from "@tmgg/tmgg-base";
-import BpmnUtils from "../../../components/flow/BpmnUtils";
 
 export default class extends React.Component {
 
@@ -226,7 +225,7 @@ export default class extends React.Component {
                                       modeling={this.modeling}
                 />
             case 'UserTask':
-                return <UserTaskForm bo={curBo} node={this.curNode} modeling={this.modeling}/>
+                return <UserTaskForm bo={curBo} node={this.curNode} modeling={this.modeling} model={this.state.model}/>
             case 'ServiceTask':
                 return <ServiceTaskForm bo={curBo}/>
             case 'StartEvent':

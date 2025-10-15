@@ -9,6 +9,6 @@ import java.util.Map;
 
 public interface JobParamFieldProvider {
 
-    List<Field> getFields(JobDesc jobDesc, Map<String,Object> jobData) throws JsonProcessingException;
+    List<Field> getFields(JobDescription jobDesc, Map<String,Object> jobData) throws JsonProcessingException;
 
 }

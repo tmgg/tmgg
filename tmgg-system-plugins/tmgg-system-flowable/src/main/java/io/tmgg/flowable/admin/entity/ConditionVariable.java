@@ -1,4 +1,4 @@
-package io.tmgg.flowable.mgmt.entity;
+package io.tmgg.flowable.admin.entity;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

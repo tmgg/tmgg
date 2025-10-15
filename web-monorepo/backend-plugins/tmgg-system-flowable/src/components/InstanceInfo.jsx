@@ -29,10 +29,9 @@ export default class InstanceInfo extends React.Component {
     componentDidMount() {
         const {id, businessKey} = this.props;
 
-        HttpUtil.get("flowable/userside/getInstanceInfo", {id, businessKey}).then(rs => {
+        HttpUtil.get("flowable/userClient/getInstanceInfo", {id, businessKey}).then(rs => {
             this.setState(rs)
             this.setState({data: rs})
-
         }).catch(e => {
             this.setState({errorMsg: e})
         }).finally(() => {
@@ -78,8 +77,7 @@ export default class InstanceInfo extends React.Component {
             <Gap/>
 
             <Card title='表单'>
-
-                {this.getForm()}
+                {this.renderForm()}
             </Card>
             <Gap/>
             <Card title='处理记录'>
@@ -112,12 +110,12 @@ export default class InstanceInfo extends React.Component {
 
     }
 
-    getForm = () => {
-        const {data, loading} = this.state
+    renderForm = () => {
+        const {data} = this.state
         const {processDefinitionKey, businessKey} = data
 
         let pathname = '/flowable/form/' + processDefinitionKey;
         console.log('流程表单路径为:', pathname)
-        return <PageRender pathname={pathname} search={'?id=' + businessKey} passLocation={true}/>
+        return <PageRender pathname={pathname} search={'?id=' + businessKey+'&formKey='+this.props.formKey} passLocation={true}/>
     }
 }

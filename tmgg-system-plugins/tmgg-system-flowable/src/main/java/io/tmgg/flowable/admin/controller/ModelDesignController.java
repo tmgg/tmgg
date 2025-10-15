@@ -1,12 +1,12 @@
 
-package io.tmgg.flowable.mgmt.controller;
+package io.tmgg.flowable.admin.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import io.tmgg.flowable.assignment.AssignmentTypeProvider;
 import io.tmgg.flowable.assignment.Identity;
-import io.tmgg.flowable.mgmt.entity.ConditionVariable;
-import io.tmgg.flowable.mgmt.entity.SysFlowableModel;
-import io.tmgg.flowable.mgmt.service.SysFlowableModelService;
+import io.tmgg.flowable.admin.entity.ConditionVariable;
+import io.tmgg.flowable.admin.entity.SysFlowableModel;
+import io.tmgg.flowable.admin.service.SysFlowableModelService;
 import io.tmgg.lang.SpringTool;
 import io.tmgg.lang.ann.RemarkTool;
 import io.tmgg.lang.obj.AjaxResult;
@@ -32,7 +32,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @RestController
 @RequestMapping("flowable/model")
-public class SysFlowableModelServiceController {
+public class ModelDesignController {
 
 
     @Resource
@@ -94,9 +94,7 @@ public class SysFlowableModelServiceController {
         data.put("model", model);
         data.put("conditionVariable", conditionVariable);
 
-
         AjaxResult result = AjaxResult.ok().data(data);
-
 
         return result;
     }
@@ -151,6 +149,7 @@ public class SysFlowableModelServiceController {
 
         return AjaxResult.ok().data(options);
     }
+
 
 
 }

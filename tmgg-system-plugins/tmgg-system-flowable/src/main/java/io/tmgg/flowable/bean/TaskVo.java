@@ -1,6 +1,6 @@
 package io.tmgg.flowable.bean;
 
-import io.tmgg.flowable.mgmt.service.MyTaskService;
+import io.tmgg.flowable.admin.service.MyTaskService;
 import io.tmgg.lang.SpringTool;
 import lombok.Data;
 import org.flowable.engine.history.HistoricProcessInstance;
@@ -28,12 +28,15 @@ public class TaskVo {
     String assigneeInfo;
     float durationInHours;
 
+    String formKey;
+
 
     public TaskVo(TaskInfo task) {
         id = task.getId();
         taskName = task.getName();
         createTime = task.getCreateTime();
         assigneeInfo = SpringTool.getBean(MyTaskService.class).getAssigneeInfoByTaskId(task);
+        formKey = task.getFormKey();
 
         if (task instanceof HistoricTaskInstance ) {
             HistoricTaskInstance hisTask =  ((HistoricTaskInstance) task);

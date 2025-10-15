@@ -2,7 +2,7 @@ package io.tmgg.modules.api.service;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.tmgg.lang.ann.Remark;
-import io.tmgg.lang.field.FieldInfo;
+import io.tmgg.lang.field.FieldDescription;
 import io.tmgg.modules.api.ApiMapping;
 import io.tmgg.modules.api.dao.ApiResourceDao;
 import io.tmgg.modules.api.entity.ApiResource;
@@ -118,7 +118,7 @@ public class ApiResourceService extends BaseService<ApiResource> {
             Annotation[] anns = parameterAnnotations[i];
             if (anns.length > 0) {
                 Annotation ann = anns[0];
-                if (ann instanceof FieldInfo f) {
+                if (ann instanceof FieldDescription f) {
                     a.setRequired(f.required());
                     a.setDesc(f.label());
                     a.setDemo(f.demo());
@@ -166,7 +166,7 @@ public class ApiResourceService extends BaseService<ApiResource> {
             dict.setName(field.getName());
             dict.setType(field.getType().getSimpleName());
 
-            FieldInfo f = field.getAnnotation(FieldInfo.class);
+            FieldDescription f = field.getAnnotation(FieldDescription.class);
             if (f != null) {
                 dict.setRequired(f.required());
                 dict.setDesc(f.label());

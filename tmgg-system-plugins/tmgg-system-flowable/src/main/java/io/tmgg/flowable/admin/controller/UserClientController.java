@@ -1,6 +1,8 @@
-package io.tmgg.flowable.mgmt.controller;
+package io.tmgg.flowable.admin.controller;
 
 
+import cn.hutool.core.lang.Dict;
+import cn.hutool.core.lang.Pair;
 import io.tmgg.flowable.FlowableLoginUser;
 import io.tmgg.flowable.FlowableLoginUserProvider;
 import io.tmgg.flowable.FlowableManager;
@@ -8,21 +10,21 @@ import io.tmgg.flowable.FlowableMasterDataProvider;
 import io.tmgg.flowable.bean.CommentResult;
 import io.tmgg.flowable.bean.HandleTaskParam;
 import io.tmgg.flowable.bean.TaskVo;
-import io.tmgg.flowable.mgmt.entity.ConditionVariable;
-import io.tmgg.flowable.mgmt.entity.SysFlowableModel;
-import io.tmgg.flowable.mgmt.service.MyTaskService;
-import io.tmgg.flowable.mgmt.service.SysFlowableModelService;
+import io.tmgg.flowable.admin.entity.ConditionVariable;
+import io.tmgg.flowable.admin.entity.SysFlowableModel;
+import io.tmgg.flowable.admin.service.MyTaskService;
+import io.tmgg.flowable.admin.service.SysFlowableModelService;
 import io.tmgg.lang.BeanTool;
 import io.tmgg.lang.DateFormatTool;
 import io.tmgg.lang.ImgTool;
 import io.tmgg.lang.obj.AjaxResult;
 import jakarta.annotation.Resource;
-import org.apache.commons.lang3.StringUtils;
 import org.flowable.engine.HistoryService;
 import org.flowable.engine.TaskService;
 import org.flowable.engine.history.HistoricProcessInstance;
 import org.flowable.engine.history.HistoricProcessInstanceQuery;
 import org.flowable.engine.task.Comment;
+import org.flowable.task.api.Task;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -43,8 +45,8 @@ import java.util.stream.Collectors;
  * 每个人都可以看自己任务，故而没有权限注解
  */
 @RestController
-@RequestMapping("flowable/userside")
-public class UserSideController {
+@RequestMapping("flowable/userClient")
+public class UserClientController {
 
 
 
@@ -75,7 +77,7 @@ public class UserSideController {
     public AjaxResult todo(Pageable pageable) {
         Page<TaskVo> page = fm.taskTodoList(pageable);
 
-            return AjaxResult.ok().data(page);
+        return AjaxResult.ok().data(page);
     }
 
     @RequestMapping("doneTaskPage")
@@ -124,6 +126,23 @@ public class UserSideController {
         FlowableLoginUser subject = flowableLoginUserProvider.currentLoginUser();
         myTaskService.handle(subject.getId(), param.getResult(), param.getTaskId(), param.getComment());
         return AjaxResult.ok().msg("处理成功");
+    }
+
+    /**
+     * 任务信息
+     * @param id
+     * @return
+     */
+    @GetMapping("taskInfo")
+    public AjaxResult taskInfo(String id) {
+        Assert.hasText(id,"任务id不能为空");
+        Task task = taskService.createTaskQuery().taskId(id).singleResult();
+
+        Dict data = Dict.of(Pair.of("id", task.getId()),
+                Pair.of("formKey", task.getFormKey())
+        );
+
+        return AjaxResult.ok().data(data);
     }
 
 

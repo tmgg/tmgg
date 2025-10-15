@@ -1,4 +1,4 @@
-package io.tmgg.flowable.mgmt.controller;
+package io.tmgg.flowable.admin.controller;
 
 
 import io.tmgg.flowable.FlowableLoginUserProvider;
@@ -19,7 +19,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 

@@ -8,7 +8,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Inherited
 @Documented
-public @interface FieldInfo {
+public @interface FieldDescription {
 
 	String name() default "";
 

@@ -6,10 +6,8 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Inherited
 @Documented
-public @interface FieldInfos {
+public @interface FieldDescriptionList {
 
-	FieldInfo[] value() default {};
-
-
+	FieldDescription[] value() default {};
 
 }

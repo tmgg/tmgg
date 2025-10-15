@@ -2,7 +2,7 @@ package io.tmgg.modules.job.service;
 
 import io.tmgg.modules.job.dao.SysJobLogDao;
 import io.tmgg.modules.job.entity.SysJob;
-import io.tmgg.modules.job.JobDesc;
+import io.tmgg.modules.job.JobDescription;
 import io.tmgg.modules.job.entity.SysJobLog;
 import io.tmgg.modules.job.quartz.QuartzManager;
 import io.tmgg.web.persistence.BaseService;
@@ -44,7 +44,7 @@ public class SysJobService extends BaseService<SysJob> {
 
         try{
             Class<?> cls = Class.forName(jobClass);
-            JobDesc desc = cls.getAnnotation(JobDesc.class);
+            JobDescription desc = cls.getAnnotation(JobDescription.class);
             if(desc!= null ){
                 db.setGroup(desc.group());
             }

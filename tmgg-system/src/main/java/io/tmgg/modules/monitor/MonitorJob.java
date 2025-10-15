@@ -5,7 +5,7 @@ import cn.hutool.system.oshi.OshiUtil;
 import com.zaxxer.hikari.HikariDataSource;
 import com.zaxxer.hikari.HikariPoolMXBean;
 import io.tmgg.modules.job.BaseJob;
-import io.tmgg.modules.job.JobDesc;
+import io.tmgg.modules.job.JobDescription;
 import io.tmgg.modules.monitor.dao.SysMetricRecordDao;
 import jakarta.annotation.Resource;
 import org.quartz.JobDataMap;
@@ -17,7 +17,7 @@ import javax.sql.DataSource;
 /**
  * 示例作业
  */
-@JobDesc(group = "系统监控", label = "指标数据记录(CPU，内存，数据库等)")
+@JobDescription(group = "系统监控", label = "指标数据记录(CPU，内存，数据库等)")
 public class MonitorJob extends BaseJob {
 
 
