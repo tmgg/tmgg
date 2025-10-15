@@ -2,7 +2,6 @@ package io.tmgg.web.persistence.id;
 
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
-import com.github.f4b6a3.uuid.UuidCreator;
 import io.tmgg.lang.IdTool;
 import io.tmgg.web.persistence.PersistEntity;
 import io.tmgg.web.persistence.id.impl.DailyTableGenerator;
@@ -124,8 +123,8 @@ public class CustomIdGenerator implements IdentifierGenerator {
                 return e.getId();
             }
 
-            if (e.getTempId() != null) {
-                return e.getTempId();
+            if (e.get_tempId() != null) {
+                return e.get_tempId();
             }
         }
         return null;

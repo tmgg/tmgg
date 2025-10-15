@@ -8,7 +8,6 @@ import cn.hutool.core.io.file.FileNameUtil;
 import cn.hutool.core.lang.Dict;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.core.util.URLUtil;
 import cn.hutool.http.HttpUtil;
 import io.tmgg.config.SysProp;
 import io.tmgg.lang.DownloadTool;
@@ -26,13 +25,10 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.core.io.InputStreamResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.MediaTypeFactory;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.web.multipart.MultipartFile;
@@ -194,7 +190,7 @@ public class SysFileService {
 
         // 存储文件信息
         SysFile sysFile = new SysFile();
-        sysFile.setTempId(id);
+        sysFile.setId(id);
         sysFile.setOriginName(originalFilename);
         sysFile.setSuffix(suffix);
         sysFile.setSize(size);

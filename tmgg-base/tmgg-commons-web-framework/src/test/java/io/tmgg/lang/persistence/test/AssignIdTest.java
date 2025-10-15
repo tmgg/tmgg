@@ -10,8 +10,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.List;
-
 @Slf4j
 @SpringBootTest(classes = TestBootApplication.class)
 public class AssignIdTest {
@@ -25,7 +23,7 @@ public class AssignIdTest {
     public void prefixTest() {
         Teacher t = new Teacher();
         String id = "001";
-        t.setTempId(id);
+        t.set_tempId(id);
         t.setName("张老师");
         teacherDao.save(t);
 

@@ -199,8 +199,9 @@ public abstract class BaseEntity implements PersistEntity, Serializable {
     /**
      * 新增时，自定义ID。
      */
+    @JsonIgnore
     @Transient
-    String tempId;
+    private String _tempId;
 
 
 
