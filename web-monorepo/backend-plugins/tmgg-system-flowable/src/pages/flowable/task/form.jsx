@@ -21,7 +21,6 @@ export default class extends React.Component {
 
     componentDidMount() {
         const {taskId, instanceId, formKey} = PageUtil.currentParams()
-        debugger
         this.setState({taskId, instanceId, formKey})
     }
 
