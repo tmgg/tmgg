@@ -28,6 +28,7 @@ import org.flowable.task.api.Task;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
@@ -134,12 +135,17 @@ public class UserClientController {
      * @return
      */
     @GetMapping("taskInfo")
+    @Transactional
     public AjaxResult taskInfo(String id) {
         Assert.hasText(id,"任务id不能为空");
-        Task task = taskService.createTaskQuery().taskId(id).singleResult();
+        Map<String, Object> variables = taskService.getVariables(id);
+        Task task = taskService.createTaskQuery()
+                .taskId(id)
+                .singleResult();
 
-        Dict data = Dict.of(Pair.of("id", task.getId()),
-                Pair.of("formKey", task.getFormKey())
+        Dict data = Dict.of("id", task.getId(),
+               "formKey", task.getFormKey(),
+               "variables", variables
         );
 
         return AjaxResult.ok().data(data);

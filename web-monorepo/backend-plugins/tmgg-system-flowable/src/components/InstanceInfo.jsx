@@ -15,7 +15,6 @@ export default class InstanceInfo extends React.Component {
         starter: null,
         startTime: null,
         name: null,
-        formUrl: null,
 
         data: {
             commentList: [],
@@ -136,6 +135,6 @@ export default class InstanceInfo extends React.Component {
                 </div>
         }
 
-        return <ExForm id={businessKey} formKey={formKey} ref={this.props.externalFormRef}></ExForm>
+        return <ExForm id={businessKey} formKey={formKey} ref={this.props.externalFormRef} taskInfo={this.props.taskInfo}></ExForm>
     }
 }

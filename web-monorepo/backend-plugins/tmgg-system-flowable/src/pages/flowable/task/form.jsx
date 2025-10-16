@@ -10,18 +10,24 @@ export default class extends React.Component {
         submitLoading: false,
         taskId: null,
         instanceId: null,
-        formKey: null
+        formKey: null,
+
+        taskInfo: null
     }
 
-    constructor(props) {
-        super(props);
-    }
+
 
     externalFormRef = React.createRef()
 
     componentDidMount() {
         const {taskId, instanceId, formKey} = PageUtil.currentParams()
         this.setState({taskId, instanceId, formKey})
+
+        HttpUtil.get('/flowable/userClient/taskInfo', {id: taskId}).then(rs=>{
+            console.log('任务信息',rs)
+            this.setState({taskInfo:rs})
+        })
+
     }
 
     handleTask = async value => {
@@ -46,16 +52,16 @@ export default class extends React.Component {
     }
 
     render() {
-        const {submitLoading} = this.state
+        const {submitLoading,taskInfo} = this.state
         const instanceId = this.state.instanceId
-        if (!instanceId) {
+        if (!instanceId || !taskInfo) {
             return <Spin/>
         }
         return <Page padding>
 
             <Splitter>
                 <Splitter.Panel>
-                    <InstanceInfo id={instanceId} formKey={this.state.formKey} externalFormRef={this.externalFormRef}/>
+                    <InstanceInfo id={instanceId} formKey={this.state.formKey} externalFormRef={this.externalFormRef} taskInfo={taskInfo}/>
                 </Splitter.Panel>
                 <Splitter.Panel defaultSize={400}>
                     <Card title='审批意见'>
