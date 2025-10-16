@@ -45,12 +45,12 @@ export default class extends React.Component {
             {
                 title: '当前节点',
                 dataIndex: 'taskName',
-                width:100,
+                width: 100,
             },
             {
                 title: '当前操作人',
                 dataIndex: 'assigneeInfo',
-                width:100
+                width: 100
             },
 
             {
@@ -70,10 +70,17 @@ export default class extends React.Component {
             {
                 title: '操作',
                 dataIndex: 'option',
-                render: (_, record) => (
-                    <LinkButton path={'/flowable/task/form?taskId=' + record.id + '&instanceId=' + record.instanceId +"&formKey="+ record.formKey}
-                                label='处理任务'>处理</LinkButton>
-                ),
+                render: (_, record) => {
+                    let path = '/flowable/task/form?taskId=' + record.id + '&instanceId=' + record.instanceId;
+                    if (record.formKey) {
+                        path += "&formKey=" + record.formKey
+                    }
+                    return (
+                        <LinkButton
+                            path={path}
+                            label='处理任务'>处理</LinkButton>
+                    );
+                },
             },
         ]}
         size='small'
@@ -129,7 +136,7 @@ export default class extends React.Component {
                     <Button size='small' onClick={() => {
                         Modal.info({
                             title: '流程信息',
-                            width:'800vw',
+                            width: '800vw',
                             content: <InstanceInfo id={record.instanceId}/>
                         })
                     }}> 查看 </Button>
