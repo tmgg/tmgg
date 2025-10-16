@@ -1,4 +1,4 @@
-package io.tmgg.flowable.bean;
+package io.tmgg.flowable.dto;
 
 import lombok.Getter;
 

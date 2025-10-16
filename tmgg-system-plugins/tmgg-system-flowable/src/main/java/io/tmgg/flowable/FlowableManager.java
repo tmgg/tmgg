@@ -1,6 +1,6 @@
 package io.tmgg.flowable;
 
-import io.tmgg.flowable.bean.TaskVo;
+import io.tmgg.flowable.dto.TaskVo;
 import io.tmgg.flowable.admin.entity.ConditionVariable;
 import io.tmgg.flowable.admin.entity.SysFlowableModel;
 import io.tmgg.flowable.admin.service.MyTaskService;

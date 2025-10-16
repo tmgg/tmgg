@@ -1,4 +1,4 @@
-package io.tmgg.flowable.demo;
+package io.tmgg.demo;
 
 import cn.hutool.core.lang.Dict;
 import io.tmgg.lang.ann.Remark;

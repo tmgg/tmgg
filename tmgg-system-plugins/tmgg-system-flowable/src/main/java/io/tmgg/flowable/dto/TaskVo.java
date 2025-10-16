@@ -1,4 +1,4 @@
-package io.tmgg.flowable.bean;
+package io.tmgg.flowable.dto;
 
 import io.tmgg.flowable.admin.service.MyTaskService;
 import io.tmgg.lang.SpringTool;

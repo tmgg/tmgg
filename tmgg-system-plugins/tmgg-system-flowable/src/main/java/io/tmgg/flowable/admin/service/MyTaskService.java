@@ -5,7 +5,7 @@ import io.tmgg.flowable.FlowableMasterDataProvider;
 import io.tmgg.flowable.FlowableProperties;
 import io.tmgg.flowable.assignment.AssignmentService;
 import io.tmgg.flowable.assignment.AssignmentTypeProvider;
-import io.tmgg.flowable.bean.TaskHandleResult;
+import io.tmgg.flowable.dto.TaskHandleResult;
 import io.tmgg.lang.SpringTool;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;

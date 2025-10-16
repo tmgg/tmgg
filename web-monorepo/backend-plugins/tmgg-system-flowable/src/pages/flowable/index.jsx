@@ -1,8 +1,7 @@
-import {Button, Form, Input, Modal, Popconfirm, Select, Space} from 'antd';
+import {Button, Modal, Popconfirm, Space} from 'antd';
 import React from 'react';
-import {PageUtil, ProTable} from "@tmgg/tmgg-base";
-import {MinusCircleOutlined, PlusOutlined} from "@ant-design/icons";
-import { HttpUtil} from "@tmgg/tmgg-base";
+import {HttpUtil, PageUtil, ProTable} from "@tmgg/tmgg-base";
+import {PlusOutlined} from "@ant-design/icons";
 
 const baseTitle = "流程模型";
 const baseApi = 'flowable/model/';
@@ -20,159 +19,120 @@ const delPerm = basePerm + 'delete'
 export default class extends React.Component {
 
 
-  state = {
-    formValues: {},
-    formOpen:false
-  }
+    state = {
+        formValues: {},
+        formOpen: false
+    }
 
-  actionRef = React.createRef();
-  formRef = React.createRef();
-
-
-  columns = [
-    {
-      title: '模型名称',
-      dataIndex: 'name',
-      sorter: true
-    },
-    {
-      title: '唯一编码',
-      dataIndex: 'code'
-    },
-    {
-      title: '表单链接',
-      dataIndex: 'formUrl'
-    },
-    {
-      title: '更新时间',
-      dataIndex: 'updateTime',
-    },
+    actionRef = React.createRef();
+    formRef = React.createRef();
 
 
-    {
-      title: '操作',
-      dataIndex: 'option',
-      render: (_, record) => (
-        <Space>
-          <Button size='small' type='primary' onClick={()=>PageUtil.open('/flowable/design?id=' + record.id,'流程设计'+ record.name)}> 设计 </Button>
-          <Button size='small' onClick={()=>this.handleEdit(record)}> 编辑 </Button>
-          <Popconfirm perm={delPerm} title={'是否确定' + deleteTitle} onConfirm={() => this.handleDelete(record)}>
-            <Button size='small' danger>删除</Button>
-          </Popconfirm>
-        </Space>
-      ),
-    },
-  ];
+    columns = [
+        {
+            title: '模型名称',
+            dataIndex: 'name',
+            sorter: true
+        },
+        {
+            title: '唯一编码',
+            dataIndex: 'code'
+        },
+        {
+            title: '表单链接',
+            dataIndex: 'formUrl'
+        },
+        {
+            title: '更新时间',
+            dataIndex: 'updateTime',
+        },
 
 
-  handleAdd = () => {
-    this.setState({
-      formOpen:true,
-      formValues:{}
-    })
-  }
-
-  handleEdit = record=>{
-    this.setState({
-      formOpen:true,
-      formValues:record
-    })
-  }
-  onFinish = values=>{
-    HttpUtil.post('flowable/model/save',values).then(rs=>{
-      this.actionRef.current.reload()
-      this.setState({formOpen:false})
-    })
-  }
-
-  handleDelete = row => {
-    HttpUtil.get(delApi, {id:row.id}).then(rs => {
-      this.actionRef.current.reload();
-    })
-  }
-
-
-  render() {
-    return <>
-      <ProTable
-        search={false}
-        actionRef={this.actionRef}
-        toolBarRender={() => <Button icon={<PlusOutlined/>} type='primary' onClick={this.handleAdd}> 新增</Button>}
-        request={(params) => HttpUtil.pageData(pageApi, params)}
-        columns={this.columns}
-        rowSelection={false}
-        rowKey="id"
-        options={{search:true}}
-      />
-
-      <Modal title='模型基本信息'
-             open={this.state.formOpen}
-             destroyOnHidden
-             onOk={() => this.formRef.current.submit()}
-             onCancel={() => this.setState({formOpen: false})}
-             width={700}
-      >
-
-        <Form ref={this.formRef} labelCol={{flex: '100px'}}
-              initialValues={this.state.formValues}
-              onFinish={this.onFinish}>
-          <Form.Item name='id' noStyle>
-          </Form.Item>
-          <Form.Item label='名称' name='name' rules={[{required: true}]}>
-            <Input/>
-          </Form.Item>
-          <Form.Item label='编码' name='code' rules={[{required: true}]} help='流程定义的key，全局唯一， 英文'>
-            <Input/>
-          </Form.Item>
-
-
-
-
-          <Form.List label='变量定义' name='conditionVariableList'>
-            {(fields, {add, remove}, {errors}) => <>
-
-              {fields.map(({key, name, ...restField}, index) => <Space
-                  key={key}
-                  style={{
-                    display: 'flex',
-                    marginBottom: 8,
-                  }}
-                  align="baseline"
-                >
-                  <Form.Item label='参数' name={[name, 'name']} {...restField} >
-                    <Input />
-                  </Form.Item>
-                  <Form.Item label='显示' name={[name, 'label']} {...restField} >
-                    <Input/>
-                  </Form.Item>
-                <Form.Item label='类型' name={[name, 'valueType']} {...restField} >
-                  <Select style={{width: 100}} options={[{label:'文本',value:'text'},{label:'数字', value: 'digit'}]}/>
-                </Form.Item>
-                  <MinusCircleOutlined onClick={() => remove(name)}/>
-
+        {
+            title: '操作',
+            dataIndex: 'option',
+            render: (_, record) => (
+                <Space>
+                    <Button size='small' type='primary'
+                            onClick={() => PageUtil.open('/flowable/design?id=' + record.id, '流程设计' + record.name)}> 设计 </Button>
+                    <Button size='small' onClick={() => this.handleEdit(record)}> 编辑 </Button>
+                    <Popconfirm perm={delPerm} title={'是否确定' + deleteTitle}
+                                onConfirm={() => this.handleDelete(record)}>
+                        <Button size='small' danger>删除</Button>
+                    </Popconfirm>
                 </Space>
-              )}
+            ),
+        },
+    ];
 
-              <Form.Item label=' ' colon={false}>
-                <Button
-                  icon={<PlusOutlined/>}
-                  type="dashed"
-                  onClick={() => add()}
-                  style={{
-                    width: '60%',
-                  }}
-                >
-                  添加参数
-                </Button>
-              </Form.Item>
-            </>
-            }
-          </Form.List>
-        </Form>
 
-      </Modal>
-    </>
-  }
+    handleAdd = () => {
+        this.setState({
+            formOpen: true,
+            formValues: {}
+        })
+    }
+
+    handleEdit = record => {
+        this.setState({
+            formOpen: true,
+            formValues: record
+        })
+    }
+    onFinish = values => {
+        HttpUtil.post('flowable/model/save', values).then(rs => {
+            this.actionRef.current.reload()
+            this.setState({formOpen: false})
+        })
+    }
+
+    handleDelete = row => {
+        HttpUtil.get(delApi, {id: row.id}).then(rs => {
+            this.actionRef.current.reload();
+        })
+    }
+
+
+    render() {
+        const demo = `@Component
+@ProcessDefinitionDescription(key = "demo",name = "demo-派车流程", formKeys = @FormKeyDescription(value = "driverForm",label = "司机表单"))
+public class DemoProcess implements ProcessDefinition {
+
+    @Override
+    public void onProcessEvent(FlowableEventType type, String initiator, String businessKey, Map<String, Object> variables) {
+
+    }
+}
+`
+
+        return <>
+            <ProTable
+                search={false}
+                actionRef={this.actionRef}
+                toolBarRender={() => <Button icon={<PlusOutlined/>} type='primary'
+                                             onClick={this.handleAdd}> 新增</Button>}
+                request={(params) => HttpUtil.pageData(pageApi, params)}
+                columns={this.columns}
+                rowSelection={false}
+                rowKey="id"
+                options={{search: true}}
+            />
+
+            <Modal title='模型基本信息'
+                   open={this.state.formOpen}
+                   onCancel={() => this.setState({formOpen: false})}
+                   width={1024}
+                   footer={null}
+            >
+
+                不支持页面创建， 请参考Java代码
+                <pre>
+{demo}
+        </pre>
+
+            </Modal>
+        </>
+    }
 
 
 }

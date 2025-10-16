@@ -1,5 +1,6 @@
-package io.tmgg.flowable.bean;
+package io.tmgg.flowable.dto;
 
+import io.tmgg.flowable.dto.response.CommentResult;
 import lombok.Data;
 
 import java.util.List;

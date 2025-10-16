@@ -11,6 +11,21 @@
     <name>tmgg-system</name>
 
     <dependencies>
+        <!-- MapStruct -->
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+            <version>${mapstruct.version}</version> <!-- 使用最新版本 -->
+        </dependency>
+
+        <!-- MapStruct 注解处理器 -->
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct-processor</artifactId>
+            <version>1.5.5.Final</version> <!-- 与上面版本一致 -->
+            <scope>provided</scope>
+        </dependency>
+
         <dependency>
             <groupId>org.ehcache</groupId>
             <artifactId>ehcache</artifactId>

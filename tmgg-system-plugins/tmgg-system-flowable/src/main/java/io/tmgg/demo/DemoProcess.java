@@ -1,4 +1,4 @@
-package io.tmgg.flowable.demo;
+package io.tmgg.demo;
 
 import io.tmgg.flowable.FlowableEventType;
 import io.tmgg.flowable.listener.FormKeyDescription;

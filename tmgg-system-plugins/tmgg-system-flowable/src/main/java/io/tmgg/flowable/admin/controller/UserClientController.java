@@ -2,14 +2,13 @@ package io.tmgg.flowable.admin.controller;
 
 
 import cn.hutool.core.lang.Dict;
-import cn.hutool.core.lang.Pair;
 import io.tmgg.flowable.FlowableLoginUser;
 import io.tmgg.flowable.FlowableLoginUserProvider;
 import io.tmgg.flowable.FlowableManager;
 import io.tmgg.flowable.FlowableMasterDataProvider;
-import io.tmgg.flowable.bean.CommentResult;
-import io.tmgg.flowable.bean.HandleTaskParam;
-import io.tmgg.flowable.bean.TaskVo;
+import io.tmgg.flowable.dto.response.CommentResult;
+import io.tmgg.flowable.dto.request.HandleTaskRequest;
+import io.tmgg.flowable.dto.TaskVo;
 import io.tmgg.flowable.admin.entity.ConditionVariable;
 import io.tmgg.flowable.admin.entity.SysFlowableModel;
 import io.tmgg.flowable.admin.service.MyTaskService;
@@ -123,7 +122,7 @@ public class UserClientController {
 
 
     @PostMapping("handleTask")
-    public AjaxResult handle(@RequestBody HandleTaskParam param) {
+    public AjaxResult handle(@RequestBody HandleTaskRequest param) {
         FlowableLoginUser subject = flowableLoginUserProvider.currentLoginUser();
         myTaskService.handle(subject.getId(), param.getResult(), param.getTaskId(), param.getComment());
         return AjaxResult.ok().msg("处理成功");
