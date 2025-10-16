@@ -1,7 +1,8 @@
 import React from "react";
-import {Card, Descriptions, Empty, Modal, Skeleton, Table} from "antd";
+import {Card, Empty, Modal, Skeleton, Table, Tabs, Typography} from "antd";
 import {Gap, HttpUtil} from "@tmgg/tmgg-base";
 import {PageRender} from "@tmgg/tmgg-system";
+import {FormOutlined, ShareAltOutlined} from "@ant-design/icons";
 
 
 export default class InstanceInfo extends React.Component {
@@ -28,7 +29,6 @@ export default class InstanceInfo extends React.Component {
 
     componentDidMount() {
         const {id, businessKey} = this.props;
-
         HttpUtil.get("flowable/userClient/getInstanceInfo", {id, businessKey}).then(rs => {
             this.setState(rs)
             this.setState({data: rs})
@@ -66,49 +66,58 @@ export default class InstanceInfo extends React.Component {
         console.log('流程ID', data.id)
         console.log('流程数据', data)
 
-        return <div>
-            <Card title='基本信息'>
-                <Descriptions title={data.name}>
-                    <Descriptions.Item label='发起人'>{data.starter}</Descriptions.Item>
-                    <Descriptions.Item label='发起时间'>{data.startTime}</Descriptions.Item>
-                </Descriptions>
-            </Card>
+        return <>
+            <Typography.Title level={4}>{data.name}</Typography.Title>
+            <Typography.Text type="secondary">{data.starter} &nbsp;&nbsp; {data.startTime}</Typography.Text>
+            <Gap></Gap>
+            <Tabs
+                type="card"
+                items={[
+                    {
+                        key: '1',
+                        label: '表单',
+                        icon: <FormOutlined/>,
+                        children: this.renderForm()
+                    },
+                    {
+                        key: '2',
+                        label: '流程',
+                        icon: <ShareAltOutlined/>,
+                        children: this.renderProcess(img, commentList)
+                    }
+                ]}>
 
-            <Gap/>
-
-            <Card title='表单'>
-                {this.renderForm()}
-            </Card>
-            <Gap/>
-            <Card title='处理记录'>
-                {img && <img  src={img} style={{maxWidth: '100%'}}
-                             onClick={this.onImgClick}/>}
-                <Table dataSource={commentList}
-                       bordered
-                       size='small'
-                       pagination={false}
-                       rowKey='id'
-                       columns={[
-                           {
-                               dataIndex: 'content',
-                               title: '操作'
-                           },
-                           {
-                               dataIndex: 'user',
-                               title: '处理人'
-                           },
-                           {
-                               dataIndex: 'time',
-                               title: '处理时间'
-                           },
-                       ]}
-                />
-            </Card>
+            </Tabs>
 
 
-        </div>
+        </>
 
     }
+
+    renderProcess = (img, commentList) => <Card title='处理记录'>
+        {img && <img src={img} style={{maxWidth: '100%'}}
+                     onClick={this.onImgClick}/>}
+        <Table dataSource={commentList}
+               bordered
+               size='small'
+               pagination={false}
+               rowKey='id'
+               columns={[
+                   {
+                       dataIndex: 'content',
+                       title: '操作'
+                   },
+                   {
+                       dataIndex: 'user',
+                       title: '处理人'
+                   },
+                   {
+                       dataIndex: 'time',
+                       title: '处理时间'
+                   },
+               ]}
+        />
+    </Card>;
 
     renderForm = () => {
         const {data} = this.state
@@ -116,6 +125,7 @@ export default class InstanceInfo extends React.Component {
 
         let pathname = '/flowable/form/' + processDefinitionKey;
         console.log('流程表单路径为:', pathname)
-        return <PageRender pathname={pathname} search={'?id=' + businessKey+'&formKey='+this.props.formKey} passLocation={true}/>
+        return <PageRender pathname={pathname} search={'?id=' + businessKey + '&formKey=' + this.props.formKey}
+                           passLocation={true}/>
     }
 }
