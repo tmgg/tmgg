@@ -1,8 +1,8 @@
 import React from "react";
 import {Card, Empty, Modal, Skeleton, Table, Tabs, Typography} from "antd";
 import {Gap, HttpUtil} from "@tmgg/tmgg-base";
-import {PageRender} from "@tmgg/tmgg-system";
 import {FormOutlined, ShareAltOutlined} from "@ant-design/icons";
+import {formRegistry} from "../common/FormRegistry";
 
 
 export default class InstanceInfo extends React.Component {
@@ -57,14 +57,11 @@ export default class InstanceInfo extends React.Component {
         }
 
         const {data, loading} = this.state
-
-        const {commentList, img, variables} = data
+        const {commentList, img} = data
         if (loading) {
             return <Skeleton/>
         }
 
-        console.log('流程ID', data.id)
-        console.log('流程数据', data)
 
         return <>
             <Typography.Title level={4}>{data.name}</Typography.Title>
@@ -123,9 +120,22 @@ export default class InstanceInfo extends React.Component {
         const {data} = this.state
         const {processDefinitionKey, businessKey} = data
 
-        let pathname = '/flowable/form/' + processDefinitionKey;
-        console.log('流程表单路径为:', pathname)
-        return <PageRender pathname={pathname} search={'?id=' + businessKey + '&formKey=' + this.props.formKey}
-                           passLocation={true}/>
+        let formKey = this.props.formKey || processDefinitionKey + 'Form';
+        let ExForm = formRegistry.get(formKey);
+        if (!ExForm) {
+            return <div>
+                未注册表单，请注册表单 {formKey}。
+                <Gap></Gap>
+                <div>js代码示例：</div>
+                <div>
+                    // app.js
+                </div>
+                <div>
+                    formRegistry.register("driverForm",DriverForm)
+                </div>
+                </div>
+        }
+
+        return <ExForm id={businessKey} formKey={formKey} ref={this.props.externalFormRef}></ExForm>
     }
 }

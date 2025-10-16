@@ -14,7 +14,7 @@ import ConditionForm from "../../../components/flow/design/form/ConditionForm";
 import UserTaskForm from "../../../components/flow/design/form/UserTaskForm";
 import palette from "../../../components/flow/design/palette";
 import contextPad from "../../../components/flow/design/contextPad";
-import {CloudUploadOutlined, EditOutlined, SaveOutlined} from "@ant-design/icons";
+import {CloudUploadOutlined, SaveOutlined} from "@ant-design/icons";
 import {HttpUtil, PageUtil} from "@tmgg/tmgg-base";
 
 export default class extends React.Component {
@@ -173,7 +173,8 @@ export default class extends React.Component {
                          <Button type='primary' danger icon={<CloudUploadOutlined/>}
                                  onClick={this.handleDeploy}>部署</Button>
                          <Button onClick={this.showXML}>XML</Button>
-                         <Button onClick={() => PageUtil.open('/flowable/test?id=' + this.state.id,"流程测试")}> 测试 </Button>
+                         <Button
+                             onClick={() => PageUtil.open('/flowable/test?id=' + this.state.id, "流程测试")}> 测试 </Button>
 
                      </Space>}>
 
@@ -256,7 +257,7 @@ export default class extends React.Component {
 
         const initialValues = Object.assign({}, bo.$attrs)
 
-        if(bo.loopCardinality){
+        if (bo.loopCardinality) {
             initialValues.loopCardinality = bo.loopCardinality.body
         }
 
@@ -282,7 +283,7 @@ export default class extends React.Component {
 
     onMultiInstanceLoopCharacteristicsChange = (changedValue, values) => {
         let bo = this.curBo.loopCharacteristics;
-        if(changedValue.loopCardinality != null){
+        if (changedValue.loopCardinality != null) {
             const expression = this.moddle.create('bpmn:FormalExpression', {body: changedValue.loopCardinality});
             bo.loopCardinality = expression;
             return

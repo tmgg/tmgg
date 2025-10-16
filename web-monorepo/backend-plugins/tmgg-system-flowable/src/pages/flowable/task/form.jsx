@@ -1,5 +1,5 @@
 import React from "react";
-import {Button, Card, Form, Input, Radio, Spin, Splitter,} from "antd";
+import {Button, Card, Form, Input, message, Radio, Spin, Splitter,} from "antd";
 import InstanceInfo from "../../../components/InstanceInfo";
 import {HttpUtil, Page, PageUtil} from "@tmgg/tmgg-base"
 import {history} from "umi";
@@ -17,19 +17,31 @@ export default class extends React.Component {
         super(props);
     }
 
+    externalFormRef = React.createRef()
+
     componentDidMount() {
         const {taskId, instanceId, formKey} = PageUtil.currentParams()
         this.setState({taskId, instanceId, formKey})
     }
 
-    handleTask = value => {
+    handleTask = async value => {
         this.setState({submitLoading: true});
-        value.taskId = this.state.taskId
-        HttpUtil.post("/flowable/userClient/handleTask", value).then(rs => {
+        try {
+            if (value.result === 'APPROVE') {
+                const fn = this.externalFormRef.current?.submit
+                if (fn) {
+                    await fn()
+                }
+            }
+
+            value.taskId = this.state.taskId
+            await HttpUtil.post("/flowable/userClient/handleTask", value)
             history.replace('/flowable/task')
-        }).finally(() => {
+        } catch (error) {
+            message.error(error)
+        } finally {
             this.setState({submitLoading: false})
-        })
+        }
 
     }
 
@@ -43,7 +55,7 @@ export default class extends React.Component {
 
             <Splitter>
                 <Splitter.Panel>
-                    <InstanceInfo id={instanceId} formKey={this.state.formKey}/>
+                    <InstanceInfo id={instanceId} formKey={this.state.formKey} externalFormRef={this.externalFormRef}/>
                 </Splitter.Panel>
                 <Splitter.Panel defaultSize={400}>
                     <Card title='审批意见'>
