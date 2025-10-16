@@ -15,7 +15,7 @@
   "scripts": {
     "dev-weixin": "umi dev"
   },
-  "version": "1.1.58-beta.4",
+  "version": "1.1.58-beta.5",
   "dependencies": {
     "@ant-design/icons": "^5.4.0",
     "@tmgg/tmgg-base": "workspace:*",
