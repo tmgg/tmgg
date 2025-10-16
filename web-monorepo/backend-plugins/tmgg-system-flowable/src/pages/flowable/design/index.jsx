@@ -173,7 +173,7 @@ export default class extends React.Component {
                          <Button type='primary' danger icon={<CloudUploadOutlined/>}
                                  onClick={this.handleDeploy}>部署</Button>
                          <Button onClick={this.showXML}>XML</Button>
-                         <Button onClick={() => PageUtil.open('/flowable/test?id=' + this.state.id)}> 测试 </Button>
+                         <Button onClick={() => PageUtil.open('/flowable/test?id=' + this.state.id,"流程测试")}> 测试 </Button>
 
                      </Space>}>
 
