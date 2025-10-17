@@ -90,11 +90,7 @@ public class SysUserDao extends BaseDao<SysUser> {
         super.delete(entity);
     }
 
-    public Map<String, Object> findUserNameMap() {
-        String sql = "select id, name from sys_user";
 
-        return dbTool.findDict(sql);
-    }
 
     public List<SysUser> findByRoleId(String roleId) {
         JpaQuery<SysUser> q = new JpaQuery<>();
