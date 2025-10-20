@@ -129,7 +129,7 @@ export default class InstanceInfo extends React.Component {
                     // app.js
                 </div>
                 <div>
-                    formRegistry.register("driverForm",DriverForm)
+                    formRegistry.register("{formKey}",XXXForm)
                 </div>
                 </div>
         }
