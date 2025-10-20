@@ -67,7 +67,6 @@ export default class InstanceInfo extends React.Component {
             <Typography.Text type="secondary">{data.starter} &nbsp;&nbsp; {data.startTime}</Typography.Text>
             <Gap></Gap>
             <Tabs
-                type="card"
                 items={[
                     {
                         key: '1',
