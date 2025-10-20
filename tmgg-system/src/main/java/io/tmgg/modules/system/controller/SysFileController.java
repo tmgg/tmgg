@@ -50,7 +50,7 @@ public class SysFileController {
                            MaterialType type,
                            @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) {
         JpaQuery<SysFile> q = new JpaQuery<>();
-        q.betweenIsoDateRange(SysFile.FIELD_CREATE_TIME, dateRange);
+        q.betweenIsoDateRange(SysFile.FIELD_CREATE_TIME, dateRange,true);
         q.eq(SysFile.Fields.originName, originName);
         q.eq(SysFile.Fields.objectName, objectName);
         q.eq(SysFile.Fields.type, type);
