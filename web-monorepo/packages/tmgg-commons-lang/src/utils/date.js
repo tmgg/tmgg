@@ -160,6 +160,13 @@ export const DateUtil = {
         seconds = Math.floor(seconds)
 
         return min + '分' + seconds + '秒'
+    },
+
+    beginOfMonth(){
+        const d = new Date();
+        d.setMonth(0)
+        d.setDate(1)
+        return this.formatDate(d)
     }
 
 
