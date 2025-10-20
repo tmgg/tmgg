@@ -144,11 +144,8 @@ public class SysMenuService extends BaseService<SysMenu> {
         return list.stream().filter(t->ids.contains(t.getId())).collect(Collectors.toList());
     }
 
-    public void addMenuSimple( String id, String name, String perm, String path, int seq) {
-        this.addMenu("biz",id,name,perm,path, seq, false);
-    }
 
-    public void addMenu(String pid, String id, String name, String perm, String path, int seq,boolean refreshOnTabClick) {
+    public void addMenu(String pid, String id, String name, AntDesignIcon icon, String perm, String path, int seq,boolean refreshOnTabClick) {
         SysMenu menu = sysMenuDao.findOne(id);
         if(menu == null){
             menu = new SysMenu();
@@ -161,6 +158,10 @@ public class SysMenuService extends BaseService<SysMenu> {
         menu.setPath(path);
         menu.setRefreshOnTabClick(refreshOnTabClick);
         menu.setSeq(seq);
+        if(icon != null){
+            menu.setIcon(icon.name());
+
+        }
 
         sysMenuDao.save(menu);
     }
@@ -175,7 +176,10 @@ public class SysMenuService extends BaseService<SysMenu> {
         menu.setPid(pid);
         menu.setName(name);
         menu.setType(MenuType.DIR);
-        menu.setIcon(icon.name());
+        if(icon != null){
+            menu.setIcon(icon.name());
+        }
+
         menu.setSeq(seq);
 
         sysMenuDao.save(menu);
