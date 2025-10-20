@@ -30,6 +30,7 @@ import io.tmgg.modules.system.service.SysRoleService;
 import io.tmgg.web.db.DbCacheDao;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FileUtils;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -173,12 +174,10 @@ public class SystemDataInit implements CommandLineRunner {
         String id = "admin";
         SysUser admin = sysUserDao.findOne(id);
 
-        File pwdFile = new File(sysProp.getCacheDir(), "default_pwd.txt");
 
-
+        String pwd = IdUtil.fastSimpleUUID();
         if (admin == null) {
             String account = "admin" + DateUtil.format(new Date(), "yyyyMMdd");
-
             admin = new SysUser();
             admin.setId(id);
             admin.setAccount(account);
@@ -186,22 +185,19 @@ public class SystemDataInit implements CommandLineRunner {
             admin.setEnabled(true);
             admin.getRoles().add(adminRole);
             admin.setDataPermType(DataPermType.ALL);
-            String defaultPassWord = IdUtil.fastSimpleUUID();
-            admin.setPassword(PasswordTool.encode(defaultPassWord));
+            admin.setPassword(PasswordTool.encode(pwd));
             admin = sysUserDao.save(admin);
             log.info("创建默认管理员 {}", admin.getAccount());
-            FileUtil.writeUtf8String(defaultPassWord,pwdFile);
 
-            log.info("默认密码为： {}", defaultPassWord);
+            dbCacheDao.set("admin_default_pwd", pwd);
+            log.info("默认密码为： {}", pwd);
         }
 
         log.info("管理员登录账号:{}",admin.getAccount());
-        log.info("管理员初始化密码:{}",FileUtil.readUtf8String(pwdFile));
-
+        log.info("默认密码:{}， 请尽快修改",pwd);
         if (StrUtil.isBlankIfStr(admin.getPassword())) {
-            String defaultPassWord = IdUtil.fastSimpleUUID();
-            admin.setPassword(PasswordTool.encode(defaultPassWord));
-            log.info("管理员密码重置为 {}", defaultPassWord);
+            admin.setPassword(PasswordTool.encode(pwd));
+            log.info("管理员密码重置为 {}", pwd);
             sysUserDao.save(admin);
         }
         log.info("-------------------------------------------");
