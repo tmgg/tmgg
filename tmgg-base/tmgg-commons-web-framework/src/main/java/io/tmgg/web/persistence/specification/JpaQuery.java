@@ -130,7 +130,7 @@ public class JpaQuery<T> implements Specification<T> {
                 String str = ((String) v).trim();
 
                 if (DateTool.isIsoDateRange(str)) {
-                    this.betweenIsoDateRange(k, str);
+                    this.betweenIsoDateRange(k, str,false);
                     continue;
                 }
 
@@ -310,7 +310,7 @@ public class JpaQuery<T> implements Specification<T> {
      *
      * @gendoc
      */
-    public void betweenIsoDateRange(String column, String isoRange) {
+    public void betweenIsoDateRange(String column, String isoRange, boolean convertToJavaDate) {
         if (StrUtil.isEmpty(isoRange)) {
             return;
         }
@@ -319,10 +319,9 @@ public class JpaQuery<T> implements Specification<T> {
         String v1 = arr[0];
         String v2 = arr[1];
 
-        DateTime d1 = DateUtil.parseDate(v1);
-        DateTime d2 = DateUtil.parseDate(v2);
+        Date d1 = DateUtil.parseDate(v1);
+        Date d2 = DateUtil.parseDate(v2);
         d2 = DateUtil.endOfDay(d2);
-
 
         this.between(column, d1, d2);
     }
