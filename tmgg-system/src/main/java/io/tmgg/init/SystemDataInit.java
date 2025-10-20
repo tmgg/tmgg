@@ -1,6 +1,7 @@
 package io.tmgg.init;
 
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
@@ -8,6 +9,7 @@ import cn.hutool.crypto.SecureUtil;
 import cn.hutool.crypto.asymmetric.RSA;
 import cn.hutool.extra.spring.SpringUtil;
 import io.tmgg.Build;
+import io.tmgg.config.SysProp;
 import io.tmgg.dbtool.DbTool;
 import io.tmgg.event.SystemDataInitFinishEvent;
 import io.tmgg.framework.dict.DictAnnHandler;
@@ -32,6 +34,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
+import java.io.File;
 import java.util.Collection;
 import java.util.Date;
 
@@ -81,6 +84,8 @@ public class SystemDataInit implements CommandLineRunner {
     @Resource
     private DbCacheDao dbCacheDao;
 
+    @Resource
+    SysProp sysProp;
 
     @Override
     public void run(String... args) throws Exception {
@@ -168,6 +173,8 @@ public class SystemDataInit implements CommandLineRunner {
         String id = "admin";
         SysUser admin = sysUserDao.findOne(id);
 
+        File pwdFile = new File(sysProp.getCacheDir(), "default_pwd.txt");
+
 
         if (admin == null) {
             String account = "admin" + DateUtil.format(new Date(), "yyyyMMdd");
@@ -183,8 +190,13 @@ public class SystemDataInit implements CommandLineRunner {
             admin.setPassword(PasswordTool.encode(defaultPassWord));
             admin = sysUserDao.save(admin);
             log.info("创建默认管理员 {}", admin.getAccount());
+            FileUtil.writeUtf8String(defaultPassWord,pwdFile);
+
             log.info("默认密码为： {}", defaultPassWord);
         }
+
+        log.info("管理员登录账号:{}",admin.getAccount());
+        log.info("管理员初始化密码:{}",FileUtil.readUtf8String(pwdFile));
 
         if (StrUtil.isBlankIfStr(admin.getPassword())) {
             String defaultPassWord = IdUtil.fastSimpleUUID();

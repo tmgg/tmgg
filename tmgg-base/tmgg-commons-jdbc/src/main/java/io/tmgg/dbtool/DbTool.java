@@ -6,6 +6,7 @@ import cn.hutool.core.util.StrUtil;
 import io.tmgg.dbtool.dbutil.MyBeanProcessor;
 import io.tmgg.dbtool.dbutil.MyRowProcessor;
 import lombok.Getter;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.dbutils.*;
 import org.apache.commons.dbutils.handlers.*;
@@ -439,7 +440,8 @@ public class DbTool {
 
     // ------------------------------------元数据部分------------------------------
 
-    public Set<String> getTableNames() throws SQLException {
+    @SneakyThrows
+    public Set<String> getTableNames() {
         try (Connection conn = this.getRunner().getDataSource().getConnection()) {
             DatabaseMetaData metaData = conn.getMetaData();
 
@@ -458,8 +460,8 @@ public class DbTool {
 
     }
 
-
-    public Set<String> getTableColumns(String tableName) throws SQLException {
+    @SneakyThrows
+    public Set<String> getTableColumns(String tableName) {
         try (Connection conn = this.getRunner().getDataSource().getConnection()) {
             DatabaseMetaData metaData = conn.getMetaData();
 
@@ -479,7 +481,8 @@ public class DbTool {
         }
     }
 
-    public String getTableColumnType(String tableName, String columnName) throws SQLException {
+    @SneakyThrows
+    public String getTableColumnType(String tableName, String columnName) {
         try (Connection conn = this.getRunner().getDataSource().getConnection()) {
             DatabaseMetaData metaData = conn.getMetaData();
 
