@@ -156,6 +156,7 @@ public class SysMenuService extends BaseService<SysMenu> {
         menu.setPerm(perm);
         menu.setPath(path);
         menu.setRefreshOnTabClick(refreshOnTabClick);
+        menu.setSeq(seq);
 
         sysMenuDao.save(menu);
     }
