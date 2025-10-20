@@ -161,6 +161,7 @@ export class ProTable extends React.Component {
                 loading={this.state.loading}
                 searchFormItemsRender={searchFormItemsRender}
                 onSearch={this.onSearch}
+                proTableChildren={this.props.children}
             >
             </SearchForm>
         }
@@ -171,6 +172,7 @@ export class ProTable extends React.Component {
                 searchFormNode={searchFormNode}
                 actionRef={actionRef}
                 toolBarRender={this.getToolBarRenderNode(toolBarRender)}
+
                 onRefresh={() => this.loadData()}
                 onExport={(type) => this.exportFile(type)}
                 toolbarOptions={toolbarOptions}

@@ -3,11 +3,7 @@
   "peerDependencies": {},
   "name": "@tmgg/tmgg-monorepo",
   "scripts": {
-    "preinstall": "npx only-allow pnpm",
-
-    "version": "pnpm -r exec pnpm version 1.1.59-beta.0",
-
-    "deploy-beta": "pnpm -r exec pnpm version prerelease --preid=beta && pnpm publish -r --access public --no-git-checks --tag beta --registry http://10.79.43.231:8081/repository/npm/"
+    "preinstall": "npx only-allow pnpm"
   },
   "version": "0.0.1"
 }

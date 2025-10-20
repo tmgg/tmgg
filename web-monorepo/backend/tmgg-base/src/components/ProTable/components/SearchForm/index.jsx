@@ -23,6 +23,7 @@ export default class SearchForm extends React.Component {
                 style={{gap: '8px 4px'}}
             >
                 {this.props.searchFormItemsRender(this.formRef.current)}
+                {this.props.proTableChildren}
                 <Form.Item>
                     <Button type="primary" htmlType="submit" loading={loading} icon={<SearchOutlined/>}>
                         查询
