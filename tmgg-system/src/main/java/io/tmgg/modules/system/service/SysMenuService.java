@@ -144,6 +144,10 @@ public class SysMenuService extends BaseService<SysMenu> {
         return list.stream().filter(t->ids.contains(t.getId())).collect(Collectors.toList());
     }
 
+    public void addMenuSimple( String id, String name, String perm, String path, int seq) {
+        this.addMenu("biz",id,name,perm,path, seq, false);
+    }
+
     public void addMenu(String pid, String id, String name, String perm, String path, int seq,boolean refreshOnTabClick) {
         SysMenu menu = sysMenuDao.findOne(id);
         if(menu == null){
