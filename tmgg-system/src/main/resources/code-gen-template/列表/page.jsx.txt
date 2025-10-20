@@ -91,26 +91,24 @@ export default class extends React.Component {
           }}
           request={(params) => HttpUtil.pageData('${firstLowerName}/page', params)}
           columns={this.columns}
-          searchFormItemsRender={() => {
-              return <>
-               <#list queryFields as f>
-                  <Form.Item label='${f.title}' name='${f.name}'>
-                     <#if (f.dict)>
-                          <FieldDictSelect typeCode="${f.dictTypeCode}" />
-                     <#elseif (f.type == 'java.lang.Boolean')>
-                        <FieldRadioBoolean />
-                     <#elseif (f.type == 'java.lang.Float' || f.type == 'java.lang.Integer' || f.type == 'java.lang.Long')>
-                         <InputNumber />
-                     <#elseif (f.type == 'java.util.Date')>
-                          <FieldDateRange />
-                     <#else>
-                         <Input/>
-                     </#if>
-                  </Form.Item>
-               </#list>
-              </>
-          }}
-      />
+
+      >
+      <#list queryFields as f>
+                        <Form.Item label='${f.title}' name='${f.name}'>
+                           <#if (f.dict)>
+                                <FieldDictSelect typeCode="${f.dictTypeCode}" />
+                           <#elseif (f.type == 'java.lang.Boolean')>
+                              <FieldRadioBoolean />
+                           <#elseif (f.type == 'java.lang.Float' || f.type == 'java.lang.Integer' || f.type == 'java.lang.Long')>
+                               <InputNumber />
+                           <#elseif (f.type == 'java.util.Date')>
+                                <FieldDateRange />
+                           <#else>
+                               <Input/>
+                           </#if>
+                        </Form.Item>
+                     </#list>
+      </ProTable>
 
   <Modal title='${label}'
     open={this.state.formOpen}
