@@ -1,9 +1,9 @@
-import {message, Table} from 'antd';
+import {Button, Form, Input, Table} from 'antd';
 import Toolbar from './components/ToolBar';
 import React from "react";
-import SearchForm from "./components/SearchForm";
 import './index.less'
 import {StrUtil} from "@tmgg/tmgg-commons-lang";
+import {SearchOutlined} from "@ant-design/icons";
 
 
 function getDefaultPageSize() {
@@ -47,12 +47,15 @@ export class ProTable extends React.Component {
         scrollY: null
     }
 
+    showSearch = true
+
     constructor(props) {
         super(props);
         if (props.defaultPageSize) {
             this.state.pageSize = props.defaultPageSize
         }
         this.id = StrUtil.random(32)
+        this.showSearch = this.props.showSearch == null ? true : this.props.showSearch;
     }
 
     formRef = React.createRef()
@@ -66,10 +69,11 @@ export class ProTable extends React.Component {
         }
 
         let scrollY = this.props.scrollY;
-        if(scrollY){
+        if (scrollY) {
             this.setState({scrollY: scrollY})
         }
     }
+
     loadData = () => {
         const {request} = this.props
         const params = {...this.state.params}
@@ -98,27 +102,8 @@ export class ProTable extends React.Component {
             this.setState({loading: false})
         })
     }
-    exportFile = (type) => {
-        const {request} = this.props
-        const params = {...this.state.params}
-        const {sorter} = this.state
 
-        const {field, order} = sorter
-        if (field) {
-            params.sort = field + "," + (order === 'ascend' ? 'asc' : 'desc')
-        }
-
-        params._exportType = type
-        params.size = -1
-
-        const hide = message.loading('下载中...', 0)
-        request(params).then((r) => {
-            console.log('下载完成(不一定成功)')
-        }).finally(hide)
-
-    };
-
-    // 数据重新加载后，更新toolbar需要的已选择数据行
+// 数据重新加载后，更新toolbar需要的已选择数据行
     updateSelectedRows = list => {
         const {rowKey = "id"} = this.props
         const {selectedRows} = this.state
@@ -135,12 +120,6 @@ export class ProTable extends React.Component {
         this.setState({selectedRows: [...selectedRows]})
     };
 
-    onFormRef = instance => {
-        if (this.props.formRef) {
-            this.props.formRef.current = instance
-        }
-        this.formRef.current = instance
-    }
 
     render() {
         const {
@@ -150,31 +129,19 @@ export class ProTable extends React.Component {
             rowSelection,
             rowKey = "id",
             toolbarOptions,
-            searchFormItemsRender,
         } = this.props
-
-        let searchFormNode = null
-
-        if (searchFormItemsRender) {
-            searchFormNode = <SearchForm
-                formRef={this.onFormRef}
-                loading={this.state.loading}
-                searchFormItemsRender={searchFormItemsRender}
-                onSearch={this.onSearch}
-                proTableChildren={this.props.children}
-            >
-            </SearchForm>
-        }
 
 
         return <div className={'tmgg-pro-table '} id={this.id}>
+
+            {this.renderForm()}
+
+
             {toolbarOptions !== false && <Toolbar
-                searchFormNode={searchFormNode}
                 actionRef={actionRef}
                 toolBarRender={this.getToolBarRenderNode(toolBarRender)}
 
                 onRefresh={() => this.loadData()}
-                onExport={(type) => this.exportFile(type)}
                 toolbarOptions={toolbarOptions}
                 onSearch={this.onSearch}
                 loading={this.state.loading}
@@ -218,6 +185,33 @@ export class ProTable extends React.Component {
 
     }
 
+
+    renderForm = () => {
+        let showSearch = this.showSearch;
+        if(this.props.children){
+            showSearch = false
+        }
+        return <Form
+            layout="inline"
+            onFinish={(values) => this.onSearch(values)}
+            ref={this.formRef}
+            style={{gap: '8px 4px'}}
+        >
+
+            {showSearch && <Form.Item name='searchText'>
+                <Input style={{width: 200}} placeholder='搜索...'/>
+            </Form.Item>}
+
+            {this.props.searchFormItemsRender && this.props.searchFormItemsRender(this.formRef.current)}
+            {this.props.children}
+
+
+            <Form.Item>
+                <Button type='primary'  htmlType="submit" icon={<SearchOutlined/>}> 查询
+                </Button>
+            </Form.Item>
+        </Form>;
+    };
 
     getToolBarRenderNode(toolBarRender) {
         if (!toolBarRender) {

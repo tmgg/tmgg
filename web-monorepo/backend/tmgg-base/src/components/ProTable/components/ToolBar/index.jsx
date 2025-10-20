@@ -17,43 +17,19 @@ export default class Toolbar extends React.Component {
 
     render = () => {
         const {
-            onExport,
             onRefresh,
-            toolbarOptions = {},
             toolBarRender,
             loading,
-            searchFormNode,
         } = this.props;
-
-        let {showSearch, showExportExcel = true} = toolbarOptions
-        // 未设置搜索表单的情况下，默认显示搜索Input
-        if (showSearch == null && searchFormNode == null) {
-            showSearch = true
-        }
 
 
         return <div className='pro-table-toolbar'>
 
-            <div className='pro-table-toolbar-search'>
-                {showSearch && <Input.Search
-                    style={{width: 200}}
-                    placeholder='搜索...'
-                    onSearch={(v) => this.props.onSearch({searchText: v})}
-                />
-                }
-
-                {searchFormNode}
+            <div className='pro-table-toolbar-left'>
             </div>
 
             <div className='pro-table-toolbar-option'>
                 {toolBarRender}
-
-
-                {showExportExcel && <Button title='导出EXCEL'
-                                            size='small' icon={<FileExcelOutlined  />}
-                                            onClick={() => onExport('EXCEL')}/>}
-
-
                 <Button title='刷新' size='small' icon={<ReloadOutlined/>} onClick={onRefresh} loading={loading}/>
                 <Button title='查询历史' size='small' icon={<HistoryOutlined/>} onClick={this.onClickHistory}/>
             </div>
