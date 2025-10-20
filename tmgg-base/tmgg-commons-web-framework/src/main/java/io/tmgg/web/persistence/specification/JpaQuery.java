@@ -130,7 +130,7 @@ public class JpaQuery<T> implements Specification<T> {
                 String str = ((String) v).trim();
 
                 if (DateTool.isIsoDateRange(str)) {
-                    this.betweenIsoDateRange(k, str,false);
+                    this.betweenIsoDateRange(k, str, false);
                     continue;
                 }
 
@@ -323,7 +323,12 @@ public class JpaQuery<T> implements Specification<T> {
         Date d2 = DateUtil.parseDate(v2);
         d2 = DateUtil.endOfDay(d2);
 
-        this.between(column, d1, d2);
+        if (convertToJavaDate) {
+            this.between(column, d1, d2);
+        } else {
+            this.between(column, v1, v2);
+        }
+
     }
 
     public void notBetween(String column, Object v1, Object v2) {
