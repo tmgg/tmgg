@@ -39,7 +39,7 @@ public class SysLogController {
         String dateRange = queryParam.getDateRange();
 
         JpaQuery<SysLog> q = new JpaQuery<>();
-        q.betweenIsoDateRange("createTime", dateRange);
+        q.betweenIsoDateRange("createTime", dateRange,true);
         q.like(SysLog.Fields.name, queryParam.getName());
         q.like(SysLog.Fields.module, queryParam.getModule());
 
