@@ -195,7 +195,7 @@ export class ProTable extends React.Component {
             layout="inline"
             onFinish={(values) => this.onSearch(values)}
             ref={this.formRef}
-            style={{gap: '8px 4px'}}
+            style={{gap: '8px 4px',marginBottom:8}}
         >
 
             {showSearch && <Form.Item name='searchText'>
