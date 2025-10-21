@@ -26,7 +26,7 @@ public class GlobalProcessListener implements FlowableEventListener {
     HistoryService historyService;
 
     @Resource
-    ProcessDefinitionRegistry flowableListenerRegistry;
+    ProcessDefinitionRegistry registry;
 
 
     @Override
@@ -50,7 +50,7 @@ public class GlobalProcessListener implements FlowableEventListener {
         String definitionKey = execution.getProcessDefinitionKey();
 
 
-        ProcessDefinition listener = flowableListenerRegistry.get(definitionKey);
+        ProcessDefinition listener = registry.get(definitionKey);
         if (listener == null) {
             return;
         }

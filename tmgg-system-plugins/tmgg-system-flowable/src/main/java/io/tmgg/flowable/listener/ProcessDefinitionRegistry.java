@@ -10,14 +10,14 @@ import java.util.Map;
 @Component
 public class ProcessDefinitionRegistry {
 
-    private static final Map<String, ProcessDefinition> LISTENERS = new HashMap<>();
+    private final Map<String, ProcessDefinition> pool = new HashMap<>();
 
-    public void add(String key, ProcessDefinition flowableListener){
-        Assert.state(!LISTENERS.containsKey(key), "流程监听器只能设置一个");
-        LISTENERS.put(key,flowableListener);
+    public void add(String key, ProcessDefinition flowableListener) {
+        Assert.state(!pool.containsKey(key), "流程监听器只能设置一个");
+        pool.put(key, flowableListener);
     }
 
-    public ProcessDefinition get(String key){
-        return LISTENERS.get(key);
+    public ProcessDefinition get(String key) {
+        return pool.get(key);
     }
 }
