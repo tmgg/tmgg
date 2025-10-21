@@ -18,6 +18,7 @@ import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.flowable.spring.SpringProcessEngineConfiguration;
 import org.flowable.spring.boot.EngineConfigurationConfigurer;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.util.Assert;
@@ -28,7 +29,7 @@ import java.util.List;
 
 @Slf4j
 @Configuration
-public class FlowableConfig implements EngineConfigurationConfigurer<SpringProcessEngineConfiguration> {
+public class FlowableConfig implements EngineConfigurationConfigurer<SpringProcessEngineConfiguration>, CommandLineRunner {
 
     @Resource
     private GlobalProcessListener globalProcessListener;
@@ -51,8 +52,6 @@ public class FlowableConfig implements EngineConfigurationConfigurer<SpringProce
             cfg.setEventListeners(new ArrayList<>());
         }
         cfg.getEventListeners().add(globalProcessListener);
-
-        initDefinition();
     }
 
     private void initDefinition() {
@@ -95,4 +94,8 @@ public class FlowableConfig implements EngineConfigurationConfigurer<SpringProce
     }
 
 
+    @Override
+    public void run(String... args) throws Exception {
+        initDefinition();
+    }
 }

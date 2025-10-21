@@ -1,6 +1,7 @@
 package io.tmgg.flowable.listener;
 
 
+import io.tmgg.lang.SpringTool;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
@@ -11,6 +12,12 @@ import java.util.Map;
 public class ProcessDefinitionRegistry {
 
     private final Map<String, ProcessDefinition> pool = new HashMap<>();
+
+
+    public void init(){
+        Map<String, Object> map = SpringTool.getBeansOfAnnotation(ProcessDefinitionDescription.class);
+
+    }
 
     public void add(String key, ProcessDefinition flowableListener) {
         Assert.state(!pool.containsKey(key), "流程监听器只能设置一个");
