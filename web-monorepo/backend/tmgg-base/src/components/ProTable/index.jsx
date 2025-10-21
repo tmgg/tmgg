@@ -205,7 +205,7 @@ export class ProTable extends React.Component {
             </Form.Item>}
 
             {this.props.searchFormItemsRender && this.props.searchFormItemsRender(this.formRef.current)}
-
+            {this.props.children}
 
             <Form.Item>
                 <Button type='primary'  htmlType="submit" icon={<SearchOutlined/>}> 查询
