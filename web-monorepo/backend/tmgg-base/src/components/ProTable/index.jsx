@@ -189,14 +189,15 @@ export class ProTable extends React.Component {
 
     renderForm = () => {
         let showSearch = this.showSearch;
-        if(this.props.children){
+        if(this.props.children || this.props.searchFormItemsRender){
             showSearch = false
         }
         return <Form
             layout="inline"
             onFinish={(values) => this.onSearch(values)}
             ref={this.formRef}
-            style={{gap: '8px 4px',marginBottom:12}}
+            style={{marginBottom:12}}
+            labelCol={{flex:'70px'}}
         >
 
             {showSearch && <Form.Item name='searchText'>
@@ -204,7 +205,6 @@ export class ProTable extends React.Component {
             </Form.Item>}
 
             {this.props.searchFormItemsRender && this.props.searchFormItemsRender(this.formRef.current)}
-            {this.props.children}
 
 
             <Form.Item>
