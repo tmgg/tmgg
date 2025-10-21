@@ -1,6 +1,8 @@
 package io.tmgg.web.persistence;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.tmgg.web.persistence.id.CustomGenerateIdProperties;
+import jakarta.persistence.Transient;
 
 public interface PersistEntity {
 
@@ -24,4 +26,8 @@ public interface PersistEntity {
     }
 
 
+    // 动态生成的自定义Id
+    @Transient
+    @JsonIgnore
+    String customGenerateId(CustomGenerateIdProperties properties);
 }

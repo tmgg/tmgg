@@ -4,7 +4,13 @@ import org.hibernate.annotations.IdGeneratorType;
 
 import java.lang.annotation.*;
 
-@IdGeneratorType(CustomIdGenerator.class)
+/**
+ * 该注解可以放到类型上， id字段上。
+ *
+ * 如果实体存在父类， 可放到类型上覆盖
+ *
+ */
+@IdGeneratorType(IdGenerator.class)
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.METHOD, ElementType.FIELD,ElementType.TYPE})
 public @interface CustomId {

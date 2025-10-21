@@ -3,6 +3,7 @@ package io.tmgg.web.persistence.id;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
 import io.tmgg.lang.IdTool;
+import io.tmgg.web.persistence.BaseEntity;
 import io.tmgg.web.persistence.PersistEntity;
 import io.tmgg.web.persistence.id.impl.DailyTableGenerator;
 import org.hibernate.boot.model.relational.Database;
@@ -15,7 +16,9 @@ import org.hibernate.type.Type;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Member;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.Properties;
 
 import static cn.hutool.core.date.DatePattern.PURE_DATETIME_MS_PATTERN;
 
@@ -31,7 +34,7 @@ import static cn.hutool.core.date.DatePattern.PURE_DATETIME_MS_PATTERN;
  *
  * @gendoc
  */
-public class CustomIdGenerator implements IdentifierGenerator {
+public class IdGenerator implements IdentifierGenerator {
 
     private static final int TIME_LEN = PURE_DATETIME_MS_PATTERN.length();
 
@@ -42,9 +45,12 @@ public class CustomIdGenerator implements IdentifierGenerator {
 
     private IdentifierGenerator generator;
 
+    // 目标表。 数据库中的表名
+    private String targetTable;
 
-    public CustomIdGenerator(CustomId config, Member annotatedMember,
-                             CustomIdGeneratorCreationContext context) {
+
+    public IdGenerator(CustomId config, Member annotatedMember,
+                       CustomIdGeneratorCreationContext context) {
         CustomId override = getOverride(context);
         this.cfg = override != null ? override : config;
         int idLen = cfg.length() - cfg.prefix().length(); // 不含前缀
@@ -52,12 +58,11 @@ public class CustomIdGenerator implements IdentifierGenerator {
         switch (cfg.style()) {
             case DAILY_SEQ -> generator = new DailyTableGenerator(idLen);
             case UUID -> generator = (session, object) -> IdTool.uuidV7();
-            case DATETIME_UUID -> generator = (session, object) -> getTime() +  IdTool.uuidV7();
+            case DATETIME_UUID -> generator = (session, object) -> getTime() + IdTool.uuidV7();
             case DATETIME_SEQ ->
                     generator = (session, object) -> getTime() + StrUtil.padPre(String.valueOf(count), idLen - TIME_LEN, '0');
         }
     }
-
 
 
     @Override
@@ -73,8 +78,8 @@ public class CustomIdGenerator implements IdentifierGenerator {
     @Override
     public void configure(Type type, Properties parameters, ServiceRegistry serviceRegistry) {
         generator.configure(type, parameters, serviceRegistry);
+        this.targetTable = parameters.getProperty("target_table");
     }
-
 
 
     @Override
@@ -117,16 +122,26 @@ public class CustomIdGenerator implements IdentifierGenerator {
 
     }
 
-    private static String getEntityId(Object entity) {
-        if (entity instanceof PersistEntity e) {
-            if (e.getId() != null) {
-                return e.getId();
+    private String getEntityId(Object entity) {
+        if (entity instanceof PersistEntity pe) {
+            if (pe.getId() != null) {
+                return pe.getId();
             }
 
-            if (e.get_tempId() != null) {
-                return e.get_tempId();
+            if (pe.get_tempId() != null) {
+                return pe.get_tempId();
+            }
+
+            CustomGenerateIdProperties p = new CustomGenerateIdProperties();
+            p.setTargetTable(targetTable);
+            String id = pe.customGenerateId(p);
+            if (id != null) {
+                return id;
             }
         }
+
+
+
         return null;
     }
 
@@ -136,7 +151,7 @@ public class CustomIdGenerator implements IdentifierGenerator {
      * @param context
      * @return
      */
-    private static CustomId getOverride(CustomIdGeneratorCreationContext context) {
+    private CustomId getOverride(CustomIdGeneratorCreationContext context) {
         Class<?> domainClass = context.getRootClass().getMappedClass();
         CustomId ann = domainClass.getAnnotation(CustomId.class);
         if (ann != null) {
@@ -153,8 +168,6 @@ public class CustomIdGenerator implements IdentifierGenerator {
         return f.getAnnotation(CustomId.class);
 
     }
-
-
 
 
 }

@@ -6,6 +6,7 @@ import io.tmgg.lang.ann.Remark;
 import io.tmgg.web.json.ignore.JsonIgnoreForApp;
 import io.tmgg.web.persistence.exports.UserLabelQuery;
 import io.tmgg.web.persistence.fill.BeanPropertyFillUtil;
+import io.tmgg.web.persistence.id.CustomGenerateIdProperties;
 import io.tmgg.web.persistence.id.CustomId;
 import io.tmgg.web.perm.SecurityUtils;
 import jakarta.persistence.*;
@@ -204,5 +205,13 @@ public abstract class BaseEntity implements PersistEntity, Serializable {
     private String _tempId;
 
 
+    // 动态生成的自定义Id
+    @Transient
+    @JsonIgnore
+    @Override
+    public String customGenerateId(CustomGenerateIdProperties properties) {
+
+        return null;
+    }
 
 }
