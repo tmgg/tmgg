@@ -11,4 +11,8 @@ public interface SystemHook {
     default void afterDataInit() {
 
     }
+
+    default void onEvent(SystemHookEventType eventType){
+
+    }
 }
