@@ -39,6 +39,11 @@ public class SysOrgController {
     @HasPermission
     @PostMapping("save")
     public AjaxResult saveOrUpdate(@RequestBody SysOrg sysOrg, HttpSession session) {
+        if(sysOrg.getLeader() != null){
+            if(StrUtil.isEmpty(sysOrg.getLeader().getId())){
+                sysOrg.setLeader(null);
+            }
+        }
         sysOrgService.saveOrUpdate(sysOrg);
         session.removeAttribute(SysHttpSession.SUBJECT_KEY);
         return AjaxResult.ok().msg("保存机构成功");

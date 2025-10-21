@@ -35,6 +35,7 @@ public class UserCenterController {
                 .data("unit",subject.getUnitName())
                 .data("roles", roles)
                 .data("email", user.getEmail())
+                .data("account", user.getAccount())
                 .data("createTime", user.getCreateTime())
                 ;
     }
