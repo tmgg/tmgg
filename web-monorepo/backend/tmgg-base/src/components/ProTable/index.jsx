@@ -174,7 +174,8 @@ export class ProTable extends React.Component {
                         sorter
                     }, this.loadData)
                 }}
-                summary={(data) => {
+
+                footer={()=>{
                     return this.state.extData.summary
                 }}
                 bordered={this.props.bordered}
