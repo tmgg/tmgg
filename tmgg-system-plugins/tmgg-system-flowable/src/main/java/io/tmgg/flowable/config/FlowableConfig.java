@@ -15,6 +15,7 @@ import io.tmgg.lang.SpringTool;
 import io.tmgg.lang.field.FieldDescription;
 import io.tmgg.lang.field.ValueType;
 import jakarta.annotation.Resource;
+import lombok.extern.slf4j.Slf4j;
 import org.flowable.spring.SpringProcessEngineConfiguration;
 import org.flowable.spring.boot.EngineConfigurationConfigurer;
 import org.springframework.context.annotation.Configuration;
@@ -25,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+@Slf4j
 @Configuration
 public class FlowableConfig implements EngineConfigurationConfigurer<SpringProcessEngineConfiguration> {
 
@@ -58,7 +60,10 @@ public class FlowableConfig implements EngineConfigurationConfigurer<SpringProce
         for (ProcessDefinition definition : definitions) {
             ProcessDefinitionDescription ann = definition.getClass().getAnnotation(ProcessDefinitionDescription.class);
             Assert.notNull(ann, "监听器必须使用注解" + ProcessDefinitionRegistry.class.getSimpleName() + "描述");
-            registry.add(ann.key(), definition);
+
+            String key = ann.key();
+            registry.add(key, definition);
+            log.info("注册流程定义类 {} {}", key, definition.getClass().getName());
 
 
             // 持久化到数据库
@@ -81,7 +86,7 @@ public class FlowableConfig implements EngineConfigurationConfigurer<SpringProce
                 formKeyList.add(fk);
             }
 
-            sysFlowableModelDao.init(ann.key(), ann.name(), vars, formKeyList);
+            sysFlowableModelDao.init(key, ann.name(), vars, formKeyList);
         }
 
         for (SystemHook hook : SpringTool.getBeans(SystemHook.class)) {

@@ -17,7 +17,7 @@ public class ProcessDefinitionRegistry {
         LISTENERS.put(key,flowableListener);
     }
 
-    public ProcessDefinition getListener(String key){
+    public ProcessDefinition get(String key){
         return LISTENERS.get(key);
     }
 }
