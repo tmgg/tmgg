@@ -44,7 +44,20 @@ export class PageUtil {
         return StrUtil.subBefore(path, '?')
     }
 
+    /**
+     * @deprecated
+     * @returns {{}}
+     */
     static currentPath() {
+        let path = window.location.hash.substring(1);
+        return path
+    }
+
+    /**
+     * hash后的路径
+     * @returns {string}
+     */
+    static currentUrl() {
         let path = window.location.hash.substring(1);
         return path
     }
@@ -80,5 +93,11 @@ export class PageUtil {
         return this.currentParams()['_label']
     }
 
+    static closeCurrent(){
+        const event = new CustomEvent('close-page-event', {
+            detail: { url: PageUtil.currentUrl() }
+        });
+        document.dispatchEvent(event)
+    }
 
 }

@@ -15,6 +15,11 @@ class TabPageRender extends React.Component {
     componentDidMount() {
         const url = this.getUrl(this.props)
         this.onUrlChange(url);
+
+        document.addEventListener('close-page-event', (e)=>{
+            const url = e.detail.url
+            this.onRemove(url)
+        })
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
