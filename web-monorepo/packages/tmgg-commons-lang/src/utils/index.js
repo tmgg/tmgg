@@ -15,4 +15,3 @@ export * from "./tree";
 export * from './storage'
 export * from './browser'
 export * from './obj'
-export * from './math'
