@@ -6,6 +6,8 @@ db_password: 123456
 spring:
   profiles:
     active: default
+  application:
+    name: tmgg
 
 logging:
   file:

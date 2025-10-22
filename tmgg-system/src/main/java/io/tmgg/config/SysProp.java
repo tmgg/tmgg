@@ -64,4 +64,9 @@ public class SysProp {
      * 定时任务，全局开关 , 某些情况如开发时，可按需关闭
      */
     private boolean jobEnable = true;
+
+    /**
+     * 重置管理员密码
+     */
+    private boolean resetAdminPwd;
 }

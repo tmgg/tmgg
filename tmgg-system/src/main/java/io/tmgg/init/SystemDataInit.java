@@ -1,7 +1,5 @@
 package io.tmgg.init;
 
-import cn.hutool.core.date.DateUtil;
-import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
@@ -30,14 +28,12 @@ import io.tmgg.modules.system.service.SysRoleService;
 import io.tmgg.web.db.DbCacheDao;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.FileUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-import java.io.File;
 import java.util.Collection;
-import java.util.Date;
 
 /**
  * 系统数据初始化
@@ -87,6 +83,9 @@ public class SystemDataInit implements CommandLineRunner {
 
     @Resource
     SysProp sysProp;
+
+    @Value("${spring.application.name}")
+    String applicationName;
 
     @Override
     public void run(String... args) throws Exception {
@@ -142,11 +141,11 @@ public class SystemDataInit implements CommandLineRunner {
         SysConfig pub = sysConfigDao.findOne(Configs.RSA_PUBLIC_KEY);
         if (pub == null) {
             RSA rsa = SecureUtil.rsa();
-            sysConfigDao.addDefault("RSA公钥", Configs.RSA_PUBLIC_KEY, rsa.getPublicKeyBase64(),"password"); // 放到siteInfo, 前端可获取
-            sysConfigDao.addDefault("RSA私钥", Configs.RSA_PRIVATE_KEY,rsa.getPrivateKeyBase64(),"password");
+            sysConfigDao.addDefault("RSA公钥", Configs.RSA_PUBLIC_KEY, rsa.getPublicKeyBase64(), "password"); // 放到siteInfo, 前端可获取
+            sysConfigDao.addDefault("RSA私钥", Configs.RSA_PRIVATE_KEY, rsa.getPrivateKeyBase64(), "password");
         }
 
-        sysConfigDao.addDefault("默认密码","sys.default.password", IdUtil.fastSimpleUUID(), "password");
+        sysConfigDao.addDefault("默认密码", "sys.default.password", IdUtil.fastSimpleUUID(), "password");
 
 
         sysConfigDao.cleanCache();
@@ -173,11 +172,12 @@ public class SystemDataInit implements CommandLineRunner {
         log.info("初始化管理员中....");
         String id = "admin";
         SysUser admin = sysUserDao.findOne(id);
+        String account = "admin-" + applicationName;
+        String pwd = SecureUtil.md5(account + "tmgg");
+        log.info("管理员登录账号:{}", account);
+        log.info("默认密码:{}， 请尽快修改", pwd);
 
-
-        String pwd = IdUtil.fastSimpleUUID();
         if (admin == null) {
-            String account = "admin" + DateUtil.format(new Date(), "yyyyMMdd");
             admin = new SysUser();
             admin.setId(id);
             admin.setAccount(account);
@@ -193,13 +193,12 @@ public class SystemDataInit implements CommandLineRunner {
             log.info("默认密码为： {}", pwd);
         }
 
-        log.info("管理员登录账号:{}",admin.getAccount());
-        log.info("默认密码:{}， 请尽快修改",pwd);
-        if (StrUtil.isBlankIfStr(admin.getPassword())) {
+        if(sysProp.isResetAdminPwd()){
             admin.setPassword(PasswordTool.encode(pwd));
             log.info("管理员密码重置为 {}", pwd);
             sysUserDao.save(admin);
         }
+
         log.info("-------------------------------------------");
     }
 
