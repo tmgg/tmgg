@@ -15,7 +15,7 @@
   "scripts": {
     "dev-kettle": "umi dev"
   },
-  "version": "1.1.59-beta.17",
+  "version": "1.1.59-beta.18",
   "dependencies": {
     "@ant-design/icons": "^5.4.0",
     "@tmgg/tmgg-base": "workspace:*",
