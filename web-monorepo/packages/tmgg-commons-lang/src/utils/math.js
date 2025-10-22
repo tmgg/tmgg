@@ -1,9 +1,11 @@
 export const MathUtil = {
 
+
     /**
-     * 对金额的四舍五入
+     * 保留2位小数
+     * @param value
      */
-    roundAmt(value) {
+    round2(value) {
         const factor = 100;
         return Math.round(value * factor) / factor;
     },
