@@ -32,10 +32,13 @@ public class SysMenuInit {
         sysMenuService.addMenu("jobMgr","jobLog","作业日志", AntDesignIcon.FileOutlined,"jobLog","/job/logList",2,false);
         sysMenuService.addMenu("jobMgr","jobStatus","作业监控", AntDesignIcon.FundViewOutlined,"jobStatus","/job/status",3,false);
 
+        sysMenuService.addMenu("sys","sysManual","操作手册", AntDesignIcon.CopyOutlined,"sysManual","/system/sysManual",4,false);
 
 
+        initParsers();
+    }
 
-
+    private void initParsers() throws Exception {
         Collection<SysMenuParser> parsers = SpringTool.getBeans(SysMenuParser.class);
         for (SysMenuParser parser : parsers) {
             Collection<SysMenu> menus = parser.parseMenuList();

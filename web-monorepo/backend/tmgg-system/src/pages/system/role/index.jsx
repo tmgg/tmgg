@@ -103,7 +103,7 @@ export default class extends React.Component {
                 return (
                     <ButtonList>
                         <Button size='small' perm='sysRole:save'
-                                onClick={() => this.handleEditUser(record)} type='primary'>用户管理</Button>
+                                onClick={() => this.handleEditUser(record)} type='primary'>用户</Button>
 
                         <Button size='small' perm='sysRole:save' disabled={record.builtin}
                                 onClick={() => this.handleEdit(record)}>编辑</Button>
@@ -232,7 +232,7 @@ export default class extends React.Component {
             </Modal>
 
 
-            <Modal title={'角色用户' +"【" +this.state.formValues?.name + '】'}
+            <Modal title={'角色关联的用户' +"【" +this.state.formValues?.name + '】'}
                    open={this.state.usersModalOpen }
                    destroyOnHidden
                    maskClosable={false}
@@ -241,7 +241,9 @@ export default class extends React.Component {
                    onOk={this.handleSaveUsers}
             >
 
+
                 <Transfer
+                    listStyle={{height:'60vh', width:300}}
 
                     dataSource={this.state.userList} titles={["未选择", "已选择"]}
                     targetKeys={this.state.targetKeys}
@@ -259,7 +261,6 @@ export default class extends React.Component {
                     }}
                     showSearch
                 />
-
 
 
             </Modal>
