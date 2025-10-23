@@ -1,6 +1,7 @@
 
 package io.tmgg.modules.system.service;
 
+import cn.hutool.core.bean.BeanUtil;
 import io.tmgg.common.AntDesignIcon;
 import io.tmgg.lang.SpringTool;
 import io.tmgg.lang.TreeManager;
@@ -81,21 +82,18 @@ public class SysMenuService extends BaseService<SysMenu> {
     }
 
 
-    public void reset() throws Exception {
-        List<SysMenu> list = sysMenuDao.findAll();
-        for (SysMenu sysMenu : list) {
-            try {
-                sysMenuDao.deleteById(sysMenu.getId());
-            } catch (Exception e) {
-                log.error("删除菜单失败");
-            }
-        }
-
+    public void init() throws Exception {
         Collection<SysMenuParser> parsers = SpringTool.getBeans(SysMenuParser.class);
         for (SysMenuParser parser : parsers) {
             Collection<SysMenu> menus = parser.parseMenuList();
             for (SysMenu menu : menus) {
-                sysMenuDao.save(menu);
+                SysMenu old = sysMenuDao.findOne(menu.getId());
+                if(old ==null){
+                    sysMenuDao.save(menu);
+                }else {
+                    BeanUtil.copyProperties(menu,old);
+                    sysMenuDao.save(menu);
+                }
             }
 
         }

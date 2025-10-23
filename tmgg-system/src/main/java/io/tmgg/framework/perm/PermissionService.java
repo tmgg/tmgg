@@ -70,7 +70,7 @@ public class PermissionService {
 
         setPermLabel("sync", "同步");
         setPermLabel("batchSave", "批量保存");
-        setPermLabel("reset", "重置");
+        setPermLabel("init", "重置");
         setPermLabel("status", "查看状态");
         setPermLabel("detail", "查看详情");
         setPermLabel("get", "查看");

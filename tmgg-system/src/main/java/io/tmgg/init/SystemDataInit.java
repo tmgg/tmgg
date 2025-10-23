@@ -2,7 +2,6 @@ package io.tmgg.init;
 
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.IdUtil;
-import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.SecureUtil;
 import cn.hutool.crypto.asymmetric.RSA;
 import cn.hutool.extra.spring.SpringUtil;
@@ -116,7 +115,7 @@ public class SystemDataInit implements CommandLineRunner {
         dictAnnHandler.run();
         dictFieldAnnHandler.run();
         jsonEntityService.initOnStartup();
-        sysMenuService.reset();
+        sysMenuService.init();
         SysRole adminRole = sysRoleService.initDefaultAdmin();
         initUser(adminRole);
 
