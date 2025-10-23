@@ -38,9 +38,9 @@ import java.util.Collection;
  * 系统数据初始化
  */
 @Slf4j
-@Component(SystemDataInit.BEAN_NAME)
+@Component(GlobalSystemDataInit.BEAN_NAME)
 @Order(0)
-public class SystemDataInit implements CommandLineRunner {
+public class GlobalSystemDataInit implements CommandLineRunner {
 
 
     public static final String BEAN_NAME = "sysInit";
@@ -86,6 +86,9 @@ public class SystemDataInit implements CommandLineRunner {
     @Value("${spring.application.name}")
     String applicationName;
 
+    @Resource
+    private SysMenuInit sysMenuInit;
+
     @Override
     public void run(String... args) throws Exception {
 
@@ -115,7 +118,7 @@ public class SystemDataInit implements CommandLineRunner {
         dictAnnHandler.run();
         dictFieldAnnHandler.run();
         jsonEntityService.initOnStartup();
-        sysMenuService.init();
+        sysMenuInit.init();
         SysRole adminRole = sysRoleService.initDefaultAdmin();
         initUser(adminRole);
 

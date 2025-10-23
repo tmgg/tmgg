@@ -1,6 +1,5 @@
 package io.tmgg.system;
 
-import io.tmgg.init.SystemDataInit;
 import io.tmgg.init.SystemHook;
 import io.tmgg.modules.system.service.SysMenuService;
 import jakarta.annotation.Resource;

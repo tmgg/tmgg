@@ -10,6 +10,7 @@ import io.tmgg.flowable.admin.entity.ConditionVariable;
 import io.tmgg.flowable.admin.entity.FormKey;
 import io.tmgg.init.SystemHook;
 import io.tmgg.init.SystemHookEventType;
+import io.tmgg.init.SystemHookService;
 import io.tmgg.lang.IdTool;
 import io.tmgg.lang.SpringTool;
 import io.tmgg.lang.field.FieldDescription;
@@ -42,6 +43,9 @@ public class FlowableConfig implements EngineConfigurationConfigurer<SpringProce
     @Resource
     @Lazy
     private SysFlowableModelDao sysFlowableModelDao;
+
+    @Resource
+    private SystemHookService systemHookService;
 
 
     @Override
@@ -87,10 +91,7 @@ public class FlowableConfig implements EngineConfigurationConfigurer<SpringProce
 
             sysFlowableModelDao.init(key, ann.name(), vars, formKeyList);
         }
-
-        for (SystemHook hook : SpringTool.getBeans(SystemHook.class)) {
-            hook.onEvent(SystemHookEventType.AFTER_FLOWABLE_DEFINITION_INIT);
-        }
+        systemHookService.trigger(SystemHookEventType.AFTER_FLOWABLE_DEFINITION_INIT);
     }
 
 

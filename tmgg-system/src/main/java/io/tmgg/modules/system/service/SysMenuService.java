@@ -82,22 +82,7 @@ public class SysMenuService extends BaseService<SysMenu> {
     }
 
 
-    public void init() throws Exception {
-        Collection<SysMenuParser> parsers = SpringTool.getBeans(SysMenuParser.class);
-        for (SysMenuParser parser : parsers) {
-            Collection<SysMenu> menus = parser.parseMenuList();
-            for (SysMenu menu : menus) {
-                SysMenu old = sysMenuDao.findOne(menu.getId());
-                if(old ==null){
-                    sysMenuDao.save(menu);
-                }else {
-                    BeanUtil.copyProperties(menu,old);
-                    sysMenuDao.save(menu);
-                }
-            }
 
-        }
-    }
 
 
     @Transactional

@@ -12,12 +12,15 @@ import io.tmgg.modules.system.dto.MenuDto;
 import io.tmgg.modules.system.entity.SysMenu;
 import io.tmgg.modules.system.entity.SysRole;
 import io.tmgg.modules.system.service.*;
+import io.tmgg.web.enums.MenuType;
 import io.tmgg.web.perm.SecurityUtils;
 import io.tmgg.web.perm.Subject;
+import io.tmgg.web.persistence.BaseEntity;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.data.domain.Page;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,7 +32,7 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
-public class CommonController {
+public class SysCommonController {
 
     @Resource
     SysRoleService roleService;
@@ -66,10 +69,10 @@ public class CommonController {
         String publicKey = sysConfigService.getStr(Configs.RSA_PUBLIC_KEY);
         Assert.notNull(publicKey, "服务未初始化密钥信息，无法登录");
 
-        siteInfo.put("rsaPublicKey",publicKey);
+        siteInfo.put("rsaPublicKey", publicKey);
 
         String title = sysProp.getTitle();
-        if(StrUtil.isNotBlank(title)){
+        if (StrUtil.isNotBlank(title)) {
             siteInfo.put("title", title.trim());
         }
 
@@ -98,7 +101,7 @@ public class CommonController {
         Set<String> roleIds = subject.getRoles();
         if (!CollectionUtils.isEmpty(roleIds)) {
             List<SysRole> roleList = roleService.findAllByCode(roleIds);
-            if(roleList.size() != roleIds.size()){
+            if (roleList.size() != roleIds.size()) {
                 session.invalidate();
                 Assert.state(false, "用户角色已被修改，请重新登录");
             }
@@ -118,7 +121,7 @@ public class CommonController {
     @GetMapping("menuInfo")
     public AjaxResult menuInfo() {
         Subject subject = SecurityUtils.getSubject();
-        log.debug("用户 {} 获取菜单信息, 权限码： {}",subject.getName(), subject.getPermissions());
+        log.debug("用户 {} 获取菜单信息, 权限码： {}", subject.getName(), subject.getPermissions());
         Map<String, SysMenu> map = sysMenuService.findMenuMap();
 
 
@@ -138,15 +141,17 @@ public class CommonController {
             for (String id : ids) {
                 list.add(map.get(id));
             }
-
         }
-
 
         // 去重,排序
         list = list.stream().distinct().sorted(Comparator.comparing(SysMenu::getSeq)).collect(Collectors.toList());
 
+        // 去掉没有子节点的目录
+        Set<String> pids = list.stream().map(SysMenu::getPid).filter(Objects::nonNull).collect(Collectors.toSet());
+        list = list.stream().filter(menu-> pids.contains(menu.getId())).toList();
 
-        List<MenuDto> routes = new LinkedList<>();
+
+        List<MenuDto> menuDtos = new LinkedList<>();
         for (SysMenu m : list) {
             String pid = m.getPid();
             // iframe设置完整url
@@ -157,14 +162,14 @@ public class CommonController {
             dto.setPerm(StrUtil.emptyToNull(m.getPerm()));
             dto.setIframe(m.getIframe());
             dto.setRefreshOnTabClick(m.getRefreshOnTabClick());
-            routes.add(dto);
+            menuDtos.add(dto);
         }
 
 
-        TreeManager<MenuDto> tm = new TreeManager<>(routes, MenuDto::getId, MenuDto::getPid, MenuDto::getChildren, MenuDto::setChildren);
+        TreeManager<MenuDto> tm = new TreeManager<>(menuDtos, MenuDto::getId, MenuDto::getPid, MenuDto::getChildren, MenuDto::setChildren);
         List<MenuDto> tree = tm.getTree();
-        // 如果最顶层（topmenu）没有子节点，则不显示
-        tree = tree.stream().filter(t -> CollUtil.isNotEmpty(t.getChildren())).collect(Collectors.toList());
+
+
 
 
         Map<String, MenuDto> treeMap = tm.getMap();
@@ -177,6 +182,8 @@ public class CommonController {
                     item.setRootid(parent.getRootid());
                 }
             }
+
+
         });
 
 
