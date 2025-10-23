@@ -101,12 +101,14 @@ public class JpaQuery<T> implements Specification<T> {
         });
     }
 
+
+    @Deprecated
     public void searchParams(T bean, Class<T> domainClass) {
         Map<String, Object> params = BeanUtil.beanToMap(bean, "size", "page");
         this.searchParams(params, domainClass);
     }
 
-
+    @Deprecated
     public void searchParams(Map<String, Object> params, Class<T> domainClass) {
         if (CollUtil.isEmpty(params)) {
             return;
@@ -155,7 +157,7 @@ public class JpaQuery<T> implements Specification<T> {
     }
 
     public void eq(String column, Object v) {
-        if (v == null) {
+        if (StrUtil.isEmptyIfStr(v)) {
             return;
         }
         this.add(new Specification<T>() {
@@ -188,7 +190,8 @@ public class JpaQuery<T> implements Specification<T> {
 
 
     public void ne(String column, Object v) {
-        if (v == null) {
+
+        if (StrUtil.isEmptyIfStr(v)) {
             return;
         }
         this.add(new Specification<T>() {
@@ -202,7 +205,7 @@ public class JpaQuery<T> implements Specification<T> {
 
 
     public void gt(String column, Object v) {
-        if (v == null) {
+        if (StrUtil.isEmptyIfStr(v)) {
             return;
         }
 
@@ -217,7 +220,7 @@ public class JpaQuery<T> implements Specification<T> {
 
 
     public void ge(String column, Object v) {
-        if (v == null) {
+        if (StrUtil.isEmptyIfStr(v)) {
             return;
         }
         this.add(new Specification<T>() {
@@ -230,7 +233,7 @@ public class JpaQuery<T> implements Specification<T> {
     }
 
     public void lt(String column, Object v) {
-        if (v == null) {
+        if (StrUtil.isEmptyIfStr(v)) {
             return;
         }
         this.add(new Specification<T>() {
@@ -243,7 +246,7 @@ public class JpaQuery<T> implements Specification<T> {
     }
 
     public void le(String column, Object v) {
-        if (v == null) {
+        if (StrUtil.isEmptyIfStr(v)) {
             return;
         }
         this.add(new Specification<T>() {
@@ -354,7 +357,7 @@ public class JpaQuery<T> implements Specification<T> {
      * @param v       当前时间
      */
     public void valueBetween(String column1, String column2, Object v) {
-        if (v == null) {
+        if (StrUtil.isEmptyIfStr(v)) {
             return;
         }
         this.addSubAnd(q -> {
