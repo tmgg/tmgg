@@ -200,21 +200,6 @@ export default class extends React.Component {
                 </Content>
 
             </Layout>
-
-            <Footer
-                className='hide-on-mobile'
-                style={{
-                    textAlign: 'center',
-                    margin: 0,
-                    padding: 12,
-                    fontSize: "small"
-                }}
-            >
-                {siteInfo.copyright}
-
-                &nbsp;&nbsp;&nbsp;&nbsp;当前时间 <time title='当前时间'>{DateUtil.now()}</time>
-            </Footer>
-
         </Layout>
     }
 
