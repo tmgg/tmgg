@@ -242,6 +242,7 @@ export default class extends React.Component {
             >
 
                 <Transfer
+
                     dataSource={this.state.userList} titles={["未选择", "已选择"]}
                     targetKeys={this.state.targetKeys}
                     selectedKeys={this.state.selectedKeys}
