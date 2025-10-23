@@ -1,10 +1,6 @@
 {
   "SysMenu" : [
-    {
-    "id" : "sys",
-    "name" : "系统管理",
-    "seq" : 100
-  }, {
+   {
     "id" : "sysOrg",
     "pid" : "sys",
     "name" : "机构管理",
@@ -68,13 +64,6 @@
     "path" : "/system/file",
     "seq" : 6,
     "icon" : "FolderOpenOutlined"
-  }, {
-    "id" : "sysMonitor",
-    "type" : "DIR",
-    "pid" : "sys",
-    "name" : "系统监控",
-    "seq" : 199,
-    "icon" : "DesktopOutlined"
   }, {
     "id" : "machine",
     "pid" : "sysMonitor",

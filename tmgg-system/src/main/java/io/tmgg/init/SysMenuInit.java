@@ -19,6 +19,12 @@ public class SysMenuInit {
 
     public void init() throws Exception {
         sysMenuService.addDir(null,"biz","业务模块", null,0);
+        sysMenuService.addDir(null,"sys","系统管理", null,100);
+
+        sysMenuService.addDir("sys","sysMonitor","系统监控", AntDesignIcon.DesktopOutlined,199);
+
+
+
 
 
         sysMenuService.addDir("sys","jobMgr","作业调度", AntDesignIcon.ScheduleOutlined,7);
