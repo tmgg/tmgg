@@ -146,9 +146,10 @@ public class SysCommonController {
         // 去掉没有子节点的目录
         Set<String> pids = list.stream().map(SysMenu::getPid).filter(Objects::nonNull).collect(Collectors.toSet());
         list = list.stream().filter(menu-> {
-            if(menu.getType() == MenuType.MENU){
+            if (menu.getType() == MenuType.MENU && menu.getPid() != null) {
                 return pids.contains(menu.getPid());
             }
+
             return true;
         }).toList();
 
