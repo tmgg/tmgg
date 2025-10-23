@@ -32,6 +32,11 @@ export class DictSelect extends React.Component<DictProps> {
     }
 
     let list = dictList(typeCode) || [];
+
+    if(value != null){
+      value = String(value)
+    }
+
     return (
         <Select value={value} onChange={onChange} placeholder={placeholder} allowClear {...restProps} style={{minWidth:150}}>
           {list.map((o: any) => (
