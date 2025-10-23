@@ -88,7 +88,8 @@ public class GlobalSystemDataInit implements CommandLineRunner {
 
     @Resource
     private SysMenuInit sysMenuInit;
-
+    @Resource
+    private SystemHookService systemHookService;
     @Override
     public void run(String... args) throws Exception {
 
@@ -119,6 +120,8 @@ public class GlobalSystemDataInit implements CommandLineRunner {
         dictFieldAnnHandler.run();
         jsonEntityService.initOnStartup();
         sysMenuInit.init();
+        systemHookService.trigger(SystemHookEventType.AFTER_SYSTEM_MENU_INIT);
+
         SysRole adminRole = sysRoleService.initDefaultAdmin();
         initUser(adminRole);
 

@@ -17,7 +17,11 @@ public class SysMenuInit {
     @Resource
     private SysMenuService sysMenuService;
 
+
+
     public void init() throws Exception {
+        sysMenuService.deleteAll();
+
         sysMenuService.addDir(null,"biz","业务模块", null,0);
         sysMenuService.addDir(null,"sys","系统管理", null,100);
 
@@ -36,6 +40,8 @@ public class SysMenuInit {
 
 
         initParsers();
+
+
     }
 
     private void initParsers() throws Exception {
