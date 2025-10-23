@@ -9,7 +9,7 @@ export default class extends React.Component {
 
 
     onFinish = (values) => {
-        HttpUtil.post('/sysUser/updatePwd', values).then(() => {
+        HttpUtil.post('userCenter/updatePwd', values).then(() => {
             Modal.success({
                 title: '提示',
                 content: '修改密码成功',
