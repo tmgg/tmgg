@@ -23,12 +23,14 @@ export  class FieldTree extends React.Component {
 
 
   render() {
-    let {treeData, confirmLoading, checked} = this.state
+    console.log('checked keys', this.props.value)
+    let {treeData} = this.state
     return <>
       <Tree
         treeData={treeData}
         multiple
         checkable
+        checkStrictly={true}
         checkedKeys={this.props.value}
         onCheck={(keys)=>this.props.onChange(keys)}
       >
