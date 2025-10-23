@@ -1,6 +1,7 @@
 
 package io.tmgg.modules.system;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.Dict;
 import cn.hutool.core.util.StrUtil;
 import io.tmgg.config.SysProp;
@@ -171,6 +172,8 @@ public class SysCommonController {
 
         TreeManager<MenuDto> tm = new TreeManager<>(menuDtos, MenuDto::getId, MenuDto::getPid, MenuDto::getChildren, MenuDto::setChildren);
         List<MenuDto> tree = tm.getTree();
+        // 如果最顶层（topmenu）没有子节点，则不显示
+        tree = tree.stream().filter(t -> CollUtil.isNotEmpty(t.getChildren())).collect(Collectors.toList());
 
 
 
