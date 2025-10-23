@@ -3,9 +3,11 @@ package io.tmgg.modules.system;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.Dict;
+import cn.hutool.core.lang.tree.TreeUtil;
 import cn.hutool.core.util.StrUtil;
 import io.tmgg.config.SysProp;
 import io.tmgg.lang.TreeManager;
+import io.tmgg.lang.TreeTool;
 import io.tmgg.lang.ann.PublicRequest;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.modules.system.dto.MenuDto;
@@ -15,6 +17,7 @@ import io.tmgg.modules.system.service.*;
 import io.tmgg.web.enums.MenuType;
 import io.tmgg.web.perm.SecurityUtils;
 import io.tmgg.web.perm.Subject;
+import io.tmgg.web.persistence.BaseEntity;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
@@ -144,16 +147,14 @@ public class SysCommonController {
         // 去重,排序
         list = list.stream().distinct().sorted(Comparator.comparing(SysMenu::getSeq)).collect(Collectors.toList());
 
-        // 去掉没有子节点的目录
-        Set<String> pids = list.stream().map(SysMenu::getPid).filter(Objects::nonNull).collect(Collectors.toSet());
-        list = list.stream().filter(menu-> {
-            if (menu.getType() == MenuType.MENU && menu.getPid() != null) {
-                return pids.contains(menu.getPid());
+
+
+        Map<String, SysMenu> menuMap = new HashMap<>();
+        for (SysMenu sysMenu : list) {
+            if (menuMap.put(sysMenu.getId(), sysMenu) != null) {
+                throw new IllegalStateException("Duplicate key");
             }
-
-            return true;
-        }).toList();
-
+        }
 
         List<MenuDto> menuDtos = new LinkedList<>();
         for (SysMenu m : list) {

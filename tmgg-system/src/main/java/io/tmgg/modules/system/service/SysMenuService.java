@@ -162,9 +162,11 @@ public class SysMenuService extends BaseService<SysMenu> {
         if(icon != null){
             menu.setIcon(icon.name());
         }
-
+        menu.setPerm(id);
         menu.setSeq(seq);
 
         sysMenuDao.save(menu);
     }
+
+
 }
