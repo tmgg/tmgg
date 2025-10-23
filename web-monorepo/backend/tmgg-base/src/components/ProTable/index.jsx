@@ -166,12 +166,8 @@ export class ProTable extends React.Component {
                     }, this.loadData)
                 }}
 
-                footer={()=>{
-                    return this.state.extData.summary
-                }}
+                footer={this.state.extData.summary ?  ()=> this.state.extData.summary: null }
                 bordered={this.props.bordered}
-
-
             />
         </div>
 
