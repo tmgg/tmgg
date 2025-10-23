@@ -8,7 +8,6 @@ declare type ProTableProps = {
     // 请求数据，注意：需处理下载
     request: (params:any)=>{};
     showSearch?: boolean,
-    searchFormItemsRender?:(formInstance: FormInstance)=>{},
 
     // 选择行，通ant table
     rowSelection?: any,

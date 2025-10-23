@@ -61,8 +61,8 @@ public class Subject implements Serializable {
 
 
 
-    public boolean hasPermission(String perm) {
-        if (StringUtils.isEmpty(perm) ) {
+    public boolean hasPermission(String input) {
+        if (StringUtils.isEmpty(input) ) {
             return true;
         }
 
@@ -75,13 +75,24 @@ public class Subject implements Serializable {
         }
 
         // 处理url的情况
-        if (perm.contains("/")) {
-            perm = StringUtils.removeStart(perm, "/");
-            perm = StringUtils.removeEnd(perm, "/");
-            perm = StringUtils.replace(perm, "/", ":");
+        if (input.contains("/")) {
+            input = StringUtils.removeStart(input, "/");
+            input = StringUtils.removeEnd(input, "/");
+            input = StringUtils.replace(input, "/", ":");
         }
 
-        return permissions.contains(perm);
+        // 处理用户有user:list时， 同时也有user(非user:*)的权限（方便获取菜单）
+        if(!input.contains(":")){
+            for (String permission : permissions) {
+                String[] arr = permission.split(":");
+                if(arr[0].equals(permission)){
+                    return true;
+                }
+            }
+        }
+
+
+        return permissions.contains(input);
     }
 
 

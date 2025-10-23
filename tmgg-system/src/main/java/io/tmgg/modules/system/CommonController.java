@@ -98,10 +98,14 @@ public class CommonController {
         Set<String> roleIds = subject.getRoles();
         if (!CollectionUtils.isEmpty(roleIds)) {
             List<SysRole> roleList = roleService.findAllByCode(roleIds);
-            Assert.state(roleList.size() == roleIds.size(), "用户角色已被修改，请重新登录");
+            if(roleList.size() != roleIds.size()){
+                session.invalidate();
+                Assert.state(false, "用户角色已被修改，请重新登录");
+            }
             Set<String> roleNameSet = roleList.stream().map(SysRole::getName).collect(Collectors.toSet());
             String roleNames = StringUtils.join(roleNameSet, ",");
             vo.put("roleNames", roleNames);
+
         }
 
         return AjaxResult.ok().data(vo);
