@@ -6,16 +6,7 @@ import {StrUtil} from "@tmgg/tmgg-commons-lang";
 import {SearchOutlined} from "@ant-design/icons";
 
 
-function getDefaultPageSize() {
-    const h = window.screen.height;
-    if (h >= 1080) {
-        return 20;
-    }
-    if (h >= 768) {
-        return 15;
-    }
-    return 10;
-}
+
 
 export class ProTable extends React.Component {
     state = {
@@ -31,7 +22,7 @@ export class ProTable extends React.Component {
 
         total: 0,
         current: 1, // 当前页
-        pageSize: getDefaultPageSize(),
+        pageSize: 10,
 
         sorter: {
             field: undefined, // 字段
