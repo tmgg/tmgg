@@ -24,8 +24,5 @@ public interface MenuMapper {
         if (target.getPath() == null) {
             target.setPath("");
         }
-        if(target.getPid() == null){
-            target.setPid("");
-        }
     }
 }
