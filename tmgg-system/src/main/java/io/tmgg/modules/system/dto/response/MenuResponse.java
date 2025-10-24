@@ -21,6 +21,9 @@ public class MenuResponse implements Tree<MenuResponse> {
 
   String pid;
 
+  /**
+   * 根节点id， 比如用户管理的根节点为最顶层菜单系统管理， 用于前端自动切换顶层app菜单
+   */
   String rootid; // 如果使用
 
   String label;
@@ -36,22 +39,8 @@ public class MenuResponse implements Tree<MenuResponse> {
   Boolean refreshOnTabClick;
 
 
-  // 权限 ,临时字段
-  @JsonIgnore
-  String perm;
-
 
   List<MenuResponse> children = new LinkedList<>();
-
-
-
-
-
-
-
-
-
-
 
 
   @Override
@@ -71,12 +60,5 @@ public class MenuResponse implements Tree<MenuResponse> {
   }
 
 
-  @Override
-  public String toString() {
-    return "Route{" +
-           "id='" + id + '\'' +
-           ", name='" + label + '\'' +
-           ", perm='" + perm + '\'' +
-           '}';
-  }
+
 }
