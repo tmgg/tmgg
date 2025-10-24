@@ -1,7 +1,6 @@
 
 package io.tmgg.lang.obj;
 
-import io.tmgg.lang.Tree;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -15,7 +14,7 @@ import java.util.List;
  */
 @Getter
 @Setter
-public class TreeNode implements Tree<TreeNode> {
+public class TreeNode implements io.tmgg.lang.TreeNode<TreeNode> {
 
     /**
      * 主键

@@ -3,7 +3,7 @@ package io.tmgg.lang;
 import java.util.List;
 
 
-public interface Tree<T> {
+public interface TreeNode<T> {
     String getId();
 
     String getPid();

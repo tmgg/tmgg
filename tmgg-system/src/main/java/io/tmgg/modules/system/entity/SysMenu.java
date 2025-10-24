@@ -1,7 +1,7 @@
 
 package io.tmgg.modules.system.entity;
 
-import io.tmgg.lang.Tree;
+import io.tmgg.lang.TreeNode;
 import io.tmgg.lang.ann.Remark;
 import io.tmgg.web.persistence.BaseEntity;
 import io.tmgg.web.persistence.DBConstants;
@@ -23,7 +23,7 @@ import java.util.List;
 @Getter
 @Setter
 @FieldNameConstants
-public class SysMenu extends BaseEntity implements Tree<SysMenu> {
+public class SysMenu extends BaseEntity implements TreeNode<SysMenu> {
 
 
     @Column(length = DBConstants.LEN_ID)

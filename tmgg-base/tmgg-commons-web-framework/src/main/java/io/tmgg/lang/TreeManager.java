@@ -53,8 +53,8 @@ public class TreeManager<T> {
     }
 
 
-    public static <X extends Tree<X>> TreeManager<X> of(List<X> dataList) {
-        TreeManager<X> tm = new TreeManager<>(dataList, Tree::getId, Tree::getPid, Tree::getChildren, Tree::setChildren);
+    public static <X extends TreeNode<X>> TreeManager<X> of(List<X> dataList) {
+        TreeManager<X> tm = new TreeManager<>(dataList, TreeNode::getId, TreeNode::getPid, TreeNode::getChildren, TreeNode::setChildren);
 
         // 设置是否叶子
         for (X x : dataList) {

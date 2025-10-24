@@ -1,9 +1,9 @@
 package io.tmgg.web.persistence;
 
 
-import io.tmgg.lang.Tree;
+import io.tmgg.lang.TreeNode;
 
-public interface TreeEntity<T> extends PersistEntity, Tree<T> {
+public interface TreeEntity<T> extends PersistEntity, TreeNode<T> {
 
     void setPid(String pid);
 

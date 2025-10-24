@@ -1,6 +1,6 @@
 package io.tmgg.lang.obj;
 
-import io.tmgg.lang.Tree;
+import io.tmgg.lang.TreeNode;
 import io.tmgg.lang.TreeManager;
 import lombok.Data;
 
@@ -12,7 +12,7 @@ import java.util.function.Function;
  * antd 树状选择对象
  */
 @Data
-public class TreeOption implements Tree<TreeOption> {
+public class TreeOption implements TreeNode<TreeOption> {
     String title;
     String key;
 

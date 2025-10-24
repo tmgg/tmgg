@@ -140,7 +140,7 @@ public class SysCommonController {
         List<MenuResponse> menuResponseList = menuMapper.menuToResponseList(onlyMenuList);
 
 
-        TreeManager<MenuResponse> tm = new TreeManager<>(menuResponseList, MenuResponse::getId, MenuResponse::getPid, MenuResponse::getChildren, MenuResponse::setChildren);
+        TreeManager<MenuResponse> tm = TreeManager.of(menuResponseList);
         List<MenuResponse> tree = tm.getTree();
 
         tree.removeIf(t-> CollUtil.isEmpty(t.getChildren()));
