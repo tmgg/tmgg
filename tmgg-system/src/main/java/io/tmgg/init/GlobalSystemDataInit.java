@@ -2,18 +2,16 @@ package io.tmgg.init;
 
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.IdUtil;
+import cn.hutool.core.util.VersionUtil;
 import cn.hutool.crypto.SecureUtil;
 import cn.hutool.crypto.asymmetric.RSA;
-import cn.hutool.extra.spring.SpringUtil;
 import io.tmgg.Build;
 import io.tmgg.config.SysProp;
 import io.tmgg.dbtool.DbTool;
-import io.tmgg.event.SystemDataInitFinishEvent;
 import io.tmgg.framework.dict.DictAnnHandler;
 import io.tmgg.framework.dict.DictFieldAnnHandler;
 import io.tmgg.framework.perm.PermissionService;
 import io.tmgg.lang.PasswordTool;
-import io.tmgg.lang.SpringTool;
 import io.tmgg.modules.system.Configs;
 import io.tmgg.modules.system.dao.SysConfigDao;
 import io.tmgg.modules.system.dao.SysUserDao;
@@ -31,8 +29,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
-
-import java.util.Collection;
 
 /**
  * 系统数据初始化
@@ -92,12 +88,7 @@ public class GlobalSystemDataInit implements CommandLineRunner {
     private SystemHookService systemHookService;
     @Override
     public void run(String... args) throws Exception {
-
-        Collection<SystemHook> interceptors = SpringTool.getBeans(SystemHook.class);
-        for (SystemHook it : interceptors) {
-            log.info("在框架初始化数据之前执行: {}", it.getClass().getName());
-            it.beforeDataInit();
-        }
+        systemHookService.trigger(SystemHookEventType.BEFORE_DATA_INIT);
 
 
         log.info("框架版本 {}", Build.getFrameworkVersion());
@@ -111,7 +102,7 @@ public class GlobalSystemDataInit implements CommandLineRunner {
         long time = System.currentTimeMillis();
 
 
-        if (cacheVersion == null || cacheVersion.compareTo("0.3.91") < 0) {
+        if (cacheVersion == null || VersionUtil.isLessThan(cacheVersion,"0.3.91")) {
             fixDict();
         }
 
@@ -128,17 +119,14 @@ public class GlobalSystemDataInit implements CommandLineRunner {
         initSysConfig();
 
 
-        SpringUtil.publishEvent(new SystemDataInitFinishEvent(this));
 
 
         log.info("数据初始化完成，缓存框架版本号");
         dbCacheDao.set(CACHE_KEY_FRAMEWORK_VERSION, Build.getFrameworkVersion());
 
         log.info("系统初始化耗时：{}", System.currentTimeMillis() - time);
-        for (SystemHook it : interceptors) {
-            log.info("在框架初始化数据之后执行: {}", it.getClass().getName());
-            it.afterDataInit();
-        }
+
+        systemHookService.trigger(SystemHookEventType.AFTER_DATA_INIT);
     }
 
     private void initSysConfig() {

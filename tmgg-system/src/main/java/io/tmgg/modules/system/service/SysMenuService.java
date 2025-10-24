@@ -1,20 +1,17 @@
 
 package io.tmgg.modules.system.service;
 
-import cn.hutool.core.bean.BeanUtil;
 import io.tmgg.common.AntDesignIcon;
-import io.tmgg.lang.SpringTool;
 import io.tmgg.lang.TreeManager;
 import io.tmgg.lang.TreeTool;
-import io.tmgg.web.enums.MenuType;
-import io.tmgg.web.persistence.BaseEntity;
-import io.tmgg.web.persistence.BaseService;
 import io.tmgg.lang.obj.TreeNode;
-import io.tmgg.modules.SysMenuParser;
 import io.tmgg.modules.system.dao.JsonEntityFileDao;
 import io.tmgg.modules.system.dao.SysMenuDao;
 import io.tmgg.modules.system.entity.JsonEntity;
 import io.tmgg.modules.system.entity.SysMenu;
+import io.tmgg.web.enums.MenuType;
+import io.tmgg.web.persistence.BaseEntity;
+import io.tmgg.web.persistence.BaseService;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -37,8 +34,6 @@ public class SysMenuService extends BaseService<SysMenu> {
 
     @Resource
     JsonEntityFileDao jsonEntityFileDao;
-
-
 
 
     /**
@@ -82,9 +77,6 @@ public class SysMenuService extends BaseService<SysMenu> {
     }
 
 
-
-
-
     @Transactional
     public void changeIcon(SysMenu input) throws Exception {
         SysMenu menu = sysMenuDao.findById(input.getId());
@@ -93,7 +85,7 @@ public class SysMenuService extends BaseService<SysMenu> {
         JsonEntity entity = jsonEntityFileDao.findOne(SysMenu.class, menu.getId());
         Assert.notNull(entity, "未找到数据文件");
 
-        entity.getData().put("icon",input.getIcon());
+        entity.getData().put("icon", input.getIcon());
 
         jsonEntityFileDao.save(entity);
 
@@ -108,12 +100,12 @@ public class SysMenuService extends BaseService<SysMenu> {
         JsonEntity entity = jsonEntityFileDao.findOne(SysMenu.class, menu.getId());
         Assert.notNull(entity, "未找到数据文件");
 
-        entity.getData().put("seq",seq);
+        entity.getData().put("seq", seq);
 
         jsonEntityFileDao.save(entity);
     }
 
-    public List<SysMenu> findAllAndParent(List<String> menuIds) {
+    public List<String> findPidList(List<String> menuIds) {
         List<SysMenu> list = sysMenuDao.findAll();
 
         TreeManager<SysMenu> tm = new TreeManager<>(list, BaseEntity::getId, SysMenu::getPid, SysMenu::getChildren, SysMenu::setChildren);
@@ -122,15 +114,14 @@ public class SysMenuService extends BaseService<SysMenu> {
         for (String menuId : menuIds) {
             ids.addAll(tm.getParentIdListById(menuId));
         }
-        ids.addAll(menuIds);
 
-        return list.stream().filter(t->ids.contains(t.getId())).collect(Collectors.toList());
+        return new ArrayList<>(ids);
     }
 
 
-    public void addMenu(String pid, String id, String name, AntDesignIcon icon, String perm, String path, int seq,boolean refreshOnTabClick) {
+    public void addMenu(String pid, String id, String name, AntDesignIcon icon, String perm, String path, int seq, boolean refreshOnTabClick) {
         SysMenu menu = sysMenuDao.findOne(id);
-        if(menu == null){
+        if (menu == null) {
             menu = new SysMenu();
         }
 
@@ -141,7 +132,7 @@ public class SysMenuService extends BaseService<SysMenu> {
         menu.setPath(path);
         menu.setRefreshOnTabClick(refreshOnTabClick);
         menu.setSeq(seq);
-        if(icon != null){
+        if (icon != null) {
             menu.setIcon(icon.name());
 
         }
@@ -151,7 +142,7 @@ public class SysMenuService extends BaseService<SysMenu> {
 
     public void addDir(String pid, String id, String name, AntDesignIcon icon, int seq) {
         SysMenu menu = sysMenuDao.findOne(id);
-        if(menu == null){
+        if (menu == null) {
             menu = new SysMenu();
         }
 
@@ -159,7 +150,7 @@ public class SysMenuService extends BaseService<SysMenu> {
         menu.setPid(pid);
         menu.setName(name);
         menu.setType(MenuType.DIR);
-        if(icon != null){
+        if (icon != null) {
             menu.setIcon(icon.name());
         }
         menu.setPerm(id);
@@ -169,4 +160,7 @@ public class SysMenuService extends BaseService<SysMenu> {
     }
 
 
+    public List<SysMenu> findByPerms(List<String> perms) {
+        return sysMenuDao.findByPerms(perms);
+    }
 }
