@@ -7,10 +7,10 @@ import cn.hutool.core.lang.tree.TreeUtil;
 import cn.hutool.core.util.StrUtil;
 import io.tmgg.config.SysProp;
 import io.tmgg.lang.TreeManager;
-import io.tmgg.lang.TreeTool;
 import io.tmgg.lang.ann.PublicRequest;
 import io.tmgg.lang.obj.AjaxResult;
-import io.tmgg.modules.system.dto.MenuDto;
+import io.tmgg.modules.system.dto.MenuMapper;
+import io.tmgg.modules.system.dto.response.MenuResponse;
 import io.tmgg.modules.system.entity.SysMenu;
 import io.tmgg.modules.system.entity.SysRole;
 import io.tmgg.modules.system.entity.SysUser;
@@ -18,7 +18,6 @@ import io.tmgg.modules.system.service.*;
 import io.tmgg.web.enums.MenuType;
 import io.tmgg.web.perm.SecurityUtils;
 import io.tmgg.web.perm.Subject;
-import io.tmgg.web.persistence.BaseEntity;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
@@ -57,6 +56,9 @@ public class SysCommonController {
 
     @Resource
     private SysUserService sysUserService;
+
+    @Resource
+    private MenuMapper menuMapper;
 
     /**
      * 站点信息， 非登录情况下使用
@@ -132,47 +134,37 @@ public class SysCommonController {
         Set<SysRole> roles = user.getRoles();
 
         List<SysMenu> menuList = roleService.ownMenu(roles);
+        List<SysMenu> onlyMenuList = menuList.stream().filter(t -> t.getType() != MenuType.BTN).toList();
 
-        List<MenuDto> menuDtos = new LinkedList<>();
-        for (SysMenu m : menuList) {
-            String pid = m.getPid();
-            // iframe设置完整url
-            String url = m.getPath();
-
-            MenuDto dto = new MenuDto(String.valueOf(m.getId()), pid, m.getName(), url, null);
-            dto.setIcon(m.getIcon());
-            dto.setPerm(StrUtil.emptyToNull(m.getPerm()));
-            dto.setRefreshOnTabClick(m.getRefreshOnTabClick());
-            menuDtos.add(dto);
-        }
+        List<MenuResponse> menuDtos = menuMapper.menuToResponseList(onlyMenuList);
 
 
-        TreeManager<MenuDto> tm = new TreeManager<>(menuDtos, MenuDto::getId, MenuDto::getPid, MenuDto::getChildren, MenuDto::setChildren);
-        List<MenuDto> tree = tm.getTree();
+        TreeManager<MenuResponse> tm = new TreeManager<>(menuDtos, MenuResponse::getId, MenuResponse::getPid, MenuResponse::getChildren, MenuResponse::setChildren);
+        List<MenuResponse> tree = tm.getTree();
 
-        Map<String, MenuDto> treeMap = tm.getMap();
+        tree.removeIf(t-> CollUtil.isEmpty(t.getChildren()));
+
+        Map<String, MenuResponse> treeMap = tm.getMap();
         tm.traverseTree(tree, item -> {
             if (item.getPid() == null) {
                 item.setRootid(item.getId());
             } else {
-                MenuDto parent = treeMap.get(item.getPid());
+                MenuResponse parent = treeMap.get(item.getPid());
                 if (parent != null) {
                     item.setRootid(parent.getRootid());
                 }
             }
-
-
         });
 
 
-        Dict info = new Dict();
+        Dict data = new Dict();
 
         List<Dict> topMenus = tree.stream().map(r -> Dict.of("key", r.getKey(), "label", r.getLabel())).toList();
-        info.put("topMenus", topMenus);
-        info.put("menus", tree);
-        info.put("badgeList", sysMenuBadgeService.findAll());
+        data.put("topMenus", topMenus);
+        data.put("menus", tree);
+        data.put("badgeList", sysMenuBadgeService.findAll());
 
-        return AjaxResult.ok().data(info);
+        return AjaxResult.ok().data(data);
     }
 
 }

@@ -77,11 +77,12 @@ public class SysRoleService extends BaseService<SysRole> {
         return this.findAll(q);
     }
 
-    public List<SysMenu> ownMenu(SysRole role) {
-        role = roleDao.findOne(role.getId());
+    @Transactional
+    public List<SysMenu> ownMenu(String id) {
+        SysRole role = roleDao.findOne(id);
         List<SysMenu> menuList;
 
-        if (role.getId().equals("admin")) {
+        if (role.getCode().equals("admin")) {
             menuList = sysMenuDao.findAll();
         } else {
             menuList = role.getMenus();
@@ -91,14 +92,14 @@ public class SysRoleService extends BaseService<SysRole> {
         return menuList.stream().distinct().sorted(Comparator.comparing(SysMenu::getSeq)).toList();
     }
 
+    @Transactional
     public List<SysMenu> ownMenu(Iterable<SysRole> roles) {
         List<SysMenu> menuList = new LinkedList<>();
 
         for (SysRole role : roles) {
-            List<SysMenu> menus = this.ownMenu(role);
+            List<SysMenu> menus = this.ownMenu(role.getId());
             menuList.addAll(menus);
         }
-
 
 
         return menuList.stream().distinct().sorted(Comparator.comparing(SysMenu::getSeq)).toList();

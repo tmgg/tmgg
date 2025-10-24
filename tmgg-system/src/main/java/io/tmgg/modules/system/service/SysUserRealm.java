@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 import java.util.List;
@@ -58,7 +59,22 @@ public class SysUserRealm implements AuthorizingRealm {
             subject.setDeptName(user.getDeptLabel());
 
 
-            fillPermissions(subject);
+            Set<SysRole> roles = sysRoleService.getLoginRoles(subject.getId());
+            List<SysMenu> menuList = sysRoleService.ownMenu(roles);
+
+            for (SysRole role : roles) {
+                subject.addRole(role.getCode());
+            }
+
+            for (SysMenu menu : menuList) {
+                if(menu.getPerm() != null){
+                    subject.getPermissions().add(menu.getPerm());
+                }
+            }
+
+            // 数据权限
+            Collection<String> loginDataScope = sysUserService.getLoginDataScope(subject.getId());
+            subject.getOrgPermissions().addAll(loginDataScope);
 
         }
 
@@ -66,28 +82,6 @@ public class SysUserRealm implements AuthorizingRealm {
         return subject;
     }
 
-    private void fillPermissions(Subject subject) {
-        // 角色信息
-        Set<SysRole> roles = sysRoleService.getLoginRoles(subject.getId());
-        List<SysMenu> menuList = sysRoleService.ownMenu(roles);
-
-        for (SysRole role : roles) {
-            subject.addRole(role.getCode());
-        }
-
-        for (SysMenu menu : menuList) {
-            if(menu.getPerm() != null){
-                subject.getPermissions().add(menu.getPerm());
-            }
-        }
-        log.debug("角色数量 {}", roles.size());
-
-        log.debug("用户 {} 的功能权限{}",subject.getName(), subject.getPermissions());
-
-        // 数据权限
-        Collection<String> loginDataScope = sysUserService.getLoginDataScope(subject.getId());
-        subject.getOrgPermissions().addAll(loginDataScope);
-    }
 
 
 }

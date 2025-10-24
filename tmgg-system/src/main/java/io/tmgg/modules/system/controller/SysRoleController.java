@@ -98,8 +98,7 @@ public class SysRoleController extends BaseController<SysRole> {
     @HasPermission("sysRole:save")
     @RequestMapping("ownMenu")
     public AjaxResult ownMenu(String id) {
-        SysRole r = sysRoleService.findOne(id);
-        Set<String> checked = sysRoleService.ownMenu(r).stream().map(BaseEntity::getId).collect(Collectors.toSet());
+        Set<String> checked = sysRoleService.ownMenu(id).stream().map(BaseEntity::getId).collect(Collectors.toSet());
         return AjaxResult.ok().data(checked);
     }
 

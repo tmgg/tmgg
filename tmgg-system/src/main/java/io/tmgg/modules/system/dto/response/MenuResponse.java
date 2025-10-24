@@ -1,4 +1,4 @@
-package io.tmgg.modules.system.dto;
+package io.tmgg.modules.system.dto.response;
 
 import io.tmgg.lang.Tree;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -14,7 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-public class MenuDto implements Tree<MenuDto> {
+public class MenuResponse implements Tree<MenuResponse> {
 
   String id;
 
@@ -41,7 +41,7 @@ public class MenuDto implements Tree<MenuDto> {
   String perm;
 
 
-  List<MenuDto> children = new LinkedList<>();
+  List<MenuResponse> children = new LinkedList<>();
 
 
 
@@ -49,20 +49,7 @@ public class MenuDto implements Tree<MenuDto> {
 
 
 
-  public MenuDto(String id, String pid, String label, String path, String icon) {
-    this.id = id;
-    this.pid = pid;
-    this.label = label;
-    this.path = path;
-    this.icon = icon;
 
-    if (path == null) {
-      this.path = "";
-    }
-
-
-    this.key = id;
-  }
 
 
 
@@ -73,7 +60,7 @@ public class MenuDto implements Tree<MenuDto> {
 
     if (o == null || getClass() != o.getClass()) return false;
 
-    MenuDto route = (MenuDto) o;
+    MenuResponse route = (MenuResponse) o;
 
     return new EqualsBuilder().append(id, route.id).isEquals();
   }
