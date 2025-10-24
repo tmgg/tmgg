@@ -2,9 +2,9 @@
 package io.tmgg.modules.system.entity;
 
 import io.tmgg.framework.dict.DictField;
+import io.tmgg.lang.tree.TreeNode;
 import io.tmgg.lang.ann.Remark;
 import io.tmgg.web.persistence.BaseEntity;
-import io.tmgg.web.persistence.TreeEntity;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldNameConstants;
@@ -21,7 +21,7 @@ import java.util.List;
 @Setter
 @Entity
 @FieldNameConstants
-public class SysOrg extends BaseEntity implements TreeEntity<SysOrg> {
+public class SysOrg extends BaseEntity implements TreeNode<SysOrg> {
 
     public SysOrg() {
     }

@@ -1,7 +1,7 @@
 
 package io.tmgg.modules.system.entity;
 
-import io.tmgg.lang.TreeNode;
+import io.tmgg.lang.tree.TreeNode;
 import io.tmgg.lang.ann.Remark;
 import io.tmgg.web.persistence.BaseEntity;
 import io.tmgg.web.persistence.DBConstants;

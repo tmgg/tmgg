@@ -3,7 +3,7 @@ package io.tmgg.kettle.controller;
 import io.github.tmgg.kettle.sdk.KettleSdk;
 import io.github.tmgg.kettle.sdk.Result;
 import io.github.tmgg.kettle.sdk.plugin.RepTreeItem;
-import io.tmgg.lang.TreeManager;
+import io.tmgg.lang.tree.TreeManager;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.obj.Option;
 import io.tmgg.web.pojo.param.DropdownParam;

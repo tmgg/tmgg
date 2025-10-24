@@ -2,7 +2,7 @@
 package io.tmgg.modules.system.service;
 
 import io.tmgg.common.AntDesignIcon;
-import io.tmgg.lang.TreeManager;
+import io.tmgg.lang.tree.TreeManager;
 import io.tmgg.lang.TreeTool;
 import io.tmgg.lang.obj.TreeNode;
 import io.tmgg.modules.system.dao.JsonEntityFileDao;

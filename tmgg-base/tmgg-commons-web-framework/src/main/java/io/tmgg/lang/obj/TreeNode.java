@@ -14,7 +14,7 @@ import java.util.List;
  */
 @Getter
 @Setter
-public class TreeNode implements io.tmgg.lang.TreeNode<TreeNode> {
+public class TreeNode implements io.tmgg.lang.tree.TreeNode<TreeNode> {
 
     /**
      * 主键

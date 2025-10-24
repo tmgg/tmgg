@@ -1,65 +1,44 @@
-package io.tmgg.lang;
+package io.tmgg.lang.tree;
 
-import cn.hutool.core.lang.Dict;
+import lombok.Getter;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.function.BiConsumer;
 import java.util.function.Function;
 
 /**
  * 树形管理， 内部包含很多数据，及方法
  */
-public class TreeManager<T> {
+public class TreeManager<T extends TreeNode<T>> {
     private static final int ROOT_LEVEL = 1;
+
     private List<T> list;
-    private Function<T, String> idFn;
-    private Function<T, String> pidFn;
 
-
-    private Function<T, List<T>> getChildrenFn;
-    private BiConsumer<T, List<T>> setChildrenFn;
-
+    @Getter
     private List<T> tree;
 
+    @Getter
     private Map<String, T> map;
 
 
-    public TreeManager(List<T> list, Function<T, String> idFn, Function<T, String> pidFn, Function<T, List<T>> getChildrenFn, BiConsumer<T, List<T>> setChildrenFn) {
+    public TreeManager(List<T> list) {
         this.list = list;
-        this.idFn = idFn;
-        this.pidFn = pidFn;
-        this.getChildrenFn = getChildrenFn;
-        this.setChildrenFn = setChildrenFn;
-
         buildMap();
         buildTree();
         cleanLeafChildren();
+
+        // 设置是否叶子
+        for (T x : list) {
+            x.setIsLeaf(this.isLeaf(x));
+        }
     }
 
 
-    /**
-     * map,约定字段，id，pid， children
-     *
-     * @param dataList 数据列表
-     * @return 管理器
-     */
-    public static TreeManager<Map<String, Object>> ofMap(List<Map<String, Object>> dataList) {
-        return new TreeManager<>(dataList, m -> (String) m.get("id"), m -> (String) m.get("pid"), m -> (List<Map<String, Object>>) m.get("children"), (m, ch) -> m.put("children", ch));
-    }
 
-    public static TreeManager<Dict> of(List<Dict> dataList, String idKey, String pidKey) {
-        return new TreeManager<>(dataList, m -> (String) m.get(idKey), m -> (String) m.get(pidKey), m -> (List<Dict>) m.get("children"), (m, ch) -> m.put("children", ch));
-    }
 
 
     public static <X extends TreeNode<X>> TreeManager<X> of(List<X> dataList) {
-        TreeManager<X> tm = new TreeManager<>(dataList, TreeNode::getId, TreeNode::getPid, TreeNode::getChildren, TreeNode::setChildren);
-
-        // 设置是否叶子
-        for (X x : dataList) {
-            x.setIsLeaf(tm.isLeaf(x));
-        }
+        TreeManager<X> tm = new TreeManager<>(dataList);
 
         return tm;
     }
@@ -74,14 +53,6 @@ public class TreeManager<T> {
         }
     }
 
-    public Map<String, T> getMap() {
-        return map;
-    }
-
-    public List<T> getTree() {
-        return tree;
-    }
-
     public interface TraverseAction<T> {
         void performAction(T item);
     }
@@ -90,8 +61,8 @@ public class TreeManager<T> {
     public void traverseTree(List<T> treeList, TraverseAction<T> traverseAction) {
         for (T item : treeList) {
             traverseAction.performAction(item);
-            List<T> children = getChildrenFn.apply(item);
-            if (children != null && children.size() > 0) {
+            List<T> children = item.getChildren();
+            if (children != null && !children.isEmpty()) {
                 traverseTree(children, traverseAction);
             }
         }
@@ -132,14 +103,14 @@ public class TreeManager<T> {
         if (t == null) {
             return null;
         }
-        String pid = pidFn.apply(t);
+        String pid = t.getPid();
         return map.get(pid);
     }
 
     private void buildMap() {
         map = new HashMap<>();
         for (T t : list) {
-            String id = idFn.apply(t);
+            String id = t.getId();;
             map.put(id, t);
         }
     }
@@ -148,7 +119,7 @@ public class TreeManager<T> {
         tree = new ArrayList<>(list.size() / 2);
 
         for (T t : list) {
-            String pid = pidFn.apply(t);
+            String pid = t.getPid();
             T parent = map.get(pid);
             if (parent != null) {
                 List<T> children = initChildren(parent);
@@ -161,20 +132,20 @@ public class TreeManager<T> {
     }
 
     private List<T> initChildren(T node) {
-        List<T> children = getChildrenFn.apply(node);
+        List<T> children = node.getChildren();
         if (children != null) {
             return children;
         }
 
         children = new ArrayList<>();
-        setChildrenFn.accept(node, children);
+        node.setChildren(children);
         return children;
     }
 
     private void cleanLeafChildren() {
         for (T t : getMap().values()) {
             if (isLeaf(t)) {
-                setChildrenFn.accept(t, null);
+                t.setChildren(null);
             }
         }
     }
@@ -194,7 +165,7 @@ public class TreeManager<T> {
     }
 
     public T getParent(T t) {
-        String pid = pidFn.apply(t);
+        String pid =  t.getPid();
         return map.get(pid);
     }
 
@@ -220,7 +191,7 @@ public class TreeManager<T> {
         if (t == null) {
             return false;
         }
-        List<T> children = getChildrenFn.apply(t);
+        List<T> children = t.getChildren();
         return children == null || children.isEmpty();
     }
 
@@ -255,7 +226,7 @@ public class TreeManager<T> {
         List<String> result = new ArrayList<>();
         for (T t : map.values()) {
             if (isLeaf(t)) {
-                result.add(idFn.apply(t));
+                result.add(t.getId());
             }
         }
         return result;
@@ -272,7 +243,7 @@ public class TreeManager<T> {
         T parent = getParent(t);
 
         while (parent != null) {
-            String parentId = idFn.apply(parent);
+            String parentId = parent.getId();
             ids.add(0, parentId);
 
             T temp = getParent(parent);
@@ -312,7 +283,7 @@ public class TreeManager<T> {
         Map<String, Integer> result = new HashMap<>();
 
         for (T t : tree) {
-            String id = idFn.apply(t);
+            String id = t.getId();
             result.put(id, ROOT_LEVEL);
             setChildLevel(t, result);
         }
@@ -322,11 +293,11 @@ public class TreeManager<T> {
 
 
     private void setChildLevel(T t, Map<String, Integer> levelMap) {
-        String id = idFn.apply(t);
-        List<T> children = getChildrenFn.apply(t);
+        String id = t.getId();
+        List<T> children = t.getChildren();
         if (children != null && !children.isEmpty()) {
             for (T child : children) {
-                String cid = idFn.apply(child);
+                String cid = child.getId();
                 levelMap.put(cid, levelMap.get(id) + 1);
                 setChildLevel(child, levelMap);
             }
@@ -335,7 +306,7 @@ public class TreeManager<T> {
 
 
     private void addChildToResult(T t, List<T> result) {
-        List<T> children = getChildrenFn.apply(t);
+        List<T> children =  t.getChildren();
         if (children != null && !children.isEmpty()) {
             for (T child : children) {
                 result.add(child);

@@ -1,6 +1,6 @@
 package io.tmgg.modules.system.dto.response;
 
-import io.tmgg.lang.TreeNode;
+import io.tmgg.lang.tree.TreeNode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

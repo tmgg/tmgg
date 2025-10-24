@@ -1,7 +1,7 @@
 
 package io.tmgg.modules.system.controller;
 
-import io.tmgg.lang.TreeNode;
+import io.tmgg.lang.tree.TreeNode;
 import lombok.Data;
 
 import java.util.List;

@@ -3,7 +3,8 @@ package io.tmgg.modules.system.controller;
 import cn.hutool.core.lang.Dict;
 import cn.hutool.core.util.StrUtil;
 import io.tmgg.framework.session.SysHttpSessionService;
-import io.tmgg.lang.TreeManager;
+import io.tmgg.lang.tree.DictTreeNode;
+import io.tmgg.lang.tree.TreeManager;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.obj.Option;
 import io.tmgg.modules.system.dto.request.GrantMenuToRoleRequest;
@@ -16,18 +17,13 @@ import io.tmgg.modules.system.service.SysRoleService;
 import io.tmgg.modules.system.service.SysUserService;
 import io.tmgg.web.annotion.HasPermission;
 import io.tmgg.web.argument.RequestBodyKeys;
-import io.tmgg.web.enums.MenuType;
-import io.tmgg.web.perm.Subject;
 import io.tmgg.web.persistence.BaseController;
 import io.tmgg.web.persistence.BaseEntity;
 import io.tmgg.web.pojo.param.DropdownParam;
 import jakarta.annotation.Resource;
-import lombok.Data;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * 系统角色
@@ -102,17 +98,20 @@ public class SysRoleController extends BaseController<SysRole> {
         List<SysMenu> menus = sysMenuService.findAllValid();
 
 
-        List<Dict> treeList = new ArrayList<>();
+        List<DictTreeNode> treeList = new ArrayList<>();
         for (SysMenu o : menus) {
-            Dict d = new Dict();
+            DictTreeNode d = new DictTreeNode();
             d.set("title", o.getName() );
             d.set("key", o.getId());
             d.set("parentKey", o.getPid());
             d.set("perm",StrUtil.nullToEmpty(o.getPerm()));
 
+            d.set("id", o.getId());
+            d.set("pid", o.getPid());
+
             treeList.add(d);
         }
-        TreeManager<Dict> tm = TreeManager.of(treeList, "key", "parentKey");
+        TreeManager<DictTreeNode> tm = TreeManager.of(treeList);
 
         return AjaxResult.ok().data(tm.getTree());
     }

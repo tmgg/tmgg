@@ -1,7 +1,7 @@
 
 package io.tmgg.modules.system.dao;
 
-import io.tmgg.lang.TreeManager;
+import io.tmgg.lang.tree.TreeManager;
 import io.tmgg.web.persistence.BaseDao;
 import io.tmgg.web.persistence.BaseEntity;
 import io.tmgg.web.persistence.specification.JpaQuery;

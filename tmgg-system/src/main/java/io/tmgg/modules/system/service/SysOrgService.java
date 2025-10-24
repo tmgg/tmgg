@@ -7,7 +7,7 @@ import io.tmgg.modules.system.entity.OrgType;
 import io.tmgg.modules.system.entity.SysOrg;
 import io.tmgg.modules.system.entity.SysUser;
 import io.tmgg.web.perm.Subject;
-import io.tmgg.web.persistence.BaseTreeService;
+import io.tmgg.web.persistence.BaseService;
 import io.tmgg.web.persistence.specification.JpaQuery;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 @CacheConfig(cacheNames = "sys_org")
-public class SysOrgService extends BaseTreeService<SysOrg> {
+public class SysOrgService extends BaseService<SysOrg> {
 
     @Resource
     private SysOrgDao dao;

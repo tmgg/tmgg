@@ -1,7 +1,7 @@
 package io.tmgg.lang.obj;
 
-import io.tmgg.lang.TreeNode;
-import io.tmgg.lang.TreeManager;
+import io.tmgg.lang.tree.TreeNode;
+import io.tmgg.lang.tree.TreeManager;
 import lombok.Data;
 
 import java.util.ArrayList;
