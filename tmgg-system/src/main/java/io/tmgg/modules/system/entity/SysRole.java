@@ -11,6 +11,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldNameConstants;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -25,9 +26,6 @@ import java.util.Set;
 @Setter
 @FieldNameConstants
 public class SysRole extends BaseEntity {
-
-
-
 
     @Excel(name = "角色名称")
     @Remark("名称")
@@ -76,6 +74,13 @@ public class SysRole extends BaseEntity {
             joinColumns = @JoinColumn(name = "role_id", nullable = false))
     Set<SysUser> users = new HashSet<>();
 
+
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "sys__role_menu",
+            inverseJoinColumns = @JoinColumn(name = "menu_id", nullable = false),
+            joinColumns = @JoinColumn(name = "role_id", nullable = false))
+    List<SysMenu> menus = new ArrayList<>();
 
     @Transient
     private List<String> menuIds;

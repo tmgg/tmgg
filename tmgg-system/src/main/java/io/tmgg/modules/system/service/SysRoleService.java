@@ -1,6 +1,8 @@
 
 package io.tmgg.modules.system.service;
 
+import io.tmgg.framework.session.SysHttpSessionService;
+import io.tmgg.web.perm.Subject;
 import io.tmgg.web.persistence.BaseService;
 import io.tmgg.web.persistence.specification.JpaQuery;
 import io.tmgg.modules.system.dao.SysMenuDao;
@@ -9,6 +11,7 @@ import io.tmgg.modules.system.dao.SysRoleDao;
 import io.tmgg.modules.system.entity.SysRole;
 import io.tmgg.modules.system.dao.SysUserDao;
 import io.tmgg.modules.system.entity.SysUser;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -23,6 +26,7 @@ import java.util.stream.Collectors;
 /**
  * 系统角色service接口实现类
  */
+@Slf4j
 @Service
 public class SysRoleService extends BaseService<SysRole> {
 
@@ -37,7 +41,8 @@ public class SysRoleService extends BaseService<SysRole> {
     private SysUserDao sysUserDao;
 
 
-
+    @Resource
+    private SysHttpSessionService sm;
 
 
     public SysRole findByCode(String code) {
@@ -127,8 +132,21 @@ public class SysRoleService extends BaseService<SysRole> {
         role.getUsers().addAll(users);
     }
 
+
+    @Transactional
     public void grantMenu(String id, List<String> menuIds) {
         SysRole role = roleDao.findOne(id);
-        role.setPerms(menuIds);
+        List<SysMenu> menus = sysMenuDao.findAllById(menuIds);
+        role.setMenus(menus);
+        roleDao.save(role);
+
+        // 刷新 登录用户的权限
+        List<Subject> list = sm.findAllSubject();
+        for (Subject subject : list) {
+            if (subject.hasRole(role.getCode())) {
+                sm.forceExistBySubjectId(subject.getId());
+                log.info("强制退出用户 {} [{}]" , subject.getName() , subject.getAccount() );
+            }
+        }
     }
 }

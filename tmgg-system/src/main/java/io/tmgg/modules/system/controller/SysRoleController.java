@@ -132,6 +132,8 @@ public class SysRoleController extends BaseController<SysRole> {
     @RequestMapping("grantMenu")
     public AjaxResult grantMenu(@RequestBody GrantMenuToRoleRequest request) {
         sysRoleService.grantMenu(request.getId(), request.getMenuIds());
+
+
         return AjaxResult.ok().msg("授权菜单成功");
     }
 
