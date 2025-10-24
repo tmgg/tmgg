@@ -173,7 +173,6 @@ export default class extends React.Component {
 
     handleEditMenu =(record)=>{
         this.setState({menuOpen:true,formValues:record,menuTreeLoading:true})
-        // TODO
         HttpUtil.get('sysRole/ownMenu', {id: record.id}).then(rs => {
             this.setState({menuChecked:rs.checked,menuHalfChecked:rs.halfChecked})
         })
@@ -184,7 +183,7 @@ export default class extends React.Component {
     handleGrantMenu =()=>{
         const params = {
             id: this.state.formValues.id,
-            menuIds:this.state.menuChecked
+            menuIds:[...this.state.menuChecked, ...this.state.menuHalfChecked]
         }
         HttpUtil.post('sysRole/grantMenu', params).then(rs => {
             debugger
@@ -305,8 +304,8 @@ export default class extends React.Component {
                         multiple
                         checkable
                         checkedKeys={{checked:this.state.menuChecked}}
-                        onCheck={e =>{
-                            this.setState({menuChecked:e})
+                        onCheck={(keys,e) =>{
+                            this.setState({menuChecked:keys,menuHalfChecked:e.halfCheckedKeys})
                         }}
                         defaultExpandAll
                         titleRender={node=>{
