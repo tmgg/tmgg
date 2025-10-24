@@ -84,9 +84,9 @@ public class SysRoleController extends BaseController<SysRole> {
     @RequestMapping("ownMenu")
     public AjaxResult ownMenu(String id) {
         List<SysMenu> menuList = sysRoleService.ownMenu(id);
-        Set<String> checked = menuList.stream().filter(t->t.getType()== MenuType.BTN).map(BaseEntity::getId).collect(Collectors.toSet());
-        Set<String> halfChecked = menuList.stream().filter(t->t.getType() != MenuType.BTN).map(BaseEntity::getId).collect(Collectors.toSet());
-        return AjaxResult.ok().data("checked",checked).data("halfChecked",halfChecked);
+        List<String> leafIdList = TreeManager.of(menuList).getLeafIdList();
+
+        return AjaxResult.ok().data("checked",leafIdList);
     }
 
 
