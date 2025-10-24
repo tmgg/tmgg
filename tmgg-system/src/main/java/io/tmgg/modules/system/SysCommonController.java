@@ -3,6 +3,7 @@ package io.tmgg.modules.system;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.Dict;
+import cn.hutool.core.lang.tree.TreeNodeConfig;
 import cn.hutool.core.lang.tree.TreeUtil;
 import cn.hutool.core.util.StrUtil;
 import io.tmgg.config.SysProp;
@@ -136,10 +137,10 @@ public class SysCommonController {
         List<SysMenu> menuList = roleService.ownMenu(roles);
         List<SysMenu> onlyMenuList = menuList.stream().filter(t -> t.getType() != MenuType.BTN).toList();
 
-        List<MenuResponse> menuDtos = menuMapper.menuToResponseList(onlyMenuList);
+        List<MenuResponse> menuResponseList = menuMapper.menuToResponseList(onlyMenuList);
 
 
-        TreeManager<MenuResponse> tm = new TreeManager<>(menuDtos, MenuResponse::getId, MenuResponse::getPid, MenuResponse::getChildren, MenuResponse::setChildren);
+        TreeManager<MenuResponse> tm = new TreeManager<>(menuResponseList, MenuResponse::getId, MenuResponse::getPid, MenuResponse::getChildren, MenuResponse::setChildren);
         List<MenuResponse> tree = tm.getTree();
 
         tree.removeIf(t-> CollUtil.isEmpty(t.getChildren()));

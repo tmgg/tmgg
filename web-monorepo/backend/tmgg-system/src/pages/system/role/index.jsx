@@ -28,7 +28,8 @@ export default class extends React.Component {
 
         menuOpen:false,
         menuTree:[],
-        menuChecked:[]
+        menuChecked:[],
+        menuHalfChecked:[]
     }
 
     formRef = React.createRef()
@@ -302,9 +303,9 @@ export default class extends React.Component {
                         treeData={this.state.menuTree}
                         multiple
                         checkable
-                        checkStrictly={true}
-                        checkedKeys={this.state.menuChecked}
-                        onCheck={e =>this.setState({menuChecked:e.checked})}
+                        checkStrictly
+                        checkedKeys={{halfChecked:this.state.menuHalfChecked,checked:this.state.menuChecked}}
+                        onCheck={e =>this.setState({menuChecked:e.checked,menuHalfChecked:e.halfChecked})}
                         defaultExpandAll
                         titleRender={node=>{
                             return <span title={node.perm} >{node.title}</span>

@@ -1,5 +1,6 @@
 package io.tmgg.modules.system.dto.response;
 
+import cn.hutool.core.lang.tree.TreeNode;
 import io.tmgg.lang.Tree;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
@@ -14,7 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-public class MenuResponse implements Tree<MenuResponse> {
+public class MenuResponse  {
 
   String id;
 
