@@ -10,14 +10,14 @@ public class TreeDropTool<T extends TreeNode<T>>  {
 
 
     public  interface FindAction<T>{
-         void findById(String id);
+         T findById(String id);
 
          List<T> findByPid(String pid);
     }
 
 
 
-    public static List<T> onDrop(DropEvent e, FindAction<T> findAction) {
+    public  List<T> onDrop(DropEvent e, FindAction<T> findAction) {
         String dropKey = e.getDropKey();
         String dragKey = e.getDragKey();
         int dropPosition = e.getDropPosition();
@@ -29,7 +29,7 @@ public class TreeDropTool<T extends TreeNode<T>>  {
         dragNode.setPid(pid); // 更新pid
 
         // 获得兄弟节点
-        List<T> list = this.findByPid(pid);
+        List<T> list = findAction.findByPid(pid);
         if (list.size() < 2) {
             return list;
         }
