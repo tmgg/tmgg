@@ -1,4 +1,4 @@
-package io.tmgg.web.persistence;
+package io.tmgg.lang.tree;
 
 import cn.hutool.core.collection.ListUtil;
 import io.tmgg.lang.obj.DropEvent;
@@ -6,6 +6,10 @@ import io.tmgg.lang.tree.TreeNode;
 
 import java.util.List;
 
+/**
+ * 计算拖拽后，排序后的列表数据
+ * @param <T>
+ */
 public class TreeDropTool<T extends TreeNode<T>>  {
 
 
