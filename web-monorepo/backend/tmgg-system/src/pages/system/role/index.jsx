@@ -21,9 +21,14 @@ export default class extends React.Component {
 
         usersModalOpen: false,
 
+
         userList: [],
         targetKeys: [],
-        selectedKeys: []
+        selectedKeys: [],
+
+        menuOpen:false,
+        menuTree:[],
+        menuChecked:[]
     }
 
     formRef = React.createRef()
@@ -104,6 +109,7 @@ export default class extends React.Component {
                     <ButtonList>
                         <Button size='small' perm='sysRole:save'
                                 onClick={() => this.handleEditUser(record)} type='primary'>用户</Button>
+
                         <Button size='small' perm='sysRole:save' disabled={record.builtin}
                                 onClick={() => this.handleEditMenu(record)}>权限</Button>
 
@@ -125,11 +131,7 @@ export default class extends React.Component {
 
     handleEdit = record => {
         this.setState({formOpen: true, formValues: record}, () => {
-            HttpUtil.get('sysRole/ownMenu', {id: record.id}).then(rs => {
-                this.formRef.current.setFieldsValue({
-                    menuIds: rs
-                })
-            })
+
         })
     }
 
@@ -141,9 +143,7 @@ export default class extends React.Component {
         })
     }
 
-    handleEditMenu =()=>{
 
-    }
 
     onFinish = values => {
         HttpUtil.post('sysRole/save', values).then(rs => {
@@ -169,6 +169,25 @@ export default class extends React.Component {
         })
     }
 
+    handleEditMenu =(record)=>{
+        this.setState({menuOpen:true,formValues:record})
+        // TODO
+        HttpUtil.get('sysRole/ownMenu', {id: record.id}).then(rs => {
+            this.setState({menuChecked:rs})
+        })
+        HttpUtil.get('sysRole/menuTree').then(rs => {
+            this.setState({menuTree:rs})
+        })
+    }
+    handleGrantMenu =()=>{
+        const params = {
+            id: this.state.formValues.id,
+            menuIds:this.state.menuChecked
+        }
+        HttpUtil.post('sysRole/grantMenu', params).then(rs => {
+            this.setState({usersModalOpen:false})
+        })
+    }
 
     render() {
         return <Page>
@@ -267,26 +286,28 @@ export default class extends React.Component {
             </Modal>
 
             <Modal title={'角色授权菜单权限' +"【" +this.state.formValues?.name + '】'}
-                   open={this.state.usersModalOpen }
+                   open={this.state.menuOpen }
                    destroyOnHidden
                    maskClosable={false}
                    width={800}
-                   onCancel={() => this.setState({usersModalOpen: false})}
+                   onCancel={() => this.setState({menuOpen: false})}
                    onOk={this.handleSaveUsers}
+                   loading={this.state.menuTree.length === 0}
             >
 
 
+                    <Tree
+                        height={600}
+                        treeData={this.state.menuTree}
+                        multiple
+                        checkable
+                        checkStrictly={true}
+                        checkedKeys={this.state.menuChecked}
+                        onCheck={keys =>this.setState({menuChecked:keys})}
+                        defaultExpandAll
+                    >
+                    </Tree>
 
-                <Tree
-                    treeData={treeData}
-                    multiple
-                    checkable
-                    checkStrictly={true}
-                    checkedKeys={this.props.value}
-                    onCheck={(keys)=>this.props.onChange(keys)}
-                    defaultExpandAll
-                >
-                </Tree>
 
 
             </Modal>

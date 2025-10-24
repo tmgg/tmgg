@@ -126,4 +126,9 @@ public class SysRoleService extends BaseService<SysRole> {
         List<SysUser> users = sysUserDao.findAllById(userIdList);
         role.getUsers().addAll(users);
     }
+
+    public void grantMenu(String id, List<String> menuIds) {
+        SysRole role = roleDao.findOne(id);
+        role.setPerms(menuIds);
+    }
 }

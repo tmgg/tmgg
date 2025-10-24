@@ -6,6 +6,7 @@ import io.tmgg.framework.session.SysHttpSessionService;
 import io.tmgg.lang.TreeManager;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.obj.Option;
+import io.tmgg.modules.system.dto.request.GrantMenuToRoleRequest;
 import io.tmgg.modules.system.entity.SysMenu;
 import io.tmgg.modules.system.entity.SysRole;
 import io.tmgg.modules.system.entity.SysUser;
@@ -93,14 +94,22 @@ public class SysRoleController extends BaseController<SysRole> {
         return AjaxResult.ok().data(treeList);
     }
 
+    @HasPermission("sysRole:save")
+    @RequestMapping("ownMenu")
+    public AjaxResult ownMenu(String id) {
+        List<String> checked = sysRoleService.ownMenu(id);
+        return AjaxResult.ok().data(checked);
+    }
+
+
     /**
      * 权限树 （菜单）
      *
      * @return
      */
     @HasPermission("sysRole:save")
-    @RequestMapping("permTree")
-    public AjaxResult permTree() {
+    @RequestMapping("menuTree")
+    public AjaxResult menuTree() {
         List<SysMenu> menus = sysMenuService.findAllValid();
 
 
@@ -110,6 +119,7 @@ public class SysRoleController extends BaseController<SysRole> {
             d.set("title", o.getName() + " " + StrUtil.nullToEmpty(o.getPerm()));
             d.set("key", o.getId());
             d.set("parentKey", o.getPid());
+            d.set("perm",StrUtil.nullToEmpty(o.getPerm()));
 
             treeList.add(d);
         }
@@ -119,11 +129,12 @@ public class SysRoleController extends BaseController<SysRole> {
     }
 
     @HasPermission("sysRole:save")
-    @RequestMapping("ownMenu")
-    public AjaxResult ownMenu(String id) {
-        List<String> checked = sysRoleService.ownMenu(id);
-        return AjaxResult.ok().data(checked);
+    @RequestMapping("grantMenu")
+    public AjaxResult grantMenu(@RequestBody GrantMenuToRoleRequest request) {
+        sysRoleService.grantMenu(request.getId(), request.getMenuIds());
+        return AjaxResult.ok().msg("授权菜单成功");
     }
+
 
 
     @HasPermission("sysRole:save")
