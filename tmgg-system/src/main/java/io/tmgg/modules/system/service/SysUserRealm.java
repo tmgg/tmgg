@@ -2,6 +2,7 @@
 package io.tmgg.modules.system.service;
 
 import io.tmgg.framework.session.SysHttpSession;
+import io.tmgg.modules.system.entity.SysMenu;
 import io.tmgg.modules.system.entity.SysUser;
 import io.tmgg.modules.system.entity.SysRole;
 import io.tmgg.web.CodeException;
@@ -68,13 +69,18 @@ public class SysUserRealm implements AuthorizingRealm {
     private void fillPermissions(Subject subject) {
         // 角色信息
         Set<SysRole> roles = sysRoleService.getLoginRoles(subject.getId());
-        log.debug("角色数量 {}", roles.size());
+        List<SysMenu> menuList = sysRoleService.ownMenu(roles);
+
         for (SysRole role : roles) {
-            log.debug("角色：{} {}", role.getName(), role.getPerms());
             subject.addRole(role.getCode());
-            List<String> perms = role.getPerms();
-            subject.getPermissions().addAll(perms);
         }
+
+        for (SysMenu menu : menuList) {
+            if(menu.getPerm() != null){
+                subject.getPermissions().add(menu.getPerm());
+            }
+        }
+        log.debug("角色数量 {}", roles.size());
 
         log.debug("用户 {} 的功能权限{}",subject.getName(), subject.getPermissions());
 

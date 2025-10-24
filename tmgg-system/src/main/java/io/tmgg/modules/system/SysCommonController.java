@@ -131,19 +131,7 @@ public class SysCommonController {
         SysUser user = sysUserService.findOne(subject.getId());
         Set<SysRole> roles = user.getRoles();
 
-
-        List<SysMenu> menuList = new LinkedList<>();
-        for (SysRole role : roles) {
-            List<SysMenu> menus = roleService.ownMenu(role.getId());
-            menuList.addAll(menus);
-        }
-
-
-        // 去重,排序
-        menuList = menuList.stream().distinct().sorted(Comparator.comparing(SysMenu::getSeq)).collect(Collectors.toList());
-
-
-
+        List<SysMenu> menuList = roleService.ownMenu(roles);
 
         List<MenuDto> menuDtos = new LinkedList<>();
         for (SysMenu m : menuList) {
