@@ -7,6 +7,7 @@ import io.tmgg.lang.TreeManager;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.obj.Option;
 import io.tmgg.modules.system.dto.request.GrantMenuToRoleRequest;
+import io.tmgg.modules.system.dto.request.GrantUserToRoleRequest;
 import io.tmgg.modules.system.entity.SysMenu;
 import io.tmgg.modules.system.entity.SysRole;
 import io.tmgg.modules.system.entity.SysUser;
@@ -142,16 +143,12 @@ public class SysRoleController extends BaseController<SysRole> {
     }
 
 
-    @Data
-    public static class SaveUserListParam {
-        String id;
-        List<String> userIdList;
-    }
+
 
     @HasPermission("sysRole:save")
     @RequestMapping("grantUsers")
-    public AjaxResult saveUserList(@RequestBody SaveUserListParam param) {
-        sysRoleService.grantUsers(param.getId(), param.getUserIdList());
+    public AjaxResult saveUserList(@RequestBody GrantUserToRoleRequest request) {
+        sysRoleService.grantUsers(request.getId(), request.getUserIdList());
         return AjaxResult.ok().msg("授权用户成功");
     }
 
