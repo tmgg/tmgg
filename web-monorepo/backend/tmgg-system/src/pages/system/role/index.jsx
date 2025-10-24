@@ -28,6 +28,7 @@ export default class extends React.Component {
 
         menuOpen:false,
         menuTree:[],
+        menuTreeLoading:false,
         menuChecked:[],
         menuHalfChecked:[]
     }
@@ -171,13 +172,13 @@ export default class extends React.Component {
     }
 
     handleEditMenu =(record)=>{
-        this.setState({menuOpen:true,formValues:record})
+        this.setState({menuOpen:true,formValues:record,menuTreeLoading:true})
         // TODO
         HttpUtil.get('sysRole/ownMenu', {id: record.id}).then(rs => {
-            this.setState({menuChecked:rs})
+            this.setState({menuChecked:rs.checked,menuHalfChecked:rs.halfChecked})
         })
         HttpUtil.get('sysRole/menuTree').then(rs => {
-            this.setState({menuTree:rs})
+            this.setState({menuTree:rs, menuTreeLoading:false})
         })
     }
     handleGrantMenu =()=>{
@@ -294,7 +295,7 @@ export default class extends React.Component {
                    width={800}
                    onCancel={() => this.setState({menuOpen: false})}
                    onOk={this.handleGrantMenu}
-                   loading={this.state.menuTree.length === 0}
+                   loading={this.state.menuTreeLoading}
             >
 
 
@@ -305,7 +306,9 @@ export default class extends React.Component {
                         checkable
                         checkStrictly
                         checkedKeys={{halfChecked:this.state.menuHalfChecked,checked:this.state.menuChecked}}
-                        onCheck={e =>this.setState({menuChecked:e.checked,menuHalfChecked:e.halfChecked})}
+                        onCheck={e =>{
+                            this.setState({menuChecked:e.checked,menuHalfChecked:e.halfChecked})
+                        }}
                         defaultExpandAll
                         titleRender={node=>{
                             return <span title={node.perm} >{node.title}</span>

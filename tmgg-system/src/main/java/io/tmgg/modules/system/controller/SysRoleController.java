@@ -15,6 +15,7 @@ import io.tmgg.modules.system.service.SysRoleService;
 import io.tmgg.modules.system.service.SysUserService;
 import io.tmgg.web.annotion.HasPermission;
 import io.tmgg.web.argument.RequestBodyKeys;
+import io.tmgg.web.enums.MenuType;
 import io.tmgg.web.perm.Subject;
 import io.tmgg.web.persistence.BaseController;
 import io.tmgg.web.persistence.BaseEntity;
@@ -98,8 +99,10 @@ public class SysRoleController extends BaseController<SysRole> {
     @HasPermission("sysRole:save")
     @RequestMapping("ownMenu")
     public AjaxResult ownMenu(String id) {
-        Set<String> checked = sysRoleService.ownMenu(id).stream().map(BaseEntity::getId).collect(Collectors.toSet());
-        return AjaxResult.ok().data(checked);
+        List<SysMenu> menuList = sysRoleService.ownMenu(id);
+        Set<String> checked = menuList.stream().filter(t->t.getType()== MenuType.BTN).map(BaseEntity::getId).collect(Collectors.toSet());
+        Set<String> halfChecked = menuList.stream().filter(t->t.getType() != MenuType.BTN).map(BaseEntity::getId).collect(Collectors.toSet());
+        return AjaxResult.ok().data("checked",checked).data("halfChecked",halfChecked);
     }
 
 
