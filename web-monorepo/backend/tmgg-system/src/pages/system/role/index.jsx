@@ -304,10 +304,9 @@ export default class extends React.Component {
                         treeData={this.state.menuTree}
                         multiple
                         checkable
-                        checkStrictly
-                        checkedKeys={{halfChecked:this.state.menuHalfChecked,checked:this.state.menuChecked}}
+                        checkedKeys={{checked:this.state.menuChecked}}
                         onCheck={e =>{
-                            this.setState({menuChecked:e.checked,menuHalfChecked:e.halfChecked})
+                            this.setState({menuChecked:e})
                         }}
                         defaultExpandAll
                         titleRender={node=>{
