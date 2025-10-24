@@ -34,8 +34,6 @@ public class SysOrgController {
     private SysOrgService sysOrgService;
 
 
-
-
     @HasPermission
     @PostMapping("save")
     public AjaxResult saveOrUpdate(@RequestBody SysOrg sysOrg, HttpSession session) {
@@ -57,6 +55,7 @@ public class SysOrgController {
         return AjaxResult.ok().msg("删除机构成功");
     }
 
+    @HasPermission
     @GetMapping("detail")
     public AjaxResult detail(String id) {
         SysOrg org = sysOrgService.findOne(id);
@@ -90,6 +89,7 @@ public class SysOrgController {
      *
      * @return
      */
+    @HasPermission("sysOrg:page")
     @RequestMapping("pageTree")
     public AjaxResult pageTree(@RequestBody PageParam param, String searchText) {
         Subject subject = SecurityUtils.getSubject();

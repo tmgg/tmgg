@@ -116,7 +116,7 @@ public class SysRoleController extends BaseController<SysRole> {
         List<Dict> treeList = new ArrayList<>();
         for (SysMenu o : menus) {
             Dict d = new Dict();
-            d.set("title", o.getName() + " " + StrUtil.nullToEmpty(o.getPerm()));
+            d.set("title", o.getName() );
             d.set("key", o.getId());
             d.set("parentKey", o.getPid());
             d.set("perm",StrUtil.nullToEmpty(o.getPerm()));
@@ -132,8 +132,6 @@ public class SysRoleController extends BaseController<SysRole> {
     @RequestMapping("grantMenu")
     public AjaxResult grantMenu(@RequestBody GrantMenuToRoleRequest request) {
         sysRoleService.grantMenu(request.getId(), request.getMenuIds());
-
-
         return AjaxResult.ok().msg("授权菜单成功");
     }
 

@@ -29,7 +29,7 @@ public class SysProp {
     /**
      * 缓存目录
      */
-    private String cacheDir = "/data/cache";
+    private String dataFileDir = "/data/";
 
 
     /**

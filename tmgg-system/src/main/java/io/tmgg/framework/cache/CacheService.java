@@ -1,6 +1,7 @@
 package io.tmgg.framework.cache;
 
 import io.tmgg.config.SysProp;
+import io.tmgg.lang.SpringTool;
 import lombok.extern.slf4j.Slf4j;
 import org.ehcache.Cache;
 import org.ehcache.PersistentCacheManager;
@@ -30,16 +31,14 @@ public class CacheService implements Closeable {
 
 
     public CacheService(SysProp prop) {
-        String cacheDir = prop.getCacheDir();
-        log.info("======================================================================");
-        log.info("系统缓存目录 {}", cacheDir);
-        log.info("如果使用容器部署，建议将该目录持久化。");
-        log.info("======================================================================");
-        Assert.hasText(cacheDir, "缓存目录未配置");
+        String applicationName = SpringTool.getApplicationName();
+        Assert.hasText(applicationName,"必须配置 spring.application.name");
+        File cacheDir = new File( prop.getDataFileDir() , "cache-" + applicationName);
+
 
         this.cacheManager = CacheManagerBuilder
                 .newCacheManagerBuilder()
-                .with(CacheManagerBuilder.persistence(new File(cacheDir)))
+                .with(CacheManagerBuilder.persistence(cacheDir))
                 .build(true);
     }
 

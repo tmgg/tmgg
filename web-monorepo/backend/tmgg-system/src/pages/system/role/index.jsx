@@ -185,7 +185,8 @@ export default class extends React.Component {
             menuIds:this.state.menuChecked
         }
         HttpUtil.post('sysRole/grantMenu', params).then(rs => {
-            this.setState({usersModalOpen:false})
+            debugger
+            this.setState({menuOpen:false})
         })
     }
 
@@ -291,7 +292,7 @@ export default class extends React.Component {
                    maskClosable={false}
                    width={800}
                    onCancel={() => this.setState({menuOpen: false})}
-                   onOk={this.handleSaveUsers}
+                   onOk={this.handleGrantMenu}
                    loading={this.state.menuTree.length === 0}
             >
 
@@ -303,8 +304,11 @@ export default class extends React.Component {
                         checkable
                         checkStrictly={true}
                         checkedKeys={this.state.menuChecked}
-                        onCheck={keys =>this.setState({menuChecked:keys})}
+                        onCheck={e =>this.setState({menuChecked:e.checked})}
                         defaultExpandAll
+                        titleRender={node=>{
+                            return <span title={node.perm} >{node.title}</span>
+                        }}
                     >
                     </Tree>
 

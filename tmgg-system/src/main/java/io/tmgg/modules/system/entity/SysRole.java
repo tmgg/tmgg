@@ -77,7 +77,7 @@ public class SysRole extends BaseEntity {
 
     @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "sys__role_menu",
+    @JoinTable(name = "sys_role_menu",
             inverseJoinColumns = @JoinColumn(name = "menu_id", nullable = false),
             joinColumns = @JoinColumn(name = "role_id", nullable = false))
     List<SysMenu> menus = new ArrayList<>();

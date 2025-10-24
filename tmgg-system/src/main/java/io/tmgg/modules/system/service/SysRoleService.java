@@ -85,11 +85,9 @@ public class SysRoleService extends BaseService<SysRole> {
 
     public List<String> ownMenu(String roleId) {
         SysRole role = this.findOne(roleId);
-        List<String> perms = role.getPerms();
+        List<SysMenu> menus = role.getMenus();
 
-        List<SysMenu> list  = sysMenuDao.findByPerms(perms);
-
-        return list.stream().map(SysMenu::getId).collect(Collectors.toList());
+        return menus.stream().map(SysMenu::getId).collect(Collectors.toList());
     }
 
     public List<SysUser> findUsers(String roleId) {
