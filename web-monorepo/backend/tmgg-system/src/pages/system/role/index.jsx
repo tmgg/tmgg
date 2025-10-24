@@ -245,9 +245,7 @@ export default class extends React.Component {
                         <FieldRadioBoolean/>
                     </Form.Item>
 
-                    <Form.Item label='菜单权限' name='menuIds' rules={[{required: true}]}>
-                        <FieldTree url={'sysRole/permTree'}/>
-                    </Form.Item>
+
 
 
                 </Form>

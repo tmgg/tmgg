@@ -57,23 +57,7 @@ public class SysRoleController extends BaseController<SysRole> {
     public AjaxResult save(@RequestBody SysRole role, RequestBodyKeys updateFields) throws Exception {
         role.setBuiltin(false);
 
-        List<SysMenu> newMenus = sysMenuService.findAllAndParent(role.getMenuIds());
-        List<String> perms = newMenus.stream().map(SysMenu::getPerm).filter(Objects::nonNull).toList();
-        role.setPerms(perms);
-
-        updateFields.remove("menuIds");
-        updateFields.add("perms");
-
-
         role = sysRoleService.saveOrUpdateByClient(role, updateFields);
-
-        // 刷新 登录用户的权限
-        List<Subject> list = sm.findAllSubject();
-        for (Subject subject : list) {
-            if (subject.hasRole(role.getCode())) {
-                sm.forceExistBySubjectId(subject.getId());
-            }
-        }
 
         AjaxResult result = AjaxResult.ok().data(role).msg("保存角色成功");
         return result;

@@ -82,8 +82,7 @@ public class SysRole extends BaseEntity {
             joinColumns = @JoinColumn(name = "role_id", nullable = false))
     List<SysMenu> menus = new ArrayList<>();
 
-    @Transient
-    private List<String> menuIds;
+
 
     public SysRole(String id) {
         this.setId(id);
