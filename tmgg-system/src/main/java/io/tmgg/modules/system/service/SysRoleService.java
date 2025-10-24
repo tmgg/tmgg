@@ -2,25 +2,22 @@
 package io.tmgg.modules.system.service;
 
 import io.tmgg.framework.session.SysHttpSessionService;
+import io.tmgg.modules.system.dao.SysMenuDao;
+import io.tmgg.modules.system.dao.SysRoleDao;
+import io.tmgg.modules.system.dao.SysUserDao;
+import io.tmgg.modules.system.entity.SysMenu;
+import io.tmgg.modules.system.entity.SysRole;
+import io.tmgg.modules.system.entity.SysUser;
 import io.tmgg.web.perm.Subject;
 import io.tmgg.web.persistence.BaseService;
 import io.tmgg.web.persistence.specification.JpaQuery;
-import io.tmgg.modules.system.dao.SysMenuDao;
-import io.tmgg.modules.system.entity.SysMenu;
-import io.tmgg.modules.system.dao.SysRoleDao;
-import io.tmgg.modules.system.entity.SysRole;
-import io.tmgg.modules.system.dao.SysUserDao;
-import io.tmgg.modules.system.entity.SysUser;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import jakarta.annotation.Resource;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -65,9 +62,6 @@ public class SysRoleService extends BaseService<SysRole> {
     }
 
 
-
-
-
     @Override
     public void deleteById(String id) {
         Assert.hasText(id, "id不能为空");
@@ -83,12 +77,20 @@ public class SysRoleService extends BaseService<SysRole> {
         return this.findAll(q);
     }
 
-    public List<String> ownMenu(String roleId) {
+    public List<SysMenu> ownMenu(String roleId) {
         SysRole role = this.findOne(roleId);
-        List<SysMenu> menus = role.getMenus();
+        List<SysMenu> menuList = new LinkedList<>();
 
-        return menus.stream().map(SysMenu::getId).collect(Collectors.toList());
+        if (role.getId().equals("admin")) {
+            menuList = sysMenuDao.findAll();
+        }else {
+            menuList = role.getMenus();
+        }
+
+
+        return menuList.stream().distinct().sorted(Comparator.comparing(SysMenu::getSeq)).toList();
     }
+
 
     public List<SysUser> findUsers(String roleId) {
         List<SysUser> userList = sysUserDao.findByRoleId(roleId);
@@ -108,7 +110,7 @@ public class SysRoleService extends BaseService<SysRole> {
     public SysRole initDefaultAdmin() {
         String roleCode = "admin";
         SysRole role = roleDao.findByCode(roleCode);
-        if (role != null ) {
+        if (role != null) {
             return role;
         }
         SysRole sysRole = new SysRole();
@@ -143,7 +145,7 @@ public class SysRoleService extends BaseService<SysRole> {
         for (Subject subject : list) {
             if (subject.hasRole(role.getCode())) {
                 sm.forceExistBySubjectId(subject.getId());
-                log.info("强制退出用户 {} [{}]" , subject.getName() , subject.getAccount() );
+                log.info("强制退出用户 {} [{}]", subject.getName(), subject.getAccount());
             }
         }
     }

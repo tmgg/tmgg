@@ -13,6 +13,7 @@ import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.modules.system.dto.MenuDto;
 import io.tmgg.modules.system.entity.SysMenu;
 import io.tmgg.modules.system.entity.SysRole;
+import io.tmgg.modules.system.entity.SysUser;
 import io.tmgg.modules.system.service.*;
 import io.tmgg.web.enums.MenuType;
 import io.tmgg.web.perm.SecurityUtils;
@@ -53,6 +54,9 @@ public class SysCommonController {
 
     @Resource
     SysProp sysProp;
+
+    @Resource
+    private SysUserService sysUserService;
 
     /**
      * 站点信息， 非登录情况下使用
@@ -123,41 +127,26 @@ public class SysCommonController {
     public AjaxResult menuInfo() {
         Subject subject = SecurityUtils.getSubject();
         log.debug("用户 {} 获取菜单信息, 权限码： {}", subject.getName(), subject.getPermissions());
-        Map<String, SysMenu> map = sysMenuService.findMenuMap();
+
+        SysUser user = sysUserService.findOne(subject.getId());
+        Set<SysRole> roles = user.getRoles();
 
 
-        List<SysMenu> list = map.values().stream().filter(r -> subject.hasPermission(r.getPerm())).toList();
-        list = new ArrayList<>(list); // 调整为可变list
-
-        // 将父节点（目录）也加入
-        {
-            Set<String> ids = new HashSet<>();
-            for (SysMenu route : list) {
-                SysMenu parent = map.get(route.getPid());
-                while (parent != null) {
-                    ids.add(parent.getId());
-                    parent = map.get(parent.getPid());
-                }
-            }
-            for (String id : ids) {
-                list.add(map.get(id));
-            }
+        List<SysMenu> menuList = new LinkedList<>();
+        for (SysRole role : roles) {
+            List<SysMenu> menus = roleService.ownMenu(role.getId());
+            menuList.addAll(menus);
         }
+
 
         // 去重,排序
-        list = list.stream().distinct().sorted(Comparator.comparing(SysMenu::getSeq)).collect(Collectors.toList());
+        menuList = menuList.stream().distinct().sorted(Comparator.comparing(SysMenu::getSeq)).collect(Collectors.toList());
 
 
 
-        Map<String, SysMenu> menuMap = new HashMap<>();
-        for (SysMenu sysMenu : list) {
-            if (menuMap.put(sysMenu.getId(), sysMenu) != null) {
-                throw new IllegalStateException("Duplicate key");
-            }
-        }
 
         List<MenuDto> menuDtos = new LinkedList<>();
-        for (SysMenu m : list) {
+        for (SysMenu m : menuList) {
             String pid = m.getPid();
             // iframe设置完整url
             String url = m.getPath();
@@ -165,7 +154,6 @@ public class SysCommonController {
             MenuDto dto = new MenuDto(String.valueOf(m.getId()), pid, m.getName(), url, null);
             dto.setIcon(m.getIcon());
             dto.setPerm(StrUtil.emptyToNull(m.getPerm()));
-            dto.setIframe(m.getIframe());
             dto.setRefreshOnTabClick(m.getRefreshOnTabClick());
             menuDtos.add(dto);
         }
@@ -173,11 +161,6 @@ public class SysCommonController {
 
         TreeManager<MenuDto> tm = new TreeManager<>(menuDtos, MenuDto::getId, MenuDto::getPid, MenuDto::getChildren, MenuDto::setChildren);
         List<MenuDto> tree = tm.getTree();
-        // 如果最顶层（topmenu）没有子节点，则不显示
-        tree = tree.stream().filter(t -> CollUtil.isNotEmpty(t.getChildren())).collect(Collectors.toList());
-
-
-
 
         Map<String, MenuDto> treeMap = tm.getMap();
         tm.traverseTree(tree, item -> {

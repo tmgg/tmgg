@@ -25,6 +25,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * 系统角色
@@ -97,7 +98,7 @@ public class SysRoleController extends BaseController<SysRole> {
     @HasPermission("sysRole:save")
     @RequestMapping("ownMenu")
     public AjaxResult ownMenu(String id) {
-        List<String> checked = sysRoleService.ownMenu(id);
+        Set<String> checked = sysRoleService.ownMenu(id).stream().map(BaseEntity::getId).collect(Collectors.toSet());
         return AjaxResult.ok().data(checked);
     }
 

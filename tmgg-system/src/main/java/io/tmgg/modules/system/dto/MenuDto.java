@@ -40,7 +40,6 @@ public class MenuDto implements Tree<MenuDto> {
   @JsonIgnore
   String perm;
 
-  Boolean iframe;
 
   List<MenuDto> children = new LinkedList<>();
 

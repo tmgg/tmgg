@@ -46,7 +46,6 @@ public class SysMenu extends BaseEntity implements Tree<SysMenu> {
      */
     private String path;
 
-    private Boolean iframe;
 
     /**
      * 权限标识
