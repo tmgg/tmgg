@@ -13,7 +13,7 @@
     <description>工具类,业务逻辑无关</description>
     <modules>
         <module>tmgg-commons-jdbc</module>
-        <module>tmgg-commons-web-framework</module>
+        <module>tmgg-commons-web-base</module>
         <module>tmgg-commons-log-view</module>
         <module>tmgg-commons-jackson</module>
         <module>tmgg-commons-poi</module>

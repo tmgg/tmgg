@@ -8,9 +8,9 @@
     </parent>
 
 
-    <artifactId>tmgg-commons-web-framework</artifactId>
+    <artifactId>tmgg-commons-web-base</artifactId>
 
-    <name>tmgg-commons-web-framework</name>
+    <name>tmgg-commons-web-base</name>
 
 
     <dependencies>
