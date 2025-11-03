@@ -3,7 +3,6 @@ package io.tmgg.web.persistence;
 import com.fasterxml.jackson.annotation.*;
 import io.tmgg.lang.SpringTool;
 import io.tmgg.lang.ann.Remark;
-import io.tmgg.web.json.ignore.JsonIgnoreForApp;
 import io.tmgg.web.persistence.exports.UserLabelQuery;
 import io.tmgg.web.persistence.fill.BeanPropertyFillUtil;
 import io.tmgg.web.persistence.id.CustomGenerateIdProperties;
@@ -50,13 +49,11 @@ public abstract class BaseEntity implements PersistEntity, Serializable {
 
 
 
-    @JsonIgnoreForApp
     @Column(updatable = false)
     @Remark("创建时间")
     private Date createTime;
 
 
-    @JsonIgnoreForApp
     @Remark("创建人ID")
     @Column(length = DBConstants.LEN_ID, updatable = false)
     private String createUser;
@@ -70,7 +67,6 @@ public abstract class BaseEntity implements PersistEntity, Serializable {
      * @return  创建人名称
      */
 
-    @JsonIgnoreForApp
     @Transient
     public String getCreateUserLabel() {
         UserLabelQuery userLabelQuery = SpringTool.getBean(UserLabelQuery.class);
@@ -81,12 +77,10 @@ public abstract class BaseEntity implements PersistEntity, Serializable {
     }
 
 
-    @JsonIgnoreForApp
     private Date updateTime;
 
 
 
-    @JsonIgnoreForApp
     @Remark("更新人ID")
     @Column(length = DBConstants.LEN_ID)
     private String updateUser;
