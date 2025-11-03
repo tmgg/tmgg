@@ -31,13 +31,7 @@ import java.util.Date;
 @Configuration
 public class JacksonConfig {
 
-    /**
-     * @see org.springframework.boot.autoconfigure.http.JacksonHttpMessageConvertersConfiguration
-     */
-    @Bean
-    public MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter(ObjectMapper objectMapper) {
-        return new DynamicMappingJackson2HttpMessageConverter(objectMapper);
-    }
+
 
 
     /**

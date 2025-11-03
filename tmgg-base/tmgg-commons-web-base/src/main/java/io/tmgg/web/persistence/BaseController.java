@@ -18,7 +18,10 @@ import java.util.Map;
  * 排除了查询的基础控制器
  *
  * @param <T> 表示id为String的实体
+ *
+ * @deprecated 无法处理复杂情况下的参数解析
  **/
+@Deprecated
 public abstract class BaseController<T extends PersistEntity> {
 
     @Autowired
