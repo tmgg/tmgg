@@ -5,8 +5,11 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
+import io.tmgg.data.domain.PageExt;
 import io.tmgg.framework.session.SysHttpSessionService;
 import io.tmgg.lang.PasswordTool;
+import io.tmgg.modules.system.dto.mapper.UserMapper;
+import io.tmgg.modules.system.dto.response.UserResponse;
 import io.tmgg.web.persistence.BaseEntity;
 import io.tmgg.web.persistence.BaseService;
 import io.tmgg.web.persistence.exports.UserLabelQuery;
@@ -23,6 +26,7 @@ import io.tmgg.web.CodeAssert;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -58,6 +62,9 @@ public class SysUserService extends BaseService<SysUser> implements UserLabelQue
 
     @Resource
     private SysHttpSessionService sm;
+
+    @Resource
+    UserMapper userMapper;
 
 
     public SysUser checkLogin(String account, String password) {
@@ -142,13 +149,6 @@ public class SysUserService extends BaseService<SysUser> implements UserLabelQue
     }
 
 
-    public void fillRoleName(Iterable<SysUser> list) {
-        for (SysUser user : list) {
-            Set<SysRole> roles = user.getRoles();
-            user.setRoleNames(roles.stream().map(SysRole::getName).collect(Collectors.toList()));
-            user.setRoleIds(roles.stream().map(SysRole::getId).collect(Collectors.toList()));
-        }
-    }
 
 
     public SysUser getUserByAccount(String account) {
@@ -158,7 +158,7 @@ public class SysUserService extends BaseService<SysUser> implements UserLabelQue
     }
 
 
-    public Page<SysUser> findAll(String orgId, String roleId, String searchText, Pageable pageable) throws SQLException {
+    public Page<UserResponse> findAll(String orgId, String roleId, String searchText, Pageable pageable) throws SQLException {
         JpaQuery<SysUser> query = new JpaQuery<>();
 
         if (StrUtil.isNotEmpty(orgId)) {
@@ -181,7 +181,9 @@ public class SysUserService extends BaseService<SysUser> implements UserLabelQue
             });
         }
 
-        return sysUserDao.findAll(query, pageable);
+        Page<SysUser> page = sysUserDao.findAll(query, pageable);
+        List<UserResponse> responseList = userMapper.toResponse(page.getContent());
+        return new PageImpl<>(responseList, page.getPageable(), page.getTotalElements());
     }
 
     @Override

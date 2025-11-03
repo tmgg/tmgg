@@ -151,7 +151,11 @@ public class SysOrgDao extends BaseDao<SysOrg> {
     }
 
     public String getNameById(String id) {
-        return getTreeManager().getMap().get(id).getName();
+        if(id == null){
+            return null;
+        }
+        SysOrg org = this.findOne(id);
+        return org.getName();
     }
 
     /**

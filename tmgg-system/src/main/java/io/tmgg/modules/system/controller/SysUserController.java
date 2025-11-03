@@ -6,6 +6,7 @@ import cn.hutool.core.text.PasswdStrength;
 import cn.hutool.core.util.StrUtil;
 import io.tmgg.framework.session.SysHttpSessionService;
 import io.tmgg.lang.obj.table.Table;
+import io.tmgg.modules.system.dto.response.UserResponse;
 import io.tmgg.web.argument.RequestBodyKeys;
 import io.tmgg.web.persistence.BaseEntity;
 import io.tmgg.data.query.JpaQuery;
@@ -59,9 +60,8 @@ public class SysUserController {
 
     @HasPermission
     @RequestMapping("page")
-    public AjaxResult page( String orgId,    String roleId, String searchText, @PageableDefault(sort = SysUser.FIELD_UPDATE_TIME, direction = Sort.Direction.DESC) Pageable pageable, HttpServletResponse resp) throws Exception {
-        Page<SysUser> page = sysUserService.findAll(orgId, roleId, searchText, pageable);
-        sysUserService.fillRoleName(page);
+    public AjaxResult page( String orgId,    String roleId, String searchText, @PageableDefault(sort = SysUser.FIELD_UPDATE_TIME, direction = Sort.Direction.DESC) Pageable pageable) throws Exception {
+        Page<UserResponse> page = sysUserService.findAll(orgId, roleId, searchText, pageable);
 
         return AjaxResult.ok().data(page);
     }

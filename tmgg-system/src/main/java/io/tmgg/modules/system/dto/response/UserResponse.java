@@ -1,11 +1,13 @@
-package io.tmgg.modules.system.dto;
+package io.tmgg.modules.system.dto.response;
 
 import io.tmgg.commons.poi.excel.annotation.Excel;
 import io.tmgg.lang.ann.Remark;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
-public class UserDto {
+public class UserResponse {
 
     private  String id;
 
@@ -39,6 +41,7 @@ public class UserDto {
 
     private Boolean enabled;
 
+    private  List<String> roleNames;
 
 
 
