@@ -53,6 +53,9 @@ public class SysOrgService extends BaseService<SysOrg> {
         return dao.findAllValid();
     }
 
+    public List<SysOrg> findByPid(String  pid){
+        return dao.findByPid(pid);
+    }
 
     /**
      * @param showDisabled 是否显示禁用

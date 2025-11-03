@@ -1,8 +1,8 @@
-package io.tmgg.lang.tree;
+package io.tmgg.lang.tree.drop;
 
 import cn.hutool.core.collection.ListUtil;
-import io.tmgg.lang.obj.DropEvent;
 import io.tmgg.lang.tree.TreeNode;
+import org.apache.poi.ss.formula.functions.T;
 
 import java.util.List;
 
@@ -10,30 +10,31 @@ import java.util.List;
  * 计算拖拽后，排序后的列表数据
  * @param <T>
  */
-public class TreeDropTool<T extends TreeNode<T>>  {
-
-
-    public  interface FindAction<T>{
+public class TreeDropTool  {
+    public  interface FindByIdAction<T>{
          T findById(String id);
 
-         List<T> findByPid(String pid);
+    }
+
+    public  interface FindByPidAction<T>{
+
+        List<T> findByPid(String pid);
     }
 
 
-
-    public  List<T> onDrop(DropEvent e, FindAction<T> findAction) {
+    public static <T extends TreeNode<T>> List<T> onDrop(TreeDropEvent e, FindByIdAction<T> findByIdAction, FindByPidAction<T> findByPidAction) {
         String dropKey = e.getDropKey();
         String dragKey = e.getDragKey();
         int dropPosition = e.getDropPosition();
 
-        T dragNode = findAction.findById(dragKey);
-        T dropNode = findAction.findById(dropKey);
+        T dragNode = findByIdAction.findById(dragKey);
+        T dropNode = findByIdAction.findById(dropKey);
 
         String pid = e.isDropToGap() ? dropNode.getPid() : dropNode.getId();
         dragNode.setPid(pid); // 更新pid
 
         // 获得兄弟节点
-        List<T> list = findAction.findByPid(pid);
+        List<T> list = findByPidAction.findByPid(pid);
         if (list.size() < 2) {
             return list;
         }
@@ -44,7 +45,7 @@ public class TreeDropTool<T extends TreeNode<T>>  {
         return list;
     }
 
-    private void swap(List<T> list, int dropPosition, T dragNode) {
+    private static <T extends TreeNode<T>> void swap(List<T> list, int dropPosition, T dragNode) {
         int swapPos = dropPosition;
         if (dropPosition == -1) { // 最前
             swapPos = 0;

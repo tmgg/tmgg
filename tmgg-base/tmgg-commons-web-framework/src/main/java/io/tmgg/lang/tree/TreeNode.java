@@ -6,11 +6,15 @@ import java.util.List;
 public interface TreeNode<T> {
     String getId();
 
-    void setId(String id);
+    default void setId(String id) {
+
+    }
 
     String getPid();
 
-    void setPid(String id);
+    default void setPid(String id) {
+
+    }
 
     List<T> getChildren();
 

@@ -38,8 +38,6 @@ public class SysRoleController extends BaseController<SysRole> {
     @Resource
     private SysMenuService sysMenuService;
 
-    @Resource
-    private SysHttpSessionService sm;
 
     @Resource
     private SysUserService sysUserService;

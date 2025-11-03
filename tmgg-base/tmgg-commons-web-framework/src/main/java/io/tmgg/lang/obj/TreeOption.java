@@ -45,6 +45,10 @@ public class TreeOption implements TreeNode<TreeOption> {
         return (String) key;
     }
 
+    @Override
+    public void setPid(String id) {
+        this.key = id;
+    }
 
     /**
      * 同 parentKey

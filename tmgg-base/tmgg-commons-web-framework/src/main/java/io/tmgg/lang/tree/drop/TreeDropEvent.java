@@ -1,9 +1,9 @@
-package io.tmgg.lang.obj;
+package io.tmgg.lang.tree.drop;
 
 import lombok.Data;
 
 @Data
-public class DropEvent {
+public class TreeDropEvent {
 
     String dropKey;
     String dragKey;

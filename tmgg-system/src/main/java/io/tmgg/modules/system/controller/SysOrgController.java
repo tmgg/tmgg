@@ -1,13 +1,13 @@
 
 package io.tmgg.modules.system.controller;
 
-import cn.hutool.core.lang.Dict;
 import cn.hutool.core.util.StrUtil;
 import io.tmgg.framework.session.SysHttpSession;
+import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.tree.DictTreeNode;
 import io.tmgg.lang.tree.TreeManager;
-import io.tmgg.lang.obj.AjaxResult;
-import io.tmgg.lang.obj.DropEvent;
+import io.tmgg.lang.tree.drop.TreeDropEvent;
+import io.tmgg.lang.tree.drop.TreeDropTool;
 import io.tmgg.modules.system.entity.OrgType;
 import io.tmgg.modules.system.entity.SysOrg;
 import io.tmgg.modules.system.service.SysOrgService;
@@ -38,8 +38,8 @@ public class SysOrgController {
     @HasPermission
     @PostMapping("save")
     public AjaxResult saveOrUpdate(@RequestBody SysOrg sysOrg, HttpSession session) {
-        if(sysOrg.getLeader() != null){
-            if(StrUtil.isEmpty(sysOrg.getLeader().getId())){
+        if (sysOrg.getLeader() != null) {
+            if (StrUtil.isEmpty(sysOrg.getLeader().getId())) {
                 sysOrg.setLeader(null);
             }
         }
@@ -78,9 +78,8 @@ public class SysOrgController {
     }
 
 
-
     @Data
-    public static class PageParam{
+    public static class PageParam {
         boolean showDisabled;
         boolean showDept;
     }
@@ -95,12 +94,11 @@ public class SysOrgController {
     public AjaxResult pageTree(@RequestBody PageParam param, String searchText) {
         Subject subject = SecurityUtils.getSubject();
 
-        List<SysOrg> list = sysOrgService.findByLoginUser(subject, param.showDept  , param.showDisabled);
+        List<SysOrg> list = sysOrgService.findByLoginUser(subject, param.showDept, param.showDisabled);
 
-        if(StrUtil.isNotEmpty(searchText)){
+        if (StrUtil.isNotEmpty(searchText)) {
             list = list.stream().filter(t -> t.getName().contains(searchText)).collect(Collectors.toList());
         }
-
 
 
         return AjaxResult.ok().data(list2Tree(list));
@@ -123,8 +121,11 @@ public class SysOrgController {
 
     @PostMapping("sort")
     @HasPermission(label = "排序")
-    public AjaxResult sort(@RequestBody DropEvent e) {
-        sysOrgService.onDrop(e);
+    public AjaxResult sort(@RequestBody TreeDropEvent e) {
+        List<SysOrg> list = TreeDropTool.onDrop(e, id -> sysOrgService.findById(id), pid -> sysOrgService.findByPid(pid));
+
+        sysOrgService.saveAll(list);
+
         return AjaxResult.ok().msg("排序成功");
     }
 
@@ -132,11 +133,10 @@ public class SysOrgController {
     @GetMapping("allTree")
     public AjaxResult allTree() throws Exception {
         Subject subject = SecurityUtils.getSubject();
-        List<SysOrg> list = this.sysOrgService.findByLoginUser(subject,true, true);
+        List<SysOrg> list = this.sysOrgService.findByLoginUser(subject, true, true);
 
         return AjaxResult.ok().data(list2Tree(list));
     }
-
 
 
     @GetMapping("unitTree")
@@ -153,13 +153,13 @@ public class SysOrgController {
     @GetMapping("deptTree")
     public AjaxResult deptTree() throws Exception {
         Subject subject = SecurityUtils.getSubject();
-        List<SysOrg> list = this.sysOrgService.findByLoginUser(subject,true, false);
+        List<SysOrg> list = this.sysOrgService.findByLoginUser(subject, true, false);
 
         return AjaxResult.ok().data(list2Tree(list));
     }
 
 
-    public List<DictTreeNode> list2Tree(List<SysOrg> list){
+    public List<DictTreeNode> list2Tree(List<SysOrg> list) {
         List<DictTreeNode> treeList = list.stream().map(o -> {
             String title = o.getName();
             if (!o.getEnabled()) {
