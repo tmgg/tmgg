@@ -9,6 +9,8 @@ import java.lang.annotation.*;
  *
  * 如果实体存在父类， 可放到类型上覆盖
  *
+ * TODO 再建一个IdGeneratorDesc注解放到类上， 本注解简化
+ *
  */
 @IdGeneratorType(IdGenerator.class)
 @Retention(RetentionPolicy.RUNTIME)
