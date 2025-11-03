@@ -38,9 +38,6 @@ public class SysCommonController {
     @Resource
     SysRoleService roleService;
 
-    @Resource
-    SysMenuService sysMenuService;
-
 
     @Resource
     SysConfigService sysConfigService;
