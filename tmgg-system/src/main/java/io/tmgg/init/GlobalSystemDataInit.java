@@ -167,9 +167,8 @@ public class GlobalSystemDataInit implements CommandLineRunner {
         String id = "admin";
         SysUser admin = sysUserDao.findOne(id);
         String account = "admin-" + applicationName;
-        String pwd = SecureUtil.md5(account + "tmgg");
-        log.info("管理员登录账号:{}", account);
-        log.info("默认密码:{}， 请尽快修改", pwd);
+        String pwd = PasswordTool.random();
+
 
         if (admin == null) {
             admin = new SysUser();
@@ -186,6 +185,8 @@ public class GlobalSystemDataInit implements CommandLineRunner {
             dbCacheDao.set("admin_default_pwd", pwd);
             log.info("默认密码为： {}", pwd);
         }
+        log.info("管理员登录账号:{}", admin.getAccount());
+        log.info("默认密码:{}， 请尽快修改", pwd);
 
         if(sysProp.isResetAdminPwd()){
             admin.setPassword(PasswordTool.encode(pwd));

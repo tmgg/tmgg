@@ -14,4 +14,3 @@ logging:
     path: ./logs
   level:
     io.tmgg: trace
-
