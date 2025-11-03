@@ -77,33 +77,8 @@ public class SysMenuService extends BaseService<SysMenu> {
     }
 
 
-    @Transactional
-    public void changeIcon(SysMenu input) throws Exception {
-        SysMenu menu = sysMenuDao.findById(input.getId());
-        menu.setIcon(input.getIcon());
 
-        JsonEntity entity = jsonEntityFileDao.findOne(SysMenu.class, menu.getId());
-        Assert.notNull(entity, "未找到数据文件");
 
-        entity.getData().put("icon", input.getIcon());
-
-        jsonEntityFileDao.save(entity);
-
-    }
-
-    @Transactional
-    public void changeSeq(SysMenu input) throws Exception {
-        SysMenu menu = sysMenuDao.findById(input.getId());
-        Integer seq = input.getSeq();
-        menu.setSeq(seq);
-
-        JsonEntity entity = jsonEntityFileDao.findOne(SysMenu.class, menu.getId());
-        Assert.notNull(entity, "未找到数据文件");
-
-        entity.getData().put("seq", seq);
-
-        jsonEntityFileDao.save(entity);
-    }
 
     public List<String> findPidList(List<String> menuIds) {
         List<SysMenu> list = sysMenuDao.findAll();

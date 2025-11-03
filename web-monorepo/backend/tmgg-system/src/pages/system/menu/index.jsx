@@ -34,25 +34,14 @@ export default class extends React.Component {
 
     };
 
-    handleChangeIcon = () => {
-        HttpUtil.post('sysMenu/changeIcon', this.state.formValues).then(rs => {
-            this.loadData()
-        }).finally(() => {
-            this.setState({iconModalOpen: false})
-        })
-    };
+
     handleDelete = record => {
         HttpUtil.get('sysMenu/delete', {id: record.id}).then(rs => {
             this.loadData()
         })
     }
 
-    handleChangeSeq = (id, seq) => {
-        const hide = message.loading('处理中...', 0)
-        HttpUtil.post('sysMenu/changeSeq', {id, seq}).then(rs => {
-            this.loadData()
-        }).finally(hide)
-    }
+
 
     render() {
         return <>
@@ -113,11 +102,6 @@ export default class extends React.Component {
                     {
                         title: '排序',
                         dataIndex: 'seq',
-                        render: (seq, record) => {
-                            return <Typography.Text
-                                editable={{onChange: (v) => this.handleChangeSeq(record.id, v)}}>{seq}</Typography.Text>
-                        },
-                        width: 100
                     },
                     {
                         title: '操作',
@@ -126,11 +110,7 @@ export default class extends React.Component {
                         render: (v, record) => {
                             return <Space>
 
-                                <Button disabled={!record.visible}
-                                        size='small'
-                                        onClick={() => {
-                                            this.setState({iconModalOpen: true, formValues: record})
-                                        }}>图标</Button>
+
 
                                 <Popconfirm perm='sysAsset:delete' title='是否确定删除菜单'
                                             onConfirm={() => this.handleDelete(record)}>

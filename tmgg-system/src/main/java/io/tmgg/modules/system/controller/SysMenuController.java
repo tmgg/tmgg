@@ -43,20 +43,6 @@ public class SysMenuController {
     }
 
 
-    @HasPermission(label = "修改图标")
-    @RequestMapping("changeIcon")
-    public AjaxResult changeIcon(@RequestBody SysMenu sysMenu) throws Exception {
-        sysMenuService.changeIcon(sysMenu);
-        return AjaxResult.ok();
-    }
-
-    @HasPermission(label = "修改排序")
-    @RequestMapping("changeSeq")
-    public AjaxResult changeSeq(@RequestBody SysMenu sysMenu) throws Exception {
-        sysMenuService.changeSeq(sysMenu);
-        return AjaxResult.ok();
-    }
-
 
     @GetMapping("menuTree")
     public AjaxResult menuTree() {
