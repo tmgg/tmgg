@@ -1,9 +1,17 @@
 package io.tmgg.lang;
 
 import cn.hutool.core.text.PasswdStrength;
+import cn.hutool.core.util.RandomUtil;
+import cn.hutool.core.util.StrUtil;
 import org.springframework.util.Assert;
 
+import static cn.hutool.core.util.RandomUtil.BASE_CHAR_NUMBER;
+
 public class PasswordTool {
+
+    public static String random(){
+        return RandomUtil.randomString(BASE_CHAR_NUMBER +"_-!.@$^&*()+=",12);
+    }
 
     /**
      * 生产密码的密文，每次调用都不一样

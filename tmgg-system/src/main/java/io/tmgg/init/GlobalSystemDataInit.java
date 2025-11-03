@@ -139,7 +139,7 @@ public class GlobalSystemDataInit implements CommandLineRunner {
             sysConfigDao.addDefault("RSA私钥", Configs.RSA_PRIVATE_KEY, rsa.getPrivateKeyBase64(), "password");
         }
 
-        sysConfigDao.addDefault("默认密码", "sys.default.password", RandomUtil.randomString(12), "password");
+        sysConfigDao.addDefault("默认密码", "sys.default.password", PasswordTool.random(), "password");
 
 
         sysConfigDao.cleanCache();
