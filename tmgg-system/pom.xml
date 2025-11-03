@@ -11,6 +11,19 @@
     <name>tmgg-system</name>
 
     <dependencies>
+
+        <!--Flyway 是一个数据库版本控制-->
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-mysql</artifactId>
+            <version>${flyway.version}</version>
+        </dependency>
+
+
         <!-- MapStruct -->
         <dependency>
             <groupId>org.mapstruct</groupId>
