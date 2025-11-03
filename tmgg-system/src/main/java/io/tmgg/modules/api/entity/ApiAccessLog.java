@@ -1,7 +1,7 @@
 package io.tmgg.modules.api.entity;
 
 import io.tmgg.lang.ann.Remark;
-import io.tmgg.web.persistence.BaseEntity;
+import io.tmgg.data.domain.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Lob;

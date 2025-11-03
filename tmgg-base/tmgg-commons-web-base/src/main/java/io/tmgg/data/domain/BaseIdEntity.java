@@ -1,7 +1,8 @@
-package io.tmgg.web.persistence;
+package io.tmgg.data.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import io.tmgg.web.persistence.DBConstants;
 import io.tmgg.web.persistence.id.CustomId;
 import jakarta.persistence.*;
 import lombok.Getter;

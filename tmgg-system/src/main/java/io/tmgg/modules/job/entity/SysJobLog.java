@@ -1,9 +1,8 @@
 package io.tmgg.modules.job.entity;
 
-import io.tmgg.web.persistence.BaseEntity;
+import io.tmgg.data.domain.BaseEntity;
 import cn.hutool.core.date.BetweenFormatter;
 import cn.hutool.core.date.DateUtil;
-import io.tmgg.web.persistence.DBConstants;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldNameConstants;

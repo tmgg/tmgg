@@ -3,6 +3,7 @@ package io.tmgg.web.persistence;
 
 import cn.hutool.core.date.DatePattern;
 import cn.hutool.core.date.DateUtil;
+import io.tmgg.data.domain.PersistEntity;
 import io.tmgg.data.repository.BaseDao;
 import io.tmgg.lang.ann.RemarkTool;
 import io.tmgg.lang.obj.Option;

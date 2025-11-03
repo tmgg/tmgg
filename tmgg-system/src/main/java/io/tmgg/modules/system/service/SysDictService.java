@@ -10,7 +10,7 @@ import io.tmgg.modules.system.dao.SysDictDao;
 import io.tmgg.modules.system.dao.SysDictItemDao;
 import io.tmgg.modules.system.entity.SysDict;
 import io.tmgg.modules.system.entity.SysDictItem;
-import io.tmgg.web.persistence.BaseEntity;
+import io.tmgg.data.domain.BaseEntity;
 import io.tmgg.web.persistence.BaseService;
 import io.tmgg.data.query.JpaQuery;
 import jakarta.annotation.Resource;

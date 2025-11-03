@@ -2,7 +2,7 @@
 package io.tmgg.modules.system.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import io.tmgg.web.persistence.BaseEntity;
+import io.tmgg.data.domain.BaseEntity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.ManyToOne;
 import lombok.Getter;

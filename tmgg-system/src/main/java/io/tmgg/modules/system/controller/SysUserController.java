@@ -22,7 +22,7 @@ import io.tmgg.web.annotion.HasPermission;
 import io.tmgg.web.argument.RequestBodyKeys;
 import io.tmgg.web.perm.SecurityUtils;
 import io.tmgg.web.perm.Subject;
-import io.tmgg.web.persistence.BaseEntity;
+import io.tmgg.data.domain.BaseEntity;
 import io.tmgg.web.pojo.param.DropdownParam;
 import jakarta.annotation.Resource;
 import jakarta.validation.Valid;

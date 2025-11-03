@@ -2,7 +2,7 @@ package io.tmgg.modules.api.entity;
 
 import io.tmgg.lang.ann.Remark;
 import io.tmgg.lang.validator.ValidateIpv4;
-import io.tmgg.web.persistence.BaseEntity;
+import io.tmgg.data.domain.BaseEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;

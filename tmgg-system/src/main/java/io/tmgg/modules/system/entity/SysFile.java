@@ -5,7 +5,7 @@ import cn.hutool.core.io.FileUtil;
 import io.tmgg.lang.ContentTypeTool;
 import io.tmgg.lang.RequestTool;
 import io.tmgg.lang.enums.MaterialType;
-import io.tmgg.web.persistence.BaseEntity;
+import io.tmgg.data.domain.BaseEntity;
 import jakarta.persistence.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.constraints.NotNull;

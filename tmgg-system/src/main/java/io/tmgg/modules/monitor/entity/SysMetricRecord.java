@@ -1,7 +1,7 @@
 package io.tmgg.modules.monitor.entity;
 
 import cn.hutool.core.date.DateUtil;
-import io.tmgg.web.persistence.BaseEntity;
+import io.tmgg.data.domain.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import lombok.Getter;

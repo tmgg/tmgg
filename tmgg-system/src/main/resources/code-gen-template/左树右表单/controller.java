@@ -1,22 +1,13 @@
 package ${modulePackageName}.controller;
 
-import io.tmgg.lang.obj.AjaxResult;
-import io.tmgg.lang.obj.Option;
 import ${modulePackageName}.entity.${name};
-import ${modulePackageName}.service.${name}Service;
-import io.tmgg.web.persistence.BaseController;
-import io.tmgg.web.persistence.BaseEntity;
-import io.tmgg.lang.obj.TreeOption;
-import org.springframework.data.domain.Sort;
+{modulePackageName}.service.${name}Service;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 
 import jakarta.annotation.Resource;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("${firstLowerName}")

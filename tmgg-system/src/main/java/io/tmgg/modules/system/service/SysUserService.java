@@ -9,7 +9,7 @@ import io.tmgg.framework.session.SysHttpSessionService;
 import io.tmgg.lang.PasswordTool;
 import io.tmgg.modules.system.dto.mapper.UserMapper;
 import io.tmgg.modules.system.dto.response.UserResponse;
-import io.tmgg.web.persistence.BaseEntity;
+import io.tmgg.data.domain.BaseEntity;
 import io.tmgg.web.persistence.BaseService;
 import io.tmgg.web.persistence.exports.UserLabelQuery;
 import io.tmgg.data.query.JpaQuery;

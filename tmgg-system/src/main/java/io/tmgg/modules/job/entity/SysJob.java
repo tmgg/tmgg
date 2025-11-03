@@ -1,7 +1,7 @@
 package io.tmgg.modules.job.entity;
 
 import io.tmgg.lang.ann.Remark;
-import io.tmgg.web.persistence.BaseEntity;
+import io.tmgg.data.domain.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.tmgg.web.persistence.DBConstants;
 import io.tmgg.web.persistence.converter.ToMapConverter;

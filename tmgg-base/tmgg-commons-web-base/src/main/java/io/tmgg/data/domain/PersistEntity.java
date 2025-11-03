@@ -1,4 +1,4 @@
-package io.tmgg.web.persistence;
+package io.tmgg.data.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.tmgg.web.persistence.id.CustomGenerateIdProperties;

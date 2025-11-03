@@ -1,5 +1,6 @@
 package io.tmgg.web.persistence;
 
+import io.tmgg.data.domain.PersistEntity;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.web.WebConstants;
 import io.tmgg.web.annotion.HasPermission;

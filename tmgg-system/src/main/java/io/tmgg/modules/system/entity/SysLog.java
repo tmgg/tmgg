@@ -2,7 +2,7 @@
 package io.tmgg.modules.system.entity;
 
 import io.tmgg.lang.ann.Remark;
-import io.tmgg.web.persistence.BaseEntity;
+import io.tmgg.data.domain.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Lob;
 import jakarta.validation.constraints.NotNull;

@@ -18,7 +18,7 @@ import io.tmgg.modules.system.service.SysUserService;
 import io.tmgg.web.annotion.HasPermission;
 import io.tmgg.web.argument.RequestBodyKeys;
 import io.tmgg.web.persistence.BaseController;
-import io.tmgg.web.persistence.BaseEntity;
+import io.tmgg.data.domain.BaseEntity;
 import io.tmgg.web.pojo.param.DropdownParam;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;

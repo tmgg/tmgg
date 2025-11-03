@@ -1,7 +1,6 @@
 package io.tmgg.web.persistence.converter;
 
-import io.tmgg.web.persistence.BaseEntity;
-import jakarta.persistence.Convert;
+import io.tmgg.data.domain.BaseEntity;
 import jakarta.persistence.Entity;
 import lombok.Getter;
 import lombok.Setter;

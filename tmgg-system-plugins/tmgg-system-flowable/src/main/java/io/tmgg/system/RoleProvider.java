@@ -7,7 +7,7 @@ import io.tmgg.modules.system.entity.SysRole;
 import io.tmgg.modules.system.entity.SysUser;
 import io.tmgg.modules.system.service.SysRoleService;
 import io.tmgg.modules.system.service.SysUserService;
-import io.tmgg.web.persistence.BaseEntity;
+import io.tmgg.data.domain.BaseEntity;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Component;
 

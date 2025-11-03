@@ -9,7 +9,7 @@ import cn.hutool.core.util.StrUtil;
 import io.tmgg.jackson.JsonTool;
 import io.tmgg.lang.SpringTool;
 import io.tmgg.data.repository.BaseDao;
-import io.tmgg.web.persistence.PersistEntity;
+import io.tmgg.data.domain.PersistEntity;
 import io.tmgg.data.query.JpaQuery;
 import io.tmgg.modules.system.entity.JsonEntity;
 import io.tmgg.modules.system.service.JpaService;

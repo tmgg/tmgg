@@ -3,7 +3,7 @@ package io.tmgg.modules.system.dao;
 
 import io.tmgg.lang.tree.TreeManager;
 import io.tmgg.data.repository.BaseDao;
-import io.tmgg.web.persistence.BaseEntity;
+import io.tmgg.data.domain.BaseEntity;
 import io.tmgg.data.query.JpaQuery;
 import io.tmgg.modules.system.entity.SysOrg;
 import io.tmgg.modules.system.entity.OrgType;

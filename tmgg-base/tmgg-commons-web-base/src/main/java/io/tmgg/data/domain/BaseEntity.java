@@ -1,8 +1,9 @@
-package io.tmgg.web.persistence;
+package io.tmgg.data.domain;
 
 import com.fasterxml.jackson.annotation.*;
 import io.tmgg.lang.SpringTool;
 import io.tmgg.lang.ann.Remark;
+import io.tmgg.web.persistence.DBConstants;
 import io.tmgg.web.persistence.exports.UserLabelQuery;
 import io.tmgg.web.persistence.id.CustomGenerateIdProperties;
 import io.tmgg.web.persistence.id.CustomId;

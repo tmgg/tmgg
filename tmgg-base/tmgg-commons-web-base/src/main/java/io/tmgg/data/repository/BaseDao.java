@@ -1,8 +1,8 @@
 package io.tmgg.data.repository;
 
 import cn.hutool.core.bean.BeanUtil;
-import io.tmgg.web.persistence.PersistEntity;
-import io.tmgg.web.persistence.StatField;
+import io.tmgg.data.domain.PersistEntity;
+import io.tmgg.data.query.StatField;
 import io.tmgg.data.query.ExpressionTool;
 import io.tmgg.data.query.JpaQuery;
 import io.tmgg.data.query.Selector;

@@ -1,4 +1,4 @@
-package io.tmgg.web.persistence;
+package io.tmgg.data.query;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

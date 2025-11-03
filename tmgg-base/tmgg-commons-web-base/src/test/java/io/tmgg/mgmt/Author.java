@@ -1,6 +1,6 @@
 package io.tmgg.mgmt;
 
-import io.tmgg.web.persistence.BaseEntity;
+import io.tmgg.data.domain.BaseEntity;
 import io.tmgg.web.persistence.id.CustomId;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;

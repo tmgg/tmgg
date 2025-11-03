@@ -2,7 +2,7 @@ package io.tmgg.payment.mgmt.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.tmgg.lang.ann.Remark;
-import io.tmgg.web.persistence.BaseEntity;
+import io.tmgg.data.domain.BaseEntity;
 import io.tmgg.payment.enums.PaymentStatus;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

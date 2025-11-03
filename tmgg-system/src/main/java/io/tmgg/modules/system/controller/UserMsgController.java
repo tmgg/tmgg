@@ -5,7 +5,7 @@ import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.modules.system.entity.SysUserMessage;
 import io.tmgg.modules.system.service.SysUserMessageService;
 import io.tmgg.web.perm.SecurityUtils;
-import io.tmgg.web.persistence.BaseEntity;
+import io.tmgg.data.domain.BaseEntity;
 import jakarta.annotation.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

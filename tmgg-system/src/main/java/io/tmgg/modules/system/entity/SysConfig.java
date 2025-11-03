@@ -3,7 +3,7 @@ package io.tmgg.modules.system.entity;
 
 import io.tmgg.commons.poi.excel.annotation.Excel;
 import io.tmgg.lang.ann.Remark;
-import io.tmgg.web.persistence.BaseEntity;
+import io.tmgg.data.domain.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;

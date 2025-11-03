@@ -3,7 +3,7 @@ package io.tmgg.modules.system.entity;
 
 import io.tmgg.lang.tree.TreeNode;
 import io.tmgg.lang.ann.Remark;
-import io.tmgg.web.persistence.BaseEntity;
+import io.tmgg.data.domain.BaseEntity;
 import io.tmgg.web.persistence.DBConstants;
 import io.tmgg.web.enums.MenuType;
 import jakarta.persistence.*;

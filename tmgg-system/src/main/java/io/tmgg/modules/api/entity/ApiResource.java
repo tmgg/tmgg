@@ -2,7 +2,7 @@ package io.tmgg.modules.api.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.tmgg.commons.poi.excel.annotation.Excel;
-import io.tmgg.web.persistence.BaseEntity;
+import io.tmgg.data.domain.BaseEntity;
 import io.tmgg.web.persistence.DBConstants;
 import io.tmgg.web.persistence.converter.BaseToListConverter;
 import jakarta.persistence.*;

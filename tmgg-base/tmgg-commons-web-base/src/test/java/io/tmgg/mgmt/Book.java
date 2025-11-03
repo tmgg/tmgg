@@ -1,7 +1,7 @@
 package io.tmgg.mgmt;
 
 
-import io.tmgg.web.persistence.BaseEntity;
+import io.tmgg.data.domain.BaseEntity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;

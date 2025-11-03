@@ -1,4 +1,4 @@
-package io.tmgg.web.persistence;
+package io.tmgg.data.query;
 
 public enum StatType {
     SUM,

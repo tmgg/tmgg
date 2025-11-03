@@ -7,16 +7,13 @@ import io.tmgg.lang.TreeTool;
 import io.tmgg.lang.obj.TreeNode;
 import io.tmgg.modules.system.dao.JsonEntityFileDao;
 import io.tmgg.modules.system.dao.SysMenuDao;
-import io.tmgg.modules.system.entity.JsonEntity;
 import io.tmgg.modules.system.entity.SysMenu;
 import io.tmgg.web.enums.MenuType;
-import io.tmgg.web.persistence.BaseEntity;
+import io.tmgg.data.domain.BaseEntity;
 import io.tmgg.web.persistence.BaseService;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 
 import java.util.*;
 import java.util.stream.Collectors;

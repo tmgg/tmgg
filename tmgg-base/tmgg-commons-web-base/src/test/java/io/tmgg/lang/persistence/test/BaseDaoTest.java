@@ -2,8 +2,8 @@ package io.tmgg.lang.persistence.test;
 
 import cn.hutool.core.util.StrUtil;
 import io.tmgg.TestBootApplication;
-import io.tmgg.web.persistence.StatField;
-import io.tmgg.web.persistence.StatType;
+import io.tmgg.data.query.StatField;
+import io.tmgg.data.query.StatType;
 import io.tmgg.data.query.JpaQuery;
 import io.tmgg.mgmt.Author;
 import io.tmgg.mgmt.AuthorDao;
