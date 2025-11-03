@@ -16,7 +16,6 @@
 - 作业调度，支持参数
 - 流程引擎，模型设计
 - ureport报表集成，方便快速出报表
-- kettle集成，方便数据抽取任务调度
 - 大量前端组件，方便表单，表格显示
 - 大量前后端交互组件
 -
@@ -393,27 +392,12 @@ export default {
 
 
 
-# 扩展插件 - Kettle
-模块功能
-- 对kettle存储库的增删查操作
-- 对作业状态、日志的查看
-- 定时调度
 
 
 
 
-## 配置yaml文件
-```yaml
-tmgg:
-  kettle:
-    rep: "xxx"
-    url: "http://127.0.0.1:8080"
-    username: "cluster"
-    password: "cluster"
-```
 
-## 界面操作
-启动项目后，会在左侧菜单看到kettle菜单
+
 
 
 
