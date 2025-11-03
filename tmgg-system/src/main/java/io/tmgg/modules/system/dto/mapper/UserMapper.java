@@ -21,14 +21,9 @@ public abstract class UserMapper {
     SysOrgDao orgDao;
 
 
-
-
-
-    @Mapping(target = "id", source = "id")
     @Mapping(target = "unitLabel", source = "unitId", qualifiedByName = "getOrgName")
     @Mapping(target = "deptLabel", source = "deptId", qualifiedByName = "getOrgName")
     @Mapping(target = "roleNames", source = "roles", qualifiedByName = "getRoleNames")
-    @Mapping(target = "createTime", source = "createTime")
     public abstract UserResponse toResponse(SysUser input);
 
     public abstract List<UserResponse> toResponse(List<SysUser> input);

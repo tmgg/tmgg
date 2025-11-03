@@ -8,7 +8,7 @@ import io.tmgg.config.SysProp;
 import io.tmgg.lang.tree.TreeManager;
 import io.tmgg.lang.ann.PublicRequest;
 import io.tmgg.lang.obj.AjaxResult;
-import io.tmgg.modules.system.dto.MenuMapper;
+import io.tmgg.modules.system.dto.mapper.MenuMapper;
 import io.tmgg.modules.system.dto.response.MenuResponse;
 import io.tmgg.modules.system.entity.SysMenu;
 import io.tmgg.modules.system.entity.SysRole;

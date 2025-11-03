@@ -1,4 +1,4 @@
-package io.tmgg.modules.system.dto;
+package io.tmgg.modules.system.dto.mapper;
 
 import io.tmgg.modules.system.dto.response.MenuResponse;
 import io.tmgg.modules.system.entity.SysMenu;

@@ -1,6 +1,7 @@
 package io.tmgg.modules.system.dto.response;
 
 import io.tmgg.commons.poi.excel.annotation.Excel;
+import io.tmgg.data.domain.BaseDto;
 import io.tmgg.lang.ann.Remark;
 import lombok.Data;
 
@@ -8,9 +9,8 @@ import java.util.Date;
 import java.util.List;
 
 @Data
-public class UserResponse {
+public class UserResponse extends BaseDto {
 
-    private  String id;
 
     @Remark("所属机构")
     private String unitId;
@@ -52,5 +52,4 @@ public class UserResponse {
     private String extra2;
     private String extra3;
 
-    private Date createTime;
 }
