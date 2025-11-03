@@ -11,7 +11,6 @@ import io.tmgg.modules.system.dto.mapper.UserMapper;
 import io.tmgg.modules.system.dto.response.UserResponse;
 import io.tmgg.data.domain.BaseEntity;
 import io.tmgg.web.persistence.BaseService;
-import io.tmgg.web.persistence.exports.UserLabelQuery;
 import io.tmgg.data.query.JpaQuery;
 import io.tmgg.modules.system.dao.SysOrgDao;
 import io.tmgg.modules.system.dao.SysRoleDao;
@@ -39,7 +38,7 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Service
-public class SysUserService extends BaseService<SysUser> implements UserLabelQuery {
+public class SysUserService extends BaseService<SysUser> {
 
     public static final int CODE_PWD_ERR = 4011;
 
@@ -63,7 +62,13 @@ public class SysUserService extends BaseService<SysUser> implements UserLabelQue
     private SysHttpSessionService sm;
 
     @Resource
-    UserMapper userMapper;
+    private UserMapper userMapper;
+
+
+    public UserResponse findOneDto(String id){
+        SysUser user = this.findOne(id);
+        return userMapper.toResponse(user);
+    }
 
 
     public SysUser checkLogin(String account, String password) {
@@ -223,7 +228,6 @@ public class SysUserService extends BaseService<SysUser> implements UserLabelQue
     }
 
 
-    @Override
     public synchronized String getNameById(String userId) {
         if (userId == null || sysUserDao == null) {
             return null;

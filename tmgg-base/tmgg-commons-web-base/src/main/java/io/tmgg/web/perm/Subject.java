@@ -25,9 +25,7 @@ public class Subject implements Serializable {
 
     private String name;
     private String unitId; // 所属机构， 如公司，非内部小组或部门
-    private String unitName;
     private String deptId;
-    private String deptName;
 
 
     // ------------- 权限相关----------

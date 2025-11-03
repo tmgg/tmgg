@@ -10,6 +10,7 @@ import io.tmgg.lang.ann.PublicRequest;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.modules.system.dto.mapper.MenuMapper;
 import io.tmgg.modules.system.dto.response.MenuResponse;
+import io.tmgg.modules.system.dto.response.UserResponse;
 import io.tmgg.modules.system.entity.SysMenu;
 import io.tmgg.modules.system.entity.SysRole;
 import io.tmgg.modules.system.entity.SysUser;
@@ -95,11 +96,13 @@ public class SysCommonController {
         Subject subject = SecurityUtils.getSubject();
         log.info("获取登录信息 {}", subject.getName());
 
+        UserResponse user = sysUserService.findOneDto(subject.getId());
+
         Dict vo = new Dict();
-        vo.put("id", subject.getId());
-        vo.put("name", subject.getName());
-        vo.put("orgName", subject.getUnitName());
-        vo.put("deptName", subject.getDeptName());
+        vo.put("id", user.getId());
+        vo.put("name", user.getName());
+        vo.put("orgName", user.getUnitLabel());
+        vo.put("deptName", user.getDeptLabel());
         vo.put("permissions", subject.getPermissions());
         vo.put("account", subject.getAccount());
 

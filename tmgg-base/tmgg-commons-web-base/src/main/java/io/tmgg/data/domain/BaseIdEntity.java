@@ -16,7 +16,6 @@ import java.io.Serializable;
 @Getter
 @Setter
 @MappedSuperclass
-@FieldNameConstants
 @JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, ignoreUnknown = true)
 @Slf4j
 public abstract class BaseIdEntity implements PersistEntity, Serializable {

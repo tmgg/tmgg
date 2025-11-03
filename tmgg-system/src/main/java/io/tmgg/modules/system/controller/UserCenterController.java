@@ -3,6 +3,7 @@ package io.tmgg.modules.system.controller;
 import io.tmgg.framework.session.SysHttpSessionService;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.modules.system.dto.request.UpdatePwdRequest;
+import io.tmgg.modules.system.dto.response.UserResponse;
 import io.tmgg.modules.system.entity.SysRole;
 import io.tmgg.modules.system.entity.SysUser;
 import io.tmgg.modules.system.service.SysUserService;
@@ -34,15 +35,13 @@ public class UserCenterController {
         Subject subject = SecurityUtils.getSubject();
         String name = subject.getName();
 
-        SysUser user = sysUserService.findOne(subject.getId());
-
-        Set<String> roles = user.getRoles().stream().map(SysRole::getName).collect(Collectors.toSet());
+        UserResponse user = sysUserService.findOneDto(subject.getId());
 
         return AjaxResult.ok().data("name",name)
                 .data("phone",user.getPhone())
-                .data("dept",subject.getDeptName())
-                .data("unit",subject.getUnitName())
-                .data("roles", roles)
+                .data("dept",user.getDeptLabel())
+                .data("unit",user.getUnitLabel())
+                .data("roles", user.getRoleNames())
                 .data("email", user.getEmail())
                 .data("account", user.getAccount())
                 .data("createTime", user.getCreateTime())

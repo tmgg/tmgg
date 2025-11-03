@@ -37,6 +37,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 
@@ -154,9 +155,15 @@ public class SysUserController {
 
         Page<SysUser> page = sysUserService.findAll(query, PageRequest.of(0, 200));
 
+
+        Map<String, SysOrg> dict = sysOrgService.dict();
         List<Option> options = Option.convertList(page.getContent(), BaseEntity::getId, t -> {
-            if (t.getDeptLabel() != null) {
-                return t.getName() + " (" + t.getDeptLabel() + ")";
+            if (t.getDeptId() != null) {
+                SysOrg sysOrg = dict.get(t.getDeptId());
+                if(sysOrg != null){
+                    return t.getName() + " (" + sysOrg.getName() + ")";
+
+                }
             }
 
             return t.getName();
