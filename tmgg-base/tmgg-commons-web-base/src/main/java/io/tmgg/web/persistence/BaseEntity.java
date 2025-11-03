@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.*;
 import io.tmgg.lang.SpringTool;
 import io.tmgg.lang.ann.Remark;
 import io.tmgg.web.persistence.exports.UserLabelQuery;
-import io.tmgg.web.persistence.fill.BeanPropertyFillUtil;
 import io.tmgg.web.persistence.id.CustomGenerateIdProperties;
 import io.tmgg.web.persistence.id.CustomId;
 import io.tmgg.web.perm.SecurityUtils;
@@ -154,10 +153,6 @@ public abstract class BaseEntity implements PersistEntity, Serializable {
     }
 
 
-    @PostLoad
-    public void afterLoad() {
-            BeanPropertyFillUtil.fillBeanProperties(this);
-    }
 
 
     @JsonIgnore
