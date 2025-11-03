@@ -1,7 +1,9 @@
 package io.tmgg.modules.system.dto.mapper;
 
+import io.tmgg.modules.system.dao.SysDictDao;
 import io.tmgg.modules.system.dao.SysOrgDao;
 import io.tmgg.modules.system.dto.response.UserResponse;
+import io.tmgg.modules.system.entity.DataPermType;
 import io.tmgg.modules.system.entity.SysRole;
 import io.tmgg.modules.system.entity.SysUser;
 import jakarta.annotation.Resource;
@@ -20,10 +22,13 @@ public abstract class UserMapper {
 
 
 
+
+
     @Mapping(target = "id", source = "id")
     @Mapping(target = "unitLabel", source = "unitId", qualifiedByName = "getOrgName")
     @Mapping(target = "deptLabel", source = "deptId", qualifiedByName = "getOrgName")
     @Mapping(target = "roleNames", source = "roles", qualifiedByName = "getRoleNames")
+    @Mapping(target = "createTime", source = "createTime")
     public abstract UserResponse toResponse(SysUser input);
 
     public abstract List<UserResponse> toResponse(List<SysUser> input);
@@ -37,5 +42,6 @@ public abstract class UserMapper {
     protected List<String> getRoleNames(Set<SysRole> roles) {
         return roles.stream().map(SysRole::getName).toList();
     }
+
 
 }

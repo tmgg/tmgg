@@ -4,6 +4,7 @@ import io.tmgg.commons.poi.excel.annotation.Excel;
 import io.tmgg.lang.ann.Remark;
 import lombok.Data;
 
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -43,11 +44,13 @@ public class UserResponse {
 
     private  List<String> roleNames;
 
-
+    private String dataPermType;
 
 
     // 扩展字段1
     private String extra1;
     private String extra2;
     private String extra3;
+
+    private Date createTime;
 }
