@@ -97,11 +97,7 @@
                 <artifactId>tmgg-system-flowable</artifactId>
                 <version>${revision}</version>
             </dependency>
-            <dependency>
-                <groupId>io.github.tmgg</groupId>
-                <artifactId>tmgg-system-kettle</artifactId>
-                <version>${revision}</version>
-            </dependency>
+
             <dependency>
                 <groupId>io.github.tmgg</groupId>
                 <artifactId>tmgg-system-ureport</artifactId>

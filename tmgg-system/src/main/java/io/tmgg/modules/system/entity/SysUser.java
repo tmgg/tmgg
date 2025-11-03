@@ -4,7 +4,6 @@ package io.tmgg.modules.system.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.tmgg.commons.poi.excel.annotation.Excel;
-import io.tmgg.framework.data.fill.FillOrgName;
 import io.tmgg.lang.ann.Remark;
 import io.tmgg.web.persistence.BaseEntity;
 import jakarta.persistence.*;

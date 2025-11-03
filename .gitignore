@@ -46,7 +46,6 @@ node_modules/
 /web-monorepo/taro/tmgg-system-job/package-lock.json
 /docs/package-lock.json
 /docs/.vitepress/cache/
-/web-monorepo/taro/tmgg-system-kettle/src/.umi-production/
 /web-monorepo/taro/tmgg-system-job/src/.umi-production/
 /web-monorepo/taro/tmgg-system-flowable/package-lock.json
 dist/

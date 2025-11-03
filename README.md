@@ -399,22 +399,7 @@ export default {
 - 对作业状态、日志的查看
 - 定时调度
 
-# Kettle 安装
-## 安装插件
-需要给kettle安装插件，插件地址 https://github.com/tmgg/kettle-carte-plugin
 
-## 启动 Carte
-windows 上启动 kettle 目录下的 Carte.bat。
-为了避免乱码，建议在该文件前增加 set OPT= -Dfile.encoding=utf-8
-
-# 项目中使用
-## 配置pom.xml文件
-```xml
- <dependency>
-    <groupId>io.github.tmgg</groupId>
-    <artifactId>tmgg-system-kettle</artifactId>
- </dependency>
-```
 
 
 ## 配置yaml文件
