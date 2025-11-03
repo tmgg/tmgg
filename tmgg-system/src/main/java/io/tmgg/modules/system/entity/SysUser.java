@@ -45,7 +45,6 @@ public class SysUser extends BaseEntity {
     @Remark("所属机构")
     private String unitId;
 
-    @FillOrgName
     @Excel(name = "单位")
     @Transient
     private String unitLabel;
@@ -53,7 +52,6 @@ public class SysUser extends BaseEntity {
     @Remark("所属部门")
     private String deptId;
 
-    @FillOrgName
     @Excel(name = "部门")
     @Transient
     private String deptLabel;

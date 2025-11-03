@@ -2,18 +2,16 @@
 package io.tmgg.modules.system.entity;
 
 import cn.hutool.core.io.FileUtil;
-import io.tmgg.framework.data.fill.FillDictText;
 import io.tmgg.lang.ContentTypeTool;
 import io.tmgg.lang.RequestTool;
 import io.tmgg.lang.enums.MaterialType;
 import io.tmgg.web.persistence.BaseEntity;
 import jakarta.persistence.*;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldNameConstants;
-
-import jakarta.servlet.http.HttpServletRequest;
 
 import java.io.InputStream;
 
@@ -68,9 +66,6 @@ public class SysFile extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private MaterialType type;
 
-    @org.springframework.data.annotation.Transient
-    @FillDictText(typeCode = "materialType")
-    private String typeLabel;
 
     private String title;
     private String description;

@@ -41,13 +41,8 @@ export default class extends React.Component {
             dataIndex: 'sizeInfo',
         },
 
-
         {
-            title: '文件类型',
-            dataIndex: 'typeLabel',
-        },
-        {
-            title: 'mimeType',
+            title: 'mime',
             dataIndex: 'mimeType',
         },
         {
