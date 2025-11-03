@@ -35,7 +35,6 @@ spring:
     type: simple
   flyway:
     baseline-on-migrate: true
-    baseline-version: 0.0.1
 logging:
   charset:
     console: UTF-8

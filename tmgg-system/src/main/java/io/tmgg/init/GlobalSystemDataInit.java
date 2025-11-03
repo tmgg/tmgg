@@ -1,14 +1,9 @@
 package io.tmgg.init;
 
-import cn.hutool.core.util.ArrayUtil;
-import cn.hutool.core.util.IdUtil;
-import cn.hutool.core.util.RandomUtil;
-import cn.hutool.core.util.VersionUtil;
 import cn.hutool.crypto.SecureUtil;
 import cn.hutool.crypto.asymmetric.RSA;
 import io.tmgg.Build;
 import io.tmgg.config.SysProp;
-import io.tmgg.dbtool.DbTool;
 import io.tmgg.framework.dict.DictAnnHandler;
 import io.tmgg.framework.dict.DictFieldAnnHandler;
 import io.tmgg.framework.perm.PermissionService;
@@ -21,7 +16,6 @@ import io.tmgg.modules.system.entity.SysConfig;
 import io.tmgg.modules.system.entity.SysRole;
 import io.tmgg.modules.system.entity.SysUser;
 import io.tmgg.modules.system.service.JsonEntityService;
-import io.tmgg.modules.system.service.SysMenuService;
 import io.tmgg.modules.system.service.SysRoleService;
 import io.tmgg.web.db.DbCacheDao;
 import jakarta.annotation.Resource;
@@ -54,8 +48,7 @@ public class GlobalSystemDataInit implements CommandLineRunner {
     @Resource
     SysConfigDao sysConfigDao;
 
-    @Resource
-    SysMenuService sysMenuService;
+
 
     @Resource
     JsonEntityService jsonEntityService;
@@ -71,8 +64,7 @@ public class GlobalSystemDataInit implements CommandLineRunner {
     @Resource
     PermissionService permissionService;
 
-    @Resource
-    private DbTool db;
+
 
     @Resource
     private DbCacheDao dbCacheDao;
@@ -91,7 +83,6 @@ public class GlobalSystemDataInit implements CommandLineRunner {
     public void run(String... args) throws Exception {
         systemHookService.trigger(SystemHookEventType.BEFORE_DATA_INIT);
 
-
         log.info("框架版本 {}", Build.getFrameworkVersion());
         log.info("框架构建时间 {}", Build.getFrameworkBuildTime());
 
@@ -101,11 +92,6 @@ public class GlobalSystemDataInit implements CommandLineRunner {
 
         log.info("执行初始化程序： {}", getClass().getName());
         long time = System.currentTimeMillis();
-
-
-        if (cacheVersion == null || VersionUtil.isLessThan(cacheVersion,"0.3.91")) {
-            fixDict();
-        }
 
         permissionService.init();
         dictAnnHandler.run();
@@ -146,19 +132,7 @@ public class GlobalSystemDataInit implements CommandLineRunner {
     }
 
 
-    private void fixDict() {
-        String[] keys = db.getKeys("select * from sys_dict");
-        System.out.println(keys);
-        if (ArrayUtil.contains(keys, "name")) {
-            db.executeQuietly("ALTER TABLE `sys_dict` DROP COLUMN text");
-            db.executeQuietly("ALTER TABLE `sys_dict` CHANGE COLUMN `name` `text` varchar(80)");
-        }
 
-        if (ArrayUtil.contains(keys, "builtin")) {
-            db.executeQuietly("ALTER TABLE `sys_dict` DROP COLUMN builtin");
-        }
-
-    }
 
 
     private void initUser(SysRole adminRole) {
