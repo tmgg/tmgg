@@ -1,4 +1,4 @@
-package io.tmgg.modules.system.dto;
+package io.tmgg.modules.system.dto.request;
 
 import io.tmgg.modules.system.entity.DataPermType;
 import jakarta.validation.constraints.NotNull;
@@ -9,7 +9,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class GrantPermDto {
+public class GrantUserPermRequest {
 
     @NotNull
     String id;

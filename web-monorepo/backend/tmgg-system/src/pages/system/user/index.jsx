@@ -25,7 +25,7 @@ const pageApi = baseApi + 'page'
 
 const addPerm = basePerm + 'add'
 const delPerm = basePerm + 'delete'
-const editPerm = basePerm + 'edit'
+
 
 export default class extends React.Component {
 
@@ -109,9 +109,9 @@ export default class extends React.Component {
             fixed:'right',
             render: (_, record) => {
                 return <ButtonList>
-                    <Button size='small' perm={editPerm} onClick={() => this.handleEdit(record)}> 编辑 </Button>
+                    <Button size='small' perm='sysUser:save' onClick={() => this.handleEdit(record)}> 编辑 </Button>
 
-                    <Button size='small' perm='sysUser:grantData'
+                    <Button size='small' perm='sysUser:grantPerm'
                             onClick={() => this.permRef.current.show(record)}> 授权 </Button>
 
                     <Popconfirm perm='sysUser:resetPwd' title='确认重置密码？' onConfirm={() => this.resetPwd(record)}>

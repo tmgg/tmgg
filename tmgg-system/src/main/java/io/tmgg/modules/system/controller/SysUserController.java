@@ -4,16 +4,14 @@ package io.tmgg.modules.system.controller;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.text.PasswdStrength;
 import cn.hutool.core.util.StrUtil;
-import io.tmgg.framework.session.SysHttpSessionService;
-import io.tmgg.lang.obj.table.Table;
-import io.tmgg.modules.system.dto.response.UserResponse;
-import io.tmgg.web.argument.RequestBodyKeys;
-import io.tmgg.web.persistence.BaseEntity;
 import io.tmgg.data.query.JpaQuery;
+import io.tmgg.framework.session.SysHttpSessionService;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.obj.Option;
 import io.tmgg.lang.obj.TreeOption;
-import io.tmgg.modules.system.dto.GrantPermDto;
+import io.tmgg.lang.obj.table.Table;
+import io.tmgg.modules.system.dto.request.GrantUserPermRequest;
+import io.tmgg.modules.system.dto.response.UserResponse;
 import io.tmgg.modules.system.entity.OrgType;
 import io.tmgg.modules.system.entity.SysOrg;
 import io.tmgg.modules.system.entity.SysUser;
@@ -21,11 +19,12 @@ import io.tmgg.modules.system.service.SysConfigService;
 import io.tmgg.modules.system.service.SysOrgService;
 import io.tmgg.modules.system.service.SysUserService;
 import io.tmgg.web.annotion.HasPermission;
+import io.tmgg.web.argument.RequestBodyKeys;
 import io.tmgg.web.perm.SecurityUtils;
 import io.tmgg.web.perm.Subject;
+import io.tmgg.web.persistence.BaseEntity;
 import io.tmgg.web.pojo.param.DropdownParam;
 import jakarta.annotation.Resource;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -60,7 +59,7 @@ public class SysUserController {
 
     @HasPermission
     @RequestMapping("page")
-    public AjaxResult page( String orgId,    String roleId, String searchText, @PageableDefault(sort = SysUser.FIELD_UPDATE_TIME, direction = Sort.Direction.DESC) Pageable pageable) throws Exception {
+    public AjaxResult page(String orgId, String roleId, String searchText, @PageableDefault(sort = SysUser.FIELD_UPDATE_TIME, direction = Sort.Direction.DESC) Pageable pageable) throws Exception {
         Page<UserResponse> page = sysUserService.findAll(orgId, roleId, searchText, pageable);
 
         return AjaxResult.ok().data(page);
@@ -83,11 +82,11 @@ public class SysUserController {
 
 
         updateFields.add("unitId");
-        sysUserService.saveOrUpdateByClient(input,updateFields);
+        sysUserService.saveOrUpdateByClient(input, updateFields);
 
         if (isNew) {
             return AjaxResult.ok().msg("添加成功,密码：" + configService.getDefaultPassWord());
-        }else {
+        } else {
             sm.forceExistBySubjectId(input.getId());
         }
 
@@ -124,8 +123,6 @@ public class SysUserController {
     }
 
 
-
-
     @HasPermission(label = "重置密码")
     @PostMapping("resetPwd")
     public AjaxResult resetPwd(@RequestBody SysUser user) {
@@ -137,7 +134,7 @@ public class SysUserController {
 
 
     @RequestMapping("options")
-    public AjaxResult options( DropdownParam param) {
+    public AjaxResult options(DropdownParam param) {
         String searchText = param.getSearchText();
         JpaQuery<SysUser> query = new JpaQuery<>();
 
@@ -175,7 +172,7 @@ public class SysUserController {
      */
     @GetMapping("getPermInfo")
     public AjaxResult getPermInfo(String id) {
-        GrantPermDto permInfo = sysUserService.getPermInfo(id);
+        GrantUserPermRequest permInfo = sysUserService.getPermInfo(id);
         return AjaxResult.ok().data(permInfo);
     }
 
@@ -183,10 +180,10 @@ public class SysUserController {
     /**
      * 授权数据
      */
+    @HasPermission(label = "授权数据")
     @PostMapping("grantPerm")
-    public AjaxResult grantPerm(@Valid @RequestBody GrantPermDto param) {
+    public AjaxResult grantPerm(@Valid @RequestBody GrantUserPermRequest param) {
         sysUserService.grantPerm(param.getId(), param.getRoleIds(), param.getDataPermType(), param.getOrgIds());
-
         sm.forceExistBySubjectId(param.getId());
         return AjaxResult.ok();
     }
@@ -194,6 +191,7 @@ public class SysUserController {
     /**
      * 用户树
      * 机构刷下面增加用户节点
+     *
      * @return
      */
     @GetMapping("tree")
@@ -221,6 +219,7 @@ public class SysUserController {
 
     /**
      * 下拉表格
+     *
      * @param param
      * @param pageable
      * @return
@@ -231,12 +230,11 @@ public class SysUserController {
         q.searchText(param.getSearchText(), SysUser.Fields.name, SysUser.Fields.account);
 
         List<String> selected = param.getSelected();
-        if(CollUtil.isNotEmpty(selected)){
+        if (CollUtil.isNotEmpty(selected)) {
             q.in("id", selected);
         }
 
-        Page<SysUser> page = sysUserService.findAll(q,pageable);
-
+        Page<SysUser> page = sysUserService.findAll(q, pageable);
 
 
         Table<SysUser> tb = new Table<>(page);

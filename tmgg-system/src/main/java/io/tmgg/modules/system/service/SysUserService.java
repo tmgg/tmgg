@@ -5,7 +5,6 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
-import io.tmgg.data.domain.PageExt;
 import io.tmgg.framework.session.SysHttpSessionService;
 import io.tmgg.lang.PasswordTool;
 import io.tmgg.modules.system.dto.mapper.UserMapper;
@@ -17,7 +16,7 @@ import io.tmgg.data.query.JpaQuery;
 import io.tmgg.modules.system.dao.SysOrgDao;
 import io.tmgg.modules.system.dao.SysRoleDao;
 import io.tmgg.modules.system.dao.SysUserDao;
-import io.tmgg.modules.system.dto.GrantPermDto;
+import io.tmgg.modules.system.dto.request.GrantUserPermRequest;
 import io.tmgg.modules.system.entity.DataPermType;
 import io.tmgg.modules.system.entity.SysOrg;
 import io.tmgg.modules.system.entity.SysRole;
@@ -292,10 +291,10 @@ public class SysUserService extends BaseService<SysUser> implements UserLabelQue
 
     }
 
-    public GrantPermDto getPermInfo(String id) {
+    public GrantUserPermRequest getPermInfo(String id) {
         SysUser user = this.findOne(id);
 
-        GrantPermDto p = new GrantPermDto();
+        GrantUserPermRequest p = new GrantUserPermRequest();
         p.setId(user.getId());
         p.setDataPermType(user.getDataPermType());
         p.setOrgIds(user.getDataPerms().stream().map(BaseEntity::getId).collect(Collectors.toList()));
