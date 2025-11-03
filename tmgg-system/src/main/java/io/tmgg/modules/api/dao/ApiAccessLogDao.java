@@ -1,7 +1,7 @@
 package io.tmgg.modules.api.dao;
 
 import io.tmgg.modules.api.entity.ApiAccessLog;
-import io.tmgg.web.persistence.BaseDao;
+import io.tmgg.data.repository.BaseDao;
 import org.springframework.stereotype.Repository;
 
 @Repository

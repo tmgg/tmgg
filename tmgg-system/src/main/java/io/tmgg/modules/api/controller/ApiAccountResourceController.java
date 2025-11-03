@@ -1,28 +1,20 @@
 package io.tmgg.modules.api.controller;
 
-import io.tmgg.web.WebConstants;
 import io.tmgg.web.argument.RequestBodyKeys;
-import io.tmgg.web.persistence.BaseService;
-import io.tmgg.web.persistence.specification.JpaQuery;
+import io.tmgg.data.query.JpaQuery;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.modules.api.entity.ApiAccountResource;
 import io.tmgg.modules.api.service.ApiAccountResourceService;
-import io.tmgg.web.persistence.BaseController;
 
 
 import io.tmgg.web.annotion.HasPermission;
-import org.apache.poi.ss.formula.functions.T;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 
 import jakarta.annotation.Resource;
-
-import java.util.Map;
 
 @RestController
 @RequestMapping("apiAccountResource")

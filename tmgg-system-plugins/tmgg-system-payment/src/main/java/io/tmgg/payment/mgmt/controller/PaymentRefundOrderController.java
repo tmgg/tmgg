@@ -1,6 +1,5 @@
 package io.tmgg.payment.mgmt.controller;
 
-import io.tmgg.web.persistence.specification.JpaQuery;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.payment.mgmt.entity.PaymentRefundOrder;
 import io.tmgg.payment.mgmt.service.PaymentRefundOrderService;
@@ -8,10 +7,6 @@ import io.tmgg.web.persistence.BaseController;
 
 
 import io.tmgg.web.annotion.HasPermission;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 

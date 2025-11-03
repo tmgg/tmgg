@@ -3,7 +3,7 @@ package io.tmgg.modules.system.controller;
 
 
 import io.tmgg.web.argument.RequestBodyKeys;
-import io.tmgg.web.persistence.specification.JpaQuery;
+import io.tmgg.data.query.JpaQuery;
 import io.tmgg.modules.system.service.SysConfigService;
 import io.tmgg.web.annotion.HasPermission;
 import io.tmgg.lang.obj.AjaxResult;

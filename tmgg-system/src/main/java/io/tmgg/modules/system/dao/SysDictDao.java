@@ -1,13 +1,11 @@
 
 package io.tmgg.modules.system.dao;
 
-import cn.hutool.core.map.MapUtil;
-import io.tmgg.web.persistence.BaseDao;
-import io.tmgg.web.persistence.specification.JpaQuery;
+import io.tmgg.data.repository.BaseDao;
+import io.tmgg.data.query.JpaQuery;
 import io.tmgg.modules.system.entity.SysDict;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j

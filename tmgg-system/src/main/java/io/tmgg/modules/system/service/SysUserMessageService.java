@@ -1,7 +1,7 @@
 package io.tmgg.modules.system.service;
 
 import io.tmgg.web.persistence.BaseService;
-import io.tmgg.web.persistence.specification.JpaQuery;
+import io.tmgg.data.query.JpaQuery;
 import io.tmgg.modules.system.dao.SysUserMessageDao;
 import io.tmgg.modules.system.entity.SysUser;
 import io.tmgg.modules.system.entity.SysUserMessage;

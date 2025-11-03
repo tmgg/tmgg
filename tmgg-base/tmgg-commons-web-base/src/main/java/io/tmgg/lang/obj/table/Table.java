@@ -6,10 +6,9 @@ import cn.hutool.core.date.DateUtil;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.tmgg.commons.poi.excel.annotation.Excel;
 import io.tmgg.lang.ann.Remark;
-import io.tmgg.lang.data.Matrix;
+import io.tmgg.lang.dto.Matrix;
 import jakarta.persistence.Lob;
 import lombok.Getter;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 

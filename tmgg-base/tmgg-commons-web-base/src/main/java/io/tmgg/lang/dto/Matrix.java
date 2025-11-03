@@ -1,4 +1,4 @@
-package io.tmgg.lang.data;
+package io.tmgg.lang.dto;
 
 import cn.hutool.core.util.StrUtil;
 import com.fasterxml.jackson.annotation.JsonIgnore;

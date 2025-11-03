@@ -5,18 +5,11 @@ import io.tmgg.Build;
 import io.tmgg.modules.api.ApiErrorCode;
 import io.tmgg.modules.api.service.ApiResourceService;
 import io.tmgg.web.persistence.BaseController;
-import io.tmgg.web.persistence.specification.JpaQuery;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.modules.api.entity.*;
 import io.tmgg.modules.api.service.ApiAccountService;
 import io.tmgg.modules.api.service.ApiAccountResourceService;
-import io.tmgg.web.annotion.HasPermission;
 import jakarta.annotation.Resource;
-import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;

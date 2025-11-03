@@ -18,7 +18,7 @@ import io.tmgg.modules.system.dao.SysFileDao;
 import io.tmgg.modules.system.entity.SysFile;
 import io.tmgg.modules.system.file.FileOperator;
 import io.tmgg.web.consts.SymbolConstant;
-import io.tmgg.web.persistence.specification.JpaQuery;
+import io.tmgg.data.query.JpaQuery;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

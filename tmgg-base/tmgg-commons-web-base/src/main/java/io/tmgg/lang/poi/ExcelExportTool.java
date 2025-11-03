@@ -6,7 +6,7 @@ import io.tmgg.commons.poi.excel.entity.ExportParams;
 import io.tmgg.commons.poi.excel.entity.enmus.ExcelType;
 import io.tmgg.lang.HttpServletTool;
 import io.tmgg.lang.ResponseTool;
-import io.tmgg.lang.data.Matrix;
+import io.tmgg.lang.dto.Matrix;
 import io.tmgg.lang.obj.table.Table;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;

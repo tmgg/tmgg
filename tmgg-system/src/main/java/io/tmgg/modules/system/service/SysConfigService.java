@@ -2,10 +2,9 @@
 package io.tmgg.modules.system.service;
 
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.system.SystemUtil;
 import io.tmgg.lang.RequestTool;
 import io.tmgg.web.persistence.BaseService;
-import io.tmgg.web.persistence.specification.JpaQuery;
+import io.tmgg.data.query.JpaQuery;
 import io.tmgg.modules.system.dao.SysConfigDao;
 import io.tmgg.modules.system.entity.SysConfig;
 import jakarta.annotation.Resource;

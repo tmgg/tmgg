@@ -2,7 +2,7 @@ package io.tmgg.web.persistence.converter;
 
 
 import io.tmgg.jackson.JsonTool;
-import io.tmgg.lang.data.Entry;
+import io.tmgg.lang.dto.Entry;
 import jakarta.persistence.AttributeConverter;
 
 import java.io.Serializable;

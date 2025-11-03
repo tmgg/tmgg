@@ -2,7 +2,7 @@ package io.tmgg.modules.api.controller;
 
 import cn.hutool.core.collection.CollUtil;
 import io.tmgg.web.persistence.BaseController;
-import io.tmgg.web.persistence.specification.JpaQuery;
+import io.tmgg.data.query.JpaQuery;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.obj.table.Table;
 import io.tmgg.modules.api.entity.ApiResource;

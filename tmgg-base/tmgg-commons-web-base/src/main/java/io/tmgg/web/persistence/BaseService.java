@@ -3,12 +3,12 @@ package io.tmgg.web.persistence;
 
 import cn.hutool.core.date.DatePattern;
 import cn.hutool.core.date.DateUtil;
+import io.tmgg.data.repository.BaseDao;
 import io.tmgg.lang.ann.RemarkTool;
-import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.obj.Option;
 import io.tmgg.lang.obj.table.Table;
 import io.tmgg.lang.poi.ExcelExportTool;
-import io.tmgg.web.persistence.specification.JpaQuery;
+import io.tmgg.data.query.JpaQuery;
 import jakarta.persistence.Transient;
 import lombok.experimental.Delegate;
 import lombok.extern.slf4j.Slf4j;

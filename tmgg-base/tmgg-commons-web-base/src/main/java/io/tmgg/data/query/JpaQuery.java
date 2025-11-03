@@ -1,10 +1,9 @@
-package io.tmgg.web.persistence.specification;
+package io.tmgg.data.query;
 
 import cn.hutool.core.bean.BeanDesc;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.collection.ListUtil;
-import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
 import io.tmgg.lang.DateTool;

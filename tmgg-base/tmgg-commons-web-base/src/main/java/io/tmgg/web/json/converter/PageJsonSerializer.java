@@ -3,7 +3,7 @@ package io.tmgg.web.json.converter;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
-import io.tmgg.data.domain.PageExt;
+import io.tmgg.data.repository.PageExt;
 import org.springframework.data.domain.Page;
 
 import java.io.IOException;

@@ -5,7 +5,7 @@ import io.tmgg.flowable.admin.dao.SysFlowableModelDao;
 import io.tmgg.flowable.admin.entity.ConditionVariable;
 import io.tmgg.flowable.admin.entity.SysFlowableModel;
 import io.tmgg.web.persistence.BaseService;
-import io.tmgg.web.persistence.specification.JpaQuery;
+import io.tmgg.data.query.JpaQuery;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;

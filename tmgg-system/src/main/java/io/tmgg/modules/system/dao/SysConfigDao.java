@@ -2,9 +2,8 @@
 package io.tmgg.modules.system.dao;
 
 
-import io.tmgg.lang.SpringTool;
 import io.tmgg.modules.system.entity.SysConfig;
-import io.tmgg.web.persistence.BaseDao;
+import io.tmgg.data.repository.BaseDao;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;

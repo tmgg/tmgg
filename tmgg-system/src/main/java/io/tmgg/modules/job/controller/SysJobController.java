@@ -5,7 +5,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import io.tmgg.lang.field.Field;
 import io.tmgg.lang.SpringTool;
 import io.tmgg.web.argument.RequestBodyKeys;
-import io.tmgg.web.persistence.specification.JpaQuery;
+import io.tmgg.data.query.JpaQuery;
 import io.tmgg.lang.field.FieldDescription;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.lang.obj.Option;

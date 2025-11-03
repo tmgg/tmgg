@@ -1,6 +1,6 @@
 package io.tmgg.modules.api.service;
 
-import io.tmgg.web.persistence.specification.JpaQuery;
+import io.tmgg.data.query.JpaQuery;
 import io.tmgg.modules.api.entity.ApiAccount;
 import io.tmgg.modules.api.entity.ApiAccountResource;
 import io.tmgg.web.persistence.BaseService;

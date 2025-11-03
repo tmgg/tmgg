@@ -3,7 +3,7 @@ package io.tmgg.modules.system.service;
 import io.tmgg.modules.system.entity.SysMenu;
 import io.tmgg.modules.system.entity.SysMenuBadge;
 import io.tmgg.web.persistence.BaseService;
-import io.tmgg.web.persistence.specification.JpaQuery;
+import io.tmgg.data.query.JpaQuery;
 import jakarta.annotation.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

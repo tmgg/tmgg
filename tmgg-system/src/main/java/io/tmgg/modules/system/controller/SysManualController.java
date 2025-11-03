@@ -1,12 +1,11 @@
 package io.tmgg.modules.system.controller;
 
-import cn.hutool.core.collection.CollUtil;
 import io.tmgg.lang.ann.PublicRequest;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.modules.system.entity.SysManual;
 import io.tmgg.modules.system.service.SysManualService;
 import io.tmgg.web.persistence.BaseController;
-import io.tmgg.web.persistence.specification.JpaQuery;
+import io.tmgg.data.query.JpaQuery;
 import jakarta.annotation.Resource;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;

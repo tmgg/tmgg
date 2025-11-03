@@ -4,7 +4,7 @@ package io.tmgg.modules.system.controller;
 import cn.hutool.core.util.NumberUtil;
 import cn.hutool.core.util.StrUtil;
 import io.tmgg.web.argument.RequestBodyKeys;
-import io.tmgg.web.persistence.specification.JpaQuery;
+import io.tmgg.data.query.JpaQuery;
 import io.tmgg.modules.system.entity.SysDict;
 import io.tmgg.modules.system.entity.SysDictItem;
 import io.tmgg.modules.system.service.SysDictItemService;

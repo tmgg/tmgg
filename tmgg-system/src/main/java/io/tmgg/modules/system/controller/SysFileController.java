@@ -1,33 +1,21 @@
 
 package io.tmgg.modules.system.controller;
 
-import cn.hutool.core.io.IoUtil;
-import cn.hutool.core.io.resource.InputStreamResource;
-import cn.hutool.core.io.resource.ResourceUtil;
-import io.minio.GetObjectArgs;
-import io.tmgg.lang.ann.PublicRequest;
 import io.tmgg.lang.enums.MaterialType;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.modules.system.entity.SysFile;
 import io.tmgg.modules.system.service.SysFileService;
 import io.tmgg.web.annotion.HasPermission;
-import io.tmgg.web.persistence.specification.JpaQuery;
+import io.tmgg.data.query.JpaQuery;
 import jakarta.annotation.Resource;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.InputStream;
 
 /**
  * 文件

@@ -2,12 +2,11 @@ package io.tmgg.modules.job.dao;
 
 import io.tmgg.modules.job.entity.SysJob;
 import io.tmgg.modules.job.entity.SysJobLog;
-import io.tmgg.web.persistence.BaseDao;
-import io.tmgg.web.persistence.specification.JpaQuery;
+import io.tmgg.data.repository.BaseDao;
+import io.tmgg.data.query.JpaQuery;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 
-import java.util.Date;
 import java.util.List;
 
 @Repository

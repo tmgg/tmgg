@@ -10,7 +10,7 @@ import io.tmgg.modules.system.entity.SysRole;
 import io.tmgg.modules.system.entity.SysUser;
 import io.tmgg.web.perm.Subject;
 import io.tmgg.web.persistence.BaseService;
-import io.tmgg.web.persistence.specification.JpaQuery;
+import io.tmgg.data.query.JpaQuery;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

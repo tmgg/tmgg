@@ -6,7 +6,7 @@ import io.tmgg.modules.job.JobDescription;
 import io.tmgg.modules.job.entity.SysJobLog;
 import io.tmgg.modules.job.quartz.QuartzManager;
 import io.tmgg.web.persistence.BaseService;
-import io.tmgg.web.persistence.specification.JpaQuery;
+import io.tmgg.data.query.JpaQuery;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.SchedulerException;
 import org.springframework.stereotype.Service;

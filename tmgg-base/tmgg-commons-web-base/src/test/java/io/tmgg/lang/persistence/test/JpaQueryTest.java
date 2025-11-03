@@ -3,7 +3,7 @@ package io.tmgg.lang.persistence.test;
 import cn.hutool.core.collection.ListUtil;
 import cn.hutool.core.util.StrUtil;
 import io.tmgg.TestBootApplication;
-import io.tmgg.web.persistence.specification.JpaQuery;
+import io.tmgg.data.query.JpaQuery;
 import io.tmgg.mgmt.Author;
 import io.tmgg.mgmt.AuthorDao;
 import io.tmgg.mgmt.BookDao;

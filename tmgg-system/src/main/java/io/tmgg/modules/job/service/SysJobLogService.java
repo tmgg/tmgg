@@ -4,12 +4,10 @@ import io.tmgg.modules.job.dao.SysJobLogDao;
 import io.tmgg.modules.job.entity.SysJob;
 import io.tmgg.modules.job.entity.SysJobLog;
 import io.tmgg.web.persistence.BaseService;
-import io.tmgg.web.persistence.specification.JpaQuery;
+import io.tmgg.data.query.JpaQuery;
 import jakarta.annotation.Resource;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
-import java.util.*;
 
 @Service
 public class SysJobLogService extends BaseService<SysJobLog> {

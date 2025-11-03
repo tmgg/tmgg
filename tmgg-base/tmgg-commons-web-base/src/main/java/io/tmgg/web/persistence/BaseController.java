@@ -4,7 +4,7 @@ import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.web.WebConstants;
 import io.tmgg.web.annotion.HasPermission;
 import io.tmgg.web.argument.RequestBodyKeys;
-import io.tmgg.web.persistence.specification.JpaQuery;
+import io.tmgg.data.query.JpaQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

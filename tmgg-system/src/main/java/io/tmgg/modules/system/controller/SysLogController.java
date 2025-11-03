@@ -1,7 +1,7 @@
 
 package io.tmgg.modules.system.controller;
 
-import io.tmgg.web.persistence.specification.JpaQuery;
+import io.tmgg.data.query.JpaQuery;
 import io.tmgg.lang.obj.AjaxResult;
 import io.tmgg.modules.system.entity.SysLog;
 import io.tmgg.modules.system.service.SysLogService;

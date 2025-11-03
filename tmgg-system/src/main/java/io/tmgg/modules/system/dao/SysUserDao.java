@@ -6,13 +6,12 @@ import cn.hutool.cache.CacheUtil;
 import io.tmgg.dbtool.DbTool;
 import io.tmgg.modules.system.entity.SysRole;
 import io.tmgg.modules.system.entity.SysUser;
-import io.tmgg.web.persistence.BaseDao;
-import io.tmgg.web.persistence.specification.JpaQuery;
+import io.tmgg.data.repository.BaseDao;
+import io.tmgg.data.query.JpaQuery;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Map;
 
 
 @Repository

@@ -4,7 +4,7 @@ import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.DateUtil;
 import io.tmgg.dbtool.DbTool;
 import io.tmgg.modules.monitor.entity.SysMetricRecord;
-import io.tmgg.web.persistence.BaseDao;
+import io.tmgg.data.repository.BaseDao;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

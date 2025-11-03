@@ -1,8 +1,8 @@
 package io.tmgg.modules.system.dao;
 
 import io.tmgg.modules.system.entity.SysManual;
-import io.tmgg.web.persistence.BaseDao;
-import io.tmgg.web.persistence.specification.JpaQuery;
+import io.tmgg.data.repository.BaseDao;
+import io.tmgg.data.query.JpaQuery;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 

@@ -1,4 +1,4 @@
-package io.tmgg.web.persistence.specification;
+package io.tmgg.data.query;
 
 import jakarta.persistence.criteria.*;
 import jakarta.persistence.metamodel.Attribute;

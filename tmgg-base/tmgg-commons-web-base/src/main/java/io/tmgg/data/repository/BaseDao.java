@@ -1,9 +1,11 @@
-package io.tmgg.web.persistence;
+package io.tmgg.data.repository;
 
 import cn.hutool.core.bean.BeanUtil;
-import io.tmgg.web.persistence.specification.ExpressionTool;
-import io.tmgg.web.persistence.specification.JpaQuery;
-import io.tmgg.web.persistence.specification.Selector;
+import io.tmgg.web.persistence.PersistEntity;
+import io.tmgg.web.persistence.StatField;
+import io.tmgg.data.query.ExpressionTool;
+import io.tmgg.data.query.JpaQuery;
+import io.tmgg.data.query.Selector;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.Resource;
 import jakarta.persistence.EntityManager;

@@ -10,7 +10,7 @@ import io.tmgg.lang.PasswordTool;
 import io.tmgg.web.persistence.BaseEntity;
 import io.tmgg.web.persistence.BaseService;
 import io.tmgg.web.persistence.exports.UserLabelQuery;
-import io.tmgg.web.persistence.specification.JpaQuery;
+import io.tmgg.data.query.JpaQuery;
 import io.tmgg.modules.system.dao.SysOrgDao;
 import io.tmgg.modules.system.dao.SysRoleDao;
 import io.tmgg.modules.system.dao.SysUserDao;
