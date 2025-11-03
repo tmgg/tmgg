@@ -23,7 +23,6 @@ const deleteTitle = '删除' + baseTitle
 const delApi = baseApi + 'delete'
 const pageApi = baseApi + 'page'
 
-const addPerm = basePerm + 'add'
 const delPerm = basePerm + 'delete'
 
 
@@ -199,7 +198,7 @@ export default class extends React.Component {
                         toolBarRender={(params, {selectedRows,selectedRowKeys}) => {
                             return <ButtonList>
                                 <Button
-                                    perm={addPerm}
+                                    perm='sysUser:save'
                                     type="primary"
                                     onClick={this.handleAdd}>
                                     <PlusOutlined/> 新增

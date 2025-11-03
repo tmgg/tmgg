@@ -2,6 +2,7 @@ package io.tmgg.init;
 
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.IdUtil;
+import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.VersionUtil;
 import cn.hutool.crypto.SecureUtil;
 import cn.hutool.crypto.asymmetric.RSA;
@@ -138,7 +139,7 @@ public class GlobalSystemDataInit implements CommandLineRunner {
             sysConfigDao.addDefault("RSA私钥", Configs.RSA_PRIVATE_KEY, rsa.getPrivateKeyBase64(), "password");
         }
 
-        sysConfigDao.addDefault("默认密码", "sys.default.password", IdUtil.fastSimpleUUID(), "password");
+        sysConfigDao.addDefault("默认密码", "sys.default.password", RandomUtil.randomString(12), "password");
 
 
         sysConfigDao.cleanCache();
