@@ -67,7 +67,10 @@ public abstract class BaseEntity implements PersistEntity, Serializable {
     @Column(length = DBConstants.LEN_ID)
     private String updateUser;
 
-
+    /// ===== 乐观锁字段 =====
+    @org.springframework.data.annotation.Version
+    @Column(columnDefinition = "bigint default 0") // 建议：仅用于提示数据库建表时设置默认值
+    private Integer lockVersion;
 
 
 
@@ -100,18 +103,18 @@ public abstract class BaseEntity implements PersistEntity, Serializable {
     @PrePersist
     public void prePersist() {
         this.prePersistOrUpdate();
-        Date now = new Date();
+        // 有些异步保存的数据，时间上有些许差异。 可提前设置createTime，防止差异发生
+        Date now = this.createTime == null ? new Date() : this.createTime;
 
-        if (this.createTime == null) { // 有些异步保存的数据，时间上有些许差异。 可提前设置createTime，防止差异发生
-            this.createTime = now;
-        }
+        this.createTime = now;
         this.updateTime = now;
 
-        if (SecurityUtils.getSubject()!= null) {
-            if (this.createUser == null) {
-                String userId = SecurityUtils.getSubject().getId();
-                this.updateUser = this.createUser = userId;
-            }
+        if (this.createUser == null && SecurityUtils.getSubject() != null) {
+            String userId = SecurityUtils.getSubject().getId();
+            this.updateUser = this.createUser = userId;
+        }
+        if(this.lockVersion == null){
+            this.lockVersion = 0;
         }
 
     }
@@ -124,10 +127,8 @@ public abstract class BaseEntity implements PersistEntity, Serializable {
     public void preUpdate() {
         this.prePersistOrUpdate();
         this.updateTime = new Date();
-        if (SecurityUtils.getSubject()!= null) {
-            if (this.updateUser == null) {
-                this.updateUser = SecurityUtils.getSubject().getId();
-            }
+        if (this.updateUser == null && SecurityUtils.getSubject() != null) {
+            this.updateUser = SecurityUtils.getSubject().getId();
         }
     }
 
