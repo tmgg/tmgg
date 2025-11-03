@@ -27,7 +27,6 @@ public interface PersistEntity {
 
 
     // 动态生成的自定义Id
-    @Transient
     @JsonIgnore
     String customGenerateId(CustomGenerateIdProperties properties);
 }

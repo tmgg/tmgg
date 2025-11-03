@@ -22,19 +22,11 @@ import java.util.*;
 @Remark("系统用户")
 public class SysUser extends BaseEntity {
 
-
-    public static SysUser of(String id) {
-        SysUser t = new SysUser();
-        t.setId(id);
-        return t;
-    }
-
     public SysUser() {
     }
 
     public SysUser(String id) {
         this.setId(id);
-
     }
 
 
@@ -44,19 +36,14 @@ public class SysUser extends BaseEntity {
     @Remark("所属机构")
     private String unitId;
 
-    @Excel(name = "单位")
-    @Transient
-    private String unitLabel;
+
 
     @Remark("所属部门")
     private String deptId;
 
-    @Excel(name = "部门")
-    @Transient
-    private String deptLabel;
 
 
-    @Excel(name = "账号")
+
     @Remark("账号")
     @NotNull(message = "账号不能为空")
     @Column(unique = true)
@@ -69,18 +56,15 @@ public class SysUser extends BaseEntity {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
-    @Excel(name = "姓名")
     @Remark("姓名")
     @Column(length = 50)
     private String name;
 
 
-    @Excel(name = "电话")
     @Remark("电话")
     @Column(length = 11)
     private String phone;
 
-    @Excel(name = "邮箱")
     @Remark("邮箱")
     @Column(length = 30)
     private String email;
@@ -106,12 +90,8 @@ public class SysUser extends BaseEntity {
     Set<SysRole> roles = new HashSet<>();
 
 
-    @Excel(name = "角色")
-    @Transient
-    List<String> roleNames;
 
-    @Transient
-    List<String> roleIds;
+
 
     // 数据权限类型
     @Enumerated(EnumType.STRING)

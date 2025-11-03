@@ -99,7 +99,6 @@ public class AjaxResult {
      * 例如状态字段 status, 转成json希望动态增加字段 statusLabel
      */
     @Setter(AccessLevel.NONE) // lombok不生成setter
-    @Transient
     @JsonAnySetter
     private Map<String, Object> extData = new HashMap<>();
 
