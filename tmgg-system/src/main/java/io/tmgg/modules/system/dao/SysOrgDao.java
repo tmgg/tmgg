@@ -38,11 +38,8 @@ public class SysOrgDao extends BaseDao<SysOrg> {
      *
      */
     public TreeManager<SysOrg> getTreeManager() {
-        if (_treeManager == null) {
-            List<SysOrg> list = findAll();
-            _treeManager = new TreeManager<>(list, BaseEntity::getId, SysOrg::getPid, SysOrg::getChildren, SysOrg::setChildren);
-        }
-        return _treeManager;
+        List<SysOrg> list = findAll();
+        return TreeManager.of(list);
     }
 
     /**

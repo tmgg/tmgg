@@ -42,7 +42,7 @@ public class TreeOption implements TreeNode<TreeOption> {
      */
     @Override
     public String getId() {
-        return (String) key;
+        return key;
     }
 
 
@@ -53,7 +53,18 @@ public class TreeOption implements TreeNode<TreeOption> {
      */
     @Override
     public String getPid() {
-        return (String) parentKey;
+        return parentKey;
+    }
+
+
+    @Override
+    public void setId(String id) {
+        this.setKey(id);
+    }
+
+    @Override
+    public void setPid(String pid) {
+        this.setParentKey(pid);
     }
 
     public TreeOption() {

@@ -21,7 +21,7 @@ public class TreeManager<T extends TreeNode<T>> {
     private Map<String, T> map;
 
 
-    public TreeManager(List<T> list) {
+    private TreeManager(List<T> list) {
         this.list = list;
         buildMap();
         buildTree();

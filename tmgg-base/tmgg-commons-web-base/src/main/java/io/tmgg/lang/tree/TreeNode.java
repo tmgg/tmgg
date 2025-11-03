@@ -10,7 +10,7 @@ public interface TreeNode<T> {
 
     String getPid();
 
-    void setPid(String id);
+    void setPid(String pid);
 
     List<T> getChildren();
 

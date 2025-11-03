@@ -1,13 +1,13 @@
 
 package io.tmgg.modules.system.controller;
 
-import cn.hutool.core.lang.Dict;
 import cn.hutool.core.util.StrUtil;
 import io.tmgg.framework.session.SysHttpSession;
 import io.tmgg.lang.tree.DictTreeNode;
 import io.tmgg.lang.tree.TreeManager;
 import io.tmgg.lang.obj.AjaxResult;
-import io.tmgg.lang.obj.DropEvent;
+import io.tmgg.lang.tree.drag.DragDropEvent;
+import io.tmgg.lang.tree.drag.TreeDragTool;
 import io.tmgg.modules.system.entity.OrgType;
 import io.tmgg.modules.system.entity.SysOrg;
 import io.tmgg.modules.system.service.SysOrgService;
@@ -123,8 +123,14 @@ public class SysOrgController {
 
     @PostMapping("sort")
     @HasPermission(label = "排序")
-    public AjaxResult sort(@RequestBody DropEvent e) {
-        sysOrgService.onDrop(e);
+    public AjaxResult sort(@RequestBody DragDropEvent e) {
+        List<SysOrg> nodes = sysOrgService.findAll();
+        List<SysOrg> list = TreeDragTool.onDrop(e, nodes);
+        for (int i = 0; i < list.size(); i++) {
+            SysOrg sysOrg = list.get(i);
+            sysOrg.setSeq(i);
+        }
+
         return AjaxResult.ok().msg("排序成功");
     }
 

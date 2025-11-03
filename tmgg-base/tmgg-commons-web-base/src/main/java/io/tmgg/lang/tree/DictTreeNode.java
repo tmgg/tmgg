@@ -29,4 +29,15 @@ public class DictTreeNode extends Dict implements TreeNode<DictTreeNode> {
     public void setIsLeaf(Boolean b) {
         this.set("isLeaf",b);
     }
+
+
+    @Override
+    public void setId(String id) {
+        this.put("id",id);
+    }
+
+    @Override
+    public void setPid(String pid) {
+        this.put("pid",pid);
+    }
 }

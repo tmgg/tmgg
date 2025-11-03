@@ -108,7 +108,7 @@ public class SysMenuService extends BaseService<SysMenu> {
     public List<String> findPidList(List<String> menuIds) {
         List<SysMenu> list = sysMenuDao.findAll();
 
-        TreeManager<SysMenu> tm = new TreeManager<>(list, BaseEntity::getId, SysMenu::getPid, SysMenu::getChildren, SysMenu::setChildren);
+        TreeManager<SysMenu> tm = TreeManager.of(list);
 
         Set<String> ids = new HashSet<>();
         for (String menuId : menuIds) {
