@@ -4,7 +4,7 @@ import cn.hutool.core.lang.Dict;
 
 import java.util.List;
 
-public class DictTreeNode extends Dict implements TreeNode<DictTreeNode> {
+public class TreeNodeDict extends Dict implements TreeNode<TreeNodeDict> {
     @Override
     public String getId() {
         return this.getStr("id");
@@ -16,12 +16,12 @@ public class DictTreeNode extends Dict implements TreeNode<DictTreeNode> {
     }
 
     @Override
-    public List<DictTreeNode> getChildren() {
-        return (List<DictTreeNode>) this.get("children");
+    public List<TreeNodeDict> getChildren() {
+        return (List<TreeNodeDict>) this.get("children");
     }
 
     @Override
-    public void setChildren(List<DictTreeNode> list) {
+    public void setChildren(List<TreeNodeDict> list) {
         this.set("children", list);
     }
 

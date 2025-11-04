@@ -3,7 +3,7 @@ package io.tmgg.modules.system.controller;
 
 import cn.hutool.core.util.StrUtil;
 import io.tmgg.framework.session.SysHttpSession;
-import io.tmgg.lang.tree.DictTreeNode;
+import io.tmgg.lang.tree.TreeNodeDict;
 import io.tmgg.lang.tree.TreeManager;
 import io.tmgg.dto.AjaxResult;
 import io.tmgg.lang.tree.drag.DragDropEvent;
@@ -165,15 +165,15 @@ public class SysOrgController {
     }
 
 
-    public List<DictTreeNode> list2Tree(List<SysOrg> list){
-        List<DictTreeNode> treeList = list.stream().map(o -> {
+    public List<TreeNodeDict> list2Tree(List<SysOrg> list){
+        List<TreeNodeDict> treeList = list.stream().map(o -> {
             String title = o.getName();
             if (!o.getEnabled()) {
                 title = title + " [禁用]";
             }
             String pid = o.getPid();
 
-            DictTreeNode d = new DictTreeNode();
+            TreeNodeDict d = new TreeNodeDict();
             d.set("title", title);
             d.set("key", o.getId());
             d.set("parentKey", pid);
@@ -190,7 +190,7 @@ public class SysOrgController {
             return d;
         }).collect(Collectors.toList());
 
-        TreeManager<DictTreeNode> tm = TreeManager.of(treeList);
+        TreeManager<TreeNodeDict> tm = TreeManager.of(treeList);
 
         return tm.getTree();
     }

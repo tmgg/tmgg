@@ -3,7 +3,7 @@ package io.tmgg.modules.system.controller;
 import cn.hutool.core.lang.Dict;
 import cn.hutool.core.util.StrUtil;
 import io.tmgg.framework.session.SysHttpSessionService;
-import io.tmgg.lang.tree.DictTreeNode;
+import io.tmgg.lang.tree.TreeNodeDict;
 import io.tmgg.lang.tree.TreeManager;
 import io.tmgg.dto.AjaxResult;
 import io.tmgg.dto.Option;
@@ -98,9 +98,9 @@ public class SysRoleController extends BaseController<SysRole> {
         List<SysMenu> menus = sysMenuService.findAllValid();
 
 
-        List<DictTreeNode> treeList = new ArrayList<>();
+        List<TreeNodeDict> treeList = new ArrayList<>();
         for (SysMenu o : menus) {
-            DictTreeNode d = new DictTreeNode();
+            TreeNodeDict d = new TreeNodeDict();
             d.set("title", o.getName() );
             d.set("key", o.getId());
             d.set("parentKey", o.getPid());
@@ -111,7 +111,7 @@ public class SysRoleController extends BaseController<SysRole> {
 
             treeList.add(d);
         }
-        TreeManager<DictTreeNode> tm = TreeManager.of(treeList);
+        TreeManager<TreeNodeDict> tm = TreeManager.of(treeList);
 
         return AjaxResult.ok().data(tm.getTree());
     }
