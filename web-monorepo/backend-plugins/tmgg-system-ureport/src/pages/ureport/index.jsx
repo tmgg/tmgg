@@ -2,10 +2,6 @@ import React from 'react'
 import {Button, Descriptions, Space} from "antd";
 import {ButtonList, HttpUtil} from "@tmgg/tmgg-base";
 import {ProTable} from "@tmgg/tmgg-base";
-
-const Item = Descriptions.Item
-
-
 export default class extends React.Component {
 
     state = {
@@ -21,7 +17,7 @@ export default class extends React.Component {
                                              target='_blank'
                                              href={"/ureport/designer"}>打开设计器</Button>}
 
-                request={(params, sort, filter) => HttpUtil.pageData('ureport/page', params, sort)}
+                request={(params) => HttpUtil.pageData('ureport/page', params)}
                 columns={[
                     {title: "存储器", dataIndex: 'providerName'},
                     {title: "存储器前缀", dataIndex: 'providerPrefix'},
