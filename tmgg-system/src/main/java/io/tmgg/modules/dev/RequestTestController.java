@@ -3,7 +3,7 @@ package io.tmgg.modules.dev;
 import cn.hutool.extra.servlet.JakartaServletUtil;
 import io.tmgg.jackson.JsonTool;
 import io.tmgg.lang.RequestTool;
-import io.tmgg.lang.obj.AjaxResult;
+import io.tmgg.dto.AjaxResult;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

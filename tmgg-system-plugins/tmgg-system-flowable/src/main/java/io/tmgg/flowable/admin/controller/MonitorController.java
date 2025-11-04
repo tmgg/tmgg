@@ -3,7 +3,7 @@ package io.tmgg.flowable.admin.controller;
 
 import io.tmgg.flowable.FlowableLoginUserProvider;
 import io.tmgg.lang.BeanTool;
-import io.tmgg.lang.obj.AjaxResult;
+import io.tmgg.dto.AjaxResult;
 import jakarta.annotation.Resource;
 import org.flowable.common.engine.api.query.Query;
 import org.flowable.engine.RepositoryService;

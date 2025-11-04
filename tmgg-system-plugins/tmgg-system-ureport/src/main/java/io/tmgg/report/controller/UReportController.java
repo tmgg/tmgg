@@ -5,13 +5,9 @@ import cn.hutool.core.lang.Dict;
 import com.bstek.ureport.provider.report.ReportFile;
 import com.bstek.ureport.provider.report.ReportProvider;
 import io.tmgg.lang.SpringTool;
-import io.tmgg.lang.obj.AjaxResult;
+import io.tmgg.dto.AjaxResult;
 import io.tmgg.web.annotion.HasPermission;
-import lombok.AllArgsConstructor;
-import lombok.Data;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 

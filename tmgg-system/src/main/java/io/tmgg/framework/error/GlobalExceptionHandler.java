@@ -2,11 +2,9 @@
 package io.tmgg.framework.error;
 
 import cn.hutool.core.util.StrUtil;
-import io.tmgg.jackson.JsonTool;
 import io.tmgg.lang.ExceptionToMessageTool;
 import io.tmgg.lang.HttpServletTool;
-import io.tmgg.lang.RequestTool;
-import io.tmgg.lang.obj.AjaxResult;
+import io.tmgg.dto.AjaxResult;
 import io.tmgg.modules.system.service.SysConfigService;
 import io.tmgg.web.CodeException;
 import io.tmgg.web.consts.AopSortConstant;

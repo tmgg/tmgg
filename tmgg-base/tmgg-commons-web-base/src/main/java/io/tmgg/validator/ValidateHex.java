@@ -1,4 +1,4 @@
-package io.tmgg.lang.validator;
+package io.tmgg.validator;
 
 import cn.hutool.core.lang.Validator;
 
@@ -12,26 +12,26 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 驾驶证
+ * 16进制字符串
  */
 @Target({ElementType.FIELD,ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = ValidateCarDrivingLicence.MyValidator.class)
-public @interface ValidateCarDrivingLicence {
+@Constraint(validatedBy = ValidateHex.MyValidator.class)
+public @interface ValidateHex {
 
-    String message() default "驾驶证错误";
+    String message() default "必须是16进制字符串";
 
     Class<?>[] groups() default {};
 
     Class<? extends Payload>[] payload() default {};
 
-   class MyValidator implements ConstraintValidator<ValidateCarDrivingLicence, String> {
+   class MyValidator implements ConstraintValidator<ValidateHex, String> {
 
 
         @Override
         public boolean isValid(String str, ConstraintValidatorContext constraintValidatorContext) {
             if (str != null && !str.isEmpty()) {
-                return Validator.isCarDrivingLicence(str);
+                return Validator.isHex(str);
             }
             return true;
         }

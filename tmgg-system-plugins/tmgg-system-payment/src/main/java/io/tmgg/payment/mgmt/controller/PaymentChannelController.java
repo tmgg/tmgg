@@ -1,7 +1,7 @@
 package io.tmgg.payment.mgmt.controller;
 
-import io.tmgg.lang.obj.AjaxResult;
-import io.tmgg.lang.obj.Option;
+import io.tmgg.dto.AjaxResult;
+import io.tmgg.dto.Option;
 import io.tmgg.payment.IPaymentMethodService;
 import io.tmgg.payment.PaymentService;
 import io.tmgg.payment.mgmt.entity.PaymentChannel;

@@ -2,7 +2,7 @@ package io.tmgg.framework.interceptor;
 
 import io.tmgg.jackson.JsonTool;
 import io.tmgg.lang.ann.PublicRequest;
-import io.tmgg.lang.obj.AjaxResult;
+import io.tmgg.dto.AjaxResult;
 import io.tmgg.modules.system.service.JwtService;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;

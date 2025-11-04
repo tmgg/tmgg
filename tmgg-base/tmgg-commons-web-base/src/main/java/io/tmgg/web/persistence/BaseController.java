@@ -2,7 +2,7 @@ package io.tmgg.web.persistence;
 
 import io.tmgg.data.domain.PersistEntity;
 import io.tmgg.data.service.BaseService;
-import io.tmgg.lang.obj.AjaxResult;
+import io.tmgg.dto.AjaxResult;
 import io.tmgg.web.WebConstants;
 import io.tmgg.web.annotion.HasPermission;
 import io.tmgg.web.argument.RequestBodyKeys;

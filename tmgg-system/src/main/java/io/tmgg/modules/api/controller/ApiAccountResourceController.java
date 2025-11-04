@@ -2,7 +2,7 @@ package io.tmgg.modules.api.controller;
 
 import io.tmgg.web.argument.RequestBodyKeys;
 import io.tmgg.data.query.JpaQuery;
-import io.tmgg.lang.obj.AjaxResult;
+import io.tmgg.dto.AjaxResult;
 import io.tmgg.modules.api.entity.ApiAccountResource;
 import io.tmgg.modules.api.service.ApiAccountResourceService;
 

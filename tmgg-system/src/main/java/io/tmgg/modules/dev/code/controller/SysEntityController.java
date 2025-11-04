@@ -3,7 +3,7 @@ package io.tmgg.modules.dev.code.controller;
 import cn.hutool.core.lang.Dict;
 import cn.hutool.core.util.StrUtil;
 import io.tmgg.lang.ann.RemarkTool;
-import io.tmgg.lang.obj.AjaxResult;
+import io.tmgg.dto.AjaxResult;
 import io.tmgg.modules.system.service.JpaService;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;

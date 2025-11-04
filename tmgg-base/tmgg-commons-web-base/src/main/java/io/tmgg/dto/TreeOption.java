@@ -1,4 +1,4 @@
-package io.tmgg.lang.obj;
+package io.tmgg.dto;
 
 import io.tmgg.lang.tree.TreeNode;
 import io.tmgg.lang.tree.TreeManager;

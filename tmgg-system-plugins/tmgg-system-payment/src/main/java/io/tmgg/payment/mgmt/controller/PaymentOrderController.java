@@ -1,6 +1,6 @@
 package io.tmgg.payment.mgmt.controller;
 
-import io.tmgg.lang.obj.AjaxResult;
+import io.tmgg.dto.AjaxResult;
 import io.tmgg.payment.mgmt.entity.PaymentOrder;
 import io.tmgg.payment.mgmt.service.PaymentOrderService;
 import io.tmgg.web.persistence.BaseController;

@@ -1,6 +1,6 @@
-package io.tmgg.lang.validator;
+package io.tmgg.validator;
 
-import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.util.IdcardUtil;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.ConstraintValidator;
@@ -12,31 +12,26 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 日期 yyyy-MM-dd
+ * 身份证
  */
 @Target({ElementType.FIELD,ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = ValidateDate.MyValidator.class)
-public @interface ValidateDate {
+@Constraint(validatedBy = ValidateIdNum.IdNumValidator.class)
+public @interface ValidateIdNum {
 
-    String message() default "日期格式错误，正确格式如：2022-03-15";
+    String message() default "身份证号码错误";
 
     Class<?>[] groups() default {};
 
     Class<? extends Payload>[] payload() default {};
 
-   class MyValidator implements ConstraintValidator<ValidateDate, String> {
+   class IdNumValidator implements ConstraintValidator<ValidateIdNum, String> {
 
 
         @Override
         public boolean isValid(String str, ConstraintValidatorContext constraintValidatorContext) {
             if (str != null && !str.isEmpty()) {
-                try {
-                    DateUtil.parse(str,"yyyy-MM-dd");
-                }catch (Exception e){
-                    return false;
-                }
-
+                return IdcardUtil.isValidCard(str);
             }
             return true;
         }

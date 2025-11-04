@@ -2,7 +2,7 @@
 package io.tmgg.modules.system.controller;
 
 import io.tmgg.lang.enums.MaterialType;
-import io.tmgg.lang.obj.AjaxResult;
+import io.tmgg.dto.AjaxResult;
 import io.tmgg.modules.system.entity.SysFile;
 import io.tmgg.modules.system.service.SysFileService;
 import io.tmgg.web.annotion.HasPermission;

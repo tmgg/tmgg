@@ -2,7 +2,7 @@ package io.tmgg.flowable.admin.controller;
 
 
 import io.tmgg.flowable.FlowableManager;
-import io.tmgg.lang.obj.AjaxResult;
+import io.tmgg.dto.AjaxResult;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

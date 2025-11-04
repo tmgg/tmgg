@@ -1,7 +1,7 @@
 package io.tmgg.modules.system.controller;
 
 
-import io.tmgg.lang.obj.AjaxResult;
+import io.tmgg.dto.AjaxResult;
 import io.tmgg.modules.system.entity.SysUserMessage;
 import io.tmgg.modules.system.service.SysUserMessageService;
 import io.tmgg.web.perm.SecurityUtils;

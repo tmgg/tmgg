@@ -5,7 +5,7 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.Dict;
 import io.tmgg.lang.AmtTool;
 import io.tmgg.lang.ExceptionToMessageTool;
-import io.tmgg.lang.obj.AjaxResult;
+import io.tmgg.dto.AjaxResult;
 import io.tmgg.payment.mgmt.entity.PaymentChannel;
 import io.tmgg.payment.mgmt.entity.PaymentOrder;
 import io.tmgg.payment.mgmt.entity.PaymentRefundOrder;

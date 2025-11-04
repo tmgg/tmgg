@@ -5,7 +5,7 @@ import io.tmgg.modules.job.entity.SysJobLog;
 import io.tmgg.modules.job.service.SysJobLogService;
 import io.tmgg.modules.job.service.SysJobService;
 import io.tmgg.data.query.JpaQuery;
-import io.tmgg.lang.obj.AjaxResult;
+import io.tmgg.dto.AjaxResult;
 import io.tmgg.web.annotion.HasPermission;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;

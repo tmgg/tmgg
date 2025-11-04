@@ -1,24 +1,17 @@
 package io.tmgg.modules.system.controller;
 
 import io.tmgg.framework.session.SysHttpSessionService;
-import io.tmgg.lang.obj.AjaxResult;
+import io.tmgg.dto.AjaxResult;
 import io.tmgg.modules.system.dto.request.UpdatePwdRequest;
 import io.tmgg.modules.system.dto.response.UserResponse;
-import io.tmgg.modules.system.entity.SysRole;
-import io.tmgg.modules.system.entity.SysUser;
 import io.tmgg.modules.system.service.SysUserService;
-import io.tmgg.web.annotion.HasPermission;
 import io.tmgg.web.perm.SecurityUtils;
 import io.tmgg.web.perm.Subject;
 import jakarta.annotation.Resource;
-import lombok.Data;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("userCenter")

@@ -7,7 +7,7 @@ import cn.hutool.core.util.StrUtil;
 import io.tmgg.config.SysProp;
 import io.tmgg.lang.tree.TreeManager;
 import io.tmgg.lang.ann.PublicRequest;
-import io.tmgg.lang.obj.AjaxResult;
+import io.tmgg.dto.AjaxResult;
 import io.tmgg.modules.system.dto.mapper.MenuMapper;
 import io.tmgg.modules.system.dto.response.MenuResponse;
 import io.tmgg.modules.system.dto.response.UserResponse;

@@ -1,7 +1,7 @@
 package io.tmgg.modules.api.entity;
 
 import io.tmgg.lang.ann.Remark;
-import io.tmgg.lang.validator.ValidateIpv4;
+import io.tmgg.validator.ValidateIpv4;
 import io.tmgg.data.domain.BaseEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;

@@ -16,7 +16,7 @@ import io.tmgg.flowable.admin.service.SysFlowableModelService;
 import io.tmgg.lang.BeanTool;
 import io.tmgg.lang.DateFormatTool;
 import io.tmgg.lang.ImgTool;
-import io.tmgg.lang.obj.AjaxResult;
+import io.tmgg.dto.AjaxResult;
 import jakarta.annotation.Resource;
 import org.flowable.engine.HistoryService;
 import org.flowable.engine.TaskService;

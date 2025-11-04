@@ -1,4 +1,7 @@
-package io.tmgg.lang.validator;
+package io.tmgg.validator;
+
+import cn.hutool.core.lang.Validator;
+import cn.hutool.core.text.PasswdStrength;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.ConstraintValidator;
@@ -10,37 +13,36 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 不包含汉字
+ * 密码
  */
 @Target({ElementType.FIELD,ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = ValidateNotContainsChinese.MyChineseValidator.class)
-public @interface ValidateNotContainsChinese {
+@Constraint(validatedBy = ValidatePassword.MyValidator.class)
+public @interface ValidatePassword {
 
-    String message() default "不能包含中文字符";
+    String message() default "密码太弱";
 
     Class<?>[] groups() default {};
 
     Class<? extends Payload>[] payload() default {};
 
-    class MyChineseValidator implements ConstraintValidator<ValidateNotContainsChinese, String> {
+   class MyValidator implements ConstraintValidator<ValidatePassword, String> {
 
 
         @Override
         public boolean isValid(String str, ConstraintValidatorContext constraintValidatorContext) {
             if (str != null && !str.isEmpty()) {
-                for (char c : str.toCharArray()) {
-                    if (isHan(c)) {
+                PasswdStrength.PASSWD_LEVEL level = PasswdStrength.getLevel(str);
+                switch (level) {
+                    case EASY:
                         return false;
-                    }
+
                 }
+                return Validator.isCarDrivingLicence(str);
             }
             return true;
         }
 
-        private boolean isHan(char c) {
-            Character.UnicodeScript sc = Character.UnicodeScript.of(c);
-            return sc == Character.UnicodeScript.HAN;
-        }
+
     }
 }

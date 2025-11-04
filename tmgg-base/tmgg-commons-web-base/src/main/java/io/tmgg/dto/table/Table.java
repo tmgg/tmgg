@@ -1,4 +1,4 @@
-package io.tmgg.lang.obj.table;
+package io.tmgg.dto.table;
 
 
 import cn.hutool.core.bean.BeanUtil;
@@ -6,7 +6,7 @@ import cn.hutool.core.date.DateUtil;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.tmgg.commons.poi.excel.annotation.Excel;
 import io.tmgg.lang.ann.Remark;
-import io.tmgg.lang.dto.Matrix;
+import io.tmgg.dto.Matrix;
 import jakarta.persistence.Lob;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;

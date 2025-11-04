@@ -1,4 +1,4 @@
-package io.tmgg.lang.validator;
+package io.tmgg.validator;
 
 import cn.hutool.core.lang.Validator;
 
@@ -12,26 +12,26 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 英文字母 、数字和下划线
+ * 手机号码
  */
 @Target({ElementType.FIELD,ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = ValidateGeneral.MyValidator.class)
-public @interface ValidateGeneral {
+@Constraint(validatedBy = ValidateMobile.MyValidator.class)
+public @interface ValidateMobile {
 
-    String message() default "只能是英文字母 、数字和下划线";
+    String message() default "手机号码错误";
 
     Class<?>[] groups() default {};
 
     Class<? extends Payload>[] payload() default {};
 
-   class MyValidator implements ConstraintValidator<ValidateGeneral, String> {
+   class MyValidator implements ConstraintValidator<ValidateMobile, String> {
 
 
         @Override
         public boolean isValid(String str, ConstraintValidatorContext constraintValidatorContext) {
             if (str != null && !str.isEmpty()) {
-                return Validator.isGeneral(str);
+                return Validator.isMobile(str);
             }
             return true;
         }

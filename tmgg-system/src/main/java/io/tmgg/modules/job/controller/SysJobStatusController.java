@@ -2,8 +2,7 @@ package io.tmgg.modules.job.controller;
 
 import cn.hutool.core.date.DateUtil;
 import io.tmgg.dbtool.DbTool;
-import io.tmgg.lang.obj.AjaxResult;
-import io.tmgg.modules.job.service.SysJobLogService;
+import io.tmgg.dto.AjaxResult;
 import io.tmgg.web.annotion.HasPermission;
 import jakarta.annotation.Resource;
 import org.quartz.JobDetail;

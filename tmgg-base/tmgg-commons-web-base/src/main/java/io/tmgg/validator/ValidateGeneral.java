@@ -1,4 +1,4 @@
-package io.tmgg.lang.validator;
+package io.tmgg.validator;
 
 import cn.hutool.core.lang.Validator;
 
@@ -12,26 +12,26 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 中国车牌号
+ * 英文字母 、数字和下划线
  */
 @Target({ElementType.FIELD,ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = ValidatePlateNumber.MyValidator.class)
-public @interface ValidatePlateNumber {
+@Constraint(validatedBy = ValidateGeneral.MyValidator.class)
+public @interface ValidateGeneral {
 
-    String message() default "车牌号错误";
+    String message() default "只能是英文字母 、数字和下划线";
 
     Class<?>[] groups() default {};
 
     Class<? extends Payload>[] payload() default {};
 
-   class MyValidator implements ConstraintValidator<ValidatePlateNumber, String> {
+   class MyValidator implements ConstraintValidator<ValidateGeneral, String> {
 
 
         @Override
         public boolean isValid(String str, ConstraintValidatorContext constraintValidatorContext) {
             if (str != null && !str.isEmpty()) {
-                return Validator.isPlateNumber(str);
+                return Validator.isGeneral(str);
             }
             return true;
         }

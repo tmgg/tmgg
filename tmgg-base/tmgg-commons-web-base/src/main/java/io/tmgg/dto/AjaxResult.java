@@ -1,21 +1,14 @@
 
-package io.tmgg.lang.obj;
+package io.tmgg.dto;
 
-import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.map.MapUtil;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.tmgg.jackson.JsonTool;
-import jakarta.persistence.Transient;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
-import org.apache.commons.beanutils.BeanUtils;
-import org.springframework.util.Assert;
 
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**

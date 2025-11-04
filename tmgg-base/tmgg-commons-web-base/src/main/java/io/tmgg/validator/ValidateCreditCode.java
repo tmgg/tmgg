@@ -1,4 +1,6 @@
-package io.tmgg.lang.validator;
+package io.tmgg.validator;
+
+import cn.hutool.core.lang.Validator;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.ConstraintValidator;
@@ -10,38 +12,30 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 包含中文字符
+ * 统一社会信用代码
  */
 @Target({ElementType.FIELD,ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = ValidateContainsChinese.MyChineseValidator.class)
-public @interface ValidateContainsChinese {
+@Constraint(validatedBy = ValidateCreditCode.MyValidator.class)
+public @interface ValidateCreditCode {
 
-    String message() default "必须包含中文字符";
+    String message() default "统一社会信用代码错误";
 
     Class<?>[] groups() default {};
 
     Class<? extends Payload>[] payload() default {};
 
-    class MyChineseValidator implements ConstraintValidator<ValidateContainsChinese, String> {
+   class MyValidator implements ConstraintValidator<ValidateCreditCode, String> {
 
 
         @Override
         public boolean isValid(String str, ConstraintValidatorContext constraintValidatorContext) {
             if (str != null && !str.isEmpty()) {
-                for (char c : str.toCharArray()) {
-                    if (isHan(c)) {
-                        return true;
-                    }
-                }
-                return false;
+                return Validator.isCreditCode(str);
             }
             return true;
         }
 
-        private boolean isHan(char c) {
-            Character.UnicodeScript sc = Character.UnicodeScript.of(c);
-            return sc == Character.UnicodeScript.HAN;
-        }
+
     }
 }

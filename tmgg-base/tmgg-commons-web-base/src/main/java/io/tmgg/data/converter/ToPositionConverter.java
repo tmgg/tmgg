@@ -1,7 +1,7 @@
 package io.tmgg.data.converter;
 
 import io.tmgg.jackson.JsonTool;
-import io.tmgg.lang.obj.Position;
+import io.tmgg.dto.Position;
 
 import java.io.IOException;
 

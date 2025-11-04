@@ -2,7 +2,7 @@ package io.tmgg.data.converter;
 
 
 import io.tmgg.jackson.JsonTool;
-import io.tmgg.lang.dto.Entry;
+import io.tmgg.dto.Entry;
 import jakarta.persistence.AttributeConverter;
 
 import java.io.Serializable;

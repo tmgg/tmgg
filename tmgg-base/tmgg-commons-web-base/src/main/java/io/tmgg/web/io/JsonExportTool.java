@@ -3,7 +3,7 @@ package io.tmgg.web.io;
 import cn.hutool.core.io.FileUtil;
 import io.tmgg.jackson.JsonTool;
 import io.tmgg.lang.ResponseTool;
-import io.tmgg.lang.obj.table.Table;
+import io.tmgg.dto.table.Table;
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletResponse;
 

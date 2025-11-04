@@ -1,7 +1,6 @@
-package io.tmgg.lang.validator;
+package io.tmgg.validator;
 
 import cn.hutool.core.lang.Validator;
-import cn.hutool.core.text.PasswdStrength;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.ConstraintValidator;
@@ -13,32 +12,26 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 密码
+ * 邮政编码（中国）
  */
 @Target({ElementType.FIELD,ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = ValidatePassword.MyValidator.class)
-public @interface ValidatePassword {
+@Constraint(validatedBy = ValidateZipCode.MyValidator.class)
+public @interface ValidateZipCode {
 
-    String message() default "密码太弱";
+    String message() default "邮政编码错误";
 
     Class<?>[] groups() default {};
 
     Class<? extends Payload>[] payload() default {};
 
-   class MyValidator implements ConstraintValidator<ValidatePassword, String> {
+   class MyValidator implements ConstraintValidator<ValidateZipCode, String> {
 
 
         @Override
         public boolean isValid(String str, ConstraintValidatorContext constraintValidatorContext) {
             if (str != null && !str.isEmpty()) {
-                PasswdStrength.PASSWD_LEVEL level = PasswdStrength.getLevel(str);
-                switch (level) {
-                    case EASY:
-                        return false;
-
-                }
-                return Validator.isCarDrivingLicence(str);
+                return Validator.isZipCode(str);
             }
             return true;
         }

@@ -4,7 +4,7 @@ package io.tmgg.modules.system.service;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import io.tmgg.lang.TreeTool;
-import io.tmgg.lang.obj.Option;
+import io.tmgg.dto.Option;
 import io.tmgg.modules.system.controller.SysDictTreeNode;
 import io.tmgg.modules.system.dao.SysDictDao;
 import io.tmgg.modules.system.dao.SysDictItemDao;

@@ -8,15 +8,11 @@ import cn.hutool.system.OsInfo;
 import cn.hutool.system.SystemUtil;
 import cn.hutool.system.oshi.CpuInfo;
 import cn.hutool.system.oshi.OshiUtil;
-import com.zaxxer.hikari.HikariConfigMXBean;
-import com.zaxxer.hikari.HikariDataSource;
-import com.zaxxer.hikari.HikariPoolMXBean;
 import io.tmgg.lang.PastTimeFormatTool;
-import io.tmgg.lang.obj.AjaxResult;
+import io.tmgg.dto.AjaxResult;
 import io.tmgg.modules.monitor.dto.ChartResult;
 import io.tmgg.modules.monitor.dto.ChartTimeType;
 import io.tmgg.modules.monitor.service.SysMetricRecordService;
-import io.tmgg.web.annotion.HasPermission;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,13 +22,11 @@ import oshi.SystemInfo;
 import oshi.hardware.GlobalMemory;
 import oshi.software.os.OSFileStore;
 
-import javax.sql.DataSource;
 import java.lang.management.ManagementFactory;
 import java.lang.management.RuntimeMXBean;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 
 /**
  * 系统属性监控控制器

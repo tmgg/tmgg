@@ -2,7 +2,7 @@ package io.tmgg.lang.excel;
 
 import io.tmgg.lang.DownloadTool;
 import io.tmgg.lang.FreemarkerTool;
-import io.tmgg.lang.obj.AjaxResult;
+import io.tmgg.dto.AjaxResult;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;

@@ -1,7 +1,7 @@
 package io.tmgg.modules.system.controller;
 
 import io.tmgg.lang.ann.PublicRequest;
-import io.tmgg.lang.obj.AjaxResult;
+import io.tmgg.dto.AjaxResult;
 import io.tmgg.modules.system.entity.SysManual;
 import io.tmgg.modules.system.service.SysManualService;
 import io.tmgg.web.persistence.BaseController;

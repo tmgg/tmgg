@@ -3,7 +3,7 @@ package io.tmgg.modules.system.controller;
 
 import io.tmgg.lang.ann.PublicRequest;
 import io.tmgg.web.persistence.BaseController;
-import io.tmgg.lang.obj.AjaxResult;
+import io.tmgg.dto.AjaxResult;
 import io.tmgg.modules.system.entity.SysDict;
 import io.tmgg.modules.system.service.SysDictService;
 import jakarta.annotation.Resource;

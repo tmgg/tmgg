@@ -1,4 +1,4 @@
-package io.tmgg.lang.obj.table;
+package io.tmgg.dto.table;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -1,6 +1,5 @@
-package io.tmgg.lang.validator;
+package io.tmgg.validator;
 
-import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.NumberUtil;
 
 import jakarta.validation.*;
@@ -14,8 +13,8 @@ import java.lang.annotation.Target;
  */
 @Target({ElementType.FIELD, ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = YearQuarter.MyValidator.class)
-public @interface YearQuarter {
+@Constraint(validatedBy = ValidateYearQuarter.MyValidator.class)
+public @interface ValidateYearQuarter {
 
     String message() default "季度格式错误，正确格式如：2022-Q2";
 
@@ -23,7 +22,7 @@ public @interface YearQuarter {
 
     Class<? extends Payload>[] payload() default {};
 
-    class MyValidator implements ConstraintValidator<YearQuarter, String> {
+    class MyValidator implements ConstraintValidator<ValidateYearQuarter, String> {
 
 
         @Override

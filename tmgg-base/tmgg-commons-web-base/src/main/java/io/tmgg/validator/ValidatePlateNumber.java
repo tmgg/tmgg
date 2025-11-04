@@ -1,6 +1,6 @@
-package io.tmgg.lang.validator;
+package io.tmgg.validator;
 
-import cn.hutool.core.util.IdcardUtil;
+import cn.hutool.core.lang.Validator;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.ConstraintValidator;
@@ -12,26 +12,26 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 身份证
+ * 中国车牌号
  */
 @Target({ElementType.FIELD,ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = ValidateIdNum.IdNumValidator.class)
-public @interface ValidateIdNum {
+@Constraint(validatedBy = ValidatePlateNumber.MyValidator.class)
+public @interface ValidatePlateNumber {
 
-    String message() default "身份证号码错误";
+    String message() default "车牌号错误";
 
     Class<?>[] groups() default {};
 
     Class<? extends Payload>[] payload() default {};
 
-   class IdNumValidator implements ConstraintValidator<ValidateIdNum, String> {
+   class MyValidator implements ConstraintValidator<ValidatePlateNumber, String> {
 
 
         @Override
         public boolean isValid(String str, ConstraintValidatorContext constraintValidatorContext) {
             if (str != null && !str.isEmpty()) {
-                return IdcardUtil.isValidCard(str);
+                return Validator.isPlateNumber(str);
             }
             return true;
         }

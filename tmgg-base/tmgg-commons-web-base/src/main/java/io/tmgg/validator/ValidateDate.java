@@ -1,6 +1,6 @@
-package io.tmgg.lang.validator;
+package io.tmgg.validator;
 
-import cn.hutool.core.lang.Validator;
+import cn.hutool.core.date.DateUtil;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.ConstraintValidator;
@@ -12,26 +12,31 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 邮政编码（中国）
+ * 日期 yyyy-MM-dd
  */
 @Target({ElementType.FIELD,ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = ZipCode.MyValidator.class)
-public @interface ZipCode {
+@Constraint(validatedBy = ValidateDate.MyValidator.class)
+public @interface ValidateDate {
 
-    String message() default "邮政编码错误";
+    String message() default "日期格式错误，正确格式如：2022-03-15";
 
     Class<?>[] groups() default {};
 
     Class<? extends Payload>[] payload() default {};
 
-   class MyValidator implements ConstraintValidator<ZipCode, String> {
+   class MyValidator implements ConstraintValidator<ValidateDate, String> {
 
 
         @Override
         public boolean isValid(String str, ConstraintValidatorContext constraintValidatorContext) {
             if (str != null && !str.isEmpty()) {
-                return Validator.isZipCode(str);
+                try {
+                    DateUtil.parse(str,"yyyy-MM-dd");
+                }catch (Exception e){
+                    return false;
+                }
+
             }
             return true;
         }

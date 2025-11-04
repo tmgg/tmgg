@@ -1,4 +1,4 @@
-package io.tmgg.lang.validator;
+package io.tmgg.validator;
 
 
 import jakarta.validation.Constraint;

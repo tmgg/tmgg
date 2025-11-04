@@ -3,7 +3,7 @@ package io.tmgg.flowable.admin.controller;
 import io.tmgg.flowable.FlowableManager;
 import io.tmgg.flowable.admin.entity.SysFlowableModel;
 import io.tmgg.flowable.admin.service.SysFlowableModelService;
-import io.tmgg.lang.obj.AjaxResult;
+import io.tmgg.dto.AjaxResult;
 import jakarta.annotation.Resource;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;

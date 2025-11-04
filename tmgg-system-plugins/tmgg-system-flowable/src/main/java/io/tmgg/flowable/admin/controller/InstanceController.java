@@ -3,7 +3,7 @@ package io.tmgg.flowable.admin.controller;
 
 import io.tmgg.flowable.dto.TaskVo;
 import io.tmgg.flowable.admin.service.MyTaskService;
-import io.tmgg.lang.obj.AjaxResult;
+import io.tmgg.dto.AjaxResult;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;

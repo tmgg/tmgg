@@ -10,7 +10,7 @@ import io.tmgg.modules.system.entity.SysDictItem;
 import io.tmgg.modules.system.service.SysDictItemService;
 import io.tmgg.modules.system.service.SysDictService;
 import io.tmgg.web.annotion.HasPermission;
-import io.tmgg.lang.obj.AjaxResult;
+import io.tmgg.dto.AjaxResult;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;

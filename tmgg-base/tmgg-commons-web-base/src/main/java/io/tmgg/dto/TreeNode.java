@@ -1,5 +1,5 @@
 
-package io.tmgg.lang.obj;
+package io.tmgg.dto;
 
 import lombok.Getter;
 import lombok.Setter;

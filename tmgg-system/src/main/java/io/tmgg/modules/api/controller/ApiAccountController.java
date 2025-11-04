@@ -5,7 +5,7 @@ import io.tmgg.Build;
 import io.tmgg.modules.api.ApiErrorCode;
 import io.tmgg.modules.api.service.ApiResourceService;
 import io.tmgg.web.persistence.BaseController;
-import io.tmgg.lang.obj.AjaxResult;
+import io.tmgg.dto.AjaxResult;
 import io.tmgg.modules.api.entity.*;
 import io.tmgg.modules.api.service.ApiAccountService;
 import io.tmgg.modules.api.service.ApiAccountResourceService;

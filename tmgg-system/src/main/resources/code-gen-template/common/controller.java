@@ -1,7 +1,7 @@
 package ${modulePackageName}.controller;
 
 import io.tmgg.data.query.JpaQuery;
-import io.tmgg.lang.obj.AjaxResult;
+import io.tmgg.dto.AjaxResult;
 {modulePackageName}.entity.${name};
 import ${modulePackageName}.service.${name}Service;
 

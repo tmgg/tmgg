@@ -1,6 +1,6 @@
-package io.tmgg.lang.validator;
+package io.tmgg.validator;
 
-import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.lang.Validator;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.ConstraintValidator;
@@ -12,31 +12,26 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 年月 yyyy-MM
+ * 驾驶证
  */
 @Target({ElementType.FIELD,ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = YearMonth.MyValidator.class)
-public @interface YearMonth {
+@Constraint(validatedBy = ValidateCarDrivingLicence.MyValidator.class)
+public @interface ValidateCarDrivingLicence {
 
-    String message() default "年月格式错误，正确格式如：2022-03";
+    String message() default "驾驶证错误";
 
     Class<?>[] groups() default {};
 
     Class<? extends Payload>[] payload() default {};
 
-   class MyValidator implements ConstraintValidator<YearMonth, String> {
+   class MyValidator implements ConstraintValidator<ValidateCarDrivingLicence, String> {
 
 
         @Override
         public boolean isValid(String str, ConstraintValidatorContext constraintValidatorContext) {
             if (str != null && !str.isEmpty()) {
-                try {
-                    DateUtil.parse(str,"yyyy-MM");
-                }catch (Exception e){
-                    return false;
-                }
-
+                return Validator.isCarDrivingLicence(str);
             }
             return true;
         }

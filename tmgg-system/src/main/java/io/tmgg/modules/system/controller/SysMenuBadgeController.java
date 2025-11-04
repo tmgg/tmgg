@@ -2,8 +2,8 @@ package io.tmgg.modules.system.controller;
 
 import io.tmgg.web.persistence.BaseController;
 import io.tmgg.data.domain.BaseEntity;
-import io.tmgg.lang.obj.AjaxResult;
-import io.tmgg.lang.obj.TreeOption;
+import io.tmgg.dto.AjaxResult;
+import io.tmgg.dto.TreeOption;
 import io.tmgg.modules.system.entity.SysMenu;
 import io.tmgg.modules.system.entity.SysMenuBadge;
 import io.tmgg.modules.system.service.SysMenuBadgeService;

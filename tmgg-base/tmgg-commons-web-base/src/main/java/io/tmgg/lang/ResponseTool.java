@@ -2,7 +2,7 @@ package io.tmgg.lang;
 
 
 import io.tmgg.jackson.JsonTool;
-import io.tmgg.lang.obj.AjaxResult;
+import io.tmgg.dto.AjaxResult;
 import cn.hutool.core.util.CharsetUtil;
 import cn.hutool.core.util.URLUtil;
 import cn.hutool.http.ContentType;

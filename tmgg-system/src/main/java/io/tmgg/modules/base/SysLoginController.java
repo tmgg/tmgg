@@ -14,7 +14,7 @@ import cn.hutool.crypto.asymmetric.RSA;
 import io.tmgg.config.SysProp;
 import io.tmgg.lang.PasswordTool;
 import io.tmgg.lang.ann.PublicRequest;
-import io.tmgg.lang.obj.AjaxResult;
+import io.tmgg.dto.AjaxResult;
 import io.tmgg.modules.auth.LoginAttemptService;
 import io.tmgg.modules.system.Configs;
 import io.tmgg.modules.system.entity.SysUser;

@@ -5,7 +5,7 @@ import cn.hutool.core.util.StrUtil;
 import io.tmgg.framework.session.SysHttpSession;
 import io.tmgg.lang.tree.DictTreeNode;
 import io.tmgg.lang.tree.TreeManager;
-import io.tmgg.lang.obj.AjaxResult;
+import io.tmgg.dto.AjaxResult;
 import io.tmgg.lang.tree.drag.DragDropEvent;
 import io.tmgg.lang.tree.drag.TreeDragTool;
 import io.tmgg.modules.system.entity.OrgType;

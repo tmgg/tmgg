@@ -2,7 +2,7 @@
 package io.tmgg.modules.system.controller;
 
 import io.tmgg.data.query.JpaQuery;
-import io.tmgg.lang.obj.AjaxResult;
+import io.tmgg.dto.AjaxResult;
 import io.tmgg.modules.system.entity.SysLog;
 import io.tmgg.modules.system.service.SysLogService;
 import io.tmgg.web.annotion.HasPermission;

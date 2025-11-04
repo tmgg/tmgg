@@ -2,7 +2,7 @@
 package io.tmgg.modules.system;
 
 import cn.hutool.core.codec.Base64;
-import io.tmgg.lang.obj.AjaxResult;
+import io.tmgg.dto.AjaxResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
