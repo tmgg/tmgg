@@ -1,5 +1,6 @@
 package io.tmgg.api;
 
+import io.tmgg.SysBootApplication;
 import io.tmgg.jackson.JsonTool;
 import io.tmgg.modules.api.ApiClient;
 import io.tmgg.modules.api.ApiErrorCode;
@@ -19,7 +20,7 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import java.io.IOException;
 import java.util.Map;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT,classes = SysBootApplication.class)
 public class ApiTest {
 
     @Resource
