@@ -21,6 +21,7 @@ public class AssignIdTest {
 
     @Test
     public void prefixTest() {
+        teacherDao.deleteAll();
         Teacher t = new Teacher();
         String id = "001";
         t.set_tempId(id);
@@ -28,9 +29,6 @@ public class AssignIdTest {
         teacherDao.save(t);
 
         Assertions.assertTrue( teacherDao.existsById(id));
-
-
-
 
     }
 

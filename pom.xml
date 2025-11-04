@@ -263,9 +263,9 @@
                     <encoding>UTF-8</encoding>
 
                     <!-- 排除开发用到时的启动文件-->
-                    <excludes>
+                 <!--   <excludes>
                         <exclude>io/tmgg/*Application.java</exclude>
-                    </excludes>
+                    </excludes>-->
 
                     <!-- 调整lombok和mapstruct的顺序，两者都会处理注解 -->
                     <annotationProcessorPaths>

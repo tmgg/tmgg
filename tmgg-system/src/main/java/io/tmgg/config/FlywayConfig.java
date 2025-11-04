@@ -8,7 +8,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * flyway默认在jpa建表前执行，这里
+ * flyway默认在jpa建表前执行，这里调整下顺序。
+ * 实现思路：
+ * 1 flyway默认初始化时不执行操作
+ * 2 等待框架级别的事件出发
  */
 @Configuration
 public class FlywayConfig implements SystemHook {

@@ -23,10 +23,10 @@ import java.util.Map;
 public class ApiTest {
 
     @Resource
-    private ApiAccountResourceService accountResourceService;
+    private ApiAccountResourceService apiAccountResourceService;
 
     @Resource
-    private ApiAccountService accountService;
+    private ApiAccountService apiAccountService;
 
     @Resource
     private ApiResourceService apiResourceService;
@@ -34,17 +34,22 @@ public class ApiTest {
 
     @LocalServerPort
     private int port;
+
     private ApiClient client;
 
 
     @BeforeEach
     public void init() {
+        apiAccountResourceService.deleteAll();
+        apiAccountService.deleteAll();
+
+
         ApiAccount a = new ApiAccount();
         a.setName("测试");
         a.setAppId("appId");
         a.setAppSecret("appSecret");
         a.setEnable(true);
-        a = accountService.save(a);
+        a = apiAccountService.save(a);
 
         {
             ApiResource r = apiResourceService.findAction("math.add");
@@ -54,7 +59,7 @@ public class ApiTest {
             ar.setAccount(a);
             ar.setEnable(true);
             ar.setResource(r);
-            accountResourceService.save(ar);
+            apiAccountResourceService.save(ar);
         }
 
         {
@@ -65,7 +70,7 @@ public class ApiTest {
             ar.setAccount(a);
             ar.setEnable(true);
             ar.setResource(r);
-            accountResourceService.save(ar);
+            apiAccountResourceService.save(ar);
         }
 
 

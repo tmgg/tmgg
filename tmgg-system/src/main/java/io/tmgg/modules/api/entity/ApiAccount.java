@@ -24,11 +24,6 @@ public class ApiAccount extends BaseEntity {
     @Column(length = 50)
     private String name;
 
-
-
-
-
-
     @Remark("准入IP")
     @ValidateIpv4
     private String accessIp;
