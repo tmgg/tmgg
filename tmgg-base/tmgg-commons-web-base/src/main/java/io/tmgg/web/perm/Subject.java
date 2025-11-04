@@ -82,17 +82,6 @@ public class Subject implements Serializable {
             input = StringUtils.replace(input, "/", ":");
         }
 
-        // 处理用户有user:list时， 同时也有user(非user:*)的权限（方便获取菜单）
-        if(!input.contains(":")){
-            for (String permission : permissions) {
-                String[] arr = permission.split(":");
-                if(arr[0].equals(permission)){
-                    return true;
-                }
-            }
-        }
-
-
         return permissions.contains(input);
     }
 
