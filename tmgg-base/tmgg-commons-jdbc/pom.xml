@@ -30,13 +30,7 @@
             <artifactId>tmgg-commons-lang</artifactId>
         </dependency>
 
-        <!-- 文件型数据库，方便测试-->
-        <dependency>
-            <groupId>org.apache.derby</groupId>
-            <artifactId>derby</artifactId>
-            <version>10.14.2.0</version>
-            <scope>test</scope>
-        </dependency>
+
     </dependencies>
 
 </project>

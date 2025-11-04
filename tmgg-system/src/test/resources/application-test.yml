@@ -1,21 +1,6 @@
 spring:
-  datasource:
-    driver-class-name: org.apache.derby.jdbc.EmbeddedDriver
-    url: jdbc:derby:memory:myMemoryDB;create=true;collation=TERRITORY_BASED:SECONDARY
-  jpa:
-    show-sql: false
-    # 清空数据
-    hibernate.ddl-auto: create
   flyway:
-    enabled: false
-  application:
-    name: test
-logging:
-  file:
-    path: ./logs/app-log
-  pattern:
-    dateformat: yyyy-MM-dd HH:mm:ss.SSS
-  level:
-    io.tmgg: trace
-sys:
-  cache-dir: ./cache
+    baseline-version: 2
+  jpa:
+    hibernate:
+      ddl-auto: create

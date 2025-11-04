@@ -1,28 +1,16 @@
+db_ip: 127.0.0.1
+db_port: 3306
+db_database: tmgg-test
+db_username: root
+db_password: 123456
 spring:
   profiles:
-    active: test
-  jackson:
-    time-zone: GMT+8
-    date-format: yyyy-MM-dd HH:mm:ss
-    locale: zh_CN
-    serialization:
-      indent-output: true # json美化，方便查看
-  data:
-    web:
-      pageable:
-        one-indexed-parameters: true
-  session:
-    timeout: 1H
-  servlet:
-    multipart:
-      max-file-size: 10MB
-      max-request-size: 20MB
-  cache:
-    type: simple
+    active: default,test
+  application:
+    name: test
 
 logging:
   file:
-    path: /logs/app-log
-  pattern:
-    dateformat: yyyy-MM-dd HH:mm:ss.SSS
-
+    path: ./logs
+  level:
+    io.tmgg: trace

@@ -1,10 +1,11 @@
 package io.tmgg.dbtool;
 
 import cn.hutool.core.bean.BeanUtil;
-import org.apache.derby.jdbc.EmbeddedDataSource;
+import jakarta.annotation.Resource;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.lang.reflect.Field;
 import java.util.Date;
@@ -12,22 +13,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@SpringBootTest
 public class ValueConvertTest {
 
-    // 内存数据库连接URL - 数据仅在内存中存在
-    private static final String MEMORY_DB_URL = "jdbc:derby:memory:myMemoryDB;create=true";
-
+    @Resource
     DbTool db;
 
     @BeforeEach
-    public void before() throws ClassNotFoundException {
-        Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
-
-        EmbeddedDataSource dataSource = new EmbeddedDataSource();
-        dataSource.setDatabaseName("memory:myAppDB");
-        dataSource.setCreateDatabase("create");
-        db = new DbTool(dataSource);
-
+    public void before() {
         String sql = """
                 CREATE TABLE product (
                        id int ,

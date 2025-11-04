@@ -4,6 +4,8 @@ Spring Boot  ${spring-boot.formatted-version}
 端口号 ${server.port}
 数据库连接 ${spring.datasource.url}
 数据库账号 ${spring.datasource.username}
+hibernate.ddl-auto ${spring.jpa.hibernate.ddl-auto}
+
 日志文件目录 ${logging.file.path}
 
 Writing to the console can be very slow. Avoid logging to the  console in production environments, especially in high volume systems.
