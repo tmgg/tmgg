@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+@Deprecated
 @Slf4j
 @Component
 public class JsonEntityFileDao {
@@ -53,6 +54,7 @@ public class JsonEntityFileDao {
 
 
     public JsonEntity findOne(Class<?> entityCls, String id) throws Exception {
+        log.warn("该类已弃用");
         List<JsonEntity> list = findAll(true);
         for (JsonEntity entity : list) {
             if (entity.getEntity().getClass().equals(entityCls) && id.equals(entity.getEntity().getId())) {
@@ -64,6 +66,7 @@ public class JsonEntityFileDao {
     }
 
     public void save(JsonEntity jsonEntity) throws Exception {
+        log.warn("该类已弃用");
         String id = (String) jsonEntity.getData().get("id");
         Assert.hasText(id, "id不能为空");
         URI uri = jsonEntity.getUri();
@@ -85,6 +88,7 @@ public class JsonEntityFileDao {
     }
 
     private static String getNewFileContent(JsonEntity jsonEntity, File file, String id) throws IOException {
+        log.warn("该类已弃用");
         try (InputStream is = FileUtil.getInputStream(file)) {
             String json = IoUtil.readUtf8(is);
             Map<String, Object> fileData = JsonTool.jsonToMap(json);
@@ -108,6 +112,7 @@ public class JsonEntityFileDao {
 
 
     public List<JsonEntity> findAll(boolean containsFramework) throws Exception {
+        log.warn("该类已弃用");
         log.info("BEGIN 解析所有database目录下的json文件");
         long time = System.currentTimeMillis();
         String cacheKey = "findAll_" + containsFramework;
@@ -210,6 +215,7 @@ public class JsonEntityFileDao {
     }
 
     public <T extends PersistEntity> void saveToDatabase(JsonEntity info, List<String> ignoreList) throws IOException, ClassNotFoundException {
+        log.warn("该类已弃用");
         String entityName = info.getEntityName();
         if (ignoreList.contains(entityName)) {
             return;

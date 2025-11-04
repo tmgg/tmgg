@@ -43,11 +43,6 @@ public class SysConfigDao extends BaseDao<SysConfig> {
 
 
     @Transactional
-    public void addDefault(String label, String id, String defaultValue) {
-        this.addDefault(label, id, defaultValue, null);
-    }
-
-    @Transactional
     public void addDefault(String label, String id, String defaultValue, String valueType) {
         SysConfig cfg = super.findOne(id);
         if (cfg != null) {

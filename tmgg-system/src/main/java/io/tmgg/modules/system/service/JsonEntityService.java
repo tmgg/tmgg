@@ -65,6 +65,7 @@ public class JsonEntityService implements SysMenuParser {
         long time = System.currentTimeMillis();
         List<String> ignoreList = ListUtil.toList( SysMenu.class.getSimpleName());
         for (JsonEntity info : list) {
+            log.info("实体 {} {}",info.getEntityName(), info.getData());
             dao.saveToDatabase(info,ignoreList);
         }
 

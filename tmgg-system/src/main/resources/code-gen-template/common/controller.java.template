@@ -5,7 +5,6 @@ import io.tmgg.dto.AjaxResult;
 {modulePackageName}.entity.${name};
 import ${modulePackageName}.service.${name}Service;
 
-
 import io.tmgg.web.annotion.HasPermission;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
