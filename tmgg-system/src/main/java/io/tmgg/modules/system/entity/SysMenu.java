@@ -30,20 +30,20 @@ public class SysMenu extends BaseEntity implements TreeNode<SysMenu> {
     private String pid;
 
 
+    @Remark("名称")
     @Column(length = 50)
     private String name;
 
-
+    @Remark("类型")
     @Column(length = 5)
     @Enumerated(EnumType.STRING)
     private MenuType type;
 
+    @Remark("图标")
     @Column(length = 50)
     private String icon;
 
-    /**
-     * 路由地址
-     */
+    @Remark("路由")
     private String path;
 
 
@@ -53,10 +53,11 @@ public class SysMenu extends BaseEntity implements TreeNode<SysMenu> {
     @Column(unique = true,  length = 100)
     private String perm;
 
+    @Remark("是否可见")
     @NotNull
     private Boolean visible;
 
-
+    @Remark("排序")
     @NotNull
     private Integer seq;
 
@@ -64,6 +65,7 @@ public class SysMenu extends BaseEntity implements TreeNode<SysMenu> {
     /**
      * 在 点击tab时，刷新页面
      */
+    @Remark("点击tab刷新")
     private Boolean refreshOnTabClick;
 
 
@@ -89,8 +91,6 @@ public class SysMenu extends BaseEntity implements TreeNode<SysMenu> {
 
     @Override
     public String toString() {
-        return "SysMenu{" +
-               "name='" + name + '\'' +
-               '}';
+        return name;
     }
 }
