@@ -2,9 +2,9 @@ package io.tmgg.data.domain;
 
 import com.fasterxml.jackson.annotation.*;
 import io.tmgg.lang.ann.Remark;
-import io.tmgg.web.persistence.DBConstants;
-import io.tmgg.web.persistence.id.CustomGenerateIdProperties;
-import io.tmgg.web.persistence.id.CustomId;
+import io.tmgg.data.DBConstants;
+import io.tmgg.data.id.CustomGenerateIdProperties;
+import io.tmgg.data.id.CustomId;
 import io.tmgg.web.perm.SecurityUtils;
 import jakarta.persistence.*;
 import lombok.AccessLevel;

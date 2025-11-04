@@ -3,7 +3,7 @@ package io.tmgg.modules.job.service;
 import io.tmgg.modules.job.dao.SysJobLogDao;
 import io.tmgg.modules.job.entity.SysJob;
 import io.tmgg.modules.job.entity.SysJobLog;
-import io.tmgg.web.persistence.BaseService;
+import io.tmgg.data.service.BaseService;
 import io.tmgg.data.query.JpaQuery;
 import jakarta.annotation.Resource;
 import org.springframework.data.domain.Sort;

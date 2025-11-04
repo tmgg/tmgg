@@ -1,12 +1,12 @@
-package io.tmgg.web.persistence.converter;
+package io.tmgg.data.converter;
 
 
 import cn.hutool.core.util.StrUtil;
 
 import jakarta.persistence.AttributeConverter;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * 字符串，数组
@@ -14,14 +14,14 @@ import java.util.List;
  * @author 姜涛
  * 使用方式：getter上加	@Convert(converter = StringArrayConverter.class)
  */
-public class ToListConverter implements AttributeConverter<List<String>, String>, Serializable {
+public class ToSetConverter implements AttributeConverter<Set<String>, String>, Serializable {
 
 
     private static final long serialVersionUID = 1L;
     public static final String CONJUNCTION = ",";
 
     @Override
-    public String convertToDatabaseColumn(List<String> list) {
+    public String convertToDatabaseColumn(Set<String> list) {
         if (list == null) {
             return null;
         }
@@ -30,11 +30,11 @@ public class ToListConverter implements AttributeConverter<List<String>, String>
     }
 
     @Override
-    public List<String> convertToEntityAttribute(String dbData) {
+    public Set<String> convertToEntityAttribute(String dbData) {
         if (dbData == null || dbData.length() == 0) {
-            return new ArrayList<>();
+            return new HashSet<>();
         }
-        return StrUtil.split(dbData, CONJUNCTION);
+        return new HashSet<>(StrUtil.split(dbData, CONJUNCTION));
     }
 
 }

@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.tmgg.commons.poi.excel.annotation.Excel;
 import io.tmgg.lang.ann.Remark;
 import io.tmgg.data.domain.BaseEntity;
-import io.tmgg.web.persistence.converter.ToListConverter;
+import io.tmgg.data.converter.ToListConverter;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

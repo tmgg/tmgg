@@ -1,4 +1,4 @@
-package io.tmgg.web.persistence.converter;
+package io.tmgg.data.converter;
 
 
 import cn.hutool.core.util.StrUtil;
@@ -6,19 +6,17 @@ import cn.hutool.core.util.StrUtil;
 import jakarta.persistence.AttributeConverter;
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
  * 字符串，数组
- *
- * @author 姜涛
- * 使用方式：getter上加	@Convert(converter = StringArrayConverter.class)
  */
-public class ToSetConverter implements AttributeConverter<Set<String>, String>, Serializable {
+public class ToSetComplexConverter implements AttributeConverter<Set<String>, String>, Serializable {
 
 
     private static final long serialVersionUID = 1L;
-    public static final String CONJUNCTION = ",";
+    public static final String CONJUNCTION = "::||,||::";
 
     @Override
     public String convertToDatabaseColumn(Set<String> list) {
@@ -34,7 +32,9 @@ public class ToSetConverter implements AttributeConverter<Set<String>, String>, 
         if (dbData == null || dbData.length() == 0) {
             return new HashSet<>();
         }
-        return new HashSet<>(StrUtil.split(dbData, CONJUNCTION));
+        List<String> arr = StrUtil.split(dbData, CONJUNCTION);
+
+        return new HashSet<>(arr);
     }
 
 }

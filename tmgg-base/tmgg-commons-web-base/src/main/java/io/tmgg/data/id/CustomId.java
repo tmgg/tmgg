@@ -1,4 +1,4 @@
-package io.tmgg.web.persistence.id;
+package io.tmgg.data.id;
 
 import org.hibernate.annotations.IdGeneratorType;
 

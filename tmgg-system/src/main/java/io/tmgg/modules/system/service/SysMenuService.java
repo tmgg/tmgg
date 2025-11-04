@@ -10,7 +10,7 @@ import io.tmgg.modules.system.dao.SysMenuDao;
 import io.tmgg.modules.system.entity.SysMenu;
 import io.tmgg.web.enums.MenuType;
 import io.tmgg.data.domain.BaseEntity;
-import io.tmgg.web.persistence.BaseService;
+import io.tmgg.data.service.BaseService;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

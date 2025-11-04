@@ -2,7 +2,7 @@ package io.tmgg.payment.mgmt.entity;
 
 import io.tmgg.lang.ann.Remark;
 import io.tmgg.data.domain.BaseEntity;
-import io.tmgg.web.persistence.DBConstants;
+import io.tmgg.data.DBConstants;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Lob;

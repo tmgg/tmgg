@@ -2,7 +2,7 @@ package io.tmgg.modules.system.service;
 
 import io.tmgg.modules.system.dao.SysManualDao;
 import io.tmgg.modules.system.entity.SysManual;
-import io.tmgg.web.persistence.BaseService;
+import io.tmgg.data.service.BaseService;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 

@@ -1,7 +1,7 @@
 package io.tmgg.mgmt;
 
 import io.tmgg.data.domain.BaseEntity;
-import io.tmgg.web.persistence.id.CustomId;
+import io.tmgg.data.id.CustomId;
 import jakarta.persistence.Entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

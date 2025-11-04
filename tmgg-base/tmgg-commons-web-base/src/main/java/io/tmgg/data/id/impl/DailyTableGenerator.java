@@ -1,4 +1,4 @@
-package io.tmgg.web.persistence.id.impl;
+package io.tmgg.data.id.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.date.DatePattern;

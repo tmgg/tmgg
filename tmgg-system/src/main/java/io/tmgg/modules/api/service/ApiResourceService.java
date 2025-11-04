@@ -8,7 +8,7 @@ import io.tmgg.modules.api.dao.ApiResourceDao;
 import io.tmgg.modules.api.entity.ApiResource;
 import io.tmgg.modules.api.entity.ApiResourceArgument;
 import io.tmgg.modules.api.entity.ApiResourceArgumentReturn;
-import io.tmgg.web.persistence.BaseService;
+import io.tmgg.data.service.BaseService;
 import jakarta.annotation.Resource;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.core.StandardReflectionParameterNameDiscoverer;

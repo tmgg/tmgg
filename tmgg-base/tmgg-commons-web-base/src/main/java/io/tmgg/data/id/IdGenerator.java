@@ -1,10 +1,10 @@
-package io.tmgg.web.persistence.id;
+package io.tmgg.data.id;
 
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
 import io.tmgg.lang.IdTool;
 import io.tmgg.data.domain.PersistEntity;
-import io.tmgg.web.persistence.id.impl.DailyTableGenerator;
+import io.tmgg.data.id.impl.DailyTableGenerator;
 import org.hibernate.boot.model.relational.Database;
 import org.hibernate.boot.model.relational.SqlStringGenerationContext;
 import org.hibernate.engine.spi.SharedSessionContractImplementor;

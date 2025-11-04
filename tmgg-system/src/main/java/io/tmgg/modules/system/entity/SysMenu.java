@@ -4,7 +4,7 @@ package io.tmgg.modules.system.entity;
 import io.tmgg.lang.tree.TreeNode;
 import io.tmgg.lang.ann.Remark;
 import io.tmgg.data.domain.BaseEntity;
-import io.tmgg.web.persistence.DBConstants;
+import io.tmgg.data.DBConstants;
 import io.tmgg.web.enums.MenuType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;

@@ -14,7 +14,7 @@ import io.tmgg.lang.UserAgentTool;
 import io.tmgg.modules.system.dao.SysOpLogDao;
 import io.tmgg.modules.system.entity.SysLog;
 import io.tmgg.web.annotion.HasPermission;
-import io.tmgg.web.persistence.BaseService;
+import io.tmgg.data.service.BaseService;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,7 +22,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.Signature;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 

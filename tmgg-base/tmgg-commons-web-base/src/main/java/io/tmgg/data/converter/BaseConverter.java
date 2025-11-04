@@ -1,4 +1,4 @@
-package io.tmgg.web.persistence.converter;
+package io.tmgg.data.converter;
 
 
 import com.fasterxml.jackson.core.type.TypeReference;

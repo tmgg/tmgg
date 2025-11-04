@@ -7,7 +7,7 @@ import io.tmgg.modules.system.entity.OrgType;
 import io.tmgg.modules.system.entity.SysOrg;
 import io.tmgg.modules.system.entity.SysUser;
 import io.tmgg.web.perm.Subject;
-import io.tmgg.web.persistence.BaseService;
+import io.tmgg.data.service.BaseService;
 import io.tmgg.data.query.JpaQuery;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;

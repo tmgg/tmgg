@@ -1,8 +1,8 @@
-package io.tmgg.web.persistence.converter;
+package io.tmgg.data.converter;
 
 
 import io.tmgg.jackson.JsonTool;
-import io.tmgg.web.persistence.ReflectTool;
+import io.tmgg.lang.ReflectTool;
 import jakarta.persistence.AttributeConverter;
 
 import java.io.Serializable;

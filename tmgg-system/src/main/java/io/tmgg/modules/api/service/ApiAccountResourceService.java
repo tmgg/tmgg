@@ -3,7 +3,7 @@ package io.tmgg.modules.api.service;
 import io.tmgg.data.query.JpaQuery;
 import io.tmgg.modules.api.entity.ApiAccount;
 import io.tmgg.modules.api.entity.ApiAccountResource;
-import io.tmgg.web.persistence.BaseService;
+import io.tmgg.data.service.BaseService;
 import io.tmgg.modules.api.entity.ApiResource;
 import org.springframework.stereotype.Service;
 

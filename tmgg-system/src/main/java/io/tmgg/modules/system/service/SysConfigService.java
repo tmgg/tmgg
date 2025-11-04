@@ -3,7 +3,7 @@ package io.tmgg.modules.system.service;
 
 import cn.hutool.core.util.StrUtil;
 import io.tmgg.lang.RequestTool;
-import io.tmgg.web.persistence.BaseService;
+import io.tmgg.data.service.BaseService;
 import io.tmgg.data.query.JpaQuery;
 import io.tmgg.modules.system.dao.SysConfigDao;
 import io.tmgg.modules.system.entity.SysConfig;

@@ -10,7 +10,7 @@ import io.tmgg.lang.PasswordTool;
 import io.tmgg.modules.system.dto.mapper.UserMapper;
 import io.tmgg.modules.system.dto.response.UserResponse;
 import io.tmgg.data.domain.BaseEntity;
-import io.tmgg.web.persistence.BaseService;
+import io.tmgg.data.service.BaseService;
 import io.tmgg.data.query.JpaQuery;
 import io.tmgg.modules.system.dao.SysOrgDao;
 import io.tmgg.modules.system.dao.SysRoleDao;

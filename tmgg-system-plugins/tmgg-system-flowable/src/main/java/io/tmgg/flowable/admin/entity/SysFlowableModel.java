@@ -3,7 +3,7 @@ package io.tmgg.flowable.admin.entity;
 
 import io.tmgg.commons.poi.excel.annotation.Excel;
 import io.tmgg.data.domain.BaseEntity;
-import io.tmgg.web.persistence.converter.BaseToListConverter;
+import io.tmgg.data.converter.BaseToListConverter;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;

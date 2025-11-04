@@ -1,4 +1,4 @@
-package io.tmgg.web.persistence.config;
+package io.tmgg.data.config;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ClassUtil;

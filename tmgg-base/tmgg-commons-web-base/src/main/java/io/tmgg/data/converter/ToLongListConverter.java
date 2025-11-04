@@ -1,23 +1,22 @@
-package io.tmgg.web.persistence.converter;
+package io.tmgg.data.converter;
 
 
 import cn.hutool.core.util.StrUtil;
-import jakarta.persistence.AttributeConverter;
 
+import jakarta.persistence.AttributeConverter;
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 
-public class ToBigDecimalListConverter implements AttributeConverter<List<BigDecimal>, String>, Serializable {
+public class ToLongListConverter implements AttributeConverter<List<Long>, String>, Serializable {
 
 
     private static final long serialVersionUID = 1L;
 
     @Override
-    public String convertToDatabaseColumn(List<BigDecimal> list) {
+    public String convertToDatabaseColumn(List<Long> list) {
         if (list == null) {
             return null;
         }
@@ -26,13 +25,13 @@ public class ToBigDecimalListConverter implements AttributeConverter<List<BigDec
     }
 
     @Override
-    public List<BigDecimal> convertToEntityAttribute(String dbData) {
+    public List<Long> convertToEntityAttribute(String dbData) {
         if (dbData == null || dbData.length() == 0) {
             return new ArrayList<>();
         }
-
         List<String> list = StrUtil.split(dbData, ",");
-        return list.stream().map(BigDecimal::new).collect(Collectors.toList());
+
+        return list.stream().map(Long::parseLong).collect(Collectors.toList());
     }
 
 }

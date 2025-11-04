@@ -1,8 +1,7 @@
 package io.tmgg.data.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import io.tmgg.web.persistence.id.CustomGenerateIdProperties;
-import jakarta.persistence.Transient;
+import io.tmgg.data.id.CustomGenerateIdProperties;
 
 public interface PersistEntity {
 

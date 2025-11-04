@@ -1,4 +1,4 @@
-package io.tmgg.web.persistence.converter;
+package io.tmgg.data.converter;
 
 import io.tmgg.web.enums.CodeEnum;
 import jakarta.persistence.AttributeConverter;

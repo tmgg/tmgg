@@ -1,4 +1,4 @@
-package io.tmgg.web.persistence;
+package io.tmgg.lang;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
