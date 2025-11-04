@@ -2,7 +2,6 @@
 package io.tmgg.framework.enums;
 
 import io.tmgg.lang.ann.Remark;
-import io.tmgg.web.base.StatusColor;
 import lombok.Getter;
 
 
