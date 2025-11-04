@@ -1,6 +1,5 @@
 package io.tmgg.api;
 
-import io.tmgg.SysBootApplication;
 import io.tmgg.jackson.JsonTool;
 import io.tmgg.modules.api.ApiClient;
 import io.tmgg.modules.api.ApiErrorCode;
@@ -20,7 +19,7 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import java.io.IOException;
 import java.util.Map;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT,classes = SysBootApplication.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 public class ApiTest {
 
     @Resource
@@ -59,7 +58,7 @@ public class ApiTest {
         }
 
         {
-            ApiResource r = apiResourceService.findAction("math.add2");
+            ApiResource r = apiResourceService.findAction("math.sub");
 
 
             ApiAccountResource ar = new ApiAccountResource();
@@ -92,14 +91,14 @@ public class ApiTest {
     }
 
     @Test
-    public void add2() throws IOException {
-        String result = client.send("math.add2", Map.of("a", 1, "b", 2));
+    public void sub() throws IOException {
+        String result = client.send("math.sub", Map.of("a", 100, "b", 1));
         System.out.println(result);
 
         Map<String, Object> map = JsonTool.jsonToMap(result);
         Map<String, Object> data = (Map<String, Object>) map.get("data");
 
-        Assertions.assertEquals(3, data.get("sum"));
+        Assertions.assertEquals(99, data.get("result"));
     }
 
 

@@ -4,7 +4,6 @@ import io.tmgg.modules.api.ApiMapping;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RequestBody;
 
 @Component
 public class MathApi {
@@ -17,25 +16,26 @@ public class MathApi {
 	}
 
 
-	@ApiMapping(action = "math.add2", name = "加法计算2", desc = "根据输入参数a，b，计算a+b的结果")
-	public AddOutput add2(AddInput addInput){
+	// 注意区别请求和响应格式的区别
+	@ApiMapping(action = "math.sub", name = "减法", desc = "根据输入参数a，b，计算a-b的结果")
+	public MathOutput sub(MathRequest addInput){
 		int a = addInput.getA();
 		int b = addInput.getB();
-		int sum = a + b;
+		int sum = a - b;
 
-		return new AddOutput(sum);
+		return new MathOutput(sum);
 	}
 
 	@Data
-	public static class AddInput{
+	public static class MathRequest {
 		private int a;
 		private int b;
 	}
 
 	@AllArgsConstructor
 	@Data
-	public static class AddOutput{
-		private int sum;
+	public static class MathOutput {
+		private int result;
 	}
 
 }
