@@ -1,6 +1,4 @@
 spring:
-  flyway:
-    baseline-version: 2
   jpa:
     hibernate:
       ddl-auto: create
