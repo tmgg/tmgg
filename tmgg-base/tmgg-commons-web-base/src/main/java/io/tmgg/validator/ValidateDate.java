@@ -12,14 +12,14 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 日期 yyyy-MM-dd
+ * 校验日期格式 yyyy-MM-dd
  */
 @Target({ElementType.FIELD,ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = ValidateDate.MyValidator.class)
 public @interface ValidateDate {
 
-    String message() default "日期格式错误，正确格式如：2022-03-15";
+    String message() default "日期格式错误，正确格式应为yyyy-MM-dd,如：2022-03-15";
 
     Class<?>[] groups() default {};
 
