@@ -40,35 +40,6 @@ public class TreeTool {
         return root;
     }
 
-    public <T extends TreeNode> List<T> treeToList(Collection<T> tree) {
-        List<T> result = new ArrayList<>();
-
-        treeToList(tree, result);
-
-        return result;
-    }
-
-
-    public static <T extends TreeNode> void findAllChildren(T node, Collection<T> result) {
-        List<T> children = node.getChildren();
-
-        if (children == null || children.isEmpty()) {
-            return;
-        }
-        for (T t : children) {
-            result.add(t);
-
-            findAllChildren(t, result);
-        }
-
-    }
-
-    private <T extends TreeNode> void treeToList(Collection<T> tree, List<T> result) {
-        for (T t : tree) {
-            result.add(t);
-            treeToList(t.getChildren(), result);
-        }
-    }
 
     private static <T extends TreeNode> void checkAndSetLeaf(Collection<T> values) {
         for (T v : values) {
