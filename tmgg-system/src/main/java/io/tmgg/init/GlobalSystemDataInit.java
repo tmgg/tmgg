@@ -24,6 +24,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
+import org.springframework.util.Assert;
 
 /**
  * 系统数据初始化
@@ -119,6 +120,7 @@ public class GlobalSystemDataInit implements CommandLineRunner {
     private void initSysConfigDefaultValue() {
         log.info("初始化系统配置的默认值");
         SysConfig pub = sysConfigDao.findOne(Configs.RSA_PUBLIC_KEY);
+        Assert.notNull(pub,"初始化脚本config.sql未执行");
         if (pub.getValue() == null && pub.getDefaultValue() == null) {
             log.info("随机生成RSA的公私钥");
             RSA rsa = SecureUtil.rsa();
