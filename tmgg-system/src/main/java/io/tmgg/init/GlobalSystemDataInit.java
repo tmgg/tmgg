@@ -103,7 +103,7 @@ public class GlobalSystemDataInit implements CommandLineRunner {
         SysRole adminRole = sysRoleService.initDefaultAdmin();
         initUser(adminRole);
 
-        initSysConfig();
+        initSysConfigDefaultValue();
 
 
 
@@ -116,22 +116,19 @@ public class GlobalSystemDataInit implements CommandLineRunner {
         systemHookService.trigger(SystemHookEventType.AFTER_DATA_INIT);
     }
 
-    private void initSysConfig() {
-        log.info("随机生成RSA的公私钥");
+    private void initSysConfigDefaultValue() {
+        log.info("初始化系统配置的默认值");
         SysConfig pub = sysConfigDao.findOne(Configs.RSA_PUBLIC_KEY);
-        if (pub == null) {
+        if (pub.getValue() == null && pub.getDefaultValue() == null) {
+            log.info("随机生成RSA的公私钥");
             RSA rsa = SecureUtil.rsa();
-            sysConfigDao.addDefault("RSA公钥", Configs.RSA_PUBLIC_KEY, rsa.getPublicKeyBase64(), "password"); // 放到siteInfo, 前端可获取
-            sysConfigDao.addDefault("RSA私钥", Configs.RSA_PRIVATE_KEY, rsa.getPrivateKeyBase64(), "password");
+            sysConfigDao.setDefaultValue(Configs.RSA_PUBLIC_KEY, rsa.getPublicKeyBase64()); // 放到siteInfo, 前端可获取
+            sysConfigDao.setDefaultValue( Configs.RSA_PRIVATE_KEY, rsa.getPrivateKeyBase64());
         }
 
-        sysConfigDao.addDefault("默认密码", "sys.default.password", PasswordTool.random(), "password");
-
-
+        sysConfigDao.setDefaultValue("sys.default.password", PasswordTool.random());
         sysConfigDao.cleanCache();
     }
-
-
 
 
 

@@ -42,6 +42,8 @@ public class SysConfigDao extends BaseDao<SysConfig> {
     }
 
 
+
+    @Deprecated
     @Transactional
     public void addDefault(String label, String id, String defaultValue, String valueType) {
         SysConfig cfg = super.findOne(id);
@@ -57,6 +59,13 @@ public class SysConfigDao extends BaseDao<SysConfig> {
         cfg.setLabel(label);
         cfg.setValueType(valueType);
         this.save(cfg);
+    }
+
+    @Transactional
+    public void setDefaultValue( String id, String defaultValue) {
+        SysConfig cfg = super.findOne(id);
+        cfg.setDefaultValue(defaultValue);
+        super.save(cfg);
     }
 
     @CacheEvict(allEntries = true)
