@@ -18,42 +18,42 @@ REPLACE  INTO sys_config (id, label, default_value, remark, seq, value_type) VAL
 REPLACE  INTO sys_config (id, label, default_value, remark, seq, value_type) VALUES ('sys.siteInfo.waterMark', '开启水印', NULL, '在所有页面增加水印', NULL, 'boolean');
 
 
-REPLACE  INTO sys_menu (id, pid, icon, name, path, seq, type) VALUES ('biz', NULL, NULL, '业务模块', NULL, 0, 'DIR');
-REPLACE  INTO sys_menu (id, pid, icon, name, path, seq, type) VALUES ('sys', NULL, NULL, '系统管理', NULL, 1000, 'DIR');
+INSERT IGNORE sys_menu (id, pid, icon, name, path, seq, type) VALUES ('biz', NULL, NULL, '业务模块', NULL, 0, 'DIR');
+INSERT IGNORE sys_menu (id, pid, icon, name, path, seq, type) VALUES ('sys', NULL, NULL, '系统管理', NULL, 1000, 'DIR');
 
-REPLACE  INTO sys_menu (id, pid, icon, name, path, seq, type) VALUES ('sysOrg', 'sys', 'ApartmentOutlined', '机构管理', '/system/org', 1010, 'MENU');
-REPLACE  INTO sys_menu (id, pid, icon, name, path, seq, type) VALUES ('sysUser', 'sys', 'UserOutlined', '用户管理', '/system/user', 1011, 'MENU');
-REPLACE  INTO sys_menu (id, pid, icon, name, path, seq, type) VALUES ('sysRole', 'sys', 'IdcardOutlined', '角色管理', '/system/role', 1012, 'MENU');
+INSERT IGNORE sys_menu (id, pid, icon, name, path, seq, type) VALUES ('sysOrg', 'sys', 'ApartmentOutlined', '机构管理', '/system/org', 1010, 'MENU');
+INSERT IGNORE sys_menu (id, pid, icon, name, path, seq, type) VALUES ('sysUser', 'sys', 'UserOutlined', '用户管理', '/system/user', 1011, 'MENU');
+INSERT IGNORE sys_menu (id, pid, icon, name, path, seq, type) VALUES ('sysRole', 'sys', 'IdcardOutlined', '角色管理', '/system/role', 1012, 'MENU');
 
-REPLACE  INTO sys_menu (id, pid, icon, name, path, seq, type) VALUES ('jobMgr', 'sys', 'ScheduleOutlined', '作业调度', NULL, 7, 'DIR');
-REPLACE  INTO sys_menu (id, pid, icon, name, path, seq, type) VALUES ('job', 'jobMgr', 'OrderedListOutlined', '作业管理', '/job', 1012, 'MENU');
-REPLACE  INTO sys_menu (id, pid, icon, name, path, seq, type) VALUES ('jobStatus', 'jobMgr', 'FundViewOutlined', '作业监控', '/job/status', 3, 'MENU');
-REPLACE  INTO sys_menu (id, pid, icon, name, path, seq, type) VALUES ('jobLog', 'jobMgr', 'FileOutlined', '作业日志', '/job/logList', 2, 'MENU');
-
-
-REPLACE  INTO sys_menu (id, pid, icon, name, path, seq, type) VALUES ('machine', 'sysMonitor', NULL, '服务监控', '/system/machine', 1, 'MENU');
-REPLACE  INTO sys_menu (id, pid, icon, name, path, seq, type) VALUES ('dev', 'sys', 'JavaOutlined', '开发管理', '/code', 200, 'MENU');
-
-REPLACE  INTO sys_menu (id, pid, icon, name, path, seq, type) VALUES ('api', 'sys', 'ApiOutlined', '开放接口', NULL, 201, 'DIR');
-REPLACE  INTO sys_menu (id, pid, icon, name, path, seq, type) VALUES ('apiAccount', 'api', 'ApiOutlined', '账户管理', '/api', 1, 'MENU');
-REPLACE  INTO sys_menu (id, pid, icon, name, path, seq, type) VALUES ('apiAccountResource', 'api', 'ApiOutlined', '账户授权', NULL, 2, 'MENU');
-REPLACE  INTO sys_menu (id, pid, icon, name, path, seq, type) VALUES ('apiResource', 'api', 'ApiOutlined', '接口管理', '/api/resource', 3, 'MENU');
-REPLACE  INTO sys_menu (id, pid, icon, name, path, seq, type) VALUES ('apiAccessLog', 'api', 'ApiOutlined', '访问记录', '/api/accessLog', 4, 'MENU');
+INSERT IGNORE sys_menu (id, pid, icon, name, path, seq, type) VALUES ('jobMgr', 'sys', 'ScheduleOutlined', '作业调度', NULL, 7, 'DIR');
+INSERT IGNORE sys_menu (id, pid, icon, name, path, seq, type) VALUES ('job', 'jobMgr', 'OrderedListOutlined', '作业管理', '/job', 1012, 'MENU');
+INSERT IGNORE sys_menu (id, pid, icon, name, path, seq, type) VALUES ('jobStatus', 'jobMgr', 'FundViewOutlined', '作业监控', '/job/status', 3, 'MENU');
+INSERT IGNORE sys_menu (id, pid, icon, name, path, seq, type) VALUES ('jobLog', 'jobMgr', 'FileOutlined', '作业日志', '/job/logList', 2, 'MENU');
 
 
+INSERT IGNORE sys_menu (id, pid, icon, name, path, seq, type) VALUES ('machine', 'sysMonitor', NULL, '服务监控', '/system/machine', 1, 'MENU');
+INSERT IGNORE sys_menu (id, pid, icon, name, path, seq, type) VALUES ('dev', 'sys', 'JavaOutlined', '开发管理', '/code', 200, 'MENU');
 
-REPLACE  INTO sys_menu (id, pid, icon, name, path, seq, type) VALUES ('sysManual', 'sys', 'CopyOutlined', '操作手册', '/system/sysManual', 4, 'MENU');
-REPLACE  INTO sys_menu (id, pid, icon, name, path, seq, type) VALUES ('sysOnlineUser', 'sysMonitor', NULL, '在线用户', '/system/onlineUser', 4, 'MENU');
+INSERT IGNORE sys_menu (id, pid, icon, name, path, seq, type) VALUES ('api', 'sys', 'ApiOutlined', '开放接口', NULL, 201, 'DIR');
+INSERT IGNORE sys_menu (id, pid, icon, name, path, seq, type) VALUES ('apiAccount', 'api', 'ApiOutlined', '账户管理', '/api', 1, 'MENU');
+INSERT IGNORE sys_menu (id, pid, icon, name, path, seq, type) VALUES ('apiAccountResource', 'api', 'ApiOutlined', '账户授权', NULL, 2, 'MENU');
+INSERT IGNORE sys_menu (id, pid, icon, name, path, seq, type) VALUES ('apiResource', 'api', 'ApiOutlined', '接口管理', '/api/resource', 3, 'MENU');
+INSERT IGNORE sys_menu (id, pid, icon, name, path, seq, type) VALUES ('apiAccessLog', 'api', 'ApiOutlined', '访问记录', '/api/accessLog', 4, 'MENU');
 
-REPLACE  INTO sys_menu (id, pid, icon, name, path, seq, type) VALUES ('sysConfig', 'sys', 'SettingOutlined', '系统参数', '/system/config', 5, 'MENU');
-REPLACE  INTO sys_menu (id, pid, icon, name, path, seq, type) VALUES ('sysDict', 'sys', 'FileSearchOutlined', '数据字典', '/system/dict', 5, 'MENU');
-REPLACE  INTO sys_menu (id, pid, icon, name, path, seq, type) VALUES ('sysLog', 'sysMonitor', NULL, '操作日志', '/system/log', 5, 'MENU');
-REPLACE  INTO sys_menu (id, pid, icon, name, path, seq, type) VALUES ('sysFile', 'sys', 'FolderOpenOutlined', '存储文件', '/system/file', 6, 'MENU');
 
-REPLACE  INTO sys_menu (id, pid, icon, name, path, seq, type) VALUES ('sys_entity_gen', 'dev', 'JavaScriptOutlined', '生成代码', '/dev/code', 10, 'MENU');
-REPLACE  INTO sys_menu (id, pid, icon, name, path, seq, type) VALUES ('sysMenu', 'sys', 'AppstoreOutlined', '菜单管理', '/system/menu', 10, 'MENU');
-REPLACE  INTO sys_menu (id, pid, icon, name, path, seq, type) VALUES ('sysMenuBadge', 'sys', 'MessageOutlined', '菜单红点', '/system/menuBadge', 11, 'MENU');
-REPLACE  INTO sys_menu (id, pid, icon, name, path, seq, type) VALUES ('requestTest', 'dev', 'LinkOutlined', '请求测试', '/dev/requestTest', 40, 'MENU');
 
-REPLACE  INTO sys_menu (id, pid, icon, name, path, seq, type) VALUES ('sysMonitor', 'sys', 'DesktopOutlined', '系统监控', NULL, 199, 'DIR');
+INSERT IGNORE sys_menu (id, pid, icon, name, path, seq, type) VALUES ('sysManual', 'sys', 'CopyOutlined', '操作手册', '/system/sysManual', 4, 'MENU');
+INSERT IGNORE sys_menu (id, pid, icon, name, path, seq, type) VALUES ('sysOnlineUser', 'sysMonitor', NULL, '在线用户', '/system/onlineUser', 4, 'MENU');
+
+INSERT IGNORE sys_menu (id, pid, icon, name, path, seq, type) VALUES ('sysConfig', 'sys', 'SettingOutlined', '系统参数', '/system/config', 5, 'MENU');
+INSERT IGNORE sys_menu (id, pid, icon, name, path, seq, type) VALUES ('sysDict', 'sys', 'FileSearchOutlined', '数据字典', '/system/dict', 5, 'MENU');
+INSERT IGNORE sys_menu (id, pid, icon, name, path, seq, type) VALUES ('sysLog', 'sysMonitor', NULL, '操作日志', '/system/log', 5, 'MENU');
+INSERT IGNORE sys_menu (id, pid, icon, name, path, seq, type) VALUES ('sysFile', 'sys', 'FolderOpenOutlined', '存储文件', '/system/file', 6, 'MENU');
+
+INSERT IGNORE sys_menu (id, pid, icon, name, path, seq, type) VALUES ('sys_entity_gen', 'dev', 'JavaScriptOutlined', '生成代码', '/dev/code', 10, 'MENU');
+INSERT IGNORE sys_menu (id, pid, icon, name, path, seq, type) VALUES ('sysMenu', 'sys', 'AppstoreOutlined', '菜单管理', '/system/menu', 10, 'MENU');
+INSERT IGNORE sys_menu (id, pid, icon, name, path, seq, type) VALUES ('sysMenuBadge', 'sys', 'MessageOutlined', '菜单红点', '/system/menuBadge', 11, 'MENU');
+INSERT IGNORE sys_menu (id, pid, icon, name, path, seq, type) VALUES ('requestTest', 'dev', 'LinkOutlined', '请求测试', '/dev/requestTest', 40, 'MENU');
+
+INSERT IGNORE sys_menu (id, pid, icon, name, path, seq, type) VALUES ('sysMonitor', 'sys', 'DesktopOutlined', '系统监控', NULL, 199, 'DIR');
 
