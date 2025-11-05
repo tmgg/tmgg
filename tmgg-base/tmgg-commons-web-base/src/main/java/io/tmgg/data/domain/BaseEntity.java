@@ -31,7 +31,7 @@ public abstract class BaseEntity implements PersistEntity, Serializable {
     public static final String FIELD_UPDATE_USER = "updateUser";
 
 
-    public static final String[] BASE_ENTITY_FIELDS = new String[]{FIELD_ID, FIELD_CREATE_TIME, FIELD_CREATE_USER, FIELD_UPDATE_TIME, FIELD_UPDATE_USER};
+    public static final String[] BASE_ENTITY_FIELDS = new String[]{FIELD_ID, FIELD_CREATE_TIME, FIELD_CREATE_USER, FIELD_UPDATE_TIME, FIELD_UPDATE_USER, "lockVersion"};
 
 
     public BaseEntity() {
