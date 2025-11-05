@@ -1,9 +1,9 @@
 DELIMITER $$
 
-DROP PROCEDURE IF EXISTS drop_column_if_exists
+DROP PROCEDURE IF EXISTS drop_column
 $$
 
-CREATE PROCEDURE drop_column_if_exists(
+CREATE PROCEDURE drop_column(
     IN p_table_name VARCHAR(64),
     IN p_column_name VARCHAR(64)
 )
