@@ -1,6 +1,5 @@
 server:
   port: 8002
-
 spring:
   jackson:
     time-zone: GMT+8
@@ -44,3 +43,4 @@ logging:
   file:
     name: /data/logs/info.log
     path: /data/logs/
+

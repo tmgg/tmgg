@@ -49,7 +49,7 @@ public class ApiResourceService extends BaseService<ApiResource> {
     public void add(ApiResource r) {
         ApiResource old = dao.findByName(r.getName());
         if (old != null) {
-            if (!old.getAction().equals(r.getAction())) {
+            if (old.getAction() == null || !old.getAction().equals(r.getAction())) {
                 accountResourceService.deleteByResource(old);
                 dao.delete(old);
                 dao.flush();
