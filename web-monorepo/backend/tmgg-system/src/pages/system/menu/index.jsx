@@ -91,15 +91,6 @@ export default class extends React.Component {
                         dataIndex: 'path'
                     },
                     {
-                        title: '菜单可见',
-                        dataIndex: 'visible', width: 80,
-                        render(v) {
-                            if (v) {
-                                return v ? '是' : '否'
-                            }
-                        }
-                    },
-                    {
                         title: '排序',
                         dataIndex: 'seq',
                     },
