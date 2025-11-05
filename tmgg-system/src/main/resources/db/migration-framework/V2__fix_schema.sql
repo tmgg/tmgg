@@ -1,4 +1,2 @@
-CALL drop_column('sys_dict', 'text');
-CALL drop_column('sys_dict', 'builtin');
-CALL drop_column('sys_menu', 'visible');
-ALTER TABLE `sys_dict` CHANGE COLUMN `name` `text` varchar(80);
+CALL drop_column_if_exists('sys_dict', 'builtin');
+CALL drop_column_if_exists('sys_menu', 'visible');

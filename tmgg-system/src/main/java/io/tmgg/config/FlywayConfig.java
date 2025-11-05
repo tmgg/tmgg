@@ -3,6 +3,7 @@ package io.tmgg.config;
 import io.tmgg.init.SystemHook;
 import io.tmgg.init.SystemHookEventType;
 import org.flywaydb.core.Flyway;
+import org.flywaydb.core.api.MigrationVersion;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -25,6 +26,7 @@ public class FlywayConfig implements SystemHook {
                             .dataSource(ds)
                             .locations("classpath:db/migration-framework")
                             .baselineOnMigrate(true)
+                            .baselineVersion("0")
                             .table("flyway_schema_history_framework")
                             .load();
                     flyway.migrate();

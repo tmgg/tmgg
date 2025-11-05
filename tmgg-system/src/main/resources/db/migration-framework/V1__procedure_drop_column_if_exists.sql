@@ -1,3 +1,7 @@
+-- 1. 如果存储过程已存在，先删除
+DROP PROCEDURE IF EXISTS drop_column_if_exists;
+
+-- 2. 重新创建存储过程
 DELIMITER //
 
 CREATE PROCEDURE drop_column_if_exists(
@@ -22,9 +26,9 @@ BEGIN
         EXECUTE stmt;
         DEALLOCATE PREPARE stmt;
 
-        SELECT CONCAT('列 "', p_column_name, '" 已从表 "', p_table_name, '" 中删除') AS message;
+        SELECT CONCAT('✅ 列 "', p_column_name, '" 已从表 "', p_table_name, '" 中删除') AS message;
     ELSE
-        SELECT CONCAT('列 "', p_column_name, '" 在表 "', p_table_name, '" 中不存在') AS message;
+        SELECT CONCAT('ℹ️ 列 "', p_column_name, '" 在表 "', p_table_name, '" 中不存在') AS message;
     END IF;
 END //
 
