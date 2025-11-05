@@ -16,7 +16,7 @@ public class FlywayFrameworkConfig implements SystemHook {
 
 
     @Bean
-    public SystemHook flywayFrameworkConfig(DataSource ds) {
+    public SystemHook flywayFrameworkHook(DataSource ds) {
         return new SystemHook() {
             @Override
             public void onEvent(SystemHookEventType eventType) {
