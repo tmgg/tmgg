@@ -24,7 +24,7 @@ public class FlywayConfig implements SystemHook {
 
 
     @Bean
-    public SystemHook hook(Flyway flyway){
+    public SystemHook flywayHook(Flyway flyway){
         return  new SystemHook() {
             @Override
             public void onEvent(SystemHookEventType eventType) {
