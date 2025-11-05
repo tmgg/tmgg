@@ -35,8 +35,6 @@ spring:
     type: simple
   flyway:
     baseline-on-migrate: true
-    baseline-version: 2 # 新的项目从2开始，老项目就设置0.3.91 或1.0.0
-    out-of-order: true
 logging:
   charset:
     console: UTF-8
