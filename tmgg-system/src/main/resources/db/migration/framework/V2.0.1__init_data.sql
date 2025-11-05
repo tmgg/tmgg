@@ -18,7 +18,6 @@ INSERT INTO sys_config (id, label, default_value, remark, seq, value_type) VALUE
 INSERT INTO sys_config (id, label, default_value, remark, seq, value_type) VALUES ('sys.siteInfo.waterMark', '开启水印', NULL, '在所有页面增加水印', NULL, 'boolean');
 
 
-
 INSERT INTO sys_menu (id, pid, icon, name, path, seq, type) VALUES ('biz', NULL, NULL, '业务模块', NULL, 0, 'DIR');
 INSERT INTO sys_menu (id, pid, icon, name, path, seq, type) VALUES ('sys', NULL, NULL, '系统管理', NULL, 1000, 'DIR');
 
