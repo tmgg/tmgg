@@ -3,37 +3,38 @@ package io.tmgg.config;
 import io.tmgg.init.SystemHook;
 import io.tmgg.init.SystemHookEventType;
 import org.flywaydb.core.Flyway;
-import org.flywaydb.core.api.MigrationVersion;
+import org.springframework.boot.autoconfigure.flyway.FlywayMigrationInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import javax.sql.DataSource;
-
 /**
- * 框架级别的flyway手动创建执行，这样可框架使用者就不会发生冲突了
+ * flyway默认在jpa建表前执行，这里调整下顺序。
+ * 实现思路：
+ * 1 flyway默认初始化时不执行操作
+ * 2 等待框架级别的事件出发
  */
 @Configuration
 public class FlywayConfig implements SystemHook {
+    @Bean
+    public FlywayMigrationInitializer flywayInitializer(Flyway flyway) {
+        return new FlywayMigrationInitializer(flyway, (f) -> {
+            // do noting
+        });
+    }
 
 
     @Bean
-    public SystemHook hook(DataSource ds) {
-        return new SystemHook() {
+    public SystemHook hook(Flyway flyway){
+        return  new SystemHook() {
             @Override
             public void onEvent(SystemHookEventType eventType) {
-                if (eventType == SystemHookEventType.BEFORE_DATA_INIT) {
-                    Flyway flyway = Flyway.configure()
-                            .dataSource(ds)
-                            .locations("classpath:db/migration-framework")
-                            .baselineOnMigrate(true)
-                            .baselineVersion("0")
-                            .table("flyway_schema_history_framework")
-                            .load();
+                if(eventType == SystemHookEventType.BEFORE_DATA_INIT){
                     flyway.migrate();
                 }
             }
         };
     }
+
 
 
 }
