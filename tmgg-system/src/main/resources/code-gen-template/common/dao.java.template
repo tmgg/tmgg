@@ -2,6 +2,7 @@ package ${modulePackageName}.dao;
 
 import ${modulePackageName}.entity.${name};
 import org.springframework.stereotype.Repository;
+import io.tmgg.data.repository.BaseDao;
 
 @Repository
 public class ${name}Dao extends BaseDao<${name}> {

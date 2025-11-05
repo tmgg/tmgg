@@ -2,9 +2,9 @@ package ${modulePackageName}.controller;
 
 import io.tmgg.data.query.JpaQuery;
 import io.tmgg.dto.AjaxResult;
-{modulePackageName}.entity.${name};
+import ${modulePackageName}.entity.${name};
 import ${modulePackageName}.service.${name}Service;
-
+import jakarta.annotation.Resource;
 import io.tmgg.web.annotion.HasPermission;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
