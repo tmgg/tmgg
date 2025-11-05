@@ -5,7 +5,6 @@ import io.tmgg.common.AntDesignIcon;
 import io.tmgg.lang.tree.TreeManager;
 import io.tmgg.lang.TreeTool;
 import io.tmgg.dto.TreeNode;
-import io.tmgg.modules.system.dao.JsonEntityFileDao;
 import io.tmgg.modules.system.dao.SysMenuDao;
 import io.tmgg.modules.system.entity.SysMenu;
 import io.tmgg.web.enums.MenuType;
@@ -29,15 +28,12 @@ public class SysMenuService extends BaseService<SysMenu> {
     @Resource
     private SysMenuDao sysMenuDao;
 
-    @Resource
-    JsonEntityFileDao jsonEntityFileDao;
-
 
     /**
      * 不含按钮 及 不显示的东西
      */
     public Map<String, SysMenu> findMenuMap() {
-        List<SysMenu> sysMenuList = sysMenuDao.findMenuVisible();
+        List<SysMenu> sysMenuList = sysMenuDao.findAllWithoutBtn();
         return sysMenuList.stream().collect(Collectors.toMap(BaseEntity::getId, t -> t));
     }
 
@@ -47,11 +43,11 @@ public class SysMenuService extends BaseService<SysMenu> {
     }
 
     public List<SysMenu> findMenuVisible() {
-        return sysMenuDao.findMenuVisible();
+        return sysMenuDao.findAllWithoutBtn();
     }
 
     public List<TreeNode> menuTree() {
-        List<SysMenu> all = sysMenuDao.findMenuVisible();
+        List<SysMenu> all = sysMenuDao.findAllWithoutBtn();
 
         Collection<TreeNode> nodes = new ArrayList<>();
 

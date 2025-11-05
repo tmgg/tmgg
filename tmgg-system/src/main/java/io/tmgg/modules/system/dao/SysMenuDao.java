@@ -18,10 +18,9 @@ public class SysMenuDao extends BaseDao<SysMenu> {
 
 
 
-    public List<SysMenu> findMenuVisible() {
+    public List<SysMenu> findAllWithoutBtn() {
         JpaQuery<SysMenu> query = new JpaQuery<>();
         query.ne(SysMenu.Fields.type, MenuType.BTN);
-        query.eq(SysMenu.Fields.visible, true);
 
         List<SysMenu> list = this.findAll(query, Sort.by(SysMenu.Fields.seq));
         return list;

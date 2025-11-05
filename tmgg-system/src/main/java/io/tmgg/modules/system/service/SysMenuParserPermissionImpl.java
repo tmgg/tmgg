@@ -65,7 +65,6 @@ public class SysMenuParserPermissionImpl implements SysMenuParser {
 
                     String pid = StringUtils.substringBeforeLast(perm, ":");
                     btn.setPid(pid);
-                    btn.setVisible(false);
                     btn.setId(convertPermToId(perm));
                     result.add(btn);
                 }

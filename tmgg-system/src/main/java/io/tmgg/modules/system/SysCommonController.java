@@ -5,9 +5,9 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.Dict;
 import cn.hutool.core.util.StrUtil;
 import io.tmgg.config.SysProp;
-import io.tmgg.lang.tree.TreeManager;
-import io.tmgg.lang.ann.PublicRequest;
 import io.tmgg.dto.AjaxResult;
+import io.tmgg.lang.ann.PublicRequest;
+import io.tmgg.lang.tree.TreeManager;
 import io.tmgg.modules.system.dto.mapper.MenuMapper;
 import io.tmgg.modules.system.dto.response.MenuResponse;
 import io.tmgg.modules.system.dto.response.UserResponse;
@@ -27,7 +27,9 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 
@@ -133,7 +135,8 @@ public class SysCommonController {
         Set<SysRole> roles = user.getRoles();
 
         List<SysMenu> menuList = roleService.ownMenu(roles);
-        List<SysMenu> onlyMenuList = menuList.stream().filter(t -> t.getType() != MenuType.BTN).toList();
+        List<SysMenu> onlyMenuList = menuList.stream()
+                .filter(t -> t.getPath() != null || t.getType() == MenuType.DIR).toList();
 
         List<MenuResponse> menuResponseList = menuMapper.menuToResponseList(onlyMenuList);
 
@@ -141,7 +144,7 @@ public class SysCommonController {
         TreeManager<MenuResponse> tm = TreeManager.of(menuResponseList);
         List<MenuResponse> tree = tm.getTree();
 
-        tree.removeIf(t-> CollUtil.isEmpty(t.getChildren()));
+        tree.removeIf(t -> CollUtil.isEmpty(t.getChildren()));
 
         Map<String, MenuResponse> treeMap = tm.getMap();
         tm.traverseTree(tree, item -> {

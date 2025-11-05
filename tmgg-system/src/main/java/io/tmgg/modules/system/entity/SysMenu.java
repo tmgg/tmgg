@@ -53,9 +53,7 @@ public class SysMenu extends BaseEntity implements TreeNode<SysMenu> {
     @Column(unique = true,  length = 100)
     private String perm;
 
-    @Remark("是否可见")
-    @NotNull
-    private Boolean visible;
+
 
     @Remark("排序")
     @NotNull
@@ -78,7 +76,6 @@ public class SysMenu extends BaseEntity implements TreeNode<SysMenu> {
 
     @Override
     public void prePersistOrUpdate() {
-        visible = ObjectUtils.defaultIfNull(visible, true);
         type = ObjectUtils.defaultIfNull(type, MenuType.MENU);
         seq = ObjectUtils.defaultIfNull(seq, 1);
         Assert.hasText(perm,"权限码不能为空: " + getName() + "," + getId());
