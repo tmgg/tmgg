@@ -1,3 +1,3 @@
-INSERT INTO sys_menu (id, pid, icon, name, path, seq, type) VALUES ('${firstLowerName}', 'biz', NULL, '${label}', '/${module}/${firstLowerName}', 1, 'MENU');
+INSERT IGNORE INTO sys_menu (id, pid, icon, name, path, seq, type) VALUES ('${firstLowerName}', 'biz', NULL, '${label}', '/${module}/${firstLowerName}', 1, 'MENU');
 
 
