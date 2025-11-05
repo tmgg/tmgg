@@ -1,6 +1,8 @@
 package io.tmgg.modules.dev.code.controller;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.date.DatePattern;
+import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.io.resource.ResourceUtil;
 import io.tmgg.lang.FreemarkerTool;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Slf4j
@@ -99,6 +102,7 @@ public class SysCodeGenController {
 
         BeanInfo bean = codeGenService.getBeanInfo(Class.forName(cls));
         Map<String, Object> model = BeanUtil.beanToMap(bean);
+        model.put("time", DateUtil.format(new Date(), DatePattern.PURE_DATETIME_FORMATTER));
 
         for (Map.Entry<Object, Object> e : prop.entrySet()) {
             String templateFile = (String) e.getKey();
