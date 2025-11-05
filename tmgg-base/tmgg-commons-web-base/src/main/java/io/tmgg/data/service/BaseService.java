@@ -48,7 +48,7 @@ public abstract class BaseService<T extends PersistEntity> {
      * @throws Exception
      */
     @Transactional
-    public T saveOrUpdateByClient(T input, List<String> updateKeys) throws Exception {
+    public T saveOrUpdateByRequest(T input, List<String> updateKeys) throws Exception {
         String id = input.getId();
         if (id == null) {
             return baseDao.persist(input);
@@ -60,16 +60,16 @@ public abstract class BaseService<T extends PersistEntity> {
 
 
     @Transactional
-    public void deleteByClient(String id) {
+    public void deleteByRequest(String id) {
         this.deleteById(id);
     }
 
-    public Page<T> findAllByClient(JpaQuery<T> q, Pageable pageable) {
+    public Page<T> findAllByRequest(JpaQuery<T> q, Pageable pageable) {
         return this.findAll(q, pageable);
     }
 
-    public Page<T> findOneByClient(String id) {
-        return this.findOneByClient(id);
+    public Page<T> findOneByRequest(String id) {
+        return this.findOneByRequest(id);
     }
 
 

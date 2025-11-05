@@ -18,7 +18,7 @@ public class SysMenuBadgeService extends BaseService<SysMenuBadge> {
     SysMenuService sysMenuService;
 
     @Override
-    public Page<SysMenuBadge> findAllByClient(JpaQuery<SysMenuBadge> q, Pageable pageable) {
+    public Page<SysMenuBadge> findAllByRequest(JpaQuery<SysMenuBadge> q, Pageable pageable) {
         Map<String, SysMenu> menuMap = sysMenuService.findMenuMap();
 
         Page<SysMenuBadge> page = this.findAll( pageable);
@@ -30,7 +30,7 @@ public class SysMenuBadgeService extends BaseService<SysMenuBadge> {
                 m.setMenuName(sysMenu.getName());
             }
         }
-        return super.findAllByClient(q, pageable);
+        return super.findAllByRequest(q, pageable);
     }
 }
 

@@ -54,7 +54,7 @@ public class SysRoleController extends BaseController<SysRole> {
     public AjaxResult save(@RequestBody SysRole role, RequestBodyKeys updateFields) throws Exception {
         role.setBuiltin(false);
 
-        role = sysRoleService.saveOrUpdateByClient(role, updateFields);
+        role = sysRoleService.saveOrUpdateByRequest(role, updateFields);
 
         AjaxResult result = AjaxResult.ok().data(role).msg("保存角色成功");
         return result;

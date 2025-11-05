@@ -17,8 +17,8 @@ public class WeixinMiniService extends BaseService<WeixinMini> {
   private   WxMaService wxMaService;
 
     @Override
-    public WeixinMini saveOrUpdateByClient(WeixinMini input, List<String> updateKeys) throws Exception {
-        WeixinMini weixinMini = super.saveOrUpdateByClient(input,updateKeys);
+    public WeixinMini saveOrUpdateByRequest(WeixinMini input, List<String> updateKeys) throws Exception {
+        WeixinMini weixinMini = super.saveOrUpdateByRequest(input,updateKeys);
         this.loadConfig();
         return weixinMini;
     }

@@ -191,14 +191,14 @@ public class SysUserService extends BaseService<SysUser> {
     }
 
     @Override
-    public SysUser saveOrUpdateByClient(SysUser input, List<String> updateKeys) throws Exception {
+    public SysUser saveOrUpdateByRequest(SysUser input, List<String> updateKeys) throws Exception {
         boolean isNew = input.isNew();
         if (isNew) {
             String password = sysConfigService.getDefaultPassWord();
             input.setPassword(PasswordTool.encode(password));
         }
 
-        super.saveOrUpdateByClient(input, updateKeys);
+        super.saveOrUpdateByRequest(input, updateKeys);
         return null;
     }
 

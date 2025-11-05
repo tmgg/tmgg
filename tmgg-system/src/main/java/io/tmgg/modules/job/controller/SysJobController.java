@@ -87,7 +87,7 @@ public class SysJobController {
     public AjaxResult save(@RequestBody SysJob param, RequestBodyKeys updateFields) throws Exception {
         Class.forName(param.getJobClass());
 
-        service.saveOrUpdateByClient(param,updateFields);
+        service.saveOrUpdateByRequest(param,updateFields);
         return AjaxResult.ok().msg("操作成功");
     }
 

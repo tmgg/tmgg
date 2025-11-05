@@ -27,7 +27,7 @@ import java.util.List;
  *     {@literal @}HasPermission
  *     {@literal @}PostMapping("save")
  *     public AjaxResult save({@literal @}RequestBody T input, RequestBodyKeys updateFields) throws Exception {
- *           service.saveOrUpdateByClient(input,updateFields);
+ *           service.saveOrUpdateByRequest(input,updateFields);
  *         return AjaxResult.ok().msg("保存成功");
  *     }
  *  ```

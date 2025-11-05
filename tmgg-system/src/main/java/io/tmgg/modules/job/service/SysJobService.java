@@ -38,9 +38,9 @@ public class SysJobService extends BaseService<SysJob> {
     }
 
     @Override
-    public SysJob saveOrUpdateByClient(SysJob input, List<String> updateKeys) throws Exception {
+    public SysJob saveOrUpdateByRequest(SysJob input, List<String> updateKeys) throws Exception {
         String jobClass = input.getJobClass();
-        SysJob db= super.saveOrUpdateByClient(input,updateKeys);
+        SysJob db= super.saveOrUpdateByRequest(input,updateKeys);
 
         try{
             Class<?> cls = Class.forName(jobClass);

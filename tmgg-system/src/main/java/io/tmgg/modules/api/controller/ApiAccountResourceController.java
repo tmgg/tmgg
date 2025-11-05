@@ -30,7 +30,7 @@ public class ApiAccountResourceController {
         q.searchText(searchText, service.getSearchableFields());
         q.eq(ApiAccountResource.Fields.account + ".id", accountId);
 
-        Page<ApiAccountResource> page = service.findAllByClient(q, pageable);
+        Page<ApiAccountResource> page = service.findAllByRequest(q, pageable);
 
         return AjaxResult.ok().data(page);
     }
@@ -39,7 +39,7 @@ public class ApiAccountResourceController {
     @HasPermission
     @PostMapping("save")
     public AjaxResult save(@RequestBody ApiAccountResource input, RequestBodyKeys updateFields) throws Exception {
-        service.saveOrUpdateByClient(input, updateFields);
+        service.saveOrUpdateByRequest(input, updateFields);
         return AjaxResult.ok().msg("保存成功");
     }
 
@@ -47,7 +47,7 @@ public class ApiAccountResourceController {
     @HasPermission
     @RequestMapping("delete")
     public AjaxResult delete(String id) {
-        service.deleteByClient(id);
+        service.deleteByRequest(id);
         return AjaxResult.ok().msg("删除成功");
     }
 

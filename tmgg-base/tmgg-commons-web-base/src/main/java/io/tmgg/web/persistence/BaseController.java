@@ -43,7 +43,7 @@ public abstract class BaseController<T extends PersistEntity> {
         param.remove("page");
         q.searchParams(param, service.getDomainClass());
 
-        Page<T> page = service.findAllByClient(q, pageable);
+        Page<T> page = service.findAllByRequest(q, pageable);
 
         if ("EXCEL".equals(exportType)) {
             service.exportExcel(page, service.getDomainClass());
@@ -57,7 +57,7 @@ public abstract class BaseController<T extends PersistEntity> {
     @HasPermission
     @PostMapping("save")
     public AjaxResult save(@RequestBody T input, RequestBodyKeys updateFields) throws Exception {
-        service.saveOrUpdateByClient(input, updateFields);
+        service.saveOrUpdateByRequest(input, updateFields);
         return AjaxResult.ok().msg("保存成功");
     }
 
@@ -65,7 +65,7 @@ public abstract class BaseController<T extends PersistEntity> {
     @HasPermission
     @RequestMapping("delete")
     public AjaxResult delete(String id) {
-        service.deleteByClient(id);
+        service.deleteByRequest(id);
         return AjaxResult.ok().msg("删除成功");
     }
 
