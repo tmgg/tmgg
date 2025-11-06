@@ -373,14 +373,6 @@ public final class PoiReflectorUtil {
         return false;
     }
 
-    public Map<String, Method> getGetMethods() {
-        return getMethods;
-    }
-
-    public List<Field> getFieldList() {
-        return fieldList;
-    }
-
     public Object execEnumStaticMethod(String staticMethod, Object params) {
         if (!enumMethods.containsKey(setMethods)) {
             try {
