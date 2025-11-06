@@ -10,8 +10,8 @@ import io.tmgg.modules.system.dao.SysDictItemDao;
 import io.tmgg.modules.system.entity.SysDict;
 import io.tmgg.modules.system.entity.SysDictItem;
 import jakarta.annotation.Resource;
+import jakarta.validation.constraints.NotNull;
 import lombok.extern.slf4j.Slf4j;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
@@ -76,7 +76,6 @@ public class DictAnnHandler {
     }
 
 
-    @NotNull
     private static Set<Class<?>> scanEnum() {
         Set<Class<?>> result = new HashSet<>();
         Set<Class<?>> all = SpringTool.getBasePackageClasses();
