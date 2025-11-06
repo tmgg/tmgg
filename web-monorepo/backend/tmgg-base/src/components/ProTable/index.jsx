@@ -175,14 +175,22 @@ export class ProTable extends React.Component {
 
 
     renderForm = () => {
+        if(this.props.searchFormItemsRender) {
+            throw  new Error('不再支持 searchFormItemsRender，请直接放到ProTable的子节点')
+        }
         let showSearch = this.showSearch;
-        if(this.props.children || this.props.searchFormItemsRender){
+        if(this.props.children ){
             showSearch = false
         }
         return <Form
             layout="inline"
             onFinish={(values) => this.onSearch(values)}
-            ref={this.formRef}
+            ref={(instance)=>{
+                this.formRef.current = instance;
+                if(this.props.formRef != null){
+                    this.props.formRef.current = instance;
+                }
+            }}
             style={{gap: '8px 0px',marginBottom:12}}
             labelCol={{flex:'70px'}}
         >
@@ -191,7 +199,6 @@ export class ProTable extends React.Component {
                 <Input style={{width: 200}} placeholder='搜索...'/>
             </Form.Item>}
 
-            {this.props.searchFormItemsRender && this.props.searchFormItemsRender(this.formRef.current)}
             {this.props.children}
 
             <Form.Item>

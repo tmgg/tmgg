@@ -20,6 +20,9 @@ declare type ProTableProps = {
      */
     defaultPageSize?:number,
 
+    /**
+     * 查询表单的引用
+     */
     formRef?: React.Ref<any>,
 
     // 如果是false，则不显示
