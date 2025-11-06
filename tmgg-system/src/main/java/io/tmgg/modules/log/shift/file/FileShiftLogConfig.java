@@ -15,7 +15,6 @@ import ch.qos.logback.core.joran.spi.JoranException;
 import ch.qos.logback.core.sift.AppenderFactory;
 import jakarta.annotation.PostConstruct;
 import lombok.Getter;
-import org.jetbrains.annotations.NotNull;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
@@ -82,7 +81,6 @@ public class FileShiftLogConfig {
         jobLogger.addAppender(siftingAppender);
     }
 
-    @NotNull
     public File buildLogFile(String key) {
         File file = new File(logPath ,  key + ".log");
         System.out.println("计算文件日志地址 " +file.getAbsolutePath());

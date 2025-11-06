@@ -8,7 +8,6 @@ import jakarta.persistence.RollbackException;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.transaction.TransactionSystemException;
 
@@ -49,7 +48,6 @@ public class ExceptionToMessageTool {
         return throwable.getMessage();
     }
 
-    @NotNull
     private static String convert(DataIntegrityViolationException e) {
         if (e.getCause() != null && e.getCause().getCause() != null) {
             Throwable ex = e.getCause().getCause();

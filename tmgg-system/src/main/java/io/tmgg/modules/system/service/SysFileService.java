@@ -24,7 +24,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
@@ -326,7 +325,6 @@ public class SysFileService {
         return fileOperator.exist(file.getObjectName());
     }
 
-    @NotNull
     private String genObjectName(String id, String suffix, Integer size) {
         String baseName = id;
         if (size != null) {
@@ -335,7 +333,6 @@ public class SysFileService {
         return DateUtil.format(new Date(), "yyyyMM") + "/" + baseName + "." + suffix;
     }
 
-    @NotNull
     private String getObjectName(SysFile file, Integer size) {
         if (size == null) {
             return file.getObjectName();

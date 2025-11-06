@@ -4,7 +4,6 @@ package io.tmgg.modules.system.file;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -44,7 +43,6 @@ public class LocalFileOperator implements FileOperator {
         FileUtil.copyFile(file, new File(absoluteFile));
     }
 
-    @NotNull
     private String getAbsoluteFile(String key) {
         return dir + key;
     }

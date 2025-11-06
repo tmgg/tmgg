@@ -10,7 +10,6 @@ import io.tmgg.modules.api.entity.ApiResourceArgument;
 import io.tmgg.modules.api.entity.ApiResourceArgumentReturn;
 import io.tmgg.data.service.BaseService;
 import jakarta.annotation.Resource;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.core.StandardReflectionParameterNameDiscoverer;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -96,7 +95,6 @@ public class ApiResourceService extends BaseService<ApiResource> {
         }
     }
 
-    @NotNull
     private List<ApiResourceArgument> parseArgs(Method method) {
 
         Class<?>[] parameters = method.getParameterTypes();
