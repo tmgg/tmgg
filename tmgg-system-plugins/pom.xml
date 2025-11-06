@@ -14,6 +14,5 @@
     <modules>
         <module>tmgg-system-ureport</module>
         <module>tmgg-system-flowable</module>
-        <module>tmgg-system-weixin</module>
     </modules>
 </project>
