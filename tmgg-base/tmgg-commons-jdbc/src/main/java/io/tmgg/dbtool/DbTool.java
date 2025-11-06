@@ -486,11 +486,7 @@ public class DbTool {
         try (Connection conn = this.getRunner().getDataSource().getConnection()) {
             DatabaseMetaData metaData = conn.getMetaData();
 
-
-            Set<String> set;
             try (ResultSet rs = metaData.getColumns(null, null, tableName, null)) {
-
-                set = new HashSet<>();
                 while (rs.next()) {
                     String n = rs.getString("COLUMN_NAME");
 
