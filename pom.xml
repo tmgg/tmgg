@@ -37,6 +37,9 @@
         <hutool.version>5.8.41</hutool.version>
         <poi.version>5.4.1</poi.version>
         <mapstruct.version>1.5.5.Final</mapstruct.version>
+        <guava.version>33.5.0-jre</guava.version>
+
+
     </properties>
 
     <url>https://github.com/tmgg/tmgg</url>
@@ -144,6 +147,11 @@
                 <groupId>commons-io</groupId>
                 <artifactId>commons-io</artifactId>
                 <version>2.20.0</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
             </dependency>
         </dependencies>
 
