@@ -78,18 +78,6 @@
 
 
 
-##  动态显示字段
-
-
-app端请求时隐藏字段， 如createUser，updateTime等字段
-
-使用示例:
-```java
-@JsonIgnoreForApp
-private String updateUser;
-```
-
-
 
 ##  更新指定字段
 对比save方法更新的时所有字段，只更新指定字段
