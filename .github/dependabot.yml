@@ -6,7 +6,8 @@
 version: 2
 updates:
   - package-ecosystem: "npm"
-    directory: "/web-monorepo"
+    directories:
+      - "/web-monorepo/**/*"
     schedule:
       interval: "daily"
 
