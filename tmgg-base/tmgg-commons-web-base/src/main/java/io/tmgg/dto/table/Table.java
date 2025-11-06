@@ -4,7 +4,6 @@ package io.tmgg.dto.table;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.date.DateUtil;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import io.tmgg.commons.poi.excel.annotation.Excel;
 import io.tmgg.lang.ann.Remark;
 import io.tmgg.dto.Matrix;
 import jakarta.persistence.Lob;
@@ -132,16 +131,16 @@ public class Table<T> {
         Table<T> tb = new Table<>(list);
 
 
-        boolean hasExcelAnn = Arrays.stream(cls.getDeclaredFields()).anyMatch(t -> t.isAnnotationPresent(Excel.class));
+        boolean hasExcelAnn = Arrays.stream(cls.getDeclaredFields()).anyMatch(t -> t.isAnnotationPresent(Remark.class));
         if (hasExcelAnn) {
             for (Field f : cls.getDeclaredFields()) {
-                if (!f.isAnnotationPresent(Excel.class)) {
+                if (!f.isAnnotationPresent(Remark.class)) {
                     continue;
                 }
 
                 Class<?> type1 = f.getType();
                 if (type1.isAssignableFrom(String.class) || type1.isAssignableFrom(Number.class) || type1.isAssignableFrom(Date.class)) {
-                    String title = f.getAnnotation(Excel.class).name();
+                    String title = f.getAnnotation(Remark.class).value();
                     tb.addColumn(title, f.getName());
                 }
             }
