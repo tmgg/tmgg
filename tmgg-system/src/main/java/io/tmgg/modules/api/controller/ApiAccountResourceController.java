@@ -27,8 +27,8 @@ public class ApiAccountResourceController {
     @RequestMapping("page")
     public AjaxResult page(String searchText, String accountId, @PageableDefault(sort = "resource.action") Pageable pageable) throws Exception {
         JpaQuery<ApiAccountResource> q = new JpaQuery<>();
-        q.searchText(searchText, service.getSearchableFields());
         q.eq(ApiAccountResource.Fields.account + ".id", accountId);
+        q.like(ApiAccountResource.Fields.account + ".name", searchText);
 
         Page<ApiAccountResource> page = service.findAllByRequest(q, pageable);
 

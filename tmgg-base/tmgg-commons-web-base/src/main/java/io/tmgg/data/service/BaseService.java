@@ -143,17 +143,7 @@ public abstract class BaseService<T extends PersistEntity> {
         return this.findOptionList(labelFn, null, defaultSort);
     }
 
-    /**
-     * @param q
-     * @param labelFn
-     * @return
-     * @deprecated 统一使用labelFn为第一个参数
-     */
-    @Deprecated
-    public List<Option> findOptionList(JpaQuery<T> q, Function<T, String> labelFn) {
-        Sort defaultSort = Sort.by(Sort.Direction.DESC, "createTime");
-        return this.findOptionList(labelFn, q, defaultSort);
-    }
+
 
     public List<Option> findOptionList(Function<T, String> labelFn, JpaQuery<T> q) {
         Sort defaultSort = Sort.by(Sort.Direction.DESC, "createTime");
