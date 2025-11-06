@@ -80,8 +80,6 @@ jobs:
           cnpm sync @tmgg/tmgg-system
           cnpm sync @tmgg/tmgg-system-job
           cnpm sync @tmgg/tmgg-system-flowable
-          cnpm sync @tmgg/tmgg-system-weixin
-          cnpm sync @tmgg/tmgg-system-payment
 
 
 
