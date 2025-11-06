@@ -51,10 +51,11 @@ jobs:
         with:
           without_prefix_v: true # Remove prefix `v` from tag
 
-      - name: publish npm
+      - name: 发布 npm 包
         run: |
           npm install pnpm -g 
           cd web-monorepo 
+          pnpm install 
           pnpm -r exec pnpm version ${{ steps.tag.outputs.tag }}
           pnpm publish -r --access public --no-git-checks
 
