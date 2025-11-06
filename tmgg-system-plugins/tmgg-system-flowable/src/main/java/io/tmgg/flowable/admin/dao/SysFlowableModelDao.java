@@ -1,7 +1,7 @@
 package io.tmgg.flowable.admin.dao;
 
 import io.tmgg.flowable.admin.entity.ConditionVariable;
-import io.tmgg.flowable.admin.entity.FormItem;
+import io.tmgg.flowable.admin.entity.FormKey;
 import io.tmgg.flowable.admin.entity.SysFlowableModel;
 import io.tmgg.data.repository.BaseDao;
 import io.tmgg.data.query.JpaQuery;
@@ -24,7 +24,7 @@ public class SysFlowableModelDao extends BaseDao<SysFlowableModel> {
 
 
     @Transactional
-    public void init(String key, String name, List<ConditionVariable> vars, List<FormItem> formKeyList) {
+    public void init(String key, String name, List<ConditionVariable> vars, List<FormKey> formKeyList) {
         log.info("初始化流程定义 {} {} {} ", key, name,  vars);
         SysFlowableModel model = this.findByCode(key);
         if (model == null) {

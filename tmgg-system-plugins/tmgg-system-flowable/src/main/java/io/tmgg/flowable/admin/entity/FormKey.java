@@ -3,7 +3,7 @@ package io.tmgg.flowable.admin.entity;
 import lombok.Data;
 
 @Data
-public class FormItem {
+public class FormKey {
     String value;
     String label;
 }

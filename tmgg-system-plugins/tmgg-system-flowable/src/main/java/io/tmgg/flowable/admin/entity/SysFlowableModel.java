@@ -45,14 +45,14 @@ public class SysFlowableModel extends BaseEntity {
 
 
     @Convert(converter = FormKeyConverter.class)
-    private List<FormItem> formKeyList = new ArrayList<>();
+    private List<FormKey> formKeyList = new ArrayList<>();
 
 
 
 
     public static class ConditionVariableConverter extends BaseToListConverter<ConditionVariable>{}
 
-    public static class FormKeyConverter extends BaseToListConverter<FormItem>{}
+    public static class FormKeyConverter extends BaseToListConverter<FormKey>{}
 
 
 }

@@ -7,7 +7,7 @@ import io.tmgg.flowable.listener.ProcessDefinitionDescription;
 import io.tmgg.flowable.listener.ProcessDefinitionRegistry;
 import io.tmgg.flowable.admin.dao.SysFlowableModelDao;
 import io.tmgg.flowable.admin.entity.ConditionVariable;
-import io.tmgg.flowable.admin.entity.FormItem;
+import io.tmgg.flowable.admin.entity.FormKey;
 import io.tmgg.init.SystemHookEventType;
 import io.tmgg.init.SystemHookService;
 import io.tmgg.lang.IdTool;
@@ -80,9 +80,9 @@ public class FlowableConfig implements EngineConfigurationConfigurer<SpringProce
             }
 
             FormKeyDescription[] formKeys = ann.formKeys();
-            List<FormItem> formKeyList = new ArrayList<>();
+            List<FormKey> formKeyList = new ArrayList<>();
             for (FormKeyDescription formKey : formKeys) {
-                FormItem fk = new FormItem();
+                FormKey fk = new FormKey();
                 fk.setValue(formKey.value());
                 fk.setLabel(formKey.label());
                 formKeyList.add(fk);
