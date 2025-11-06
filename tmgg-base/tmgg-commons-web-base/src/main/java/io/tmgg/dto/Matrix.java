@@ -2,7 +2,7 @@ package io.tmgg.dto;
 
 import cn.hutool.core.util.StrUtil;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import io.tmgg.lang.excel.ExcelTool;
+import io.tmgg.lang.excel.ExcelOptTool;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -133,8 +133,8 @@ public class Matrix extends LinkedList<List<Object>> {
             String key = e.getKey();
             Object value = e.getValue();
 
-            int colIndex = ExcelTool.coordsToColIndex(key);
-            int rowIndex = ExcelTool.coordsToRowIndex(key);
+            int colIndex = ExcelOptTool.coordsToColIndex(key);
+            int rowIndex = ExcelOptTool.coordsToRowIndex(key);
             this.setValue(rowIndex, colIndex, value);
         }
 

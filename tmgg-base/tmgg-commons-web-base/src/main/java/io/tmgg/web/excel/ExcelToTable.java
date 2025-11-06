@@ -1,7 +1,7 @@
 package io.tmgg.web.excel;
 
 import cn.hutool.core.util.StrUtil;
-import io.tmgg.lang.excel.ExcelTool;
+import io.tmgg.lang.excel.ExcelOptTool;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
@@ -32,8 +32,8 @@ public class ExcelToTable {
     public ExcelToTable(XSSFSheet sheet) {
         this.sheet = sheet;
 
-        this.maxColIndex = ExcelTool.getMaxCol(sheet);
-        this.maxRowIndex = ExcelTool.getMaxRow(sheet);
+        this.maxColIndex = ExcelOptTool.getMaxCol(sheet);
+        this.maxRowIndex = ExcelOptTool.getMaxRow(sheet);
     }
 
 
@@ -55,14 +55,14 @@ public class ExcelToTable {
             Element tr = doc.createElement("tr");
             doc.selectFirst("tbody").appendChild(tr);
 
-            Integer rowHeight = ExcelTool.getRowHeight(sheet.getRow(i));
+            Integer rowHeight = ExcelOptTool.getRowHeight(sheet.getRow(i));
             if (rowHeight != null) {
                 tr.attr("style", "height:" + rowHeight + "px");
             }
 
             for (int j = 0; j <= maxColIndex; j++) {
                 Element td = doc.createElement("td");
-                td.attr("id", ExcelTool.indexToCoords(i, j));
+                td.attr("id", ExcelOptTool.indexToCoords(i, j));
                 tr.appendChild(td);
             }
         }
@@ -80,7 +80,7 @@ public class ExcelToTable {
                 int rowIndex = cell.getRowIndex();
                 int colIndex = cell.getColumnIndex();
 
-                String coords = ExcelTool.indexToCoords(rowIndex, colIndex);
+                String coords = ExcelOptTool.indexToCoords(rowIndex, colIndex);
                 Element td = doc.getElementById(coords);
                 processCell(td, cell);
             }
@@ -100,13 +100,13 @@ public class ExcelToTable {
 
             for (int r = firstRow; r <= lastRow; r++) {
                 for (int c = firstColumn; c <= lastColumn; c++) {
-                    Element td = doc.getElementById(ExcelTool.indexToCoords(r, c));
+                    Element td = doc.getElementById(ExcelOptTool.indexToCoords(r, c));
                     td.attr("merged", "true");
                 }
             }
 
             {
-                Element td = doc.getElementById(ExcelTool.indexToCoords(firstRow, firstColumn));
+                Element td = doc.getElementById(ExcelOptTool.indexToCoords(firstRow, firstColumn));
                 if (td != null) {
                     if (colspan > 1) {
                         td.attr("colspan", String.valueOf(colspan));
@@ -142,7 +142,7 @@ public class ExcelToTable {
         }
 
 
-        td.attr("data-excel-coords", ExcelTool.getCoords(cell));
+        td.attr("data-excel-coords", ExcelOptTool.getCoords(cell));
 
         String cellValue = getCellValue(cell);
 
@@ -157,7 +157,7 @@ public class ExcelToTable {
         }
 
 
-        String style = "width:" + ExcelTool.getColWidth(sheet, cell.getColumnIndex()) + "px;";
+        String style = "width:" + ExcelOptTool.getColWidth(sheet, cell.getColumnIndex()) + "px;";
 
         {
             // 字体
@@ -338,7 +338,7 @@ public class ExcelToTable {
     private int getTableWidth() {
         int width = 0;
         for (int i = 0; i <= maxColIndex; i++) {
-            int colWidth = ExcelTool.poiWidthToPixels(sheet.getColumnWidth(i));
+            int colWidth = ExcelOptTool.poiWidthToPixels(sheet.getColumnWidth(i));
             width = width + colWidth;
         }
         return width;
