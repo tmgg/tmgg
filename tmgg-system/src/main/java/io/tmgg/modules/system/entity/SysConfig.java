@@ -1,16 +1,14 @@
 
 package io.tmgg.modules.system.entity;
 
-import io.tmgg.commons.poi.excel.annotation.Excel;
-import io.tmgg.lang.ann.Remark;
 import io.tmgg.data.domain.BaseEntity;
+import io.tmgg.lang.ann.Remark;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.FieldNameConstants;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
 import lombok.extern.slf4j.Slf4j;
 
 
@@ -26,7 +24,6 @@ import lombok.extern.slf4j.Slf4j;
 @ToString
 public class SysConfig extends BaseEntity {
 
-    @Excel(name = "名称")
     @Remark("名称")
     @Column(length = 30, nullable = false)
     private String label;
@@ -35,7 +32,6 @@ public class SysConfig extends BaseEntity {
     /**
      * 属性值
      */
-    @Excel(name = "值")
     @Remark("值")
     @Column(length = 2000)
     private String value;

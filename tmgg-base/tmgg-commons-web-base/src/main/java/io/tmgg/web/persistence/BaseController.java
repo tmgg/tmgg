@@ -30,10 +30,10 @@ public abstract class BaseController<T extends PersistEntity> {
     private BaseService<T> service;
 
 
+    @Deprecated
     @HasPermission
     @RequestMapping("page")
     public AjaxResult page(   @RequestParam Map<String, Object> param, String searchText,
-            @RequestHeader(value = WebConstants.HEADER_EXPORT_TYPE, required = false) String exportType, // 导出标志
             @PageableDefault(direction = Sort.Direction.DESC, sort = "updateTime") Pageable pageable) throws Exception {
         JpaQuery<T> q = new JpaQuery<>();
         q.searchText(searchText, service.getSearchableFields());
@@ -45,10 +45,7 @@ public abstract class BaseController<T extends PersistEntity> {
 
         Page<T> page = service.findAllByRequest(q, pageable);
 
-        if ("EXCEL".equals(exportType)) {
-            service.exportExcel(page, service.getDomainClass());
-            return null;
-        }
+
 
         return AjaxResult.ok().data(page);
     }

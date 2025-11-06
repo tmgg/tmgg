@@ -2,7 +2,6 @@
 package io.tmgg.modules.system.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import io.tmgg.commons.poi.excel.annotation.Excel;
 import io.tmgg.lang.ann.Remark;
 import io.tmgg.data.domain.BaseEntity;
 import io.tmgg.data.converter.ToListConverter;
@@ -27,27 +26,22 @@ import java.util.Set;
 @FieldNameConstants
 public class SysRole extends BaseEntity {
 
-    @Excel(name = "角色名称")
     @Remark("名称")
     @Column(length = 50, unique = true)
     private String name;
 
 
-    @Excel(name = "编码")
     @Remark("编码")
     @Column(unique = true, length = 20)
     private String code;
 
-    @Excel(name = "排序")
     @Remark("排序")
     private Integer seq;
 
 
-    @Excel(name = "备注")
     @Remark("备注")
     private String remark;
 
-    @Excel(name = "启用")
     @Remark("启用")
     @Column(nullable = false)
     private Boolean enabled;

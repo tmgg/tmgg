@@ -1,15 +1,10 @@
 package io.tmgg.data.service;
 
 
-import cn.hutool.core.date.DatePattern;
-import cn.hutool.core.date.DateUtil;
 import io.tmgg.data.domain.PersistEntity;
-import io.tmgg.data.repository.BaseDao;
-import io.tmgg.lang.ann.RemarkTool;
-import io.tmgg.dto.Option;
-import io.tmgg.dto.table.Table;
-import io.tmgg.lang.poi.ExcelExportTool;
 import io.tmgg.data.query.JpaQuery;
+import io.tmgg.data.repository.BaseDao;
+import io.tmgg.dto.Option;
 import jakarta.persistence.Transient;
 import lombok.experimental.Delegate;
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +20,6 @@ import org.springframework.util.Assert;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -85,20 +79,7 @@ public abstract class BaseService<T extends PersistEntity> {
     }
 
 
-    public void exportExcel(Page<T> page, Class<T> cls) throws Exception {
-        String fileName = RemarkTool.getRemark(cls);
-        if (fileName == null) {
-            fileName = cls.getSimpleName();
-        }
-        fileName = fileName + "_" + DateUtil.format(new Date(), DatePattern.PURE_DATETIME_PATTERN);
 
-
-        // 分页数据转换下
-        Table<T> tableData = Table.of(page.getContent(), cls);
-
-        ExcelExportTool.exportTable(fileName + ".xlsx", tableData);
-
-    }
 
 
     public void checkUnique(String id, String field, String value, String errMsg) {

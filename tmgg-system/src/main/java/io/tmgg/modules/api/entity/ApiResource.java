@@ -1,7 +1,6 @@
 package io.tmgg.modules.api.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import io.tmgg.commons.poi.excel.annotation.Excel;
 import io.tmgg.data.domain.BaseEntity;
 import io.tmgg.data.DBConstants;
 import io.tmgg.data.converter.BaseToListConverter;
@@ -20,15 +19,12 @@ import java.util.List;
 @Table(name = "sys_api_resource")
 public class ApiResource extends BaseEntity {
 
-    @Excel(name = "接口名称")
     @Column(length = DBConstants.LEN_NAME,unique = true)
     String name;
 
-    @Excel(name = "接口方法")
     @Column(length = 62,unique = true)
     String action;
 
-    @Excel(name = "接口描述")
     @Column(name = "_desc")
     String desc;
 
