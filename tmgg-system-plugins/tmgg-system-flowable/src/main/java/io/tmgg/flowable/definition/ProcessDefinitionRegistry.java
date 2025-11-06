@@ -1,7 +1,6 @@
-package io.tmgg.flowable.listener;
+package io.tmgg.flowable.definition;
 
 
-import io.tmgg.lang.SpringTool;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 

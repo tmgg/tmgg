@@ -1,10 +1,10 @@
 
 package io.tmgg.flowable.config;
 
-import io.tmgg.flowable.listener.FormKeyDescription;
-import io.tmgg.flowable.listener.ProcessDefinition;
-import io.tmgg.flowable.listener.ProcessDefinitionDescription;
-import io.tmgg.flowable.listener.ProcessDefinitionRegistry;
+import io.tmgg.flowable.definition.FormKeyDescription;
+import io.tmgg.flowable.definition.ProcessDefinition;
+import io.tmgg.flowable.definition.ProcessDefinitionDescription;
+import io.tmgg.flowable.definition.ProcessDefinitionRegistry;
 import io.tmgg.flowable.admin.dao.SysFlowableModelDao;
 import io.tmgg.flowable.admin.entity.ConditionVariable;
 import io.tmgg.flowable.admin.entity.FormKey;

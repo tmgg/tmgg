@@ -1,8 +1,8 @@
 package io.tmgg.flowable.admin.entity;
 
 
-import io.tmgg.data.domain.BaseEntity;
 import io.tmgg.data.converter.BaseToListConverter;
+import io.tmgg.data.domain.BaseEntity;
 import io.tmgg.lang.ann.Remark;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
@@ -26,12 +26,12 @@ public class SysFlowableModel extends BaseEntity {
     /**
      * 编码, 流程的key
      */
-    @Remark( "编码")
+    @Remark("编码")
     @NotNull
     private String code;
 
 
-    @Remark( "名称")
+    @Remark("名称")
     private String name;
 
 
@@ -43,16 +43,18 @@ public class SysFlowableModel extends BaseEntity {
     @Column(columnDefinition = "blob")
     private String content;
 
-
+    /**
+     * 关联的白哦但
+     */
     @Convert(converter = FormKeyConverter.class)
     private List<FormKey> formKeyList = new ArrayList<>();
 
 
+    public static class ConditionVariableConverter extends BaseToListConverter<ConditionVariable> {
+    }
 
-
-    public static class ConditionVariableConverter extends BaseToListConverter<ConditionVariable>{}
-
-    public static class FormKeyConverter extends BaseToListConverter<FormKey>{}
+    public static class FormKeyConverter extends BaseToListConverter<FormKey> {
+    }
 
 
 }

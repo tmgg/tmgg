@@ -1,9 +1,9 @@
 package io.tmgg.demo;
 
 import io.tmgg.flowable.FlowableEventType;
-import io.tmgg.flowable.listener.FormKeyDescription;
-import io.tmgg.flowable.listener.ProcessDefinition;
-import io.tmgg.flowable.listener.ProcessDefinitionDescription;
+import io.tmgg.flowable.definition.FormKeyDescription;
+import io.tmgg.flowable.definition.ProcessDefinition;
+import io.tmgg.flowable.definition.ProcessDefinitionDescription;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;

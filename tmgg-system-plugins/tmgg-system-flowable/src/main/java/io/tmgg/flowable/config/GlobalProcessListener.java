@@ -1,8 +1,8 @@
 package io.tmgg.flowable.config;
 
 import io.tmgg.flowable.FlowableEventType;
-import io.tmgg.flowable.listener.ProcessDefinition;
-import io.tmgg.flowable.listener.ProcessDefinitionRegistry;
+import io.tmgg.flowable.definition.ProcessDefinition;
+import io.tmgg.flowable.definition.ProcessDefinitionRegistry;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.flowable.common.engine.api.delegate.event.FlowableEvent;
