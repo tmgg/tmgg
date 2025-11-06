@@ -31,7 +31,7 @@ INSERT IGNORE sys_menu (id, pid, icon, name, path, seq, type) VALUES ('jobStatus
 INSERT IGNORE sys_menu (id, pid, icon, name, path, seq, type) VALUES ('jobLog', 'jobMgr', 'FileOutlined', '作业日志', '/job/logList', 2, 'MENU');
 
 
-INSERT IGNORE sys_menu (id, pid, icon, name, path, seq, type) VALUES ('machine', 'sysMonitor', NULL, '服务监控', '/system/machine', 1, 'MENU');
+delete from sys_menu where id = 'machine';
 INSERT IGNORE sys_menu (id, pid, icon, name, path, seq, type) VALUES ('dev', 'sys', 'JavaOutlined', '开发管理', '/code', 200, 'MENU');
 
 INSERT IGNORE sys_menu (id, pid, icon, name, path, seq, type) VALUES ('api', 'sys', 'ApiOutlined', '开放接口', NULL, 201, 'DIR');
