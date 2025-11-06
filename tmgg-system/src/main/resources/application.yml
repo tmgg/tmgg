@@ -15,4 +15,4 @@ logging:
   level:
     io.tmgg: trace
 
-test-config: hello world
+test-message: hello world

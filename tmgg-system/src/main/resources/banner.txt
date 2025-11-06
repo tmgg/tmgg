@@ -7,7 +7,7 @@ Spring Boot  ${spring-boot.formatted-version}
 hibernate.ddl-auto: ${spring.jpa.hibernate.ddl-auto}
 spring.flyway.baseline-version: ${spring.flyway.baseline-version}
 spring.flyway.baseline-on-migrate: ${spring.flyway.baseline-on-migrate}
-test-config: ${test-config}
+test-message: ${test-message}
 日志文件目录 ${logging.file.path}
 
 Writing to the console can be very slow. Avoid logging to the  console in production environments, especially in high volume systems.

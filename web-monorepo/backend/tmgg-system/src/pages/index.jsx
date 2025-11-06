@@ -8,6 +8,8 @@ export default class extends React.Component {
   }
 
   render() {
+    const arr = new Array(100).fill(1);
+
     return <Card>
       欢迎使用本系统
     </Card>
