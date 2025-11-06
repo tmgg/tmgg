@@ -16,7 +16,7 @@
     "dev-ureport": "umi dev"
   },
   "version": "2.0.0-beta.1",
-  "dependencies": {
+  "peerDependencies": {
     "@ant-design/icons": "^5.4.0",
     "@ant-design/v5-patch-for-react-19": "^1.0.3",
     "@tmgg/tmgg-base": "workspace:*",

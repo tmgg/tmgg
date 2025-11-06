@@ -18,7 +18,8 @@
     "lodash": "^4.17.21",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "umi": "^4.0.0"
+    "umi": "^4.0.0",
+    "@ant-design/v5-patch-for-react-19": "^1.0.3"
   },
   "name": "@tmgg/tmgg-system-flowable",
   "files": [
@@ -29,8 +30,6 @@
     "flowable-start": "umi dev",
     "umi plugin list": "umi plugin list"
   },
-  "version": "2.0.0-beta.1",
-  "dependencies": {
-    "@ant-design/v5-patch-for-react-19": "^1.0.3"
-  }
+  "version": "2.0.0-beta.1"
+
 }

@@ -22,7 +22,8 @@
     "react-amap": "^1.2.8",
     "react-dom": "^18.2.0",
     "react-lazylog": "^4.5.3",
-    "umi": "^4.0.0"
+    "umi": "^4.0.0",
+    "@ant-design/v5-patch-for-react-19": "^1.0.3"
   },
   "name": "@tmgg/tmgg-system",
   "description": "系统基础功能，如RBAC基于角色的权限管理，组织机构，日志等",
@@ -35,8 +36,6 @@
     "dev": "umi dev",
     "build": "umi build"
   },
-  "version": "2.0.0-beta.1",
-  "dependencies": {
-    "@ant-design/v5-patch-for-react-19": "^1.0.3"
-  }
+  "version": "2.0.0-beta.1"
+
 }
