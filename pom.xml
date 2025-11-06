@@ -35,7 +35,7 @@
 
         <doclint>none</doclint>
         <hutool.version>5.8.41</hutool.version>
-        <poi.version>5.2.3</poi.version>
+        <poi.version>5.4.1</poi.version>
         <mapstruct.version>1.5.5.Final</mapstruct.version>
     </properties>
 
