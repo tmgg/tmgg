@@ -1,9 +1,9 @@
 package io.tmgg.flowable.admin.entity;
 
 
-import io.tmgg.commons.poi.excel.annotation.Excel;
 import io.tmgg.data.domain.BaseEntity;
 import io.tmgg.data.converter.BaseToListConverter;
+import io.tmgg.lang.ann.Remark;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
@@ -26,12 +26,12 @@ public class SysFlowableModel extends BaseEntity {
     /**
      * 编码, 流程的key
      */
-    @Excel(name = "编码")
+    @Remark( "编码")
     @NotNull
     private String code;
 
 
-    @Excel(name = "名称")
+    @Remark( "名称")
     private String name;
 
 
