@@ -8,7 +8,6 @@ import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
 import io.tmgg.lang.DateTool;
 import jakarta.persistence.criteria.*;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.jpa.convert.QueryByExamplePredicateBuilder;
@@ -29,7 +28,6 @@ public class JpaQuery<T> implements Specification<T> {
     private final List<Specification<T>> specificationList = new ArrayList<>();
 
 
-    @NotNull
     @Override
     public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
         if (specificationList.isEmpty()) {
