@@ -35,7 +35,7 @@
         <dependency>
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct-processor</artifactId>
-            <version>1.5.5.Final</version> <!-- 与上面版本一致 -->
+            <version>1.6.3</version> <!-- 与上面版本一致 -->
             <scope>provided</scope>
         </dependency>
 
