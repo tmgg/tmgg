@@ -273,7 +273,7 @@ export default class extends React.Component {
                                 <FieldDictRadio typeCode='orgType'/>
                             </Form.Item>
 
-                            <Form.Item label='领导' name={['leader','id']} >
+                            <Form.Item label='部门领导' name={['leader','id']} >
                                 <FieldUserSelect />
                             </Form.Item>
                             <Form.Item label='启用' name='enabled' rules={[{required: true}]}>

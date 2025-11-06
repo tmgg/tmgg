@@ -72,3 +72,4 @@ logs/
 .flattened-pom.xml
 derby-test-data/
 derby.log
+/web-monorepo/package-lock.json
