@@ -1,4 +1,4 @@
-set  "tag_name=v2.0.0"
+set  "tag_name=v2.0.4"
 
 
 git tag -d %tag_name%
