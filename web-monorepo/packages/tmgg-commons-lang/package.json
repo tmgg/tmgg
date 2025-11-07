@@ -10,8 +10,6 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "version": "2.0.4-beta.0",
-  "dependencies": {
-    "react": "^18.0.0"
-  }
+  "version": "2.0.4-beta.0"
+
 }
