@@ -6,7 +6,7 @@ WORKDIR build
 
 ADD . .
 
-RUN mvn install package -q -DskipTests  -Drevision=${VERSION}  && rm -rf *
+RUN mvn install package -q -DskipTests  -Drevision=${VERSION} -e
 
 
 RUN ls /root/.m2/repository/io/github/tmgg
