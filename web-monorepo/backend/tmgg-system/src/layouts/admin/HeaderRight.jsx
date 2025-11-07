@@ -38,7 +38,8 @@ export default class HeaderRight extends React.Component {
     logout = () => {
         HttpUtil.get('/logout').finally(() => {
             SysUtil.setToken(null)
-            history.replace('/login')
+            localStorage.clear()
+            window.location = "/"
         })
     }
 
