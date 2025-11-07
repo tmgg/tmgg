@@ -39,7 +39,14 @@ export default class HeaderRight extends React.Component {
         HttpUtil.get('/logout').finally(() => {
             SysUtil.setToken(null)
             localStorage.clear()
-            window.location = "/"
+            let href = window.location.href;
+            let idx = href.indexOf('#');
+            if(idx > 0){
+                href = href.substring(0, idx)
+            }
+            if(confirm('即将跳转到 ' + href)){
+                window.location = href
+            }
         })
     }
 
