@@ -26,9 +26,6 @@ jobs:
         with:
           without_prefix_v: true # Remove prefix `v` from tag
 
-
-
-
       - name: tmgg-base-maven
         uses: docker/build-push-action@v6
         with:
