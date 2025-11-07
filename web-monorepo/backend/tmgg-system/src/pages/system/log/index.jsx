@@ -74,21 +74,17 @@ export default class extends React.Component {
             <ProTable
                 request={(params) => HttpUtil.pageData('sysLog/page', params)}
                 columns={this.columns}
-
-                searchFormItemsRender={(formInstance) => {
-                    return <>
-                        <Form.Item label='模块' name='module'>
-                            <Input/>
-                        </Form.Item>
-                        <Form.Item label='操作' name='name'>
-                            <Input/>
-                        </Form.Item>
-                        <Form.Item label='时间' name='dateRange'>
-                            <FieldDateRange format={"YYYY"}/>
-                        </Form.Item>
-                    </>
-                }}
-            />
+            >
+                <Form.Item label='模块' name='module'>
+                    <Input/>
+                </Form.Item>
+                <Form.Item label='操作' name='name'>
+                    <Input/>
+                </Form.Item>
+                <Form.Item label='时间' name='dateRange'>
+                    <FieldDateRange format={"YYYY"}/>
+                </Form.Item>
+            </ProTable>
 
         </>
     }

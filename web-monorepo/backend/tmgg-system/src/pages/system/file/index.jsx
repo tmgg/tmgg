@@ -116,24 +116,21 @@ export default class extends React.Component {
 
                 columns={this.columns}
 
-                searchFormItemsRender={() => <>
+            >
+                <Form.Item label='文件名' name='originName'>
+                    <Input/>
+                </Form.Item>
+                <Form.Item label='对象名称' name='objectName'>
+                    <Input/>
+                </Form.Item>
+                <Form.Item label='类型' name='type'>
+                    <FieldDictSelect typeCode='materialType'/>
+                </Form.Item>
 
-                    <Form.Item label='文件名' name='originName'>
-                        <Input/>
-                    </Form.Item>
-                    <Form.Item label='对象名称' name='objectName'>
-                        <Input/>
-                    </Form.Item>
-                    <Form.Item label='类型' name='type'>
-                        <FieldDictSelect typeCode='materialType'/>
-                    </Form.Item>
-
-                    <Form.Item label='上传时间' name='dateRange'>
-                        <FieldDateRange/>
-                    </Form.Item>
-
-                </>}
-            />
+                <Form.Item label='上传时间' name='dateRange'>
+                    <FieldDateRange/>
+                </Form.Item>
+            </ProTable>
 
             <Modal open={this.state.formOpen} title='上传文件'
                    width={800}
