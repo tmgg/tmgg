@@ -100,9 +100,10 @@ public class ExcelTool {
             int rowIndex = i + 1;
             XSSFRow row = sheet.createRow(rowIndex);
             T bean = list.get(i);
-            for (Field f : fs) {
+            for (int j = 0; j < fs.size(); j++) {
+                Field f = fs.get(j);
                 Object fieldValue = BeanUtil.getFieldValue(bean, f.getName());
-                XSSFCell cell = row.createCell(i);
+                XSSFCell cell = row.createCell(j);
                 ExcelOptTool.setValue(cell, fieldValue);
             }
         }
