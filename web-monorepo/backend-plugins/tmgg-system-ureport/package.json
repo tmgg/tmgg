@@ -1,7 +1,7 @@
 {
   "devDependencies": {
     "@types/lodash": "^4.14.200",
-    "@types/react": "^18.0.0",
+    "@types/react": "^19.2.10",
     "@types/react-dom": "^19.2.2",
     "@types/react-lazylog": "^4.5.1",
     "@umijs/plugins": "^4.3.17",
